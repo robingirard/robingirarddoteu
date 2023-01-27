@@ -55,19 +55,6 @@ career-profile:
         details: |
 
 
-research-topics:
-    title: Research topics
-    intro: Prospective modeling of the energy transition.
-    info:
-      - topic: Energy demand modeling
-        details: |
-        modélisation spatiale et temporelle de la demande, rénovation de bâtiments à l’échelle des territoires, évolution des modes de chauffage, industrie bas carbone, rôle de l’hydrogène dans la transition.
-      - topic: Planification des systèmes multi-énergies
-        details: |
-        réseau de transport et de distribution d’électricité, systèmes de production d’hydrogène, interaction entre les réseaux de gaz, d’électricité et de chaleur.
-      - topic: Intégration des renouvelables intermittents
-        details: |
-        prédiction à court terme de la production renouvelable, modélisation de l’utilisation du territoire, optimisation du mix de flexibilité, centrales hybrides.
 
 education:
     title: Degrees
