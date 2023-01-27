@@ -38,23 +38,19 @@ sidebar:
         - idiom: English
           level: Professional
 
-    interests:
-      title: Interests
-      info:
-        - item: Climbing
-          link:
+#    interests:
+#      title: Interests
+#      info:
+#        - item: Climbing
+#          link:
 
-        - item: Snowboarding
-          link:
 
-        - item: Cooking
-          link:
 
 career-profile:
     title: Responsabilities
     info:
       - degree: Associate professor
-        university: [MINES Paris PSL](https://www.minesparis.psl.eu/) -- Energy and processes department -- Center for Processes, Renewables Energies and Energy Systems (PERSEE) center
+        university: MINES Paris PSL -- Energy and processes department -- Center for Processes, Renewables Energies and Energy Systems (PERSEE) center
         time: since 2008
         details: |
           Prospective modeling of the energy transition.
