@@ -49,10 +49,16 @@ sidebar:
 career-profile:
     title: Responsabilities
     info:
-      - degree: Associate professor
-        university: MINES Paris PSL -- Energy and processes department -- Center for Processes, Renewables Energies and Energy Systems (PERSEE) center
+      - role: Associate professor MINES Paris PSL -- Energy and processes department -- Center for Processes, Renewables Energies and Energy Systems (PERSEE) center
         time: since 2008
+      - role: Co-responsible of Energy major for "cycle ingénieur civil" of MINES Paris PSL
+        time: since 2021
         details: |
+      10 weeks of course, conferences, projects and visits 
+      - role: Responsible of PESTO « Transition énergétique » pour le Corps des mines
+Co-responsable de l’option Energie du cycle ingénieur civil
+
+
 
 research-topics:
     title: Research topics

@@ -1,18 +1,35 @@
 {% assign career-profile = site.data.data.career-profile %}
 {% if career-profile %}
-<section class="section summary-section">
-
+<section class="section career-profile-section">
   <h2 class="section-title">
     <span class="fa-stack fa-xs">
       <i class="fas fa-circle fa-stack-2x"></i>
-      <i class="fas fa-user fa-stack-1x fa-inverse"></i>
+      <i class="fas fa-briefcase fa-stack-1x fa-inverse"></i>
     </span>
     {{ career-profile.title }}
   </h2>
 
-  <div class="summary">
-    {{ career-profile.summary | markdownify }}
-  </div><!--//summary-->
-    
+  {% for experience in career-profile.info %}
+  <div class="item">
+
+    <div class="meta">
+
+      <div class="upper-row">
+        <h3 class="job-title">{{ career-profile.role }}</h3>
+        <div class="time">{{ career-profile.time }}</div>
+      </div><!--//upper-row-->
+
+      <div class="company">{{ career-profile.company }}</div>
+
+    </div><!--//meta-->
+
+    {% if career-profile.details %}
+    <div class="details">
+      {{ career-profile.details | markdownify }}
+    </div><!--//details-->
+    {% endif %}
+
+  </div><!--//item-->
+  {% endfor %}
 </section><!--//section-->
 {% endif %}
