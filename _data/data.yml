@@ -60,15 +60,15 @@ education:
     info:
       - degree: MSc in Applied Mathematics
         university: University of Grenoble
-        time: 2004
+        time: 2004 -
       - degree: Phd in Applied Mathematics
         university: University of Grenoble
-        time: 2008
+        time: 2008 -
         details: |
           "Réduction de dimension en statistiques et application à la segmentation d'images hyperspectrales »
       - degree: HDR in Energy transition modeling
         university: University of Grenoble
-        time: 2020
+        time: 2020 - 
         details: |
           " Applied mathematics for the energy transition modeling»
 
