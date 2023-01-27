@@ -54,6 +54,11 @@ career-profile:
         time: since 2008
         details: |
 
+research-topics:
+    title: Research topics
+    intro: Prospective modeling of the energy transition.
+    info:
+      - topic: Energy demand modeling
 
 
 education:
