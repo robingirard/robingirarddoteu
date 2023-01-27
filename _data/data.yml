@@ -53,10 +53,24 @@ career-profile:
         university: MINES Paris PSL -- Energy and processes department -- Center for Processes, Renewables Energies and Energy Systems (PERSEE) center
         time: since 2008
         details: |
-          Prospective modeling of the energy transition.
+
+
+research-topics:
+    title: Research topics
+    intro: Prospective modeling of the energy transition.
+    info:
+      - topic: Energy demand modeling
+        details: |
+        modélisation spatiale et temporelle de la demande, rénovation de bâtiments à l’échelle des territoires, évolution des modes de chauffage, industrie bas carbone, rôle de l’hydrogène dans la transition.
+      - topic: Planification des systèmes multi-énergies
+        details: |
+        réseau de transport et de distribution d’électricité, systèmes de production d’hydrogène, interaction entre les réseaux de gaz, d’électricité et de chaleur.
+      - topic: Intégration des renouvelables intermittents
+        details: |
+        prédiction à court terme de la production renouvelable, modélisation de l’utilisation du territoire, optimisation du mix de flexibilité, centrales hybrides.
 
 education:
-    title: Degree
+    title: Degrees
     info:
       - degree: MSc in Applied Mathematics
         university: University of Grenoble
@@ -68,7 +82,7 @@ education:
           "Réduction de dimension en statistiques et application à la segmentation d'images hyperspectrales »
       - degree: HDR in Energy transition modeling
         university: University of Grenoble
-        time: 2020 - 
+        time: 2020 -
         details: |
           " Applied mathematics for the energy transition modeling»
 
@@ -161,9 +175,10 @@ oss:
 publications:
     title: Publications
     intro: |
-      You can list your publications in this section. Lorem ipsum dolor sit
-      amet, consectetur adipiscing elit. Vestibulum et ligula in nunc
-      bibendum fringilla a eu lectus.
+      You can access my full list of <a href="http://hal-ensmp.archives-ouvertes.fr/Public/afficheRequetePubli.php?auteur_exp=robin,girard&labos_exp=2185;214579&CB_ref_biblio=oui&langue=Francais&tri_exp=annee_publi&tri_exp2=typdoc&tri_exp3=date_publi&ordre_aff=TA&Fen=Aff&css=../css/VisuRubriqueEncadre.css" target="_blank" rel="nofollow">already published papers here</a>,
+      or visit <a href="https://scholar.google.fr/citations?hl=fr&user=cEYGStIAAAAJ&view_op=list_works&gmla=AJsN-F48hkWyehA8WGBq0mIsTqag7MJm3EQFmE9QcYXvCC-CWS_dlx7-w02leTNfJYzEhhxOm8x3ZRHpQuW6qDwbMqkQ5zBVeYybvsDMoSMAfRxOSLNfxulSYFgezFtUCJ2fH-adUDN2" target="_blank" rel="nofollow">my google scholar,</a>, or
+      <a href="https://www.scopus.com/authid/detail.uri?authorId=54402930700" target="_blank" rel="nofollow">my scopus.</a>
+      Upcomming papers (submitted or to be submitted)
     papers:
       - title: The Art of Computer Programming
         link: "#"
@@ -180,27 +195,7 @@ publications:
         authors: Edgar T. Irons
         conference: "Comm. ACM 4 (1961), 51–55"
 
-skills:
-    title: Skills &amp; Proficiency
 
-    toolset:
-      - name: Python & Django
-        level: 98%
 
-      - name: Javascript & jQuery
-        level: 98%
-
-      - name: Angular
-        level: 98%
-
-      - name: HTML5 & CSS
-        level: 95%
-
-      - name: Ruby on Rails
-        level: 85%
-
-      - name: Sketch & Photoshop
-        level: 60%
-
-footer: >
-    Designed with <i class="fas fa-heart"></i> by <a href="http://themes.3rdwavemedia.com" target="_blank" rel="nofollow">Xiaoying Riley</a>
+#footer: >
+#    Designed with <i class="fas fa-heart"></i> by <a href="http://themes.3rdwavemedia.com" target="_blank" rel="nofollow">Xiaoying Riley</a>
