@@ -3,7 +3,7 @@
 #
 
 sidebar:
-    about: True # set to False or comment line if you want to remove the "how to use?" in the sidebar
+    about: False # set to False or comment line if you want to remove the "how to use?" in the sidebar
     education: True # set to False if you want education in main section instead of in sidebar
 
     # Profile information
@@ -25,6 +25,8 @@ sidebar:
     bitbucket:
     twitter: '@RobinGirardMPT'
     stack-overflow: 223/robin-girard
+    altereco: robin-girard
+    website2: www.lepresquetoutlepresquerien.fr
     codewars:
     goodreads: # Number-Username, e.g. 123456-alandoe
     pdf:
@@ -47,25 +49,28 @@ sidebar:
 
 
 career-profile:
-    title: Responsabilities
+    title: Position and responsabilities
     info:
-      - role: Associate professor MINES Paris PSL -- Energy and processes department -- Center for Processes, Renewables Energies and Energy Systems (PERSEE) center
+      - role: Associate professor MINES Paris PSL
         time: since 2008
-      - role: Co-responsible of Energy major for "cycle ingénieur civil" of MINES Paris PSL
-        time: since 2021
         details: |
-      10 weeks of course, conferences, projects and visits 
-      - role: Responsible of PESTO « Transition énergétique » pour le Corps des mines
-Co-responsable de l’option Energie du cycle ingénieur civil
-
-
-
-research-topics:
-    title: Research topics
-    intro: Prospective modeling of the energy transition.
-    info:
-      - topic: Energy demand modeling
-
+          Energy and processes department
+          PERSEE Center: Center for Processes, Renewables Energies and Energy Systems
+          <a href="https://www.persee.minesparis.psl.eu/Recherche/Groupe-ERSEI/"> ERSEI group </a>
+      - role: <b>   Research topics </b> - Energy transition modeling. 
+        details: |
+          - Energy demand modeling - Temporal and spatial demand modeling, building retrofits at the territory scale, evolution of heating, low carbon industry, role of hydrogen.
+          - Planing and operation of multi-energy systems - Electric network planing (transport/distribution), hydrogen production systems planing, multi-energy systems.
+          - Integration of Renewables - Short terme forecasting of renewable production, price and demand. Land use and energy. Optimal mix of flexibility.
+          - Energy markets - Market price dynamic modeling. Regulation and actor modeling.
+      - role: <b>  Teaching activities</b>
+        details: |
+          - Deputy head of Energy Major for "cycle ingénieur civil" of MINES Paris PSL. Around 30 students every year. Head of Energy Major is my colleague <a href="https://www.minesparis.psl.eu/Services/Annuaire/bruno-duplessis." target="_blank" rel="nofollow">Bruno Duplessis </a>
+          - Head of <a href="https://www.persee.minesparis.psl.eu/Formation/CTE/#:~:text=Le%20PESTO%2DEnergie%20(Programme%20d,%2C%20Production%2C%20Stockage%20et%20Transport" target="_blank" res="nofollow"> PESTO Energy Transition.</a> Six weeks of courses, projects, visits and conferences for students of <a href="https://fr.wikipedia.org/wiki/Corps_des_mines" target="_blank" rel="nofollow">le Corps des mines </a>
+          - Head of <a href="https://robingirard.github.io/MINES-UE14-miniprojet/" target="_blank" rel="nofollow"> "mini-projets de l’UE-14"  </a> du cycle ingénieurs civils. Energy-climate projects for 1st year students (list of past year projects available on the link).
+          - <a href="https://executive-education.minesparis.psl.eu/formations/evolution-du-systeme-electrique-dans-un-contexte-de-transition-energetique/"  target="_blank" rel="nofollow">  Evolution du système électrique dans un contexte de transition énergétique. </a> One week course+practical work (available for MINES Paris PSL students but also to external)
+          - <a href="https://psl-week.psl.eu/LISTE-DES-PSL-WEEKS.php"  target="_blank" rel="nofollow">  Massification de la rénovation thermique de bâtiments. </a> One week course+practical work (mainly coordination from my side).
+          - Courses and conferences for ingeneering and business schools on energy transition and low carbon economy (1h to 12h).
 
 education:
     title: Degrees
@@ -84,96 +89,95 @@ education:
         details: |
           " Applied mathematics for the energy transition modeling»
 
-experiences:
-    title: Experiences
+
+career-profile_2:
+
+    title: Current students (Postdoc and PhD students)
     info:
-      - role: Lead Developer
-        time: 2015 - Present
-        company: Startup Hubs, San Francisco
+      - role: <a href="https://www.linkedin.com/in/arogeau/">  Antoine Rogeau </a> - Postdoc -
+        time: 2 years starting February 2022
         details: |
-          Describe your role here lorem ipsum dolor sit amet, consectetuer
-          adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
-          Cum sociis natoque penatibus et magnis dis parturient montes,
-          nascetur ridiculus mus. Donec quam felis, ultricies nec,
-          pellentesque eu, pretium quis, sem. Nulla consequat massa quis
-          enim. Donec pede justo. Sed ut perspiciatis unde omnis iste natus
-          error sit voluptatem accusantium doloremque laudantium, totam rem
-          aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-          architecto beatae vitae dicta sunt explicabo.
-            - Bullet point
-            - Bullet point
-      - role: Senior Software Engineer
-        time: 2014 - 2015
-        company: Google, London
+           Demand prospective modeling, industry decarbonation, renewable variability simulation, offshore wind power and hydrogen production. Funded by <a href="https://www.engieimpact.com/fr/"> ENGIE Impact </a> and french government.
+      - role: <a href="https://www.linkedin.com/in/yassine-abdelouadoud-a4b4831b9/">  Yassine Abdelouadoud </a> - Postdoc -
+        time: 2 years starting October 2022
         details: |
-          Describe your role here lorem ipsum dolor sit amet, consectetuer
-          adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
-          Cum sociis natoque penatibus et magnis dis parturient montes,
-          nascetur ridiculus mus. Donec quam felis, ultricies nec,
-          pellentesque eu, pretium quis, sem.
-            - Bullet point
-            - Bullet point
-      - role: UI Developer
-        time: 2012 - 2014
-        company: Amazon, London
+           Modeling of the electric distribution system and its evolution in the energy transition context. Impact of electrification of heating and transport, and of renewable electricity production. Value of flexibility in low voltage network. Postdoc funded by <a href ="https://www.roseautechnologies.com/fr/"> Roseau Technologie </a> and french government.
+      - role: Kevin Bellinger  - Postdoc -
+        time: 1 years starting February 2022
         details: |
-          Describe your role here lorem ipsum dolor sit amet, consectetuer
-          adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
-          Cum sociis natoque penatibus et magnis dis parturient montes,
-          nascetur ridiculus mus. Donec quam felis, ultricies nec,
-          pellentesque eu, pretium quis, sem.
-            - Bullet point
-            - Bullet point
-projects:
-    title: Projects
-    intro: >
-      You can list your side projects in this
-      section. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum et ligula in nunc bibendum fringilla a eu lectus.
-    assignments:
-      - title: Velocity
-        link: "#hook"
-        tagline: "A responsive website template designed to help startups promote, market and sell their products."
+           Large scale machine learning for bottom up modeling of energy consumption. Postdoc funded by french DSO <a href ="https://www.enedis.fr/"> ENEDIS </a>.
+      - role: <a href="https://www.linkedin.com/in/julie-perrin-147414188/">  Julie Perrin </a> - Postdoc -
+        time: 2 years starting February 2023
+        details: |
+           Joined coordination with <a href ="https://latts.fr/chercheur/daniel-florentin/"> Daniel Florentin</a>. From political targets to deployment of thermal retrofit, identification of institutional limits to thermal retrofits. Postdoc funded by <a href ="https://the-transition-institute.minesparis.psl.eu/"> TTI.5 </a>.
+      - role: <a href="https://www.linkedin.com/in/anaelle-jodry/">  Anaelle Jodry </a> - PhD student-
+        time: Since November 2020
+        details: |
+           Hydrogen deployment trajectories in energy hub. PhD partially funded by <a href="https://www.airliquide.com/fr"> Air liquide</a>.
+      - role: <a href="https://www.linkedin.com/in/martin-rit/">  Martin Rit  </a> - PhD student -
+        time: Since February 2021
+        details: |
+           Evaluation of thermal retrofit potential at the territory scale in the context of the energy transition. PhD funded by <a href="http://www.cstb.fr/fr/"> CSTB</a>.
+      - role: <a href="https://www.linkedin.com/in/quentin-raillard/"> Quentin Raillard-Cazanove </a>  - PhD student -
+        time: Since November 2021
+        details: |
+           Modeling of industry decarbonation and its impact on the electric system. Funded by  <a href ="https://www.carnot-mines.eu/fr"> Institut Carnot MINES</a>.
+      - role: <a href="https://www.linkedin.com/in/owen-palmer-79868167/">  Owen Palmer  </a> - PhD student -
+        time: Since May 2022
+        details: |
+           Optimisation of decision making for PV+hydrogen+storage projects. CIFRE PhD funded by <a href ="https://verso.energy/"> Verso Energy</a>.
+      - role: <a href="https://www.linkedin.com/in/maxime-vrain-16a049172/?originalSubdomain=fr">  Maxime Vrain   </a> - PhD student -
+        time: Since October 2021
+        details: |
+           Vectors coupling in the 2050 european energy system. CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a>.
+      - role: <a href="https://www.linkedin.com/in/thibault-goessel/"> Thibault Goessel </a>  - PhD student -
+        time: Since November 2022
+        details: |
+           LCA of building renovation toward carbon neutrality. PhD funded by <a href="http://www.cstb.fr/fr/"> CSTB</a>.
+      - role: <a href="https://www.linkedin.com/in/laurent-cornaggia/">  Laurent Cornaggia  </a> - PhD student -
+        time: Since January 2023
+        details: |
+           Optimisation of medium voltage DC connection architechtures. CIFRE PhD financed by french TSO <a href="https://www.rte-france.com/"> RTE</a>.
 
-      - title: DevStudio
-        link: "#"
-        tagline: "A responsive website template designed to help web developers/designers market their services."
-
-      - title: Tempo
-        link: "#"
-        tagline: "A responsive website template designed to help startups promote their products or services and to attract users &amp; investors"
-
-      - title: Atom
-        link: "#"
-        tagline: "A comprehensive website template solution for startups/developers to market their mobile apps."
-
-      - title: Delta
-        link: "#"
-        tagline: "A responsive Bootstrap one page theme designed to help app developers promote their mobile apps"
+career-profile_3:
+    title: Available or upcomming positions
+    intro: |
+      If you are looking for an internship or if you wish to consider a PhD in the long term, feel free to contact me.
+    info:
+      - role: Postdoc and PhD.
+        time: 1 to 4 years starting March 2023
+        details: |
+           Multi-energy planing, 4 PhD thesis to start in 2023 and 2024 and a postdoc. Conditioned to a project success.
+      - role: Permanent position (Tenure track)
+        time: to be posted soon, open for mid 2023.
+        details: |
+           Multi-energy planing, Energy transition modeling, ...
 
 publications:
     title: Publications
     intro: |
       You can access my full list of <a href="http://hal-ensmp.archives-ouvertes.fr/Public/afficheRequetePubli.php?auteur_exp=robin,girard&labos_exp=2185;214579&CB_ref_biblio=oui&langue=Francais&tri_exp=annee_publi&tri_exp2=typdoc&tri_exp3=date_publi&ordre_aff=TA&Fen=Aff&css=../css/VisuRubriqueEncadre.css" target="_blank" rel="nofollow">already published papers here</a>,
-      or visit <a href="https://scholar.google.fr/citations?hl=fr&user=cEYGStIAAAAJ&view_op=list_works&gmla=AJsN-F48hkWyehA8WGBq0mIsTqag7MJm3EQFmE9QcYXvCC-CWS_dlx7-w02leTNfJYzEhhxOm8x3ZRHpQuW6qDwbMqkQ5zBVeYybvsDMoSMAfRxOSLNfxulSYFgezFtUCJ2fH-adUDN2" target="_blank" rel="nofollow">my google scholar,</a>, or
+      or visit <a href="https://scholar.google.fr/citations?hl=fr&user=cEYGStIAAAAJ&view_op=list_works&gmla=AJsN-F48hkWyehA8WGBq0mIsTqag7MJm3EQFmE9QcYXvCC-CWS_dlx7-w02leTNfJYzEhhxOm8x3ZRHpQuW6qDwbMqkQ5zBVeYybvsDMoSMAfRxOSLNfxulSYFgezFtUCJ2fH-adUDN2" target="_blank" rel="nofollow">my google scholar,</a> or
       <a href="https://www.scopus.com/authid/detail.uri?authorId=54402930700" target="_blank" rel="nofollow">my scopus.</a>
-      Upcomming papers (submitted or to be submitted)
+
+      Some of our upcomming papers (submitted or in preparation) are listed below:
     papers:
-      - title: The Art of Computer Programming
-        link: "#"
-        authors: Donald E. Knuth
-        conference: Addison-Wesley, 1968
+      - title:  An open dataset for modeling tertiary sector electric consumption dynamic.
+        authors: Kevin Bellinguer, Robin Girard, Antoine Chevalier, Alexis Boquet.
 
-      - title: "Genetic Programming III: Darwinian Invention &amp; Problem Solving"
-        link: "#"
-        authors: Koza, J.R., Andre, D., Bennett, F.H., Keane, M.A.
-        conference: "Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 1st edn. (1999)"
+      - title: A conditioned and regularized approach for large-scale intraday forecasting of wind power.
+        authors: Simon Camal, Robin Girard, Maxime Fortin, Augustin Touron, Laurent Dubus.
 
-      - title: A syntax directed compiler for Algol 60
-        link: "#"
-        authors: Edgar T. Irons
-        conference: "Comm. ACM 4 (1961), 51–55"
+      - title: Calibration method for an open source MILP model to simulate building energy at territorial scale.
+        authors: Rit Martin, Villot Jonathan, Thorel Mathieu, Seddik Abdelouadoud, Girard Robin.
 
+      - title: Comparing the relative impacts of investment constraints and temporal detail on capacity expansion model outcomes.
+        authors: Thomas Heggarty, Jean-Yves Bourmaud, Robin Girard, Georges Kariniotakis.
+
+      - title: Optimisation of hydrogen production systems deployement at the scale of a territory.
+        authors: Anaëlle Jodry, Robin Girard, Pedro Affonso Nobrega, Robin Molinier, Moulay-Driss Elalaouifaris.
+      - title: Hydrogen production trough dedicated offshore wind farms, a European resource assessment considering levelized costs of energy under three connection schemes.
+        authors: Antoine Rogeau, Matthieu de Coatpont, Robin Girard, Guillaume Erbs
 
 
 #footer: >

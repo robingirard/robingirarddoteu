@@ -7,6 +7,10 @@
     </li>
     {% endif %}
 
+    <li class="email">
+    <a href="http://hal-ensmp.archives-ouvertes.fr/Public/afficheRequetePubli.php?auteur_exp=robin,girard&labos_exp=2185;214579&CB_ref_biblio=oui&langue=Francais&tri_exp=annee_publi&tri_exp2=typdoc&tri_exp3=date_publi&ordre_aff=TA&Fen=Aff&css=../css/VisuRubriqueEncadre.css" target="_blank" rel="nofollow">Full list of publications</a>
+    </li>
+
     {% if sidebar.phone %}
     <li class="phone"><i class="fas fa-phone"></i>
       <a href="tel:{{ sidebar.phone }}">{{ sidebar.phone }}</a>
@@ -32,7 +36,7 @@
     {% endif %}
 
     {% if sidebar.website %}
-    <li class="website"><i class="fas fa-globe-americas"></i>
+    <li class="website">Blog about energy transition (french) :
       <a href="http://{{ sidebar.website }}" target="_blank">{{ sidebar.website }}</a>
     </li>
     {% endif %}
@@ -82,6 +86,20 @@
     {% if sidebar.codewars %}
     <li class="codewars"><i class="fas fa-code"></i>
       <a href="https://www.codewars.com/users/{{ sidebar.codewars }}/completed_solutions" target="_blank">{{ sidebar.codewars }}</a>
+    </li>
+    {% endif %}
+
+
+
+    {% if sidebar.altereco %}
+    <li class="altereco"> Chronique dans alternatives économiques (french) :
+      <a href="http://www.alternatives-economiques.fr/users/{{ sidebar.altereco }}" target="_blank">{{ sidebar.altereco }}</a>
+    </li>
+    {% endif %}
+
+    {% if sidebar.website2 %}
+    <li class="website2"> Blog with more personnal thoughs (french)
+      <a href="http://{{ sidebar.website2 }}" target="_blank">{{ sidebar.website2 }}</a>
     </li>
     {% endif %}
 

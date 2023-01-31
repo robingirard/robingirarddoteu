@@ -2,19 +2,35 @@
 layout: default
 ---
 
+<h2 class="section-title"> Content :</h2>
+- <a href="#Position">Position and responsabilities</a><br />
+- <a href="#Current">Current students</a><br />
+- <a href="#Available">Available positions</a><br />
+- <a href="#introduction">Publications</a><br />
+<br>
+<br>
 
+<a class="anchor" id="Position"></a>
 {% include career-profile.html %}
+
+<a class="anchor" id="Current"></a>
+{% include career-profile_2.html %}
+
+<a class="anchor" id="Available"></a>
+{% include career-profile_3.html %}
 {% include research-topics.html%}
 {% unless site.data.data.sidebar.education %}
   {% include education.html %}
 {% endunless %}
 
+<a class="anchor" id="introduction"></a>
 {% include experiences.html %}
 
 {% include projects.html %}
 
 {% include oss-contributions.html %}
 
+<a class="anchor" id="Publications"></a>
 {% include publications.html %}
 
 {% include skills.html %}
