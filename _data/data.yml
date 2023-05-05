@@ -58,12 +58,10 @@ career-profile:
           PERSEE Center: Center for Processes, Renewables Energies and Energy Systems
           <a href="https://www.persee.minesparis.psl.eu/Recherche/Groupe-ERSEI/"> ERSEI group </a>
           10 PhD students already defended under my supervision, 7 on-going PhD under my direction, 4 ongoing postdocs under my direction (see <a href="https://www.robingirard.eu/#Current"> below </a>).
-      - role: Scientific Director of <a href="https://www.zenon.ngo/"> Zenon </a>
+      - role: Scientific Director of Zenon
         time: since 2023
         details: |
           <a href="https://www.zenon.ngo/"> Zenon </a> is the french Climate Tech think tank
-
-
       - role: <b>   Research topics </b> - Energy transition modeling.
         details: |
           - Energy demand modeling - Temporal and spatial demand modeling, building retrofits at the territory scale, evolution of heating, low carbon industry, role of hydrogen.
