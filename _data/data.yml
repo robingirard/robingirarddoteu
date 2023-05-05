@@ -51,12 +51,19 @@ sidebar:
 career-profile:
     title: Position and responsabilities
     info:
-      - role: Associate professor ("Chargé de Recherche") MINES Paris PSL
+      - role: Associate Professor ("Chargé de Recherche") MINES Paris PSL
         time: since 2008
         details: |
           Energy and processes department
           PERSEE Center: Center for Processes, Renewables Energies and Energy Systems
           <a href="https://www.persee.minesparis.psl.eu/Recherche/Groupe-ERSEI/"> ERSEI group </a>
+          10 PhD students already defended under my supervision, 7 on-going PhD under my direction, 4 ongoing postdocs under my direction (see <a href="https://www.robingirard.eu/#Current"> below </a>).
+      - role: Scientific Director of <a href="https://www.zenon.ngo/"> Zenon </a>
+        time: since 2023
+        details: |
+          <a href="https://www.zenon.ngo/"> Zenon </a> is the french Climate Tech think tank
+
+
       - role: <b>   Research topics </b> - Energy transition modeling.
         details: |
           - Energy demand modeling - Temporal and spatial demand modeling, building retrofits at the territory scale, evolution of heating, low carbon industry, role of hydrogen.
@@ -145,9 +152,9 @@ career-profile_3:
       If you are looking for an internship or if you wish to consider a PhD in the long term, feel free to contact me.
     info:
       - role: Postdoc and PhD.
-        time: 1 to 4 years starting March 2023
+        time: 1 to 4 years starting September 2023
         details: |
-           Multi-energy planing, 4 PhD thesis to start in 2023 and 2024 and a postdoc. Conditioned to a project success.
+           Multi-energy planing, 4 PhD thesis to start in 2023 and 2024 and a postdoc.
       - role: Permanent position (Tenure track)
         time: <a href="https://academicpositions.fr/ad/universite-psl/2023/research-assistant-tenure-track-in-energetics-optimization-of-the-energy-systems-of-the-future-for-a-safe-effective-and-decarbonized-energy-transition/195452",see here  target="_blank" rel="nofollow"> see here</a>, apply before mid-april.
         details: |
