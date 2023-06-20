@@ -34,3 +34,8 @@ compress_html: # - http://jch.penibelst.de/
 port: 4000
 host: 0.0.0.0
 safe: false
+
+# Collections
+collections:
+  UE14Projects:
+    output: true
