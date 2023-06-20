@@ -3,7 +3,9 @@ permalink: ListeProjetsPrecedents
 ---
 {%assign precyear = 2022%}
 
-# Liste des Projets
+# Liste des Projets passés
+
+Cette page contient la liste des mini-projets des années passées de l'unité d'enseignement "terre et société" (UE 14) en première année à l'Ecole des Mines de Paris. Si vous souhaitez revenir à la page des miniprojet de l'UE14 c'est [ici]({{site.url}}/MINES-UE14-miniprojet.html). Si vous souhaitez revenir à ma page principale, c'est [ici]({{site.url}}/index.html).
 
 ## Table des années disponibles :
 
