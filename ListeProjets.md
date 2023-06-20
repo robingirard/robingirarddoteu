@@ -1,5 +1,6 @@
 ---
 permalink: ListeProjetsPrecedents
+layout: default_2
 ---
 {%assign precyear = 2022%}
 

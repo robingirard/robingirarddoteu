@@ -1,11 +1,13 @@
 ---
 permalink: MINES-UE14-miniprojet
-layout: "default"
+layout: default_2
 ---
 
 # MINES-UE14-miniprojet
 
-Cette page contient un descriptif des mini-projets de l'unité d'enseignement "terre et société" (UE 14) en première année à l'Ecole des Mines de Paris. Si vous souhaitez revenir à ma page principale, c'est [ici]({{site.url}}/index.html).
+Cette page contient un descriptif des mini-projets de l'unité d'enseignement "terre et société" (UE 14) en première année à l'Ecole des Mines de Paris.
+
+Si vous souhaitez revenir à ma page principale, c'est [ici]({{site.url}}/index.html).
 
 Ici, vous allez trouver :
 - la <a href="#listeprojets"> liste des projets</a>  de l'année en cours et des années précédentes
@@ -17,6 +19,7 @@ Si il vous reste des questions, vous pouvez me les poser directement par mail : 
 
 ## Liste des projets de l'année en cours et des années précédentes
  <a id="listeprojets">
+
 **Listes de sujets pour l'année 2023**
 La liste sera disponible début septembre 2023
 
@@ -26,6 +29,7 @@ La liste sera disponible début septembre 2023
 
 ## Déroulement
  <a id="deroulement">
+
 **Dates importantes en 2023**
  * présentation des sujets : début septembre 2023, peu après la rentrée.
  * choix des sujets, envoi par les délégués des attributions par élève (la liste doit contenir le mail de chaque élève et le sujet associé) et lancement des travaux : avant fin septembre.
@@ -48,6 +52,7 @@ La liste sera disponible début septembre 2023
 
 ## Description générale de l'UE-14
  <a id="descriptif">
+
 **L’UE-14** est une l’unité d’enseignement “Terre et Société”, au premier semestre de la formation à l’école, coordonnée par Caroline Mehl. Elle a été créée en Septembre 2019 et comprend les modules suivants :
 *	l’enseignement « Géosciences et Anthropocène », coordiné par Caroline Mehl. Cet enseignement est consacré à l’apprentissage de la démarche géoscientifique (observation, déduction, modélisation). Il se déroule sous la forme d’une semaine de terrain dédiée à l’observation d’objets géologiques et de l’impact de l’activité humaine sur l’environnement,
 *	l’enseignement « Responsabilités Socio-politiques et Environnementales » assuré par [Alexandre Mallard](http://www.csi.mines-paristech.fr/equipe/chercheurs/alexandre-mallard/). L’enseignement a pour objectif d’apporter une initiation à la sociologie, en appuyant les réflexions sur des questions relatives au développement durable. Il se déroule sous la forme d’une alternance de cours et de petites classes consacrées à des synthèses de lecture d’ouvrages de référence,
