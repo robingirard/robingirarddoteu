@@ -179,7 +179,7 @@ publications:
       - title: A conditioned and regularized approach for large-scale intraday forecasting of wind power.
         authors: Simon Camal, Robin Girard, Maxime Fortin, Augustin Touron, Laurent Dubus.
 
-      - title: Calibration method for an open source MILP model to simulate building energy at territorial scale.
+      - title: Calibration method for an open source model to simulate building energy at territorial scale <a href="https://www.sciencedirect.com/science/article/abs/pii/S0378778823004358" target="_blank" rel="nofollow"> [Published-June 2023] </a>,
         authors: Rit Martin, Villot Jonathan, Thorel Mathieu, Seddik Abdelouadoud, Girard Robin.
 
       - title: Comparing the relative impacts of investment constraints and temporal detail on capacity expansion model outcomes.
