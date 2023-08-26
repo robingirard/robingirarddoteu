@@ -109,7 +109,7 @@ career-profile_2:
         details: |
            Modeling of the electric distribution system and its evolution in the energy transition context. Impact of electrification of heating and transport, and of renewable electricity production. Value of flexibility in low voltage network. Postdoc funded by <a href ="https://www.roseautechnologies.com/fr/"> Roseau Technologie </a> and french government.
       - role: Kevin Bellinger  - Postdoc -
-        time: 1 years starting February 2022
+        time: 1 years starting February 2022 -  Now at RTE (french TSO)--
         details: |
            Large scale machine learning for bottom up modeling of energy consumption. Postdoc funded by french DSO <a href ="https://www.enedis.fr/"> ENEDIS </a>.
       - role: <a href="https://www.linkedin.com/in/julie-perrin-147414188/">  Julie Perrin </a> - Postdoc -
@@ -117,7 +117,7 @@ career-profile_2:
         details: |
            Joined coordination with <a href ="https://www.csi.minesparis.psl.eu/equipe/chercheurs-associes/daniel-florentin/"> Daniel Florentin</a>. From political targets to deployment of thermal retrofit, identification of institutional limits to thermal retrofits. Postdoc funded by <a href ="https://the-transition-institute.minesparis.psl.eu/"> TTI.5 </a>.
       - role: <a href="https://www.linkedin.com/in/anaelle-jodry/">  Anaelle Jodry </a> - PhD student-
-        time: Since November 2020
+        time: Since November 2020 -
         details: |
            Hydrogen deployment trajectories in energy hub. PhD partially funded by <a href="https://www.airliquide.com/fr"> Air liquide</a>.
       - role: <a href="https://www.linkedin.com/in/martin-rit/">  Martin Rit  </a> - PhD student -
@@ -144,6 +144,14 @@ career-profile_2:
         time: Since January 2023
         details: |
            Optimisation of medium voltage DC connection architechtures. CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a>.
+      - role: <a https://www.linkedin.com/in/thibaut-knibiehly/">  Thibaut Knibiehly  </a> - PhD student -
+        time: Since June 2023
+        details: |
+           Planning of multi-energy system. PhD funded by the PlaneTerr project, in collaboration with several french energy system compagnies.
+      - role: <a https://www.linkedin.com/in/hugo-hamburger-92a994161/">  Hugo Hamburger  </a> - PhD student -
+        time: Since September 2023
+        details: |
+           Coupling optimisation methodology for energy system planning. PhD funded by the PlaneTerr project, in collaboration with several french energy system compagnies.
 
 career-profile_3:
     title: Available or upcomming positions
