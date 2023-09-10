@@ -42,9 +42,9 @@ Cette page contient la liste des mini-projets des années passées de l'unité d
 
       {% endif %}
       {% if projet.year != curyear %}
-      {{ projet.year }} - Sujet N°{{ projet.number }} - <a href="{{ projet.url }}">{{ projet.name }} </a>
-        Encadrant : {{projet.Encadrant}} |  <a href="{{ site.url }}/assets/Posters/{{projet.year}}/UE14{{projet.year}}-S{{projet.number}}.pdf"> Poster </a>
-        <br>
+        {{ projet.year }} - Sujet N°{{ projet.number }} - <a href="{{ projet.url }}">{{ projet.name }} </a>
+          Encadrant : {{projet.Encadrant}} |  <a href="{{ site.url }}/assets/Posters/{{projet.year}}/UE14{{projet.year}}-S{{projet.number}}.pdf"> Poster </a>
+          <br>
       {% else %}
 
       {% endif %}
