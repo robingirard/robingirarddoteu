@@ -21,7 +21,7 @@ Si il vous reste des questions, vous pouvez me les poser directement par mail : 
  <a id="listeprojets">
 
 **Listes de sujets pour l'année 2023**
-La liste est  [ici]({{site.url}}/ListeProjetsCourant.html). 
+La liste est  [ici]({{site.url}}/ListeProjetsCourants.html). 
 
 **Sujets et posters des années précédentes** [2019-2022]({{site.url}}/ListeProjetsPrecedents.html)
 
