@@ -2,7 +2,7 @@
 permalink: ListeProjetsPrecedents
 layout: default_2
 ---
-{%assign precyear = 2022%}
+{%assign precyear = 2023%}
 
 # Liste des Projets passés
 
@@ -20,7 +20,7 @@ Cette page contient la liste des mini-projets des années passées de l'unité d
 {% endfor %}
 
 ## Détails :
-{%assign precyear = 2022%}
+{%assign precyear = 2023%}
 <h4>
          <a id="annee{{precyear}}"> Année - {{precyear}}
          <br> <br>
