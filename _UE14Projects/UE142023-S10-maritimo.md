@@ -1,5 +1,5 @@
 ---
-name: Décarboner le transport maritime : mission impossible ?
+name: Décarboner le transport maritime - mission impossible ?
 number: "10"
 year: 2023
 Encadrant: Quentin Raillard

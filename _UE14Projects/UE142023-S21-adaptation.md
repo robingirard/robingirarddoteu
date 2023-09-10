@@ -1,5 +1,5 @@
 ---
-name: Adaptation au changement climatique : quelles solutions \?
+name: Adaptation au changement climatique - quelles solutions ?
 number: "21"
 year: 2023
 Encadrant: Thomas BOIGONTIER

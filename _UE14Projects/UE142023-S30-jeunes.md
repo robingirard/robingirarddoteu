@@ -1,5 +1,5 @@
 ---
-name: Les jeunes ingénieurs des Mines face au dépassement des limites planétaires : Quelles responsabilités et quels rôles ?
+name: Les jeunes ingénieurs des Mines face au dépassement des limites planétaires - Quelles responsabilités et quels rôles ?
 number: "30"
 year: 2023
 Encadrant: Cécile Schwartz

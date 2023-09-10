@@ -1,5 +1,5 @@
 ---
-name: Neutralité carbone : quelle mobilisation des solutions fondées sur la nature ?
+name: Neutralité carbone - quelle mobilisation des solutions fondées sur la nature ?
 number: "16"
 year: 2023
 Encadrant: Sandrine Selosse

@@ -1,5 +1,5 @@
 ---
-name: Comptabilité carbone nationale: inventaire national et empreinte carbone
+name: Comptabilité carbone nationale - inventaire national et empreinte carbone
 number: "26"
 year: 2023
 Encadrant: Thomas Gibon
