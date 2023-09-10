@@ -3,10 +3,11 @@ permalink: ListeProjetsPrecedents
 layout: default_2
 ---
 {%assign precyear = 2023%}
+{%assign curyear = 2023%}
 
 # Liste des Projets passés
 
-Cette page contient la liste des mini-projets des années passées de l'unité d'enseignement "terre et société" (UE 14) en première année à l'Ecole des Mines de Paris. Si vous souhaitez revenir à la page des miniprojet de l'UE14 c'est [ici]({{site.url}}/MINES-UE14-miniprojet.html). Si vous souhaitez revenir à ma page principale, c'est [ici]({{site.url}}/index.html).
+Cette page contient la liste des mini-projets des années passées de l'unité d'enseignement "terre et société" (UE 14) en première année à l'Ecole des Mines de Paris. Si vous voulez accéder à la liste des projets proposés cette année, c'est c'est [ici]({{site.url}}/ListeProjetsCourant.html). Si vous souhaitez revenir à la page des miniprojet de l'UE14 c'est [ici]({{site.url}}/MINES-UE14-miniprojet.html). Si vous souhaitez revenir à ma page principale, c'est [ici]({{site.url}}/index.html).
 
 ## Table des années disponibles :
 
@@ -27,11 +28,13 @@ Cette page contient la liste des mini-projets des années passées de l'unité d
 {% for projet in site.UE14Projects reversed %}
       {% if projet.year != precyear %}
          {%assign precyear=projet.year %}
+         {% if projet.year != curyear %}
+           <br>
+           <a id="annee{{projet.year}}"> Année - {{projet.year}}
+           <br> <br>
+         {% else %}
 
-         <br>
-         <a id="annee{{projet.year}}"> Année - {{projet.year}}
-         <br> <br>
-
+         {% endif %}
       {% else %}
 
       {% endif %}

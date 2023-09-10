@@ -1,5 +1,5 @@
 ---
-name: Utilisation de méthodes de prévision probabiliste de la production photovoltaïque pour différentes conditions d'injection dans un système électrique insulaire
+name: Utilisation de méthodes de prévision probabiliste de la production photovoltaïque
 number: "19"
 year: 2023
 Encadrant: Philippe Blanc

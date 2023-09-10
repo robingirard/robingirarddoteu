@@ -1,5 +1,5 @@
 ---
-name: Comparaison des bénéfices en termes de flexibilité des différents équipements de chauffage d'un logement dans un contexte de forts enjeux de sobriété
+name: Comparaison des bénéfices en termes de flexibilité des différents équipements de chauffage
 number: "29"
 year: 2023
 Encadrant: Nourallah Melliti
