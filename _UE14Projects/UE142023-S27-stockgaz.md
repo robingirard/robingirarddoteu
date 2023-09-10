@@ -1,11 +1,10 @@
 ---
-name: La bioéconomie au service de la transition - quel potentiel de
-développement et quelles limites ?
+name: L'avenir du besoin de stockage sous-terrain de méthane et d'hydrogène ?
 number: "27"
 year: 2023
 Encadrant: Laurent Cornaggia
 ---
-## L\'avenir du besoin de stockage sous-terrain de méthane et d'hydrogène ?
+## L'avenir du besoin de stockage sous-terrain de méthane et d'hydrogène ?
 
 (Encadrants : Laurent Cornaggia & Thibaut Knibiehly [Centre PERSEE](https://www.persee.minesparis.psl.eu/Accueil/Presentation/)/RTE)
 

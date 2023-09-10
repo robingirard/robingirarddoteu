@@ -1,5 +1,5 @@
 ---
-name: Comptabilité carbone nationale: approches macro ("top-down") et micro ("bottom-up")
+name: Comptabilité carbone nationale - approches macro ("top-down") et micro ("bottom-up")
 number: "25"
 year: 2023
 Encadrant: Thomas Gibon

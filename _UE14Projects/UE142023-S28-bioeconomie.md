@@ -1,6 +1,5 @@
 ---
-name: La bioéconomie au service de la transition - quel potentiel de
-développement et quelles limites ?
+name: La bioéconomie au service de la transition - quel potentiel de développement et quelles limites ?
 number: "28"
 year: 2023
 Encadrant: Thomas Beaussier
