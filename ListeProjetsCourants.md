@@ -19,7 +19,7 @@ Si vous souhaitez revenir à la page des miniprojet de l'UE14 par exemple pour r
       {% if projet.year == curyear %}
 
       {{ projet.year }} - Sujet N°{{ projet.number }} - <a href="{{ projet.url }}">{{ projet.name }} </a>
-        Encadrant : {{projet.Encadrant}}  </a>
+        Encadrant : {{projet.Encadrant}}  
         <br>
 
       {% else %}
