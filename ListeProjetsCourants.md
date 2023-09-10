@@ -4,7 +4,7 @@ layout: default_2
 ---
 {%assign precyear = 2023%}
 
-# Liste des Projets passés
+# Liste des Projets proposés cette année 2023
 
 Cette page contient la liste des mini-projets proposés cette année pour l'unité d'enseignement "terre et société" (UE 14) en première année à l'Ecole des Mines de Paris. Cliquez simplement sur les projets pour en avoir une description complète.
 
