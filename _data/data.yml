@@ -57,7 +57,7 @@ career-profile:
           Energy and processes department
           PERSEE Center: Center for Processes, Renewables Energies and Energy Systems
           <a href="https://www.persee.minesparis.psl.eu/Recherche/Groupe-ERSEI/"> ERSEI group </a>
-          10 PhD students already defended under my supervision, 7 on-going PhD under my direction, 4 ongoing postdocs under my direction (see <a href="https://www.robingirard.eu/#Current"> below </a>).
+          10 PhD students already defended under my supervision, 9 on-going PhD under my direction, 4 ongoing postdocs under my direction (see <a href="https://www.robingirard.eu/#Current"> below </a>).
       - role: Head of Science at Zenon
         time: since 2023
         details: |
@@ -181,7 +181,7 @@ publications:
 
       Some of our upcomming papers (submitted or in preparation) are listed below:
     papers:
-      - title:  An open dataset for modeling tertiary sector electric consumption dynamic.
+      - title:  An open dataset for modeling tertiary sector electric consumption dynamic <a href="https://www.nature.com/articles/s41597-023-02542-z" target="_blank" rel="nofollow"> -Published in Nature Scientific data- 2023- </a>.
         authors: Kevin Bellinguer, Robin Girard, Antoine Chevalier, Alexis Boquet.
 
       - title: A conditioned and regularized approach for large-scale intraday forecasting of wind power.
@@ -193,10 +193,11 @@ publications:
       - title: Comparing the relative impacts of investment constraints and temporal detail on capacity expansion model outcomes.
         authors: Thomas Heggarty, Jean-Yves Bourmaud, Robin Girard, Georges Kariniotakis.
 
-      - title: Optimisation of hydrogen production systems deployement at the scale of a territory.
+      - title: Optimisation of hydrogen production systems deployement at the scale of a territory <a href="https://www.sciencedirect.com/science/article/pii/S0959652623029086" target="_blank" rel="nofollow"> -Published in Journal of Cleaner Production- Sept 2023- </a>.
         authors: Anaëlle Jodry, Robin Girard, Pedro Affonso Nobrega, Robin Molinier, Moulay-Driss Elalaouifaris.
-      - title: Hydrogen production trough dedicated offshore wind farms, a European resource assessment considering levelized costs of energy under three connection schemes.
-        authors: Antoine Rogeau, Matthieu de Coatpont, Robin Girard, Guillaume Erbs
+
+      - title: Techno-economic evaluation and resource assessment of hydrogen production through offshore wind farms: A European perspective <a href="https://www.sciencedirect.com/science/article/pii/S1364032123005567?via%3Dihub" target="_blank" rel="nofollow"> -Published in Journal of Sustainable Energy Review- Sept 2023- </a>..
+        authors: Antoine Rogeau, Matthieu de Coatpont, Guillaume Erbs, Pedro Affonso Nobrega, Robin Girard
 
 
 #footer: >
