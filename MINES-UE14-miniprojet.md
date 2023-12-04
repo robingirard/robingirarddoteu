@@ -21,7 +21,7 @@ Si il vous reste des questions, vous pouvez me les poser directement par mail : 
  <a id="listeprojets">
 
 **Listes de sujets pour l'année 2023**
-La liste est  [ici]({{site.url}}/ListeProjetsCourants.html). 
+La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
 
 **Sujets et posters des années précédentes** [2019-2022]({{site.url}}/ListeProjetsPrecedents.html)
 
@@ -48,7 +48,7 @@ La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
 
  **Le rendu : poster et synthèse**
  * Le rendu des mini-projets est composé de deux éléments : (i) un document A4 recto-verso synthétisant le travail effectué (ii) un poster présenté devant un jury et toute la promo dans une session ouverte au publique qui a lieu en janvier. Pour chaque poster, un créneau d’environ 20 minutes est réservé et doit permettre aux étudiants de présenter le poster (10 minutes) et au jury de poser des questions (10 minutes). Chaque membre de jury donne une note sur le travail effectué, la qualité de la présentation et des réponses aux questions, et la qualité du poster. La note finale est une moyenne de ces notes.
- *	le poster doit être réalisé à partir de [ce patron](https://robingirard.github.io/MINES-UE14-miniprojet/UE14-2023-Sujet-XX.pptx). Vous devez imprimer vous-même vos posters pour la journée de soutenance, au format A1. Pour ce faire vous pouvez passer par le service de reprographie de l’école, en faisant parvenir le poster au moins 4 jours avant la date voulue d’impression. Une fois votre poster imprimé, faites parvenir (avant la soutenance) le fichier correspondant par mail à Robin Girard en remplaçant XX par votre numéro de sujet et en mettant votre tuteur en copie ; l’objet du mail doit être [UE14-miniprojet]. Le jour de la soutenance vous devez venir vous même un peu en avance pour accrocher vos posters sur des supports qui seront préparés pour vous et mis à disposition.
+ *	le poster doit être réalisé à partir de [ce patron]({{site.url}}/UE14-2023-Sujet-XX.pptx). Vous devez imprimer vous-même vos posters pour la journée de soutenance, au format A1. Pour ce faire vous pouvez passer par le service de reprographie de l’école, en faisant parvenir le poster au moins 4 jours avant la date voulue d’impression. Une fois votre poster imprimé, faites parvenir (avant la soutenance) le fichier correspondant par mail à Robin Girard en remplaçant XX par votre numéro de sujet et en mettant votre tuteur en copie ; l’objet du mail doit être [UE14-miniprojet]. Le jour de la soutenance vous devez venir vous même un peu en avance pour accrocher vos posters sur des supports qui seront préparés pour vous et mis à disposition.
 
 ## Description générale de l'UE-14
  <a id="descriptif">
