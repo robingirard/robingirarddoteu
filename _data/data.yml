@@ -29,7 +29,7 @@ sidebar:
     website2: www.lepresquetoutlepresquerien.fr
     codewars:
     goodreads: # Number-Username, e.g. 123456-alandoe
-    pdf:
+    pdf: True
 
     languages:
       title: Languages
