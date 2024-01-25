@@ -2,8 +2,8 @@
 permalink: ListeProjetsPrecedents
 layout: default_2
 ---
-{%assign precyear = 2023%}
-{%assign curyear = 2023%}
+{%assign precyear = 2024%}
+{%assign curyear = 2024%}
 
 # Liste des Projets passés
 

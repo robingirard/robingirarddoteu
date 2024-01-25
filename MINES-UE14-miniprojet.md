@@ -20,10 +20,10 @@ Si il vous reste des questions, vous pouvez me les poser directement par mail : 
 ## Liste des projets de l'année en cours et des années précédentes
  <a id="listeprojets">
 
-**Listes de sujets pour l'année 2023**
+**Listes de sujets pour l'année 2024**
 La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
 
-**Sujets et posters des années précédentes** [2019-2022]({{site.url}}/ListeProjetsPrecedents.html)
+**Sujets et posters des années précédentes** [2019-2023]({{site.url}}/ListeProjetsPrecedents.html)
 
 **L'objectif de ces mini-projet** est de prendre le temps d’un approfondissement sur un sujet choisi autour l’énergie et des enjeux environnementaux au sens large. Les étudiants sont regroupés en groupes de 4 ou 5 et choisissent leur sujet parmi ceux proposés par des chercheurs du domaines (majoritairement de l'école des mines, mais pas seulement). Si vous souhaitez proposer un sujet, vous pouvez me contacter par mail [Robin Girard](mailto:robin.girard@mines-paristech.fr)
 
@@ -48,7 +48,7 @@ La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
 
  **Le rendu : poster et synthèse**
  * Le rendu des mini-projets est composé de deux éléments : (i) un document A4 recto-verso synthétisant le travail effectué (ii) un poster présenté devant un jury et toute la promo dans une session ouverte au public qui a lieu en janvier. Pour chaque poster, un créneau d’environ 20 minutes est réservé et doit permettre aux étudiants de présenter le poster (10 minutes) et au jury de poser des questions (10 minutes). Chaque membre de jury donne une note sur le travail effectué, la qualité de la présentation et des réponses aux questions, et la qualité du poster. Les membres du jury donnent également une note sur les synthèses. La note finale est une moyenne de ces notes. La synthèse compte pour 1/3 de la note.
- *	le poster doit être réalisé à partir de [ce patron]({{site.url}}/UE14-2023-Sujet-XX.pptx). La note de synthèse doit être réalisée à partir de [ce patron]({{site.url}}/UE14-2023-Synthese-Sujet-XX.docx). Vous ne devez pas imprimer le poster, ils seront projetés dans les salles des soutenances. Seul les 5 meilleurs posters seront imprimés après les soutenances et exposés à l'école des mines. Faites parvenir par le lien de dépot et/ou par mail à Robin Girard (avant la soutenance) le fichier poster pptx et le document word contenant la note A4 recto-verso, en remplaçant XX par votre numéro de sujet et en mettant votre tuteur en copie ; l’objet du mail doit être [UE14-miniprojet]. Ces documents seront partagés sur ce site. 
+ *	le poster doit être réalisé à partir de [ce patron]({{site.url}}/UE14-2023-Sujet-XX.pptx). La note de synthèse doit être réalisée à partir de [ce patron]({{site.url}}/UE14-2023-Synthese-Sujet-XX.docx). Vous ne devez pas imprimer le poster, ils seront projetés dans les salles des soutenances. Seul les 5 meilleurs posters seront imprimés après les soutenances et exposés à l'école des mines. Faites parvenir par le lien de dépot et/ou par mail à Robin Girard (avant la soutenance) le fichier poster pptx et le document word contenant la note A4 recto-verso, en remplaçant XX par votre numéro de sujet et en mettant votre tuteur en copie ; l’objet du mail doit être [UE14-miniprojet]. Ces documents seront partagés sur ce site.
 
 ## Description générale de l'UE-14
  <a id="descriptif">
