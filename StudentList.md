@@ -133,7 +133,7 @@ PhD funded by <a href="http://www.cstb.fr/fr/"> CSTB</a>.
 
 ## Anaelle Jodry
  <a id="AnaelleJodry">
-<img src="/assets/ImagesRecherche/photo_anaelle_s.jpg" alt="Anaelle jodry" style="height: 150px; width:200px;"/><br>
+<img src="/assets/ImagesRecherche/photo_Anaelle_s.jpg" alt="Anaelle jodry" style="height: 150px; width:200px;"/><br>
 Defended her PhD in December 2023, now postdoc <br>
 Postdoc funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project
 
