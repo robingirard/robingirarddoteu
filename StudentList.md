@@ -4,7 +4,7 @@ layout: default_2
 ---
 
 # List of present students
-[Back to Sudent list in my main page]({{site.url}}/index.html/#Current).
+[Back to Sudent list in my main page]({{site.url}}/index.html#Current).
 
 ## Laurent Cornaggia
  <a id="LaurentCornaggia">
