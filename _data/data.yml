@@ -148,10 +148,10 @@ career-profile_2:
 career-profile_3:
     title: Available or upcomming positions.
     intro: |
-      If you are looking for an internship or if you wish to consider a PhD in the long term, feel free to contact me. See the <a href="https://www.robingirard.eu/JobOffer.html"> full list here.  </a>
+      If you are looking for an internship or if you wish to consider a PhD in the long term, feel free to contact me.
     info:
-      - role: Postdoc and PhD.
-        time: Usually in june for september, but you can apply continuously
+      - role: Postdoc, PhD, Internship.
+        time: See the <a href="https://www.robingirard.eu/JobOffer.html"> full list here.  </a> , but feel free to apply continuously
         details: |
 
 
