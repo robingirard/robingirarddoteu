@@ -146,9 +146,15 @@ career-profile_2:
            Coupling optimisation methodology for energy system planning. PhD funded by the PlaneTerr project, in collaboration with several french energy system compagnies.
 
 career-profile_3:
-    title: Available or upcomming positions : see the <a href="https://www.robingirard.eu/JobOffer.html"> full list here.  </a>
+    title: Available or upcomming positions.
     intro: |
-      If you are looking for an internship or if you wish to consider a PhD in the long term, feel free to contact me.
+      If you are looking for an internship or if you wish to consider a PhD in the long term, feel free to contact me. See the <a href="https://www.robingirard.eu/JobOffer.html"> full list here.  </a>
+    info:
+      - role: Postdoc and PhD.
+        time: Usually in june for september, but you can apply continuously
+        details: |
+
+
 
 
 publications:

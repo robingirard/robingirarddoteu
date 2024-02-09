@@ -6,7 +6,7 @@ layout: default_2
 If you wish to [go back to my main page]({{site.url}}/index.html#Available).
 # Current job offers
 
-## Under my supervision :
+## Under my supervision
 Details can be found below and via links. All positions are located in the PERSEE center of MINES Paris PSL, located in Sophia Antipolis in the South of France. Being located in Paris might be a possible option too to be discussed depending on the project/position.
 
  - A Postdoc position on multi-energy system planing. Starting between now and 2026 (we actually have several positions available here). [Full Description](#postdocplanetterr)
@@ -15,7 +15,7 @@ Details can be found below and via links. All positions are located in the PERSE
  - An [internship](https://www.persee.minesparis.psl.eu/assets/files/internship_2024_Decarbonization_Trajectory_en.pdf), a PhD and a postdoc position in optimisation of building retrofit planing at the scale of a territory, in collaboration with CSTB (please contact me to know more).
  - Several internship on demand on multi-energy system planing in the frame of [PlaneTerr](https://planeterr.fr/) project.
 
-## In my research group :
+## In my research group 
 - Postdoc #1:   on Power System Planning (distribution grid/electric vehicles) in collaboration with Grenoble power system lab - [Full Description](https://www.persee.minesparis.psl.eu/Nous-rejoindre/PostDoc-Carnot-Mines-MatElec-PERSEE.pdf/)
 - Postdoc #2: on mining engineering (impact of electrification on material need) in collaboration with MINES Paris geoscience center - [Full Description](https://www.geosciences.minesparis.psl.eu/wp-content/uploads/2023/12/231106_PostDocGeosciencesMatElec-1.pdf)
 - PhD #1: "Artificial intelligence based prescriptive analytics for energy systems" - [Full Description](https://www.abg.asso.fr/fr/candidatOffres/show/id_offre/114613/job/phd-1-at-mines-paris-in-data-science-energy-artificial-intelligence-based-prescriptive-analytics-for-energy-systems)
