@@ -5,6 +5,7 @@ layout: default_2
 
 # List of present students
 [Back to Sudent list in my main page]({{site.url}}/index.html#Current).
+[Job offers](https://www.robingirard.eu/JobOffer.html)
 
 ## Laurent Cornaggia
  <a id="LaurentCornaggia">
