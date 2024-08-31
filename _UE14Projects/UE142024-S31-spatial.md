@@ -1,10 +1,15 @@
-## « Terre et société »
+---
+name: Impact écologique de l'industrie spatiale - enjeux & perspectives
+number: "31"
+year: 2024
+Encadrant: Nicolas Maillot
+---
 
-Impact écologique de l'industrie spatiale - enjeux & perspectives
 
-Nicolas Maillot, Thales Alenia Space
+## Impact écologique de l'industrie spatiale - enjeux & perspectives
 
-*nmaillot@gmail.com*
+(Encadrant : Nicolas Maillot, Thales Alenia Space)
+
 
 L'industrie spatiale connaît une accélération importante depuis une
 décennie.
@@ -18,7 +23,7 @@ industrie est désormais un sujet d'étude \[1\].
 Nous allons étudier plus en détails ces impacts en visant les objectifs
 suivants.
 
-[Objectifs ]
+### Objectifs
 
 1.  Compréhension du cycle de vie de l'industrie spatiale (de la
     fabrication à la fin de vie des engins spatiaux - lanceurs,
@@ -34,13 +39,14 @@ suivants.
 4.  Prise en compte des effets bénéfiques actuels et futurs de
     l'industrie \[2\] \[3\].
 
-## [R][é][f][é][rences]
+### Contact : nmaillot@gmail.com
 
-\[1\] The Space Industry's Climate Impact##  
+### Références
 
-\[2\] Space technology helps mitigate climate change
+\[1\] The Space Industry's Climate Impact. [https://payloadspace.com/the-space-industrys-climate-impact-part-1/](https://payloadspace.com/the-space-industrys-climate-impact-part-1/)
+
+\[2\] Space technology helps mitigate climate change. [https://www.esa.int/Applications/Technology_Transfer/Space_technology_helps_mitigate_climate_change](https://www.esa.int/Applications/Technology_Transfer/Space_technology_helps_mitigate_climate_change)
 
 \[3\] ASCEND: Thales Alenia Space to lead European feasibility study for
 data centers inspace
-
-[https://www.thalesaleniaspace.com/en/press-releases/ascend-thales-alenia-space-lead-european-feasibility-study-data-centers-space]
+[https://www.thalesaleniaspace.com/en/press-releases/ascend-thales-alenia-space-lead-european-feasibility-study-data-centers-space](https://www.thalesaleniaspace.com/en/press-releases/ascend-thales-alenia-space-lead-european-feasibility-study-data-centers-space)

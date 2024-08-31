@@ -1,9 +1,11 @@
-## « Terre et société »
+---
+name:  La bioéconomie au service de la transition
+number: "17"
+year: 2024
+Encadrant: Thomas Beaussier
+---
 
-Sujet de mini-projet
-
-## La bioéconomie au service de la transition : quel potentiel de
-développement et quelles limites ? ## 
+## La bioéconomie au service de la transition - quel potentiel de développement et quelles limites ?
 
 (Encadrant : Thomas Beaussier )
 
@@ -68,14 +70,17 @@ une logique d'économie circulaire. Ainsi, il sera possible d'étudier les
 enjeux environnementaux associés à différentes trajectoires de
 développement de la bioéconomie aux échelles territoriales.
 
-Contact : thomas.beaussier@minesparis.psl.eu
+### Contact : thomas.beaussier@minesparis.psl.eu
 
-## Bibliographie : 
+### Bibliographie :
 
-Stratégie en matière de bioéconomie pour une Europe durable
+Stratégie en matière de bioéconomie pour une Europe durable. [https://ec.europa.eu/commission/presscorner/detail/fr/IP_18_6067](https://ec.europa.eu/commission/presscorner/detail/fr/IP_18_6067)
 
 Stratégie Nationale de Mobilisation de la Biomasse
+[https://www.ecologie.gouv.fr/sites/default/files/Strat%C3%A9gie%20Nationale%20de%20Mobilisation%20de%20la%20Biomasse.pdf](https://www.ecologie.gouv.fr/sites/default/files/Strat%C3%A9gie%20Nationale%20de%20Mobilisation%20de%20la%20Biomasse.pdf)
 
 Scénarios Transitions 2050
+[https://www.ademe.fr/les-futurs-en-transition/](https://www.ademe.fr/les-futurs-en-transition/)
 
 Projet Flux Biomasse
+[https://www.flux-biomasse.fr/](https://www.flux-biomasse.fr/)

@@ -1,6 +1,10 @@
-## « Terre et société »
+---
+name:  Les bâtiments face aux limites planétaires
+number: "29"
+year: 2024
+Encadrant: Charlotte Roux
+---
 
-Sujet de mini-projet
 
 ## Les bâtiments face aux limites planétaires
 
@@ -37,29 +41,27 @@ conseillé de débuter par la limite sur le changement climatique et
 et l'usage des sols.
 
 Le rendu devra se présenter sous la forme d'un poster, que les étudiants
-devront commenter tout en répondant aux questions d'un jury, ainsi qu'un
-A4 recto-verso.
+devront commenter tout en répondant aux questions d'un jury. 
 
-Références bibliographiques
+### Contacts : charlotte.roux@minesparis.psl.eu , khaled.khazaal@minesparis.psl.eu
+
+
+### Références bibliographiques
 
 Richardson, Katherine, Will Steffen, Wolfgang Lucht, Jørgen Bendtsen,
 Sarah E. Cornell, Jonathan F. Donges, Markus Drüke, et al. 2023. 'Earth
 beyond Six of Nine Planetary Boundaries' Science Advances 9 (37):
-eadh2458..
+eadh2458. [https://doi.org/10.1126/sciadv.adh2458](https://doi.org/10.1126/sciadv.adh2458)
 
 (Francart et al. 2023) Francart, N, C A Clausen, A Bjørn, and H
 Birgisdottir. 2023. 'Building within Planetary Boundaries: Setting and
 Assessing Absolute Sustainability Targets at the Building Level'
-*Journal of Physics: Conference Series* 2600 (15): 152015.
-https://doi.org/10.1088/1742-6596/2600/15/152015.
+*Journal of Physics: Conference Series* 2600 (15): 152015. [https://doi.org/10.1088/1742-6596/2600/15/152015](https://doi.org/10.1088/1742-6596/2600/15/152015)
+
 
 Vargas-Gonzalez M, Witte F, Martz P, et al (2019) Operational Life Cycle
 Impact Assessment weighting factors based on Planetary Boundaries:
-Applied to cosmetic products. Ecol Indic 107:105498.
+Applied to cosmetic products. Ecol Indic 107:105498. [https://doi.org/10.1016/j.ecolind.2019.105498](https://doi.org/10.1016/j.ecolind.2019.105498)
 
 Steffen W, Rockström J, Richardson K, et al (2018) Trajectories of the
-Earth System in the Anthropocene. Proc Natl Acad Sci 115:8252--259.
-
-Contacts :
-
-charlotte.roux@minesparis.psl.eu , khaled.khazaal@minesparis.psl.eu
+Earth System in the Anthropocene. Proc Natl Acad Sci 115:8252--259. [https://doi.org/10.1073/pnas.1810141115](https://doi.org/10.1073/pnas.1810141115)

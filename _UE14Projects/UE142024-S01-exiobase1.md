@@ -1,11 +1,13 @@
-## « Terre et société »
+---
+name: Comptabilité carbone nationale - approches macro ("top-down" et micro "bottom-up")
+number: "01"
+year: 2024
+Encadrant: Thomas Gibon
+---
 
-Sujet de mini-projet
+## Comptabilité carbone nationale - approches macro ("top-down" et micro "bottom-up")
 
-## Comptabilité carbone nationale: approches macro ("top-down" et micro "bottom-up")
-
-(Encadrant : Thomas Gibon, Luxembourg Institute of Science and
-Technology)
+(Encadrant :  Thomas Gibon, Luxembourg Institute of Science and Technology)
 
 Les méthodes de calcul reposant sur les tables d'entrées-sorties (TES)
 multirégionales (MRIO) sont capables de générer des estimations
@@ -37,8 +39,11 @@ En conclusion, une synthèse présentera les principales limites de
 l'approche "empreinte" avec l'approche "bottom-up"et l'approche
 "top-down"
 
-Contact :
+### Contact :
+[thomas.gibon\@list.lu](mailto:thomas.gibon@list.lu)
 
-\[1\] Méthodologie du calcul de l'empreinte carbone "top-down"SDES
+### Bibliographie
 
-\[2\] Méthodologie du calcul de l'empreinte carbone "bottom-up"Carbone 4
+\[1\] [Méthodologie du calcul de l'empreinte carbone "top-down" SDES](https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2020-12/note_methodologique_empreinte_carbone.pdf)
+
+\[2\] [Méthodologie du calcul de l'empreinte carbone "bottom-up" Carbone 4](https://www.carbone4.com/myco2-empreinte-moyenne-evolution-methodo)

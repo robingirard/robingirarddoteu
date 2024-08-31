@@ -1,0 +1,184 @@
+<h2 id="mise-en-perspective-des-données-locales-de-consommations-dénergie-et-de-tracé-de-réseaux-de-distribution">Mise en perspective des données locales de consommations d’énergie et de tracé de réseaux de distribution</h2>
+
+<p>(Encadrant : Yassine Abdelouadoud (<a href="https://www.minesparis.psl.eu/recherche/18-centres-de-recherche-5-domaines-disciplinaires/energetiques-et-procedes/le-centre-persee/">Centre PERSEE</a> ))</p>
+
+<h3 id="introduction-">Introduction :</h3>
+
+<p>Dans un contexte mondial marqué par l’urgence climatique, la
+planification et la gestion des ressources énergétiques est devenue une
+priorité. La maîtrise de l’évolution future des consommations
+d’électricité et de gaz, notamment du fait d’une électrification
+croissante des usages, est un enjeu crucial pour la réussite de la
+transition énergétique. La compréhension des dynamiques de consommation
+à l’échelle locale, ainsi que la manière dont ces consommations
+s’articulent avec les réseaux de distribution d’énergie, est
+essentielle pour élaborer des stratégies de réduction de l’empreinte
+carbone qui pourront réellement être appliquées.</p>
+
+<p>La mise en perspective des données locales de consommation
+d’électricité et de gaz avec les tracés des réseaux de distribution
+d’énergie offre une opportunité inédite d’identifier les
+caractéristiques structurantes des territoires vis à vis de la
+transition énergétique. Ces analyses permettent de mieux comprendre les
+disparités territoriales en matière de consommation, de déploiement des
+réseaux de distribution, et d’envisager des solutions adaptées aux
+spécificités locales.</p>
+
+<p>Ce projet se situe au carrefour des sciences de l’ingénieur, de la
+géographie et des politiques publiques. Il s’appuie sur une ressource
+précieuse : l’ouverture des données énergétiques. Grâce à la mise en
+open data des informations relatives aux consommations d’énergie et aux
+infrastructures de distribution, il devient possible de mener des études
+détaillées et pertinentes à l’échelle locale. Ce projet propose ainsi
+de croiser ces données pour identifier les territoires présentant les
+conditions les plus favorables pour l’électrification des usages,
+évaluer la pertinence du maintien de la desserte par le réseau de
+distribution de gaz et ainsi contribuer aux débats sur les orientations
+à donner à la transition énergétique.</p>
+
+<h3 id="objectifs-">Objectifs :</h3>
+
+<ol>
+  <li>Collecte de Données</li>
+</ol>
+
+<p>L’objectif initial est de rassembler toutes les données nécessaires à
+l’étude. Il s’agira de collecter :</p>
+
+<ul>
+  <li>
+    <p>Les données de consommation d’électricité et de gaz à l’échelle
+IRIS.</p>
+  </li>
+  <li>
+    <p>Les données géographiques des tracés des réseaux de distribution
+d’électricité et de gaz, incluant les informations sur la
+localisation des infrastructures telles que les postes de
+transformation et les lignes</p>
+  </li>
+  <li>
+    <p>Les données complémentaires pertinentes, telles que les données
+météorologiques ou les caractéristiques socio-économiques des zones
+étudiées, afin de contextualiser les analyses. Il est notamment
+conseillé d’avoir recours à la nouvelle définition de la ruralité
+proposée par l’INSEE en 2021.</p>
+  </li>
+</ul>
+
+<ol>
+  <li>Prétraitement des Données</li>
+</ol>
+
+<p>Une fois les données collectées, elles devront être nettoyées et
+préparées pour l’analyse :</p>
+
+<ul>
+  <li>
+    <h2 id="nettoyage-des-données--identification-et-traitement-des-valeurs">Nettoyage des données : identification et traitement des valeurs</h2>
+    <p>manquantes, des doublons, et des anomalies dans les ensembles de
+données.</p>
+  </li>
+  <li>
+    <h2 id="intégration-et-alignement-des-données--fusion-des-différentes">Intégration et alignement des données : fusion des différentes</h2>
+    <p>sources de données, harmonisation des formats, et géoréférencement
+des données pour permettre leur exploitation conjointe.</p>
+  </li>
+  <li>
+    <h2 id="transformation-des-données--création-de-nouvelles-variables-ou">Transformation des données : création de nouvelles variables ou</h2>
+    <p>agrégation de données pour répondre aux besoins spécifiques de
+l’analyse (par exemple, calcul des consommations moyennes par
+habitant ou par mètre carré).</p>
+  </li>
+</ul>
+
+<ol>
+  <li>Analyse Exploratoire des Données</li>
+</ol>
+
+<p>Cette étape vise à découvrir les tendances, les corrélations et les
+caractéristiques importantes des données :</p>
+
+<ul>
+  <li>
+    <h2 id="visualisation-des-données--utilisation-de-bibliothèques-python">Visualisation des données : utilisation de bibliothèques Python</h2>
+    <p>telles que Matplotlib et Seaborn pour créer des cartes thermiques,
+des graphiques de distribution, et d’autres visualisations qui
+révèlent des motifs intéressants.</p>
+  </li>
+  <li>
+    <h2 id="détection-des-corrélations--identification-des-relations-entre">Détection des corrélations : identification des relations entre</h2>
+    <p>la consommation d’énergie et la densité des infrastructures du
+réseau, ainsi qu’avec d’autres variables contextuelles.</p>
+  </li>
+  <li>
+    <h2 id="clusterisation--application-de-techniques-comme-le-k-means-pour">Clusterisation : application de techniques comme le k-means pour</h2>
+    <p>identifier des regroupements naturels dans les données, par exemple,
+des zones de consommation similaire.</p>
+  </li>
+</ul>
+
+<ol>
+  <li>Modélisation Statistique</li>
+</ol>
+
+<p>L’étape suivante consistera à construire des modèles statistiques pour
+mieux comprendre et prédire les relations entre les différentes
+variables :</p>
+
+<ul>
+  <li>
+    <h2 id="régression-linéaire--modélisation-des-relations-entre-la">Régression linéaire : modélisation des relations entre la</h2>
+    <p>consommation d’énergie et les variables explicatives pour
+quantifier l’impact de chaque facteur.</p>
+  </li>
+  <li>
+    <h2 id="modèles-de-réseaux--utilisation-de-modèles-spécifiques-aux">Modèles de réseaux : utilisation de modèles spécifiques aux</h2>
+    <p>réseaux (comme les modèles spatiaux) pour analyser comment la
+topologie des réseaux de distribution influence la consommation. On
+pourra notamment s’intéresser au caractère bouclé ou non des
+réseaux.</p>
+  </li>
+  <li>
+    <h2 id="validation-des-modèles--évaluation-des-performances-des-modèles">Validation des Modèles : évaluation des performances des modèles</h2>
+    <p>à l’aide de méthodes de validation croisée et d’autres métriques
+pertinentes.</p>
+  </li>
+</ul>
+
+<ol>
+  <li>Interprétation des Résultats</li>
+</ol>
+
+<p>Enfin, les résultats obtenus devront être interprétés pour en tirer des
+conclusions utiles :</p>
+
+<ul>
+  <li>
+    <h2 id="analyse-des-résultats--interprétation-des-coefficients-des">Analyse des Résultats : interprétation des coefficients des</h2>
+    <p>modèles et des visualisations pour comprendre les dynamiques
+sous-jacentes.</p>
+  </li>
+  <li>
+    <h2 id="recommandations--formulation-de-recommandations-pratiques-pour">Recommandations : formulation de recommandations pratiques pour</h2>
+    <p>les gestionnaires des réseaux de distribution et les décideurs
+locaux</p>
+  </li>
+  <li>
+    <h2 id="perspectives--identification-des-limitations-de-létude-et">Perspectives : identification des limitations de l’étude et</h2>
+    <p>proposition d’axes de recherche futurs pour approfondir l’analyse.</p>
+  </li>
+</ul>
+
+<ol>
+  <li>Livrables</li>
+</ol>
+
+<p>Présenter les résultats sous forme d’un poster, incluant des graphiques
+et des visualisations générés avec Python.</p>
+
+<p>Ce projet, réalisé en Python, permettra d’acquérir une expérience
+concrète en manipulation de données open data, en analyse statistique
+avancée, et en modélisation géospatiale, tout en contribuant à un enjeu
+crucial de notre époque : la transition énergétique.</p>
+
+<h3 id="contact--yassineabdelouadoudgmailcom">Contact : yassine.abdelouadoud@gmail.com</h3>

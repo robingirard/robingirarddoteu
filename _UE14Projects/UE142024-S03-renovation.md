@@ -1,11 +1,13 @@
-## « Terre et société »
+---
+name: Quels besoins physiques pour massifier la rénovation énergétique du parc de bâtiments français ?
+number: "03"
+year: 2024
+Encadrant: Thibault GOESSEL
+---
 
-Sujet de mini-projet
+## Quels besoins physiques pour massifier la rénovation énergétique du parc de bâtiments français ?
 
-## Quels besoins physiques pour massifier la rénovation énergétique du
-parc de bâtiments français ?## 
-
-(Encadrant : Thibault GOESSEL (MINES - CSTB))
+(Encadrant : Thibault GOESSEL (MINES [Centre PERSEE](https://www.minesparis.psl.eu/recherche/18-centres-de-recherche-5-domaines-disciplinaires/energetiques-et-procedes/le-centre-persee/) - CSTB))
 
 Les Accords de Paris, signés en 2015 lors de la COP21, ont engagé les
 195 pays signataires à limiter l'augmentation de la température moyenne
@@ -78,19 +80,20 @@ développement à grande échelle des pompes à chaleur ?
 des bâtiments avec du bois comme matériau structurel et vecteur
 énergétique ?
 
-## Contact : thibault.goessel@cstb.fr
+### Contact : thibault.goessel@cstb.fr
 
-\[1\] CCNUCC. (2015). L'Accord de Paris.
+### Bibliographie :
 
-\[2\] Gouvernement. (2022). Stratégie Nationale Bas-Carbone (SNBC).
+\[1\] CCNUCC. (2015). [L'Accord de Paris.](https://unfccc.int/fr/a-propos-desndcs/l-accord-de-paris)
 
-\[3\] SDES, C. g. a. d. (2022). Panorama français des gaz à effet de
-serre.
+\[2\] Gouvernement. (2022). [Stratégie Nationale Bas-Carbone (SNBC).](https://www.ecologie.gouv.fr/strategie-nationale-bas-carbone-snbc)
+
+\[3\] SDES, C. g. a. d. (2022). [Panorama français des gaz à effet de
+serre.](https://www.statistiques.developpement-durable.gouv.fr/edition-numerique/chiffres-cles-du-climat-2022/9-panorama-francais-des-gaz-a-effet-de-serre.php)
 
 \[4\] IPCC. (2023). SYNTHESIS REPORT OF THE IPCC SIXTH ASSESSMENT REPORT
 (AR6).
 
-\[5\] INSEE. (s. d.). 37,2 millions de logements en France au 1er
-janvier 2021 - Insee Focus - 254.
+\[5\] INSEE. (s. d.). [37,2 millions de logements en France au 1er janvier 2021 - Insee Focus - 254.](https://www.insee.fr/fr/statistiques/5761272)
 
-\[6\] Ceren. (2022). Chiffres clés du logement.
+\[6\] Ceren. (2022). [Chiffres clés du logement.](https://www.statistiques.developpement-durable.gouv.fr/edition-numerique/chiffres-cles-du-logement-2022/29-consommationdenergie.php)

@@ -1,10 +1,14 @@
-Sujet de mini-projet
+---
+name: Comptabilité carbone nationale - inventaire national et empreinte carbone
+number: "02"
+year: 2024
+Encadrant: Thomas Gibon
+---
 
-## Comptabilité carbone nationale: inventaire national et empreinte
-carbone## 
+## Comptabilité carbone nationale - inventaire national et empreinte carbone
 
-(Encadrant : Thomas Gibon, Luxembourg Institute of Science and
-Technology)
+(Encadrant :  Thomas Gibon, Luxembourg Institute of Science and Technology)
+
 
 L'objectif de cette UE est d'identifier et de comprendre les différences
 entre méthodes de comptabilité carbone "inventaire"et "empreinte"
@@ -36,6 +40,10 @@ simplement quelques notions d'algèbre matricielle, voire de théorie des
 graphes. Une expérience de la programmation en Python (et une
 connaissance du module *pandas*) est fortement recommandée.
 
-Contact :
+### Contact :
+[thomas.gibon\@list.lu](mailto:thomas.gibon@list.lu)
 
-Lecture :
+
+### Bibliographie
+
+\[1\] [Méthodologie du calcul de l'empreinte carbone "top-down" SDES](https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2020-12/note_methodologique_empreinte_carbone.pdf)

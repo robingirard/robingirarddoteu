@@ -1,0 +1,133 @@
+<h2 id="analyse-des-facteurs-assurant-la-rentabilité-dun-stockage-délectricité">Analyse des facteurs assurant la rentabilité d'un stockage d'électricité</h2>
+
+<p>(Encadrant : Laurent Cornaggia (MINES <a href="https://www.minesparis.psl.eu/recherche/18-centres-de-recherche-5-domaines-disciplinaires/energetiques-et-procedes/le-centre-persee/">Centre PERSEE</a> - RTE))</p>
+
+<p>Avec le développement des énergies renouvelables, le stockage
+d’électricité s’impose comme incontournable pour respecter les accords
+de Paris dans le monde mais aussi en France dans la perspective d’un mix
+électrique qui ne sera pas entièrement nucléaire et donc soumis à des
+besoins de flexibilités non négligeables.</p>
+
+<p>Toutefois, les coûts des technologies de stockage ne sont pas toujours
+compensées par les valeurs qu’elles apportent au système, et toutes les
+technologies de stockage ne sont pas forcément pertinentes. Par
+ailleurs, un stockage d’électricité a plusieurs façon de créer de la
+valeur, par exemple :</p>
+
+<ul>
+  <li>
+    <p>En participant aux marchés de l’électricité : En achetant (quand les
+prix sont bas) et vendant (quand les prix sont hauts) de
+l’électricité</p>
+  </li>
+  <li>
+    <p>En participant aux marchés de réserve : Mise à disposition d’une
+partie de la capacité de la batterie pour réguler les variations sur
+le réseau</p>
+  </li>
+  <li>
+    <p>En participant au marché de capacité : Rémunération pour une
+certification d’une capacité installée</p>
+  </li>
+</ul>
+
+<p>Aujourd’hui, beaucoup de technologies de stockage sont mises en avant,
+et il est difficile de savoir lesquelles sont les plus intéressantes
+économiquement. Ainsi, l’étude de la pertinence des différents types de
+stockage d’électricité est fondamentale pour les pouvoirs publics qui
+doivent choisir quelles technologies subventionner afin de baisser les
+coûts de production ou pour assurer l’émergence d’acteurs économiques.</p>
+
+<p>L’exercice qui vous est proposé dans ce mini-projet vise à se placer
+dans la peau d’un investisseur qui souhaiterait investir dans un
+stockage d’électricité, et qui souhaiterait analyser les facteurs qui
+assurent la rentabilité d’un tel investissement. Il est proposé de
+séparer le travail en trois temps :</p>
+
+<ol>
+  <li>
+    <p>Essayer de modéliser techno-économiquement un stockage d’électricité
+générique : trouver les paramètres qui le caractérisent, et essayer
+de créer un modèle via un script Python ou en Excel qui permet de
+calculer la Valeur Actualisée Nette d’un tel projet.</p>
+  </li>
+  <li>
+    <p>Une fois le modèle construit, le remplir avec des données les plus
+réalistes possibles (dans le contexte Français) afin d’évaluer la
+rentabilité de différentes technologies de stockage d’électricité.</p>
+  </li>
+  <li>
+    <p>Faire des analyses de sensibilité ou d’autres techniques
+statistiques sur les paramètres incertains afin de déterminer quels
+sont les facteurs majeurs qui assurent la rentabilité d’un stockage
+d’électricité, et les expliquer qualitativement.</p>
+  </li>
+</ol>
+
+<p>Il est attendu des étudiants qu’ils construisent un modèle
+d’optimisation linéaire (en utilisant le Solveur d’Excel ou Python) avec
+un fonctionnement au pas de temps horaire, à minima pour une
+rémunération basée sur les prix de l’électricité. Si le groupe avance
+rapidement, les revenus des marchés de réserve et de capacité pourraient
+être ajoutés au modèle.</p>
+
+<p>Un certain nombre de données utiles est fourni ci-dessous, mais les
+étudiants sont libres de les compléter ou de les remplacer par des
+données plus pertinentes ou plus pratiques. Pour envisager des données
+dans le futur (typiquement prix de l’électricité), les étudiants sont
+libres de proposer les évolutions qui leur semblent intéressantes.</p>
+
+<h3 id="contact--laurentcornaggiarte-francecom">Contact : laurent.cornaggia@rte-france.com</h3>
+
+<h3 id="bibliographie-">Bibliographie :</h3>
+
+<ul>
+  <li>
+    <p>Les <a href="https://assets.rte-france.com/prod/public/2021-12/Futurs-Energetiques-2050-principaux-resultats.pdf">“Principaux résultats” de l’étude “Futurs énergétiques 2050”</a> de
+RTE : afin d’avoir une idée de la place des stockages d’électricité
+en fonction des futurs énergétiques possibles</p>
+  </li>
+  <li>
+    <p>Une étude du futur des stockages d’électricité en France
+s’intéressant à la valorisation de nouveaux stockages à la marge des
+scénarios de RTE : <a href="https://atee.fr/system/files/2022-12/PEPS5%20Rapport%20final_0.pdf">PEPS5</a>.</p>
+  </li>
+  <li>
+    <p>Une page de RTE décrivant les différentes valorisations possible
+pour un stockage d’électricité <a href="https://www.services-rte.com/fr/decouvrez-nos-offres-de-services/valoriser-vos-moyens-de-stockage-dans-le-systeme-electrique.html">Valoriser vos moyens de stockage dans le système électrique - RTE Portail Services (services-rte.com)</a></p>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>Une page de la CRE décrivant qu’est ce que la réserve :  [Services système et mécanisme d’ajustement</td>
+          <td>CRE](https://www.cre.fr/electricite/reseaux-delectricite/services-systeme-et-mecanisme-dajustement.html)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<h3 id="données-utiles-">Données utiles :</h3>
+
+<ul>
+  <li>
+    <p>Un exemple de script d’optimisation de batterie : [ici)(https://github.com/romilandc/Battery-Storage-Optimization-Strategy)</p>
+  </li>
+  <li>
+    <p>Historique des prix de l’électricité et de la réserve primaire : <a href="https://transparency.entsoe.eu/">https://transparency.entsoe.eu/</a></p>
+  </li>
+  <li>
+    <p>Données technico-économiques sur les différents stockages
+d’électricité :</p>
+
+    <ul>
+      <li>
+        <p>En France (2022): <a href="https://atee.fr/system/files/2022-12/PEPS5%20Fiches%20Technologiques.pdf">PEPS5 Fiches Technologiques</a> &amp; Tableau 7 de <a href="https://assets.rte-france.com/prod/public/2022-06/FE2050%20_Rapport%20complet_ANNEXES.pdf">FE2050 _Rapport complet_ANNEXES.pdf (rte-france.com)</a></p>
+      </li>
+      <li>
+        <p>Aux Etats-Unis (2024): <a href="https://www.lazard.com/media/xemfey0k/lazards-lcoeplus-june-2024-_vf.pdf">Lazards LCOE+ </a></p>
+      </li>
+    </ul>
+  </li>
+</ul>
