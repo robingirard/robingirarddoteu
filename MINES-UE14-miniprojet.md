@@ -30,25 +30,30 @@ La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
 ## Déroulement
  <a id="deroulement">
 
-**Dates importantes en 2023**
+**Dates importantes en 2024**
  * présentation des sujets : début septembre 2023, peu après la rentrée.
- * choix des sujets, envoi par les délégués des attributions par élève (la liste doit contenir le mail de chaque élève et le sujet associé) et lancement des travaux : avant fin septembre.
- * journée de soutenance poster : vendredi 26 janvier 2024
- * nouveauté en 2023, les 5 meilleurs posters seront sélectionnés pour être présentés devant un plus large public.
+ * choix des sujets, envoi par les délégués des attributions par élève (la liste doit contenir le mail de chaque élève et le sujet associé) et lancement des travaux : avant le 17 septembre.
+ * 17 septembre 9h-10h30 : créneau pour le lancement des projets avec une présentation générale de 9h à 9h45 et un temps pour travailler par groupe de 9h45 à 10h30.
+ * journée de soutenance poster : fin janvier 2025
+
 
 **Choix des sujets**
  * Les sujets sont présentés en début d'année
- * Les étudiants choisissent leur sujet en notant les sujets par ordre de préférence. Les délégués de promotion sont charger de gérer l’attribution des sujets et de l'envoyer au coordinateur avant fin septembre. Chaque sujet doit impliquer 4 ou 5 étudiants.
+ * Les étudiants choisissent leur sujet en notant les sujets par ordre de préférence. Les délégués de promotion sont charger de gérer l’attribution des sujets et de l'envoyer au coordinateur avant fin septembre. Chaque sujet doit impliquer 4 ou 5 étudiants. Il est possible que tous les sujets ne soient pas choisis.
 
  **Travail en groupe encadré**
  * Une fois le choix fait, chaque sujet est introduit au groupe d’élèves par l’enseignant-chercheur qui l’a proposé (coordinateur). Cette introduction est réalisée sur un créneau décidé conjointement par les étudiants du mini-projet et le coordinateur, **à l'initiative des étudiants**, éventuellement en visio.
  * Les étudiants doivent réaliser un travail qui peut inclure de la bibliographie, des estimations ou calculs reposant sur des modèles simplifiés existant et éventuellement quelques modélisations.
  * Le coordinateur et les étudiants doivent se réunir à nouveau, au moins une fois avant la soutenance, éventuellement en visio. Les étudiants sont responsables de l'organisation de ces réunions.
- * NOTE IMPORTANTE: part pour la présentation de l’ensemble des sujets en début d’année, et la journée de soutenance en janvier, aucun créneau n’est bloqué dans l’emploi du temps pour le travail sur le mini-projet. Vous devez donc définir vos créneaux au sein de chaque groupe, et en accord avec le coordinateur de votre projet pour les réunions avec lui.
+ * NOTE IMPORTANTE: part pour le créneau de lancement en septembre, et la journée de soutenance en janvier, aucun créneau n’est bloqué dans l’emploi du temps pour le travail sur le mini-projet. Vous devez donc définir vos créneaux au sein de chaque groupe, et en accord avec le coordinateur de votre projet pour les réunions avec lui.
 
- **Le rendu : poster et synthèse**
- * Le rendu des mini-projets est composé de deux éléments : (i) un document A4 recto-verso synthétisant le travail effectué (ii) un poster présenté devant un jury et toute la promo dans une session ouverte au public qui a lieu en janvier. Pour chaque poster, un créneau d’environ 20 minutes est réservé et doit permettre aux étudiants de présenter le poster (10 minutes) et au jury de poser des questions (10 minutes). Chaque membre de jury donne une note sur le travail effectué, la qualité de la présentation et des réponses aux questions, et la qualité du poster. Les membres du jury donnent également une note sur les synthèses. La note finale est une moyenne de ces notes. La synthèse compte pour 1/3 de la note.
- *	le poster doit être réalisé à partir de [ce patron]({{site.url}}/UE14-2023-Sujet-XX.pptx). La note de synthèse doit être réalisée à partir de [ce patron]({{site.url}}/UE14-2023-Synthese-Sujet-XX.docx). Vous ne devez pas imprimer le poster, ils seront projetés dans les salles des soutenances. Seul les 5 meilleurs posters seront imprimés après les soutenances et exposés à l'école des mines. Faites parvenir par le lien de dépot et/ou par mail à Robin Girard (avant la soutenance) le fichier poster pptx et le document word contenant la note A4 recto-verso, en remplaçant XX par votre numéro de sujet et en mettant votre tuteur en copie ; l’objet du mail doit être [UE14-miniprojet]. Ces documents seront partagés sur ce site.
+ **Notation et rendu**
+ * La note finale est la moyenne de deux notes :
+  - la première est donnée par l'encadrant du mini-projet et reflète l'implication, le sérieux et la rigueur du groupe dans son ensemble.
+  - La seconde est la note de soutenance.
+ * Le rendu des mini-projets est un poster présenté devant un jury et toute la promo dans une session ouverte au public qui a lieu en janvier. Pour chaque poster, un créneau d’environ 20 minutes est réservé et doit permettre aux étudiants de présenter le poster (10 minutes) et au jury de poser des questions (10 minutes).
+ * Concernant la note de soutenance, chaque membre de jury donne une note sur le travail effectué, la qualité de la présentation et des réponses aux questions, et la qualité du poster.
+ *	le poster doit être réalisé à partir de [ce patron]({{site.url}}/UE14-2024-Sujet-XX.pptx). Faites parvenir par le lien de dépot et/ou par mail à Robin Girard (avant la soutenance) le fichier poster pptx, en remplaçant XX par votre numéro de sujet et en mettant votre tuteur en copie ; l’objet du mail doit être [UE14-miniprojet]. Ces documents seront partagés sur ce site.
 
 ## Description générale de l'UE-14
  <a id="descriptif">
