@@ -31,7 +31,7 @@ La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
  <a id="deroulement">
 
 **Dates importantes en 2024**
- * présentation des sujets : début septembre 2023, peu après la rentrée.
+ * présentation des sujets : début septembre 2024, peu après la rentrée.
  * choix des sujets, envoi par les délégués des attributions par élève (la liste doit contenir le mail de chaque élève et le sujet associé) et lancement des travaux : avant le 17 septembre.
  * 17 septembre 9h-10h30 : créneau pour le lancement des projets avec une présentation générale de 9h à 9h45 et un temps pour travailler par groupe de 9h45 à 10h30.
  * journée de soutenance poster : fin janvier 2025
