@@ -58,7 +58,7 @@ career-profile:
           PERSEE Center: Center for Processes, Renewables Energies and Energy Systems
           <a href="https://www.persee.minesparis.psl.eu/Recherche/Groupe-ERSEI/"> ERSEI group </a>
           10 PhD students already defended under my supervision or co-supervision, 9 on-going PhD under my direction, 4 ongoing postdocs under my direction (see <a href="https://www.robingirard.eu/#Current"> below </a>).
-      - role: <b>   Research topics </b> - Energy transition modeling.
+      - role: <b>   Research topics </b> - Net zero transition modeling.
         details: |
           - Energy demand modeling - Temporal and spatial demand modeling, building retrofits at the territory scale, evolution of heating, low carbon industry, role of hydrogen.
           - Planing and operation of multi-energy systems - Electric network planing (transport/distribution), hydrogen production systems planing, multi-energy systems.
@@ -135,14 +135,14 @@ career-profile_2:
         time: Since September 2023
         details: |
            Coupling optimisation methodology for energy system planning. PhD funded by the PlaneTerr project, in collaboration with several french energy system compagnies.
-    - role: <a href="https://www.linkedin.com/in/yoann-chiche-05814114a/">  Yoann Chiche  </a> - PhD student -
-      time: Since September 2024
-      details: |
-            Coupling of Smart Grids Between Transmission and Distribution Networks
-    - role: <a href="https://www.linkedin.com/in/maria-berchiche-10480218a/">  Maria Berchiche  </a> - PhD student -
-      time: Since November 2024
-      details: |
-            Integrating CO2 resources into territorial energy planning.
+      - role: <a href="https://www.linkedin.com/in/yoann-chiche-05814114a/">  Yoann Chiche  </a> - PhD student -
+        time: Since September 2024
+        details: |
+              Coupling of Smart Grids Between Transmission and Distribution Networks
+      - role: <a href="https://www.linkedin.com/in/maria-berchiche-10480218a/">  Maria Berchiche  </a> - PhD student -
+        time: Since November 2024
+        details: |
+              Integrating CO2 resources into territorial energy planning.
 
 career-profile_3:
     title: Available or upcomming positions.
