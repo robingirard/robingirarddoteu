@@ -58,11 +58,6 @@ career-profile:
           PERSEE Center: Center for Processes, Renewables Energies and Energy Systems
           <a href="https://www.persee.minesparis.psl.eu/Recherche/Groupe-ERSEI/"> ERSEI group </a>
           10 PhD students already defended under my supervision or co-supervision, 9 on-going PhD under my direction, 4 ongoing postdocs under my direction (see <a href="https://www.robingirard.eu/#Current"> below </a>).
-      - role: Head of Science at Zenon
-        time: since 2023
-        details: |
-          <a href="https://www.zenon.ngo/"> Zenon </a> is the french Climate Tech think tank.
-
       - role: <b>   Research topics </b> - Energy transition modeling.
         details: |
           - Energy demand modeling - Temporal and spatial demand modeling, building retrofits at the territory scale, evolution of heating, low carbon industry, role of hydrogen.
@@ -111,11 +106,7 @@ career-profile_2:
         time: Since November 2023 -
         details: |
            Hydrogen deployment trajectories in energy hub. PhD partially funded by <a href="https://www.airliquide.com/fr"> Air liquide</a>.
-      - role: <a href="https://www.linkedin.com/in/martin-rit/">  Martin Rit  </a> - PhD student -
-        time: Since February 2021
-        details: |
-           Evaluation of thermal retrofit potential at the territory scale in the context of the energy transition. PhD funded by <a href="http://www.cstb.fr/fr/"> CSTB</a>.
-      - role: <a href="https://www.robingirard.eu/StudentList.html#QuentinRaillard-Cazanove"> Quentin Raillard-Cazanove </a>  - PhD student -
+        - role: <a href="https://www.robingirard.eu/StudentList.html#QuentinRaillard-Cazanove"> Quentin Raillard-Cazanove </a>  - PhD student -
         time: Since November 2021
         details: |
            Modeling of industry decarbonation and its impact on the electric system. Funded by  <a href ="https://www.carnot-mines.eu/fr"> Institut Carnot MINES</a>.
@@ -144,6 +135,14 @@ career-profile_2:
         time: Since September 2023
         details: |
            Coupling optimisation methodology for energy system planning. PhD funded by the PlaneTerr project, in collaboration with several french energy system compagnies.
+    - role: <a href="https://www.linkedin.com/in/yoann-chiche-05814114a/">  Yoann Chiche  </a> - PhD student -
+      time: Since September 2024
+      details: |
+            Coupling of Smart Grids Between Transmission and Distribution Networks
+    - role: <a href="https://www.linkedin.com/in/maria-berchiche-10480218a/">  Maria Berchiche  </a> - PhD student -
+      time: Since November 2024
+      details: |
+            Integrating CO2 resources into territorial energy planning.
 
 career-profile_3:
     title: Available or upcomming positions.
