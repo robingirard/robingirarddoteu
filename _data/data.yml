@@ -91,7 +91,6 @@ education:
 
 
 career-profile_2:
-
     title: Current students (Postdoc and PhD students)
     info:
       - role: <a href="https://www.linkedin.com/in/yassine-abdelouadoud-a4b4831b9/">  Yassine Abdelouadoud </a> - Postdoc -
@@ -103,16 +102,15 @@ career-profile_2:
         details: |
            Joined coordination with <a href ="https://www.csi.minesparis.psl.eu/equipe/chercheurs-associes/daniel-florentin/"> Daniel Florentin</a>. From political targets to deployment of thermal retrofit, identification of institutional limits to thermal retrofits. Postdoc funded by <a href ="https://the-transition-institute.minesparis.psl.eu/"> TTI.5 </a>.
       - role: <a href="https://www.robingirard.eu/StudentList.html#AnaelleJodry">  Anaelle Jodry </a> - Postdoc-
-        time: Since November 2023 -
+        time: Since November 2023
         details: |
            Hydrogen deployment trajectories in energy hub. PhD partially funded by <a href="https://www.airliquide.com/fr"> Air liquide</a>.
-        - role: <a href="https://www.robingirard.eu/StudentList.html#QuentinRaillard-Cazanove"> Quentin Raillard-Cazanove </a>  - PhD student -
+      - role: <a href="https://www.robingirard.eu/StudentList.html#QuentinRaillard-Cazanove"> Quentin Raillard-Cazanove </a>  - PhD student -
         time: Since November 2021
         details: |
            Modeling of industry decarbonation and its impact on the electric system. Funded by  <a href ="https://www.carnot-mines.eu/fr"> Institut Carnot MINES</a>.
       - role: <a href="https://www.robingirard.eu/StudentList.html#OwenPalmer">  Owen Palmer  </a> - PhD student -
         time: Since May 2022
-
         details: |
            Optimisation of decision making for PV+hydrogen+storage projects. CIFRE PhD funded by <a href ="https://verso.energy/"> Verso Energy</a>.
       - role: <a href="https://www.robingirard.eu/StudentList.html#MaximeVrain"> Maxime Vrain  </a> - PhD student -
@@ -138,11 +136,11 @@ career-profile_2:
       - role: <a href="https://www.linkedin.com/in/yoann-chiche-05814114a/">  Yoann Chiche  </a> - PhD student -
         time: Since September 2024
         details: |
-              Coupling of Smart Grids Between Transmission and Distribution Networks
+           Coupling of Smart Grids Between Transmission and Distribution Networks
       - role: <a href="https://www.linkedin.com/in/maria-berchiche-10480218a/">  Maria Berchiche  </a> - PhD student -
         time: Since November 2024
         details: |
-              Integrating CO2 resources into territorial energy planning.
+           Integrating CO2 resources into territorial energy planning.
 
 career-profile_3:
     title: Available or upcomming positions.
