@@ -51,7 +51,7 @@ La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
  * La note finale est la moyenne de deux notes :
   - la première est donnée par l'encadrant du mini-projet et reflète l'implication, le sérieux et la rigueur du groupe dans son ensemble.
   - La seconde est la note de soutenance.
- * Le rendu des mini-projets est un poster présenté devant un jury et toute la promo dans une session ouverte au public qui a lieu en janvier. Pour chaque poster, un créneau d’environ 20 minutes est réservé et doit permettre aux étudiants de présenter le poster (10 minutes) et au jury de poser des questions (10 minutes).
+ * Le rendu des mini-projets est un poster présenté devant un jury et toute la promo dans une session ouverte au public qui a lieu en janvier. Pour chaque poster, un créneau d’environ 30 minutes est réservé et doit permettre aux étudiants de présenter le poster (10-15 minutes) et au jury de poser des questions (10-20 minutes).
  * Concernant la note de soutenance, chaque membre de jury donne une note sur le travail effectué, la qualité de la présentation et des réponses aux questions, et la qualité du poster.
  *	le poster doit être réalisé à partir de [ce patron]({{site.url}}/UE14-2024-Sujet-XX.pptx). Faites parvenir par le lien de dépot et/ou par mail à Robin Girard (avant la soutenance) le fichier poster pptx, en remplaçant XX par votre numéro de sujet et en mettant votre tuteur en copie ; l’objet du mail doit être [UE14-miniprojet]. Ces documents seront partagés sur ce site.
 
