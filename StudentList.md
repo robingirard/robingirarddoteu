@@ -4,8 +4,29 @@ layout: default_2
 ---
 
 # List of present students
-[Back to Sudent list in my main page]({{site.url}}/index.html#Current).<br> 
+[Back to Sudent list in my main page]({{site.url}}/index.html#Current).<br>
 [Job offers](https://www.robingirard.eu/JobOffer.html)
+
+
+
+
+## Yoann Chiche
+ <a id="YoannChiche">
+
+<img src="/assets/ImagesRecherche/photo_yoann_s.jpg" alt="Yoann Chiche" style="height: 150px; width:150px;"/>
+<br>
+PhD Student since October 2024 <br>
+Couplage des smart grids entre réseau de transport et réseau de distribution. <br>
+PhD funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project, in collaboration with several french energy system compagnies.
+
+<a href="https://www.linkedin.com/in/yoann-chiche-05814114a/"> Linkedin  </a>
+
+**Mini CV --** Yoann Chiche graduated from École Centrale de Lille, specializing in energy with a particular focus on the energy transition. After earning his degree, he worked for two years at Accenta as a project engineer, designing innovative thermal solutions based on geothermal energy, heat storage, and heat pumps. In September 2024, he began his PhD titled 'Coupling of Smart Grids Between Transmission and Distribution Networks' in collaboration with TotalEnergies and RTE.
+
+**PhD description --** This PhD aims to analyze the impact of massive electrification, particularly electric vehicles, on the power distribution network (in continuation of what we have done for PV [here](https://hal.science/hal-04880502v1)). The objective is to assess the need for grid reinforcement and explore how flexibility, in its various forms, can help balance these needs with supply-demand equilibrium while considering the constraints imposed by stakeholder dynamics.
+
+<img src="/assets/ImagesRecherche/image_yoann.png" alt="Yoann Chiche"/>
+
 
 ## Laurent Cornaggia
  <a id="LaurentCornaggia">
