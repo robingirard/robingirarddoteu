@@ -155,23 +155,18 @@ publications:
 
       Some of our upcomming papers (submitted or in preparation) are listed below:
     papers:
-      - title:  An open dataset for modeling tertiary sector electric consumption dynamic <a href="https://www.nature.com/articles/s41597-023-02542-z" target="_blank" rel="nofollow"> -Published in Nature Scientific data- 2023- </a>.
-        authors: Kevin Bellinguer, Robin Girard, Antoine Chevalier, Alexis Boquet.
+      - title:  Optimal operational planning of hybrid power plants in railway MVDC networks and comparison with standard AC connections
+        authors: Laurent Cornaggia, Robin Girard, Olivier Despouys, Helene Clemot, Panagiotis Andrianesis
 
-      - title: A conditioned and regularized approach for large-scale intraday forecasting of wind power.
-        authors: Simon Camal, Robin Girard, Maxime Fortin, Augustin Touron, Laurent Dubus.
+      - title: Hedging Hydrogen-  Planning and Contracting Under Uncertainty for a Green Hydrogen Producer
+        authors: Owen Palmer, Hugo Radet, Simon Camal, Jalal Kazempour, Robin Girard
 
-      - title: Calibration method for an open source model to simulate building energy at territorial scale <a href="https://www.sciencedirect.com/science/article/abs/pii/S0378778823004358" target="_blank" rel="nofollow"> -Published-June 2023- </a>,
-        authors: Rit Martin, Villot Jonathan, Thorel Mathieu, Seddik Abdelouadoud, Girard Robin.
+      - title: Integrating Life Cycle Sustainability Assessment into Building Renovation Strategies
+        authors: Goessel Thibault, Ligier Simon, Girard Robin
 
-      - title: Comparing the relative impacts of investment constraints and temporal detail on capacity expansion model outcomes. <a href="https://www.sciencedirect.com/science/article/pii/S0360544224000021?dgcid=author"  target="_blank" rel="nofollow"> -Published in Energy-January 2024- </a>,
-        authors: Thomas Heggarty, Jean-Yves Bourmaud, Robin Girard, Georges Kariniotakis.
+      - title: Modelling district heating networks in large-scale multi-energy simulations
+        authors: Maxime Vrain, Virginie Dussartre, Nicolas Lhuillier, Girard Robin
 
-      - title: Optimisation of hydrogen production systems deployement at the scale of a territory <a href="https://www.sciencedirect.com/science/article/pii/S0959652623029086" target="_blank" rel="nofollow"> -Published in Journal of Cleaner Production- Sept 2023 - </a>.
-        authors: Anaëlle Jodry, Robin Girard, Pedro Affonso Nobrega, Robin Molinier, Moulay-Driss Elalaouifaris.
-
-      - title: Techno-economic evaluation and resource assessment of hydrogen production through offshore wind farms- A European perspective <a href="https://www.sciencedirect.com/science/article/pii/S1364032123005567" target="_blank" rel="nofollow"> - Published in Journal of Sustainable Energy Review - Sept 2023 - </a>.
-        authors: Antoine Rogeau, Matthieu de Coatpont, Guillaume Erbs, Pedro Affonso Nobrega, Robin Girard
 
 
 #footer: >
