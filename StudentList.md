@@ -150,6 +150,8 @@ Defended her PhD in December 2023, now at <a href="https://www.cea.fr/energies/i
 **PhD description --** In December 2023, she defended her PhD thesis on decision support for the development of hydrogen technologies at the scale of a territory. Through energy system optimization, her work allows understanding the role of hydrogen, a key chemical and energy carrier in the transition. The developed model is especially suitable for studying the evolution of industrial clusters and was tested in the Fos-sur-Mer harbor in the south of France. Different analyses highlighted some key factors to take into account when developing hydrogen ecosystems: gas prices, CO2 capture and treatment prices, and the space available to build renewables dedicated to hydrogen production.
 
 <a href="https://theses.fr/2023UPSLM075 "> Manuscript  </a>
+<a href="https://www.youtube.com/watch?v=fftKdl0Rv1A "> PhD defense  </a>
+
 
 Publication in Journal of Cleaner Production- Sept 2023 - <a href="https://www.sciencedirect.com/science/article/pii/S0959652623029086" target="_blank" rel="nofollow"> Optimisation of hydrogen production systems deployement at the scale of a territory </a>. Anaëlle Jodry, Robin Girard, Pedro Affonso Nobrega, Robin Molinier, Moulay-Driss Elalaouifaris.
 A second paper is being written.
@@ -168,6 +170,8 @@ PhD funded by the  <a href ="https://www.carnot-mines.eu/fr"> Institut Carnot MI
 
 
 **PhD description --** In the effort to reduce carbon emissions in industry, there is widespread consideration for both direct and indirect electrification of production methods. However, the electricity system must prepare to manage the ensuing rise in demand.  By studying possible developments in the decarbonisation of industry under various future technical and economic conditions, this thesis will identify the various synergies that the electrical system can have with industry, in particular through the service that industry can provide to the electrical system through the potential flexibilisation of its demand.
+
+<a href="https://www.youtube.com/watch?v=CGOKG1gTzd8 "> PhD defense  </a>
 
 Publication in Applied Energy, 2025, <a href="https://www.sciencedirect.com/science/article/pii/S030626192402590X?via%3Dihub" target="_blank" rel="nofollow">  Quentin Raillard--Cazanove, Antoine Rogeau, Robin Girard. Decarbonisation modelling for key industrial sectors focusing on process changes in a cost-optimised pathway.
 <img src="/assets/ImagesRecherche/image_quentin.png" alt="Quentin Raillard-Cazanove"/>
