@@ -25,7 +25,7 @@ PhD funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project, in c
 
 **PhD description --** This PhD aims to analyze the impact of massive electrification, particularly electric vehicles, on the power distribution network (in continuation of what we have done for PV [here](https://hal.science/hal-04880502v1)). The objective is to assess the need for grid reinforcement and explore how flexibility, in its various forms, can help balance these needs with supply-demand equilibrium while considering the constraints imposed by stakeholder dynamics.
 
-<img src="/assets/ImagesRecherche/image_yoann.png" alt="Yoann Chiche"style="height: 500px; width:1000px;"/>
+<img src="/assets/ImagesRecherche/image_yoann.png" alt="Yoann Chiche" style="height: 500px; width:1000px;"/>
 
 
 ## Laurent Cornaggia
@@ -94,21 +94,6 @@ PhD funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project, in c
 
 
 
-## Quentin Raillard-Cazanove
- <a id="QuentinRaillard-Cazanove">
-<img src="/assets/ImagesRecherche/photo_quentin_s.jpg" alt="Quentin Raillard-Cazanove" style="height: 150px; width:125px;"/><br>
-PhD Student since November 2021 <br>
-Modeling of industry decarbonation and its impact on the electric system. <br>
-PhD funded by the  <a href ="https://www.carnot-mines.eu/fr"> Institut Carnot MINES</a>.
-
-<a href="https://www.linkedin.com/in/quentin-raillard/"> Linkedin  </a>
-
-**Mini CV --** Quentin Raillard-Cazanove graduated from Arts et Métiers (MEng) and Loughborough University (MSc in Renewable Energy Systems Technology) in 2021. His Master's thesis, which centred on the examination of residential consumption data for the competitiveness of residential PV+BES systems, provided him with a firsthand encounter of the academic research landscape. This experience has motivated him to initiate a PhD thesis, wherein he is exploring the decarbonisation of industry and its impact on the electricity system.
-
-
-**PhD description --** In the effort to reduce carbon emissions in industry, there is widespread consideration for both direct and indirect electrification of production methods. However, the electricity system must prepare to manage the ensuing rise in demand.  By studying possible developments in the decarbonisation of industry under various future technical and economic conditions, this thesis will identify the various synergies that the electrical system can have with industry, in particular through the service that industry can provide to the electrical system through the potential flexibilisation of its demand.
-
-<img src="/assets/ImagesRecherche/image_quentin.png" alt="Quentin Raillard-Cazanove"/>
 
 ## Owen Palmer
  <a id="OwenPalmer">
@@ -151,13 +136,12 @@ PhD funded by <a href="http://www.cstb.fr/fr/"> CSTB</a>.
 
 <img src="/assets/ImagesRecherche/image_thibault.png" alt="Thibault Goessel" style="height: 300px; width:700px;"/>
 
-
+# List of past students
 
 ## Anaelle Jodry
  <a id="AnaelleJodry">
 <img src="/assets/ImagesRecherche/photo_Anaelle_s.jpg" alt="Anaelle jodry" style="height: 150px; width:200px;"/><br>
-Defended her PhD in December 2023, now postdoc <br>
-Postdoc funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project
+Defended her PhD in December 2023, now at <a href="https://www.cea.fr/energies/i-tese/Pages/accueil.aspx"> CEA i-thesee   </a> <br>
 
 <a href="https://www.linkedin.com/in/anaelle-jodry/"> Linkedin  </a>
 
@@ -165,6 +149,25 @@ Postdoc funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project
 
 **PhD description --** In December 2023, she defended her PhD thesis on decision support for the development of hydrogen technologies at the scale of a territory. Through energy system optimization, her work allows understanding the role of hydrogen, a key chemical and energy carrier in the transition. The developed model is especially suitable for studying the evolution of industrial clusters and was tested in the Fos-sur-Mer harbor in the south of France. Different analyses highlighted some key factors to take into account when developing hydrogen ecosystems: gas prices, CO2 capture and treatment prices, and the space available to build renewables dedicated to hydrogen production.
 
-Publication in Journal of Cleaner Production- Sept 2023 - <a href="https://www.sciencedirect.com/science/article/pii/S0959652623029086" target="_blank" rel="nofollow"> Optimisation of hydrogen production systems deployement at the scale of a territory </a>. Anaëlle Jodry, Robin Girard, Pedro Affonso Nobrega, Robin Molinier, Moulay-Driss Elalaouifaris.
+<a href="https://theses.fr/2023UPSLM075 "> Manuscript  </a>
 
+Publication in Journal of Cleaner Production- Sept 2023 - <a href="https://www.sciencedirect.com/science/article/pii/S0959652623029086" target="_blank" rel="nofollow"> Optimisation of hydrogen production systems deployement at the scale of a territory </a>. Anaëlle Jodry, Robin Girard, Pedro Affonso Nobrega, Robin Molinier, Moulay-Driss Elalaouifaris.
+A second paper is being written.
 <img src="/assets/ImagesRecherche/image_anaelle.png" alt="Anaelle "/>
+
+## Quentin Raillard-Cazanove
+ <a id="QuentinRaillard-Cazanove">
+<img src="/assets/ImagesRecherche/photo_quentin_s.jpg" alt="Quentin Raillard-Cazanove" style="height: 150px; width:125px;"/><br>
+Defended her PhD in December 2023, now postdoc at PERSEE in the frame of the PlaneTerr project.
+Modeling of industry decarbonation and its impact on the electric system. <br>
+PhD funded by the  <a href ="https://www.carnot-mines.eu/fr"> Institut Carnot MINES</a>.
+
+<a href="https://www.linkedin.com/in/quentin-raillard/"> Linkedin  </a>
+
+**Mini CV --** Quentin Raillard-Cazanove graduated from Arts et Métiers (MEng) and Loughborough University (MSc in Renewable Energy Systems Technology) in 2021. His Master's thesis, which centred on the examination of residential consumption data for the competitiveness of residential PV+BES systems, provided him with a firsthand encounter of the academic research landscape. This experience has motivated him to initiate a PhD thesis, wherein he is exploring the decarbonisation of industry and its impact on the electricity system.
+
+
+**PhD description --** In the effort to reduce carbon emissions in industry, there is widespread consideration for both direct and indirect electrification of production methods. However, the electricity system must prepare to manage the ensuing rise in demand.  By studying possible developments in the decarbonisation of industry under various future technical and economic conditions, this thesis will identify the various synergies that the electrical system can have with industry, in particular through the service that industry can provide to the electrical system through the potential flexibilisation of its demand.
+
+Publication in Applied Energy, 2025, <a href="https://www.sciencedirect.com/science/article/pii/S030626192402590X?via%3Dihub" target="_blank" rel="nofollow">  Quentin Raillard--Cazanove, Antoine Rogeau, Robin Girard. Decarbonisation modelling for key industrial sectors focusing on process changes in a cost-optimised pathway.
+<img src="/assets/ImagesRecherche/image_quentin.png" alt="Quentin Raillard-Cazanove"/>
