@@ -182,20 +182,116 @@ Publication in Journal of Cleaner Production- 2025. Decarbonisation of industry 
 ## Martin Rit
  <a id="Martin-Rit">
 Defended his PhD in May 2024, now at CSTB <a href="https://www.linkedin.com/in/martin-rit/?originalSubdomain=fr "> Linkedin  </a>
-Évaluation du potentiel de rénovation énergétique d'un territoire dans le cadre de démarches de massification
+
+Évaluation du potentiel de rénovation énergétique d'un territoire dans le cadre de démarches de massification.
+
 <a href="https://pastel.hal.science/tel-04694305  "> Manuscript  </a>
 
 Publication in Applied Energy, 2024 Rit Martin, Thomas Arthur, Jonathan Villot, Thorel Mathieu, Garreau Enora, Robin Girard. <a href="https://www.sciencedirect.com/science/article/pii/S0306261924003192" target="_blank" rel="nofollow"> SHAPE: A temporal optimization model for residential buildings retrofit to discuss policy objectives.
+
 Publication in Energy and Building, 2023 Martin Rit, Robin Girard, Jonathan Villot, Mathieu Thorel, Yassine Abdelouadoud. <a href="https://www.sciencedirect.com/science/article/pii/S0378778823004358" target="_blank" rel="nofollow"> Calibration method for an open source model to simulate building energy at territorial scale.
 
 ## Kevin Bellinger
 <a id="Kevin-Bellinger">
 Defended his PhD in June 2022, now at RTE <a href="https://www.linkedin.com/in/kevin-bellinguer "> Linkedin  </a>
-Optimisation of the use of multiple sources of data in short-term photovoltaic generation forecasting models
+Optimisation of the use of multiple sources of data in short-term photovoltaic generation forecasting models.
+
 Under the Direction of Georges Kariniotakis.
 
 <a href="https://pastel.hal.science/tel-04086292  "> Manuscript  </a>
 <a href="https://www.youtube.com/watch?v=fftKdl0Rv1A "> PhD defense  </a>
 
 
-Kevin Bellinguer, Robin Girard, Alexis Bocquet, Antoine Chevalier. ELMAS: a one-year dataset of hourly electrical load profiles from 424 French industrial and tertiary sectors. Scientific Data , 2023, 10 (1), pp.686. ⟨10.1038/s41597-023-02542-z⟩. ⟨hal-04319662⟩ (during a Postdoc under my direction, collaboration with ENEDIS french DSO)
+Publication in Nature Scientific Data, 2023, Kevin Bellinguer, Robin Girard, Alexis Bocquet, Antoine Chevalier. ELMAS: a one-year dataset of hourly electrical load profiles from 424 French industrial and tertiary sectors.  (during a Postdoc under my direction, collaboration with ENEDIS french DSO). <a href="https://www.nature.com/articles/s41597-023-02542-z" target="_blank" rel="nofollow"> Link
+
+Publication in Solar Energy 2022, Kevin Bellinguer, Robin Girard, Guillaume Bontron, Georges Kariniotakis. A generic methodology to efficiently integrate weather information in short-term Photovoltaic generation forecasting models.
+
+## Valentin Mahler
+<a id="Valentin-Mahler">
+
+Defended in April 2022.
+
+Modeling the evolution of electricity prices in a context of high penetration of renewables in electricity markets
+
+Under the Direction of Georges Kariniotakis.
+
+<a href="https://pastel.hal.science/tel-03870568  "> Manuscript  </a>
+
+Publication in Energy Economics in 2022. Valentin Mahler, Robin Girard, Georges Kariniotakis. Data-driven structural modeling of electricity price dynamics.
+
+## Thomas Heggarty
+<a id="Thomas-Heggarty">
+
+Defended in September 2021.
+
+Techno-economic optimisation of the mix of power system flexibility solutions
+
+Under the Direction of Georges Kariniotakis.
+
+<a href="https://pastel.hal.science/tel-03461279  "> Manuscript  </a>
+
+
+Publication in Applied Energy 2019. Thomas Heggarty, Jean-Yves Bourmaud, Robin Girard, Georges Kariniotakis. Multi-temporal assessment of power system flexibility requirement.
+
+Publication in Applied Energy 2020. Thomas Heggarty, Jean-Yves Bourmaud, Robin Girard, Georges Kariniotakis. Quantifying power system flexibility provision.
+
+Publication in Energy 2024, Thomas Heggarty, Jean-Yves Bourmaud, Robin Girard, Georges Kariniotakis. Assessing the relative impacts of maximum investment rate and temporal detail in capacity expansion models applied to power systems.
+
+## Alexis Gerossier
+<a id="Alexis-Gerossier ">
+
+Defended in May 2019.
+
+Short-term forecasting of electricity demand of smart homes and distribution grids
+
+Under the Direction of Georges Kariniotakis.
+
+<a href="https://pastel.hal.science/tel-02899571  "> Manuscript  </a>
+
+Publication in Applied Energy 2017. Alexis Gerossier, Thibaut Barbier, Robin Girard. A novel method for decomposing electricity feeder load into elementary profiles from customer information.
+
+Publication in Energy 2018. Alexis Gerossier, Robin Girard, Alexis Bocquet, Georges Kariniotakis. Robust Day-Ahead Forecasting of Household Electricity Demand and Operational Challenges.
+
+Publication in Energy 2019, Alexis Gerossier, Robin Girard, Georges Kariniotakis. Modeling and Forecasting Electric Vehicle Consumption Profiles.
+
+## Thibaut Barbier
+2017 - Modélisation de la consommation électrique à partir de grandes masses de données pour la simulation des alternatives énergétiques du futur
+
+Under the Direction of François Pascal Neirac
+
+<a href="https://pastel.hal.science/tel-01774316  "> Manuscript  </a>
+
+## Xwegnon Agoua
+2017 - Développement de méthodes spatio-temporelles pour la prévision à court terme de la production photovoltaïque
+
+Under the Direction of Georges Kariniotakis.
+
+<a href="https://pastel.hal.science/tel-01878943  "> Manuscript  </a>
+
+## Etta Grover Silva
+2017 - Optimization of the planning and operations of electric distribution grids in the context of high renewable energy penetration
+
+Under the Direction of Georges Kariniotakis.
+
+<a href="https://pastel.hal.science/tel-01899752  "> Manuscript  </a>
+
+## Fiona Foucault
+2016 - Optimisation de l’implantation de centrales éoliennes dans l’environnement d’un marché à prix locaux.
+
+Under the Direction of Georges Kariniotakis.
+
+<a href="https://pastel.hal.science/tel-01717309  "> Manuscript  </a>
+
+## Yassine Abdelouadoud
+2014 - Integration of renewable energies in the electricity distribution system
+
+Under the Direction of François Pascal Neirac
+
+<a href="https://pastel.hal.science/tel-01144518v1  "> Manuscript  </a>
+
+## Arthur Bossavy
+2012 - Caractérisation et prédiction probabiliste des variations brusques et importantes de la production éolienne
+
+Under the Direction of Georges Kariniotakis.
+
+<a href="https://pastel.hal.science/pastel-00803234v1  "> Manuscript  </a>
