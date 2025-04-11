@@ -93,20 +93,12 @@ education:
 career-profile_2:
     title: Current students (Postdoc and PhD students)
     info:
-      - role: <a href="https://www.linkedin.com/in/yassine-abdelouadoud-a4b4831b9/">  Yassine Abdelouadoud </a> - Postdoc -
-        time: 2 years starting October 2022
-        details: |
-           Modeling of the electric distribution system and its evolution in the energy transition context. Impact of electrification of heating and transport, and of renewable electricity production. Value of flexibility in low voltage network. Postdoc funded by <a href ="https://www.roseautechnologies.com/fr/"> Roseau Technologie </a> and french government.
       - role: <a href="https://www.linkedin.com/in/julie-perrin-147414188/">  Julie Perrin </a> - Postdoc -
         time: 2 years starting February 2023
         details: |
            Joined coordination with <a href ="https://www.csi.minesparis.psl.eu/equipe/chercheurs-associes/daniel-florentin/"> Daniel Florentin</a>. From political targets to deployment of thermal retrofit, identification of institutional limits to thermal retrofits. Postdoc funded by <a href ="https://the-transition-institute.minesparis.psl.eu/"> TTI.5 </a>.
-      - role: <a href="https://www.robingirard.eu/StudentList.html#AnaelleJodry">  Anaelle Jodry </a> - Postdoc-
-        time: Since November 2023
-        details: |
-           Hydrogen deployment trajectories in energy hub. PhD partially funded by <a href="https://www.airliquide.com/fr"> Air liquide</a>.
-      - role: <a href="https://www.robingirard.eu/StudentList.html#QuentinRaillard-Cazanove"> Quentin Raillard-Cazanove </a>  - PhD student -
-        time: Since November 2021
+      - role: <a href="https://www.robingirard.eu/StudentList.html#QuentinRaillard-Cazanove"> Quentin Raillard-Cazanove </a>  - Postdoc -
+        time: Since 2025
         details: |
            Modeling of industry decarbonation and its impact on the electric system. Funded by  <a href ="https://www.carnot-mines.eu/fr"> Institut Carnot MINES</a>.
       - role: <a href="https://www.robingirard.eu/StudentList.html#OwenPalmer">  Owen Palmer  </a> - PhD student -
