@@ -35,6 +35,12 @@
     </li>
     {% endif %}
 
+    {% if sidebar.website3 %}
+    <li class="website3"> List of actual and past students
+      <a href="http://{{ sidebar.website3 }}" target="_blank">{{ sidebar.website3 }}</a>
+    </li>
+    {% endif %}
+
     {% if sidebar.website %}
     <li class="website">Blog about energy transition (french) :
       <a href="http://{{ sidebar.website }}" target="_blank">{{ sidebar.website }}</a>
