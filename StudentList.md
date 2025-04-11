@@ -138,25 +138,6 @@ PhD funded by <a href="http://www.cstb.fr/fr/"> CSTB</a>.
 
 # List of past students
 
-## Anaelle Jodry
- <a id="AnaelleJodry">
-<img src="/assets/ImagesRecherche/photo_Anaelle_s.jpg" alt="Anaelle jodry" style="height: 150px; width:200px;"/><br>
-Defended her PhD in December 2023, now at <a href="https://www.cea.fr/energies/i-tese/Pages/accueil.aspx"> CEA i-thesee   </a> <br>
-
-<a href="https://www.linkedin.com/in/anaelle-jodry/"> Linkedin  </a>
-
-**Mini CV --** Anaëlle Jodry obtained an engineering diploma from École des Mines d'Albi in 2018, specializing in renewable energy development and resource conversion. Then, she worked in a solar energy company to investigate the impact of solar thermal energy on the quality of domestic hot water for a national study in partnership with ADEME. She also worked for the local gas and electricity distribution network of Grenoble as a flexibility mechanism project manager.
-
-**PhD description --** In December 2023, she defended her PhD thesis on decision support for the development of hydrogen technologies at the scale of a territory. Through energy system optimization, her work allows understanding the role of hydrogen, a key chemical and energy carrier in the transition. The developed model is especially suitable for studying the evolution of industrial clusters and was tested in the Fos-sur-Mer harbor in the south of France. Different analyses highlighted some key factors to take into account when developing hydrogen ecosystems: gas prices, CO2 capture and treatment prices, and the space available to build renewables dedicated to hydrogen production.
-
-<a href="https://theses.fr/2023UPSLM075 "> Manuscript  </a>
-<a href="https://www.youtube.com/watch?v=fftKdl0Rv1A "> PhD defense  </a>
-
-
-Publication in Journal of Cleaner Production- Sept 2023 - <a href="https://www.sciencedirect.com/science/article/pii/S0959652623029086" target="_blank" rel="nofollow"> Optimisation of hydrogen production systems deployement at the scale of a territory </a>. Anaëlle Jodry, Robin Girard, Pedro Affonso Nobrega, Robin Molinier, Moulay-Driss Elalaouifaris.
-A second paper is being written.
-<img src="/assets/ImagesRecherche/image_anaelle.png" alt="Anaelle "/>
-
 ## Quentin Raillard-Cazanove
  <a id="QuentinRaillard-Cazanove">
 <img src="/assets/ImagesRecherche/photo_quentin_s.jpg" alt="Quentin Raillard-Cazanove" style="height: 150px; width:125px;"/><br>
@@ -178,6 +159,27 @@ Publication in Applied Energy, 2025,  Quentin Raillard--Cazanove, Antoine Rogeau
 Publication in Journal of Cleaner Production- 2025. Decarbonisation of industry and the energy system: exploring mutual impacts and investment planning. Quentin Raillard--Cazanove,  Thibaut Knibiehly, Robin Girard.
 
 <img src="/assets/ImagesRecherche/image_quentin.png" alt="Quentin Raillard-Cazanove"/>
+
+
+## Anaelle Jodry
+ <a id="AnaelleJodry">
+<img src="/assets/ImagesRecherche/photo_Anaelle_s.jpg" alt="Anaelle jodry" style="height: 150px; width:200px;"/><br>
+Defended her PhD in December 2023, now at <a href="https://www.cea.fr/energies/i-tese/Pages/accueil.aspx"> CEA i-thesee   </a> <br>
+
+<a href="https://www.linkedin.com/in/anaelle-jodry/"> Linkedin  </a>
+
+**Mini CV --** Anaëlle Jodry obtained an engineering diploma from École des Mines d'Albi in 2018, specializing in renewable energy development and resource conversion. Then, she worked in a solar energy company to investigate the impact of solar thermal energy on the quality of domestic hot water for a national study in partnership with ADEME. She also worked for the local gas and electricity distribution network of Grenoble as a flexibility mechanism project manager.
+
+**PhD description --** In December 2023, she defended her PhD thesis on decision support for the development of hydrogen technologies at the scale of a territory. Through energy system optimization, her work allows understanding the role of hydrogen, a key chemical and energy carrier in the transition. The developed model is especially suitable for studying the evolution of industrial clusters and was tested in the Fos-sur-Mer harbor in the south of France. Different analyses highlighted some key factors to take into account when developing hydrogen ecosystems: gas prices, CO2 capture and treatment prices, and the space available to build renewables dedicated to hydrogen production.
+
+<a href="https://theses.fr/2023UPSLM075 "> Manuscript  </a>
+<a href="https://www.youtube.com/watch?v=fftKdl0Rv1A "> PhD defense  </a>
+
+
+Publication in Journal of Cleaner Production- Sept 2023 - <a href="https://www.sciencedirect.com/science/article/pii/S0959652623029086" target="_blank" rel="nofollow"> Optimisation of hydrogen production systems deployement at the scale of a territory </a>. Anaëlle Jodry, Robin Girard, Pedro Affonso Nobrega, Robin Molinier, Moulay-Driss Elalaouifaris.
+A second paper is being written.
+<img src="/assets/ImagesRecherche/image_anaelle.png" alt="Anaelle "/>
+
 
 ## Martin Rit
  <a id="Martin-Rit">
