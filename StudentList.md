@@ -160,7 +160,7 @@ A second paper is being written.
 ## Quentin Raillard-Cazanove
  <a id="QuentinRaillard-Cazanove">
 <img src="/assets/ImagesRecherche/photo_quentin_s.jpg" alt="Quentin Raillard-Cazanove" style="height: 150px; width:125px;"/><br>
-Defended her PhD in December 2023, now postdoc at PERSEE in the frame of the PlaneTerr project.
+Defended his PhD in December 2024, now postdoc at PERSEE in the frame of the PlaneTerr project.
 Modeling of industry decarbonation and its impact on the electric system. <br>
 PhD funded by the  <a href ="https://www.carnot-mines.eu/fr"> Institut Carnot MINES</a>.
 
@@ -173,5 +173,29 @@ PhD funded by the  <a href ="https://www.carnot-mines.eu/fr"> Institut Carnot MI
 
 <a href="https://www.youtube.com/watch?v=CGOKG1gTzd8 "> PhD defense  </a>
 
-Publication in Applied Energy, 2025, <a href="https://www.sciencedirect.com/science/article/pii/S030626192402590X?via%3Dihub" target="_blank" rel="nofollow">  Quentin Raillard--Cazanove, Antoine Rogeau, Robin Girard. Decarbonisation modelling for key industrial sectors focusing on process changes in a cost-optimised pathway.
+Publication in Applied Energy, 2025,  Quentin Raillard--Cazanove, Antoine Rogeau, Robin Girard. <a href="https://www.sciencedirect.com/science/article/pii/S030626192402590X?via%3Dihub" target="_blank" rel="nofollow"> Decarbonisation modelling for key industrial sectors focusing on process changes in a cost-optimised pathway.
+
+Publication in Journal of Cleaner Production- 2025. Decarbonisation of industry and the energy system: exploring mutual impacts and investment planning. Quentin Raillard--Cazanove,  Thibaut Knibiehly, Robin Girard.
+
 <img src="/assets/ImagesRecherche/image_quentin.png" alt="Quentin Raillard-Cazanove"/>
+
+## Martin Rit
+ <a id="Martin-Rit">
+Defended his PhD in May 2024, now at CSTB <a href="https://www.linkedin.com/in/martin-rit/?originalSubdomain=fr "> Linkedin  </a>
+Évaluation du potentiel de rénovation énergétique d'un territoire dans le cadre de démarches de massification
+<a href="https://pastel.hal.science/tel-04694305  "> Manuscript  </a>
+
+Publication in Applied Energy, 2024 Rit Martin, Thomas Arthur, Jonathan Villot, Thorel Mathieu, Garreau Enora, Robin Girard. <a href="https://www.sciencedirect.com/science/article/pii/S0306261924003192" target="_blank" rel="nofollow"> SHAPE: A temporal optimization model for residential buildings retrofit to discuss policy objectives.
+Publication in Energy and Building, 2023 Martin Rit, Robin Girard, Jonathan Villot, Mathieu Thorel, Yassine Abdelouadoud. <a href="https://www.sciencedirect.com/science/article/pii/S0378778823004358" target="_blank" rel="nofollow"> Calibration method for an open source model to simulate building energy at territorial scale.
+
+## Kevin Bellinger
+<a id="Kevin-Bellinger">
+Defended his PhD in June 2022, now at RTE <a href="https://www.linkedin.com/in/kevin-bellinguer "> Linkedin  </a>
+Optimisation of the use of multiple sources of data in short-term photovoltaic generation forecasting models
+Under the Direction of Georges Kariniotakis.
+
+<a href="https://pastel.hal.science/tel-04086292  "> Manuscript  </a>
+<a href="https://www.youtube.com/watch?v=fftKdl0Rv1A "> PhD defense  </a>
+
+
+Kevin Bellinguer, Robin Girard, Alexis Bocquet, Antoine Chevalier. ELMAS: a one-year dataset of hourly electrical load profiles from 424 French industrial and tertiary sectors. Scientific Data , 2023, 10 (1), pp.686. ⟨10.1038/s41597-023-02542-z⟩. ⟨hal-04319662⟩ (during a Postdoc under my direction, collaboration with ENEDIS french DSO)
