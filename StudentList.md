@@ -25,7 +25,7 @@ PhD funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project, in c
 
 **PhD description --** This PhD aims to analyze the impact of massive electrification, particularly electric vehicles, on the power distribution network (in continuation of what we have done for PV [here](https://hal.science/hal-04880502v1)). The objective is to assess the need for grid reinforcement and explore how flexibility, in its various forms, can help balance these needs with supply-demand equilibrium while considering the constraints imposed by stakeholder dynamics.
 
-<img src="/assets/ImagesRecherche/image_yoann.png" alt="Yoann Chiche"/>
+<img src="/assets/ImagesRecherche/image_yoann.png" alt="Yoann Chiche"style="height: 500px; width:1000px;"/>
 
 
 ## Laurent Cornaggia
