@@ -1,0 +1,184 @@
+<h2 id="évaluer-énergie-co2-coût-le-potentiel-de-lautoconsommation-photovoltaïque-à-différentes-échelles-individuelle-collective-territoriale">Évaluer (énergie, CO2, coût) le potentiel de l'autoconsommation photovoltaïque à différentes échelles (individuelle, collective, territoriale).</h2>
+
+<p>(Encadrants : Yassine Abdelouadoud (MINES <a href="https://www.minesparis.psl.eu/recherche/18-centres-de-recherche-5-domaines-disciplinaires/energetiques-et-procedes/le-centre-persee/">Centre PERSEE</a>))</p>
+
+<h3 id="introduction--enjeux-et-contexte">Introduction : enjeux et contexte</h3>
+
+<p>La transition énergétique s’effectue dans un contexte où :</p>
+
+<ul>
+  <li>
+    <p>la baisse continue du coût des systèmes photovoltaïques rend
+cette technologie de plus en plus compétitive,</p>
+  </li>
+  <li>
+    <p>la  hausse du prix de l’électricité issue du réseau incite les
+consommateurs à rechercher des alternatives,</p>
+  </li>
+  <li>
+    <p>le développement de solutions de ## stockage par batteries permet
+de mieux valoriser l’énergie produite localement,</p>
+  </li>
+  <li>
+    <p>la diffusion croissante du véhicule électrique (VE) modifie les
+profils de consommation et peut constituer une forme de stockage
+mobile.</p>
+  </li>
+</ul>
+
+<p>Ainsi, l’autoconsommation photovoltaïque représente une option de
+plus en plus réaliste pour maîtriser les coûts et accroître la
+résilience énergétique. Cependant, le potentiel de cette solution varie
+selon l’échelle (individuelle, collective, territoriale) et dépend de
+nombreux paramètres (profil de consommation, surfaces disponibles,
+météo, prix de l’électricité, usage du stockage et des VE).</p>
+
+<p>Le mini-projet proposé vise à quantifier ce potentiel ainsi que les</p>
+<h3 id="coûts-et-bénéfices-économiques-et-environnementaux-pour-différents">coûts et bénéfices (économiques et environnementaux) pour différents</h3>
+<p>types d’utilisateurs et à différentes échelles de mutualisation.</p>
+
+<h3 id="problématique">Problématique</h3>
+
+<p>Comment quantifier le potentiel d’autoconsommation photovoltaïque (en
+énergie, CO₂évités et coût) à différentes échelles (bâtiment individuel,
+groupe de bâtiments, territoire) et comment ce potentiel évolue avec le
+stockage et l’intégration des véhicules électriques ?</p>
+
+<h3 id="travail-demandé">Travail demandé</h3>
+
+<p>Sélectionner des territoires d’expérimentation</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   l'IRIS comme unité de base
+
+-   Différentes typologies (urbain, rural, intermédiaire)
+
+-   Différents usages (résidentiel, tertiaire, industriel)
+</code></pre></div></div>
+
+<p>Estimation des consommations électriques par bâtiment</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   Affecter une typologie Enedis (ménages, tertiaire, industrie
+    légère... aux bâtiments d'un jeu de données local.
+
+-   Construire des courbes de charge représentatives.
+</code></pre></div></div>
+
+<p>Estimation des consommations électriques par bâtiment</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   Affecter une typologie Enedis (ménages, tertiaire, industrie
+    légère... aux bâtiments d'un jeu de données local.
+
+-   Construire des courbes de charge représentatives.
+</code></pre></div></div>
+
+<p>Simulation de la production photovoltaïque</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   Estimer la surface de toiture exploitable (BD TOPO).
+
+-   Simuler la production PV horaire avec PVLib à partir des données
+    météo (ex. ERA5).
+</code></pre></div></div>
+
+<p>Calcul du taux d’autoconsommation</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   À trois échelles : individuelle, collective, territoriale.
+
+-   Déterminer la part d'énergie consommée localement, le surplus
+    injecté et le taux de couverture des besoins.
+</code></pre></div></div>
+
+<p>Évaluation des indicateurs</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   ## Énergie : taux d'autoconsommation, taux de couverture,
+    surplus.
+
+-   ## Économie : coût évité sur la facture d'électricité, coût
+    d'investissement, ROI, etc.
+
+-   ## Environnement : émissions de CO₂évitées (facteur d'émission
+    du mix électrique) et induites par l'installation du PV
+</code></pre></div></div>
+
+<p>Extension au stockage</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   Intégrer une batterie stationnaire (capacité et puissance
+    choisies).
+
+-   Évaluer l'impact du stockage sur les indicateurs (meilleure
+    valorisation du PV, réduction du surplus).
+
+-   Comparer différents scénarios de dimensionnement de batterie.
+</code></pre></div></div>
+
+<p>Extension au véhicule électrique</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   Introduire un profil de recharge d'un ou plusieurs véhicules
+    électriques (horaires, puissance).
+
+-   Étudier deux cas : recharge simple (l'utilisateur recharge dès
+    que nécessaire) et recharge optimisée (l'utilisateur recharge de
+    manière à maximiser l'autoconsommation du PV).
+
+-   Évaluer l'impact sur l'autoconsommation et les indicateurs
+    énergie/CO₂coût.
+</code></pre></div></div>
+
+<p>Étude de sensibilité</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   Variation de la surface PV installée, de la capacité de
+    stockage, du taux d'équipement en VE, du prix futur de
+    l'électricité, des prix futurs du PV.
+</code></pre></div></div>
+
+<p>Recommandations</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-   Comparer les résultats individuels, collectifs et territoriaux.
+
+-   Identifier les conditions où l'autoconsommation devient
+    optimale.
+
+-   Proposer des recommandations pour chaque typologie d'utilisateur
+    et de territoires
+</code></pre></div></div>
+
+<h3 id="contact--yassineabdelouadoudgmailcom">Contact : yassine.abdelouadoud@gmail.com</h3>
+
+<h2 id="références-et-ressources-utiles">Références et ressources utiles</h2>
+
+<p><em>Autoconsommation</em></p>
+
+<p>ADEME <a href="https://librairie.ademe.fr/energies/7854-autoconsommation-collective-photovoltaique-guide-pratique-a-l-attention-des-collectivites-territoriales.html">https://librairie.ademe.fr/energies/7854-autoconsommation-collective-photovoltaique-guide-pratique-a-l-attention-des-collectivites-territoriales.html</a></p>
+
+<p><a href="https://www.ademe.fr/wp-content/uploads/2025/01/avis-ademe-autoconsommation-photovoltaique_-janvier-2025.pdf">https://www.ademe.fr/wp-content/uploads/2025/01/avis-ademe-autoconsommation-photovoltaique_-janvier-2025.pdf</a></p>
+
+<p>ProRéno
+<a href="https://www.proreno.fr/documents/installations-photovoltaiques-en-autoconsommation">https://www.proreno.fr/documents/installations-photovoltaiques-en-autoconsommation</a></p>
+
+<p><em>Consommation électrique et typologies</em></p>
+
+<p>Enedis - Données ouvertes sur les courbes de charge types par catégorie de clients
+<a href="https://data.enedis.fr/explore/dataset/conso-inf36/">https://data.enedis.fr/explore/dataset/conso-inf36/</a></p>
+
+<p><a href="https://data.enedis.fr/explore/dataset/conso-sup36/">https://data.enedis.fr/explore/dataset/conso-sup36/</a></p>
+
+<p>Agence ORE - Consommation annuelle d’électricité et gaz par IRIS et par secteur</p>
+
+<p><a href="https://opendata.agenceore.fr/explore/dataset/consommation-annuelle-d-electricite-et-gaz-par-iris/information/">https://opendata.agenceore.fr/explore/dataset/consommation-annuelle-d-electricite-et-gaz-par-iris/information/</a></p>
+
+<p>RTE –Données ouvertes sur la consommation et production d’électricité (mix électrique, émissions associées)
+<a href="https://opendata.reseaux-energies.fr/">https://opendata.reseaux-energies.fr/</a></p>
+
+<p><em>Bâti et surfaces photovoltaïques</em>
+IGN - BD TOPO (base de données géographiques sur les bâtiments,
+toitures, etc.)
+<a href="https://geoservices.ign.fr/bdtopo">https://geoservices.ign.fr/bdtopo</a></p>
+
+<p>CEREMA/IGN - Études sur le potentiel solaire des bâtiments en France
+<a href="https://geoservices.ign.fr/portail-cartographique-enr">https://geoservices.ign.fr/portail-cartographique-enr</a></p>
+
+<p><em>Production photovoltaïque et météo</em>
+PVLib Python –Librairie open source pour la simulation photovoltaïque
+<a href="https://pvlib-python.readthedocs.io">https://pvlib-python.readthedocs.io</a></p>
+
+<p>Copernicus Climate Data Store –Données ERA5 (rayonnement solaire, météo horaire)
+<a href="https://cds.climate.copernicus.eu">https://cds.climate.copernicus.eu</a></p>

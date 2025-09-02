@@ -20,21 +20,21 @@ Si il vous reste des questions, vous pouvez me les poser directement par mail : 
 ## Liste des projets de l'année en cours et des années précédentes
  <a id="listeprojets">
 
-**Listes de sujets pour l'année 2024**
+**Listes de sujets pour l'année 2025**
 La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
 
-**Sujets et posters des années précédentes** [2019-2023]({{site.url}}/ListeProjetsPrecedents.html)
+**Sujets et posters des années précédentes** [2019-2024]({{site.url}}/ListeProjetsPrecedents.html)
 
 **L'objectif de ces mini-projet** est de prendre le temps d’un approfondissement sur un sujet choisi autour l’énergie et des enjeux environnementaux au sens large. Les étudiants sont regroupés en groupes de 4 ou 5 et choisissent leur sujet parmi ceux proposés par des chercheurs du domaines (majoritairement de l'école des mines, mais pas seulement). Si vous souhaitez proposer un sujet, vous pouvez me contacter par mail [Robin Girard](mailto:robin.girard@mines-paristech.fr)
 
 ## Déroulement
  <a id="deroulement">
 
-**Dates importantes en 2024**
- * présentation des sujets : début septembre 2024, peu après la rentrée.
- * choix des sujets, envoi par les délégués des attributions par élève (la liste doit contenir le mail de chaque élève et le sujet associé) et lancement des travaux : avant le 17 septembre.
- * 17 septembre 9h-10h30 : créneau pour le lancement des projets avec une présentation générale de 9h à 9h45 et un temps pour travailler par groupe de 9h45 à 10h30.
- * journée de soutenance poster : 24 janvier 2025 matin, selon le planning [ici]({{site.url}}/planning_2024.pdf).
+**Dates importantes en 2025**
+ * envoi des sujets : 1er septembre 2025, peu après la rentrée.
+ * choix des sujets par les étudiants, envoi par les délégués des attributions par élève (la liste doit contenir le mail de chaque élève et le sujet associé) et lancement des travaux : avant le 18 septembre.
+ * 19 septembre 13h45-15h15 : créneau pour le lancement des projets avec une présentation générale de 13h45 à 14h30 et un temps pour travailler par groupe de 14h30 à 15h15.
+ * journée de soutenance poster : lundi 26 janvier 2026. 
 
 
 **Choix des sujets**

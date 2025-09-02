@@ -2,9 +2,9 @@
 permalink: ListeProjetsCourants
 layout: default_2
 ---
-{%assign precyear = 2024%}
+{%assign precyear = 2025%}
 
-# Liste des Projets proposés cette année 2024
+# Liste des Projets proposés cette année {{precyear}}
 
 Cette page contient la liste des mini-projets proposés cette année pour l'unité d'enseignement "terre et société" (UE 14) en première année à l'Ecole des Mines de Paris. Cliquez simplement sur les projets pour en avoir une description complète.
 
@@ -13,7 +13,7 @@ Cette page contient la liste des mini-projets proposés cette année pour l'unit
 - Si vous souhaitez revenir à ma page principale, c'est [ici]({{site.url}}/index.html).
 
 ## Projets proposés
-{%assign curyear = 2024%}
+{%assign curyear = 2025%}
 <h4>
          <a id="annee{{precyear}}"> Année - {{precyear}}
          <br> <br>

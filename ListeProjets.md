@@ -24,7 +24,7 @@ Cette page contient la liste des mini-projets des années passées de l'unité d
 {% endfor %}
 
 ## Détails :
-{%assign precyear = 2024%}
+{%assign precyear = 2025%}
 <h4>
          <a id="annee{{precyear}}"> Année - {{precyear}}
          <br> <br>
