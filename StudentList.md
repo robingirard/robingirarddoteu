@@ -45,20 +45,6 @@ CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a>.
 
 <img src="/assets/ImagesRecherche/image_laurent.png" alt="Laurent Cornaggia"/>
 
-## Maxime Vrain
- <a id="MaximeVrain">
-<img src="/assets/ImagesRecherche/photo_maxime_s.jpg" alt="Anaelle jodry" style="height: 150px; width:115px;"/><br>
-PhD Student since October 2022 <br>
-Vectors coupling in the 2050 european energy system. <br>
-CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a>.
-
-<a href="https://www.linkedin.com/in/maxime-vrain-16a049172/"> Linkedin  </a>
-
-**Mini CV --** Maxime Vrain specialized in Energy/Climate issues during his engineering curriculum in Ecole polytechnique and Mines de Paris. After a research internship on induced seismicity by Geothermal plants with Caltech and an engineering internship on nuclear safety with EDF, he joined the PERSEE centre as a PhD. candidate to work on multi-energy systems in collaboration with RTE.
-
-**PhD description --** Effectively decarbonising the European energy system requires an intensification of coupling between energy carriers: electricity, methane, hydrogen, and heating networks in this thesis. The power system is already at the heart of these couplings because of the technologies directly linking it to all the other vectors. And this role will grow as a result of the indirect electrification via hydrogen or heat. This development increases electricity demand but can also provide flexibility: better control of demand according to renewable production, access to storage, etc. The aim of this thesis is to gain a better understanding of the consequences of different energy carriers’ development scenarios on the operation of the power system in 2050.
-
-<img src="/assets/ImagesRecherche/image_maxime.png" alt="Maxime "/>
 
 ## Hugo Hamburger
  <a id="HugoHamburger">
@@ -91,38 +77,27 @@ PhD funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project, in c
 
 **PhD description --** The decarbonisation of the energy system in 2050 will lead to a significant change in energy demand. The need for fossil fuels will gradually be replaced by a demand of electricity, bio-fuels or e-fuels (hydrogen, e-methane, bio-methane, low-temperature heat, etc.). At the same time, the electricity grid is phasing out emitting thermal generation, creating new needs to ensure grid stability, particularly in terms of storage. Modelling the conversions between energy vectors makes it possible to reduce the costs of decarbonisation, by optimising the deployment of new infrastructure. The aim of this thesis is to study a problem of optimal pathways of a multi-energy system by modelling an industrial hub. The questions to be studied are: - What are the optimal technologies in terms of cost to produce hydrogen or other decarbonised vectors? - What is the role of carbon capture in the model, based on cost assumptions? - For which energy carriers and how should daily, weekly and seasonal energy storage be sized?
 
+## Maria Berchiche
+Integrating CO2 resources into territorial energy planning.
+PhD Student since October 2024 <br>
+
+## Sarah Lagrancourd
+Optimisation of decarbonisation trajectory for a group of buildings - PhD funded by CSTB and ADEME.
+PhD Student since October 2025 <br>
+
+## Clara Lemaitre
+Methodology for modelling and calibrating electrical load curves for multi-scale building stock for the evaluation of renovation and flexibility scenarios. CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a> and CSTB.
+PhD Student since December 2025 <br>
 
 
 
-
-## Owen Palmer
- <a id="OwenPalmer">
-<img src="/assets/ImagesRecherche/photo_owen_s.jpg" alt="Owen Palmer" style="height: 150px; width:150px;"/><br>
-PhD Student since May 2022 <br>
-Optimisation of decision making for PV+hydrogen+storage projects.  <br>
-CIFRE PhD funded by <a href ="https://verso.energy/"> Verso Energy</a>.
-
-
-<a href="https://www.linkedin.com/in/owen-palmer-79868167/"> Linkedin  </a>
-
-**Mini CV --** Owen has 10 years' power system engineering experience with the Australian power system operator, Ausgrid. During this time, he worked as a specialist in protection and control systems for connection of renewable generators to the electricity network. He participated in standards development in this capacity with the Australian Energy Networks Association (ENA), Standards Australia, and the International Electrotechnical Committee (IEC). Seeking new challenges, Owen completed a master's degree at Grenoble INP focusing on energy engineering, economics, and digitization, before beginning an industrial (CIFRE) PhD with Mines Paris and the French renewable energy developer, Verso Energy, in 2021.
-
-
-**PhD description --** His research focuses on addressing sources of risk to ensure the commercial viability of hybrid energy systems that consist of renewable production, battery electricity storage, and green hydrogen production. The costs and revenues of these projects are subject to a number of uncertainties, such as renewable production and energy market prices. Owen’s thesis seeks to develop advanced quantitative methods for planning the sizing and contracting of these projects in order to manage these risks.
-A first publication examines the use of stochastic optimization for electrolytic hydrogen production sizing and the procurement of futures contracts to address energy market risk:
-
-O. Palmer, H. Radet, S. Camal and R. Girard, "Risk-conscious asset sizing and energy procurement planning for an electrolytic hydrogen producer.," 2023 IEEE PES Innovative Smart Grid Technologies Europe (ISGT EUROPE), Grenoble, France, 2023, pp. 1-6, doi: 10.1109/ISGTEUROPE56780.2023.10407681.
-
-
-<img src="/assets/ImagesRecherche/image_owen.png" alt="Owen Palmer" style="height: 300px; width:700px;"/>
-
-
+# List of past students
 
 
 ## Thibault Goessel
  <a id="ThibaultGoessel">
 <img src="/assets/ImagesRecherche/photo_thibault_s.jpg" alt="Thibault Goessel" style="height: 150px; width:150px;"/><br>
-PhD Student since November 2022 <br>
+Started in november 2022 defended his PhD in December 2025 <br>
 LCA of building renovation toward carbon neutrality. <br>
 PhD funded by <a href="http://www.cstb.fr/fr/"> CSTB</a>.
 
@@ -136,7 +111,55 @@ PhD funded by <a href="http://www.cstb.fr/fr/"> CSTB</a>.
 
 <img src="/assets/ImagesRecherche/image_thibault.png" alt="Thibault Goessel" style="height: 300px; width:700px;"/>
 
-# List of past students
+Publication in Building and Environment, 2025,  Goessel Thibault, Simon Ligier, Robin Girard. <a href="https://www.sciencedirect.com/science/article/pii/S0360132325011643" target="_blank" rel="nofollow"> Integrating life cycle sustainability assessment into building renovation strategies.
+
+Publication in IOP Conference Series: Earth and Environmental Science, 2025,  Goessel Thibault, Simon Ligier, Robin Girard. <a href="https://iopscience.iop.org/article/10.1088/1755-1315/1554/1/012125" target="_blank" rel="nofollow"> Evaluating the Short-Term Indicators of Optimal Building Renovation Strategies based on Life Cycle Sustainability Assessment.
+
+## Maxime Vrain
+ <a id="MaximeVrain">
+<img src="/assets/ImagesRecherche/photo_maxime_s.jpg" alt="Anaelle jodry" style="height: 150px; width:115px;"/><br>
+Started in October 2022, defended his PhD in November 2025, now at RTE. <br>
+PhD defense is available <a href="https://www.youtube.com/watch?v=bz89FFJY_VA" here </a>  <br>
+Vectors coupling in the 2050 european energy system. <br>
+CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a>.
+
+
+<a href="https://www.linkedin.com/in/maxime-vrain-16a049172/"> Linkedin  </a>
+
+**Mini CV --** Maxime Vrain specialized in Energy/Climate issues during his engineering curriculum in Ecole polytechnique and Mines de Paris. After a research internship on induced seismicity by Geothermal plants with Caltech and an engineering internship on nuclear safety with EDF, he joined the PERSEE centre as a PhD. candidate to work on multi-energy systems in collaboration with RTE.
+
+**PhD description --** Effectively decarbonising the European energy system requires an intensification of coupling between energy carriers: electricity, methane, hydrogen, and heating networks in this thesis. The power system is already at the heart of these couplings because of the technologies directly linking it to all the other vectors. And this role will grow as a result of the indirect electrification via hydrogen or heat. This development increases electricity demand but can also provide flexibility: better control of demand according to renewable production, access to storage, etc. The aim of this thesis is to gain a better understanding of the consequences of different energy carriers’ development scenarios on the operation of the power system in 2050.
+
+<img src="/assets/ImagesRecherche/image_maxime.png" alt="Maxime "/>
+
+Publication in Energy, 2025,  Maxime Vrain, Thibaut Wissocq, Nicolas Lamaison, Virginie Dussartre, Nicolas Lhuillier, Robin Girard. <a href="https://www.sciencedirect.com/science/article/pii/S0360544225030269" target="_blank" rel="nofollow"> An aggregation method to model district heating networks in large-scale multi-energy simulations.
+
+Publication in Energy, 2024,  Maxime Vrain, Virginie Dussartre, Nicolas Lhuillier, Robin Girard. <a href="https://www.sciencedirect.com/science/article/pii/S0360544224036806" target="_blank" rel="nofollow"> A spatially-explicit method for generating prospective district heating scenarios.
+
+
+## Owen Palmer
+ <a id="OwenPalmer">
+<img src="/assets/ImagesRecherche/photo_owen_s.jpg" alt="Owen Palmer" style="height: 150px; width:150px;"/><br>
+Started his PhD in May 2022, defended in June 2025. Now at Energy Examplar. <br>
+Optimisation of decision making for PV+hydrogen+storage projects.  <br>
+CIFRE PhD funded by <a href ="https://verso.energy/"> Verso Energy</a>.
+
+
+<a href="https://www.linkedin.com/in/owen-palmer-79868167/"> Linkedin  </a>
+
+**Mini CV --** Owen has 10 years' power system engineering experience with the Australian power system operator, Ausgrid. During this time, he worked as a specialist in protection and control systems for connection of renewable generators to the electricity network. He participated in standards development in this capacity with the Australian Energy Networks Association (ENA), Standards Australia, and the International Electrotechnical Committee (IEC). Seeking new challenges, Owen completed a master's degree at Grenoble INP focusing on energy engineering, economics, and digitization, before beginning an industrial (CIFRE) PhD with Mines Paris and the French renewable energy developer, Verso Energy, in 2021.
+
+
+**PhD description --** His research focuses on addressing sources of risk to ensure the commercial viability of hybrid energy systems that consist of renewable production, battery electricity storage, and green hydrogen production. The costs and revenues of these projects are subject to a number of uncertainties, such as renewable production and energy market prices. Owen’s thesis seeks to develop advanced quantitative methods for planning the sizing and contracting of these projects in order to manage these risks.
+A first publication examines the use of stochastic optimization for electrolytic hydrogen production sizing and the procurement of futures contracts to address energy market risk:
+
+Publication in Energy Economics, 2025,  Owen Palmer, Hugo Radet, Simon Camal, Jalal Kazempour, Robin Girard. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0140988325008114" target="_blank" rel="nofollow"> Hedging hydrogen: Planning and contracting under uncertainty for a green hydrogen producer.
+
+O. Palmer, H. Radet, S. Camal and R. Girard, "Risk-conscious asset sizing and energy procurement planning for an electrolytic hydrogen producer.," 2023 IEEE PES Innovative Smart Grid Technologies Europe (ISGT EUROPE), Grenoble, France, 2023, pp. 1-6, doi: 10.1109/ISGTEUROPE56780.2023.10407681.
+
+
+<img src="/assets/ImagesRecherche/image_owen.png" alt="Owen Palmer" style="height: 300px; width:700px;"/>
+
 
 ## Quentin Raillard-Cazanove
  <a id="QuentinRaillard-Cazanove">
