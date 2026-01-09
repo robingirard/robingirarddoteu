@@ -89,6 +89,7 @@ PhD Student since October 2024 <br>
 
 **PhD description --** The management of CO₂ is becoming a central pillar of industrial decarbonization, as many sectors will continue to generate residual emissions in a net-zero scenario. While carbon capture, utilization and storage (CCUS) is increasingly included in national climate strategies,the required infrastructures remain largely under-represented in energy system planning models. The objective of this PhD is to integrate CO₂ management infrastructures into multi-energy system planning in order to identify cost-optimal investment pathways for industrial decarbonization. The work combines spatial modelling of CO₂ networks at multiple scales, techno-economic assessment of CCUS relative to alternative mitigation options, detailed representation of CO₂ utilization routes, and carbon accounting of fossil and biogenic CO₂ flows, to provide a consistent framework for planning future CO₂ management systems.
 
+<img src="/assets/ImagesRecherche/image_maria.png" alt="Hugo Hamburger"/>
 
 ## Sarah Lagrancourd
  <a id="SarahLagrandcourd">
