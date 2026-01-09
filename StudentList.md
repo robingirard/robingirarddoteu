@@ -61,7 +61,7 @@ PhD funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project, in c
 
 **PhD description --** In the field of energy systems, the energy transition is driving massive changes in system variability and uncertainty.  To ensure the system's adequacy and reliability, these changes need to be accounted for in the models. In particular, this means using higher spatio-temporal resolution, planning on a longer time scale, and considering interactions between energy vectors. However, when translated into energy system models, they give rise to large-scale non-convex problems which in practice are not tractable.  The aim of this thesis is to solve this type of long-term, adequate multi-energy system planning problem by developing new non-exact but tractable optimization methods, based on model coupling. The general idea is to leverage the potential of investment planning models (e.g. OSeMOSYS) by linking them to high-resolution adequacy models (e.g. ANTARES), which can be regarded as a kind of dialogue between these models.
 
-<img src="/assets/ImagesRecherche/image_hugo.png" alt="Hugo Hamburger"/>
+<img src="/assets/ImagesRecherche/image_hugoh.png" alt="Hugo Hamburger"/>
 
 ## Thibaut Knibiehly
  <a id="ThibautKnibiehly">
