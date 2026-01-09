@@ -6,7 +6,7 @@ layout: default_2
 # List of present students
 [Back to Sudent list in my main page]({{site.url}}/index.html#Current).<br>
 [Job offers](https://www.robingirard.eu/JobOffer.html)
-
+[Past students](#paststudents)
 
 
 
@@ -78,21 +78,36 @@ PhD funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project, in c
 **PhD description --** The decarbonisation of the energy system in 2050 will lead to a significant change in energy demand. The need for fossil fuels will gradually be replaced by a demand of electricity, bio-fuels or e-fuels (hydrogen, e-methane, bio-methane, low-temperature heat, etc.). At the same time, the electricity grid is phasing out emitting thermal generation, creating new needs to ensure grid stability, particularly in terms of storage. Modelling the conversions between energy vectors makes it possible to reduce the costs of decarbonisation, by optimising the deployment of new infrastructure. The aim of this thesis is to study a problem of optimal pathways of a multi-energy system by modelling an industrial hub. The questions to be studied are: - What are the optimal technologies in terms of cost to produce hydrogen or other decarbonised vectors? - What is the role of carbon capture in the model, based on cost assumptions? - For which energy carriers and how should daily, weekly and seasonal energy storage be sized?
 
 ## Maria Berchiche
+ <a id="MariaBerchiche">
+ <img src="/assets/ImagesRecherche/photo_maria_s.jpg" alt="Thibaut" style="height: 150px; width:150px;"/><br>
 Integrating CO2 resources into territorial energy planning.
 PhD Student since October 2024 <br>
 
+<a href="https://www.linkedin.com/in/maria-berchiche-10480218a/"> Linkedin  </a>
+
+**Mini CV --** Maria Berchiche holds a double Bachelor’s degree in Mathematics and Economics from Université Paris-Saclay and a Master’s degree in Energy and Finance from Paris Dauphine-PSL. After a research internship at IFPEN, where she worked on defining business models for the deployment of CCUS technologies in France, she joined the PERSEE center and is currently a PhD candidate working on the integration of CO₂ infrastructure into energy systems modelling, as part of the PlaneTerr project and in collaboration with NaTran.
+
+**PhD description --** The management of CO₂ is becoming a central pillar of industrial decarbonization, as many sectors will continue to generate residual emissions in a net-zero scenario. While carbon capture, utilization and storage (CCUS) is increasingly included in national climate strategies,the required infrastructures remain largely under-represented in energy system planning models. The objective of this PhD is to integrate CO₂ management infrastructures into multi-energy system planning in order to identify cost-optimal investment pathways for industrial decarbonization. The work combines spatial modelling of CO₂ networks at multiple scales, techno-economic assessment of CCUS relative to alternative mitigation options, detailed representation of CO₂ utilization routes, and carbon accounting of fossil and biogenic CO₂ flows, to provide a consistent framework for planning future CO₂ management systems.
+
+
 ## Sarah Lagrancourd
+ <a id="SarahLagrandcourd">
 Optimisation of decarbonisation trajectory for a group of buildings - PhD funded by CSTB and ADEME.
 PhD Student since October 2025 <br>
 
+<a href="https://www.linkedin.com/in/sarah-l-3baa3099/"> Linkedin  </a>
+
 ## Clara Lemaitre
+ <a id="ClaraLemaitre">
 Methodology for modelling and calibrating electrical load curves for multi-scale building stock for the evaluation of renovation and flexibility scenarios. CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a> and CSTB.
 PhD Student since December 2025 <br>
+
+<a href="https://www.linkedin.com/in/clara-lemaitre/"> Linkedin  </a>
 
 
 
 # List of past students
-
+<a id="paststudents">
 
 ## Thibault Goessel
  <a id="ThibaultGoessel">
