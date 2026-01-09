@@ -34,7 +34,7 @@ La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
  * envoi des sujets : 1er septembre 2025, peu après la rentrée.
  * choix des sujets par les étudiants, envoi par les délégués des attributions par élève (la liste doit contenir le mail de chaque élève et le sujet associé) et lancement des travaux : avant le 18 septembre.
  * 19 septembre 13h45-15h15 : créneau pour le lancement des projets avec une présentation générale de 13h45 à 14h30 et un temps pour travailler par groupe de 14h30 à 15h15.
- * journée de soutenance poster : lundi 26 janvier 2026. 
+ * journée de soutenance poster : lundi 26 janvier 2026.
 
 
 **Choix des sujets**
@@ -53,7 +53,7 @@ La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
   - La seconde est la note de soutenance.
  * Le rendu des mini-projets est un poster présenté devant un jury et toute la promo dans une session ouverte au public qui a lieu en janvier. Pour chaque poster, un créneau d’environ 30 minutes est réservé et doit permettre aux étudiants de présenter le poster (10-15 minutes) et au jury de poser des questions (10-20 minutes).
  * Concernant la note de soutenance, chaque membre de jury donne une note sur le travail effectué, la qualité de la présentation et des réponses aux questions, et la qualité du poster.
- *	le poster doit être réalisé à partir de [ce patron]({{site.url}}/UE14-2024-Sujet-XX.pptx). Faites parvenir par le lien de dépot et/ou par mail à Robin Girard (avant la soutenance) le fichier poster pptx, en remplaçant XX par votre numéro de sujet et en mettant votre tuteur en copie ; l’objet du mail doit être [UE14-miniprojet]. Ces documents seront partagés sur ce site.
+ *	le poster doit être réalisé à partir de [ce patron]({{site.url}}/UE14-2025-Sujet-XX.pptx). Faites parvenir par le lien de dépot et/ou par mail à Robin Girard (avant la soutenance) le fichier poster pptx, en remplaçant XX par votre numéro de sujet et en mettant votre tuteur en copie ; l’objet du mail doit être [UE14-miniprojet]. Ces documents seront partagés sur ce site.
 
 ## Description générale de l'UE-14
  <a id="descriptif">
