@@ -91,17 +91,30 @@ PhD Student since October 2024 <br>
 
 <img src="/assets/ImagesRecherche/image_maria.png" alt="Hugo Hamburger"/>
 
-## Sarah Lagrancourd
- <a id="SarahLagrandcourd">
+## Sarah Lagrancourt
+ <a id="SarahLagrandcourt">
+ <img src="/assets/ImagesRecherche/photo_sarah_s.jpg" alt="Sarah" style="height: 150px; width:150px;"/><br>
+
 Optimisation of decarbonisation trajectory for a group of buildings - PhD funded by CSTB and ADEME.
 PhD Student since October 2025 <br>
 
 <a href="https://www.linkedin.com/in/sarah-l-3baa3099/"> Linkedin  </a>
 
+**Mini CV --** Sarah Lagrandcourt graduated from INSA Rennes - Mathematical Engineering in 2020. Their first ambition was to study and work in finance related mathematics, so they went for a MSc in Probability and Finance in Paris, jointly accredited by the Sorbonne University and the Ecole Polytechnique. They were then hired as a quantitative analyst in ratings models development for a rating agency for which they worked in Berlin and Madrid between 2021 and 2024. In 2025, they started a career change in order to work in the energy tansition field. Since october 2025, they are conducting a PhD in mathematics and energy, for the robust optimisation of decarbonisation trajectories for a building stock.
+
+**PhD description --** This PhD aims at investigating the uncertainties surrounding the creation of optimal retrofit trajectories of a building stock - for its decarbonisation on a massive scale - and work towards the development of a robust optimisation method incorporating them for this purpose.
+
 ## Clara Lemaitre
  <a id="ClaraLemaitre">
+ <img src="/assets/ImagesRecherche/photo_clara_s.jpg" alt="Clara" style="height: 150px; width:150px;"/><br>
+
 Methodology for modelling and calibrating electrical load curves for multi-scale building stock for the evaluation of renovation and flexibility scenarios. CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a> and CSTB.
 PhD Student since December 2025 <br>
+
+**Mini CV --** Clara Lemaitre graduated from Ecole Nationale des Ponts et Chaussées et Universidad Politecnica de Madrid, specializing in industrial engineering. After a first position in the start-up Cube Green Energy as project manager in wind repowering projects, she pursued a similar role at ERG. In December 2025, Clara started a CIFRE PhD thesis in collaboration with RTE, the CSTB and Mines Paris PSL, titled “Methodology for modelling and calibrating electrical load curves for multi-scale building stock for the evaluation of renovation and flexibility scenarios”.
+
+**PhD description --** This thesis focuses on the detailed modelling of energy consumption and flexibility in the residential sector, which is essential to support the energy transition. By combining physical modelling, bottom-up building scenario and the integration of technological and behavioral changes, it proposes to establish simulation tools applicable at different spatial scales, from social housing to the whole of France. These tools will make it possible to generate energy load and flexibility curves for any state of the residential housing stock, with hourly resolution, across various energy vectors and time horizons. This work is part of a wider effort to make the tools developed usable and shareable by various industrial partners to support the transition to carbon neutrality.
+
 
 <a href="https://www.linkedin.com/in/clara-lemaitre/"> Linkedin  </a>
 
