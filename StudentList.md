@@ -93,7 +93,7 @@ PhD Student since October 2024 <br>
 
 ## Sarah Lagrancourt
  <a id="SarahLagrandcourt">
- <img src="/assets/ImagesRecherche/photo_sarah_s.jpg" alt="Sarah" style="height: 150px; width:150px;"/><br>
+ <img src="/assets/ImagesRecherche/photo_sarah_s.jpg" alt="Sarah" style="height: 150px; width:110px;"/><br>
 
 Optimisation of decarbonisation trajectory for a group of buildings - PhD funded by CSTB and ADEME.
 PhD Student since October 2025 <br>
