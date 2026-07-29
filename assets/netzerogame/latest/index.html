@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>The Net Zero Game — v0.14.0</title>
+  <title>The Net Zero Game — v0.14.1</title>
   <style>
     :root {
       --bg: #eef3f5;
@@ -351,6 +351,8 @@
     .panel { display: none; padding: 18px; }
     .panel.active { display: block; }
     .panel-intro { margin: 0 0 15px; color: var(--muted); }
+    .hero-credit { display: inline-block; margin-top: 8px; font-size: 13px; opacity: .9; }
+    .hero-credit a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
     /* The generic `details` further down is a card; this one is inline in a
        banner that already has its own frame, so it opts out of all of it. */
     .scope-note details { background: none; border: none; border-radius: 0; margin: 0; }
@@ -687,12 +689,15 @@
 <body>
   <main class="app">
     <header class="hero">
-      <p class="eyebrow">Teaching model · France 2050 · v0.14.0</p>
+      <p class="eyebrow">Teaching model · France 2050 · v0.14.1</p>
       <h1>The Net Zero Game</h1>
       <p class="hero-copy">
         Build a national 2050 pathway. Transport, building heating and industry are driven by
         the detailed game engine; agriculture, energy and waste complete the national inventory
-        through transparent first-order modules.
+        through transparent first-order modules.<br>
+        <span class="hero-credit">An open-source teaching model by
+          <a href="https://www.robingirard.eu/" target="_blank" rel="noopener">Robin Girard</a>, MINES Paris — PSL ·
+          <a href="https://www.robingirard.eu/TheNetZeroGame.html" target="_blank" rel="noopener">about &amp; other versions</a></span>
       </p>
       <div class="hero-actions" aria-label="Game actions">
         <button class="button hero-button primary" type="button" id="resetScenario">Reset to reference</button>
@@ -1194,9 +1199,15 @@
           </div>
 
           <div class="control-section">
-            <h3>The code</h3>
+            <h3>Who made this, and where it lives</h3>
             <p>
-              Everything, including the model, the sources and this page:
+              Built by <a href="https://www.robingirard.eu/" target="_blank" rel="noopener"><strong>Robin Girard</strong></a>,
+              MINES Paris — PSL. The project page, with every published version kept at its own permanent link, is at
+              <a href="https://www.robingirard.eu/TheNetZeroGame.html" target="_blank" rel="noopener">robingirard.eu/TheNetZeroGame.html</a> —
+              a scenario shared with a class still opens against the model it was built on.
+            </p>
+            <p>
+              <strong>It is open source.</strong> Everything, including the model, its sources and this page:
               <a id="repoLink" href="#" target="_blank" rel="noopener"></a>
             </p>
           </div>
@@ -2106,8 +2117,12 @@ What it is for: a decarbonisation pathway is usually argued in TWh and MtCO2.  T
       </div>
     </details>
 
-    <p class="footer">The Net Zero Game v0.14.0 · Generated 2026-07-28 · Model compiled from <code>model/*.yaml</code> · Inventory: SECTEN 2026.<br>
-      Open source — <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/The-net-zero-game" target="_blank" rel="noopener">git.persee.minesparis.psl.eu/energy-alternatives/The-net-zero-game</a></p>
+    <p class="footer">
+      The Net Zero Game v0.14.1 · Generated 2026-07-28 · Model compiled from <code>model/*.yaml</code> · Inventory: SECTEN 2026.<br>
+      By <a href="https://www.robingirard.eu/" target="_blank" rel="noopener"><strong>Robin Girard</strong></a>, MINES Paris — PSL ·
+      <a href="https://www.robingirard.eu/TheNetZeroGame.html" target="_blank" rel="noopener">about this model</a><br>
+      Open source — <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/The-net-zero-game" target="_blank" rel="noopener">git.persee.minesparis.psl.eu/energy-alternatives/The-net-zero-game</a>
+    </p>
   </main>
 
   <script>
@@ -4519,7 +4534,7 @@ What it is for: a decarbonisation pathway is usually argued in TWh and MtCO2.  T
         assumptions: state,
         results: fullModel(),
         emissionsUnit: "MtCO2/y",
-        appVersion: "v0.14.0"
+        appVersion: "v0.14.1"
       };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
       const link = document.createElement("a");
@@ -4657,7 +4672,7 @@ What it is for: a decarbonisation pathway is usually argued in TWh and MtCO2.  T
       const score = scenarioScore(model);
       const lines = [
         "", "", "---", "Sent from The Net Zero Game — please keep the lines below.",
-        `Version: v0.14.0`,
+        `Version: v0.14.1`,
         `Scenario: ${currentScenarioName}`,
         `Score: ${Math.round(score.total)} points of overshoot`,
         `Game perimeter: ${fmt(model.emissions, 2)} MtCO2 · national gross ${fmt(model.national.gross, 2)}`

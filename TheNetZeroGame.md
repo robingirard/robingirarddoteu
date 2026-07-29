@@ -10,6 +10,8 @@ industry against emission targets and against the physical constraints that make
 electrification a trade-off rather than a free win — the winter electricity peak,
 and the biogas, biofuel and biomass the country can actually supply.
 
+By **[Robin Girard]({{site.url}}/)**, MINES Paris — PSL.
+
 **[Play the current version]({{site.url}}/assets/netzerogame/latest/index.html)** — v0.14.
 
 It runs entirely in your browser. Nothing is sent anywhere, and you can save a
