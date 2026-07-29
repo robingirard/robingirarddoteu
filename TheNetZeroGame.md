@@ -10,7 +10,7 @@ industry against emission targets and against the physical constraints that make
 electrification a trade-off rather than a free win — the winter electricity peak,
 and the biogas, biofuel and biomass the country can actually supply.
 
-**[Play the current version]({{site.url}}/assets/netzerogame/latest/index.html)** — v0.10.
+**[Play the current version]({{site.url}}/assets/netzerogame/latest/index.html)** — v0.12.
 
 It runs entirely in your browser. Nothing is sent anywhere, and you can save a
 scenario to a file and load it back on another machine.
@@ -35,6 +35,8 @@ Source code, including the model and its sources:
 Each minor release keeps its own permanent link, so a scenario shared with a class
 still opens against the model it was built on.
 
+ - [v0.12]({{site.url}}/assets/netzerogame/v0.12/index.html)
+ - [v0.11]({{site.url}}/assets/netzerogame/v0.11/index.html)
  - [v0.10]({{site.url}}/assets/netzerogame/v0.10/index.html)
 
 <small>Page updated 2026-07-29.</small>
