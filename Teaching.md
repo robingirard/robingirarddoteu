@@ -1,0 +1,74 @@
+---
+permalink: Teaching
+layout: default_2
+---
+
+# Teaching
+
+Everything I teach that is publicly available: the interactive tools, the
+course material and the student project pages.
+
+<small>[Version française]({{site.url}}/Enseignement.html) · [Back to my main page]({{site.url}}/index.html)</small>
+
+## Interactive tools
+
+Two applications, to be opened straight in a browser. They run entirely on your
+machine: nothing is sent anywhere, and they keep working offline once the page
+has loaded. Both are open source, model and sources included.
+
+You are welcome to use them in your own teaching — translated, cut up or
+modified. Content is under CC BY 4.0 and code under the MIT licence; just say
+where it came from.
+
+### [The Net Zero Game]({{site.url}}/TheNetZeroGame.html)
+
+A teaching model of France in 2050. You drive transport, building heating and
+industry against emission targets and against the physical constraints that make
+electrification a trade-off rather than a free win — the winter electricity peak,
+and the biogas, biofuel and biomass the country can actually supply.
+
+Every formula is declared in a YAML file rather than buried in a spreadsheet
+cell, and every assumption carries its value, its bounds and its sources.
+Code and model:
+[git.persee.minesparis.psl.eu/energy-alternatives/The-net-zero-game](https://git.persee.minesparis.psl.eu/energy-alternatives/The-net-zero-game)
+
+### [Vehicle efficiency, from the well to the wheel]({{site.url}}/VehicleEfficiency.html)
+
+An interactive comparison of six powertrains — battery electric, hydrogen by
+electrolysis, hydrogen by steam reforming, petrol, diesel and hybrid. Every link
+in the chain is a slider carrying its own source, and the Sankey diagram, the
+overall efficiency and the running cost are recomputed live.
+
+The point is not to rank powertrains. It is to show that three method choices —
+the perimeter, the primary-energy accounting convention, and the type-approval
+cycle — decide the headline number more than the engineering does. Default
+values reproduce the JEC Well-to-Wheels v5 (JRC, EUCAR and Concawe), the
+European Union's reference study. Code, sources and reproducible figures:
+[git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency](https://git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency)
+
+## I-BE³ — International Bachelor of Environmentally Engaged Engineering
+
+**Introduction to Energy** — a three-day course for the
+[I-BE³ bachelor's degree](https://www.minesparis.psl.eu/en/education/i-be3/) of
+MINES Paris — PSL, on the Sophia Antipolis campus. What energy is and how it is
+measured, where it comes from and where it goes, and what a low-carbon
+transition actually requires.
+
+The two interactive tools above were built for this course. The rest of the
+material is not published here yet.
+
+## MINES Paris — UE 14 "Terre et Société"
+
+First-year mini-projects, in French.
+
+- [Course description and how it runs]({{site.url}}/MINES-UE14-miniprojet.html) — read this first
+- [This year's project list]({{site.url}}/ListeProjetsCourants.html)
+- [Previous years' projects]({{site.url}}/ListeProjetsPrecedents.html)
+
+## Supervision
+
+- [Students and interns I supervise]({{site.url}}/StudentList.html)
+- [Open internship, PhD and postdoc positions]({{site.url}}/JobOffer.html)
+
+Any question, write to me:
+[robin.girard@minesparis.psl.eu](mailto:robin.girard@minesparis.psl.eu).

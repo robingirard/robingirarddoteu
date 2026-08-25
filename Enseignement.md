@@ -8,13 +8,17 @@ layout: default_2
 Cette page rassemble mes contenus d'enseignement accessibles publiquement :
 les outils interactifs, les supports et les pages de projets étudiants.
 
-Si vous souhaitez revenir à ma page principale, c'est [ici]({{site.url}}/index.html).
+<small>[English version]({{site.url}}/Teaching.html) · [Retour à ma page principale]({{site.url}}/index.html)</small>
 
 ## Outils interactifs
 
 Deux applications, à ouvrir directement dans un navigateur. Elles fonctionnent
 entièrement en local : rien n'est envoyé nulle part, et elles restent utilisables
 hors connexion une fois la page chargée. Leur code et leurs sources sont ouverts.
+
+Servez-vous-en pour vos propres cours — traduites, découpées ou modifiées. Les
+contenus sont sous CC BY 4.0 et le code sous licence MIT ; citez simplement la
+provenance.
 
 ### [The Net Zero Game]({{site.url}}/TheNetZeroGame.html)
 
@@ -43,6 +47,17 @@ par défaut reproduisent le JEC Well-to-Wheels v5 (JRC, EUCAR et Concawe), le
 référentiel de l'Union européenne. Code, sources et figures reproductibles :
 [git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency](https://git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency)
 
+## I-BE³ — International Bachelor of Environmentally Engaged Engineering
+
+**Introduction to Energy** — cours de trois jours pour le
+[bachelor I-BE³](https://www.minesparis.psl.eu/en/education/i-be3/) de
+MINES Paris — PSL, sur le campus de Sophia Antipolis. Ce qu'est l'énergie et
+comment on la mesure, d'où elle vient et où elle va, et ce qu'une transition
+bas carbone demande réellement. Le cours est en anglais.
+
+Les deux outils interactifs ci-dessus ont été construits pour ce cours. Le reste
+du matériel n'est pas encore publié ici.
+
 ## MINES Paris — UE 14 « Terre et Société »
 
 Mini-projets de première année.
@@ -50,11 +65,6 @@ Mini-projets de première année.
 - [Descriptif de l'unité d'enseignement et déroulement]({{site.url}}/MINES-UE14-miniprojet.html) — à lire avant de commencer
 - [Liste des projets de l'année en cours]({{site.url}}/ListeProjetsCourants.html)
 - [Liste des projets des années précédentes]({{site.url}}/ListeProjetsPrecedents.html)
-
-## Bachelor « Énergie et transition bas carbone »
-
-Cours donné en école d'ingénieur. Les supports ne sont pas encore publiés ici ;
-les deux outils interactifs ci-dessus en sont issus.
 
 ## Encadrement
 
