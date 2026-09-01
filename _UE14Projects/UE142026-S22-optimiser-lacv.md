@@ -7,7 +7,7 @@ Encadrant: Younès RIFAD (HOLCIM/Lafarge)
 
 ## Comment optimiser l'ACV de la construction et l'exploitation d'une unité de capture de CO2 post combustion ?
 
-(Encadrant : Younès RIFAD (HOLCIM/Lafarge)
+(Encadrant : Younès RIFAD (HOLCIM/Lafarge))
 
 ## Descriptif
 
