@@ -1,0 +1,94 @@
+---
+name: Comment calibrer les consommations de gaz et d'électricité issues de la base DPE pour les faire correspondre aux données locales de l'énergie (échelle IRIS) ?
+number: "24"
+year: 2026
+Encadrant: Yassine Abdelouadoud
+---
+
+## Comment calibrer les consommations de gaz et d'électricité issues de la base DPE pour les faire correspondre aux données locales de l'énergie (échelle IRIS) ?
+
+(Encadrant : Yassine Abdelouadoud)
+
+## Descriptif
+
+Le Diagnostic de Performance Énergétique (DPE) est aujourd\'hui la
+source d\'information la plus complète sur la performance énergétique
+des logements français : plusieurs millions de certificats sont
+disponibles en open data. Chaque DPE indique une consommation
+**conventionnelle** de chauffage, d\'eau chaude sanitaire, etc.,
+calculée par la méthode réglementaire 3CL à partir des caractéristiques
+du bâti et des équipements. Ainsi cette consommation est basée sur une
+température de consigne standard, une occupation standard et un climat
+de référence. Elle ne correspond donc pas à ce que les ménages
+consomment réellement, et l\'écart est important et structuré : les
+logements les moins bien classés (F--G) consomment nettement moins que
+ne le prédit leur DPE, les mieux classés un peu plus, les logements
+vacants ou occasionnels presque rien alors que leur DPE leur attribue
+une consommation pleine.
+
+On ne dispose pas, en France, de consommations mesurées logement par
+logement en open data (confidentialité). En revanche, les gestionnaires
+de réseaux (Enedis, GRDF) publient chaque année, via la plateforme Open
+Data Réseaux Énergies (ORE), la consommation résidentielle totale
+d\'électricité et de gaz de chaque **IRIS**, la plus fine maille
+statistique de l\'INSEE (environ 2 000 habitants). On connaît donc la «
+vérité terrain » non pas par logement, mais par quartier.
+
+La question du projet est la suivante : en agrégeant les consommations
+conventionnelles des DPE d\'un IRIS, retombe-t-on sur la consommation
+réellement livrée dans cet IRIS ? Si non (et ce sera non), de combien,
+pourquoi, et comment corriger les consommations DPE de façon simple et
+interprétable pour qu\'elles deviennent cohérentes avec les données ORE
+?
+
+## Attendus
+
+L\'objectif n\'est pas d\'arriver à une méthode aboutie mais de se
+confronter à des données réelles, imparfaites et volumineuses, de
+construire pas à pas une comparaison honnête entre deux sources qui ne
+parlent pas tout à fait de la même chose, et d\'en tirer une correction
+argumentée. Le cheminement et la qualité du raisonnement comptent autant
+que le résultat.
+
+## Données mises à disposition (aucune collecte à prévoir)
+
+-   la base REPER, qui contient l'ensembles des logements du recensement
+    associés à un DPE
+
+-   la consommation annuelle résidentielle d\'électricité et de gaz par
+    IRIS (ORE), avec le nombre de points de livraison ;
+
+## Références
+
+-   ADEME, Observatoire DPE --- base des diagnostics de performance
+    énergétique (open data) : <https://data.ademe.fr>
+
+-   Open Data Réseaux Énergies (ORE), Consommation annuelle
+    d\'électricité et de gaz par IRIS :
+    <https://opendata.reseaux-energies.fr>
+
+-   Ministère de la Transition écologique, Méthode de calcul 3CL-DPE
+    2021 (arrêté du 31 mars 2021 et ses annexes) --- pour comprendre ce
+    que « conventionnel » veut dire.
+
+-   Astier, J., Salem, A., Fack, G., Fournel, J., Maisonneuve, F.
+    Performance énergétique du logement et consommation d\'énergie : les
+    enseignements des données bancaires.\*Conseil d\'analyse économique,
+    Focus n°103 (2024).
+    <https://cae-eco.fr/static/pdf/focus-103-dpe-230110.pdf> --- l\'écart
+    DPE / consommation réelle en France, lecture accessible.
+
+-   Sunikka-Blank, M., Galvin, R. Introducing the prebound effect: the
+    gap between performance and actual energy consumption. Building
+    Research & Information 40(3), 260--273 (2012).
+
+-   Majcen, D., Itard, L., Visscher, H. Theoretical vs. actual energy
+    consumption of labelled dwellings in the Netherlands. Energy Policy
+    54, 125--136 (2013).
+
+-   Few, J. et al. The over-prediction of energy use by EPCs in Great
+    Britain. Energy and Buildings 288, 113024 (2023).
+
+-   Abdelouadoud, S.Y., Noël, D., Chesne, L. \*French residential energy
+    performance dataset from housing census and energy performance
+    certificates (REPER)\* (2026)

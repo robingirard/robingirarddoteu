@@ -2,7 +2,7 @@
 permalink: ListeProjetsCourants
 layout: default_2
 ---
-{%assign precyear = 2025%}
+{%assign precyear = 2026%}
 
 # Liste des Projets proposés cette année {{precyear}}
 
@@ -13,7 +13,7 @@ Cette page contient la liste des mini-projets proposés cette année pour l'unit
 - Si vous souhaitez revenir à ma page principale, c'est [ici]({{site.url}}/index.html).
 
 ## Projets proposés
-{%assign curyear = 2025%}
+{%assign curyear = 2026%}
 <h4>
          <a id="annee{{precyear}}"> Année - {{precyear}}
          <br> <br>

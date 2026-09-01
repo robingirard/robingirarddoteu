@@ -20,7 +20,7 @@ Si il vous reste des questions, vous pouvez me les poser directement par mail : 
 ## Liste des projets de l'année en cours et des années précédentes
  <a id="listeprojets">
 
-**Listes de sujets pour l'année 2025**
+**Listes de sujets pour l'année 2026**
 La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
 
 **Sujets et posters des années précédentes** [2019-2024]({{site.url}}/ListeProjetsPrecedents.html)
@@ -30,11 +30,10 @@ La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
 ## Déroulement
  <a id="deroulement">
 
-**Dates importantes en 2025**
- * envoi des sujets : 1er septembre 2025, peu après la rentrée.
- * choix des sujets par les étudiants, envoi par les délégués des attributions par élève (la liste doit contenir le mail de chaque élève et le sujet associé) et lancement des travaux : avant le 18 septembre.
- * 19 septembre 13h45-15h15 : créneau pour le lancement des projets avec une présentation générale de 13h45 à 14h30 et un temps pour travailler par groupe de 14h30 à 15h15.
- * journée de soutenance poster : lundi 26 janvier 2026.
+**Dates importantes en 2026**
+ * présentation des sujets : mardi 8 septembre 2026 à 17h (salle à confirmer).
+ * attribution des sujets par les délégués, à l'issue de la présentation, le 8 septembre au soir.
+ * journée de soutenance poster : fin janvier 2027 (date précise à confirmer, probablement un lundi matin).
 
 
 **Choix des sujets**
