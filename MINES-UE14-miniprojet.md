@@ -31,7 +31,7 @@ La liste est  [ici]({{site.url}}/ListeProjetsCourants.html).
  <a id="deroulement">
 
 **Dates importantes en 2026**
- * présentation des sujets : mardi 8 septembre 2026 à 17h (salle à confirmer).
+ * présentation des sujets : mardi 8 septembre 2026 à 17h en salle L108A.
  * attribution des sujets par les délégués, à l'issue de la présentation, le 8 septembre au soir.
  * journée de soutenance poster : fin janvier 2027 (date précise à confirmer, probablement un lundi matin).
 
