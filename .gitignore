@@ -1,0 +1,4 @@
+# Build local du site (voir README.md). GitHub Pages reconstruit de son côté :
+# rien de ce qui suit n'a besoin d'être versionné.
+.bundle/
+vendor/

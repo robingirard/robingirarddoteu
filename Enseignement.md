@@ -12,7 +12,7 @@ les outils interactifs, les supports et les pages de projets étudiants.
 
 ## Outils interactifs
 
-Deux applications, à ouvrir directement dans un navigateur. Elles fonctionnent
+Trois applications, à ouvrir directement dans un navigateur. Elles fonctionnent
 entièrement en local : rien n'est envoyé nulle part, et elles restent utilisables
 hors connexion une fois la page chargée. Leur code et leurs sources sont ouverts.
 
@@ -47,6 +47,25 @@ par défaut reproduisent le JEC Well-to-Wheels v5 (JRC, EUCAR et Concawe), le
 référentiel de l'Union européenne. Code, sources et figures reproductibles :
 [git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency](https://git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency)
 
+### [L'empilement des énergies dans le monde]({{site.url}}/WorldEnergyMix.html)
+
+L'énergie mondiale par source, de 1800 à 2030, pour le monde, l'Europe, l'UE-27,
+les États-Unis et la France — sous quatre conventions de comptage différentes.
+
+Deux choses s'y voient. D'abord qu'aucune source d'énergie n'a jamais été
+remplacée : le charbon n'a pas remplacé le bois, le pétrole n'a pas remplacé le
+charbon, le gaz n'a pas remplacé le pétrole. Chacune s'est ajoutée par-dessus
+pendant que les précédentes continuaient de croître. Ensuite que « l'énergie
+primaire » est une convention et non une mesure : selon celle qu'on retient, le
+nucléaire est compté à trois fois sa production électrique ou à deux fois et
+demie, et l'éolien à une fois ou à deux fois et demie — sans qu'un seul joule ne
+bouge. La France affiche 50 % de bas-carbone en énergie primaire et 23 % en
+énergie finale.
+
+La page fonctionne hors ligne et n'embarque aucun jeu de données, seulement les
+valeurs agrégées de la figure. Code et sources :
+[git.persee.minesparis.psl.eu/energy-alternatives/world_energy_mix](https://git.persee.minesparis.psl.eu/energy-alternatives/world_energy_mix)
+
 ## I-BE³ — International Bachelor of Environmentally Engaged Engineering
 
 **Introduction to Energy** — cours de trois jours pour le
@@ -55,8 +74,13 @@ MINES Paris — PSL, sur le campus de Sophia Antipolis. Ce qu'est l'énergie et
 comment on la mesure, d'où elle vient et où elle va, et ce qu'une transition
 bas carbone demande réellement. Le cours est en anglais.
 
-Les deux outils interactifs ci-dessus ont été construits pour ce cours. Le reste
-du matériel n'est pas encore publié ici.
+- [**Les supports de cours**]({{site.url}}/IntroductionToEnergy.html) — édition
+  2026, en PDF et en PowerPoint modifiable. Les decks 1 à 3 pour l'instant :
+  ce qu'est l'énergie, l'histoire de l'énergie, et le rendement et la
+  thermodynamique. La page est en anglais, comme le cours.
+
+Les trois outils interactifs ci-dessus ont été construits pour ce cours. Les
+decks suivants, et le code qui produit les figures, sont ouverts un à un.
 
 ## MINES Paris — UE 14 « Terre et Société »
 

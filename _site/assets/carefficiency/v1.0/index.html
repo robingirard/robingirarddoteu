@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vehicle efficiency — from the well to the wheel — v1.0</title>
+<style>
+:root{
+  --surface:#fcfcfb; --surface-2:#f3f2ee; --border:#e2e1da;
+  --ink-1:#0b0b0b; --ink-2:#52514e; --ink-3:#7a7871;
+  /* Losses are tints of the useful blue, not a neutral grey: a loss branch
+     has to read as energy *taken out of* the flow. Each family fades from a
+     head tone at the node to a tail tone at the baseline that recedes into
+     the background — paler in the light theme, deeper in the dark one. */
+  --utile:#2a78d6;
+  --perte-1a:#5b99dd; --perte-1b:#86b4e5;
+  --perte-2a:#a5cbee; --perte-2b:#c2d9f0;
+  --elec:#2a78d6; --h2:#4a3aa7; --therm:#eb6834;
+  --accent-bg:#eef4fd;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --surface:#1a1a19; --surface-2:#242422; --border:#3a3a36;
+    --ink-1:#ffffff; --ink-2:#c3c2b7; --ink-3:#8f8e85;
+    --utile:#3987e5;
+  --perte-1a:#5b8fcd; --perte-1b:#44709f;
+  --perte-2a:#345f8c; --perte-2b:#22405f;
+    --elec:#3987e5; --h2:#9085e9; --therm:#d95926;
+    --accent-bg:#1e2a3a;
+  }
+}
+:root[data-theme="dark"]{
+  --surface:#1a1a19; --surface-2:#242422; --border:#3a3a36;
+  --ink-1:#ffffff; --ink-2:#c3c2b7; --ink-3:#8f8e85;
+  --utile:#3987e5;
+  --perte-1a:#5b8fcd; --perte-1b:#44709f;
+  --perte-2a:#345f8c; --perte-2b:#22405f;
+  --elec:#3987e5; --h2:#9085e9; --therm:#d95926;
+  --accent-bg:#1e2a3a;
+}
+:root[data-theme="light"]{
+  --surface:#fcfcfb; --surface-2:#f3f2ee; --border:#e2e1da;
+  --ink-1:#0b0b0b; --ink-2:#52514e; --ink-3:#7a7871;
+  --utile:#2a78d6;
+  --perte-1a:#5b99dd; --perte-1b:#86b4e5;
+  --perte-2a:#a5cbee; --perte-2b:#c2d9f0;
+  --elec:#2a78d6; --h2:#4a3aa7; --therm:#eb6834;
+  --accent-bg:#eef4fd;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--surface); color:var(--ink-1);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1320px; margin:0 auto; padding:28px 20px 60px}
+header h1{font-size:27px; line-height:1.2; margin:0 0 8px; letter-spacing:-.01em}
+header p.sub{margin:0 0 6px; color:var(--ink-2); font-size:15.5px; max-width:72ch}
+header p.src{margin:0; color:var(--ink-3); font-size:13px}
+header p.src a{color:inherit; text-decoration:underline; text-underline-offset:2px}
+header p.src .ver{opacity:.65; white-space:nowrap}
+
+.grid{display:grid; grid-template-columns:350px 1fr; gap:26px; margin-top:26px; align-items:start}
+@media (max-width:980px){ .grid{grid-template-columns:1fr} }
+
+.panel{background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:16px 16px 18px}
+.panel h2{font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-3); margin:0 0 12px; font-weight:600}
+.panel + .panel{margin-top:16px}
+
+label.fld{display:block; font-size:13px; color:var(--ink-2); margin:0 0 5px}
+select, input[type=number]{
+  width:100%; padding:7px 9px; font-size:14px; font-family:inherit;
+  background:var(--surface); color:var(--ink-1);
+  border:1px solid var(--border); border-radius:6px;
+}
+.fldgrp{margin-bottom:13px}
+.fldgrp:last-child{margin-bottom:0}
+
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chip{
+  border:1px solid var(--border); background:var(--surface); color:var(--ink-2);
+  border-radius:20px; padding:5px 11px; font-size:13px; cursor:pointer; font-family:inherit;
+}
+.chip:hover{border-color:var(--ink-3)}
+.chip[aria-pressed="true"]{background:var(--ink-1); color:var(--surface); border-color:var(--ink-1)}
+
+.slider{margin-bottom:15px}
+.slider:last-child{margin-bottom:0}
+.slider .top{display:flex; justify-content:space-between; align-items:baseline; gap:10px}
+.slider .nm{font-size:13.5px; color:var(--ink-1)}
+.slider .vl{font-size:13.5px; font-variant-numeric:tabular-nums; color:var(--ink-1); font-weight:600}
+.slider input[type=range]{width:100%; margin:4px 0 0; accent-color:var(--utile)}
+.slider .note{font-size:11.5px; color:var(--ink-3); margin-top:1px; line-height:1.4}
+.slider.modif .nm::after{content:" \25CF"; color:var(--utile)}
+
+.kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:18px}
+@media (max-width:620px){ .kpis{grid-template-columns:1fr} }
+.kpi{background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:13px 15px}
+.kpi .lb{font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-3); margin-bottom:5px}
+.kpi .vl{font-size:29px; font-weight:700; letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1.1}
+.kpi .ex{font-size:12px; color:var(--ink-2); margin-top:3px}
+.kpi.hi .vl{color:var(--utile)}
+
+figure{margin:0}
+svg{display:block; width:100%; height:auto}
+/* The figure is a white plate that does NOT follow the theme. It is meant to be
+   read, projected and exported: a Sankey whose ink flips to white in dark mode
+   would be unreadable the moment it lands on a slide or in the downloaded file.
+   These variables shadow the themed ones for everything inside the figure, and
+   dessine() reads them off the <svg> node, so the export matches the screen. */
+.fig{
+  background:#fff; border:1px solid var(--border); border-radius:10px;
+  padding:12px 6px 6px; color:#0b0b0b;
+  --ink-1:#0b0b0b; --ink-2:#52514e; --ink-3:#7a7871;
+  --utile:#2a78d6;
+  --perte-1a:#5b99dd; --perte-1b:#86b4e5;
+  --perte-2a:#a5cbee; --perte-2b:#c2d9f0;
+}
+.fig .legend{color:#52514e}
+.figbar{display:flex; justify-content:space-between; align-items:center; gap:12px;
+  flex-wrap:wrap; padding:8px 8px 4px; font-size:11.5px; color:#7a7871}
+.figdl{display:flex; gap:6px; flex-shrink:0}
+.figbar .btn{background:#fff; color:#52514e; border-color:#e2e1da}
+.figbar .btn:hover{border-color:#7a7871}
+
+table{border-collapse:collapse; width:100%; font-size:13px; margin-top:8px}
+th,td{text-align:right; padding:6px 9px; border-bottom:1px solid var(--border)}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--ink-3); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em}
+td.num{font-variant-numeric:tabular-nums}
+details{margin-top:18px}
+summary{cursor:pointer; color:var(--ink-2); font-size:13.5px; padding:4px 0}
+.tbwrap{overflow-x:auto}
+
+.msg{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:13px 15px; margin-top:18px; font-size:13.5px; color:var(--ink-2); line-height:1.6}
+.msg strong{color:var(--ink-1)}
+footer{margin-top:34px; padding-top:16px; border-top:1px solid var(--border); font-size:12px; color:var(--ink-3); line-height:1.7}
+.btn{border:1px solid var(--border); background:var(--surface); color:var(--ink-2); border-radius:6px; padding:6px 12px; font-size:13px; cursor:pointer; font-family:inherit}
+.btn:hover{border-color:var(--ink-3)}
+.legend{display:flex; flex-wrap:wrap; gap:14px; margin:2px 0 10px 10px; font-size:12.5px; color:var(--ink-2)}
+.legend i{display:inline-block; width:11px; height:11px; border-radius:2px; margin-right:5px; vertical-align:-1px}
+.cadre{background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:12px 15px 13px; margin-bottom:14px}
+.cadre .note strong{color:var(--ink-2)}
+tr.off td{opacity:.4}
+.warn{color:var(--therm)}
+.comp{font-size:11.5px; color:var(--ink-3); margin-top:5px; line-height:1.45}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>To drive 100&nbsp;km, how much energy must actually be taken out of the ground?</h1>
+  <p class="sub">Every link in the chain is adjustable. The Sankey diagram, the overall efficiency and the running cost are recomputed live. Default values reproduce the JEC&nbsp;Well-to-Wheels&nbsp;v5 figures.</p>
+  <p class="src">By <a href="https://www.robingirard.eu/">Robin Girard</a>, MINES Paris — PSL. Bachelor course « energy and the low-carbon transition ».
+     Every figure is documented in the <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency">source repository</a>, which also holds the code that reproduces this page. <span class="ver">v1.0</span></p>
+</header>
+
+<div class="grid">
+
+  <!-- ================= LEFT COLUMN: SETTINGS ================= -->
+  <div>
+    <div class="panel">
+      <h2>Scenario</h2>
+      <div class="fldgrp">
+        <label class="fld">JEC vintage</label>
+        <div class="chips" role="group">
+          <button class="chip" data-mil="2015" aria-pressed="true">2015 &middot; NEDC</button>
+          <button class="chip" data-mil="2025" aria-pressed="false">2025+ &middot; WLTP</button>
+        </div>
+        <div class="slider"><div class="note" id="milNote"></div></div>
+      </div>
+      <div class="fldgrp">
+        <label class="fld" for="motor">Powertrain</label>
+        <select id="motor"></select>
+      </div>
+      <div class="fldgrp" id="wrapSource">
+        <label class="fld" for="source">Electricity source</label>
+        <select id="source"></select>
+        <div class="comp" id="srcComp"></div>
+      </div>
+      <div class="fldgrp" id="wrapConv">
+        <label class="fld" for="conv">Primary-energy accounting convention</label>
+        <select id="conv">
+          <option value="physique">Physical energy content (IPCC AR5)</option>
+          <option value="substitution">Substitution method</option>
+          <option value="direct">Direct equivalent</option>
+        </select>
+        <div class="slider"><div class="note" id="convNote"></div></div>
+      </div>
+      <div class="fldgrp">
+        <label class="fld">Consumption basis</label>
+        <div class="chips" role="group">
+          <button class="chip" data-usage="homolog" aria-pressed="true">Type-approval</button>
+          <button class="chip" data-usage="reel" aria-pressed="false">Real-world</button>
+          <button class="chip" data-usage="choisi" aria-pressed="false">Chosen-type</button>
+        </div>
+        <div class="slider"><div class="note" id="usageNote"></div></div>
+      </div>
+      <div class="fldgrp" id="wrapProfil">
+        <label class="fld" for="profil">Speed profile</label>
+        <select id="profil"></select>
+        <div class="slider"><div class="note" id="profilNote"></div></div>
+      </div>
+      <div class="fldgrp">
+        <label class="fld">Energy unit</label>
+        <div class="chips" role="group">
+          <button class="chip" data-unite="MJ" aria-pressed="true">MJ</button>
+          <button class="chip" data-unite="kWh" aria-pressed="false">kWh</button>
+        </div>
+        <div class="slider"><div class="note">1 kWh = 3.6 MJ. Efficiencies are unchanged; only the energy figures are converted.</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Vehicle</h2>
+      <div class="slider">
+        <div class="top"><span class="nm">Kerb weight</span><span class="vl" id="vMasse">1,400 kg</span></div>
+        <input type="range" id="sMasse" min="900" max="2600" step="10" value="1400">
+        <div class="note" id="masseNote"></div>
+      </div>
+      <div style="margin-top:12px"><button class="btn" id="resetMasse">Back to the reference weight</button></div>
+    </div>
+
+    <div class="panel">
+      <h2>Efficiency of each link</h2>
+      <div id="sliders"></div>
+      <div style="margin-top:14px"><button class="btn" id="reset">Back to sourced values</button></div>
+    </div>
+
+    <div class="panel">
+      <h2>Energy price</h2>
+      <div class="fldgrp">
+        <label class="fld" for="prix">Tariff applied</label>
+        <select id="prix"></select>
+      </div>
+      <div class="fldgrp">
+        <label class="fld" for="prixVal">Unit price</label>
+        <input type="number" id="prixVal" step="0.001" min="0">
+        <div class="slider"><div class="note" id="prixNote"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= RIGHT COLUMN: RESULTS ================= -->
+  <div>
+    <div class="kpis">
+      <div class="kpi hi">
+        <div class="lb">Overall efficiency</div>
+        <div class="vl" id="kRend">&mdash;</div>
+        <div class="ex" id="kRendEx">well to wheel</div>
+      </div>
+      <div class="kpi">
+        <div class="lb" id="kEnerLb">Primary energy</div>
+        <div class="vl" id="kEner">&mdash;</div>
+        <div class="ex" id="kEnerEx">per 100 km</div>
+      </div>
+      <div class="kpi">
+        <div class="lb">Running cost</div>
+        <div class="vl" id="kCout">&mdash;</div>
+        <div class="ex" id="kCoutEx">per 100 km</div>
+      </div>
+    </div>
+
+    <div class="cadre">
+      <div class="slider">
+        <div class="top">
+          <span class="nm">Where the diagram starts</span>
+          <span class="vl" id="vDepart">Well to wheel</span>
+        </div>
+        <input type="range" id="sDepart" min="0" max="1" step="1" value="0"
+               aria-label="Number of upstream links left out of the diagram">
+        <div class="note" id="departNote"></div>
+      </div>
+    </div>
+
+    <figure class="fig">
+      <div class="legend">
+        <span><i style="background:var(--utile)"></i>Useful energy at the wheel</span>
+        <span><i style="background:linear-gradient(180deg,var(--perte-1a),var(--perte-1b))"></i>Losses on board the vehicle</span>
+        <span><i style="background:linear-gradient(180deg,var(--perte-2a),var(--perte-2b))"></i>Upstream losses</span>
+      </div>
+      <svg id="sankey" viewBox="0 0 920 540" role="img" aria-labelledby="sankeyTitle">
+        <title id="sankeyTitle">Sankey diagram of the energy flow, from the well to the wheel</title>
+      </svg>
+      <figcaption class="figbar">
+        <span id="figLeg"></span>
+        <span class="figdl">
+          <button class="btn" id="dlSvg">Download SVG</button>
+          <button class="btn" id="dlPng">Download PNG</button>
+        </span>
+      </figcaption>
+    </figure>
+
+    <div class="msg" id="msg"></div>
+
+    <details>
+      <summary>Show the values as a table</summary>
+      <div class="tbwrap"><table id="tb">
+        <thead><tr><th>Link</th><th>Efficiency</th><th>Energy left</th><th>Loss</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </details>
+
+    <details>
+      <summary>Compare every configuration (sourced values, reference weight, default settings, always well to wheel)</summary>
+      <div class="tbwrap"><table id="tbAll">
+        <thead><tr><th>Configuration</th><th>Efficiency</th><th>Primary energy</th><th>Cost / 100 km</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </details>
+  </div>
+</div>
+
+<footer>
+  <strong>Main source:</strong> JEC Well-to-Wheels report v5, JRC / EUCAR / Concawe, 2020 (EUR&nbsp;30284&nbsp;EN). Same C-segment reference vehicle throughout. The <em>JEC vintage</em> selector switches between the two columns the report itself publishes side by side: <strong>2015 / NEDC</strong> and <strong>2025+ / WLTP</strong>. Every default is read off the "Technology Walk" tables — 6-8 (petrol), 6-9 (diesel), 6-12 (hybrid), 6-17 (battery), 6-19 (fuel cell) — and each chain is then closed on the published consumption of Tables 5-6&nbsp;ff. or 6-7/6-11/6-16/6-18, to within 0.2%.<br>
+  <span class="warn">The vintage switch moves three things at once</span> — cycle, technology and vehicle mass — and they partly cancel. The battery car's on-board loss budget is 370.0&nbsp;kJ/km in 2015 and 372.1 in 2025+, all but identical, although every line inside it moves by 5 to 25%. Useful work rises from 22.23 to 26.44&nbsp;MJ/100&nbsp;km (rolling 90.0&rarr;95.6, air drag 132.3&rarr;168.8&nbsp;kJ/km): the WLTC is faster, so drag grows as the square of speed and eats the aerodynamic improvement. That is why efficiencies jump while consumption barely falls — <em>do not read the 2025+ column as a pure technology gain.</em><br>
+  <strong>Useful energy</strong> is taken from the battery-electric column and applied to every powertrain, iso-service; the JEC's own spread across powertrains is 21.9–23.0&nbsp;MJ/100&nbsp;km in 2015 and 26.1–27.0 in 2025+. Energy dissipated in the brakes is not counted as useful.<br>
+  <strong>Prices:</strong> surveyed on 4&nbsp;August&nbsp;2026 (EDF Tarif Bleu of 1&nbsp;August&nbsp;2026, prix-carburants.gouv.fr, h2.live). <strong>Primary-energy conventions:</strong> IPCC AR5, Annex&nbsp;II, §A.II.4. Upstream factors (extraction, refining, generation, grid) do not depend on the driving cycle and are shared by both vintages.<br>
+  <strong>Speed profiles.</strong> The <em>Chosen-type</em> mode borrows its four phases from the <strong>WLTC</strong> (Reick et&nbsp;al. 2021, Kia e-Niro on a chassis dynamometer) and applies them as ratios normalised to 1 on the reference cycle. On the 2025+ vintage that is native. <span class="warn">On the 2015 vintage it is not</span> — the shape across phases is measured, but the level stays NEDC, which is gentler than the WLTC, so absolute consumption there is understated.<br>
+  <strong>Licence.</strong> Text, figures and data © 2026 Robin Girard, MINES Paris — PSL, under <a href="https://creativecommons.org/licenses/by/4.0/">CC&nbsp;BY&nbsp;4.0</a>; the code under the MIT licence. Reuse it in your own teaching, translated or cut up — just say where it came from. The JEC report itself keeps its own terms, and it, not this page, is what you cite for a JEC figure.<br>
+  <span class="warn">Caveats:</span> the upstream factors for electricity and hydrogen remain provisional (±&nbsp;5%), as they could not be cross-checked in the source report. Grid-mix compositions are rounded 2024 generation shares and are indicative only. The <em>Real-world</em> gaps were measured against NEDC type approval and are an upper bound on the 2025+ vintage — the OBFCM-based figure has not been sourced. The 2025+ column is a JEC <em>simulation</em> of a projected vehicle, not a measurement.
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   MODEL
+   Each chain is a sequence of links. The overall efficiency is
+   the product of the link efficiencies. Default values are
+   calibrated to reproduce the totals published by the JEC.
+   ============================================================ */
+
+const MJ_PAR_KWH = 3.6;
+
+/* ------------------ vintage: 2015/NEDC vs 2025+/WLTP ------------------
+   The JEC reports BOTH, side by side, in its "Technology Walk" tables: one
+   column NEDC 2015, one column WLTP 2025+, decomposed loss by loss, for every
+   powertrain (Tables 6-8 DISI, 6-9 DICI, 6-12 DISI-HEV, 6-17 BEV, 6-19 FCEV).
+   Switching vintage therefore changes THREE things at once — the driving cycle,
+   the technology, and the vehicle mass — and they partly cancel: the BEV loss
+   budget barely moves (370.0 -> 372.1 kJ/km) although every single line in it
+   moves by 5 to 25%. That cancellation is the point worth teaching.
+
+   Useful mechanical work at the wheel, per 100 km, taken from the BEV column of
+   the Technology Walk and applied to every powertrain, iso-service (the JEC's
+   own spread across powertrains is 21.9-23.0 in 2015 and 26.1-27.0 in 2025+).
+   Air drag does not depend on mass; rolling resistance is proportional to it. */
+const MILLESIMES = {
+  "2015": {
+    nom:"2015 — NEDC", court:"2015 (NEDC)", cycle:"NEDC",
+    M_REF:1400,        // kg, mid-fleet kerb weight of the reference C-segment car
+    E_AERO:13.23,      // MJ/100 km (132.3 kJ/km), mass-independent
+    E_ROLL:8.97,       // MJ/100 km (90.0 kJ/km) at M_REF, proportional to mass
+    note:"JEC 2015 baseline, homologated on the NEDC. Kerb weights 1,310 kg (gasoline) to 1,441 kg (fuel cell); the page uses 1,400 kg for all, iso-service. Useful work 22.23 MJ/100 km. This is the vintage the printed note and the Sankey figure are built on."
+  },
+  "2025": {
+    nom:"2025+ — WLTP", court:"2025+ (WLTP)", cycle:"WLTP",
+    M_REF:1250,        // kg, mid-fleet kerb weight: 1,200 (DISI) to 1,297 (FCEV)
+    E_AERO:16.88,      // MJ/100 km (168.8 kJ/km) — Cd down from 0.28 to 0.25, but
+                       // the WLTC is much faster and drag grows as v squared
+    E_ROLL:9.56,       // MJ/100 km (95.6 kJ/km) — the car is 107 kg lighter, yet
+                       // the WLTP test-mass definition still raises the test weight
+    note:"JEC 2025+ projection, homologated on the WLTP. Kerb weights 1,200 kg (gasoline) to 1,297 kg (fuel cell); the page uses 1,250 kg for all. Useful work 26.44 MJ/100 km, i.e. <strong>+19% more work for the same 100 km</strong> than on the NEDC — this alone makes every efficiency look better while consumption barely falls."
+  }
+};
+const mil      = () => MILLESIMES[etat.mil];
+const M_REF_of = () => mil().M_REF;
+const utileDe  = m => (mil().E_AERO + mil().E_ROLL*m/mil().M_REF)*fUtile();
+
+/* ------------------ speed profiles (WLTC class 3) ------------------
+   ⚠️ CYCLE-DEPENDENT. `g` is used as a NORMALISED RATIO (g = 1 on whichever
+   reference cycle the vintage selector is on), not as an absolute figure.
+   On the 2025+/WLTP vintage the two agree natively and the phases are exact.
+   On the 2015/NEDC vintage they do NOT: the shape across phases is borrowed
+   from the WLTC while the level stays NEDC, which understates the absolute
+   consumption of the "Chosen-type" mode. Say so when teaching on 2015.
+
+   Built entirely on Reick et al. 2021 (Kia e-Niro, chassis dynamometer), whose
+   PDF is in ../sources/pdf/. Three things had to be read out of the paper
+   itself, because getting any of them wrong silently corrupts the model:
+
+   1. Equation (5) is misprinted as eta_D = E_B / E_delta, which would exceed 1.
+      It is E_delta / E_B. Verified numerically against Table 2: E_delta = 2.520
+      kWh over 23.266 km = 10.83 kWh/100 km, and E_B = 19.34 * 0.8721 = 16.87,
+      so E_delta/E_B = 64.2% — the published 63.88%.
+
+   2. E_delta is the NET energy at the dynamometer roll. Over a cycle that
+      starts and ends at rest, kinetic energy cancels out, so E_delta is exactly
+      air drag + rolling resistance — the same perimeter as the JEC "useful"
+      figure this page is built on. Braking energy is NOT in it.
+
+   3. Consequently eta_D is not a drivetrain efficiency in this page's sense: it
+      spans battery -> useful work, so it already contains the drivetrain, the
+      auxiliaries AND the braking losses. Those three links are therefore merged
+      into it under a profile, instead of being multiplied on top of it — doing
+      otherwise double-counted them and made city driving look more consuming
+      than the motorway, which the measurements flatly contradict.
+
+   `g` is the useful work of the phase relative to the full WLTC, taken straight
+   from the measurements (E_delta ratio, no decomposition, so no reliance on the
+   paper's f0 = 8.2 N, which implies an impossible rolling coefficient). The
+   four phases weighted by distance reproduce the full cycle to 0.3%.
+
+   APPROXIMATION, to be taught as such: `g` is measured on a Kia e-Niro, and is
+   applied here to the lighter, slipperier JEC reference vehicle. Absolute
+   consumptions therefore differ from Reick's; the SHAPE across phases is what is
+   being borrowed. Mass sensitivity is kept, but scales the whole useful figure
+   rather than the rolling term alone. */
+const PROFILS = {
+  homolog:    {nom:"Type-approval (reference cycle)", v:46.5, tract:63.88, g:1, dist:"23.3 km",
+               note:"The reference point of the page: the JEC type-approval figures for the selected vintage. The phase splitting below is measured on the whole WLTC, whose four phases weighted by distance give this baseline — two thirds of that distance are the fast phases, so neither cycle is a city-driving picture."},
+  urbain:     {nom:"Slow urban (WLTC low)",     v:18.9, tract:23.12, g:0.2529, dist:"3.1 km",
+               note:"Peaks at 56 km/h, much idling. Efficiency collapses to a quarter — yet only a quarter as much work has to be done, so this is the CHEAPEST phase per km."},
+  periurbain: {nom:"Suburban (WLTC medium)",    v:39.5, tract:43.56, g:0.4720, dist:"4.8 km",
+               note:"Peaks at 77 km/h. The transitional phase, where air drag starts to bite."},
+  route:      {nom:"Main road (WLTC high)",     v:56.7, tract:63.93, g:0.8476, dist:"7.2 km",
+               note:"Peaks at 97 km/h. Its efficiency happens to match the full-cycle figure almost exactly."},
+  autoroute:  {nom:"Motorway (WLTC extra high)",v:92.0, tract:77.12, g:1.7166, dist:"8.3 km",
+               note:"Peaks at 131 km/h. The BEST efficiency of the four and by far the worst consumption: 1.7x the useful work of the full cycle, because air drag grows as the square of speed."}
+};
+const V_WLTC = PROFILS.homolog.v;
+const profilActif = () => etat.usage==="choisi" ? PROFILS[etat.profil] : null;
+// Useful work per km relative to the reference cycle — measured on the WLTC and
+// applied as a normalised ratio, see the caveat with `g` above.
+const fUtile = () => { const p=profilActif(); return p ? p.g : 1; };
+
+
+// Lower heating value of the energy carriers
+const PCI = {
+  essence: 8.58,   // kWh/L   (French order of 2 May 2012: 32 MJ/L)
+  diesel:  9.94,   // kWh/L
+  h2:      33.3    // kWh/kg
+};
+
+/* --- Generating technologies -------------------------------------------
+   "Efficiency" here means primary energy in -> electricity out at the
+   plant, fuel supply chain included, grid excluded (the grid is a separate
+   link). Non-thermal technologies have no physical fuel input, so what
+   they are counted as depends entirely on the accounting convention.      */
+const NON_THERMIQUE = ["wind","pv","hydro","nuclear"];
+const TECH = {
+  wind:   {nom:"Wind",        eff:0.96},
+  pv:     {nom:"Solar PV",    eff:0.93},
+  hydro:  {nom:"Hydro",       eff:0.98},
+  nuclear:{nom:"Nuclear",     eff:0.313},
+  gas:    {nom:"Gas",         eff:0.4910},
+  coal:   {nom:"Coal",        eff:0.3827},
+  bio:    {nom:"Bioenergy",   eff:0.30},
+  autre:  {nom:"Oil, waste and other", eff:0.35}
+};
+const SUBSTITUTION = 0.38;   // efficiency of the thermal plant assumed to be displaced
+
+function effTech(id, conv){
+  if(!NON_THERMIQUE.includes(id)) return TECH[id].eff;
+  if(conv==="substitution") return SUBSTITUTION;
+  if(conv==="direct")       return 1.00;
+  return TECH[id].eff;                       // physical energy content
+}
+
+/* --- Electricity sources ------------------------------------------------
+   Either a single technology, or a generation mix. The primary-energy
+   factor of a mix is 1 / sum(share_i / efficiency_i).                     */
+const SOURCES = {
+  wind:     {grp:"tech", nom:"One wind turbine", mix:{wind:100},
+             note:"Physical energy content: 1 MJ of electricity counts as about 1 MJ of primary energy (IPCC AR5). The 4% shortfall covers the energy embodied in building the turbine (JEC WDEL1)."},
+  gasplant: {grp:"tech", nom:"One gas-fired power plant", mix:{gas:100},
+             note:"Combined cycle, gas extraction and transport included. Calibrated on the JEC GPEL1b factor: 2.19 MJ of primary energy per MJ delivered, grid included."},
+  pv:       {grp:"tech", nom:"One solar PV plant", mix:{pv:100},
+             note:"Same logic as wind, with a slightly higher construction energy."},
+  nuclear:  {grp:"tech", nom:"One nuclear plant", mix:{nuclear:100},
+             note:"Physical energy content: the core heat is reconstructed statistically, hence 33%. This is an accounting convention, not a judgement on the quality of the energy."},
+  coal:     {grp:"tech", nom:"One coal-fired power plant", mix:{coal:100},
+             note:"Extraction and transport included. Calibrated on the JEC KOEL1 factor: 2.81 MJ of primary energy per MJ delivered, grid included."},
+
+  mixfr:    {grp:"mix", nom:"French grid mix", mix:{nuclear:67, hydro:14, wind:9, pv:4, gas:4, bio:2, coal:0.3},
+             note:"Rounded 2024 generation shares (order of magnitude, RTE). France is the case where the accounting convention matters most: two thirds of the output is nuclear, which the physical-content convention charges at 33%."},
+  mixde:    {grp:"mix", nom:"German grid mix", mix:{wind:31, pv:14, hydro:4, bio:8, coal:22, gas:16, autre:5},
+             note:"Rounded 2024 generation shares (order of magnitude). No nuclear since April 2023. Wind and solar count 1:1 under the physical-content convention, which mechanically flatters this mix — compare it with France and then switch convention."},
+  mixeu:    {grp:"mix", nom:"European grid mix (EU-27)", mix:{nuclear:24, wind:17, gas:16, hydro:13, pv:11, coal:10, bio:6, autre:3},
+             note:"Rounded 2024 generation shares (order of magnitude). The JEC published 0.363 for the 2016 European mix, which was far more coal-heavy — that value is kept below as the calibration reference."},
+  mixcn:    {grp:"mix", nom:"Chinese grid mix", mix:{coal:59, hydro:13, wind:10, pv:8, nuclear:4.5, gas:3, bio:2},
+             note:"Rounded 2024 generation shares (order of magnitude). Coal still supplies close to 60% of the output, which caps what an electric vehicle charged in China can achieve."},
+  jec:      {grp:"mix", nom:"European average — JEC 2016 (reference)", fixe:0.363, fige:true,
+             note:"Value published by the JEC (Table 23): 2.959 MJ of primary energy per MJ delivered at low voltage, i.e. 0.363 at the plant once the 93% grid link is separated out. Frozen convention, since the mix is taken as published. This is the value the static figure and the accompanying note are built on."}
+};
+
+function compositionDe(id){
+  const s = SOURCES[id];
+  if(!s.mix) return null;
+  const tot = Object.values(s.mix).reduce((a,b)=>a+b,0);
+  return Object.entries(s.mix)
+    .map(([k,v])=>({tech:k, part:v/tot}))
+    .sort((a,b)=>b.part-a.part);
+}
+
+function effSource(id, conv){
+  const s = SOURCES[id];
+  if(s.fixe!=null) return s.fixe;
+  const c = compositionDe(id);
+  return 1/c.reduce((a,x)=>a + x.part/effTech(x.tech, conv), 0);
+}
+
+const CONV_NOTE = {
+  physique:"Every form of energy is counted for its physical content. Wind and solar electricity count as 1 MJ of primary energy; nuclear is traced back to the core heat, i.e. 33%.",
+  substitution:"Non-thermal electricity is counted as if it displaced a thermal plant running at 38% efficiency. This mechanically inflates the primary energy attributed to renewables and to nuclear.",
+  direct:"All electricity is worth its own content, whatever its origin. This is the convention most favourable to renewables and to nuclear."
+};
+
+/* --- Chain links --------------------------------------------------------
+   id "prod" is driven by the electricity source; id "utile" is the share of
+   the wheel energy that is not dissipated in the brakes, and is therefore
+   recomputed when the vehicle mass changes.                               */
+const M = (id,nom,def,min,max,note)=>({id,nom,def,min,max,note});
+
+/* A link value that differs between vintages is written V(2015, 2025+). Any
+   field of a link — default, bounds, note — may be wrapped this way; `pick`
+   resolves it against the vintage currently selected. Values NOT wrapped are
+   cycle-independent by construction: everything upstream of the tank or the
+   plug (extraction, refining, generation, grid) is unaffected by the driving
+   cycle, so those links carry a single figure on purpose. */
+const V    = (a,b)=>({__v:1, a, b});
+const pick = v => (v && v.__v) ? (etat.mil==="2015" ? v.a : v.b) : v;
+
+/* Where the 2025+ column comes from, link by link. Recipe, applied identically
+   to every chain: take the sequential efficiency of each link from the JEC
+   Technology Walk loss rows, then close the chain on the PUBLISHED 2025+ total
+   of the same report (Tables 6-7, 6-11, 6-16, 6-18) by moving the residual onto
+   the single least-constrained link. The residual is small — 0.3% to 0.7% for
+   the thermal chains and the fuel cell. The one exception is the battery-
+   electric chain and it is documented on the charging slider itself. */
+
+const AVAL_ELEC = [
+  M("aux",     "Auxiliaries (heating, A/C, electronics)", V(92.4, 94.6), 75, 99,
+    V("JEC: 27.1 kJ/km. In winter, cabin heating can dominate this item — AAA 2019 measured −41% of range at −7 °C with the heater on, against −12% without.",
+      "JEC 2025+: 19.6 kJ/km. The auxiliaries themselves barely improve — the JEC expects efficiency gains to be eaten by added electronics — but the WLTC is faster, so the same watts are spread over more kilometres. In winter, cabin heating still dominates: AAA 2019 measured −41% of range at −7 °C with the heater on.")),
+  M("traction","Drivetrain: inverter, motor, reduction gear", V(69.3, 76.6), 50, 95,
+    V("JEC, over the cycle. Careful: peak efficiency exceeds 98% (US DOE), but Reick measures 63.9% on average over the WLTC and 23.1% in slow urban driving.",
+      "JEC 2025+: 63.8 kJ/km for the machine and inverter, 17.0 for the transmission, against 78.4 and 22.7 in 2015. Two effects add up: better hardware, and a faster cycle that keeps the motor nearer its best operating point. Careful: peak efficiency exceeds 98% (US DOE), but Reick measures 63.9% over the WLTC on a real 2019 car and 23.1% in slow urban driving — the 2025+ column is a simulation, not a measurement.")),
+  M("utile",   "Useful share (net of braking losses)", V(97.2, 100), 80, 100,
+    V("Energy dissipated in the brakes is not counted as useful. Regeneration recovers most of it: the EPA gives 32% in town and 6% on the motorway.",
+      "The JEC Technology Walk carries no braking line for an electric drivetrain in either vintage: regeneration is credited with recovering all of it. Taken literally here, so on this vintage mass no longer costs twice. The EPA, which measures rather than simulates, recovers 32% in town and 6% on the motorway — read 100% as the optimistic bound."))
+];
+
+const CHAINES = {
+  elec: {
+    nom:"Battery electric", famille:"elec", vecteur:"elec", reel:1.379,
+    maillons:[
+      M("prod","Electricity generation", null,null,null,null),   // driven by the source
+      M("reseau","Transmission and distribution", 93, 85, 99,
+        "France: ~2–3% on transmission (RTE) and ~6% on distribution, about half of which are non-technical losses (theft, metering)."),
+      M("charge","Battery charging", V(80, 86.7), 65, 96,
+        V("JEC: 20% losses for a 2015 fleet, cable, on-board charger, battery losses and 12 V auxiliaries included. ADAC 2025 measures 6.3–9.7% on a wallbox but 12.7–24.2% on a domestic socket.",
+          "⚠️ <strong>This is the one link where the JEC contradicts itself.</strong> The report announces round charging losses of 15% for 2025+, but its own loss decomposition (Table 6-17: 370.9 kJ/km at the battery) and its own published consumption (Table 6-16: 42.77 MJ/100 km at the plug) together imply 13.3%, i.e. 86.7% here. The chain is closed on the two detailed tables rather than on the round headline number; the residual, 1.7 points, is the size of the disagreement. ADAC 2025 measures 6.3–9.7% on a wallbox but 12.7–24.2% on a domestic socket.")),
+      M("batterie","Battery (one way)", V(97.7, 98.4), 90, 99.5,
+        V("JEC: 8.5 kJ/km. Losses depend on current and on temperature.",
+          "JEC 2025+: 6.1 kJ/km, thanks to an energy density raised from 120 to 160 Wh/kg. Losses still depend on current and on temperature.")),
+      ...AVAL_ELEC
+    ]
+  },
+  h2pac: {
+    nom:"Hydrogen, fuel cell", famille:"h2", vecteur:"h2", reel:1.635,
+    maillons:[
+      M("prod","Electricity generation", null,null,null,null),
+      M("reseau","Transmission and distribution", 93, 85, 99,
+        "Same as the electric chain."),
+      M("electrolyse","Water electrolysis", 68, 45, 80,
+        "On a lower-heating-value basis. ⚠️ The figure shifts by ~18 points depending on whether it is referred to the LHV (33.3 kWh/kg) or the HHV (39.4 kWh/kg): always ask which. The IEA uses 52 kWh/kg, i.e. 64% LHV."),
+      M("compression","Compression to 700 bar, station", 88, 78, 95,
+        "Multi-stage compression and pre-cooling to −40 °C at the station."),
+      M("pac","Fuel cell (over the cycle)", V(51.2, 52.3), 35, 65,
+        V("JEC, from an average over more than 50 real vehicles in the United States between 2003 and 2012 (NREL/TP-5600-54860). The thermodynamic limit is 83% on an HHV basis at 25 °C.",
+          "Barely better than 2015, and the JEC says why: development effort is expected to go into production cost and reliability rather than efficiency, and the more demanding WLTP pushes the stack above its optimum power more often — losses rise 314.4 → 320.4 kJ/km even though the car gets lighter. The one link the vintage change does not help. Thermodynamic limit 83% on an HHV basis at 25 °C.")),
+      ...AVAL_ELEC
+    ]
+  },
+  h2smr: {
+    nom:"Hydrogen from steam methane reforming", famille:"h2", vecteur:"h2", reel:1.635, sansSource:true,
+    maillons:[
+      M("amontgaz","Gas extraction and transport", 93, 85, 98,
+        "Natural gas supply chain (JEC)."),
+      M("smr","Steam methane reforming (SMR)", 67.5, 50, 80,
+        "Gas to hydrogen. The course material gives 60–75%; adding CO₂ capture costs a further 5 to 14 points."),
+      M("compression","Compression to 700 bar, station", 88, 78, 95,
+        "Same as the electrolysis chain."),
+      M("pac","Fuel cell (over the cycle)", V(51.2, 52.3), 35, 65,
+        "Same as the electrolysis chain."),
+      ...AVAL_ELEC
+    ]
+  },
+  essence: {
+    nom:"Gasoline internal combustion", famille:"therm", vecteur:"essence", reel:1.248, sansSource:true,
+    maillons:[
+      M("amont","Extraction, refining, distribution", 81, 70, 92,
+        "JEC: 1.234 MJ of primary energy per MJ of gasoline delivered. Cross-checked four times against the published pathways."),
+      M("moteur","Engine over the cycle (idling and parasitic losses included)", V(19.5, 28.9), 12, 32,
+        V("⚠️ Not to be confused with peak bench efficiency: Toyota claims 40%, and Nissan made headlines with 50% for an engine that delivers 42% in production. Over a real cycle, the figure is 20–25%.",
+          "The single biggest jump on this page, and it is only partly technology. Engine losses fall 1,339 → 979 kJ/km, the 12 V auxiliaries drop to zero (fed by a 4 kW starter-generator on recuperation), AND the WLTP runs the engine at higher load where it is more efficient — the JEC notes this is what lets petrol catch up with diesel. ⚠️ Still not a bench figure: peak efficiency is 40% or more.")),
+      M("transmission","Transmission", V(92, 93.4), 82, 98,
+        V("Manual gearbox ~96%, automatic ~87% on average over the cycle (NRC 2015). Quoted peak efficiencies reach 98%, but parasitic losses dominate.",
+          "Manual gearbox ~96%, automatic ~87% on average over the cycle (NRC 2015), plus improved gear lubrication for 2025+. Careful: in absolute terms transmission losses RISE (49.8 → 54.2 kJ/km) because far more energy flows through the box on the WLTC — the efficiency improves all the same.")),
+      M("utile","Useful share (net of braking losses)", V(71.4, 69.7), 55, 90,
+        V("Of the energy reaching the wheels, part is dissipated in the brakes: 4–7% of the fuel over a combined cycle (US DOE).",
+          "Worse than 2015, not better: the WLTC is more dynamic, so more energy ends up in the brakes (83.5 → 108.5 kJ/km) and a car without regeneration gets none of it back. One of the few items the vintage change makes worse."))
+    ]
+  },
+  diesel: {
+    nom:"Diesel internal combustion", famille:"therm", vecteur:"diesel", reel:1.229, sansSource:true,
+    maillons:[
+      M("amont","Extraction, refining, distribution", 79.1, 68, 90,
+        "JEC: 1.265 MJ of primary energy per MJ of diesel. Diesel is more expensive to produce than gasoline, which the report states explicitly."),
+      M("moteur","Engine over the cycle (idling and parasitic losses included)", V(23.2, 31.1), 15, 35,
+        V("Diesel is structurally more efficient than gasoline: higher compression ratio and no throttle plate.",
+          "Still ahead of petrol, but the relative gap narrows from 19% to 8%. The JEC explains it: on the WLTP the manual gearshift pattern depends on the engine, which lets the petrol variant downspeed and run at higher load.")),
+      M("transmission","Transmission", V(92, 92.7), 82, 98, "Same as gasoline."),
+      M("utile","Useful share (net of braking losses)", V(71.4, 70.7), 55, 90, "Same as gasoline.")
+    ]
+  },
+  hybride: {
+    nom:"Gasoline hybrid (not plug-in)", famille:"therm", vecteur:"essence", reel:1.256, sansSource:true,
+    maillons:[
+      M("amont","Extraction, refining, distribution", 81, 70, 92, "Same as gasoline."),
+      M("moteur","Hybrid powertrain over the cycle", V(24.2, 35.9), 18, 38,
+        V("The JEC credits hybridisation with a 26% gain. Independent measurement on Spritmonitor: −21% between the conventional Yaris and the hybrid Yaris. Two methods, same order of magnitude.",
+          "3.26 L/100 km for a C-segment car on the WLTP: the most optimistic single number on this page. It is a JEC simulation of a dedicated 2025+ hybrid, not a measurement, and this one slider carries the engine, the battery and the electric machine together. Note that the hybrid’s fuel advantage over plain petrol stays around 27% — conventional engines were improving just as fast.")),
+      M("transmission","Transmission", 92, 82, 98, "Same as gasoline."),
+      M("utile","Useful share (net of braking losses)", 78, 60, 92,
+        "Better than a pure combustion vehicle, thanks to regenerative braking.")
+    ]
+  }
+};
+
+// --- Tariffs -------------------------------------------------------------
+const TARIFS = {
+  elec:[
+    {id:"hc",     nom:"Home, off-peak hours", val:0.1589, unite:"€/kWh", note:"EDF Tarif Bleu of 1 August 2026, off-peak option, 6 kVA."},
+    {id:"base",   nom:"Home, flat rate",      val:0.2001, unite:"€/kWh", note:"EDF Tarif Bleu of 1 August 2026, flat-rate option."},
+    {id:"hp",     nom:"Home, peak hours",     val:0.2142, unite:"€/kWh", note:"EDF Tarif Bleu of 1 August 2026, peak-hour option."},
+    {id:"rapide", nom:"Fast charging (Ionity)", val:0.55, unite:"€/kWh", note:"Ionity direct tariff in France, surveyed on 4 August 2026. Through a roaming provider: €0.65/kWh."}
+  ],
+  essence:[
+    {id:"sp95",   nom:"SP95-E10 at the pump", val:2.026, unite:"€/L", note:"National average, prix-carburants.gouv.fr, 7,249 stations, surveyed on 4 August 2026. Taxes make up 49.7% of the price."}
+  ],
+  diesel:[
+    {id:"gazole", nom:"Diesel at the pump", val:2.236, unite:"€/L", note:"National average, prix-carburants.gouv.fr, surveyed on 4 August 2026."}
+  ],
+  h2:[
+    {id:"de",     nom:"German station", val:12.85, unite:"€/kg", note:"Price displayed by H2 MOBILITY (h2.live), consulted on 4 August 2026. No public price is published in France."},
+    {id:"fr",     nom:"Paris-region benchmark 2025", val:20.0, unite:"€/kg", note:"Order of magnitude paid by Paris-region operators in 2025. The gap with Germany is structural."}
+  ]
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const etat = {
+  mil:"2015",           // JEC vintage: "2015" (NEDC) or "2025" (WLTP)
+  motor:"elec", source:"mixeu", conv:"physique", usage:"homolog", profil:"urbain",
+  unite:"MJ",           // energy unit shown everywhere: "MJ" or "kWh"
+  depart:0,             // number of upstream links left out of the diagram
+  reglages:{},          // link id -> value overridden by the user
+  masse:{},             // powertrain id -> kerb weight
+  tarif:{}, prixPerso:{}
+};
+
+/* All energies are computed in MJ; only the display is converted. `dec` is the
+   number of decimals wanted in MJ — kWh values being 3.6x smaller, one more
+   decimal is added so the displayed precision stays comparable. */
+const uLabel = () => etat.unite;
+const eNum   = mj => etat.unite==="kWh" ? mj/MJ_PAR_KWH : mj;
+const eVal   = (mj,dec=1) => fmt(eNum(mj), etat.unite==="kWh" ? dec+1 : dec);
+const eStr   = (mj,dec=1) => eVal(mj,dec)+" "+uLabel();
+
+const $ = s=>document.querySelector(s);
+const fmt = (x,d=1)=>x.toLocaleString("en-GB",{minimumFractionDigits:d,maximumFractionDigits:d});
+const masseDe = id => etat.masse[id] ?? M_REF_of();
+
+/* ------------------ one chain ------------------ */
+/* The "useful share" link is the only one coupled to mass. At the reference
+   mass, the slider value is taken as published; the energy dissipated in the
+   brakes is deduced from it, and then scaled with mass, exactly as rolling
+   resistance is. A heavier car therefore loses twice: more rolling work to
+   supply, and a larger share of it thrown away in the brakes. */
+function partUtile(refPct, masse){
+  const uref = refPct/100;
+  if(uref>=1) return 100;
+  const Uref = utileDe(M_REF_of());
+  const Bref = Uref*(1/uref - 1);          // braking energy at the reference mass
+  const U = utileDe(masse), B = Bref*masse/M_REF_of();
+  return U/(U+B)*100;
+}
+
+/* Default value of a link under the current speed profile. Only the electric
+   drivetrain is measured phase by phase (Reick Table 7); every other link keeps
+   its published value, so a thermal chain is unaffected by the profile here. */
+function defautDe(m, fusion){
+  const p = profilActif();
+  if(!p || !fusion) return pick(m.def);
+  // eta_D spans battery -> useful work, so it swallows the drivetrain, the
+  // auxiliaries and the braking losses alike. The latter two are neutralised
+  // rather than left at their JEC values, which would count them twice.
+  if(m.id==="traction") return p.tract;
+  if(m.id==="aux")      return 100;
+  if(m.id==="utile")    return 100;
+  return pick(m.def);
+}
+
+function maillonsDe(motorId, avecReglages=true){
+  const ch = CHAINES[motorId];
+  const masse = avecReglages ? masseDe(motorId) : M_REF_of();
+  /* Reick measured a battery-electric drivetrain, so the three-links-into-one
+     merge is only legitimate on a chain that HAS that drivetrain. A thermal
+     chain owns a `utile` link too, and neutralising it there would wipe out its
+     braking losses in the name of a measurement that says nothing about it. */
+  const fusion = ch.maillons.some(m=>m.id==="traction");
+  return ch.maillons.map(m=>{
+    if(m.id==="prod"){
+      const s = SOURCES[etat.source];
+      const val = effSource(etat.source, s.fige ? "physique" : etat.conv)*100;
+      return {id:m.id, nom:"Generation — "+s.nom, val, ref:val, min:20, max:100, note:s.note, verrou:true};
+    }
+    const ref = (avecReglages && etat.reglages[motorId+"."+m.id]!=null)
+              ? etat.reglages[motorId+"."+m.id] : defautDe(m, fusion);
+    const val = m.id==="utile" ? partUtile(ref, masse) : ref;
+    const p = fusion ? profilActif() : null;
+    // Under a profile the three links below are not independent any more: say so
+    // on the slider itself, rather than silently showing two of them at 100%.
+    if(p && m.id==="traction")
+      return {id:m.id, nom:"Battery to wheel over the "+p.nom, val, ref, min:5, max:95,
+              note:`Reick et al. 2021, Table 7 (Kia e-Niro on a chassis dynamometer): ${fmt(p.tract,2)}% measured on this phase. This single figure spans the drivetrain, the auxiliaries and the braking losses, so the two links below are folded into it.`};
+    if(p && (m.id==="aux" || m.id==="utile"))
+      return {id:m.id, nom:m.nom, val:100, ref:100, min:100, max:100, verrou:true,
+              verrouTxt:"Merged into the link above by the chosen speed profile.",
+              note:"Already counted inside the measured battery-to-wheel efficiency above. Neutralised here so it is not charged twice."};
+    return {id:m.id, nom:m.nom, val, ref, min:pick(m.min), max:pick(m.max), note:pick(m.note)};
+  });
+}
+
+function calcule(motorId, avecReglages=true){
+  const ch = CHAINES[motorId];
+  const ms = maillonsDe(motorId, avecReglages);
+  const masse = avecReglages ? masseDe(motorId) : M_REF_of();
+  const utileMJ = utileDe(masse);
+
+  let eff = 1, reste = 1;                 // fraction of the primary energy still available
+  const etapes = [];
+  for(const m of ms){
+    const e = m.val/100;
+    const avant = reste; reste *= e;
+    etapes.push({id:m.id, nom:m.nom, eff:m.val, avant, apres:reste, perte:avant-reste, note:m.note});
+    eff *= e;
+  }
+  const primaireMJ = utileMJ/eff;
+
+  // Energy in the tank or at the plug: boundary placed just before the first
+  // on-board link. Do not add "smr" here, which is an upstream link: the
+  // boundary would then move ahead of compression for the reforming chain.
+  const idxBord = ms.findIndex(m=>["charge","moteur","pac"].includes(m.id));
+  const iBord = idxBord<0 ? 1 : idxBord;
+  const effAmont = etapes.slice(0,iBord).reduce((a,e)=>a*e.eff/100,1);
+  const reservoirMJ = primaireMJ*effAmont;
+
+  return {ch, ms, etapes, eff, primaireMJ, reservoirMJ, iBord, masse, utileMJ};
+}
+
+/* ------------------ analysis boundary ------------------
+   The slider drops the first `depart` links out of the picture and rebases the
+   diagram so that 100% is the energy crossing that boundary. No physics moves:
+   only the perimeter of what gets counted. That is the whole teaching point —
+   the same car reads 21.9% well to wheel and 45% plug to wheel, and the second
+   figure is the one that ends up in the brochure. */
+const baseCadre = rf => {
+  const d = Math.min(etat.depart, rf.etapes.length-1);
+  return d ? rf.etapes[d-1].apres : 1;      // share of the primary energy left at the boundary
+};
+
+// Name of the perimeter that starts after `d` links, from the FULL result.
+function perimetre(r, d){
+  if(!d) return {kpi:"well to wheel", entree:"primary energy in", lb:"Primary energy"};
+  if(d===r.iBord){
+    return CHAINES[etat.motor].vecteur==="elec"
+      ? {kpi:"plug to wheel", entree:"electricity at the plug", lb:"Energy at the plug"}
+      : {kpi:"tank to wheel", entree:"energy in the tank",      lb:"Energy in the tank"};
+  }
+  const nom = (COURT[r.etapes[d-1].id] || r.etapes[d-1].nom).toLowerCase();
+  return {kpi:`after ${nom}, to the wheel`, entree:`energy left after ${nom}`, lb:"Energy in frame"};
+}
+
+// Rebased copy of a result: same chain, narrower frame. Note that iBord has to
+// shift with the frame, or the branches would be coloured against the wrong
+// upstream/on-board boundary.
+function cadre(r){
+  const d = Math.min(etat.depart, r.etapes.length-1), base = baseCadre(r);
+  const etapes = r.etapes.slice(d).map(e=>({...e,
+    avant:e.avant/base, apres:e.apres/base, perte:e.perte/base}));
+  return {...r, etapes, depart:d, base,
+          eff:r.eff/base, entreeMJ:r.primaireMJ*base,
+          iBord:Math.max(0, r.iBord-d), perim:perimetre(r,d)};
+}
+
+function coutDe(r){
+  const ch = r.ch;
+  const mult = etat.usage==="reel" ? ch.reel : 1;
+  const kWh = r.reservoirMJ/MJ_PAR_KWH*mult;
+  const t = tarifCourant();
+  let qte, unite;
+  if(ch.vecteur==="elec"){ qte=kWh; unite="kWh"; }
+  else if(ch.vecteur==="h2"){ qte=kWh/PCI.h2; unite="kg"; }
+  else if(ch.vecteur==="diesel"){ qte=kWh/PCI.diesel; unite="L"; }
+  else { qte=kWh/PCI.essence; unite="L"; }
+  return {cout:qte*t.val, qte, unite, tarif:t, mult};
+}
+
+function tarifCourant(){
+  const v = CHAINES[etat.motor].vecteur;
+  const liste = TARIFS[v];
+  const id = etat.tarif[v] || liste[0].id;
+  const t = liste.find(x=>x.id===id) || liste[0];
+  const perso = etat.prixPerso[v+"."+t.id];
+  return perso!=null ? {...t, val:perso} : t;
+}
+
+/* ============================================================
+   SANKEY DIAGRAM
+   The main flow runs left to right, its top edge fixed and its
+   thickness proportional to the energy still available. At each
+   node a loss branch of the matching thickness peels off the
+   bottom edge, turns through a quarter circle and drops to the
+   baseline, where it is labelled. Width is conserved throughout:
+   the branch is exactly as wide as the step it takes out of the
+   main flow.
+   ============================================================ */
+// Short names for the branch labels: the full link names are far too long to
+// be read sideways under the diagram.
+const COURT = {
+  prod:"Generation", reseau:"Grid", charge:"Charging", batterie:"Battery",
+  aux:"Auxiliaries", traction:"Drivetrain", utile:"Braking losses",
+  electrolyse:"Electrolysis", compression:"Compression", pac:"Fuel cell",
+  amontgaz:"Gas supply", smr:"Reforming", amont:"Fuel supply",
+  moteur:"Engine", transmission:"Transmission"
+};
+
+function dessine(r){
+  const svg = $("#sankey");
+  const W=920, H=512, ML=16, MR=156, MT=50, MB=118;
+  const x0=ML, x1=W-MR, yTop=MT, hMax=286, yBase=H-MB;
+  const Y = f => yTop + f*hMax;
+  const n = r.etapes.length;
+
+  // Each link gets a horizontal slot wide enough to hold its own branch.
+  // The branch can therefore never overlap its neighbours.
+  const th   = r.etapes.map(e=>Math.max(e.perte*hMax, 1.5));
+  const brut = th.map(t=>Math.max(64, t+34));
+  const k    = (x1-x0)/brut.reduce((a,b)=>a+b,0);
+  const slot = brut.map(v=>v*k);
+  const X=[x0]; slot.forEach(w=>X.push(X[X.length-1]+w));
+  const Ax = slot.map((w,i)=>X[i]+w*0.13);      // node: where the branch splits off
+  const Cx = slot.map((w,i)=>X[i]+w*0.60);      // centre of the vertical branch
+
+  // Read the palette off the <svg> itself, not off :root — the figure carries a
+  // fixed, theme-independent set of variables (see .fig in the stylesheet).
+  const css=getComputedStyle(svg);
+  const c=p=>css.getPropertyValue(p).trim();
+  const cUtile=c("--utile");
+  // Diagram labels are read at a glance and often projected: they all use the
+  // strongest ink rather than the muted greys used for UI chrome.
+  const cInk1=c("--ink-1"), cInk2=cInk1, cInk3=cInk1;
+  const cRule=c("--ink-3");
+
+  let s=`<title id="sankeyTitle">Sankey diagram of the energy flow, ${esc(r.perim.kpi)}</title>`;
+
+  // A loss branch starts in the colour of the main flow at the node it leaves,
+  // then fades to a pale blue as it drops to the baseline — so it reads as
+  // energy peeled off the blue rather than as a separate, unrelated quantity.
+  // objectBoundingBox units: each branch rescales the gradient to its own span.
+  const grad=(id,a,b)=>
+    `<linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">`
+    + `<stop offset="0" stop-color="${cUtile}"/>`
+    + `<stop offset="0.2" stop-color="${c(a)}"/>`
+    + `<stop offset="1" stop-color="${c(b)}"/></linearGradient>`;
+  s+=`<defs>${grad("gPerteBord","--perte-1a","--perte-1b")}`
+   + `${grad("gPerteAmont","--perte-2a","--perte-2b")}</defs>`;
+
+  // --- main flow: top edge flat, bottom edge stepping up at each node ---
+  let d=`M ${x0},${yTop} L ${x1},${yTop} L ${x1},${Y(r.etapes[n-1].apres)} `;
+  for(let i=n-1;i>=0;i--) d+=`L ${Ax[i]},${Y(r.etapes[i].apres)} L ${Ax[i]},${Y(r.etapes[i].avant)} `;
+  d+=`L ${x0},${Y(1)} Z`;
+  s+=`<path d="${d}" fill="${cUtile}"/>`;
+
+  // --- one branch per loss ---
+  for(let i=0;i<n;i++){
+    const e=r.etapes[i];
+    if(e.perte<=0.0008) continue;
+    const A=Ax[i], yAp=Y(e.apres), yAv=Y(e.avant), t=yAv-yAp;
+    const L=Cx[i]-t/2, R=Cx[i]+t/2;
+    const yT=Math.min(yBase-6, yAv+Math.max(26, t*0.75));   // where the turn is complete
+    const col = `url(#${i<r.iBord ? "gPerteAmont" : "gPerteBord"})`;
+    const p = `M ${A},${yAp} `
+            + `C ${A+(R-A)*0.55},${yAp} ${R},${yAp+(yT-yAp)*0.45} ${R},${yT} `
+            + `L ${R},${yBase} L ${L},${yBase} `
+            + `C ${L},${yAv+(yT-yAv)*0.45} ${A+(L-A)*0.55},${yAv} ${A},${yAv} Z`;
+    s+=`<path d="${p}" fill="${col}"/>`;
+
+    // label: share horizontal, name reading downwards under the branch
+    s+=`<text x="${Cx[i]}" y="${yBase+16}" text-anchor="middle" font-size="13" `
+     + `font-weight="600" fill="${cInk2}">−${fmt(e.perte*100,1)}%</text>`;
+    s+=`<text transform="rotate(90 ${Cx[i]} ${yBase+29})" x="${Cx[i]}" y="${yBase+29}" `
+     + `text-anchor="start" font-size="12" font-weight="500" fill="${cInk3}">${esc(COURT[e.id]||e.nom)}</text>`;
+
+    // efficiency of the link, above its node
+    s+=`<text x="${Ax[i]}" y="${yTop-10}" text-anchor="middle" font-size="12" font-weight="500" fill="${cInk3}">×${fmt(e.eff,1)}%</text>`;
+    s+=`<line x1="${Ax[i]}" y1="${yTop}" x2="${Ax[i]}" y2="${yAv}" stroke="${cRule}" stroke-width="1" opacity=".35"/>`;
+  }
+
+  // --- markers ---
+  const yFin=Y(r.etapes[n-1].apres), yMid=yTop+(yFin-yTop)/2;
+  s+=`<text x="${x0}" y="${yTop-28}" font-size="14" font-weight="500" fill="${cInk2}">100% — ${esc(r.perim.entree)} (${eStr(r.entreeMJ,0)})</text>`;
+  s+=`<text x="${x1+11}" y="${yMid-4}" font-size="23" font-weight="700" fill="${cUtile}">${fmt(r.eff*100,1)}%</text>`;
+  s+=`<text x="${x1+11}" y="${yMid+16}" font-size="13.5" fill="${cInk3}">at the wheel</text>`;
+  s+=`<text x="${x1+11}" y="${yMid+33}" font-size="13.5" fill="${cInk3}">${eStr(r.utileMJ,1)}</text>`;
+  s+=`<line x1="${x0}" y1="${yBase}" x2="${x1}" y2="${yBase}" stroke="${cRule}" stroke-width="1" opacity=".35"/>`;
+  s+=`<text x="${x1+11}" y="${yBase+4}" font-size="13" fill="${cInk3}">losses</text>`;
+
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  svg.innerHTML=s;
+}
+const esc=t=>String(t).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+/* ============================================================
+   RENDERING
+   ============================================================ */
+function rendu(){
+  const rt=calcule(etat.motor);                  // always the whole chain
+  etat.depart=Math.min(etat.depart, rt.etapes.length-1);   // chains do not all have the same length
+  const r=cadre(rt);                             // what the diagram actually shows
+  const c=coutDe(rt);                            // what you pay does not depend on the frame
+
+  $("#kRend").textContent=fmt(r.eff*100,1)+"%";
+  $("#kRendEx").textContent=r.perim.kpi;
+  $("#kEnerLb").textContent=r.perim.lb;
+  $("#kEner").textContent=eStr(r.entreeMJ,0);
+  $("#kEnerEx").textContent=(etat.unite==="kWh"?fmt(r.entreeMJ,0)+" MJ":fmt(r.entreeMJ/MJ_PAR_KWH,1)+" kWh")+" per 100 km";
+  $("#kCout").textContent="€"+fmt(c.cout,2);
+  $("#kCoutEx").textContent=`${fmt(c.qte,c.unite==="kg"?2:1)} ${c.unite} / 100 km · ${c.tarif.nom}`;
+
+  dessine(r);
+  $("#figLeg").textContent =
+    `${CHAINES[etat.motor].nom}${CHAINES[etat.motor].sansSource?"":" — "+SOURCES[etat.source].nom}`
+    + ` · ${etat.usage==="choisi" ? PROFILS[etat.profil].nom : (etat.usage==="reel" ? "real-world consumption" : "type-approval cycle")}`
+    + ` · ${fmt(r.masse,0)} kg · ${r.perim.kpi}`;
+
+  // The table stays on the full chain — it is the audit trail. Links left out
+  // of the diagram are dimmed rather than removed.
+  const tb=$("#tb").querySelector("tbody");
+  tb.innerHTML=rt.etapes.map((e,i)=>`<tr${i<r.depart?' class="off"':""}>
+    <td>${esc(e.nom)}</td>
+    <td class="num">${fmt(e.eff,1)}%</td>
+    <td class="num">${eStr(e.apres*rt.primaireMJ,1)}</td>
+    <td class="num">${eStr(e.perte*rt.primaireMJ,1)}</td></tr>`).join("");
+
+  message(rt,c);
+  majMasse(rt);
+  majMil(rt);
+  majDepart(rt,r);
+  majSliders();
+  tableauGlobal();   // the comparison follows the prices typed in
+}
+
+function majDepart(rt,r){
+  const s=$("#sDepart");
+  s.max=String(rt.etapes.length-1);
+  s.value=String(r.depart);
+  $("#vDepart").textContent=r.perim.kpi[0].toUpperCase()+r.perim.kpi.slice(1);
+
+  const off=rt.etapes.slice(0,r.depart).map(e=>esc(COURT[e.id]||e.nom));
+  const liste=off.length>1 ? off.slice(0,-1).join(", ")+" and "+off[off.length-1] : off[0];
+  $("#departNote").innerHTML = r.depart
+    ? `<strong>${liste}</strong> left outside the frame. The very same vehicle now reads `
+      + `<strong>${fmt(r.eff*100,1)}%</strong> instead of ${fmt(rt.eff*100,1)}%. `
+      + `Nothing moved but the boundary — this is how a “90% efficient” motor gets advertised.`
+    : `The whole chain, from the well to the wheel — the JEC perimeter. `
+      + `Slide right to drop the upstream links and watch the headline efficiency inflate.`;
+}
+
+function message(r,c){
+  const parts=[];
+  const ch=CHAINES[etat.motor];
+
+  if(ch.famille==="h2"||ch.famille==="elec"){
+    const autre = ch.famille==="elec" ? "h2pac" : "elec";
+    if(!CHAINES[autre].sansSource){
+      const memo=etat.motor; etat.motor=autre;
+      const r2=calcule(autre); etat.motor=memo;
+      const ratio=r2.primaireMJ>r.primaireMJ ? r2.primaireMJ/r.primaireMJ : r.primaireMJ/r2.primaireMJ;
+      const mieux = r.primaireMJ<r2.primaireMJ ? ch.nom : CHAINES[autre].nom;
+      parts.push(`For the same electricity, <strong>${esc(mieux.toLowerCase())}</strong> needs <strong>${fmt(ratio,2)} times less primary energy</strong> than the other chain.`);
+    }
+  }
+  if(etat.conv!=="physique" && !ch.sansSource && !SOURCES[etat.source].fige){
+    const memo=etat.conv; etat.conv="physique";
+    const ref=calcule(etat.motor); etat.conv=memo;
+    parts.push(`Under the physical-content convention the very same chain would read <strong>${fmt(ref.eff/baseCadre(ref)*100,1)}%</strong>. <strong>The number therefore depends on the accounting convention, not only on the engineering.</strong>`);
+  }
+  if(r.masse!==M_REF_of()){
+    const memo=etat.masse[etat.motor]; etat.masse[etat.motor]=M_REF_of();
+    const ref=calcule(etat.motor); etat.masse[etat.motor]=memo;
+    const d=(r.primaireMJ/ref.primaireMJ-1)*100;
+    parts.push(`At <strong>${fmt(r.masse,0)} kg</strong> instead of ${fmt(M_REF_of(),0)} kg, the same chain consumes <strong>${d>=0?"+":""}${fmt(d,1)}%</strong> more primary energy. Mass acts on rolling resistance and on the braking losses — never on air drag.`);
+  }
+  if(etat.usage==="choisi"){
+    // The teaching point of the whole mode: efficiency and consumption move in
+    // OPPOSITE directions with speed. Recompute the same chain on the reference
+    // cycle to put the two side by side.
+    // Compare against the reference cycle on the same (Reick) basis, not against the
+    // JEC decomposition: mixing the two bases would make the comparison
+    // meaningless, since they do not measure the same vehicle.
+    const p=PROFILS[etat.profil], memo=etat.profil;
+    etat.profil="homolog";
+    const ref=calcule(etat.motor);
+    etat.profil=memo;
+    const dEner=(r.primaireMJ/ref.primaireMJ-1)*100;
+    const dEff =(r.eff/ref.eff-1)*100;
+    parts.push(`On <strong>${esc(p.nom)}</strong> (mean speed ${fmt(p.v,1)} km/h) rather than the whole reference cycle, `
+      + `efficiency goes <strong>${dEff>=0?"+":""}${fmt(dEff,1)}%</strong> `
+      + `while primary energy per 100 km goes <strong>${dEner>=0?"+":""}${fmt(dEner,1)}%</strong>. `
+      + `Efficiency and consumption move in opposite directions: slow driving wastes a large <em>share</em> of a very small amount of work.`);
+  }
+  if(etat.usage==="reel"){
+    parts.push(`In real-world use, consumption is <strong>${fmt((c.mult-1)*100,0)}% higher</strong> than the type-approval value. The efficiency shown, however, remains that of the standardised cycle.`
+      + (etat.mil==="2025" ? ` <span class="warn">⚠️ This gap was measured against NEDC type approval.</span> The WLTP is closer to real driving, so the true 2025+ gap is smaller — how much smaller has not been sourced here (it needs the European OBFCM on-board data). Treat this figure as an upper bound.` : ""));
+  }
+  if(!parts.length) parts.push("Move the sliders: every link feeds straight through to the overall efficiency and to the cost.");
+  $("#msg").innerHTML=parts.join("<br>");
+}
+
+function majMil(r){
+  const m = mil();
+  const autre = etat.mil==="2015" ? MILLESIMES["2025"] : MILLESIMES["2015"];
+  // Same chain, other vintage, everything else held: the one number that makes
+  // the comparison worth showing.
+  const memo=etat.mil; etat.mil = etat.mil==="2015" ? "2025" : "2015";
+  const ref=calcule(etat.motor, false); etat.mil=memo;
+  const now=calcule(etat.motor, false);
+  const dEff=(now.eff/ref.eff-1)*100, dEner=(now.primaireMJ/ref.primaireMJ-1)*100;
+  $("#milNote").innerHTML = m.note
+    + `<br>Against <strong>${esc(autre.court)}</strong>, this chain reads `
+    + `<strong>${dEff>=0?"+":""}${fmt(dEff,1)}%</strong> on efficiency for `
+    + `<strong>${dEner>=0?"+":""}${fmt(dEner,1)}%</strong> of primary energy per 100 km.`;
+}
+
+function majMasse(r){
+  const roll=mil().E_ROLL*r.masse/M_REF_of();
+  $("#vMasse").textContent=fmt(r.masse,0)+" kg";
+  $("#sMasse").value=r.masse;
+  $("#masseNote").innerHTML=`Useful work at the wheel: <strong>${eVal(r.utileMJ,2)} ${uLabel()}/100 km</strong> `
+    + `= ${fmt(mil().E_AERO,2)} air drag + ${fmt(roll,2)} rolling resistance. `
+    + `Reference ${fmt(M_REF_of(),0)} kg, JEC C-segment, ${mil().court}. Only rolling resistance and braking losses scale with mass; `
+    + `the efficiency of each link is assumed unchanged, which is a simplification.`;
+}
+
+/* ------------------ interface ------------------ */
+function initUI(){
+  $("#motor").innerHTML=Object.entries(CHAINES)
+    .map(([k,v])=>`<option value="${k}">${esc(v.nom)}</option>`).join("");
+  $("#motor").value=etat.motor;
+
+  const grp=(titre,cle)=>`<optgroup label="${titre}">`+Object.entries(SOURCES)
+    .filter(([,v])=>v.grp===cle)
+    .map(([k,v])=>`<option value="${k}">${esc(v.nom)}</option>`).join("")+`</optgroup>`;
+  $("#source").innerHTML=grp("Single technology","tech")+grp("Grid mixes","mix");
+  $("#source").value=etat.source;
+
+  // Changing the scenario changes the list of links itself: the sliders have
+  // to be rebuilt, not merely refreshed.
+  $("#motor").onchange=e=>{etat.motor=e.target.value; majTarifs(); majVisibilite(); construireSliders(); rendu();};
+  $("#source").onchange=e=>{etat.source=e.target.value; majVisibilite(); construireSliders(); rendu();};
+  $("#conv").onchange=e=>{etat.conv=e.target.value; majVisibilite(); construireSliders(); rendu();};
+  document.querySelectorAll("[data-usage]").forEach(b=>b.onclick=()=>{
+    etat.usage=b.dataset.usage;
+    document.querySelectorAll("[data-usage]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+    // The profile changes the DEFAULT value of the drivetrain and auxiliary
+    // links, so the sliders have to be rebuilt, not merely refreshed.
+    majVisibilite(); construireSliders(); rendu();
+  });
+  $("#profil").onchange=e=>{etat.profil=e.target.value; majVisibilite(); construireSliders(); rendu();};
+  document.querySelectorAll("[data-unite]").forEach(b=>b.onclick=()=>{
+    etat.unite=b.dataset.unite;
+    document.querySelectorAll("[data-unite]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+    rendu();
+  });
+  $("#sDepart").oninput=e=>{etat.depart=parseInt(e.target.value,10); rendu();};
+  $("#sMasse").oninput=e=>{etat.masse[etat.motor]=parseFloat(e.target.value); rendu();};
+  document.querySelectorAll("[data-mil]").forEach(b=>b.onclick=()=>{
+    if(etat.mil===b.dataset.mil) return;
+    etat.mil=b.dataset.mil;
+    document.querySelectorAll("[data-mil]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+    // Every default and the reference weight change with the vintage, so hand-
+    // tuned sliders and hand-set weights would silently mean something else.
+    etat.reglages={}; etat.masse={};
+    construireSliders(); rendu();
+  });
+  $("#resetMasse").onclick=()=>{delete etat.masse[etat.motor]; rendu();};
+  $("#reset").onclick=()=>{etat.reglages={}; construireSliders(); rendu();};
+
+  // The SVG bakes in the colours read from the CSS variables at draw time,
+  // so it has to be redrawn when the system switches between light and dark.
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", rendu);
+
+  $("#dlSvg").onclick=()=>telecharge("svg");
+  $("#dlPng").onclick=()=>telecharge("png");
+
+  $("#profil").innerHTML=Object.entries(PROFILS)
+    .map(([k,p])=>`<option value="${k}">${esc(p.nom)}</option>`).join("");
+  $("#profil").value=etat.profil;
+
+  majTarifs(); majVisibilite(); construireSliders(); rendu();
+}
+
+function majVisibilite(){
+  const ch=CHAINES[etat.motor];
+  $("#wrapSource").style.display = ch.sansSource ? "none" : "";
+  const fige = ch.sansSource || SOURCES[etat.source].fige;
+  $("#wrapConv").style.display = fige ? "none" : "";
+  $("#convNote").textContent = CONV_NOTE[etat.conv];
+  $("#usageNote").textContent =
+      etat.usage==="reel"   ? "Consumption as actually measured, higher than the type-approval values. Affects the cost, not the efficiency of the cycle."
+    : etat.usage==="choisi" ? ("One WLTC phase instead of the whole cycle. Unlike Real-world, this DOES move the physics: drivetrain efficiency, air drag and auxiliaries all follow the speed."
+        + (etat.mil==="2015"
+           ? " ⚠️ On the 2015 vintage the phases are measured on the WLTC but applied to a baseline established on the NEDC: the shape across phases is sound, the absolute level is the gentler NEDC one. Switch to 2025+ for a consistent reading."
+           : " On the 2025+ vintage the phases and the baseline are both WLTP, so this reading is internally consistent."))
+    : "Consumption over the standardised cycle, as simulated by the JEC — the " + mil().cycle + ", per the vintage selected above.";
+  $("#wrapProfil").style.display = etat.usage==="choisi" ? "" : "none";
+  if(etat.usage==="choisi"){
+    const p=PROFILS[etat.profil];
+    const mesure = CHAINES[etat.motor].maillons.some(m=>m.id==="traction");
+    $("#profilNote").innerHTML =
+      `Mean speed ${fmt(p.v,1)} km/h over ${p.dist}. ${esc(p.note)}`
+      + (mesure ? ""
+        : ` <strong class="warn">On this powertrain only the work to be done follows the profile.</strong> `
+          + `The per-phase efficiency measured by Reick is a battery-electric figure; there is no equivalent here, so engine efficiency is held at its cycle value. `
+          + `A combustion engine in fact degrades far more than an electric one in slow traffic — idling and cold running — so the city penalty shown here is UNDERSTATED.`);
+  }
+
+  const comp=compositionDe(etat.source);
+  $("#srcComp").innerHTML = comp
+    ? comp.map(x=>`${esc(TECH[x.tech].nom)} ${fmt(x.part*100,0)}%`).join(" · ")
+      + ` — primary-energy factor ${fmt(1/effSource(etat.source, etat.conv),2)} MJ per MJ generated.`
+    : "";
+}
+
+function majTarifs(){
+  const v=CHAINES[etat.motor].vecteur, liste=TARIFS[v];
+  const sel=$("#prix");
+  sel.innerHTML=liste.map(t=>`<option value="${t.id}">${esc(t.nom)}</option>`).join("");
+  sel.value=etat.tarif[v]||liste[0].id;
+  sel.onchange=e=>{etat.tarif[v]=e.target.value; majPrixChamp(); rendu();};
+  majPrixChamp();
+}
+function majPrixChamp(){
+  const t=tarifCourant(), v=CHAINES[etat.motor].vecteur;
+  const inp=$("#prixVal");
+  inp.value=t.val; inp.step = t.unite==="€/kWh" ? 0.001 : 0.01;
+  $("#prixNote").textContent=`${t.unite} — ${t.note}`;
+  inp.oninput=()=>{
+    const x=parseFloat(inp.value);
+    if(!isNaN(x)&&x>=0){ etat.prixPerso[v+"."+t.id]=x; rendu(); }
+  };
+}
+
+function construireSliders(){
+  $("#sliders").innerHTML=maillonsDe(etat.motor).map(m=>{
+    if(m.verrou){
+      return `<div class="slider">
+        <div class="top"><span class="nm">${esc(m.nom)}</span><span class="vl">${fmt(m.val,1)}%</span></div>
+        <div class="note">${esc(m.note||"")} <em>${esc(m.verrouTxt||"Set by the choice of source and of convention.")}</em></div>
+      </div>`;
+    }
+    return `<div class="slider" data-mid="${m.id}">
+      <div class="top"><span class="nm">${esc(m.nom)}</span><span class="vl" id="v_${m.id}">${fmt(m.val,1)}%</span></div>
+      <input type="range" id="s_${m.id}" min="${m.min}" max="${m.max}" step="0.1" value="${m.ref}">
+      <div class="note">${esc(m.note||"")}<span id="n_${m.id}"></span></div>
+    </div>`;
+  }).join("");
+  maillonsDe(etat.motor).forEach(m=>{
+    if(m.verrou) return;
+    const el=document.getElementById("s_"+m.id);
+    el.oninput=()=>{ etat.reglages[etat.motor+"."+m.id]=parseFloat(el.value); rendu(); };
+  });
+}
+
+function majSliders(){
+  maillonsDe(etat.motor).forEach(m=>{
+    const v=document.getElementById("v_"+m.id);
+    if(v) v.textContent=fmt(m.val,1)+"%";
+    // The useful share is derived from the mass: say so rather than let the
+    // slider position quietly disagree with the number displayed.
+    const n=document.getElementById("n_"+m.id);
+    if(n) n.innerHTML = (m.id==="utile" && Math.abs(m.val-m.ref)>0.05)
+      ? ` <em>Slider set to ${fmt(m.ref,1)}% at ${fmt(M_REF_of(),0)} kg; at ${fmt(masseDe(etat.motor),0)} kg the braking losses bring it to ${fmt(m.val,1)}%.</em>` : "";
+    const wrap=document.querySelector(`.slider[data-mid="${m.id}"]`);
+    if(wrap){
+      const def=CHAINES[etat.motor].maillons.find(x=>x.id===m.id);
+      wrap.classList.toggle("modif", def && Math.abs(m.ref-pick(def.def))>0.05);
+    }
+  });
+}
+
+/* comparison table, default values at the reference mass */
+function tableauGlobal(){
+  const combos=[
+    ["elec","wind"],["elec","mixfr"],["elec","mixde"],["elec","mixeu"],["elec","mixcn"],["elec","gasplant"],["elec","coal"],
+    ["h2pac","wind"],["h2pac","mixeu"],["h2smr",null],
+    ["hybride",null],["diesel",null],["essence",null]
+  ];
+  const memoM=etat.motor, memoS=etat.source, memoR=etat.reglages;
+  etat.reglages={};
+  const lignes=combos.map(([m,s])=>{
+    etat.motor=m; if(s) etat.source=s;
+    const r=calcule(m,false), c=coutDe(r);
+    const nom=CHAINES[m].nom+(s?` — ${SOURCES[s].nom}`:"");
+    return {nom, eff:r.eff*100, mj:r.primaireMJ, cout:c.cout};
+  }).sort((a,b)=>b.eff-a.eff);
+  etat.motor=memoM; etat.source=memoS; etat.reglages=memoR;
+  $("#tbAll").querySelector("tbody").innerHTML=lignes.map(l=>`<tr>
+    <td>${esc(l.nom)}</td><td class="num">${fmt(l.eff,1)}%</td>
+    <td class="num">${eStr(l.mj,0)}</td><td class="num">€${fmt(l.cout,2)}</td></tr>`).join("");
+}
+
+/* ============================================================
+   FIGURE EXPORT
+   ============================================================
+   The on-screen <svg> is not directly usable as a file: it has no xmlns, no
+   intrinsic size, and a transparent background. It also inherits its font from
+   the page, which a standalone viewer will not have — so the family is written
+   in explicitly, and an opaque white rect is put underneath.
+
+   The colours need no such treatment: dessine() has already baked the resolved
+   values into every fill, and it reads them from the figure's fixed palette, so
+   the file matches what is on screen in either theme. */
+function nomFichier(ext){
+  const r=cadre(calcule(etat.motor));
+  const bout=[CHAINES[etat.motor].nom,
+              CHAINES[etat.motor].sansSource ? null : SOURCES[etat.source].nom,
+              etat.usage==="choisi" ? PROFILS[etat.profil].nom : null,
+              r.perim.kpi]
+    .filter(Boolean).join(" - ");
+  return ("sankey - "+bout).replace(/[^\w \-]+/g,"").replace(/\s+/g,"_").toLowerCase()+"."+ext;
+}
+
+function svgAutonome(){
+  const src=$("#sankey");
+  const vb=(src.getAttribute("viewBox")||"0 0 920 540").split(/\s+/).map(Number);
+  const W=vb[2], H=vb[3];
+  const svg=src.cloneNode(true);
+  svg.setAttribute("xmlns","http://www.w3.org/2000/svg");
+  svg.setAttribute("xmlns:xlink","http://www.w3.org/1999/xlink");
+  svg.setAttribute("width",W); svg.setAttribute("height",H);
+  svg.setAttribute("font-family","-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif");
+  const bg=document.createElementNS("http://www.w3.org/2000/svg","rect");
+  bg.setAttribute("x",vb[0]); bg.setAttribute("y",vb[1]);
+  bg.setAttribute("width",W); bg.setAttribute("height",H); bg.setAttribute("fill","#ffffff");
+  svg.insertBefore(bg, svg.firstChild);
+  return {texte:'<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(svg), W, H};
+}
+
+function sauve(blob, nom){
+  const u=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=u; a.download=nom; document.body.appendChild(a); a.click();
+  a.remove(); setTimeout(()=>URL.revokeObjectURL(u), 1000);
+}
+
+function telecharge(format){
+  const {texte,W,H}=svgAutonome();
+  if(format==="svg"){
+    sauve(new Blob([texte],{type:"image/svg+xml;charset=utf-8"}), nomFichier("svg"));
+    return;
+  }
+  // PNG at 3x, for slides that will not take a vector file.
+  const ech=3, img=new Image();
+  img.onload=()=>{
+    const cv=document.createElement("canvas");
+    cv.width=W*ech; cv.height=H*ech;
+    const cx=cv.getContext("2d");
+    cx.fillStyle="#ffffff"; cx.fillRect(0,0,cv.width,cv.height);
+    cx.drawImage(img,0,0,cv.width,cv.height);
+    cv.toBlob(b=>sauve(b, nomFichier("png")), "image/png");
+  };
+  img.onerror=()=>alert("PNG export failed — the SVG download works and is the better format anyway.");
+  img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(texte);
+}
+
+initUI();
+</script>
+</body>
+</html>

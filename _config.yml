@@ -39,3 +39,15 @@ safe: false
 collections:
   UE14Projects:
     output: true
+
+# Fichiers de travail : ils vivent dans le dépôt, pas sur le site publié.
+# Sans cette liste, BUILD.md est recopié tel quel dans _site/ et servi à
+# /BUILD.md, ce qui n'a aucun sens pour un visiteur.
+exclude:
+  - BUILD.md
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - docker-compose.yml
+  - vendor
+  - .bundle

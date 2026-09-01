@@ -54,8 +54,12 @@ MINES Paris — PSL, on the Sophia Antipolis campus. What energy is and how it i
 measured, where it comes from and where it goes, and what a low-carbon
 transition actually requires.
 
-The two interactive tools above were built for this course. The rest of the
-material is not published here yet.
+- [**Course slides**]({{site.url}}/IntroductionToEnergy.html) — the 2026 edition,
+  in PDF and in editable PowerPoint. Decks 1 to 3 for now: what energy is, the
+  history of energy, and efficiency and thermodynamics.
+
+The interactive tools above were built for this course. The remaining decks, and
+the code that produces the figures, are being opened one at a time.
 
 ## MINES Paris — UE 14 "Terre et Société"
 
