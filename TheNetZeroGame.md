@@ -43,4 +43,4 @@ still opens against the model it was built on.
  - [v0.11]({{site.url}}/assets/netzerogame/v0.11/index.html)
  - [v0.10]({{site.url}}/assets/netzerogame/v0.10/index.html)
 
-<small>Page updated 2026-07-29.</small>
+<small>Page updated 2026-09-03.</small>
