@@ -25,25 +25,9 @@ PhD funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project, in c
 
 **PhD description --** This PhD aims to analyze the impact of massive electrification, particularly electric vehicles, on the power distribution network (in continuation of what we have done for PV [here](https://hal.science/hal-04880502v1)). The objective is to assess the need for grid reinforcement and explore how flexibility, in its various forms, can help balance these needs with supply-demand equilibrium while considering the constraints imposed by stakeholder dynamics.
 
+Publication in Energy and Buildings, 2026, 361, 117409. Yoann Chiche, Yassine Abdelouadoud, Anna Cocchi, Robin Girard. <a href="https://doi.org/10.1016/j.enbuild.2026.117409" target="_blank" rel="nofollow"> A scalable activity-based and physics-informed bottom-up model for residential electricity demand using open data. </a>
+
 <img src="/assets/ImagesRecherche/image_yoann.png" alt="Yoann Chiche" style="height: 500px; width:1000px;"/>
-
-
-## Laurent Cornaggia
- <a id="LaurentCornaggia">
-
-<img src="/assets/ImagesRecherche/photo_laurent_s.jpg" alt="Laurent Cornaggia" style="height: 150px; width:150px;"/>
-<br>
-PhD Student since January 2023 <br>
-Optimisation of medium voltage DC connection architechtures. <br>
-CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a>.
-
-<a href="https://www.linkedin.com/in/laurent-cornaggia/"> Linkedin  </a>
-
-**Mini CV --** Laurent Cornaggia holds an engineering diploma from l’Ecole Polytechnique and an MSc in mechanical engineering from EPFL. Following an initial experience in a startup focused on micro-power plants utilizing waste heat, he joined Artelys as a project manager in energy consulting. In this role, he specialized in areas such as cost-benefit analysis, power markets, sector coupling, optimization, and prospective studies. In January 2023, Laurent started a CIFRE thesis in collaboration with RTE and Mines Paris-PSL, titled "Decision-making Method for the Development of DC Network Architectures Connected to the Transport Network."
-
-**PhD description --** His thesis aims at comparing AC and DC network architectures at medium to high voltage (ranging from 1 to 100 kV DC pole-to-pole) to ascertain the advantages of DC over traditional AC connections. Laurent presented a conference paper titled "Comparison of Losses and Costs between AC and MVDC Connections for New DC Resources" at ISGT Europe 2023, publicly available [here](https://backoffice.inviteo.com/upload/compte218/Base/inscriptions_projets/fichier/08788-fichier.pdf). This paper explores the losses and costs associated with AC and MVDC connections from a point-to-point perspective. Presently, his primary focus involves the development of methodologies for computing additional comparison criteria between AC and DC architectures. This encompasses evaluating factors such as security of supply, environmental impact, and ancillary services. Furthermore, Laurent's thesis contributes to the RACCOR-D project led by the French railway operator SNCF réseau, where various AC and DC architectures connected to the transport network are envisioned, involving a combination of railway MVDC networks, batteries, and solar plants.
-
-<img src="/assets/ImagesRecherche/image_laurent.png" alt="Laurent Cornaggia"/>
 
 
 ## Hugo Hamburger
@@ -73,9 +57,13 @@ PhD funded by the  <a href="https://planeterr.fr/"> PlaneTerr</a>. project, in c
 
 <a href="https://www.linkedin.com/in/thibaut-knibiehly/"> Linkedin  </a>
 
-**Mini CV --** Thibaut Knibiehly graduated from Ecole polytechnique and Mines Paris PSL in 2022 in engineering. After specializing in energy systems modelling, he joined an energy consulting company as an intern to work on power system decarbonisation strategy. He continued with another internship at the Swiss TSO to benchmark two adequacy simulation tools. Since June 2023, he joined the PERSEE centre and is currently a first year PhD candidate working on "optimisation of operation and planning of an industrial multi-energy hub" in collaboration with RTE.
+**Mini CV --** Thibaut Knibiehly graduated from Ecole polytechnique and Mines Paris PSL in 2022 in engineering. After specializing in energy systems modelling, he joined an energy consulting company as an intern to work on power system decarbonisation strategy. He continued with another internship at the Swiss TSO to benchmark two adequacy simulation tools. Since June 2023, he joined the PERSEE centre, and started in September 2023 a PhD on "optimisation of operation and planning of an industrial multi-energy hub" in collaboration with RTE. He is now finalising his thesis.
 
 **PhD description --** The decarbonisation of the energy system in 2050 will lead to a significant change in energy demand. The need for fossil fuels will gradually be replaced by a demand of electricity, bio-fuels or e-fuels (hydrogen, e-methane, bio-methane, low-temperature heat, etc.). At the same time, the electricity grid is phasing out emitting thermal generation, creating new needs to ensure grid stability, particularly in terms of storage. Modelling the conversions between energy vectors makes it possible to reduce the costs of decarbonisation, by optimising the deployment of new infrastructure. The aim of this thesis is to study a problem of optimal pathways of a multi-energy system by modelling an industrial hub. The questions to be studied are: - What are the optimal technologies in terms of cost to produce hydrogen or other decarbonised vectors? - What is the role of carbon capture in the model, based on cost assumptions? - For which energy carriers and how should daily, weekly and seasonal energy storage be sized?
+
+Publication in Journal of Cleaner Production, 2025. Decarbonisation of industry and the energy system: exploring mutual impacts and investment planning. Quentin Raillard--Cazanove, Thibaut Knibiehly, Robin Girard.
+
+Publication in Energy Policy, 2026, 214, 115258. Anaëlle Jodry, Quentin Raillard--Cazanove, Thibaut Knibiehly, Pedro Affonso Nóbrega, Robin Girard. <a href="https://doi.org/10.1016/j.enpol.2026.115258" target="_blank" rel="nofollow"> Resilience analysis for energy foresight scenarios: addressing the deep uncertainties of hydrogen deployment in industrial hubs. </a>
 
 ## Maria Berchiche
  <a id="MariaBerchiche">
@@ -122,6 +110,26 @@ PhD Student since December 2025 <br>
 
 # List of past students
 <a id="paststudents">
+
+## Laurent Cornaggia
+ <a id="LaurentCornaggia">
+
+<img src="/assets/ImagesRecherche/photo_laurent_s.jpg" alt="Laurent Cornaggia" style="height: 150px; width:150px;"/>
+<br>
+Started in January 2023, defended his PhD in March 2026, now at <a href="https://www.rte-france.com/"> RTE</a>. <br>
+Optimisation of medium voltage DC connection architechtures. <br>
+CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a>.
+
+<a href="https://www.linkedin.com/in/laurent-cornaggia/"> Linkedin  </a>
+
+**Mini CV --** Laurent Cornaggia holds an engineering diploma from l’Ecole Polytechnique and an MSc in mechanical engineering from EPFL. Following an initial experience in a startup focused on micro-power plants utilizing waste heat, he joined Artelys as a project manager in energy consulting. In this role, he specialized in areas such as cost-benefit analysis, power markets, sector coupling, optimization, and prospective studies. In January 2023, Laurent started a CIFRE thesis in collaboration with RTE and Mines Paris-PSL, titled "Decision-making Method for the Development of DC Network Architectures Connected to the Transport Network."
+
+**PhD description --** His thesis aims at comparing AC and DC network architectures at medium to high voltage (ranging from 1 to 100 kV DC pole-to-pole) to ascertain the advantages of DC over traditional AC connections. Laurent presented a conference paper titled "Comparison of Losses and Costs between AC and MVDC Connections for New DC Resources" at ISGT Europe 2023, publicly available [here](https://backoffice.inviteo.com/upload/compte218/Base/inscriptions_projets/fichier/08788-fichier.pdf). This paper explores the losses and costs associated with AC and MVDC connections from a point-to-point perspective. Presently, his primary focus involves the development of methodologies for computing additional comparison criteria between AC and DC architectures. This encompasses evaluating factors such as security of supply, environmental impact, and ancillary services. Furthermore, Laurent's thesis contributes to the RACCOR-D project led by the French railway operator SNCF réseau, where various AC and DC architectures connected to the transport network are envisioned, involving a combination of railway MVDC networks, batteries, and solar plants.
+
+Publication in International Journal of Electrical Power & Energy Systems, 2026, 175, 111633. Laurent Cornaggia, Robin Girard, Olivier Despouys, Hélène Clémot, Panagiotis Andrianesis. <a href="https://doi.org/10.1016/j.ijepes.2026.111633" target="_blank" rel="nofollow"> Optimal operational planning of hybrid power plants in railway MVDC networks and comparison with standard AC connections. </a>
+
+<img src="/assets/ImagesRecherche/image_laurent.png" alt="Laurent Cornaggia"/>
+
 
 ## Thibault Goessel
  <a id="ThibaultGoessel">
@@ -230,6 +238,8 @@ Defended her PhD in December 2023, now at <a href="https://www.cea.fr/energies/i
 
 Publication in Journal of Cleaner Production- Sept 2023 - <a href="https://www.sciencedirect.com/science/article/pii/S0959652623029086" target="_blank" rel="nofollow"> Optimisation of hydrogen production systems deployement at the scale of a territory </a>. Anaëlle Jodry, Robin Girard, Pedro Affonso Nobrega, Robin Molinier, Moulay-Driss Elalaouifaris.
 A second paper is being written.
+Publication in Energy Policy, 2026, 214, 115258. Anaëlle Jodry, Quentin Raillard--Cazanove, Thibaut Knibiehly, Pedro Affonso Nóbrega, Robin Girard. <a href="https://doi.org/10.1016/j.enpol.2026.115258" target="_blank" rel="nofollow"> Resilience analysis for energy foresight scenarios: addressing the deep uncertainties of hydrogen deployment in industrial hubs. </a>
+
 <img src="/assets/ImagesRecherche/image_anaelle.png" alt="Anaelle "/>
 
 

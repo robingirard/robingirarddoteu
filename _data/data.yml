@@ -95,20 +95,8 @@ education:
 career-profile_2:
     title: Current students (Postdoc and PhD students)
     info:
-      - role: <a href="https://www.linkedin.com/in/olena-pechak-24b215298">  Olena Pechak </a> - Postdoc -
-        time: 18 months - Since January 2025
-        details: |
-          E-fuel developpement in the EU. Postdoc funded by <a href ="https://www.lereseaudescarnot.fr/fr"> CARNOT </a>.
-      - role: <a href="https://www.linkedin.com/in/julie-perrin-147414188/">  Julie Perrin </a> - Postdoc -
-        time: Since February 2023
-        details: |
-           Joined coordination with <a href ="https://latts.fr/membres/daniel-florentin/"> Daniel Florentin</a>. From political targets to deployment of thermal retrofit, identification of institutional limits to thermal retrofits. Postdoc funded by <a href ="https://the-transition-institute.minesparis.psl.eu/"> TTI.5 </a>.
-      - role: <a href="https://www.robingirard.eu/StudentList.html#LaurentCornaggia"> Laurent Cornaggia  </a> - PhD student -
-        time: Since January 2023
-        details: |
-           Optimisation of medium voltage DC connection architechtures. CIFRE PhD funded by french TSO <a href="https://www.rte-france.com/"> RTE</a>.
       - role: <a href="https://www.robingirard.eu/StudentList.html#ThibautKnibiehly">  Thibaut Knibiehly  </a> - PhD student -
-        time: Since June 2023
+        time: Since September 2023
         details: |
            Planning of multi-energy system. PhD funded by the PlaneTerr project, in collaboration with several french energy system compagnies.
       - role: <a href="https://www.robingirard.eu/StudentList.html#HugoHamburger"> Hugo Hamburger  </a> - PhD student -
@@ -153,17 +141,20 @@ publications:
 
       Some of our upcomming papers (submitted or in preparation) are listed below:
     papers:
-      - title:  Optimal operational planning of hybrid power plants in railway MVDC networks and comparison with standard AC connections
-        authors: Laurent Cornaggia, Robin Girard, Olivier Despouys, Helene Clemot, Panagiotis Andrianesis
-
-      - title: A scalable activity-based and physics-informed bottom-up model for residential electricity demand using open data
-        authors: Yoann Chiche, Yassine Abdelouadoud, Anna Cocchi, Robin Girard
-
-      - title: Resilience analysis for energy foresight scenarios - addressing the deep uncertainties of hydrogen deployment in industrial hubs.
-        authors: Anaëlle Jodry, Quentin RAILLARD--CAZANOVE, Thibaut KNIBIEHLY, Pedro AFFONSO NÓBREGA, Robin Girard
+      - title: Mapping the cost-competitiveness of alternative industrial heat supply portfolios - A multi-scale perspective
+        authors: Thibaut Knibiehly, Thomas Heggarty, Pedro Affonso Nobrega, Robin Girard
 
       - title: An integrated model coupling framework for adequacy-constrained planning of energy systems - A case study of the European power system towards 2050
         authors: Hugo Hamburger, Thomas Heggarty, Panagiotis Andrianesis, Robin Girard
+
+      - title: Distributed small-reservoir pumped-storage hydropower in Europe - a GIS screening under drawdown and karst constraints
+        authors: Robin Girard, Antoine Rogeau, Emanuele Quaranta
+
+      - title: The visual footprint of wind power - a solid-angle metric for the visual impact of energy infrastructure
+        authors: Robin Girard
+
+      - title: Exact value functions and sensitivities for energy storage by fast Legendre transforms
+        authors: Robin Girard
 
 
 
