@@ -1,6 +1,6 @@
 // sw.js — service worker : cache-first pour l'enveloppe de l'appli et le contenu.
 // Incrémenter VERSION à chaque mise en ligne pour forcer la mise à jour chez les utilisateurs.
-const VERSION = '2026-09-06.6';
+const VERSION = '2026-09-06.7';
 const CACHE = `revise-sti2d-${VERSION}`;
 const ASSETS = [
   './', './index.html', './manifest.webmanifest', './content.js', './css/app.css',

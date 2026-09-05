@@ -28,7 +28,7 @@ parce qu'il n'y a pas de raison de le garder.</small>
 
 Entraînement au baccalauréat STI2D : ingénierie et 2I2D, physique-chimie et mathématiques. Répétition espacée, progression par compétences, figures et mécanismes animés.
 
-19 unités, 84 compétences, **2 078 exercices** dont 81 exercices complets guidés, 296 figures et 13 annales référencées.
+19 unités, 84 compétences, **2 081 exercices** dont 81 exercices complets guidés, 303 figures et 13 annales référencées.
 
 Chaque mauvaise réponse porte sa propre explication : l'application dit *pourquoi*
 ce n'était pas ça, pas seulement que ce n'était pas ça.

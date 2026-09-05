@@ -184,12 +184,19 @@ th { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-
 .exercise { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; margin-top: 6px; }
 .prompt { font-size: 1.15rem; font-weight: 600; margin-bottom: 12px; }
 .prompt .fig-block svg { max-height: 200px; }
-/* Sur un téléphone, plafonner la hauteur plafonne aussi la largeur : une figure carrée n'occupait
-   que 240 des 336 px de la colonne, et ses étiquettes rétrécissaient d'autant. On la laisse
-   prendre la place disponible, la hauteur restant bornée par la fenêtre pour qu'une figure
-   allongée ne chasse pas la question hors de l'écran. */
+
+/* Taille des figures d'un énoncé — le défaut par famille, pas famille par famille.
+   Une figure n'est mise en bloc que si l'énoncé ne contient QUE la figure ; sinon elle reste
+   « inline » et retombait sur max-height: 120px, soit 131 px de large pour un dessin conçu pour
+   être lu. C'est ce qui rendait les étiquettes d'axes illisibles, et c'est ce qui frappait toute
+   nouvelle famille de figures dont on avait oublié d'écrire la règle. Une figure d'énoncé prend
+   donc la largeur par défaut, la hauteur restant bornée pour qu'une figure allongée ne chasse pas
+   la question hors de l'écran. Les règles par famille qui suivent restent prioritaires. */
+.prompt .fig { display: block; }
+.prompt .fig svg { width: 100%; max-width: 340px; height: auto; max-height: 60vh; margin: 0 auto; }
 @media (max-width: 480px) {
   .fig-block svg, .prompt .fig-block svg { max-height: 46vh; }
+  .prompt .fig svg { max-height: 46vh; }
 }
 
 .choices { display: flex; flex-direction: column; gap: 10px; }
@@ -340,7 +347,10 @@ th { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-
 .toggle-row input { width: 24px; height: 24px; accent-color: var(--primary); }
 
 /* ---- figures de mobilité (mobilite-*) et de contact (contact-*) : tailles selon le contexte ---- */
-.prompt svg[data-fig^="mobilite"], .card-front svg[data-fig^="mobilite"] { width: 200px; height: auto; max-height: none; }
+/* Épinglée à 200 px, cette figure ne laissait pas lire ses étiquettes d'axes sur un téléphone —
+   c'est le défaut que Robin a signalé. Dans un énoncé elle suit désormais le défaut commun
+   (toute la largeur, plafonnée) ; sur une carte recto-verso, 200 px restent la bonne taille. */
+.card-front svg[data-fig^="mobilite"] { width: 200px; height: auto; max-height: none; }
 .choice svg[data-fig^="mobilite"] { width: 100%; max-width: 170px; height: auto; max-height: none; }
 .lesson table svg[data-fig^="mobilite"] { width: 110px; min-width: 110px; height: auto; max-height: none; }
 .prompt svg[data-fig^="contact-"], .card-front svg[data-fig^="contact-"] { width: 100%; max-width: 340px; height: auto; max-height: none; }
