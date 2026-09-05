@@ -12,7 +12,7 @@ les outils interactifs, les supports et les pages de projets étudiants.
 
 ## Outils interactifs
 
-Trois applications, à ouvrir directement dans un navigateur. Elles fonctionnent
+Quatre applications, à ouvrir directement dans un navigateur. Elles fonctionnent
 entièrement en local : rien n'est envoyé nulle part, et elles restent utilisables
 hors connexion une fois la page chargée. Leur code et leurs sources sont ouverts.
 
@@ -66,6 +66,25 @@ La page fonctionne hors ligne et n'embarque aucun jeu de données, seulement les
 valeurs agrégées de la figure. Code et sources :
 [git.persee.minesparis.psl.eu/energy-alternatives/world_energy_mix](https://git.persee.minesparis.psl.eu/energy-alternatives/world_energy_mix)
 
+### [Révise — réviser par répétition espacée]({{site.url}}/Revise.html)
+
+Un outil de révision, pas un cours : un exercice raté revient vite, un exercice réussi
+s'espace, et l'on progresse compétence par compétence. Il est vide par lui-même et se
+garnit de **paquets de fiches** — le moteur ne connaît aucune matière, en brancher une
+autre ne demande pas d'y toucher.
+
+Le premier paquet couvre le **bac STI2D** — ingénierie et 2I2D, physique-chimie,
+mathématiques — soit 2 058 exercices où chaque mauvaise réponse porte sa propre
+explication. Je l'ai écrit pour mon fils qui prépare ce bac ; il est ouvert parce qu'il
+n'y a pas de raison de le garder.
+
+L'application s'installe sur l'écran d'accueil d'un téléphone et fonctionne sans
+connexion. Rien n'est envoyé nulle part : la progression reste sur l'appareil. Moteur
+(MIT) :
+[git.persee.minesparis.psl.eu/energy-alternatives/revise-core](https://git.persee.minesparis.psl.eu/energy-alternatives/revise-core) ·
+paquet STI2D (CC BY 4.0) :
+[github.com/robingirard/revise-pour-le-bac-sti2D](https://github.com/robingirard/revise-pour-le-bac-sti2D)
+
 ## I-BE³ — International Bachelor of Environmentally Engaged Engineering
 
 **Introduction to Energy** — cours de trois jours pour le
@@ -79,8 +98,9 @@ bas carbone demande réellement. Le cours est en anglais.
   ce qu'est l'énergie, l'histoire de l'énergie, et le rendement et la
   thermodynamique. La page est en anglais, comme le cours.
 
-Les trois outils interactifs ci-dessus ont été construits pour ce cours. Les
-decks suivants, et le code qui produit les figures, sont ouverts un à un.
+Les trois premiers outils interactifs ci-dessus ont été construits pour ce cours
+— Révise, lui, vise un tout autre public. Les decks suivants, et le code qui
+produit les figures, sont ouverts un à un.
 
 ## MINES Paris — UE 14 « Terre et Société »
 

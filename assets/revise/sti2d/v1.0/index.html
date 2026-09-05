@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Révise STI2D</title>
+  <meta name="description" content="Entraînement au bac STI2D : répétition espacée et progression par compétences.">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Révise STI2D">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="./css/app.css">
+</head>
+<body>
+  <div id="app" class="app"><p class="loading">Chargement…</p></div>
+  <noscript><p class="error">Cette application a besoin de JavaScript.</p></noscript>
+
+  <!-- content.js : généré par tools/build_content.py (window.CONTENT = {...}) -->
+  <script src="./content.js"></script>
+  <!-- KaTeX (formules mathématiques), embarqué dans vendor/ pour fonctionner hors connexion -->
+  <script src="./vendor/katex/katex.min.js"></script>
+  <script type="module" src="./js/main.js"></script>
+  <script>
+    // Service worker uniquement en http(s) : rend l'appli utilisable hors-ligne une fois installée.
+    if (location.protocol.startsWith('http') && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+    // Message d'aide si le module principal n'a pas démarré (ex. ouverture en file:// dans Chrome).
+    setTimeout(() => {
+      if (window.__RS_STARTED) return;
+      const app = document.getElementById('app');
+      app.innerHTML = '';
+      const p = document.createElement('p');
+      p.className = 'error';
+      p.textContent = window.CONTENT
+        ? "L'application n'a pas pu démarrer. Si vous avez ouvert le fichier directement (file://), servez le dossier avec « make serve » (ou « python3 -m http.server ») et ouvrez http://localhost:8000."
+        : "Le fichier content.js est introuvable : lancez « make » pour générer le contenu.";
+      app.appendChild(p);
+    }, 2500);
+  </script>
+</body>
+</html>

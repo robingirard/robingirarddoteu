@@ -1,0 +1,40 @@
+# Manifeste du paquet de contenu (voir docs/PLAN-V2.md §1).
+#
+# Un paquet, c'est du contenu : des unités, des leçons, des figures, et éventuellement des
+# générateurs d'exercices qui lui sont propres. Le moteur (revise-core) ne connaît aucune matière ;
+# c'est ce fichier qui lui dit quoi construire, et avec quelle version de moteur.
+
+id: sti2d
+titre: Revise STI2D
+niveau: Terminale STI2D (et rappels de 1re)
+matieres: [ingenierie, physique, maths]
+description: >-
+  Entraînement au baccalauréat STI2D : ingénierie et 2I2D, physique-chimie et mathématiques.
+  Répétition espacée, progression par compétences, figures et mécanismes animés.
+
+licence: CC BY 4.0
+auteur: Robin Girard
+contact: robin.girard@minesparis.psl.eu
+
+# Version publiée du paquet. Chaque version mineure garde son lien permanent sur le site : un
+# lien donné à une classe continue d'ouvrir la version sur laquelle le travail a été fait.
+version: "1.0"
+
+# Version de revise-core que ce paquet sait consommer. La construction échoue si le moteur
+# présent ne la satisfait pas, plutôt que de produire un site subtilement cassé.
+moteur: ">=1.0 <2"
+
+# Module Python fournissant les générateurs d'exercices propres à ce paquet (liaisons et
+# mécanismes) : le moteur n'en connaît aucun, il charge celui que le paquet déclare.
+generateurs: generators.liaisons
+
+# Fichiers de contenu propres au paquet, lus par ses générateurs et par ses vérifications.
+donnees:
+  liaisons: content/liaisons.yaml
+  mecanismes: content/mecanismes
+  animations: content/animations.yaml
+
+# Transcriptions locales des manuels, hors dépôt (droits d'auteur) : sert à
+# `check_droits.py` à vérifier qu'aucun texte du livre ne part en ligne.
+transcriptions: docs/notes
+droits_admis: content/droits-admis.yaml

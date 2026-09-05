@@ -1,0 +1,23 @@
+{
+  "id": "sti2d",
+  "titre": "Revise STI2D",
+  "description": "Entraînement au baccalauréat STI2D : ingénierie et 2I2D, physique-chimie et mathématiques. Répétition espacée, progression par compétences, figures et mécanismes animés.",
+  "niveau": "Terminale STI2D (et rappels de 1re)",
+  "matieres": [
+    "ingenierie",
+    "physique",
+    "maths"
+  ],
+  "licence": "CC BY 4.0",
+  "version": "1.0",
+  "moteur": "1.0.0",
+  "date": "2026-09-05",
+  "stats": {
+    "unites": 19,
+    "competences": 84,
+    "exercices": 2078,
+    "guides": 81,
+    "figures": 296,
+    "annales": 13
+  }
+}

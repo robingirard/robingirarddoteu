@@ -12,9 +12,9 @@ course material and the student project pages.
 
 ## Interactive tools
 
-Two applications, to be opened straight in a browser. They run entirely on your
+Three applications, to be opened straight in a browser. They run entirely on your
 machine: nothing is sent anywhere, and they keep working offline once the page
-has loaded. Both are open source, model and sources included.
+has loaded. All are open source, model and sources included.
 
 You are welcome to use them in your own teaching — translated, cut up or
 modified. Content is under CC BY 4.0 and code under the MIT licence; just say
@@ -46,6 +46,24 @@ values reproduce the JEC Well-to-Wheels v5 (JRC, EUCAR and Concawe), the
 European Union's reference study. Code, sources and reproducible figures:
 [git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency](https://git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency)
 
+### [Révise — revising by spaced repetition]({{site.url}}/Revise.html)
+
+A revision tool, not a course: a missed exercise comes back soon, a correct one drifts
+further away, and progress goes skill by skill. The tool is empty on its own and is
+filled with **content packs** — the engine knows no subject, so plugging in another one
+does not mean touching it.
+
+The first pack covers the French STI2D baccalauréat — engineering, physics and
+chemistry, mathematics — with 2 058 exercises, each wrong answer carrying its own
+explanation of *why* it is wrong. I wrote it for my son, who is sitting that exam; it is
+open because there is no reason to keep it closed. **The application and this pack are in
+French**, since the syllabus is.
+
+Engine (MIT):
+[git.persee.minesparis.psl.eu/energy-alternatives/revise-core](https://git.persee.minesparis.psl.eu/energy-alternatives/revise-core) ·
+STI2D pack (CC BY 4.0):
+[github.com/robingirard/revise-pour-le-bac-sti2D](https://github.com/robingirard/revise-pour-le-bac-sti2D)
+
 ## I-BE³ — International Bachelor of Environmentally Engaged Engineering
 
 **Introduction to Energy** — a three-day course for the
@@ -58,8 +76,9 @@ transition actually requires.
   in PDF and in editable PowerPoint. Decks 1 to 3 for now: what energy is, the
   history of energy, and efficiency and thermodynamics.
 
-The interactive tools above were built for this course. The remaining decks, and
-the code that produces the figures, are being opened one at a time.
+The first two interactive tools above were built for this course — Révise targets
+an entirely different audience. The remaining decks, and the code that produces
+the figures, are being opened one at a time.
 
 ## MINES Paris — UE 14 "Terre et Société"
 
