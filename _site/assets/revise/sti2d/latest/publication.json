@@ -10,14 +10,14 @@
   ],
   "licence": "CC BY 4.0",
   "version": "1.0",
-  "moteur": "1.0.0",
+  "moteur": "1.1.0",
   "date": "2026-09-06",
   "stats": {
     "unites": 19,
-    "competences": 84,
-    "exercices": 2081,
-    "guides": 81,
-    "figures": 303,
+    "competences": 85,
+    "exercices": 2108,
+    "guides": 82,
+    "figures": 329,
     "annales": 13
   }
 }

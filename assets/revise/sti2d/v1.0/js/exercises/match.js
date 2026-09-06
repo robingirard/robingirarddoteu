@@ -27,7 +27,10 @@ export function mount(container, item, ctx) {
   };
 
   for (const i of leftOrder) {
-    const btn = h('button', { class: 'match-btn', type: 'button', html: renderRich(pairs[i].left, figures) });
+    // le contenu est enveloppé dans un span : sans lui, texte et formule KaTeX deviennent deux
+    // éléments flex distincts et l'espace qui les sépare disparaît (« le point$A$ »)
+    const btn = h('button', { class: 'match-btn', type: 'button' },
+      h('span', { class: 'match-label', html: renderRich(pairs[i].left, figures) }));
     btn.addEventListener('click', () => {
       if (btn.classList.contains('matched')) return;
       for (const b of leftBtns.values()) b.classList.remove('selected');
@@ -37,7 +40,8 @@ export function mount(container, item, ctx) {
     leftBtns.set(i, btn);
   }
   for (const j of rightOrder) {
-    const btn = h('button', { class: 'match-btn', type: 'button', html: renderRich(pairs[j].right, figures) });
+    const btn = h('button', { class: 'match-btn', type: 'button' },
+      h('span', { class: 'match-label', html: renderRich(pairs[j].right, figures) }));
     btn.addEventListener('click', () => {
       if (btn.classList.contains('matched')) return;
       if (selectedLeft == null) {
