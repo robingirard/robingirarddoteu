@@ -79,4 +79,4 @@ simplement la provenance. Aucun texte de manuel n'est redistribué : la construc
 ce qui part en ligne aux transcriptions de travail et échoue dès qu'une reprise littérale
 n'a pas été examinée.
 
-<small>Page mise à jour le 2026-09-05.</small>
+<small>Page mise à jour le 2026-09-06.</small>

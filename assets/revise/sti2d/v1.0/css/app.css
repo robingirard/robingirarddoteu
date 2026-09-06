@@ -227,8 +227,12 @@ th { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-
 .match-btn.wrong { border-color: var(--ko); background: var(--ko-bg); }
 
 .grid-table th, .grid-table td { text-align: center; }
-.grid-table th[scope="row"] { font-size: 1.05rem; text-transform: none; color: var(--text); font-style: italic; }
-.grid-table .cell { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 4px 8px; cursor: pointer; }
+/* Une grille doit tenir en entier sur un téléphone : quatre colonnes titrées (« Ni l'une ni l'autre »,
+   « Noyau d'hélium 4 ») dépassaient l'écran et la dernière passait inaperçue. */
+.grid-table th[scope="col"] { font-size: 0.72rem; letter-spacing: 0; padding: 6px 4px; overflow-wrap: break-word; hyphens: auto; }
+.grid-table td { padding: 4px 2px; }
+.grid-table th[scope="row"] { font-size: 1.05rem; text-transform: none; color: var(--text); font-style: italic; padding: 8px 6px; overflow-wrap: break-word; }
+.grid-table .cell { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 4px 6px; cursor: pointer; }
 .grid-table input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--primary); }
 .grid-table td.correct { background: var(--ok-bg); }
 .grid-table td.wrong { background: var(--ko-bg); }
