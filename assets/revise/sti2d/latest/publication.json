@@ -11,13 +11,13 @@
   "licence": "CC BY 4.0",
   "version": "1.0",
   "moteur": "1.1.0",
-  "date": "2026-09-06",
+  "date": "2026-09-07",
   "stats": {
     "unites": 19,
     "competences": 85,
-    "exercices": 2108,
-    "guides": 82,
-    "figures": 329,
+    "exercices": 2119,
+    "guides": 83,
+    "figures": 333,
     "annales": 13
   }
 }
