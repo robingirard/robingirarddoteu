@@ -17,6 +17,8 @@ By **[Robin Girard]({{site.url}}/)**, MINES Paris — PSL.
 It runs entirely in your browser. Nothing is sent anywhere, and you can save a
 scenario to a file and load it back on another machine.
 
+There are provisional editions for other countries — the same model, national data that has not been reviewed yet: [Deutschland]({{site.url}}/assets/netzerogame/latest/DE/index.html), [España]({{site.url}}/assets/netzerogame/latest/ES/index.html), [United Kingdom]({{site.url}}/assets/netzerogame/latest/GB/index.html). The header of any edition switches between them, and between English and French.
+
 ## Why it is worth checking
 
 Every formula is declared in a YAML file rather than buried in a spreadsheet cell,
@@ -44,4 +46,4 @@ still opens against the model it was built on.
  - [v0.11]({{site.url}}/assets/netzerogame/v0.11/index.html)
  - [v0.10]({{site.url}}/assets/netzerogame/v0.10/index.html)
 
-<small>Page updated 2026-09-06.</small>
+<small>Page updated 2026-09-07.</small>
