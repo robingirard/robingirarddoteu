@@ -30,18 +30,45 @@
     if (location.protocol.startsWith('http') && 'serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
     }
-    // Message d'aide si le module principal n'a pas démarré (ex. ouverture en file:// dans Chrome).
+    // Message d'aide si le module principal n'a pas démarré. En local (file://) la cause est connue
+    // et immédiate ; en ligne, c'est presque toujours une mise à jour à moitié installée, alors on
+    // laisse au chargement le temps d'aboutir sur un téléphone lent avant de proposer la réparation.
+    const enLigne = location.protocol.startsWith('http');
     setTimeout(() => {
       if (window.__RS_STARTED) return;
       const app = document.getElementById('app');
       app.innerHTML = '';
       const p = document.createElement('p');
       p.className = 'error';
-      p.textContent = window.CONTENT
-        ? "L'application n'a pas pu démarrer. Si vous avez ouvert le fichier directement (file://), servez le dossier avec « make serve » (ou « python3 -m http.server ») et ouvrez http://localhost:8000."
-        : "Le fichier content.js est introuvable : lancez « make » pour générer le contenu.";
+      if (!window.CONTENT) {
+        p.textContent = "Le fichier content.js est introuvable : lancez « make » pour générer le contenu.";
+      } else if (!enLigne) {
+        p.textContent = "L'application n'a pas pu démarrer. Si vous avez ouvert le fichier directement (file://), servez le dossier avec « make serve » (ou « python3 -m http.server ») et ouvrez http://localhost:8000.";
+      } else {
+        p.textContent = "L'application n'a pas pu démarrer : la mise à jour s'est installée à moitié. Le bouton ci-dessous vide le cache et recharge ; ta progression, enregistrée à part, n'est pas touchée.";
+      }
       app.appendChild(p);
-    }, 2500);
+      if (enLigne && window.CONTENT) {
+        const b = document.createElement('button');
+        b.className = 'btn';
+        b.textContent = 'Réparer et recharger';
+        b.addEventListener('click', async () => {
+          b.disabled = true;
+          try {
+            if ('serviceWorker' in navigator) {
+              const rs = await navigator.serviceWorker.getRegistrations();
+              await Promise.all(rs.map((r) => r.unregister()));
+            }
+            if (window.caches) {
+              const ks = await caches.keys();
+              await Promise.all(ks.map((k) => caches.delete(k)));
+            }
+          } catch { /* on recharge quand même */ }
+          location.reload();
+        });
+        app.appendChild(b);
+      }
+    }, enLigne ? 8000 : 2500);
   </script>
 </body>
 </html>

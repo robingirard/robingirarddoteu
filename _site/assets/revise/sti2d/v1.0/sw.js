@@ -1,6 +1,6 @@
 // sw.js — service worker : cache-first pour l'enveloppe de l'appli et le contenu.
 // Incrémenter VERSION à chaque mise en ligne pour forcer la mise à jour chez les utilisateurs.
-const VERSION = '2026-09-07.1';
+const VERSION = '2026-09-07.2';
 const CACHE = `revise-sti2d-${VERSION}`;
 const ASSETS = [
   './', './index.html', './manifest.webmanifest', './content.js', './css/app.css',
@@ -60,13 +60,13 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
+  // On interroge UNIQUEMENT le cache de cette version : « caches.match » global cherche dans tous
+  // les caches, y compris celui de la version précédente pas encore supprimée, et servirait alors un
+  // mélange de deux versions (l'ancien content.js avec le nouveau main.js, par exemple).
   event.respondWith(
-    caches.match(req, { ignoreSearch: true }).then((hit) => hit || fetch(req).then((res) => {
-      if (res && res.ok) {
-        const copy = res.clone();
-        caches.open(CACHE).then((cache) => cache.put(req, copy));
-      }
+    caches.open(CACHE).then((cache) => cache.match(req, { ignoreSearch: true }).then((hit) => hit || fetch(req).then((res) => {
+      if (res && res.ok) cache.put(req, res.clone());
       return res;
-    }).catch(() => (req.mode === 'navigate' ? caches.match('./index.html') : undefined))),
+    }).catch(() => (req.mode === 'navigate' ? cache.match('./index.html') : undefined)))),
   );
 });
