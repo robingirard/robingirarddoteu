@@ -63,22 +63,30 @@ export function renderRich(text, figures = {}) {
   const str = String(text);
   const block = FIG_ONLY_RE.test(str);
   const emojiBlock = EMOJI_ONLY_RE.test(str); // un pictogramme seul : affiché en grand, centré
-  let out = '';
+  // Les jetons (code, figure, maths) sont mis de côté derrière un marqueur, la mise en forme en
+  // ligne est appliquée à la chaîne ENTIÈRE, puis les jetons reviennent à leur place. Traiter
+  // chaque morceau séparément couperait un « **gras** » qui enjambe une formule — les deux moitiés
+  // tombant dans deux morceaux, la paire n'était jamais reconnue et les astérisques restaient.
+  const rendus = [];
+  let travail = '';
   let last = 0;
   TOKEN_RE.lastIndex = 0;
   for (let m; (m = TOKEN_RE.exec(str));) {
-    out += inline(escapeHtml(str.slice(last, m.index)), { emojiBlock });
+    travail += str.slice(last, m.index);
     const [tok, code, fig, dd, bracket, d, paren] = m;
-    if (code) out += `<code>${escapeHtml(tok.slice(1, -1))}</code>`;
-    else if (fig) out += figureHtml(tok.slice(6, -2), figures, { block });
-    else if (dd) out += mathHtml(dd.slice(2, -2), { display: true });
-    else if (bracket) out += mathHtml(bracket.slice(2, -2), { display: true });
-    else if (d) out += mathHtml(d.slice(1, -1));
-    else if (paren) out += mathHtml(paren.slice(2, -2));
+    let html;
+    if (code) html = `<code>${escapeHtml(tok.slice(1, -1))}</code>`;
+    else if (fig) html = figureHtml(tok.slice(6, -2), figures, { block });
+    else if (dd) html = mathHtml(dd.slice(2, -2), { display: true });
+    else if (bracket) html = mathHtml(bracket.slice(2, -2), { display: true });
+    else if (d) html = mathHtml(d.slice(1, -1));
+    else html = mathHtml(paren.slice(2, -2));
+    travail += `\u0000${rendus.push(html) - 1}\u0000`;   // \u0000 survit à escapeHtml et à inline
     last = m.index + tok.length;
   }
-  out += inline(escapeHtml(str.slice(last)), { emojiBlock });
-  return out;
+  travail += str.slice(last);
+  return inline(escapeHtml(travail), { emojiBlock })
+    .replace(/\u0000(\d+)\u0000/g, (_, i) => rendus[Number(i)]);
 }
 
 const isSeparatorRow = (cells) => cells.every((c) => /^:?-{2,}:?$/.test(c));
