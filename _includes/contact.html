@@ -54,6 +54,12 @@
     </li>
     {% endif %}
 
+    {% if sidebar.linkedin_posts %}
+    <li class="linkedin-posts">LinkedIn posts, with data and code :
+      <a href="https://{{ sidebar.linkedin_posts }}" target="_blank">{{ sidebar.linkedin_posts }}</a>
+    </li>
+    {% endif %}
+
     {% if sidebar.xing %}
     <li class="xing"><i class="fab fa-xing"></i>
       <a href="https://www.xing.com/profile/{{ sidebar.xing }}" target="_blank">{{ sidebar.xing }}</a>
