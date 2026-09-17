@@ -291,7 +291,7 @@ function renderSkillCard(skill, today) {
 // ---------------------------------------------------------------- compétence
 function renderSkill(root, skillId) {
   const skill = sess.findSkill(content, skillId);
-  if (!skill) return renderNotFound(root);
+  if (!skill) return renderNotFound(root, skillId);
   const unit = sess.findUnit(content, skillId);
   const today = todayStr();
   const st = { ...prog.newSkillState(), ...(progress.skills[skillId] || {}) };
@@ -344,14 +344,55 @@ function renderCompletsCard(skill, st) {
         : h('span', { class: 'muted small complet-locked' }, `🔒 Atteins le niveau ${gl.GUIDED_MIN_LEVEL} pour débloquer`))));
 }
 
-function renderNotFound(root) {
-  root.append(topbar({ back: '#/', title: 'Introuvable' }), h('p', { class: 'muted' }, 'Cette page n\'existe pas.'));
+/**
+ * Vide le cache du service worker et recharge (le fragment d'URL, donc la destination, survit).
+ * Même geste que le bouton « Réparer et recharger » du garde-fou d'index.html ; `localStorage`,
+ * donc la progression et les profils, n'est pas touché.
+ */
+async function reparerEtRecharger() {
+  try {
+    if ('serviceWorker' in navigator) {
+      const rs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(rs.map((r) => r.unregister()));
+    }
+    if (window.caches) {
+      const ks = await caches.keys();
+      await Promise.all(ks.map((k) => caches.delete(k)));
+    }
+  } catch { /* on recharge quand même */ }
+  location.reload();
+}
+
+/**
+ * `cible` = la compétence demandée par le lien, quand il y en avait une. Un lien vers une
+ * compétence que le contenu chargé ne connaît pas vient presque toujours d'une version périmée
+ * servie par le cache — le lien envoyé par le professeur ou le parent est plus récent que
+ * l'application installée. On le dit, et on propose la mise à jour plutôt qu'un cul-de-sac.
+ */
+function renderNotFound(root, cible = null) {
+  root.append(topbar({ back: '#/', title: 'Introuvable' }));
+  if (!cible) {
+    root.append(h('p', { class: 'muted' }, 'Cette page n\'existe pas.'));
+    root.append(bottomNav(null));
+    return;
+  }
+  root.append(
+    h('p', {}, 'Cette version de l\'application ne connaît pas la compétence « ', h('code', {}, cible), ' ».'),
+    h('p', { class: 'muted' }, 'C\'est presque toujours le signe qu\'une version plus ancienne est encore '
+      + 'en mémoire : la compétence a été ajoutée depuis. Mettez à jour, le lien fonctionnera.'),
+    h('button', { class: 'btn btn-primary btn-block', onClick: (ev) => {
+      ev.currentTarget.disabled = true;
+      ev.currentTarget.textContent = 'Mise à jour…';
+      reparerEtRecharger();
+    } }, 'Mettre à jour et réessayer'),
+    bottomNav(null),
+  );
 }
 
 // ---------------------------------------------------------------- séance
 function renderSessionEntry(root, skillId, query) {
   const skill = sess.findSkill(content, skillId);
-  if (!skill) return renderNotFound(root);
+  if (!skill) return renderNotFound(root, skillId);
   if (!prog.isUnlocked(skill, progress)) return navigate(`#/skill/${skillId}`);
   const forced = query.has('item') || query.has('seed');
   const reuse = !forced && session && session.kind === 'skill' && session.skillId === skillId && !sess.isFinished(session);
