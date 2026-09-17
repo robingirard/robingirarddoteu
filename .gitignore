@@ -4,3 +4,4 @@
 # Le bundle Ruby, à la racine seulement : « vendor/ » sans barre oblique de tête attrapait aussi
 # assets/revise/…/vendor/katex, et KaTeX n'est jamais parti en ligne (formules en texte brut).
 /vendor/
+.sass-cache/
