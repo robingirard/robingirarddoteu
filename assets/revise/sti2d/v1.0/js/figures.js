@@ -125,8 +125,31 @@ export async function ensureIndex() {
 }
 
 // ------------------------------------------------------------------ DOM
+let instances = 0;
+
+/**
+ * Rend uniques les identifiants internes d'un SVG avant de l'insérer.
+ *
+ * Une même figure peut être affichée deux fois sur le même écran — le « Contexte » d'un exercice
+ * guidé et l'énoncé de l'étape en cours, par exemple. Les deux copies portaient alors les mêmes
+ * `id`, et `url(#…)` résolvait sur la PREMIÈRE, c'est-à-dire celle du contexte replié : Chrome
+ * ignore un `clipPath` pris dans un sous-arbre masqué, et les hachures de `\hachures` débordaient
+ * sur toute la figure au lieu de rester dans la pièce.
+ */
+export function uniquifyIds(svg, suffix) {
+  const ids = new Set([...String(svg).matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+  let out = String(svg);
+  for (const id of ids) {
+    const esc = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    out = out.replace(new RegExp(`(\\sid=")${esc}(")`, 'g'), `$1${id}${suffix}$2`)
+             .replace(new RegExp(`url\\(#${esc}\\)`, 'g'), `url(#${id}${suffix})`)
+             .replace(new RegExp(`((?:xlink:)?href="#)${esc}(")`, 'g'), `$1${id}${suffix}$2`);
+  }
+  return out;
+}
+
 function inject(el, svg) {
-  el.innerHTML = svg;
+  el.innerHTML = uniquifyIds(svg, `--i${++instances}`);
   el.classList.remove('fig-lazy', 'fig-error');
   if (el.querySelector && el.querySelector('svg[data-anim], svg[data-mech]')) el.classList.add('fig-anim'); // symbole ou schéma animable
   el.removeAttribute('style');
