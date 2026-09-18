@@ -46,12 +46,6 @@ The longest deck, and the technical heart of the course. Where electricity stand
 
 [Download the PDF](https://cloud.minesparis.psl.eu/index.php/s/uvB8auA8dO2OkwF/download?path=&files=IntroToEnergy-2026-5-Electric-System.pdf) · [Download the .pptx](https://cloud.minesparis.psl.eu/index.php/s/uvB8auA8dO2OkwF/download?path=&files=IntroToEnergy-2026-5-Electric-System.pptx)
 
-## 6. Energy and Carbon
-
-The carbon cycle, built up one arrow at a time: the fast exchange between atmosphere, ocean surface and vegetation, then the geological stock we opened, then land-use change. The numbers that give the scale — 860 GtC in the air, 645 GtC already emitted since 1850, and what is left. Why the sinks both grow and weaken at once (CO₂ fertilisation on one side, ocean acidification on the other), and why a tonne emitted today is still partly here in a thousand years. Ends on how greenhouse gases are compared to each other — the many ways of doing it and what each one hides — and on the two inertias that decide the timing: the climate's, and ours.
-
-[Download the PDF](https://cloud.minesparis.psl.eu/index.php/s/uvB8auA8dO2OkwF/download?path=&files=IntroToEnergy-2026-6-Energy-and-Carbon.pdf) · [Download the .pptx](https://cloud.minesparis.psl.eu/index.php/s/uvB8auA8dO2OkwF/download?path=&files=IntroToEnergy-2026-6-Energy-and-Carbon.pptx)
-
 ## 7. Industrial Decarbonisation
 
 Industry is 9.4 Gt of direct CO₂, and five products carry most of it: cement, steel, olefins, ammonia, aluminium. For each one, where the carbon actually comes from — half of cement's emissions are the limestone itself, not the fuel — and what can be done about it: bioenergy, low-carbon electricity, decarbonised heat, capture, efficiency and sufficiency, changing the process, recycling. High-temperature heat storage as the technology to watch. Then hydrogen, honestly: today it is a problem (830 MtCO₂, made from gas and coal) before it can be a solution, and replacing the world's coke in steelmaking would take 4 000 TWh of electricity. Ends on plastics and the routes to low-carbon monomers.
@@ -64,7 +58,7 @@ The two sectors where direct electrification does the work, and where its limits
 
 [Download the PDF](https://cloud.minesparis.psl.eu/index.php/s/uvB8auA8dO2OkwF/download?path=&files=IntroToEnergy-2026-8-Buildings-and-Transport.pdf) · [Download the .pptx](https://cloud.minesparis.psl.eu/index.php/s/uvB8auA8dO2OkwF/download?path=&files=IntroToEnergy-2026-8-Buildings-and-Transport.pptx)
 
-The eight decks sit in a single folder if you would rather browse it:
+All the decks sit in a single folder if you would rather browse it:
 [all the slides](https://cloud.minesparis.psl.eu/index.php/s/uvB8auA8dO2OkwF), on the MINES Paris cloud.
 
 The code behind the figures is being opened one family at a time:
