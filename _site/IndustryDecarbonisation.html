@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+
+<body>
+  <div class="wrapper">
+
+    <div class="main-wrapper">
+        <h1 id="decarbonising-industry--what-each-route-costs">Decarbonising industry — what each route costs</h1>
+
+<p>Industry is where decarbonisation stops being a matter of will and becomes a
+matter of arithmetic. This is that arithmetic, made movable: production cost,
+emissions and abatement cost for <strong>forty-six routes across eight products</strong> —
+hydrogen, steel, cement, ammonia, methanol, olefins, aluminium and jet fuel —
+with every assumption a slider you can move.</p>
+
+<p>By <strong><a href="https://www.robingirard.eu/">Robin Girard</a></strong>, MINES Paris — PSL.</p>
+
+<p><strong><a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html">Open the current version</a></strong> — v2.0.</p>
+
+<p>It runs entirely in your browser. Nothing is sent anywhere, and the single HTML
+file keeps working offline, on a memory stick or dropped into a course page.
+<strong>The application is in French</strong> for now; the English version is planned, and
+the assumption files already carry the English labels the figures use.</p>
+
+<h2 id="what-it-is-for">What it is for</h2>
+
+<p>A plant manager does not choose a route because it is clean. They choose it
+because of what it costs — and the point of the tool is to let a student move
+the handful of numbers that decide that, and watch the ranking change.</p>
+
+<p>Three of them are worth the visit on their own. <strong>The price of electricity</strong>:
+at €70/MWh electrolytic hydrogen costs €4.9/kg against €3.3 for steam reforming;
+at €30/MWh it costs €3.1, and €2.3 if the electrolyser runs 90 % of the time.
+Hydrogen-based steel, ammonia, methanol and synthetic kerosene are only multiples
+of that one figure. <strong>The grid emission factor</strong>: switch from France at 56 g to
+the EU-27 at 240 g and the electric routes turn over — electrolysis then emits
+more than the reforming it replaces, and the carbon market rewards it anyway,
+because it prices direct emissions and the electric route has moved its own onto
+the grid. <strong>The price of coking coal</strong>: the blast furnace looks cheap until you
+give it the price coking coal actually trades at.</p>
+
+<p>Each product tab opens on three such manipulations, and a <strong>Compare</strong> tab ranks
+all forty-six routes by abatement cost and by how much of their cost is
+electricity.</p>
+
+<h2 id="why-it-is-worth-checking">Why it is worth checking</h2>
+
+<p>Every assumption lives in a YAML file with its unit, its bounds, its source, its
+status and a note — not in a spreadsheet cell. The Python engine, the JavaScript
+engine running in the page and the <strong>Sources</strong> tab all read those same files, so
+a value shown and a value used cannot differ. The two engines are compared on
+46 routes at every build, and the build fails if they disagree.</p>
+
+<p>What is not known is written down as such: a status marks the figures that are
+still orders of magnitude rather than sourced values, and the ones kept for want
+of better while known to be wrong. Costs come from <strong>pommes-industry</strong>, the
+techno-economic model of the PERSEE centre, for France in 2030.</p>
+
+<p>If a number looks wrong to you, that is a contribution — the repository takes
+issues.</p>
+
+<p>Source code, model, assumptions, data and figures:
+<a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes">git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes</a></p>
+
+<h2 id="versions">Versions</h2>
+
+<p>Each minor release keeps its own permanent link, so a result quoted in a class
+still opens against the model it was computed on.</p>
+
+<ul>
+  <li><a href="https://www.robingirard.eu/assets/industrydecarbo/v2.0/index.html">v2.0</a></li>
+</ul>
+
+<p><small>Page updated 2026-09-21.</small></p>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="text-center">
+        <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
+        <small class="copyright"></small>
+    </div><!--//container-->
+</footer><!--//footer-->
+
+
+<!-- Javascript -->
+<script type="text/javascript" src="/assets/plugins/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- custom js -->
+<script type="text/javascript" src="/assets/js/main.js"></script>
+
+
+  <!-- Analytics -->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2Q50G1CPKN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2Q50G1CPKN');
+</script>
+
+
+</body>
+
+</html>

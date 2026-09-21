@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Décarbonation de l'industrie — ce que coûte chaque route — v2.0</title>
+<style>
+/* Feuille de style de la page — inlinée dans index.html par build_html.py.
+   Même grammaire que Code/Etude/car_efficiency/interactif : thème clair par
+   défaut, sombre par préférence système ou data-theme, figures sur plaque
+   blanche pour rester projetables. */
+:root{
+  --surface:#fcfcfb; --surface-2:#f3f2ee; --border:#e2e1da;
+  --ink-1:#0b0b0b; --ink-2:#52514e; --ink-3:#7a7871;
+  --accent:#005E9E; --accent-bg:#eef4fd; --navy:#0E3658;
+  --ok:#00B050; --warn:#F8B740; --bad:#C0392B;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --surface:#1a1a19; --surface-2:#242422; --border:#3a3a36;
+    --ink-1:#ffffff; --ink-2:#c3c2b7; --ink-3:#8f8e85;
+    --accent:#3987e5; --accent-bg:#1e2a3a;
+  }
+}
+:root[data-theme="dark"]{
+  --surface:#1a1a19; --surface-2:#242422; --border:#3a3a36;
+  --ink-1:#ffffff; --ink-2:#c3c2b7; --ink-3:#8f8e85;
+  --accent:#3987e5; --accent-bg:#1e2a3a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink-1);
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1380px;margin:0 auto;padding:24px 20px 60px}
+header h1{font-size:26px;line-height:1.2;margin:0 0 6px;letter-spacing:-.01em}
+header p.sub{margin:0 0 4px;color:var(--ink-2);max-width:80ch}
+header p.src{margin:0;color:var(--ink-3);font-size:13px}
+header a{color:inherit}
+
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 14px;border-bottom:1px solid var(--border);padding-bottom:10px}
+nav.tabs button{border:1px solid var(--border);background:var(--surface);color:var(--ink-2);border-radius:20px;
+  padding:6px 13px;font:inherit;font-size:14px;cursor:pointer}
+nav.tabs button:hover{border-color:var(--ink-3)}
+nav.tabs button[aria-selected="true"]{background:var(--ink-1);color:var(--surface);border-color:var(--ink-1)}
+nav.tabs button.sep{margin-left:auto}
+
+.grid{display:grid;grid-template-columns:330px 1fr;gap:24px;align-items:start}
+@media (max-width:980px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px 16px}
+.panel h2{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin:0 0 10px;font-weight:600}
+.panel + .panel{margin-top:14px}
+.panel .hint{font-size:12px;color:var(--ink-3);margin:-4px 0 10px}
+.sticky{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;padding-right:4px}
+.entete{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 2px 6px}
+.entete b{font-size:13px}
+.nmod{font-size:11.5px;color:var(--ink-3)}
+.nmod.on{color:var(--accent)}
+.razout{border:1px solid var(--border);background:var(--surface);color:var(--ink-2);border-radius:14px;
+  padding:3px 9px;font:inherit;font-size:11.5px;cursor:pointer}
+.razout:hover{border-color:var(--accent);color:var(--accent)}
+.hint.tout{margin:0 2px 10px}
+.grp{border:1px solid var(--border);border-radius:9px;background:var(--surface-2);margin-bottom:8px;overflow:hidden}
+.grp .tete{display:flex;align-items:center;gap:7px;width:100%;border:0;background:none;color:var(--ink-1);
+  font:inherit;font-size:12.5px;font-weight:600;text-align:left;padding:9px 11px;cursor:pointer}
+.grp .tete:hover{background:var(--accent-bg)}
+.grp .tete .fl{color:var(--ink-2);font-size:12px;line-height:1;transition:transform .12s}
+.grp.ouv .tete .fl{transform:rotate(90deg)}
+.grp .tete .ti{flex:1}
+.grp .tete .cpt{color:var(--ink-3);font-weight:400;font-size:11px;font-variant-numeric:tabular-nums}
+.grp .corps{display:none;padding:2px 12px 12px}
+.grp.ouv .corps{display:block}
+.grp .corps .hint{margin:-2px 0 9px}
+.sous{border-top:1px solid var(--border)}
+.sous .tete2{display:flex;align-items:center;gap:7px;width:100%;border:0;background:none;color:var(--ink-2);
+  font:inherit;font-size:12px;text-align:left;padding:6px 2px;cursor:pointer}
+.sous .tete2:hover{color:var(--accent)}
+.sous .tete2 .fl{color:var(--ink-3);font-size:11px;line-height:1;transition:transform .12s}
+.sous.ouv .tete2{color:var(--ink-1);font-weight:600}
+.sous.ouv .tete2 .fl{transform:rotate(90deg)}
+.sous .corps2{display:none;padding:2px 0 10px 10px;border-left:2px solid var(--border);margin-left:4px}
+.sous.ouv .corps2{display:block}
+
+.slider{margin-bottom:9px}
+.slider:last-child{margin-bottom:0}
+.slider .top{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.slider .nm{font-size:13px;color:var(--ink-1);line-height:1.25}
+.slider .vals{display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap}
+.slider .vl{font-size:13px;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.slider .mk{font-size:10.5px;color:var(--accent);cursor:help}
+.slider input[type=range]{width:100%;margin:1px 0 0;accent-color:var(--accent);height:16px}
+.slider.modif .vl{color:var(--accent)}
+.slider .reset{border:0;background:none;color:var(--accent);font-size:12px;cursor:pointer;padding:0;font-family:inherit;line-height:1}
+/* le pictogramme « i » : source au survol, fiche complète au clic */
+.info{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-left:5px;
+  border:1px solid var(--ink-3);border-radius:50%;background:none;color:var(--ink-3);
+  font:600 9.5px/1 Georgia,serif;font-style:italic;cursor:pointer;padding:0;vertical-align:1px}
+.info:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.info.faux{cursor:default}
+.badge{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:10px;border:1px solid var(--border);color:var(--ink-3);margin-left:6px;vertical-align:middle}
+.badge.verifie{border-color:var(--ok);color:var(--ok)}
+.badge.memoire{border-color:var(--warn);color:#9a6b00}
+.badge.corrige,.badge.douteux{border-color:var(--bad);color:var(--bad)}
+
+label.fld{display:block;font-size:13px;color:var(--ink-2);margin:0 0 4px}
+select{width:100%;padding:6px 8px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink-1);border:1px solid var(--border);border-radius:6px}
+.fldgrp{margin-bottom:12px}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;margin:8px 0}
+.check input{margin-top:3px}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpis.kpis5{grid-template-columns:repeat(5,1fr)}
+@media (max-width:1100px){.kpis.kpis5{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:760px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.kpi .lb{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin-bottom:4px}
+.kpi .vl{font-size:22px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi .ex{font-size:12px;color:var(--ink-2);margin-top:3px}
+.kpi.hi .vl{color:var(--accent)}
+
+.prod-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.prod-head h2{margin:0;font-size:22px}
+.prod-head .unit{color:var(--ink-3);font-size:13px}
+
+figure{margin:0 0 18px}
+figure figcaption{font-size:13px;color:var(--ink-2);margin:6px 2px 0;line-height:1.4}
+.fig{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 8px 6px;color:#0b0b0b}
+.fig svg{display:block;width:100%;height:auto;font-family:inherit}
+.fig .ttl{font-size:14px;font-weight:600;margin:2px 6px 6px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:#52514e;margin:4px 6px 2px}
+.legend span i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.legend span i.hatch{background:repeating-linear-gradient(45deg,#7B2D5E 0 2px,#fff 2px 4px);border:1px solid #7B2D5E}
+.legend span i.usage{background:repeating-linear-gradient(135deg,#3B3B3B 0 2px,#fff 2px 4px);border:1px solid #3B3B3B}
+.tip{position:fixed;pointer-events:none;background:var(--ink-1);color:var(--surface);font-size:12px;padding:7px 10px;border-radius:6px;
+  max-width:340px;line-height:1.4;z-index:10;display:none;white-space:pre-line}
+.voile{position:fixed;inset:0;background:rgba(11,11,11,.45);z-index:20;display:flex;align-items:center;
+  justify-content:center;padding:20px;overflow:auto}
+.fiche{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:20px 24px 18px;max-width:640px;width:100%;max-height:86vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.fiche h3{margin:0 0 2px;font-size:18px;padding-right:24px}
+.fiche p.cle{margin:0 0 12px;font-size:12px;color:var(--ink-3)}
+.fiche p{font-size:13.5px;line-height:1.5;margin:10px 0}
+.fiche p.vide{color:var(--ink-3)}
+.fiche p.statuts{font-size:11.5px;color:var(--ink-3);border-top:1px solid var(--border);padding-top:8px}
+.fiche table.fv{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:6px}
+.fiche table.fv td{padding:3px 0;vertical-align:top;border-bottom:1px solid var(--border)}
+.fiche table.fv td:first-child{color:var(--ink-3);width:38%;padding-right:10px}
+.fiche .x{position:absolute;top:10px;right:12px;border:0;background:none;font-size:22px;line-height:1;
+  color:var(--ink-3);cursor:pointer;padding:2px 6px}
+.fiche .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.fiche .actions button{border:1px solid var(--border);background:var(--surface-2);color:var(--ink-1);
+  border-radius:16px;padding:5px 12px;font:inherit;font-size:12.5px;cursor:pointer}
+.fiche .actions button:hover{border-color:var(--accent);color:var(--accent)}
+tr.vise td{background:var(--accent-bg)}
+
+.routes{display:grid;gap:12px}
+.route{border:1px solid var(--border);border-radius:10px;background:var(--surface-2)}
+.route summary{cursor:pointer;padding:10px 14px;display:flex;justify-content:space-between;gap:10px;align-items:baseline;list-style:none}
+.route summary::-webkit-details-marker{display:none}
+.route summary .nm{font-weight:600}
+.route summary .tot{font-variant-numeric:tabular-nums;color:var(--ink-2);font-size:13px;white-space:nowrap}
+.mat{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:10px;margin-left:8px;vertical-align:middle;background:var(--surface);border:1px solid var(--border);color:var(--ink-3)}
+.mat.commercial{border-color:var(--ok);color:var(--ok)}
+.mat.demonstration{border-color:#2BA9FF;color:#1b6fa8}
+.mat.pilot{border-color:var(--warn);color:#9a6b00}
+.route .body{padding:0 14px 14px;border-top:1px solid var(--border)}
+.route .desc{font-size:13.5px;color:var(--ink-2);margin:10px 0}
+.route .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.route .par{font-size:12.5px;color:var(--ink-2);margin:0 0 8px;line-height:1.45}
+.route .regler{border:1px solid var(--border);background:var(--surface);color:var(--ink-2);border-radius:16px;
+  padding:5px 12px;font:inherit;font-size:12.5px;cursor:pointer}
+.route .regler:hover{border-color:var(--accent);color:var(--accent)}
+@media (max-width:760px){.route .cols{grid-template-columns:1fr}}
+table.det{width:100%;border-collapse:collapse;font-size:12.5px}
+table.det th,table.det td{text-align:left;padding:3px 6px;border-bottom:1px solid var(--border);vertical-align:top}
+table.det td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.det th{color:var(--ink-3);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em}
+table.det tr.tot td{font-weight:700;border-top:2px solid var(--ink-3)}
+.src{color:var(--ink-3);font-size:11.5px}
+
+.annexe h3{margin:22px 0 6px;font-size:17px}
+.annexe h4{margin:14px 0 4px;font-size:14px;color:var(--ink-2)}
+table.ann{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:6px}
+table.ann th,table.ann td{text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);vertical-align:top}
+table.ann th{color:var(--ink-3);font-weight:600;font-size:11.5px}
+table.ann td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scroll{overflow-x:auto}
+.foot{margin-top:30px;color:var(--ink-3);font-size:12.5px;border-top:1px solid var(--border);padding-top:12px}
+.foot code{font-size:12px}
+.intro{font-size:14px;color:var(--ink-2);margin:0 0 12px;max-width:90ch}
+.lessons{background:var(--accent-bg);border-radius:10px;padding:10px 16px;margin:0 0 16px;font-size:13.5px}
+.lessons ol{margin:4px 0 0;padding-left:20px}
+.lessons li{margin:3px 0}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Décarbonation de l'industrie — ce que coûte chaque route</h1>
+  <p class="sub">Coût de production, émissions et coût d'abattement des routes de décarbonation de huit produits — hydrogène, acier, ciment, ammoniac, méthanol, oléfines, aluminium, kérosène — avec toutes les hypothèses visibles et réglables. Un petit modèle : capital annualisé + coûts fixes + énergies et matières aux prix que vous fixez + le prix du CO2 sur ce qui est encore émis. Les intermédiaires (hydrogène, méthanol) sont calculés dans leur propre onglet, puis propagés.</p>
+  <p class="src">Robin Girard, Mines Paris – PSL, PERSEE · Option ISE, septembre 2026 · données technico-économiques : pommes-industry (PERSEE), France 2030 · émissions : Decarbonisation_routes · <span class="ver">v2.0, page engendrée le 2026-09-21</span> · <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes">le modèle, ses hypothèses YAML et ses sources</a></p>
+</header>
+<div id="app"></div>
+<p class="foot">Méthode : pour chaque route, coût = CAPEX × CRF(taux d'actualisation, durée de vie) ÷ facteur de charge + coûts fixes ÷ facteur de charge + Σ consommation × prix − coproduits + CO2 direct résiduel × prix du quota + CO2 capté × transport et stockage. Émissions = procédé + combustion (après captage) + amont + électricité × facteur du réseau, plus celles des intermédiaires. Coût d'abattement = Δcoût (hors prix du CO2) ÷ Δémissions contre la route de référence du produit. Le moteur JavaScript de cette page est comparé au modèle Python du thème à chaque engendrement. Les figures du cours, elles, restent en anglais : les YAML portent les deux libellés.</p>
+</div>
+<script>
+window.HYP = {"commun":{"meta":{"titre":"Économie des routes de décarbonation de l'industrie — hypothèses communes","monnaie":"€2024","date":"2026-09-20","convention_capex":"Les CAPEX sont exprimés en € par tonne de capacité annuelle (€/(t/an)), l'unité de pommes-industry ; les notes donnent l'équivalent en €/kW quand la littérature l'utilise. Le coût annualisé par tonne produite est CAPEX × CRF(r, durée de vie) / facteur de charge, avec CRF = r(1+r)^n / ((1+r)^n − 1). Le coût fixe d'exploitation est en € par tonne de capacité annuelle et par an, lui aussi divisé par le facteur de charge."},"finance":{"taux_actualisation":{"v":0.08,"u":"-","min":0.02,"max":0.15,"step":0.01,"label":"Discount rate (WACC)","label_fr":"Taux d'actualisation (WACC)","src":"pommes-industry : finance_rate 0,08 sur toutes les technologies ; France Stratégie retient 4,5 % socio-économique","statut":"vérifié","note":"8 % est un WACC privé d'industriel ; 4-4,5 % est le taux socio-économique (Quinet). Passer de l'un à l'autre change le coût annualisé d'un actif de 25 ans de ~ 40 %. C'est le premier curseur à faire bouger en cours."}},"prix":{"electricite":{"v":70,"u":"€/MWh","min":10,"max":150,"step":5,"label":"Electricity price","label_fr":"Prix de l'électricité","marche":{"v":65,"u":"€/MWh","date":"2025","label":"France, industrial baseload: calendar 2026 ≈ 60-65 €/MWh (EEX), nuclear PPA 60-70","label_fr":"France, base industrielle : calendaire 2026 ≈ 60-65 €/MWh (EEX), PPA nucléaire 60-70","statut":"mémoire"},"src":"Ordre de grandeur des contrats industriels français 2025-2026 (PPA nucléaire ~ 60-70 €/MWh) ; diapositive 9 du deck Économie : 70 €/MWh en base après 2025","statut":"mémoire","note":"Prix « rendu usine », TURPE et taxes réduites d'un électro-intensif compris. Un électrolyseur couplé à un parc éolien-solaire dédié voit 20-50 €/MWh mais à facteur de charge réduit : jouer les deux curseurs ensemble."},"gaz":{"v":35,"u":"€/MWh","min":10,"max":150,"step":5,"label":"Natural gas price","label_fr":"Prix du gaz naturel","marche":{"v":35,"u":"€/MWh","date":"2025","label":"TTF month-ahead 2025 ≈ 32-40 €/MWh","label_fr":"TTF mois suivant 2025 ≈ 32-40 €/MWh","statut":"mémoire"},"src":"TTF 2025 ≈ 30-40 €/MWh + acheminement ; France Stratégie acier retient 30 et 50 €/MWh","statut":"mémoire","note":"PCI. 2022 a vu 120 €/MWh en moyenne annuelle : la borne haute n'est pas théorique."},"charbon":{"v":80,"u":"€/t","min":40,"max":400,"step":10,"label":"Coal price","label_fr":"Prix du charbon","marche":{"v":105,"u":"€/t","date":"2025","label":"API2 thermal coal ≈ 100-110 $/t; coking coal FOB Australia ≈ 190-220 $/t","label_fr":"Charbon vapeur API2 ≈ 100-110 $/t ; charbon à coke FOB Australie ≈ 190-220 $/t","statut":"mémoire"},"src":"pommes-industry FR : coal 79 €/t en 2025-2030, 99 en 2050 (API2 2024-2025 ≈ 100-120 $/t)","statut":"vérifié","note":"≈ 8 MWh/t PCI, soit ~ 10 €/MWh : c'est la raison d'être du charbon. Un seul prix pour toutes les routes, comme pommes-industry — alors que le charbon à coke du haut fourneau vaut 2 à 3 fois le charbon vapeur (200-250 $/t en 2024-2025) : le coût du haut fourneau est sous-estimé d'environ 100 €/t d'acier avec la valeur par défaut. Monter le curseur à 220 pour le voir."},"biomasse":{"v":30,"u":"€/MWh","min":10,"max":100,"step":5,"label":"Biomass price","label_fr":"Prix de la biomasse","marche":{"v":30,"u":"€/MWh","date":"2025","label":"Wood chips France ≈ 25-35 €/MWh; industrial pellets ARA ≈ 35-40","label_fr":"Plaquettes forestières France ≈ 25-35 €/MWh ; granulés industriels ARA ≈ 35-40","statut":"mémoire"},"src":"pommes-industry FR 2030 : biomass_low 125 €/t (12-15 GJ/t, ≈ 33 €/MWh), biomass_med 200 €/t (16-18 GJ/t, ≈ 42 €/MWh), chacune avec un plafond de gisement","statut":"mémoire","note":"Le prix monte vite avec la demande : le gisement est borné, ce que ce modèle statique ne voit pas."},"naphta":{"v":600,"cat":"matieres_energie","u":"€/t","min":300,"max":1200,"step":25,"label":"Naphtha price","label_fr":"Prix du naphta","marche":{"v":560,"u":"€/t","date":"2025","label":"Naphtha CIF NWE 2025 ≈ 550-620 $/t","label_fr":"Naphta CIF Europe du Nord-Ouest 2025 ≈ 550-620 $/t","statut":"mémoire"},"src":"Naphta NWE 2024 ≈ 600-650 $/t","statut":"mémoire"},"petrole_brut":{"v":520,"cat":"matieres_energie","u":"€/t","min":200,"max":1000,"step":20,"label":"Crude oil price","label_fr":"Prix du pétrole brut","marche":{"v":480,"u":"€/t","date":"2025","label":"Brent 2025 ≈ 65-75 $/bbl ≈ 480-550 $/t","label_fr":"Brent 2025 ≈ 65-75 $/baril ≈ 480-550 $/t","statut":"mémoire"},"src":"≈ 75 $/bbl × 7,3 bbl/t ÷ 1,08 $/€","statut":"calculé"},"co2_ets":{"v":70,"u":"€/tCO2","min":0,"max":400,"step":5,"label":"CO2 price (ETS)","label_fr":"Prix du CO2 (quota EU ETS)","marche":{"v":75,"u":"€/tCO2","date":"2025-2026","label":"EUA ≈ 70 € summer 2025, 88 € in January 2026","label_fr":"EUA ≈ 70 € à l'été 2025, 88 € en janvier 2026","statut":"mémoire"},"src":"Quota EU ETS : ≈ 70 € à l'été 2025, 88 € au record de janvier 2026 (reel Acier · Économie 1/2, à resourcer sur une série officielle)","statut":"mémoire","note":"Payé sur les émissions directes résiduelles (scope 1). L'allocation gratuite, qui le neutralise en partie jusqu'en 2034, n'est pas modélisée."},"co2_transport_stockage":{"v":20,"u":"€/tCO2","min":5,"max":150,"step":5,"label":"CO2 transport & storage","label_fr":"Transport et stockage du CO2","marche":{"v":80,"u":"€/tCO2","date":"2025","label":"No market: Northern Lights third-party tariffs ≈ 50-100 €/t stored, capture excluded","label_fr":"Pas de marché : tarifs tiers de Northern Lights ≈ 50-100 €/t stockée, captage exclu","statut":"mémoire"},"src":"pommes-industry : storage 17 €/t (variable_cost) ; IEA CCUS 2020 (fig. 3.6-3.7, p. 116) ; France Stratégie ciment : 50 €/t ; ADEME Dunkerque : 120-160 €/t","statut":"vérifié","note":"La fourchette est un facteur 8 selon la distance au stockage et la taille du hub. 20 €/t suppose un hub côtier en Mer du Nord. IEA GHR 2024, Assumptions annex p. 5 : Europe 49 USD/t en 2023, 33 dans le NZE 2030 (États-Unis 14) — l'Europe est le continent le plus cher."},"co2_capte_source_ponctuelle":{"v":60,"u":"€/tCO2","min":20,"max":200,"step":5,"label":"Captured CO2 (point source) price","label_fr":"Prix du CO2 capté (source ponctuelle)","marche":{"v":80,"u":"€/tCO2","date":"2025","label":"No organised market; biogenic CO2 contracts for e-fuels ≈ 50-120 €/t","label_fr":"Pas de marché organisé ; contrats de CO2 biogénique pour e-carburants ≈ 50-120 €/t","statut":"mémoire"},"src":"IEA CCUS 2020 fig. 3.4 p. 102 : 50-100 $/t sur cimenterie ou centrale, 25-40 sur flux concentrés","statut":"vérifié","note":"Prix d'achat du CO2 comme matière première (e-méthanol, e-SAF)."},"co2_dac":{"v":400,"u":"€/tCO2","min":100,"max":1200,"step":25,"label":"Direct air capture CO2 price","label_fr":"Prix du CO2 capté dans l'air (DAC)","marche":{"v":1000,"u":"€/tCO2","date":"2025","label":"Climeworks retail price ≈ 1 000 €/t (Note_CO2_capture §5)","label_fr":"Prix de détail Climeworks ≈ 1 000 €/t (Note_CO2_capture §5)","statut":"vérifié"},"src":"IEA DAC 2022 : 125-335 $/t à terme ; Climeworks aujourd'hui ≈ 1 000 €/t (Note_CO2_capture §5)","statut":"vérifié"},"eau":{"v":4,"u":"€/m3","label":"Process water","label_fr":"Eau de procédé","src":"Diapositive 11 du deck Économie (thèse Q. Raillard) : 4 €/m³","statut":"vérifié"},"valeur_action_climat_2030":{"v":295,"u":"€/tCO2","label":"Value for climate action 2030 (Quinet)","label_fr":"Valeur de l'action pour le climat 2030 (Quinet)","src":"Commission Quinet 2019 : 250 €₂₀₁₈/t en 2030, soit 295 €₂₀₂₄ (France Stratégie, Partie 7 Acier, 2024)","statut":"vérifié","note":"Repère tracé sur les graphiques de coût d'abattement, à côté du prix du quota."}},"facteurs_emission":{"electricite":{"v":0.056,"u":"tCO2/MWh","label":"Grid carbon intensity","label_fr":"Contenu carbone de l'électricité","src":"France 2023 (RTE/EEA) ; les options reprennent les repères de Decarbonisation_routes §0.1","statut":"vérifié","note":"Par défaut la France, parce que les coûts sont ceux de pommes-industry FR. Basculer sur « EU-27 (240 g) » pour retrouver la convention des planches cement_routes / steel_routes, et voir les routes électriques perdre leur intérêt climatique. Le 240 g est daté 2023 et baisse vite.","options":[{"id":"zero","label":"Carbon-free electricity (0 g)","label_fr":"Électricité décarbonée (0 g)","v":0.0},{"id":"nucleaire_acv","label":"Nuclear / wind, LCA (12 g)","label_fr":"Nucléaire / éolien, ACV (12 g)","v":0.012},{"id":"france","label":"France 2023 (56 g)","label_fr":"France 2023 (56 g)","v":0.056},{"id":"ue","label":"EU-27 2023 (240 g)","label_fr":"UE-27 2023 (240 g)","v":0.24},{"id":"monde","label":"World 2023 (480 g)","label_fr":"Monde 2023 (480 g)","v":0.48},{"id":"gaz","label":"Gas CCGT (370 g)","label_fr":"Cycle combiné gaz (370 g)","v":0.37},{"id":"charbon","label":"Coal plant (900 g)","label_fr":"Centrale à charbon (900 g)","v":0.9}]}},"constantes":{"pci_h2_mwh_par_t":{"v":33.33,"u":"MWh/t","src":"PCI H2 120 MJ/kg","statut":"vérifié"},"pci_charbon_mwh_par_t":{"v":8.0,"u":"MWh/t","src":"Charbon vapeur ~ 25-29 GJ/t PCI","statut":"mémoire"},"pci_kerosene_mwh_par_t":{"v":11.94,"u":"MWh/t","src":"43,0 MJ/kg (Production/SAF/data/saf_factors.md)","statut":"vérifié"},"pci_methanol_mwh_par_t":{"v":5.53,"u":"MWh/t","src":"19,9 MJ/kg PCI","statut":"vérifié"},"heures_par_an":{"v":8760,"u":"h","statut":"vérifié"}},"couleurs":{"cout":{"capex":"#0E3658","opex_fixe":"#5A7691","electricite":"#2BA9FF","combustibles":"#F8B740","matieres_energie":"#FBD48A","matieres":"#9D9D9D","intermediaires":"#72C5FE","co2":"#7B2D5E","stockage_co2":"#B38AA6","coproduits":"#00B050"},"emissions":{"procede":"#8B1A1A","combustion":"#F8B740","amont":"#9D9D9D","electricite":"#2BA9FF","captage":"#7B2D5E","usage":"#3B3B3B"}}},"produits":{"hydrogen":{"produit":{"id":"hydrogen","label":"Hydrogen","label_fr":"Hydrogène","unite":"t H2","unite_fr":"t H2","unite_affichage":"kg H2","unite_affichage_fr":"kg H2","facteur_affichage":0.001,"reference":"smr","prix_marche":{"v":3109,"u":"€/t","label":"Purchased hydrogen (import price)","label_fr":"Hydrogène acheté (prix d'import)","marche":{"v":2500,"u":"€/t","date":"2025","label":"Grey H2 by pipeline, Europe ≈ 2-3 €/kg depending on gas; no public quotation","label_fr":"H2 gris par canalisation, Europe ≈ 2-3 €/kg selon le gaz ; pas de cotation publique","statut":"mémoire"},"src":"pommes-industry FR 2030, import_hourly : hydrogen 3 109 €/t (4 073 en 2025, 2 876 en 2050)","statut":"vérifié","note":"Sert aussi de prix d'achat quand un autre produit choisit « purchased hydrogen » au lieu d'une route."},"emissions_achat":{"procede":5.7,"combustion":3.5,"amont":2.0,"note":"Contenu carbone de l'H2 acheté : celui du SMR (pommes-industry : 9,33 tCO2/t importé)."},"intermediaire_defaut":{}},"routes":[{"id":"smr","label":"Steam methane reforming (SMR)","label_fr":"Vaporeformage du méthane (SMR)","court":"SMR","court_fr":"SMR","maturite":"commercial","description":"Today's route (≈ 60 % of world hydrogen): CH4 + 2 H2O → CO2 + 4 H2. The process CO2 is stoichiometric; the furnace adds a diluted flue gas.","description_fr":"La route d'aujourd'hui (≈ 60 % de l'hydrogène mondial) : CH4 + 2 H2O → CO2 + 4 H2. Le CO2 de procédé est stœchiométrique ; le four y ajoute des fumées diluées.","capex":{"v":3243,"u":"€/(t/yr)","min":1500,"max":6000,"step":100,"src":"pommes-industry FR, conversion_investment SMR","statut":"vérifié","note":"≈ 850 €/kW_H2 (PCI). IEA GHR 2024, Assumptions annex p. 6 : 720 USD/kW_H2 (≈ 660 €), OPEX 5 %/an, rendement 76 % PCI, disponibilité 95 %."},"duree_vie":{"v":25,"u":"yr","src":"pommes-industry","statut":"vérifié"},"opex_fixe":{"v":546,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030, fixed_cost SMR","statut":"vérifié","note":"Coût fixe d'exploitation par tonne de capacité annuelle. 546/3243 = 17 %/an : élevé, inclut sans doute catalyseurs et main-d'œuvre."},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"gaz":{"v":46.3,"u":"MWh/t","src":"pommes-industry : 3,33 t CH4/t H2 × 13,9 MWh/t","statut":"calculé"},"electricite":{"v":0.58,"u":"MWh/t","src":"pommes-industry conversion_factor SMR","statut":"vérifié"},"eau":{"v":7,"u":"m3/t","src":"Deck Économie diapositive 11 : 7 L/kg","statut":"vérifié"}},"emissions":{"procede":{"v":5.7,"u":"tCO2/t","src":"emission_factors.md §4 (flux procédé)","statut":"vérifié"},"combustion":{"v":3.53,"u":"tCO2/t","src":"pommes-industry total direct 9,23 − 5,7","statut":"calculé"},"amont":{"v":2.0,"u":"tCO2/t","src":"emission_factors.md §4 (amont méthane, fuites 1,5 %)","statut":"vérifié"}}},{"id":"smr_ccs_52","label":"SMR + CCS on process stream (52 %)","label_fr":"SMR + captage sur le flux procédé (52 %)","court":"SMR + CCS 52%","court_fr":"SMR + CCS 52 %","maturite":"commercial","description":"Captures only the concentrated process stream upstream of the PSA. The furnace flue gas, diluted in air nitrogen, is left alone.","description_fr":"Ne capte que le flux procédé concentré, en amont du PSA. Les fumées du four, diluées par l'azote de l'air, restent intactes.","capex":{"v":3631,"u":"€/(t/yr)","min":1500,"max":8000,"step":100,"src":"pommes-industry SMR_52_CCS","statut":"vérifié"},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":754,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"gaz":{"v":47.5,"u":"MWh/t","src":"pommes-industry : 3,414 t × 13,9","statut":"calculé"},"electricite":{"v":0.94,"u":"MWh/t","src":"pommes-industry","statut":"vérifié"},"eau":{"v":7,"u":"m3/t","statut":"vérifié"}},"emissions":{"procede":{"v":5.7,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":3.52,"u":"tCO2/t","src":"pommes-industry : direct résiduel 4,43 + capté 4,79 = 9,22 avant captage","statut":"calculé"},"amont":{"v":2.05,"u":"tCO2/t","statut":"calculé"}},"captage":{"taux":{"v":0.52,"u":"-","src":"pommes-industry SMR_52_CCS : 4,79 capté sur 9,22","statut":"vérifié"}}},{"id":"smr_ccs_85","label":"SMR + CCS on process and flue gas (85 %)","label_fr":"SMR + captage procédé et fumées (85 %)","court":"SMR + CCS 85%","court_fr":"SMR + CCS 85 %","maturite":"demonstration","description":"Adds a post-combustion amine unit on the furnace flue gas. Much more electricity and a second, expensive capture train.","description_fr":"Ajoute une unité aux amines en postcombustion sur les fumées du four. Beaucoup plus d'électricité, et un second train de captage coûteux.","capex":{"v":4430,"u":"€/(t/yr)","min":2000,"max":9000,"step":100,"src":"pommes-industry SMR_85_CCS","statut":"vérifié"},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":1146,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"gaz":{"v":48.3,"u":"MWh/t","src":"pommes-industry : 3,477 t × 13,9","statut":"calculé"},"electricite":{"v":4.04,"u":"MWh/t","src":"pommes-industry","statut":"vérifié"},"eau":{"v":7,"u":"m3/t","statut":"vérifié"}},"emissions":{"procede":{"v":5.7,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":3.52,"u":"tCO2/t","src":"pommes-industry : 1,38 résiduel + 7,84 capté = 9,22","statut":"calculé"},"amont":{"v":2.1,"u":"tCO2/t","statut":"calculé"}},"captage":{"taux":{"v":0.85,"u":"-","src":"pommes-industry SMR_85_CCS","statut":"vérifié"}}},{"id":"atr_ccs","label":"Autothermal reforming + CCS (91 %)","label_fr":"Reformage autotherme (ATR) + captage (91 %)","court":"ATR + CCS","court_fr":"ATR + CCS","maturite":"commercial","description":"Burns inside the reactor with pure oxygen: one concentrated CO2 outlet instead of two. The air separation unit is what the extra electricity pays for.","description_fr":"La combustion a lieu dans le réacteur, à l'oxygène pur : une seule sortie de CO2 concentré au lieu de deux. Le supplément d'électricité, c'est la séparation de l'air.","capex":{"v":6098,"u":"€/(t/yr)","min":2000,"max":10000,"step":100,"src":"pommes-industry ATR_CCS (ATR seul : 4 920)","statut":"vérifié","note":"≈ 1 600 €/kW_H2. IEA GHR 2024 annex p. 6 : reformage + CCUS 1 420 USD/kW_H2, capture 95 %, OPEX 4 %/an."},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":411,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"gaz":{"v":44.2,"u":"MWh/t","src":"pommes-industry : 3,18 t × 13,9","statut":"calculé"},"electricite":{"v":3.59,"u":"MWh/t","src":"pommes-industry ATR_CCS","statut":"vérifié"},"eau":{"v":7,"u":"m3/t","statut":"vérifié"}},"emissions":{"procede":{"v":5.7,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":2.68,"u":"tCO2/t","src":"pommes-industry : 0,75 résiduel + 7,63 capté = 8,38","statut":"calculé"},"amont":{"v":1.9,"u":"tCO2/t","statut":"calculé"}},"captage":{"taux":{"v":0.91,"u":"-","src":"pommes-industry ATR_CCS","statut":"vérifié"}}},{"id":"electrolyse","label":"Water electrolysis","label_fr":"Électrolyse de l'eau","court":"Electrolysis","court_fr":"Électrolyse","maturite":"commercial","description":"2 H2O → 2 H2 + O2. Emits nothing but what its electricity emits: 'green' is a property of the grid, not of the machine. The two sliders that matter are the electricity price and the load factor.","description_fr":"2 H2O → 2 H2 + O2. N'émet que ce qu'émet son électricité : « vert » est une propriété du réseau, pas de la machine. Les deux curseurs qui comptent sont le prix de l'électricité et le facteur de charge.","capex":{"v":4082,"u":"€/(t/yr)","min":800,"max":8000,"step":100,"src":"pommes-industry FR, electrolyser 2030 (4 821 en 2025, 2 604 en 2040, 1 125 en 2050)","statut":"vérifié","note":"À 45 MWh/t et pleine charge, 4 082 €/(t/an) ≈ 795 €/kW_e. pommes-industry amortit sur 6,85 ans (la durée de vie du stack) : c'est ce qui rend ce CAPEX comparable aux 1 000-1 500 €/kW « système » amortis sur 25 ans que cite la diapositive 11. IEA GHR 2024, Assumptions annex p. 6 : 2 160 USD/kW_e installé en moyenne mondiale 2023 (1 100 en Chine), 960 dans le NZE 2030, rendement 66 % PCI, OPEX 3 %/an, stack 50 000 h."},"duree_vie":{"v":7,"u":"yr","src":"pommes-industry : 6,85 ans (stack)","statut":"vérifié"},"opex_fixe":{"v":61,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.5,"u":"-","min":0.15,"max":0.95,"step":0.05,"src":"pommes-industry : ressource « electricity_50%_LF »","statut":"choix","note":"Un électrolyseur sur réseau tourne 90 % du temps ; couplé à un parc éolien-solaire dédié, 30 à 50 %. Le CAPEX se divise par le facteur de charge."},"conso":{"electricite":{"v":45,"u":"MWh/t","min":39.4,"max":60,"step":0.5,"src":"pommes-industry conversion_factor electrolyser : 45 MWh/t (74 % PCI)","statut":"vérifié","note":"emission_factors.md retient 53 kWh/kg (62 % PCS) pour le parc industriel actuel ; le minimum thermodynamique est 39,4. 45 est une valeur 2030."},"eau":{"v":10,"u":"m3/t","src":"≈ 9 L/kg stœchiométrique + purge","statut":"mémoire"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.0,"u":"tCO2/t","statut":"choix","note":"L'ACV de l'électrolyseur lui-même (~ 0,3-0,5 tCO2/t H2) est négligée, comme pour toutes les routes."}}},{"id":"gazeification_charbon","label":"Coal gasification","label_fr":"Gazéification du charbon","court":"Coal gasif.","court_fr":"Gazéif. charbon","maturite":"commercial","description":"China's route (≈ 20 % of world hydrogen). Twice the CO2 of SMR.","description_fr":"La route chinoise (≈ 20 % de l'hydrogène mondial). Deux fois le CO2 du SMR.","capex":{"v":9100,"u":"€/(t/yr)","min":3000,"max":15000,"step":100,"src":"IEA Global Hydrogen Review 2024, Assumptions annex p. 6 : coal gasification 2 640 USD/kW_H2 (moyenne mondiale ; Chine à 50 %), soit ≈ 2 400 €/kW_H2 × 3,8 kW_H2 par t/an","statut":"vérifié","note":"pommes-industry ne modélise que la gazéification de biomasse (5 443 €/(t/an)). En Chine, diviser par deux."},"duree_vie":{"v":25,"u":"yr","statut":"mémoire"},"opex_fixe":{"v":455,"u":"€/(t/yr)/yr","src":"IEA GHR 2024 annex p. 6 : OPEX annuel 5 % du CAPEX","statut":"calculé"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"charbon":{"v":6.9,"u":"t/t","src":"IEA GHR 2024 annex p. 6 : rendement 60 % PCI, soit 55,5 MWh de charbon par t H2, à 8 MWh/t","statut":"calculé"},"electricite":{"v":2.0,"u":"MWh/t","src":"emission_factors.md §4","statut":"mémoire"},"eau":{"v":10,"u":"m3/t","statut":"mémoire"}},"emissions":{"procede":{"v":15.0,"u":"tCO2/t","src":"emission_factors.md §4","statut":"mémoire"},"combustion":{"v":3.0,"u":"tCO2/t","statut":"mémoire"},"amont":{"v":1.5,"u":"tCO2/t","statut":"mémoire"}}}],"intrants":{}},"steel":{"produit":{"id":"steel","label":"Steel","label_fr":"Acier","unite":"t crude steel","unite_fr":"t acier brut","unite_affichage":"t steel","unite_affichage_fr":"t acier","facteur_affichage":1,"reference":"bf_bof","prix_marche":{"v":650,"u":"€/t","label":"Hot-rolled coil, EU","label_fr":"Bobine laminée à chaud, UE","marche":{"v":640,"u":"€/t","date":"2025","label":"HRC Northern Europe 2025 ≈ 600-680 €/t; China export ≈ 450 $/t","label_fr":"Bobine laminée à chaud Europe du Nord 2025 ≈ 600-680 €/t ; export Chine ≈ 450 $/t","statut":"mémoire"},"src":"Bobine laminée à chaud, Europe du Nord 2025 ≈ 600-700 €/t","statut":"mémoire"},"intermediaire_defaut":{"hydrogen":"electrolyse"}},"intrants":{"minerai_fer":{"v":100,"u":"€/t","min":50,"max":250,"step":10,"label":"Iron ore price","label_fr":"Prix du minerai de fer","marche":{"v":95,"u":"€/t","date":"2025","label":"Iron ore 62 % Fe CFR China ≈ 100 $/t; DR-grade pellets ≈ 150-180 $/t","label_fr":"Minerai 62 % Fe CFR Chine ≈ 100 $/t ; boulettes DR-grade ≈ 150-180 $/t","statut":"mémoire"},"src":"pommes-industry FR : iron_ore 100 €/t (constant)","statut":"vérifié","note":"Les boulettes DR-grade (> 67 % Fe) du DRI valent 30-50 % de plus que les fines à 62 % du haut fourneau ; le modèle prend le même prix pour les deux, comme pommes-industry."},"ferraille":{"v":180,"u":"€/t","min":100,"max":500,"step":10,"label":"Scrap steel price","label_fr":"Prix de la ferraille d'acier","marche":{"v":330,"u":"€/t","date":"2025","label":"Scrap E3 France/Germany 2025 ≈ 300-360 €/t","label_fr":"Ferraille E3 France/Allemagne 2025 ≈ 300-360 €/t","statut":"mémoire"},"src":"pommes-industry FR : scrap_steel 180 €/t (constant)","statut":"vérifié","note":"Le marché européen 2024-2025 est plutôt à 300-380 €/t : pommes-industry sous-estime probablement ce poste."}},"routes":[{"id":"bf_bof","label":"Blast furnace – basic oxygen furnace","label_fr":"Haut fourneau – convertisseur à oxygène","court":"BF-BOF","court_fr":"BF-BOF","maturite":"commercial","description":"The integrated route (≈ 70 % of world steel). The coal is the reducer, not a fuel: Fe2O3 + 3 CO → 2 Fe + 3 CO2. No efficiency measure touches that 1.3 t.","description_fr":"La filière intégrée (≈ 70 % de l'acier mondial). Le charbon est le réducteur, pas un combustible : Fe2O3 + 3 CO → 2 Fe + 3 CO2. Aucune mesure d'efficacité ne touche à ces 1,3 t.","capex":{"v":442,"u":"€/(t/yr)","min":200,"max":1500,"step":10,"src":"pommes-industry FR, combined BF_BOF","statut":"vérifié","note":"SAF.md du dépôt signale que cette valeur a été modifiée entre branches sans que l'origine soit établie. Un haut fourneau neuf coûte plutôt 600-1 000 €/(t/an) ; 442 est un ordre de grandeur de relining."},"duree_vie":{"v":25,"u":"yr","src":"pommes-industry conversion BF_BOF (25 ; la table combined dit 15)","statut":"vérifié"},"opex_fixe":{"v":53,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"autres_couts":{"v":45,"u":"€/t","label":"Fluxes, alloys, refractories, oxygen","label_fr":"Fondants, alliages, réfractaires, oxygène","src":"Absent de pommes-industry : chaux et fondants ≈ 15 €/t, ferro-alliages ≈ 15, réfractaires et oxygène ≈ 15 (ordres de grandeur worldsteel / Eurofer)","statut":"mémoire"},"conso":{"charbon":{"v":0.7,"u":"t/t","src":"pommes-industry BF_BOF mode 2-4 : coal 0,70 t/t (coke + injection)","statut":"vérifié","note":"Charbon à coke, pas charbon vapeur : voir le prix commun."},"electricite":{"v":0.194,"u":"MWh/t","src":"pommes-industry","statut":"vérifié","note":"Électricité nette importée ; l'usine autoproduit le reste à partir des gaz sidérurgiques."},"minerai_fer":{"v":1.8,"u":"t/t","src":"pommes-industry","statut":"vérifié"}},"emissions":{"procede":{"v":1.3,"u":"tCO2/t","src":"emission_factors.md §1 (carbone réducteur)","statut":"vérifié"},"combustion":{"v":0.46,"u":"tCO2/t","src":"pommes-industry direct 1,76 − 1,30","statut":"calculé"},"amont":{"v":0.25,"u":"tCO2/t","src":"emission_factors.md §1","statut":"vérifié"}}},{"id":"bf_bof_ccs","label":"BF-BOF + CCS on blast-furnace gas (57 %)","label_fr":"BF-BOF + captage sur le gaz de gueulard (57 %)","court":"BF-BOF + CCS","court_fr":"BF-BOF + CCS","maturite":"demonstration","description":"Only the top gas is concentrated enough to capture; the coke ovens, sinter plant and hot stoves keep emitting. Hence a ceiling around 60 %.","description_fr":"Seul le gaz de gueulard est assez concentré pour être capté ; cokerie, agglomération et cowpers continuent d'émettre. D'où un plafond autour de 60 %.","capex":{"v":600,"u":"€/(t/yr)","min":300,"max":1800,"step":10,"src":"pommes-industry FR 2030, BF_BOF_CCS 600,4 (560 en 2050)","statut":"vérifié"},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":61,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"autres_couts":{"v":45,"u":"€/t","label":"Fluxes, alloys, refractories, oxygen","label_fr":"Fondants, alliages, réfractaires, oxygène","statut":"mémoire"},"conso":{"charbon":{"v":0.7,"u":"t/t","statut":"vérifié"},"electricite":{"v":0.288,"u":"MWh/t","src":"pommes-industry conversion BF_BOF_CCS","statut":"vérifié"},"minerai_fer":{"v":1.8,"u":"t/t","statut":"vérifié"}},"emissions":{"procede":{"v":1.3,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.46,"u":"tCO2/t","statut":"calculé"},"amont":{"v":0.25,"u":"tCO2/t","statut":"vérifié"}},"captage":{"taux":{"v":0.57,"u":"-","src":"pommes-industry : 1,003 capté sur 1,76","statut":"vérifié"}}},{"id":"dri_ng_eaf","label":"Direct reduction (natural gas) + electric arc furnace","label_fr":"Réduction directe au gaz naturel + four électrique","court":"DRI-NG + EAF","court_fr":"DRI-gaz + EAF","maturite":"commercial","description":"Reduces the ore as a solid with reformed gas (CO + H2), then melts the sponge iron in an arc furnace. The CO2 now comes from the methane's carbon.","description_fr":"Réduit le minerai à l'état solide avec du gaz reformé (CO + H2), puis fond le fer spongieux au four à arc. Le CO2 vient désormais du carbone du méthane.","capex":{"v":414,"u":"€/(t/yr)","min":200,"max":1500,"step":10,"src":"pommes-industry FR, combined DRI_EAF","statut":"vérifié"},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":53,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"autres_couts":{"v":60,"u":"€/t","label":"Electrodes, alloys, fluxes, refractories","label_fr":"Électrodes, alliages, fondants, réfractaires","src":"Absent de pommes-industry : électrodes de graphite ≈ 10-15 €/t, ferro-alliages ≈ 20, chaux et réfractaires ≈ 20","statut":"mémoire"},"conso":{"gaz":{"v":2.97,"u":"MWh/t","src":"pommes-industry DRI_EAF mode 2 : 0,214 t CH4 × 13,9","statut":"calculé"},"electricite":{"v":1.231,"u":"MWh/t","src":"pommes-industry","statut":"vérifié","note":"Four à arc + auxiliaires du DRI. emission_factors.md retient 0,90."},"minerai_fer":{"v":1.6,"u":"t/t","statut":"vérifié"}},"emissions":{"procede":{"v":0.55,"u":"tCO2/t","src":"emission_factors.md §1","statut":"vérifié"},"combustion":{"v":0.31,"u":"tCO2/t","src":"pommes-industry direct 0,859 − 0,55","statut":"calculé"},"amont":{"v":0.15,"u":"tCO2/t","statut":"vérifié"}}},{"id":"dri_ng_ccs","label":"DRI-NG + EAF + CCS (80 %)","label_fr":"DRI-gaz + EAF + captage (80 %)","court":"DRI-NG + CCS","court_fr":"DRI-gaz + CCS","maturite":"demonstration","description":"The reformer's process gas is concentrated: capture is cheaper than on a blast furnace. France Stratégie's 'voie 2'.","description_fr":"Le gaz procédé du reformeur est concentré : le captage y coûte moins cher que sur un haut fourneau. C'est la « voie 2 » de France Stratégie.","capex":{"v":564,"u":"€/(t/yr)","min":300,"max":1800,"step":10,"src":"DRI_EAF 414 + surcoût de captage 150 (ordre de grandeur du BF_BOF_CCS de pommes-industry : +158)","statut":"mémoire","note":"Route absente de pommes-industry. France Stratégie (Partie 7, tableau 1) : 161 €/tCO2 évitée, −65 %."},"duree_vie":{"v":25,"u":"yr","statut":"mémoire"},"opex_fixe":{"v":61,"u":"€/(t/yr)/yr","statut":"mémoire"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"autres_couts":{"v":60,"u":"€/t","label":"Electrodes, alloys, fluxes, refractories","label_fr":"Électrodes, alliages, fondants, réfractaires","statut":"mémoire"},"conso":{"gaz":{"v":3.1,"u":"MWh/t","statut":"mémoire"},"electricite":{"v":1.43,"u":"MWh/t","src":"1,231 + 0,2 pour la capture et la compression","statut":"calculé"},"minerai_fer":{"v":1.6,"u":"t/t","statut":"vérifié"}},"emissions":{"procede":{"v":0.55,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.31,"u":"tCO2/t","statut":"calculé"},"amont":{"v":0.15,"u":"tCO2/t","statut":"vérifié"}},"captage":{"taux":{"v":0.8,"u":"-","src":"emission_factors.md §1 : 0,64 capté sur 0,80","statut":"vérifié"}}},{"id":"dri_h2_eaf","label":"Direct reduction (hydrogen) + electric arc furnace","label_fr":"Réduction directe à l'hydrogène + four électrique","court":"DRI-H2 + EAF","court_fr":"DRI-H2 + EAF","maturite":"demonstration","description":"Fe2O3 + 3 H2 → 2 Fe + 3 H2O: the by-product is water. 51 kg of hydrogen per tonne, and the whole cost rides on the hydrogen tab. Hybrit, Stegra.","description_fr":"Fe2O3 + 3 H2 → 2 Fe + 3 H2O : le sous-produit est de l'eau. 51 kg d'hydrogène par tonne, et tout le coût dépend de l'onglet Hydrogène. Hybrit, Stegra.","capex":{"v":414,"u":"€/(t/yr)","min":200,"max":1500,"step":10,"src":"pommes-industry FR, combined DRI_EAF (mode 1 = hydrogène)","statut":"vérifié","note":"Le CAPEX de l'électrolyseur n'est pas ici : il est dans le prix de l'hydrogène, calculé par l'onglet Hydrogène."},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":53,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"autres_couts":{"v":60,"u":"€/t","label":"Electrodes, alloys, fluxes, refractories","label_fr":"Électrodes, alliages, fondants, réfractaires","statut":"mémoire"},"conso":{"electricite":{"v":1.231,"u":"MWh/t","src":"pommes-industry","statut":"vérifié"},"hydrogene":{"v":0.051,"u":"t/t","intermediaire":"hydrogen","src":"pommes-industry DRI_EAF mode 1 : 51 kg H2/t","statut":"vérifié"},"minerai_fer":{"v":1.6,"u":"t/t","statut":"vérifié"}},"emissions":{"procede":{"v":0.03,"u":"tCO2/t","src":"emission_factors.md : carbone de carburation","statut":"vérifié"},"combustion":{"v":0.03,"u":"tCO2/t","src":"pommes-industry direct 0,06","statut":"calculé"},"amont":{"v":0.02,"u":"tCO2/t","statut":"vérifié"}}},{"id":"eaf_ferraille","label":"Scrap recycling in an electric arc furnace","label_fr":"Recyclage de ferraille au four électrique à arc","court":"Scrap EAF","court_fr":"Ferraille EAF","maturite":"commercial","description":"No reduction step at all: the iron is already iron. The cheapest and cleanest route, and the one that cannot grow — scrap covers ≈ 30 % of demand.","description_fr":"Pas d'étape de réduction du tout : le fer est déjà du fer. La route la moins chère et la plus propre, et celle qui ne peut pas croître — la ferraille couvre ≈ 30 % de la demande.","capex":{"v":184,"u":"€/(t/yr)","min":100,"max":600,"step":10,"src":"pommes-industry FR, EAF","statut":"vérifié"},"duree_vie":{"v":15,"u":"yr","src":"pommes-industry EAF","statut":"vérifié"},"opex_fixe":{"v":53,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"autres_couts":{"v":55,"u":"€/t","label":"Electrodes, alloys, fluxes, refractories","label_fr":"Électrodes, alliages, fondants, réfractaires","statut":"mémoire"},"conso":{"electricite":{"v":0.5,"u":"MWh/t","src":"pommes-industry EAF","statut":"vérifié","note":"emission_factors.md retient 0,65 avec les auxiliaires."},"ferraille":{"v":1.0,"u":"t/t","src":"pommes-industry","statut":"vérifié","note":"1,05-1,10 avec les pertes de fusion."}},"emissions":{"procede":{"v":0.06,"u":"tCO2/t","src":"pommes-industry direct 0,06 (électrodes, carburation)","statut":"vérifié","note":"emission_factors.md compte 0,16 au total avec le gaz des brûleurs et l'amont."},"combustion":{"v":0.04,"u":"tCO2/t","statut":"mémoire"},"amont":{"v":0.02,"u":"tCO2/t","statut":"vérifié"}}},{"id":"electrolyse_minerai","label":"Direct ore electrolysis (electrowinning / MOE)","label_fr":"Électrolyse directe du minerai (electrowinning / MOE)","court":"Ore electrolysis","court_fr":"Électrolyse minerai","maturite":"pilot","description":"2 Fe2O3 → 4 Fe + 3 O2: the reducer is removed, not replaced. One conversion instead of two, but a few tonnes a day at best today (Boston Metal, SIDERWIN, Electra).","description_fr":"2 Fe2O3 → 4 Fe + 3 O2 : on supprime le réducteur au lieu de le remplacer. Une conversion au lieu de deux, mais quelques tonnes par jour au mieux aujourd'hui (Boston Metal, SIDERWIN, Electra).","capex":{"v":639,"u":"€/(t/yr)","min":300,"max":2000,"step":10,"src":"pommes-industry FR, electrowinning","statut":"vérifié"},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":53,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","min":0.3,"max":0.95,"step":0.05,"statut":"choix","note":"France Stratégie distingue le cas où l'électrolyse s'efface des pointes (160 €/tCO2) de celui où elle ne s'efface pas (192)."},"autres_couts":{"v":60,"u":"€/t","label":"Electrolyte, alloys, remelting consumables","label_fr":"Électrolyte, alliages, consommables de refusion","statut":"mémoire"},"conso":{"electricite":{"v":3.6,"u":"MWh/t","src":"pommes-industry electrowinning ; emission_factors.md §1 bis (alcalin 3,6 ; MOE 4,2)","statut":"vérifié"},"minerai_fer":{"v":1.6,"u":"t/t","statut":"vérifié"}},"emissions":{"procede":{"v":0.03,"u":"tCO2/t","src":"carbone de carburation ; pommes-industry compte 0","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.02,"u":"tCO2/t","statut":"vérifié"}}}]},"cement":{"produit":{"id":"cement","label":"Cement","label_fr":"Ciment","unite":"t cement","unite_fr":"t ciment","unite_affichage":"t cement","unite_affichage_fr":"t ciment","facteur_affichage":1,"reference":"reference","prix_marche":{"v":120,"u":"€/t","label":"Cement, EU ex-works","label_fr":"Ciment, départ usine UE","marche":{"v":120,"u":"€/t","date":"2025","label":"Cement ex-works France ≈ 110-140 €/t (INSEE producer price index)","label_fr":"Ciment départ usine France ≈ 110-140 €/t (indice des prix de production, INSEE)","statut":"mémoire"},"src":"Prix départ usine Europe 2024 ≈ 100-130 €/t","statut":"mémoire","note":"Un produit bon marché et lourd : le transport limite le marché à ~ 300 km, ce qui rend la fuite de carbone moins probable que pour l'acier."},"intermediaire_defaut":{}},"intrants":{"calcaire":{"v":20,"u":"€/t","min":5,"max":60,"step":5,"label":"Limestone (raw meal) price","label_fr":"Prix du calcaire (cru)","src":"pommes-industry FR : limestone 20 €/t","statut":"vérifié"},"additions":{"v":30,"u":"€/t","min":0,"max":120,"step":5,"label":"Clinker substitutes (slag, fly ash, limestone filler)","label_fr":"Additions au clinker (laitier, cendres volantes, filler calcaire)","marche":{"v":45,"u":"€/t","date":"2025","label":"Granulated slag ≈ 40-60 €/t, rising as blast furnaces close","label_fr":"Laitier granulé ≈ 40-60 €/t, en hausse à mesure que les hauts fourneaux ferment","statut":"mémoire"},"src":"Laitier granulé de haut fourneau ≈ 30-60 €/t ; filler calcaire ≈ 10-20 €/t","statut":"mémoire","note":"Le laitier disparaît avec les hauts fourneaux : le levier « taux de clinker » dépend à terme des argiles calcinées."},"argile_calcinee":{"v":60,"u":"€/t","min":20,"max":150,"step":5,"label":"Calcined clay price","label_fr":"Prix de l'argile calcinée","src":"Argile crue 10-20 €/t + calcination à 800 °C (≈ 0,7 MWh/t) ; pommes-industry ne coûte que le combustible","statut":"mémoire"},"dechets":{"v":2,"cat":"matieres_energie","u":"€/t","min":-30,"max":60,"step":2,"label":"Waste-derived fuel price","label_fr":"Prix des combustibles de déchets","src":"pommes-industry FR : municipal_wastes 1,77 €/t","statut":"vérifié","note":"Un cimentier est souvent payé pour brûler des déchets : le prix peut être négatif."}},"routes":[{"id":"reference","label":"Reference kiln, clinker ratio 0.75","label_fr":"Four de référence, taux de clinker 0,75","court":"Reference","court_fr":"Référence","maturite":"commercial","description":"Preheater-precalciner kiln on coal and petcoke. 0.83 tCO2 per tonne of clinker, of which 0.52 leaves the stone itself (CaCO3 → CaO + CO2) and 0.31 the burners.","description_fr":"Four à préchauffeur et précalcinateur, au charbon et au coke de pétrole. 0,83 tCO2 par tonne de clinker, dont 0,52 sortent de la pierre elle-même (CaCO3 → CaO + CO2) et 0,31 des brûleurs.","clinker":0.75,"capex":{"v":140,"u":"€/(t/yr)","min":50,"max":500,"step":5,"src":"pommes-industry reference_plant 186 €/(t clinker/an) × 0,75","statut":"calculé","note":"Une cimenterie neuve coûte plutôt 200-300 €/(t ciment/an) ; 186 est un ordre de grandeur de four seul."},"duree_vie":{"v":25,"u":"yr","src":"pommes-industry","statut":"vérifié"},"opex_fixe":{"v":7,"u":"€/(t/yr)/yr","src":"pommes-industry 9,31 × 0,75","statut":"calculé"},"facteur_charge":{"v":0.85,"u":"-","statut":"choix"},"conso":{"charbon":{"v":0.079,"u":"t/t","src":"pommes-industry : 0,889 MWh de chaleur/t clinker × 0,119 t charbon/MWh × 0,75","statut":"calculé"},"electricite":{"v":0.144,"u":"MWh/t","src":"pommes-industry : 0,1317 × 0,75 + 0,045 de broyage","statut":"calculé"},"calcaire":{"v":1.2,"u":"t/t","src":"pommes-industry : 1,6 t/t clinker × 0,75","statut":"calculé"},"additions":{"v":0.25,"u":"t/t","statut":"calculé"}},"emissions":{"procede":{"v":0.39,"u":"tCO2/t","src":"emission_factors.md §2 : 0,52 × 0,75","statut":"vérifié"},"combustion":{"v":0.255,"u":"tCO2/t","src":"pommes-industry direct 0,86/t clinker − 0,52, × 0,75","statut":"calculé"},"amont":{"v":0.02,"u":"tCO2/t","statut":"vérifié"}}},{"id":"combustibles_alternatifs","label":"+ 50 % alternative fuels (waste, biomass)","label_fr":"+ 50 % de combustibles alternatifs (déchets, biomasse)","court":"+ alt. fuels","court_fr":"+ comb. alternatifs","maturite":"commercial","description":"Replaces half the coal by waste-derived fuels and biomass. Touches only the 0.31 of combustion; the stone's CO2 is untouched.","description_fr":"Remplace la moitié du charbon par des combustibles de déchets et de la biomasse. Ne touche qu'aux 0,31 de combustion ; le CO2 de la pierre reste entier.","clinker":0.75,"capex":{"v":155,"u":"€/(t/yr)","min":50,"max":500,"step":5,"src":"Référence + 15 €/(t/an) de préparation des combustibles (ordre de grandeur)","statut":"mémoire"},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":8,"u":"€/(t/yr)/yr","statut":"mémoire"},"facteur_charge":{"v":0.85,"u":"-","statut":"choix"},"conso":{"charbon":{"v":0.04,"u":"t/t","statut":"calculé"},"dechets":{"v":0.071,"u":"t/t","src":"pommes-industry solid_fuels mode 3 : 0,2124 t déchets/MWh × 0,444 MWh × 0,75","statut":"calculé"},"electricite":{"v":0.144,"u":"MWh/t","statut":"calculé"},"calcaire":{"v":1.2,"u":"t/t","statut":"calculé"},"additions":{"v":0.25,"u":"t/t","statut":"calculé"}},"emissions":{"procede":{"v":0.39,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.16,"u":"tCO2/t","src":"emission_factors.md §2 : 0,14 ; ici la moitié fossile des déchets est comptée","statut":"calculé"},"amont":{"v":0.01,"u":"tCO2/t","statut":"vérifié"}}},{"id":"clinker_050","label":"+ clinker ratio 0.50 (LC3, slag)","label_fr":"+ taux de clinker 0,50 (LC3, laitier)","court":"+ clinker 0.50","court_fr":"+ clinker 0,50","maturite":"commercial","description":"The cheapest lever, available today: replace a quarter of the clinker by calcined clay and limestone (LC3) or slag. Its ceiling is the product standard EN 197, not the technology.","description_fr":"Le levier le moins cher, disponible aujourd'hui : remplacer un quart du clinker par de l'argile calcinée et du calcaire (LC3) ou du laitier. Son plafond est la norme produit EN 197, pas la technique.","clinker":0.5,"capex":{"v":110,"u":"€/(t/yr)","min":50,"max":500,"step":5,"src":"pommes-industry : 186 × 0,50 + 15 (combustibles alternatifs) ; le calcinateur d'argile est compté à 0 CAPEX dans pommes-industry","statut":"calculé"},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":6,"u":"€/(t/yr)/yr","statut":"calculé"},"facteur_charge":{"v":0.85,"u":"-","statut":"choix"},"conso":{"charbon":{"v":0.027,"u":"t/t","statut":"calculé"},"dechets":{"v":0.047,"u":"t/t","statut":"calculé"},"electricite":{"v":0.111,"u":"MWh/t","src":"pommes-industry : 0,1317 × 0,5 + 0,045","statut":"calculé"},"calcaire":{"v":0.95,"u":"t/t","src":"pommes-industry LC3 : 1,6 × 0,5 + 0,15 de filler","statut":"calculé"},"argile_calcinee":{"v":0.3,"u":"t/t","src":"pommes-industry LC3_grinding","statut":"vérifié"},"additions":{"v":0.05,"u":"t/t","statut":"calculé"}},"emissions":{"procede":{"v":0.26,"u":"tCO2/t","src":"0,52 × 0,50 — le plancher de calcination","statut":"vérifié"},"combustion":{"v":0.1,"u":"tCO2/t","src":"emission_factors.md §2","statut":"vérifié"},"amont":{"v":0.01,"u":"tCO2/t","statut":"vérifié"}}},{"id":"four_electrifie","label":"+ electrified kiln and calciner","label_fr":"+ four et précalcinateur électrifiés","court":"+ electric kiln","court_fr":"+ four électrique","maturite":"pilot","description":"Removes the burners' CO2, not the stone's. Its real interest: without air nitrogen the exhaust is nearly pure CO2, which makes capture cheap. Electrification prepares capture; it does not replace it.","description_fr":"Supprime le CO2 des brûleurs, pas celui de la pierre. Son intérêt réel : sans azote de l'air, les fumées sont du CO2 presque pur, ce qui rend le captage bon marché. L'électrification prépare le captage, elle ne le remplace pas.","clinker":0.5,"capex":{"v":166,"u":"€/(t/yr)","min":50,"max":600,"step":5,"src":"pommes-industry fully_electrified_plant 331 €/(t clinker/an) × 0,50","statut":"calculé"},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":8,"u":"€/(t/yr)/yr","src":"pommes-industry 16,5 × 0,5","statut":"calculé"},"facteur_charge":{"v":0.85,"u":"-","statut":"choix"},"conso":{"electricite":{"v":0.7,"u":"MWh/t","src":"pommes-industry : 1,153 MWh/t clinker × 0,5 + 0,045 + argile calcinée à l'électricité (0,72 × 0,3 = 0,22 ; ici au gaz)","statut":"calculé","note":"emission_factors.md retient 0,35 MWh/t, ce qui est en dessous de la seule chaleur de cuisson (0,89 MWh/t clinker × 0,5 = 0,45) : la valeur de pommes-industry est retenue."},"gaz":{"v":0.21,"u":"MWh/t","src":"Calcination de l'argile au gaz : 0,055 t CH4/t × 13,9 × 0,3","statut":"calculé"},"calcaire":{"v":0.95,"u":"t/t","statut":"calculé"},"argile_calcinee":{"v":0.3,"u":"t/t","statut":"vérifié"},"additions":{"v":0.05,"u":"t/t","statut":"calculé"}},"emissions":{"procede":{"v":0.29,"u":"tCO2/t","src":"pommes-industry fully_electrified_plant direct 0,58/t clinker × 0,5","statut":"calculé"},"combustion":{"v":0.04,"u":"tCO2/t","src":"gaz de calcination de l'argile","statut":"calculé"},"amont":{"v":0.0,"u":"tCO2/t","statut":"choix"}}},{"id":"oxy_ccs","label":"+ oxyfuel kiln and CO2 capture (99 %)","label_fr":"+ four en oxycombustion et captage du CO2 (99 %)","court":"+ oxyfuel CCS","court_fr":"+ oxycombustion CCS","maturite":"demonstration","description":"The only lever that goes below the calcination floor. Burning in oxygen gives a concentrated flue gas: the capture unit is a compressor, not an amine plant (Brevik, Lumbres).","description_fr":"Le seul levier qui passe sous le plancher de calcination. Brûler à l'oxygène donne des fumées concentrées : l'unité de captage est un compresseur, pas une usine aux amines (Brevik, Lumbres).","clinker":0.5,"capex":{"v":122,"u":"€/(t/yr)","min":50,"max":600,"step":5,"src":"pommes-industry oxyfuel_plant_CCS 244 €/(t clinker/an) × 0,50","statut":"calculé","note":"Hors transport et stockage, comptés à part au prix commun."},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":7,"u":"€/(t/yr)/yr","src":"pommes-industry 13,4 × 0,5","statut":"calculé"},"facteur_charge":{"v":0.85,"u":"-","statut":"choix"},"conso":{"charbon":{"v":0.027,"u":"t/t","statut":"calculé"},"dechets":{"v":0.047,"u":"t/t","statut":"calculé"},"electricite":{"v":0.26,"u":"MWh/t","src":"pommes-industry : 0,291 × 0,5 + 0,045 + argile","statut":"calculé"},"gaz":{"v":0.21,"u":"MWh/t","statut":"calculé"},"calcaire":{"v":0.95,"u":"t/t","statut":"calculé"},"argile_calcinee":{"v":0.3,"u":"t/t","statut":"vérifié"},"additions":{"v":0.05,"u":"t/t","statut":"calculé"}},"emissions":{"procede":{"v":0.26,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.14,"u":"tCO2/t","src":"combustibles du four (0,10) + gaz de l'argile (0,04)","statut":"calculé"},"amont":{"v":0.01,"u":"tCO2/t","statut":"vérifié"}},"captage":{"taux":{"v":0.9,"u":"-","src":"pommes-industry oxyfuel_plant_CCS : 0,849 capté sur 0,86 (98,7 %) ; emission_factors.md retient 90 % — l'argile est hors captage","statut":"choix"}}},{"id":"amine_ccs","label":"Reference kiln + amine capture (95 %)","label_fr":"Four de référence + captage aux amines (95 %)","court":"Amine CCS","court_fr":"CCS amines","maturite":"demonstration","description":"Post-combustion capture on today's kiln, clinker ratio unchanged. What it costs to do nothing else: the comparison point for the levers above.","description_fr":"Captage en postcombustion sur le four d'aujourd'hui, taux de clinker inchangé. Ce que coûte le fait de ne rien faire d'autre : le point de comparaison des leviers ci-dessus.","clinker":0.75,"capex":{"v":342,"u":"€/(t/yr)","min":100,"max":900,"step":5,"src":"pommes-industry reference_plant_CCS 456 €/(t clinker/an) × 0,75 (capture aux amines : +270)","statut":"calculé"},"duree_vie":{"v":25,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":17,"u":"€/(t/yr)/yr","src":"pommes-industry 22,8 × 0,75","statut":"calculé"},"facteur_charge":{"v":0.85,"u":"-","statut":"choix"},"conso":{"charbon":{"v":0.079,"u":"t/t","statut":"calculé"},"electricite":{"v":0.55,"u":"MWh/t","src":"pommes-industry reference_plant_CCS : 0,672 × 0,75 + 0,045","statut":"calculé","note":"La chaleur du rebouilleur (≈ 3 GJ/tCO2) n'est pas comptée en plus : pommes-industry la suppose récupérée."},"calcaire":{"v":1.2,"u":"t/t","statut":"calculé"},"additions":{"v":0.25,"u":"t/t","statut":"calculé"}},"emissions":{"procede":{"v":0.39,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.255,"u":"tCO2/t","statut":"calculé"},"amont":{"v":0.02,"u":"tCO2/t","statut":"vérifié"}},"captage":{"taux":{"v":0.95,"u":"-","src":"pommes-industry reference_plant_CCS : 0,817 capté sur 0,86","statut":"vérifié"}}}]},"ammonia":{"produit":{"id":"ammonia","label":"Ammonia","label_fr":"Ammoniac","unite":"t NH3","unite_fr":"t NH3","unite_affichage":"t NH3","unite_affichage_fr":"t NH3","facteur_affichage":1,"reference":"smr_hb","prix_marche":{"v":500,"u":"€/t","label":"Ammonia, NW Europe","label_fr":"Ammoniac, Europe du Nord-Ouest","marche":{"v":480,"u":"€/t","date":"2025","label":"Ammonia CFR NW Europe 2025 ≈ 450-520 $/t","label_fr":"Ammoniac CFR Europe du Nord-Ouest 2025 ≈ 450-520 $/t","statut":"mémoire"},"src":"Prix Europe du Nord-Ouest 2024-2025 ≈ 450-550 €/t (2022 : > 1 000)","statut":"mémoire"},"intermediaire_defaut":{}},"intrants":{},"routes":[{"capex":{"v":1000,"u":"€/(t/yr)","min":400,"max":2500,"step":50,"src":"pommes-industry FR, Haber_Bosch (boucle de synthèse + séparation d'air)","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","src":"pommes-industry","statut":"vérifié"},"opex_fixe":{"v":50,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"id":"smr_hb","label":"SMR hydrogen + Haber-Bosch","label_fr":"Hydrogène SMR + Haber-Bosch","court":"SMR + HB","court_fr":"SMR + HB","maturite":"commercial","description":"Today's fertiliser plant. N2 + 3 H2 ⇌ 2 NH3 at 450 °C and 200 bar; ~15 % converted per pass, hence the recycle loop.","description_fr":"L'usine d'engrais d'aujourd'hui. N2 + 3 H2 ⇌ 2 NH3 à 450 °C et 200 bar ; ~15 % convertis par passe, d'où la boucle de recyclage.","conso":{"electricite":{"v":0.985,"u":"MWh/t","src":"pommes-industry Haber_Bosch : 0,985 MWh/t (compression, ASU)","statut":"vérifié","note":"emission_factors.md retient 0,6 MWh/t pour l'ASU et la synthèse."},"hydrogene":{"v":0.18,"u":"t/t","intermediaire":"hydrogen","route":"smr","src":"pommes-industry : 0,18 t H2/t NH3 (stœchiométrie 0,178)","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.0,"u":"tCO2/t","statut":"vérifié"}}},{"capex":{"v":1000,"u":"€/(t/yr)","min":400,"max":2500,"step":50,"src":"pommes-industry FR, Haber_Bosch (boucle de synthèse + séparation d'air)","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","src":"pommes-industry","statut":"vérifié"},"opex_fixe":{"v":50,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"id":"smr_ccs_hb","label":"SMR + CCS (85 %) hydrogen + Haber-Bosch","label_fr":"Hydrogène SMR + CCS (85 %) + Haber-Bosch","court":"SMR + CCS + HB","court_fr":"SMR + CCS + HB","maturite":"demonstration","description":"Same plant, the reformer's two CO2 outlets captured. What the industry calls 'blue ammonia'.","description_fr":"La même usine, les deux sorties de CO2 du reformeur captées. Ce que la profession appelle l'« ammoniac bleu ».","conso":{"electricite":{"v":0.985,"u":"MWh/t","statut":"vérifié"},"hydrogene":{"v":0.18,"u":"t/t","intermediaire":"hydrogen","route":"smr_ccs_85","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.0,"u":"tCO2/t","statut":"vérifié"}}},{"capex":{"v":1000,"u":"€/(t/yr)","min":400,"max":2500,"step":50,"src":"pommes-industry FR, Haber_Bosch (boucle de synthèse + séparation d'air)","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","src":"pommes-industry","statut":"vérifié"},"opex_fixe":{"v":50,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"id":"atr_ccs_hb","label":"ATR + CCS hydrogen + Haber-Bosch","label_fr":"Hydrogène ATR + CCS + Haber-Bosch","court":"ATR + CCS + HB","court_fr":"ATR + CCS + HB","maturite":"commercial","description":"The route new low-carbon ammonia plants actually pick: one concentrated CO2 outlet, ≈ 91 % captured.","description_fr":"La route que choisissent réellement les nouvelles usines bas-carbone : une seule sortie de CO2 concentré, ≈ 91 % capté.","conso":{"electricite":{"v":0.985,"u":"MWh/t","statut":"vérifié"},"hydrogene":{"v":0.18,"u":"t/t","intermediaire":"hydrogen","route":"atr_ccs","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.0,"u":"tCO2/t","statut":"vérifié"}}},{"capex":{"v":1000,"u":"€/(t/yr)","min":400,"max":2500,"step":50,"src":"pommes-industry FR, Haber_Bosch (boucle de synthèse + séparation d'air)","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","src":"pommes-industry","statut":"vérifié"},"opex_fixe":{"v":50,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"id":"electrolyse_hb","label":"Electrolytic hydrogen + Haber-Bosch","label_fr":"Hydrogène électrolytique + Haber-Bosch","court":"Electrolysis + HB","court_fr":"Électrolyse + HB","maturite":"demonstration","description":"No carbon atom enters the plant. ≈ 9 MWh/t for the hydrogen plus 1 for the loop: the best and the worst process on the chart are the same process, only the grid separates them.","description_fr":"Aucun atome de carbone n'entre dans l'usine. ≈ 9 MWh/t pour l'hydrogène et 1 pour la boucle : le meilleur et le pire procédé du graphique sont le même procédé, seul le réseau les sépare.","conso":{"electricite":{"v":0.985,"u":"MWh/t","statut":"vérifié"},"hydrogene":{"v":0.18,"u":"t/t","intermediaire":"hydrogen","route":"electrolyse","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.0,"u":"tCO2/t","statut":"vérifié"}}},{"capex":{"v":1000,"u":"€/(t/yr)","min":400,"max":2500,"step":50,"src":"pommes-industry FR, Haber_Bosch (boucle de synthèse + séparation d'air)","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","src":"pommes-industry","statut":"vérifié"},"opex_fixe":{"v":50,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"id":"charbon_hb","label":"Coal gasification hydrogen + Haber-Bosch","label_fr":"Hydrogène de gazéification du charbon + Haber-Bosch","court":"Coal + HB","court_fr":"Charbon + HB","maturite":"commercial","description":"China's route, ≈ 4 tCO2 per tonne.","description_fr":"La route chinoise, ≈ 4 tCO2 par tonne.","conso":{"electricite":{"v":0.985,"u":"MWh/t","statut":"vérifié"},"hydrogene":{"v":0.18,"u":"t/t","intermediaire":"hydrogen","route":"gazeification_charbon","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.0,"u":"tCO2/t","statut":"vérifié"}}}]},"methanol":{"produit":{"id":"methanol","label":"Methanol","label_fr":"Méthanol","unite":"t methanol","unite_fr":"t méthanol","unite_affichage":"t MeOH","unite_affichage_fr":"t MeOH","facteur_affichage":1,"reference":"gaz_smr_msr","prix_marche":{"v":400,"u":"€/t","label":"Methanol, Europe spot","label_fr":"Méthanol, spot Europe","marche":{"v":420,"u":"€/t","date":"2025","label":"Methanex European contract ≈ 500-560 €/t; Rotterdam spot ≈ 350-420","label_fr":"Contrat européen Methanex ≈ 500-560 €/t ; spot Rotterdam ≈ 350-420","statut":"mémoire"},"src":"pommes-industry FR : 400 €/t en 2025 (855 en 2030, 590 en 2050) ; spot Europe 2024 ≈ 350-450","statut":"vérifié"},"emissions_usage":{"v":1.375,"u":"tCO2/t","label":"CO2 released when the methanol is burnt or oxidised","label_fr":"CO2 rejeté quand le méthanol est brûlé ou oxydé","src":"Stœchiométrie : 44/32","statut":"vérifié","note":"Compté si le carbone est fossile (gaz, charbon, CO2 capté d'origine fossile) ; nul s'il est biogénique ou pris dans l'air."},"intermediaire_defaut":{"hydrogen":"electrolyse"},"source_co2":{"defaut":"ponctuelle_fossile"}},"intrants":{},"routes":[{"id":"gaz_smr_msr","label":"Natural gas reforming + synthesis","label_fr":"Reformage du gaz naturel + synthèse","court":"Gas","court_fr":"Gaz","maturite":"commercial","description":"Reforming to syngas, then CO + 2 H2 → CH3OH over a copper catalyst. ≈ 9.5 MWh of gas per tonne.","description_fr":"Reformage en gaz de synthèse, puis CO + 2 H2 → CH3OH sur catalyseur au cuivre. ≈ 9,5 MWh de gaz par tonne.","capex":{"v":133,"u":"€/(t/yr)","min":100,"max":1500,"step":10,"src":"pommes-industry SMR_MSR","statut":"vérifié","note":"Très bas pour une usine complète (IRENA 2021 : 500-1 000 $/(t/an)) ; c'est sans doute la seule synthèse. Le coût fixe de 87 €/(t/an) compense en partie."},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":87,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"gaz":{"v":9.48,"u":"MWh/t","src":"pommes-industry : 0,682 t CH4 × 13,9","statut":"calculé"},"electricite":{"v":0.321,"u":"MWh/t","statut":"vérifié"}},"emissions":{"procede":{"v":0.3,"u":"tCO2/t","src":"part stœchiométrique du reformage","statut":"mémoire"},"combustion":{"v":0.17,"u":"tCO2/t","src":"pommes-industry direct 0,47 − 0,30","statut":"calculé"},"amont":{"v":0.4,"u":"tCO2/t","src":"9,5 MWh × 0,042 tCO2/MWh d'amont gazier","statut":"calculé"}},"carbone":"fossile"},{"id":"e_smr_msr","label":"Electrically heated reformer + synthesis","label_fr":"Reformeur chauffé électriquement + synthèse","court":"e-Reformer","court_fr":"e-Reformeur","maturite":"demonstration","description":"Same chemistry, the furnace replaced by electric heating: the combustion CO2 disappears, the feedstock carbon stays.","description_fr":"La même chimie, le four remplacé par un chauffage électrique : le CO2 de combustion disparaît, celui de la charge reste.","capex":{"v":133,"u":"€/(t/yr)","min":100,"max":1500,"step":10,"src":"pommes-industry eSMR_MSR","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":87,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"gaz":{"v":7.39,"u":"MWh/t","src":"pommes-industry : 0,532 t × 13,9","statut":"calculé"},"electricite":{"v":1.8,"u":"MWh/t","statut":"vérifié"}},"emissions":{"procede":{"v":0.06,"u":"tCO2/t","src":"pommes-industry direct 0,06","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.31,"u":"tCO2/t","statut":"calculé"}},"carbone":"fossile"},{"id":"charbon","label":"Coal gasification + synthesis","label_fr":"Gazéification du charbon + synthèse","court":"Coal","court_fr":"Charbon","maturite":"commercial","description":"Two thirds of world methanol, almost all in China. ≈ 3 tCO2 per tonne before use.","description_fr":"Les deux tiers du méthanol mondial, presque tout en Chine. ≈ 3 tCO2 par tonne avant usage.","capex":{"v":1500,"u":"€/(t/yr)","min":500,"max":4000,"step":50,"src":"IRENA / Methanol Institute 2021, Renewable Methanol : coal-to-methanol ~ 1 100-2 000 $/(t/an)","statut":"mémoire"},"duree_vie":{"v":25,"u":"yr","statut":"mémoire"},"opex_fixe":{"v":60,"u":"€/(t/yr)/yr","statut":"mémoire"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"charbon":{"v":1.5,"u":"t/t","src":"1,4-1,6 t de charbon par t de méthanol (IRENA 2021)","statut":"mémoire"},"electricite":{"v":0.6,"u":"MWh/t","statut":"mémoire"}},"emissions":{"procede":{"v":2.2,"u":"tCO2/t","statut":"mémoire"},"combustion":{"v":0.6,"u":"tCO2/t","statut":"mémoire"},"amont":{"v":0.3,"u":"tCO2/t","statut":"mémoire"}},"carbone":"fossile"},{"id":"biomasse_gazeification","label":"Biomass gasification + synthesis","label_fr":"Gazéification de biomasse + synthèse","court":"Bio-methanol","court_fr":"Bio-méthanol","maturite":"demonstration","description":"Syngas from wood chips. Carbon-neutral if the biomass is; the limit is the biomass, not the process.","description_fr":"Gaz de synthèse à partir de plaquettes. Neutre en carbone si la biomasse l'est ; la limite est la biomasse, pas le procédé.","capex":{"v":2206,"u":"€/(t/yr)","min":800,"max":5000,"step":50,"src":"pommes-industry gasification_MSR","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":538,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"biomasse":{"v":10.0,"u":"MWh/t","src":"pommes-industry compte 1,05 t de biomass_med (≈ 5 MWh), moins que le PCI du méthanol produit (5,5 MWh) : physiquement impossible. Retenu : 10 MWh/t, soit un rendement énergétique de 55 % (IRENA 2021 : 50-60 %)","statut":"corrigé"},"electricite":{"v":0.3,"u":"MWh/t","statut":"mémoire"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","src":"carbone biogénique","statut":"choix"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"choix"},"amont":{"v":0.1,"u":"tCO2/t","src":"chaîne d'approvisionnement de la biomasse ≈ 0,01 tCO2/MWh","statut":"mémoire"}},"carbone":"biogenique"},{"id":"e_methanol","label":"e-Methanol (CO2 + electrolytic H2)","label_fr":"e-Méthanol (CO2 + H2 électrolytique)","court":"e-Methanol","court_fr":"e-Méthanol","maturite":"demonstration","description":"CO2 + 3 H2 → CH3OH + H2O. 0.19 t of hydrogen and 1.4 t of CO2 per tonne: the cost is the hydrogen's, the climate benefit is the CO2 source's.","description_fr":"CO2 + 3 H2 → CH3OH + H2O. 0,19 t d'hydrogène et 1,4 t de CO2 par tonne : le coût est celui de l'hydrogène, le bénéfice climatique celui de la source de CO2.","capex":{"v":300,"u":"€/(t/yr)","min":100,"max":1500,"step":10,"src":"pommes-industry CO2_to_MeOH_2_Step_Elec","statut":"vérifié","note":"Synthèse seule : l'électrolyseur est dans le prix de l'hydrogène, la capture dans le prix du CO2."},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":15,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"electricite":{"v":1.6,"u":"MWh/t","src":"pommes-industry : 1,604 MWh/t (compression, distillation, chauffage électrique)","statut":"vérifié","note":"La littérature donne 0,3-0,6 MWh/t hors électrolyse ; pommes-industry est haut."},"hydrogene":{"v":0.195,"u":"t/t","intermediaire":"hydrogen","src":"pommes-industry : 0,195 (stœchiométrie 0,189)","statut":"vérifié"},"co2_capte":{"v":1.42,"u":"t/t","src":"pommes-industry : 1,424 (stœchiométrie 1,375)","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.0,"u":"tCO2/t","statut":"choix"}},"carbone":"co2_capte"}]},"olefins":{"produit":{"id":"olefins","label":"Olefins","label_fr":"Oléfines","unite":"t olefins","unite_fr":"t oléfines","unite_affichage":"t olefins","unite_affichage_fr":"t oléfines","facteur_affichage":1,"reference":"vapocraqueur","prix_marche":{"v":1000,"u":"€/t","label":"Ethylene, NW Europe contract","label_fr":"Éthylène, contrat Europe du Nord-Ouest","marche":{"v":1050,"u":"€/t","date":"2025","label":"Ethylene NWE contract 2025 ≈ 1 000-1 150 €/t; propylene ≈ 950","label_fr":"Contrat éthylène Europe du Nord-Ouest 2025 ≈ 1 000-1 150 €/t ; propylène ≈ 950","statut":"mémoire"},"src":"Contrat éthylène Europe 2024-2025 ≈ 1 000-1 200 €/t ; propylène ≈ 900-1 000","statut":"mémoire"},"emissions_usage":{"v":3.1,"u":"tCO2/t","label":"CO2 released if the plastic is incinerated at end of life","label_fr":"CO2 rejeté si le plastique est incinéré en fin de vie","src":"emission_factors.md §5 : 0,86 tC × 44/12","statut":"vérifié","note":"Le carbone du naphta ne brûle pas à l'usine, il part dans le produit et revient à la fin de vie — pour 1,6 fois ce qu'a coûté la fabrication."},"intermediaire_defaut":{"hydrogen":"electrolyse","methanol":"e_methanol"}},"intrants":{"dechets_plastiques":{"v":300,"u":"€/t","min":0,"max":800,"step":25,"label":"Sorted plastic waste (bales)","label_fr":"Déchets plastiques triés (balles)","marche":{"v":300,"u":"€/t","date":"2025","label":"Sorted PE/PP bales ≈ 200-400 €/t; rPE pellets ≈ 1 200-1 500","label_fr":"Balles de PE/PP triées ≈ 200-400 €/t ; granulés rPE ≈ 1 200-1 500","statut":"mémoire"},"src":"Balles de PE/PP triées, Europe 2024 ≈ 200-400 €/t","statut":"mémoire"}},"routes":[{"id":"vapocraqueur","label":"Naphtha steam cracker","label_fr":"Vapocraqueur de naphta","court":"Steam cracker","court_fr":"Vapocraqueur","maturite":"commercial","description":"Naphtha diluted with steam, 850 °C, under one second. The furnaces burn the cracker's own tail gas; the process column is empty because the carbon goes into the product.","description_fr":"Du naphta dilué à la vapeur, 850 °C, moins d'une seconde. Les fours brûlent le gaz de queue du craqueur lui-même ; la colonne « procédé » est vide parce que le carbone part dans le produit.","capex":{"v":725,"u":"€/(t/yr)","min":300,"max":2500,"step":25,"src":"pommes-industry naphta_cracking","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":76,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"naphta":{"v":2.31,"u":"t/t","src":"pommes-industry : 2,3097 t/t oléfines","statut":"vérifié"},"electricite":{"v":0.135,"u":"MWh/t","statut":"vérifié"}},"coproduits":{"gaz":{"v":1.2,"u":"MWh/t","src":"pommes-industry : 0,037 t CH4 (0,51 MWh) + 0,021 t H2 (0,69 MWh) exportés, valorisés au prix du gaz","statut":"calculé"},"naphta":{"v":0.85,"u":"t/t","src":"Bilan matière : 2,31 t de naphta donnent 1 t d'oléfines, ≈ 0,3 t de gaz de queue brûlé et ≈ 0,85 t d'autres coupes (C4, essence de pyrolyse, fuel) valorisées ici au prix du naphta. Absent de pommes-industry, qui ne compte que l'éthylène-propylène","statut":"calculé"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","src":"le carbone part dans le produit","statut":"vérifié"},"combustion":{"v":0.82,"u":"tCO2/t","src":"pommes-industry direct 0,82","statut":"vérifié","note":"emission_factors.md compte 1,30 par t d'HVC en brûlant tout le gaz de queue ; pommes-industry en exporte une partie."},"amont":{"v":0.55,"u":"tCO2/t","src":"raffinage et extraction du naphta, emission_factors.md §5","statut":"vérifié"}},"carbone":"fossile"},{"id":"craqueur_electrique","label":"Electric steam cracker","label_fr":"Vapocraqueur électrique","court":"e-Cracker","court_fr":"Craqueur élec.","maturite":"demonstration","description":"Resistance heating instead of burners (BASF-SABIC-Linde, Ludwigshafen 2024). ≈ 4.4 MWh/t: the second most grid-dependent route of the course. The tail gas is now sold instead of burnt.","description_fr":"Chauffage par résistances au lieu de brûleurs (BASF-SABIC-Linde, Ludwigshafen 2024). ≈ 4,4 MWh/t : la deuxième route la plus dépendante du réseau du cours. Le gaz de queue est vendu au lieu d'être brûlé.","capex":{"v":1100,"u":"€/(t/yr)","min":300,"max":3000,"step":25,"src":"pommes-industry naphta_cracking_electrified","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":76,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"naphta":{"v":2.31,"u":"t/t","statut":"vérifié"},"electricite":{"v":4.374,"u":"MWh/t","src":"pommes-industry","statut":"vérifié"}},"coproduits":{"gaz":{"v":5.6,"u":"MWh/t","src":"pommes-industry : 0,355 t CH4 (4,93 MWh) + 0,021 t H2 (0,69 MWh) exportés","statut":"calculé"},"naphta":{"v":0.85,"u":"t/t","src":"autres coupes du craqueur, comme la route de référence","statut":"calculé"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.61,"u":"tCO2/t","src":"pommes-industry direct 0,61","statut":"vérifié","note":"Résiduel élevé pour un four électrique : décokage et utilités restent au gaz dans pommes-industry."},"amont":{"v":0.55,"u":"tCO2/t","statut":"vérifié"}},"carbone":"fossile"},{"id":"vapocraqueur_ccs","label":"Steam cracker + flue-gas capture (90 %)","label_fr":"Vapocraqueur + captage sur fumées (90 %)","court":"Cracker + CCS","court_fr":"Vapocraqueur + CCS","maturite":"demonstration","description":"Post-combustion capture on many diluted stacks: expensive per tonne captured, and it leaves the end-of-life untouched.","description_fr":"Captage en postcombustion sur de nombreuses cheminées diluées : cher par tonne captée, et sans effet sur la fin de vie.","capex":{"v":1149,"u":"€/(t/yr)","min":300,"max":3000,"step":25,"src":"pommes-industry naphta_cracking_CCS","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":92,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"naphta":{"v":2.31,"u":"t/t","statut":"vérifié"},"electricite":{"v":0.281,"u":"MWh/t","statut":"vérifié"}},"coproduits":{"gaz":{"v":1.2,"u":"MWh/t","statut":"calculé"},"naphta":{"v":0.85,"u":"t/t","src":"autres coupes du craqueur, comme la route de référence","statut":"calculé"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.82,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.55,"u":"tCO2/t","statut":"vérifié"}},"captage":{"taux":{"v":0.9,"u":"-","src":"pommes-industry : 0,737 capté sur 0,82","statut":"vérifié"}},"carbone":"fossile"},{"id":"mto","label":"Methanol-to-olefins (e-methanol)","label_fr":"Méthanol-to-olefins (e-méthanol)","court":"MTO","court_fr":"MTO","maturite":"commercial","description":"Commercial in China on coal methanol; here fed with the methanol tab's route. ≈ 3 t of methanol per tonne of olefins.","description_fr":"Commercial en Chine sur du méthanol de charbon ; ici alimenté par la route choisie dans l'onglet Méthanol. ≈ 3 t de méthanol par tonne d'oléfines.","capex":{"v":1000,"u":"€/(t/yr)","min":300,"max":3000,"step":25,"src":"pommes-industry methanol_to_olefins","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":64,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"methanol":{"v":2.99,"u":"t/t","intermediaire":"methanol","src":"pommes-industry : 2,988 t/t","statut":"vérifié"},"electricite":{"v":2.06,"u":"MWh/t","src":"pommes-industry mode 1 (vapeur électrique)","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.05,"u":"tCO2/t","src":"combustion du coke de catalyseur","statut":"mémoire"},"amont":{"v":0.0,"u":"tCO2/t","statut":"choix"}},"carbone":"intermediaire"},{"id":"bio_naphta","label":"Bio-naphtha steam cracker","label_fr":"Vapocraqueur de bio-naphta","court":"Bio-naphtha","court_fr":"Bio-naphta","maturite":"demonstration","description":"The same cracker fed with naphtha made from biomass (Fischer-Tropsch). The carbon is biogenic, so the end-of-life CO2 is neutral — and the biomass bill is enormous.","description_fr":"Le même craqueur, alimenté par du naphta fait de biomasse (Fischer-Tropsch). Le carbone est biogénique, donc le CO2 de fin de vie est neutre — et la facture de biomasse est énorme.","capex":{"v":7464,"u":"€/(t/yr)","min":1000,"max":15000,"step":100,"src":"pommes-industry : craqueur 725 + bionaphta_making 2 917 €/(t naphta/an) × 2,31 t","statut":"calculé"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":1719,"u":"€/(t/yr)/yr","src":"pommes-industry : 76 + 711 × 2,31","statut":"calculé"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"biomasse":{"v":15.1,"u":"MWh/t","src":"pommes-industry : 1,389 t biomass_med (≈ 4,7 MWh/t) par t de naphta × 2,31","statut":"calculé"},"electricite":{"v":0.135,"u":"MWh/t","statut":"vérifié"}},"coproduits":{"gaz":{"v":1.2,"u":"MWh/t","statut":"calculé"},"naphta":{"v":0.85,"u":"t/t","src":"autres coupes du craqueur, comme la route de référence","statut":"calculé"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","src":"gaz de queue biogénique","statut":"choix"},"amont":{"v":0.15,"u":"tCO2/t","src":"chaîne biomasse ≈ 0,01 tCO2/MWh","statut":"mémoire"}},"carbone":"biogenique"},{"id":"recyclage_mecanique","label":"Mechanical recycling","label_fr":"Recyclage mécanique","court":"Mech. recycling","court_fr":"Recyclage méca.","maturite":"commercial","description":"Sort, wash, melt, re-granulate: ≈ 1 MWh/t and no naphtha. Yields a lower-grade resin, and covers ≈ 10 % of demand.","description_fr":"Trier, laver, fondre, regranuler : ≈ 1 MWh/t et pas de naphta. Donne une résine de moindre qualité, et couvre ≈ 10 % de la demande.","capex":{"v":500,"u":"€/(t/yr)","min":200,"max":1500,"step":25,"src":"Ordre de grandeur des lignes de régénération PE/PP (Plastics Recyclers Europe)","statut":"mémoire","note":"Absent de pommes-industry."},"duree_vie":{"v":15,"u":"yr","statut":"mémoire"},"opex_fixe":{"v":40,"u":"€/(t/yr)/yr","statut":"mémoire"},"facteur_charge":{"v":0.8,"u":"-","statut":"choix"},"conso":{"dechets_plastiques":{"v":1.25,"u":"t/t","src":"≈ 80 % de rendement matière","statut":"mémoire"},"electricite":{"v":1.05,"u":"MWh/t","src":"emission_factors.md §5","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.15,"u":"tCO2/t","src":"emission_factors.md §5","statut":"vérifié"},"amont":{"v":0.1,"u":"tCO2/t","statut":"vérifié"}},"carbone":"recycle"}]},"aluminium":{"produit":{"id":"aluminium","label":"Aluminium","label_fr":"Aluminium","unite":"t aluminium","unite_fr":"t aluminium","unite_affichage":"t Al","unite_affichage_fr":"t Al","facteur_affichage":1,"reference":"hall_heroult","prix_marche":{"v":2400,"u":"€/t","label":"Aluminium, LME","label_fr":"Aluminium, LME","marche":{"v":2450,"u":"€/t","date":"2025","label":"LME cash 2025 ≈ 2 500-2 700 $/t plus European premium ≈ 300 $/t","label_fr":"LME cash 2025 ≈ 2 500-2 700 $/t plus prime européenne ≈ 300 $/t","statut":"mémoire"},"src":"LME 2024-2025 ≈ 2 300-2 600 $/t","statut":"mémoire"},"intermediaire_defaut":{}},"intrants":{"alumine":{"v":400,"u":"€/t","min":250,"max":800,"step":10,"label":"Alumina price","label_fr":"Prix de l'alumine","marche":{"v":400,"u":"€/t","date":"2025","label":"Alumina index FOB Australia 2025 ≈ 350-450 $/t (700 at end 2024)","label_fr":"Indice alumine FOB Australie 2025 ≈ 350-450 $/t (700 fin 2024)","statut":"mémoire"},"src":"Alumine 2024 ≈ 350-500 $/t (pic à 700 fin 2024)","statut":"mémoire","note":"≈ 1,93 t par tonne d'aluminium. Le raffinage Bayer (thermique) est dans ce prix, et ses émissions dans la ligne « combustion »."},"anodes":{"v":500,"u":"€/t","min":300,"max":1000,"step":25,"label":"Carbon anodes price","label_fr":"Prix des anodes carbone","marche":{"v":550,"u":"€/t","date":"2025","label":"Calcined petroleum coke ≈ 400-500 $/t; baked anodes ≈ 500-650 €/t","label_fr":"Coke de pétrole calciné ≈ 400-500 $/t ; anodes cuites ≈ 500-650 €/t","statut":"mémoire"},"src":"Coke de pétrole calciné + brai, anodes cuites ≈ 450-600 €/t","statut":"mémoire"},"ferraille_alu":{"v":1800,"u":"€/t","min":800,"max":2600,"step":50,"label":"Aluminium scrap price","label_fr":"Prix de la ferraille d'aluminium","marche":{"v":1900,"u":"€/t","date":"2025","label":"Sorted aluminium scrap ≈ 70-80 % of LME","label_fr":"Ferraille d'aluminium triée ≈ 70-80 % du LME","statut":"mémoire"},"src":"≈ 70-80 % du LME pour des ferrailles triées","statut":"mémoire","note":"La ferraille d'aluminium a une vraie valeur marchande, à la différence de celle du verre ou du plastique : recycler coûte 5 % de l'énergie primaire."}},"routes":[{"id":"hall_heroult","label":"Hall-Héroult smelter, carbon anodes","label_fr":"Électrolyse Hall-Héroult, anodes carbone","court":"Hall-Héroult","court_fr":"Hall-Héroult","maturite":"commercial","description":"2 Al2O3 + 3 C → 4 Al + 3 CO2 at 960 °C in molten cryolite. ≈ 15 MWh/t: the only material whose footprint is that of its grid.","description_fr":"2 Al2O3 + 3 C → 4 Al + 3 CO2 à 960 °C dans la cryolithe fondue. ≈ 15 MWh/t : le seul matériau dont l'empreinte est celle de son réseau électrique.","capex":{"v":6000,"u":"€/(t/yr)","min":3000,"max":12000,"step":100,"src":"Fonderie neuve 5 000-8 000 $/(t/an) (MPP 2023, projets récents)","statut":"mémoire"},"duree_vie":{"v":30,"u":"yr","statut":"mémoire"},"opex_fixe":{"v":250,"u":"€/(t/yr)/yr","src":"≈ 4 % du CAPEX (main-d'œuvre, cathodes, maintenance)","statut":"mémoire"},"facteur_charge":{"v":0.95,"u":"-","statut":"choix","note":"Une cuve ne s'arrête pas : le bain fige."},"conso":{"electricite":{"v":15.0,"u":"MWh/t","min":12.5,"max":17,"step":0.1,"src":"emission_factors.md §6 ; IAI 2023 : 14,2 MWh AC/t en moyenne mondiale","statut":"vérifié"},"alumine":{"v":1.93,"u":"t/t","src":"stœchiométrie 1,89 + pertes","statut":"vérifié"},"anodes":{"v":0.42,"u":"t/t","src":"0,40-0,45 kg C/kg Al (emission_factors.md §6)","statut":"vérifié"}},"autres_couts":{"v":150,"u":"€/t","label":"Fluorides, cathodes, casting","label_fr":"Fluorures, cathodes, coulée","statut":"mémoire"},"emissions":{"procede":{"v":1.75,"u":"tCO2/t","src":"emission_factors.md §6 : 1,50 anodes + 0,25 PFC","statut":"vérifié"},"combustion":{"v":1.35,"u":"tCO2/t","src":"raffinage Bayer de l'alumine et cuisson des anodes","statut":"vérifié"},"amont":{"v":0.25,"u":"tCO2/t","statut":"vérifié"}}},{"id":"anode_inerte","label":"Hall-Héroult with inert anodes","label_fr":"Hall-Héroult à anodes inertes","court":"Inert anode","court_fr":"Anode inerte","maturite":"demonstration","description":"2 Al2O3 → 4 Al + 3 O2: the anode is no longer consumed, the process CO2 and the PFCs vanish. Price: a higher cell voltage, +10 % electricity (Elysis, Rusal).","description_fr":"2 Al2O3 → 4 Al + 3 O2 : l'anode n'est plus consommée, le CO2 de procédé et les PFC disparaissent. Le prix : une tension de cuve plus élevée, +10 % d'électricité (Elysis, Rusal).","capex":{"v":6500,"u":"€/(t/yr)","min":3000,"max":12000,"step":100,"src":"Surcoût de cuve estimé +5-10 %","statut":"mémoire"},"duree_vie":{"v":30,"u":"yr","statut":"mémoire"},"opex_fixe":{"v":250,"u":"€/(t/yr)/yr","statut":"mémoire"},"facteur_charge":{"v":0.95,"u":"-","statut":"choix"},"conso":{"electricite":{"v":16.5,"u":"MWh/t","min":13,"max":19,"step":0.1,"src":"emission_factors.md §6 : +10-15 %","statut":"vérifié"},"alumine":{"v":1.93,"u":"t/t","statut":"vérifié"}},"autres_couts":{"v":220,"u":"€/t","label":"Fluorides, cathodes, casting, inert anode wear","label_fr":"Fluorures, cathodes, coulée, usure des anodes inertes","statut":"mémoire"},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":1.35,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.25,"u":"tCO2/t","statut":"vérifié"}}},{"id":"anode_inerte_bayer","label":"Inert anodes + decarbonised alumina refining","label_fr":"Anodes inertes + raffinage d'alumine décarboné","court":"Inert + clean Bayer","court_fr":"Anode inerte + Bayer propre","maturite":"pilot","description":"Electrified digestion and calcination at the refinery. Even then, on the EU grid the route stays dominated by its electricity.","description_fr":"Attaque et calcination électrifiées à la raffinerie. Même ainsi, sur le réseau européen la route reste dominée par son électricité.","capex":{"v":6800,"u":"€/(t/yr)","min":3000,"max":12000,"step":100,"statut":"mémoire"},"duree_vie":{"v":30,"u":"yr","statut":"mémoire"},"opex_fixe":{"v":250,"u":"€/(t/yr)/yr","statut":"mémoire"},"facteur_charge":{"v":0.95,"u":"-","statut":"choix"},"conso":{"electricite":{"v":18.5,"u":"MWh/t","min":14,"max":21,"step":0.1,"src":"emission_factors.md §6","statut":"vérifié"},"alumine":{"v":1.93,"u":"t/t","statut":"vérifié"}},"autres_couts":{"v":260,"u":"€/t","label":"Fluorides, cathodes, casting, inert anode wear, alumina premium","label_fr":"Fluorures, cathodes, coulée, usure des anodes inertes, prime sur l'alumine","statut":"mémoire"},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.1,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.25,"u":"tCO2/t","statut":"vérifié"}}},{"id":"recyclage","label":"Scrap remelting","label_fr":"Refusion de ferraille","court":"Recycling","court_fr":"Recyclage","maturite":"commercial","description":"0.7 MWh/t, 5 % of the primary energy. Its limit is the alloy, not the resource: mixed scrap downcycles to castings.","description_fr":"0,7 MWh/t, 5 % de l'énergie primaire. Sa limite est l'alliage, pas la ressource : les ferrailles mélangées se dégradent en pièces de fonderie.","capex":{"v":800,"u":"€/(t/yr)","min":300,"max":2000,"step":50,"statut":"mémoire"},"duree_vie":{"v":25,"u":"yr","statut":"mémoire"},"opex_fixe":{"v":40,"u":"€/(t/yr)/yr","statut":"mémoire"},"facteur_charge":{"v":0.85,"u":"-","statut":"choix"},"conso":{"electricite":{"v":0.3,"u":"MWh/t","statut":"mémoire"},"gaz":{"v":1.0,"u":"MWh/t","src":"fours de fusion au gaz ; emission_factors.md : 0,25 tCO2/t de combustion","statut":"calculé"},"ferraille_alu":{"v":1.05,"u":"t/t","statut":"mémoire"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.25,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.05,"u":"tCO2/t","statut":"vérifié"}}}]},"saf":{"produit":{"id":"saf","label":"Jet fuel","label_fr":"Kérosène","unite":"t kerosene","unite_fr":"t kérosène","unite_affichage":"t jet fuel","unite_affichage_fr":"t kérosène","facteur_affichage":1,"reference":"jet_fossile","prix_marche":{"v":800,"u":"€/t","label":"Jet A-1, NW Europe","label_fr":"Jet A-1, Europe du Nord-Ouest","marche":{"v":780,"u":"€/t","date":"2025","label":"Jet A-1 CIF NWE 2025 ≈ 700-850 $/t; HEFA SAF ≈ 2 000-2 500 $/t (Argus)","label_fr":"Jet A-1 CIF Europe du Nord-Ouest 2025 ≈ 700-850 $/t ; SAF HEFA ≈ 2 000-2 500 $/t (Argus)","statut":"mémoire"},"src":"Platts jet NWE 2024-2025 ≈ 750-900 $/t","statut":"mémoire"},"emissions_usage":{"v":3.15,"u":"tCO2/t","label":"CO2 from burning the fuel","label_fr":"CO2 de la combustion du carburant","src":"3,15 tCO2/t de kérosène (OACI) ; hors effets non-CO2 (traînées), qui doublent l'effet climatique","statut":"vérifié"},"intermediaire_defaut":{"hydrogen":"electrolyse"},"source_co2":{"defaut":"ponctuelle_fossile"}},"intrants":{"huiles":{"v":885,"cat":"matieres_energie","u":"€/t","min":400,"max":1600,"step":25,"label":"Waste oils and fats (UCO, tallow)","label_fr":"Huiles et graisses usagées (HAU, suif)","marche":{"v":1000,"u":"€/t","date":"2025","label":"UCO CIF ARA 2025 ≈ 950-1 100 $/t; tallow ≈ 800","label_fr":"Huiles alimentaires usagées CIF ARA 2025 ≈ 950-1 100 $/t ; suif ≈ 800","statut":"mémoire"},"src":"pommes-industry FR 2030 : biomass_high 885 €/t (37-39 GJ/t)","statut":"vérifié","note":"Huiles alimentaires usagées ≈ 900-1 100 €/t en 2024. Gisement européen ≈ 1-2 Mt/an, déjà disputé par le gazole HVO."},"biomasse_ligneuse":{"v":125,"cat":"matieres_energie","u":"€/t","min":50,"max":300,"step":5,"label":"Woody residues (12-15 GJ/t)","label_fr":"Résidus ligneux (12-15 GJ/t)","marche":{"v":110,"u":"€/t","date":"2025","label":"Forest residues France ≈ 80-130 €/t dry, delivered","label_fr":"Résidus forestiers France ≈ 80-130 €/t sèche, rendus","statut":"mémoire"},"src":"pommes-industry FR 2030 : biomass_low 125 €/t","statut":"vérifié"},"biomasse_moyenne":{"v":200,"cat":"matieres_energie","u":"€/t","min":80,"max":400,"step":10,"label":"Dry biomass (16-18 GJ/t)","label_fr":"Biomasse sèche (16-18 GJ/t)","marche":{"v":180,"u":"€/t","date":"2025","label":"Dry wood chips ≈ 150-200 €/t; pellets ≈ 250","label_fr":"Plaquettes sèches ≈ 150-200 €/t ; granulés ≈ 250","statut":"mémoire"},"src":"pommes-industry FR 2030 : biomass_med 200 €/t","statut":"vérifié"}},"routes":[{"id":"jet_fossile","label":"Fossil kerosene (refinery)","label_fr":"Kérosène fossile (raffinerie)","court":"Fossil jet","court_fr":"Kérosène fossile","maturite":"commercial","description":"The reference: crude oil distillation and hydrotreating. Cheap to make, 3.15 tCO2 per tonne when burnt.","description_fr":"La référence : distillation du brut et hydrotraitement. Peu cher à produire, 3,15 tCO2 par tonne à la combustion.","capex":{"v":267,"u":"€/(t/yr)","min":100,"max":800,"step":10,"src":"pommes-industry oil_refining_for_naphta (raffinerie, par tonne de coupe)","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":5,"u":"€/(t/yr)/yr","src":"pommes-industry FR 2030 : 5,33","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"petrole_brut":{"v":1.0,"u":"t/t","src":"pommes-industry : 1,001 t de brut par t de coupe","statut":"vérifié"},"electricite":{"v":0.049,"u":"MWh/t","statut":"vérifié"},"hydrogene":{"v":0.017,"u":"t/t","intermediaire":"hydrogen","route":"smr","src":"pommes-industry mode 1 : hydrotraitement","statut":"vérifié"}},"coproduits":{"gaz":{"v":0.4,"u":"MWh/t","src":"pommes-industry mode 2 : 0,059 t de gaz de raffinerie","statut":"calculé"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.234,"u":"tCO2/t","src":"pommes-industry direct 0,234","statut":"vérifié"},"amont":{"v":0.3,"u":"tCO2/t","src":"extraction et transport du brut (≈ 10 gCO2e/MJ)","statut":"mémoire"}},"carbone":"fossile"},{"id":"hefa","label":"HEFA (hydrotreated waste oils)","label_fr":"HEFA (huiles usagées hydrotraitées)","court":"HEFA","court_fr":"HEFA","maturite":"commercial","description":"Today's SAF (Neste, TotalEnergies La Mède). Hydrogenate fats into paraffins. Cheap plant, expensive and scarce feedstock.","description_fr":"Le SAF d'aujourd'hui (Neste, TotalEnergies La Mède). Hydrogéner des graisses en paraffines. Usine bon marché, intrant cher et rare.","capex":{"v":595,"u":"€/(t/yr)","min":200,"max":2000,"step":25,"src":"pommes-industry HVO_kerosene","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":30,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"huiles":{"v":2.2,"u":"t/t","src":"pommes-industry : 2,2 t biomass_high par t de kérosène (part kérosène ≈ 30-50 % des liquides)","statut":"vérifié","note":"Sur l'ensemble des liquides (gazole HVO compris) c'est ≈ 1,2 t/t ; compter 2,2 charge le kérosène de tout l'intrant."},"electricite":{"v":0.031,"u":"MWh/t","statut":"vérifié"},"hydrogene":{"v":0.03,"u":"t/t","intermediaire":"hydrogen","src":"pommes-industry : 0,03 t H2/t","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.25,"u":"tCO2/t","src":"CORSIA HEFA huiles usagées : 13,9 gCO2e/MJ = 0,60 t/t, dont l'hydrogène compté à part ici","statut":"calculé"}},"carbone":"biogenique"},{"id":"ft_btl","label":"Biomass gasification + Fischer-Tropsch (BtL)","label_fr":"Gazéification de biomasse + Fischer-Tropsch (BtL)","court":"BtL","court_fr":"BtL","maturite":"demonstration","description":"Wood residues to syngas to paraffins. 11 t of biomass per tonne of kerosene: the resource is the constraint.","description_fr":"Des résidus de bois au gaz de synthèse, puis aux paraffines. 11 t de biomasse par tonne de kérosène : la contrainte, c'est la ressource.","capex":{"v":3219,"u":"€/(t/yr)","min":1000,"max":8000,"step":50,"src":"pommes-industry bio_kerosene","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":160,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"biomasse_ligneuse":{"v":11.0,"u":"t/t","src":"pommes-industry : 11 t biomass_low par t de kérosène","statut":"vérifié","note":"≈ 41 MWh de biomasse pour 12 MWh de kérosène ; la part kérosène des liquides est ≈ 60-70 %."},"electricite":{"v":1.89,"u":"MWh/t","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.33,"u":"tCO2/t","src":"CORSIA FT résidus : 7,7 gCO2e/MJ","statut":"vérifié"}},"carbone":"biogenique"},{"id":"atj","label":"Alcohol-to-jet (lignocellulosic ethanol)","label_fr":"Alcohol-to-jet (éthanol lignocellulosique)","court":"ATJ","court_fr":"ATJ","maturite":"demonstration","description":"Ferment, dehydrate, oligomerise, hydrogenate. The 3 t/t once quoted counted alcohol, not biomass: the two primary balances give 8.1-8.4 t (see saf_factors.md §7).","description_fr":"Fermenter, déshydrater, oligomériser, hydrogéner. Les 3 t/t jadis citées comptaient de l'alcool, pas de la biomasse : les deux bilans primaires donnent 8,1 à 8,4 t (voir saf_factors.md §7).","capex":{"v":2000,"u":"€/(t/yr)","min":800,"max":6000,"step":50,"src":"pommes-industry bio_ATJ_kerosene","statut":"vérifié"},"duree_vie":{"v":15,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":120,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"biomasse_moyenne":{"v":8.0,"u":"t/t","min":4,"max":14,"step":0.5,"src":"Yao et al. 2017 table 3 (bilan matière switchgrass) 8,4 t ; Voß et al. 2023 (rendement carbone 23,4 % vers le kérosène, corn stover) 8,1 t — les deux bilans primaires lignocellulosiques","statut":"calculé","note":"CORRIGÉ le 2026-09-21, était 3,0 t (statut douteux). Les 3,0 t de pommes-industry sont des tonnes d'ALCOOL, pas de biomasse : la ligne ATJ de l'ICCT 2021 (table 1) donne 0,46 t de liquide par tonne d'ÉTHANOL, source Tao et al. 2017. Les deux sources primaires ont été lues et convergent sur 8,1-8,4 t. pommes-industry a été corrigé le même jour (8 t biomass_med, 10 t biomass_low) : ce fichier ne s'écarte plus de sa source. Conséquence : le coût matière de l'ATJ est multiplié par 2,7 et la filière n'est plus l'option biosourcée bon marché du tableau."},"electricite":{"v":1.0,"u":"MWh/t","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":1.0,"u":"tCO2/t","src":"CORSIA ATJ-isobutanol résidus forestiers : 23,8 gCO2e/MJ","statut":"vérifié"}},"carbone":"biogenique"},{"id":"ptl_ft","label":"Power-to-liquid, Fischer-Tropsch (e-SAF)","label_fr":"Power-to-liquid, Fischer-Tropsch (e-SAF)","court":"e-SAF (FT)","court_fr":"e-SAF (FT)","maturite":"pilot","description":"CO2 + electrolytic H2 → syngas (RWGS) → paraffins. 0.62 t of hydrogen per tonne: ≈ 33 MWh of electrolysis, everything rides on the hydrogen price and the CO2 source.","description_fr":"CO2 + H2 électrolytique → gaz de synthèse (RWGS) → paraffines. 0,62 t d'hydrogène par tonne : ≈ 33 MWh d'électrolyse, tout dépend du prix de l'hydrogène et de la source de CO2.","capex":{"v":2875,"u":"€/(t/yr)","min":800,"max":6000,"step":50,"src":"pommes-industry Fischer_Tropsch, révisé de 792 à 2 875 (SAF.md, d'après Schemme 2020)","statut":"vérifié","note":"Synthèse, RWGS et hydrocraquage ; l'électrolyseur est dans le prix de l'hydrogène."},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":144,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"electricite":{"v":0.38,"u":"MWh/t","statut":"vérifié"},"hydrogene":{"v":0.62,"u":"t/t","intermediaire":"hydrogen","src":"pommes-industry Fischer_Tropsch révisé","statut":"vérifié"},"co2_capte":{"v":4.43,"u":"t/t","src":"pommes-industry Fischer_Tropsch révisé","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.05,"u":"tCO2/t","statut":"choix"}},"carbone":"co2_capte"},{"id":"pbtl","label":"Biomass gasification + electrolytic H2 (e-bio-SAF)","label_fr":"Gazéification de biomasse + H2 électrolytique (e-bio-SAF)","court":"e-bio-SAF","court_fr":"e-bio-SAF","maturite":"pilot","description":"External hydrogen lets the whole biomass carbon become fuel instead of leaving as CO2: 6 t of biomass instead of 11, for 0.10 t of hydrogen.","description_fr":"L'hydrogène extérieur permet à tout le carbone de la biomasse de devenir du carburant au lieu de partir en CO2 : 6 t de biomasse au lieu de 11, pour 0,10 t d'hydrogène.","capex":{"v":2543,"u":"€/(t/yr)","min":800,"max":6000,"step":50,"src":"pommes-industry bio_e_kerosene","statut":"vérifié"},"duree_vie":{"v":15,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":127,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"biomasse_moyenne":{"v":6.0,"u":"t/t","src":"pommes-industry bio_e_kerosene mode 2 (8,4 t de biomass_low en mode 1)","statut":"vérifié"},"hydrogene":{"v":0.1,"u":"t/t","intermediaire":"hydrogen","src":"pommes-industry mode 2 (0,125 en mode 1)","statut":"vérifié"},"electricite":{"v":0.5,"u":"MWh/t","statut":"mémoire"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.25,"u":"tCO2/t","statut":"mémoire"}},"carbone":"biogenique"},{"id":"mtj","label":"Methanol-to-jet (e-methanol route)","label_fr":"Methanol-to-jet (route e-méthanol)","court":"e-SAF (MtJ)","court_fr":"e-SAF (MtJ)","maturite":"pilot","description":"The Fos-sur-Mer option: no RWGS, 96 % kerosene in the liquids, catalysts still to prove. Fed directly with H2 and CO2 as in pommes-industry.","description_fr":"L'option de Fos-sur-Mer : pas de RWGS, 96 % de kérosène dans les liquides, des catalyseurs encore à prouver. Alimenté directement en H2 et CO2, comme dans pommes-industry.","capex":{"v":3000,"u":"€/(t/yr)","min":800,"max":6000,"step":50,"src":"pommes-industry MeTJ_kerosene","statut":"vérifié"},"duree_vie":{"v":20,"u":"yr","statut":"vérifié"},"opex_fixe":{"v":150,"u":"€/(t/yr)/yr","statut":"vérifié"},"facteur_charge":{"v":0.9,"u":"-","statut":"choix"},"conso":{"electricite":{"v":0.06,"u":"MWh/t","statut":"vérifié"},"hydrogene":{"v":0.58,"u":"t/t","intermediaire":"hydrogen","src":"pommes-industry MeTJ_kerosene","statut":"vérifié"},"co2_capte":{"v":4.12,"u":"t/t","src":"pommes-industry MeTJ_kerosene","statut":"vérifié"}},"emissions":{"procede":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"combustion":{"v":0.0,"u":"tCO2/t","statut":"vérifié"},"amont":{"v":0.05,"u":"tCO2/t","statut":"choix"}},"carbone":"co2_capte"}]}},"ordre":["hydrogen","steel","cement","ammonia","methanol","olefins","aluminium","saf"]};
+</script>
+<script>
+/* Le moteur de calcul — jumeau exact de ../modele.py.
+ *
+ * Même formule, mêmes postes, même propagation des intermédiaires ; le test
+ * ../test_coherence.py compare les deux sur les hypothèses par défaut et sur
+ * un état perturbé. Toute modification ici doit être reportée dans modele.py.
+ *
+ * Exposé comme `Moteur` (navigateur) et comme module CommonJS (node, pour le test).
+ */
+(function (racine) {
+  "use strict";
+
+  var POSTES_COUT = ["capex", "opex_fixe", "electricite", "combustibles", "matieres_energie", "matieres",
+                     "intermediaires", "co2", "stockage_co2", "coproduits", "autres"];
+  var POSTES_EM = ["procede", "combustion", "amont", "electricite", "captage", "usage"];
+  var COMBUSTIBLES = {gaz: 1, charbon: 1, biomasse: 1};
+  var SOURCES_CO2 = {
+    ponctuelle_fossile: {prix: "co2_capte_source_ponctuelle", fossile: true,
+                         label: "Point source, fossil (cement, steel, gas plant)",
+                         label_fr: "Source ponctuelle fossile (cimenterie, aciérie, centrale gaz)"},
+    ponctuelle_biogenique: {prix: "co2_capte_source_ponctuelle", fossile: false,
+                            label: "Point source, biogenic (fermentation, biomass boiler)",
+                            label_fr: "Source ponctuelle biogénique (fermentation, chaudière biomasse)"},
+    dac: {prix: "co2_dac", fossile: false, label: "Direct air capture",
+          label_fr: "Captage direct dans l'air (DAC)"}
+  };
+
+  function v(x) { return (x !== null && typeof x === "object") ? x.v : x; }
+
+  function crf(i, n) {
+    if (i === 0) return 1 / n;
+    return i * Math.pow(1 + i, n) / (Math.pow(1 + i, n) - 1);
+  }
+
+  function etatDefaut(hyp) {
+    var c = hyp.commun;
+    var etat = {
+      taux: v(c.finance.taux_actualisation),
+      prix: {},
+      ef_electricite: v(c.facteurs_emission.electricite),
+      intrants: {}, routes: {}, intermediaires: {}, source_co2: {},
+      inclure_usage: false
+    };
+    Object.keys(c.prix).forEach(function (k) { etat.prix[k] = v(c.prix[k]); });
+    hyp.ordre.forEach(function (pid) {
+      var d = hyp.produits[pid];
+      etat.intrants[pid] = {};
+      Object.keys(d.intrants || {}).forEach(function (k) { etat.intrants[pid][k] = v(d.intrants[k]); });
+      etat.routes[pid] = {};
+      etat.intermediaires[pid] = Object.assign({}, d.produit.intermediaire_defaut || {});
+      if (d.produit.source_co2) etat.source_co2[pid] = d.produit.source_co2.defaut;
+    });
+    return etat;
+  }
+
+  function zero(postes) { var o = {}; postes.forEach(function (p) { o[p] = 0; }); return o; }
+
+  function route(hyp, pid, rid) {
+    var rs = hyp.produits[pid].routes;
+    for (var i = 0; i < rs.length; i++) if (rs[i].id === rid) return rs[i];
+    throw new Error("route inconnue " + pid + "/" + rid);
+  }
+
+  function param(r, surch, cle) { return (cle in surch) ? surch[cle] : v(r[cle]); }
+  function conso(surch, cle, entree) {
+    var s = surch.conso || {};
+    return (cle in s) ? s[cle] : v(entree);
+  }
+  function coproduit(surch, cle, entree) {
+    var s = surch.coproduits || {};
+    return (cle in s) ? s[cle] : v(entree);
+  }
+
+  function carboneEffectif(hyp, etat, pid, rid) {
+    var r = route(hyp, pid, rid);
+    var c = r.carbone || "fossile";
+    if (c === "co2_capte") {
+      var src = etat.source_co2[pid] || "ponctuelle_fossile";
+      return SOURCES_CO2[src].fossile ? "fossile" : "neutre";
+    }
+    if (c === "intermediaire") {
+      var cs = r.conso || {};
+      var cles = Object.keys(cs);
+      for (var i = 0; i < cles.length; i++) {
+        var e = cs[cles[i]];
+        if (e && typeof e === "object" && e.intermediaire) {
+          var ipid = e.intermediaire;
+          var irid = e.route || (etat.intermediaires[pid] || {})[ipid];
+          if (irid && irid !== "achat") return carboneEffectif(hyp, etat, ipid, irid);
+        }
+      }
+      return "fossile";
+    }
+    if (c === "biogenique") return "biogenique";
+    if (c === "recycle") return "neutre";
+    return "fossile";
+  }
+
+  function calculerRoute(hyp, etat, pid, rid, profondeur) {
+    profondeur = profondeur || 0;
+    if (profondeur > 4) throw new Error("boucle d'intermédiaires");
+    var prod = hyp.produits[pid];
+    var r = route(hyp, pid, rid);
+    var surch = (etat.routes[pid] || {})[rid] || {};
+    var prix = etat.prix;
+    var intr = etat.intrants[pid] || {};
+
+    var capex = param(r, surch, "capex");
+    var n = param(r, surch, "duree_vie");
+    var fixe = param(r, surch, "opex_fixe");
+    var fc = param(r, surch, "facteur_charge");
+
+    var cout = zero(POSTES_COUT);
+    var em = zero(POSTES_EM);
+    var detail = {};
+    var interDetail = {};
+    var elecMwh = 0;
+    var coprodEnergie = 0;
+
+    cout.capex = capex * crf(etat.taux, n) / fc;
+    cout.opex_fixe = fixe / fc;
+    if (r.autres_couts) cout.autres = v(r.autres_couts);
+
+    var cs = r.conso || {};
+    Object.keys(cs).forEach(function (cle) {
+      var e = cs[cle];
+      var q = conso(surch, cle, e);
+      if (e && typeof e === "object" && e.intermediaire) {
+        var ipid = e.intermediaire;
+        var irid = e.route || (etat.intermediaires[pid] || {})[ipid];
+        if (irid === undefined || irid === null || irid === "achat") {
+          var pu = v(hyp.produits[ipid].produit.prix_marche);
+          cout.intermediaires += q * pu;
+          var ea = hyp.produits[ipid].produit.emissions_achat || {};
+          em.procede += q * (ea.procede || 0);
+          em.combustion += q * (ea.combustion || 0);
+          em.amont += q * (ea.amont || 0);
+          interDetail[ipid] = {route: "achat", cout: q * pu, quantite: q};
+        } else {
+          var rr = calculerRoute(hyp, etat, ipid, irid, profondeur + 1);
+          elecMwh += q * rr.elec_mwh;
+          coprodEnergie += q * rr.coprod_energie;
+          POSTES_COUT.forEach(function (p) { cout[p] += q * rr.cout[p]; });
+          POSTES_EM.forEach(function (p) { if (p !== "usage") em[p] += q * rr.emissions[p]; });
+          interDetail[ipid] = {route: irid, cout: q * rr.cout_total, quantite: q, emissions: q * rr.em_total};
+        }
+        return;
+      }
+      if (cle === "co2_capte") {
+        var src = etat.source_co2[pid] || "ponctuelle_fossile";
+        var p1 = prix[SOURCES_CO2[src].prix];
+        cout.matieres += q * p1;
+        (detail.matieres = detail.matieres || {})[cle] = q * p1;
+        return;
+      }
+      if (cle === "electricite") {
+        var ce = q * prix.electricite;
+        elecMwh += q;
+        cout.electricite += ce;
+        em.electricite += q * etat.ef_electricite;
+        (detail.electricite = detail.electricite || {})[cle] = ce;
+        return;
+      }
+      var pu2;
+      if (cle in prix) pu2 = prix[cle];
+      else if (cle in intr) pu2 = intr[cle];
+      else throw new Error("prix inconnu pour " + pid + "/" + rid + "/" + cle);
+      var cat = COMBUSTIBLES[cle] ? "combustibles" : "matieres";
+      if (hyp.commun.prix[cle] && hyp.commun.prix[cle].cat) cat = hyp.commun.prix[cle].cat;
+      if (prod.intrants && prod.intrants[cle] && prod.intrants[cle].cat) cat = prod.intrants[cle].cat;
+      cout[cat] += q * pu2;
+      (detail[cat] = detail[cat] || {})[cle] = q * pu2;
+    });
+
+    var cps = r.coproduits || {};
+    Object.keys(cps).forEach(function (cle) {
+      var q = coproduit(surch, cle, cps[cle]);
+      var pu = (cle in prix) ? prix[cle] : intr[cle];
+      cout.coproduits -= q * pu;
+      (detail.coproduits = detail.coproduits || {})[cle] = -q * pu;
+      var catC = COMBUSTIBLES[cle] ? "combustibles" : ((hyp.commun.prix[cle] && hyp.commun.prix[cle].cat) || (prod.intrants && prod.intrants[cle] && prod.intrants[cle].cat) || "matieres");
+      if (catC === "combustibles" || catC === "matieres_energie") coprodEnergie -= q * pu;
+    });
+
+    var eo = r.emissions;
+    var procede = v(eo.procede), combustion = v(eo.combustion);
+    var taux = r.captage ? v(r.captage.taux) : 0;
+    if ("captage" in surch) taux = surch.captage;
+    var capte = (procede + combustion) * taux;
+    em.procede += procede * (1 - taux);
+    em.combustion += combustion * (1 - taux);
+    em.amont += v(eo.amont);
+    em.captage += capte;
+    var residuelPropre = (procede + combustion) * (1 - taux);
+
+    cout.co2 += residuelPropre * prix.co2_ets;
+    cout.stockage_co2 += capte * prix.co2_transport_stockage;
+
+    var usage = 0;
+    if (prod.produit.emissions_usage) {
+      if (carboneEffectif(hyp, etat, pid, rid) === "fossile") usage = v(prod.produit.emissions_usage);
+    }
+    em.usage = usage;
+
+    var coutTotal = 0;
+    POSTES_COUT.forEach(function (p) { coutTotal += cout[p]; });
+    var emCg = em.procede + em.combustion + em.amont + em.electricite;
+    var emTotal = emCg + (etat.inclure_usage ? usage : 0);
+    var emEts = prix.co2_ets ? cout.co2 / prix.co2_ets : residuelPropre;
+    return {
+      produit: pid, route: rid,
+      cout: cout, cout_total: coutTotal,
+      cout_hors_co2: coutTotal - cout.co2,
+      em_ets: emEts,
+      emissions: em, em_cradle_to_gate: emCg, em_total: emTotal,
+      elec_mwh: elecMwh,
+      sensibilite_elec_10: 10 * elecMwh,
+      part_electricite: coutTotal ? cout.electricite / coutTotal : 0,
+      coprod_energie: coprodEnergie,
+      cout_energie: cout.electricite + cout.combustibles + cout.matieres_energie + coprodEnergie,
+      part_energie: coutTotal ? (cout.electricite + cout.combustibles + cout.matieres_energie + coprodEnergie) / coutTotal : 0,
+      detail: detail, intermediaires: interDetail,
+      parametres: {capex: capex, duree_vie: n, opex_fixe: fixe, facteur_charge: fc,
+                   crf: crf(etat.taux, n), taux_captage: taux}
+    };
+  }
+
+  function calculerProduit(hyp, etat, pid) {
+    var prod = hyp.produits[pid];
+    var refId = prod.produit.reference;
+    var res = {};
+    prod.routes.forEach(function (r) { res[r.id] = calculerRoute(hyp, etat, pid, r.id, 0); });
+    var ref = res[refId];
+    Object.keys(res).forEach(function (rid) {
+      var r = res[rid];
+      var dEm = ref.em_total - r.em_total;
+      var dCout = r.cout_hors_co2 - ref.cout_hors_co2;
+      r.reduction_emissions = ref.em_total ? dEm / ref.em_total : 0;
+      r.cout_abattement = dEm > 1e-9 ? dCout / dEm : null;
+      var dEts = ref.em_ets - r.em_ets;
+      var d0 = r.cout_hors_co2 - ref.cout_hors_co2;
+      r.prix_co2_bascule = dEts > 1e-9 ? d0 / dEts : null;
+    });
+    return {produit: pid, reference: refId, routes: res,
+            ordre: prod.routes.map(function (r) { return r.id; })};
+  }
+
+  function calculerTout(hyp, etat) {
+    var out = {};
+    hyp.ordre.forEach(function (pid) { out[pid] = calculerProduit(hyp, etat, pid); });
+    return out;
+  }
+
+  var Moteur = {
+    v: v, crf: crf, etatDefaut: etatDefaut, calculerRoute: calculerRoute,
+    calculerProduit: calculerProduit, calculerTout: calculerTout,
+    carboneEffectif: carboneEffectif,
+    POSTES_COUT: POSTES_COUT, POSTES_EM: POSTES_EM, SOURCES_CO2: SOURCES_CO2
+  };
+  if (typeof module !== "undefined" && module.exports) module.exports = Moteur;
+  else racine.Moteur = Moteur;
+})(typeof window !== "undefined" ? window : this);
+
+</script>
+<script>
+/* L'interface de la page — inlinée dans index.html par build_html.py.
+   Elle ne calcule rien : tout passe par Moteur (moteur.js), avec les
+   hypothèses HYP (les YAML fusionnés) et un état `etat` que les curseurs
+   modifient.
+
+   Langue : l'interface est en FRANÇAIS (les YAML portent `label_fr`,
+   `description_fr`, `court_fr` à côté des libellés anglais, qui restent ceux
+   des figures de plot_couts.py). La version anglaise de la page sera faite
+   quand le français sera stable : il suffira de basculer L(), D(), K() et le
+   texte de ce fichier.
+
+   Organisation du panneau de gauche : tous les paramètres réglables, classés
+   par famille (prix de l'énergie, prix du CO2, matières, finance, CAPEX,
+   rendements, réseau), chaque famille repliable. Les discussions d'hypothèses
+   ne sont plus en clair sous les curseurs : elles sont derrière le pictogramme
+   « i » (survol = résumé, clic = fiche complète). */
+(function () {
+  "use strict";
+  var HYP = window.HYP;
+  var C = HYP.commun.couleurs;
+  var etat = Moteur.etatDefaut(HYP);
+  var defaut = JSON.parse(JSON.stringify(etat));
+  var onglet = "hydrogen";
+  var res = null;
+  var ouvert = {energie: true};   // familles dépliées du panneau
+  var ouvertRoute = {};           // sous-blocs « route » dépliés
+  var majEntete = function () {};
+
+  // ------------------------------------------------------------ utilitaires
+  function $(sel, el) { return (el || document).querySelector(sel); }
+  function h(tag, attrs, kids) {
+    var el = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === "class") el.className = attrs[k];
+      else if (k === "html") el.innerHTML = attrs[k];
+      else if (k.slice(0, 2) === "on") el.addEventListener(k.slice(2), attrs[k]);
+      else el.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (k) { if (k == null) return; el.appendChild(typeof k === "string" ? document.createTextNode(k) : k); });
+    return el;
+  }
+  function fmt(x, d) {
+    if (x === null || x === undefined || isNaN(x)) return "–";
+    d = (d === undefined) ? (Math.abs(x) >= 100 ? 0 : Math.abs(x) >= 10 ? 1 : 2) : d;
+    return x.toLocaleString("fr-FR", {minimumFractionDigits: d, maximumFractionDigits: d});
+  }
+  function pct(x) { return fmt(100 * x, 0) + " %"; }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+  // libellés : le français d'abord, l'anglais en secours
+  function L(e) { return (e && (e.label_fr || e.label)) || ""; }
+  function D(e) { return (e && (e.description_fr || e.description)) || ""; }
+  function K(d) { return (d && (d.court_fr || d.court)) || ""; }
+  // les unités sont écrites en anglais dans les YAML (elles servent aussi aux figures)
+  function U(u) { return u ? String(u).replace(/yr/g, "an").replace(/m3/g, "m³") : ""; }
+  function prod(pid) { return HYP.produits[pid].produit; }
+  function fa(pid) { return prod(pid).facteur_affichage; }
+  function unit(pid) { var P = prod(pid); return P.unite_affichage_fr || P.unite_affichage; }
+  function uem(pid) { return (fa(pid) === 1 ? "tCO2/" : "kgCO2/") + unit(pid); }
+  function uem0(pid) { return fa(pid) === 1 ? "t" : "kg"; }
+  function routeDef(pid, rid) {
+    var rs = HYP.produits[pid].routes;
+    for (var i = 0; i < rs.length; i++) if (rs[i].id === rid) return rs[i];
+  }
+  function recalc() { res = Moteur.calculerTout(HYP, etat); }
+  var MATURITE = {commercial: "commercial", demonstration: "démonstration", pilot: "pilote"};
+  var NOM_CONSO = {electricite: "électricité", gaz: "gaz naturel", charbon: "charbon", biomasse: "biomasse",
+    naphta: "naphta", petrole_brut: "pétrole brut", eau: "eau", minerai_fer: "minerai de fer",
+    ferraille: "ferraille", ferraille_alu: "ferraille d'aluminium", alumine: "alumine", anodes: "anodes carbone",
+    calcaire: "calcaire", additions: "additions", argile_calcinee: "argile calcinée", dechets: "combustibles de déchets",
+    dechets_plastiques: "déchets plastiques", hydrogene: "hydrogène", methanol: "méthanol",
+    co2_capte: "CO2 capté", huiles: "huiles usagées", biomasse_ligneuse: "résidus ligneux",
+    biomasse_moyenne: "biomasse sèche"};
+  function nomConso(k) { return NOM_CONSO[k] || k.replace(/_/g, " "); }
+  function badge(e) {
+    if (!e || typeof e !== "object" || !e.statut) return null;
+    var cls = e.statut.replace("é", "e").replace("ê", "e");
+    return h("span", {class: "badge " + cls}, [e.statut]);
+  }
+
+  // ------------------------------------------------- bornes et pas des curseurs
+  /* Beaucoup d'entrées des YAML n'ont pas de min/max (on ne les avait mis que
+     sur les prix). Plutôt que d'en ajouter trois cents à la main, on les déduit
+     de la valeur par défaut, avec une règle par famille — les bornes écrites
+     dans le YAML restent prioritaires. */
+  function pasJoli(span) {
+    if (!(span > 0)) return 1;
+    var b = Math.pow(10, Math.floor(Math.log10(span / 40)));
+    var r = span / 40 / b;
+    return (r >= 5 ? 5 : r >= 2 ? 2 : 1) * b;
+  }
+  function bornes(e, genre) {
+    var x = Moteur.v(e);
+    if (e && e.min !== undefined && e.max !== undefined) {
+      return {min: e.min, max: e.max, step: e.step !== undefined ? e.step : pasJoli(e.max - e.min)};
+    }
+    if (genre === "duree") return {min: 5, max: 40, step: 1};
+    if (genre === "charge") return {min: 0.2, max: 0.98, step: 0.02};
+    if (genre === "captage") return {min: 0.3, max: 0.99, step: 0.01};
+    if (!x) return {min: 0, max: 1, step: 0.05};
+    var lo = (genre === "capex" || genre === "fixe") ? 0 : 0.4 * x;
+    var hi = 2 * x;
+    var st = pasJoli(hi - lo);
+    return {min: Math.floor(lo / st) * st, max: Math.ceil(hi / st) * st, step: st};
+  }
+  function decimales(step) { return step >= 1 ? 0 : step >= 0.1 ? 1 : step >= 0.01 ? 2 : 3; }
+
+  // ------------------------------------------------------------ fiche d'hypothèse
+  var voile = null;
+  function fermerFiche() { if (voile) { voile.remove(); voile = null; } }
+  document.addEventListener("keydown", function (ev) { if (ev.key === "Escape") fermerFiche(); });
+
+  function ouvrirFiche(spec) {
+    fermerFiche();
+    var e = spec.e || {};
+    var carte = h("div", {class: "fiche"});
+    carte.appendChild(h("button", {class: "x", title: "Fermer", onclick: fermerFiche}, ["×"]));
+    carte.appendChild(h("h3", {}, [spec.label, badge(e)]));
+    carte.appendChild(h("p", {class: "cle"}, [(spec.chemin || "") + (spec.unit ? " · " + spec.unit : "")]));
+    var t = h("table", {class: "fv"});
+    function lg(a, b) { t.appendChild(h("tr", {}, [h("td", {}, [a]), h("td", {}, [b])])); }
+    lg("Valeur actuelle", fmt(spec.get(), decimales(spec.step)) + (spec.unit ? " " + spec.unit : ""));
+    lg("Valeur par défaut", fmt(spec.def, decimales(spec.step)) + (spec.unit ? " " + spec.unit : ""));
+    lg("Plage du curseur", fmt(spec.min, decimales(spec.step)) + " – " + fmt(spec.max, decimales(spec.step)) + (spec.unit ? " " + spec.unit : ""));
+    if (e.marche) lg("Valeur de marché " + (e.marche.date || ""), fmt(e.marche.v) + " " + U(e.marche.u) + " — " + L(e.marche));
+    carte.appendChild(t);
+    if (e.src) carte.appendChild(h("p", {}, [h("b", {}, ["D'où vient la valeur. "]), e.src]));
+    if (e.note) carte.appendChild(h("p", {}, [h("b", {}, ["Ce qu'il faut savoir avant de la changer. "]), e.note]));
+    if (!e.src && !e.note) carte.appendChild(h("p", {class: "vide"}, ["Cette valeur n'a pas encore de source écrite dans les YAML du thème. À combler."]));
+    carte.appendChild(h("p", {class: "statuts"}, ["Statuts : vérifié = relu dans le document cité ; mémoire = ordre de grandeur non relu ligne à ligne ; calculé = dérivé d'autres valeurs ; choix = convention pédagogique ; corrigé / douteux = la valeur de la source est invraisemblable et c'est signalé."]));
+    var barre = h("div", {class: "actions"});
+    barre.appendChild(h("button", {onclick: function () { spec.set(spec.def); fermerFiche(); construireGauche(); rerender(); }}, ["Revenir à la valeur par défaut"]));
+    if (spec.ancre) barre.appendChild(h("button", {onclick: function () { fermerFiche(); allerAuxSources(spec.ancre); }}, ["Voir la ligne dans l'onglet Sources"]));
+    barre.appendChild(h("button", {onclick: fermerFiche}, ["Fermer"]));
+    carte.appendChild(barre);
+    voile = h("div", {class: "voile", onclick: function (ev) { if (ev.target === voile) fermerFiche(); }}, [carte]);
+    document.body.appendChild(voile);
+  }
+
+  function allerAuxSources(ancre) {
+    onglet = "sources";
+    majOnglets();
+    rerender();
+    var el = document.getElementById(ancre);
+    if (el) { el.scrollIntoView({block: "center"}); el.classList.add("vise"); setTimeout(function () { el.classList.remove("vise"); }, 2500); }
+  }
+
+  // ------------------------------------------------------------ curseurs
+  var tip = h("div", {class: "tip"});
+  document.body.appendChild(tip);
+  function tipOn(el, txt) {
+    el.addEventListener("mousemove", function (ev) {
+      tip.style.display = "block"; tip.textContent = txt;
+      var x = Math.min(ev.clientX + 14, window.innerWidth - 360);
+      tip.style.left = x + "px"; tip.style.top = Math.min(ev.clientY + 14, window.innerHeight - 40) + "px";
+    });
+    el.addEventListener("mouseleave", function () { tip.style.display = "none"; });
+  }
+  function texteInfo(e) {
+    var t = [];
+    if (e.statut) t.push("Statut : " + e.statut);
+    if (e.src) t.push("Source : " + e.src);
+    if (e.note) t.push(e.note);
+    if (e.marche) t.push("Marché " + (e.marche.date || "") + " : " + fmt(e.marche.v) + " " + U(e.marche.u) + " — " + L(e.marche));
+    if (!t.length) t.push("Pas de source écrite pour cette valeur.");
+    t.push("Cliquer pour la fiche complète.");
+    return t.join("\n\n");
+  }
+
+  /* spec : {label, unit, min, max, step, get, set, def, e, chemin, ancre, fmtv} */
+  function slider(spec) {
+    var e = spec.e || {};
+    var wrap = h("div", {class: "slider"});
+    var vl = h("span", {class: "vl"});
+    var reset = h("button", {class: "reset", title: "Revenir à la valeur par défaut",
+      onclick: function () { spec.set(spec.def); maj(); rerender(); majEntete(); }}, ["↺"]);
+    var info = h("button", {class: "info", type: "button", "aria-label": "Hypothèse et source", onclick: function () { ouvrirFiche(spec); }}, ["i"]);
+    tipOn(info, texteInfo(e));
+    var nm = h("span", {class: "nm"}, [spec.label, info]);
+    var vals = h("span", {class: "vals"}, [vl, reset]);
+    if (e.marche) {
+      var mk = h("span", {class: "mk"}, ["marché " + fmt(e.marche.v, Moteur.v(e.marche) >= 10 ? 0 : 2)]);
+      tipOn(mk, "Valeur de marché " + (e.marche.date || "") + " : " + fmt(e.marche.v) + " " + U(e.marche.u) + "\n\n" + L(e.marche));
+      vals.insertBefore(mk, reset);
+    }
+    wrap.appendChild(h("div", {class: "top"}, [nm, vals]));
+    var inp = h("input", {type: "range", min: spec.min, max: spec.max, step: spec.step, value: spec.get()});
+    inp.addEventListener("input", function () { spec.set(parseFloat(inp.value)); maj(); rerender(); majEntete(); });
+    wrap.appendChild(inp);
+    function maj() {
+      var x = spec.get();
+      inp.value = x;
+      vl.textContent = (spec.fmtv ? spec.fmtv(x) : fmt(x, decimales(spec.step))) + (spec.unit ? " " + spec.unit : "");
+      var modif = Math.abs(x - spec.def) > 1e-12;
+      wrap.classList.toggle("modif", modif);
+      reset.style.visibility = modif ? "" : "hidden";
+    }
+    maj();
+    return wrap;
+  }
+
+  /* Curseur construit depuis une entrée YAML, avec bornes déduites si besoin. */
+  function curseur(e, opt) {
+    var b = bornes(e, opt.genre);
+    var pourcent = (e.u === "-") || opt.pourcent;
+    return slider({
+      label: opt.label || L(e), unit: pourcent ? "" : (opt.unit !== undefined ? opt.unit : (e.u === "-" ? "" : U(e.u))),
+      min: b.min, max: b.max, step: b.step, get: opt.get, set: opt.set, def: opt.def,
+      e: e, chemin: opt.chemin, ancre: opt.ancre,
+      fmtv: pourcent ? function (x) { return fmt(100 * x, b.step < 0.01 ? 1 : 0) + " %"; } : opt.fmtv
+    });
+  }
+
+  // ------------------------------------------------------------ panneau de gauche
+  /* Une famille de paramètres : un en-tête cliquable (la flèche) et son corps.
+     `contenu` peut contenir des null (une sous-partie vide) : on les ignore. */
+  function groupe(parent, id, titre, contenu, sousTitre) {
+    contenu = (contenu || []).filter(function (c) { return c; });
+    if (!contenu.length) return;
+    var corps = h("div", {class: "corps"}, contenu);
+    if (sousTitre) corps.insertBefore(h("p", {class: "hint"}, [sousTitre]), corps.firstChild);
+    var fleche = h("span", {class: "fl"}, ["▸"]);
+    var n = corps.querySelectorAll(".slider").length;
+    var cpt = h("span", {class: "cpt"}, [n ? String(n) : ""]);
+    var tete = h("button", {class: "tete", onclick: function () {
+      ouvert[id] = !ouvert[id];
+      g.classList.toggle("ouv", !!ouvert[id]);
+    }}, [fleche, h("span", {class: "ti"}, [titre]), cpt]);
+    var g = h("section", {class: "grp" + (ouvert[id] ? " ouv" : "")}, [tete, corps]);
+    parent.appendChild(g);
+  }
+
+  function blocRoute(pid, rid, suffixe, contenu) {
+    if (!contenu.length) return null;
+    var cle = pid + "/" + rid + "/" + suffixe;
+    var d = routeDef(pid, rid);
+    var fleche = h("span", {class: "fl"}, ["▸"]);
+    var tete = h("button", {class: "tete2", onclick: function () {
+      ouvertRoute[cle] = !ouvertRoute[cle];
+      b.classList.toggle("ouv", !!ouvertRoute[cle]);
+    }}, [fleche, h("span", {}, [K(d)])]);
+    var b = h("div", {class: "sous" + (ouvertRoute[cle] ? " ouv" : ""), id: "blk-" + pid + "-" + rid + "-" + suffixe},
+      [tete, h("div", {class: "corps2"}, contenu)]);
+    return b;
+  }
+
+  function nbModifs() {
+    var n = 0;
+    Object.keys(etat.prix).forEach(function (k) { if (etat.prix[k] !== defaut.prix[k]) n++; });
+    if (etat.taux !== defaut.taux) n++;
+    if (etat.ef_electricite !== defaut.ef_electricite) n++;
+    if (etat.inclure_usage !== defaut.inclure_usage) n++;
+    Object.keys(etat.intrants).forEach(function (pid) {
+      Object.keys(etat.intrants[pid]).forEach(function (k) { if (etat.intrants[pid][k] !== defaut.intrants[pid][k]) n++; });
+    });
+    Object.keys(etat.intermediaires).forEach(function (pid) {
+      Object.keys(etat.intermediaires[pid]).forEach(function (k) { if (etat.intermediaires[pid][k] !== (defaut.intermediaires[pid] || {})[k]) n++; });
+    });
+    Object.keys(etat.source_co2).forEach(function (pid) { if (etat.source_co2[pid] !== defaut.source_co2[pid]) n++; });
+    Object.keys(etat.routes).forEach(function (pid) {
+      Object.keys(etat.routes[pid]).forEach(function (rid) {
+        var s = etat.routes[pid][rid];
+        Object.keys(s).forEach(function (k) {
+          if (k === "conso") Object.keys(s.conso).forEach(function () { n++; });
+          else n++;
+        });
+      });
+    });
+    return n;
+  }
+
+  function panneauGauche() {
+    var pid = (onglet === "compare" || onglet === "sources") ? null : onglet;
+    var p = h("div", {class: "sticky"});
+    var cpt = h("span", {class: "nmod"});
+    var entete = h("div", {class: "entete"}, [
+      h("div", {}, [h("b", {}, ["Hypothèses"]), cpt]),
+      h("button", {class: "razout", onclick: function () {
+        etat = Moteur.etatDefaut(HYP); construireGauche(); rerender();
+      }}, ["Tout réinitialiser"])
+    ]);
+    majEntete = function () {
+      var n = nbModifs();
+      cpt.textContent = n ? " · " + n + (n > 1 ? " valeurs modifiées" : " valeur modifiée") : " · valeurs par défaut";
+      cpt.className = "nmod" + (n ? " on" : "");
+    };
+    majEntete();
+    p.appendChild(entete);
+    p.appendChild(h("p", {class: "hint tout"}, ["Tous les paramètres du modèle sont ici, classés par famille ; cliquer une flèche pour déplier. Le pictogramme ", h("span", {class: "info faux"}, ["i"]), " donne la source au survol et la fiche complète au clic. €2024."]));
+
+    var prix = HYP.commun.prix, d = pid ? HYP.produits[pid] : null;
+
+    // 1. prix de l'énergie — communs, plus les intrants énergétiques du produit
+    var enr = [];
+    ["electricite", "gaz", "charbon", "biomasse", "naphta", "petrole_brut"].forEach(function (k) {
+      var e = prix[k];
+      if (!e || e.min === undefined) return;
+      enr.push(curseur(e, {genre: "prix", chemin: "commun · prix · " + k, ancre: "c-prix-" + k,
+        get: function () { return etat.prix[k]; }, set: function (x) { etat.prix[k] = x; }, def: defaut.prix[k]}));
+    });
+    var matieres = [];
+    if (d) Object.keys(d.intrants || {}).forEach(function (k) {
+      var e = d.intrants[k];
+      if (e.min === undefined) return;
+      var c = curseur(e, {chemin: prod(pid).label_fr + " · intrants · " + k, ancre: pid + "-in-" + k,
+        get: function () { return etat.intrants[pid][k]; }, set: function (x) { etat.intrants[pid][k] = x; }, def: defaut.intrants[pid][k]});
+      (e.cat === "matieres_energie" ? enr : matieres).push(c);
+    });
+    groupe(p, "energie", "Prix de l'énergie", enr);
+
+    // 2. prix du CO2
+    var co2 = [];
+    ["co2_ets", "co2_transport_stockage", "co2_capte_source_ponctuelle", "co2_dac"].forEach(function (k) {
+      var e = prix[k];
+      if (!e || e.min === undefined) return;
+      co2.push(curseur(e, {chemin: "commun · prix · " + k, ancre: "c-prix-" + k,
+        get: function () { return etat.prix[k]; }, set: function (x) { etat.prix[k] = x; }, def: defaut.prix[k]}));
+    });
+    if (pid && prod(pid).source_co2) {
+      var sel2 = h("select");
+      Object.keys(Moteur.SOURCES_CO2).forEach(function (k) { sel2.appendChild(h("option", {value: k}, [L(Moteur.SOURCES_CO2[k])])); });
+      sel2.value = etat.source_co2[pid];
+      sel2.addEventListener("change", function () { etat.source_co2[pid] = sel2.value; rerender(); majEntete(); });
+      co2.push(h("div", {class: "fldgrp"}, [h("label", {class: "fld"}, ["Origine du CO2 utilisé comme matière première"]), sel2,
+        h("p", {class: "hint"}, ["Fixe le prix d'achat du CO2 (source ponctuelle ou captage dans l'air) et si le carbone est fossile : un CO2 fossile ressort du pot d'échappement, un CO2 biogénique ou pris dans l'air n'ajoute rien à l'atmosphère."])]));
+    }
+    groupe(p, "co2", "Prix du CO2 et du stockage", co2);
+
+    // 3. matières premières du produit
+    if (pid) groupe(p, "matieres", "Matières premières — " + L(prod(pid)), matieres);
+
+    // 4. finance : taux commun, durée de vie de chaque route
+    var fin = [];
+    var t = HYP.commun.finance.taux_actualisation;
+    fin.push(curseur(t, {chemin: "commun · finance · taux_actualisation", ancre: "c-taux",
+      get: function () { return etat.taux; }, set: function (x) { etat.taux = x; }, def: defaut.taux}));
+    if (pid) HYP.produits[pid].routes.forEach(function (r) {
+      var sur = etat.routes[pid][r.id] = etat.routes[pid][r.id] || {};
+      fin.push(curseur(r.duree_vie, {genre: "duree", label: K(r) + " — durée de vie", unit: "ans",
+        chemin: L(prod(pid)) + " · " + K(r) + " · duree_vie", ancre: pid + "-" + r.id + "-duree_vie",
+        get: function () { return "duree_vie" in sur ? sur.duree_vie : Moteur.v(r.duree_vie); },
+        set: function (x) { sur.duree_vie = x; }, def: Moteur.v(r.duree_vie)}));
+    });
+    groupe(p, "finance", "Finance et durée de vie", fin,
+      "Le coût du capital par tonne est CAPEX × CRF(taux, durée) ÷ facteur de charge, avec CRF = r(1+r)ⁿ/((1+r)ⁿ−1). Passer de 8 % (WACC privé) à 4 % (taux socio-économique de Quinet) change le coût annualisé d'un actif de 25 ans de ~ 40 %.");
+
+    // 5. CAPEX, coûts fixes et facteur de charge, route par route
+    if (pid) {
+      var caps = [];
+      HYP.produits[pid].routes.forEach(function (r) {
+        var sur = etat.routes[pid][r.id] = etat.routes[pid][r.id] || {};
+        var l = [];
+        l.push(curseur(r.capex, {genre: "capex", label: "CAPEX", chemin: L(prod(pid)) + " · " + K(r) + " · capex", ancre: pid + "-" + r.id + "-capex",
+          get: function () { return "capex" in sur ? sur.capex : Moteur.v(r.capex); },
+          set: function (x) { sur.capex = x; }, def: Moteur.v(r.capex)}));
+        l.push(curseur(r.opex_fixe, {genre: "fixe", label: "Coût fixe d'exploitation", chemin: L(prod(pid)) + " · " + K(r) + " · opex_fixe", ancre: pid + "-" + r.id + "-opex_fixe",
+          get: function () { return "opex_fixe" in sur ? sur.opex_fixe : Moteur.v(r.opex_fixe); },
+          set: function (x) { sur.opex_fixe = x; }, def: Moteur.v(r.opex_fixe)}));
+        l.push(curseur(r.facteur_charge, {genre: "charge", label: "Facteur de charge", pourcent: true,
+          chemin: L(prod(pid)) + " · " + K(r) + " · facteur_charge", ancre: pid + "-" + r.id + "-facteur_charge",
+          get: function () { return "facteur_charge" in sur ? sur.facteur_charge : Moteur.v(r.facteur_charge); },
+          set: function (x) { sur.facteur_charge = x; }, def: Moteur.v(r.facteur_charge)}));
+        caps.push(blocRoute(pid, r.id, "capex", l));
+      });
+      groupe(p, "capex", "CAPEX, coûts fixes et charge — " + L(prod(pid)), caps,
+        "CAPEX en € par tonne de capacité annuelle, coût fixe en € par tonne de capacité et par an ; les deux sont divisés par le facteur de charge. Le CAPEX d'un intermédiaire (l'électrolyseur derrière un DRI-H2) est dans son propre onglet.");
+
+      // 6. rendements : consommations par tonne, taux de captage
+      var eff = [];
+      HYP.produits[pid].routes.forEach(function (r) {
+        var sur = etat.routes[pid][r.id] = etat.routes[pid][r.id] || {};
+        sur.conso = sur.conso || {};
+        var l = [];
+        Object.keys(r.conso || {}).forEach(function (k) {
+          var e = r.conso[k];
+          if (!e || typeof e !== "object") return;
+          l.push(curseur(e, {genre: "conso", label: nomConso(k), chemin: L(prod(pid)) + " · " + K(r) + " · conso · " + k,
+            ancre: pid + "-" + r.id + "-conso-" + k,
+            get: function () { return k in sur.conso ? sur.conso[k] : Moteur.v(e); },
+            set: function (x) { sur.conso[k] = x; }, def: Moteur.v(e)}));
+        });
+        Object.keys(r.coproduits || {}).forEach(function (k) {
+          var e = r.coproduits[k];
+          l.push(curseur(e, {genre: "conso", label: "coproduit : " + nomConso(k), chemin: L(prod(pid)) + " · " + K(r) + " · coproduits · " + k,
+            ancre: pid + "-" + r.id + "-coproduit-" + k,
+            get: function () { return (sur.coproduits && k in sur.coproduits) ? sur.coproduits[k] : Moteur.v(e); },
+            set: function (x) { sur.coproduits = sur.coproduits || {}; sur.coproduits[k] = x; }, def: Moteur.v(e)}));
+        });
+        if (r.captage) l.push(curseur(r.captage.taux, {genre: "captage", label: "Taux de captage", pourcent: true,
+          chemin: L(prod(pid)) + " · " + K(r) + " · captage", ancre: pid + "-" + r.id + "-captage",
+          get: function () { return "captage" in sur ? sur.captage : Moteur.v(r.captage.taux); },
+          set: function (x) { sur.captage = x; }, def: Moteur.v(r.captage.taux)}));
+        eff.push(blocRoute(pid, r.id, "conso", l));
+      });
+      groupe(p, "rendements", "Rendements et consommations — " + L(prod(pid)), eff,
+        "Tout est par tonne de produit : baisser une consommation, c'est améliorer le rendement du procédé. Les bornes viennent du YAML quand elles y sont, sinon de 0,4 à 2 fois la valeur par défaut.");
+    }
+
+    // 7. réseau, périmètre, intermédiaires
+    var res7 = [];
+    var ef = HYP.commun.facteurs_emission.electricite;
+    var sel = h("select");
+    ef.options.forEach(function (o) { sel.appendChild(h("option", {value: o.v}, [L(o)])); });
+    sel.value = etat.ef_electricite;
+    sel.addEventListener("change", function () { etat.ef_electricite = parseFloat(sel.value); rerender(); majEntete(); });
+    res7.push(h("div", {class: "fldgrp"}, [h("label", {class: "fld"}, [L(ef), h("button", {class: "info", type: "button", onclick: function () {
+      ouvrirFiche({label: L(ef), e: ef, chemin: "commun · facteurs_emission · electricite", ancre: "c-ef",
+        get: function () { return etat.ef_electricite; }, set: function (x) { etat.ef_electricite = x; },
+        def: defaut.ef_electricite, min: 0, max: 0.9, step: 0.001, unit: ef.u});
+    }}, ["i"])]), sel]));
+    var chk = h("input", {type: "checkbox"});
+    chk.checked = etat.inclure_usage;
+    chk.addEventListener("change", function () { etat.inclure_usage = chk.checked; rerender(); majEntete(); });
+    res7.push(h("label", {class: "check"}, [chk, h("span", {}, ["Compter le CO2 rejeté à l'usage ou à l'incinération du produit (carburants, méthanol, plastiques). Décoché = du berceau à la sortie d'usine."])]));
+    if (pid) {
+      var inters = {};
+      HYP.produits[pid].routes.forEach(function (r) { Object.keys(r.conso || {}).forEach(function (k) { var e = r.conso[k]; if (e && e.intermediaire && !e.route) inters[e.intermediaire] = 1; }); });
+      Object.keys(inters).forEach(function (ipid) {
+        var s = h("select");
+        HYP.produits[ipid].routes.forEach(function (r) { s.appendChild(h("option", {value: r.id}, [L(r) + " (onglet " + L(prod(ipid)) + ")"])); });
+        s.appendChild(h("option", {value: "achat"}, ["Acheté à " + fmt(Moteur.v(prod(ipid).prix_marche) * fa(ipid)) + " €/" + unit(ipid) + " (" + L(prod(ipid).prix_marche) + ")"]));
+        s.value = etat.intermediaires[pid][ipid] || "achat";
+        s.addEventListener("change", function () { etat.intermediaires[pid][ipid] = s.value; rerender(); majEntete(); });
+        res7.push(h("div", {class: "fldgrp"}, [h("label", {class: "fld"}, ["Approvisionnement en " + L(prod(ipid)).toLowerCase()]), s,
+          h("p", {class: "hint"}, ["Le coût et les émissions de la route choisie sont calculés avec les mêmes prix et le même réseau, puis propagés poste par poste."])]));
+      });
+    }
+    groupe(p, "reseau", "Réseau, périmètre et intermédiaires", res7);
+    return p;
+  }
+
+  // ------------------------------------------------------------ graphiques SVG
+  var NS = "http://www.w3.org/2000/svg";
+  function s(tag, attrs, kids) {
+    var el = document.createElementNS(NS, tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+    (kids || []).forEach(function (k) { el.appendChild(typeof k === "string" ? document.createTextNode(k) : k); });
+    return el;
+  }
+  function defsHachures(svg) {
+    var d = s("defs");
+    d.appendChild(s("pattern", {id: "hCapt", width: 6, height: 6, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)"},
+      [s("rect", {width: 6, height: 6, fill: "#fff"}), s("rect", {width: 2.5, height: 6, fill: C.emissions.captage})]));
+    d.appendChild(s("pattern", {id: "hUsage", width: 6, height: 6, patternUnits: "userSpaceOnUse", patternTransform: "rotate(135)"},
+      [s("rect", {width: 6, height: 6, fill: "#fff"}), s("rect", {width: 2.5, height: 6, fill: C.emissions.usage})]));
+    svg.appendChild(d);
+  }
+
+  /* Barres horizontales empilées. rows: [{label, segs:[{key,label,val,color,hatch}], total, mark, extra}]
+     lignes verticales: [{x, label, dash}] ; unité de l'axe. Les segments négatifs partent à gauche de zéro. */
+  function barresEmpilees(opts) {
+    var W = 860, rowH = 30, mL = 200, mR = 70, mT = 22, mB = 30;
+    var H = mT + mB + opts.rows.length * rowH;
+    var svg = s("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": opts.aria || ""});
+    defsHachures(svg);
+    var xmin = 0, xmax = 0;
+    opts.rows.forEach(function (r) {
+      var pos = 0, neg = 0;
+      r.segs.forEach(function (g) { if (g.val >= 0) pos += g.val; else neg += g.val; });
+      xmax = Math.max(xmax, pos); xmin = Math.min(xmin, neg);
+    });
+    (opts.lignes || []).forEach(function (l) { xmax = Math.max(xmax, l.x); xmin = Math.min(xmin, l.x); });
+    if (xmax <= 0) xmax = 1;
+    xmax *= 1.08;
+    var span = xmax - xmin;
+    function X(v) { return mL + (v - xmin) / span * (W - mL - mR); }
+    // grille
+    var pas = Math.pow(10, Math.floor(Math.log10(span))) / 2;
+    if (span / pas > 12) pas *= 2;
+    for (var g = Math.ceil(xmin / pas) * pas; g <= xmax; g += pas) {
+      svg.appendChild(s("line", {x1: X(g), x2: X(g), y1: mT - 4, y2: H - mB + 2, stroke: "#eceae4", "stroke-width": 1}));
+      svg.appendChild(s("text", {x: X(g), y: H - mB + 14, "text-anchor": "middle", "font-size": 10.5, fill: "#7a7871"}, [fmt(g, pas >= 1 ? 0 : pas >= 0.1 ? 1 : 2)]));
+    }
+    svg.appendChild(s("text", {x: W - mR, y: H - 6, "text-anchor": "end", "font-size": 11, fill: "#52514e"}, [opts.unit]));
+    svg.appendChild(s("line", {x1: X(0), x2: X(0), y1: mT - 4, y2: H - mB + 2, stroke: "#7a7871", "stroke-width": 1}));
+    opts.rows.forEach(function (r, i) {
+      var y = mT + i * rowH, bh = rowH - 9;
+      var lab = s("text", {x: mL - 8, y: y + bh / 2 + 4, "text-anchor": "end", "font-size": 12, fill: "#0b0b0b", "font-weight": r.ref ? 700 : 400}, [r.label]);
+      svg.appendChild(lab);
+      var xp = 0, xn = 0;
+      r.segs.forEach(function (g) {
+        if (!g.val) return;
+        var x0, x1;
+        if (g.val >= 0) { x0 = X(xp); x1 = X(xp + g.val); xp += g.val; }
+        else { x1 = X(xn); x0 = X(xn + g.val); xn += g.val; }
+        var w = Math.max(0, x1 - x0 - 2);
+        var rect = s("rect", {x: x0 + 1, y: y, width: w, height: bh, rx: 2, fill: g.hatch ? "url(#" + g.hatch + ")" : g.color, stroke: g.hatch ? g.color : "none", "stroke-width": g.hatch ? 1 : 0});
+        tipOn(rect, r.label + "\n" + g.label + " : " + fmt(g.val) + " " + opts.unit + (r.total ? "  (" + pct(Math.abs(g.val) / Math.abs(r.total)) + ")" : ""));
+        svg.appendChild(rect);
+        if (w > 34 && !g.hatch) svg.appendChild(s("text", {x: (x0 + x1) / 2, y: y + bh / 2 + 4, "text-anchor": "middle", "font-size": 10.5, fill: g.ink || "#fff", "pointer-events": "none"}, [fmt(g.val, g.val < 10 ? 1 : 0)]));
+      });
+      if (r.total !== undefined) svg.appendChild(s("text", {x: X(Math.max(xp, 0)) + 6, y: y + bh / 2 + 4, "font-size": 11.5, "font-weight": 600, fill: "#0b0b0b"}, [fmt(r.total, r.dec !== undefined ? r.dec : (Math.abs(r.total) < 10 ? 2 : 0)) + (r.extra ? " " + r.extra : "")]));
+      if (r.mark !== undefined && r.mark !== null) {
+        var mx = X(r.mark);
+        var m = s("path", {d: "M" + mx + " " + (y - 1) + " l-5 -6 h10 z", fill: "#0b0b0b"});
+        tipOn(m, r.markLabel || "");
+        svg.appendChild(m);
+      }
+    });
+    (opts.lignes || []).forEach(function (l) {
+      svg.appendChild(s("line", {x1: X(l.x), x2: X(l.x), y1: mT - 6, y2: H - mB + 2, stroke: l.color || "#0b0b0b", "stroke-width": 1.5, "stroke-dasharray": l.dash || "5 4"}));
+      svg.appendChild(s("text", {x: X(l.x) + 4, y: mT - 8, "font-size": 10.5, fill: l.color || "#0b0b0b"}, [l.label]));
+    });
+    return svg;
+  }
+
+  /* Courbes : coût de chaque route en fonction du prix de l'électricité. */
+  var ELEC_MIN = HYP.commun.prix.electricite.min, ELEC_MAX = HYP.commun.prix.electricite.max;
+  function courbesElec(pid) {
+    var f = fa(pid), P = prod(pid);
+    var xs = [], routes = HYP.produits[pid].routes;
+    var pasX = (ELEC_MAX - ELEC_MIN) / 14;
+    for (var i = 0; i <= 14; i++) xs.push(ELEC_MIN + i * pasX);
+    var series = routes.map(function (d) { return {id: d.id, label: K(d), ys: []}; });
+    var copie = JSON.parse(JSON.stringify(etat));
+    xs.forEach(function (x) {
+      copie.prix.electricite = x;
+      var pr = Moteur.calculerProduit(HYP, copie, pid);
+      series.forEach(function (sr) { sr.ys.push(pr.routes[sr.id].cout_total * f); });
+    });
+    var W = 860, H = 300, mL = 60, mR = 150, mT = 20, mB = 40;
+    var ymax = Math.max.apply(null, series.map(function (sr) { return Math.max.apply(null, sr.ys); })) * 1.05;
+    var svg = s("svg", {viewBox: "0 0 " + W + " " + H, role: "img"});
+    function X(x) { return mL + (x - ELEC_MIN) / (ELEC_MAX - ELEC_MIN) * (W - mL - mR); }
+    function Y(y) { return mT + (1 - y / ymax) * (H - mT - mB); }
+    var pas = Math.pow(10, Math.floor(Math.log10(ymax))) / 2; if (ymax / pas > 8) pas *= 2;
+    for (var g = 0; g <= ymax; g += pas) {
+      svg.appendChild(s("line", {x1: mL, x2: W - mR, y1: Y(g), y2: Y(g), stroke: "#eceae4"}));
+      svg.appendChild(s("text", {x: mL - 6, y: Y(g) + 4, "text-anchor": "end", "font-size": 10.5, fill: "#7a7871"}, [fmt(g, pas >= 1 ? 0 : 2)]));
+    }
+    [ELEC_MIN, 50, 100, ELEC_MAX].forEach(function (x) {
+      svg.appendChild(s("text", {x: X(x), y: H - mB + 16, "text-anchor": "middle", "font-size": 10.5, fill: "#7a7871"}, [fmt(x, 0)]));
+    });
+    svg.appendChild(s("text", {x: (mL + W - mR) / 2, y: H - 6, "text-anchor": "middle", "font-size": 11, fill: "#52514e"}, ["prix de l'électricité, €/MWh (les autres prix restent ceux du panneau)"]));
+    svg.appendChild(s("text", {x: 8, y: mT - 6, "font-size": 11, fill: "#52514e"}, ["€/" + unit(pid)]));
+    var xe = etat.prix.electricite;
+    svg.appendChild(s("line", {x1: X(xe), x2: X(xe), y1: mT, y2: H - mB, stroke: "#52514e", "stroke-dasharray": "4 3"}));
+    var pal = [C.cout.capex, C.cout.electricite, C.cout.combustibles, C.cout.co2, C.cout.coproduits, "#F8B740", "#9D9D9D", C.cout.stockage_co2];
+    series.forEach(function (sr, i) {
+      var col = pal[i % pal.length];
+      var d = sr.ys.map(function (y, k) { return (k ? "L" : "M") + X(xs[k]) + " " + Y(y); }).join(" ");
+      var path = s("path", {d: d, fill: "none", stroke: col, "stroke-width": sr.id === P.reference ? 3 : 2, "stroke-dasharray": i >= pal.length ? "6 3" : "none"});
+      tipOn(path, sr.label + " : +" + fmt(res[pid].routes[sr.id].sensibilite_elec_10 * f, f === 1 ? 0 : 2) + " €/" + unit(pid) + " par +10 €/MWh");
+      svg.appendChild(path);
+      svg.appendChild(s("text", {x: W - mR + 6, y: Y(sr.ys[sr.ys.length - 1]) + 4, "font-size": 10.5, fill: col}, [sr.label]));
+    });
+    return h("figure", {}, [h("div", {class: "fig"}, [h("div", {class: "ttl"}, ["Dépendance au prix de l'électricité — coût de chaque route de " + fmt(ELEC_MIN, 0) + " à " + fmt(ELEC_MAX, 0) + " €/MWh"]), svg]),
+      h("figcaption", {}, ["La pente de chaque ligne est le contenu en électricité de la route, intermédiaires compris : survoler une ligne pour les € par +10 €/MWh. Trait épais = route de référence ; verticale pointillée = le prix réglé à gauche. Le croisement de deux lignes est le prix de l'électricité auquel une route passe devant l'autre."])]);
+  }
+
+  function legende(items) {
+    return h("div", {class: "legend"}, items.map(function (it) {
+      var i = h("i", {class: it.cls || ""});
+      if (!it.cls) i.style.background = it.color;
+      return h("span", {}, [i, it.label]);
+    }));
+  }
+
+  var POSTES = [
+    ["capex", "Capital (annualisé)", C.cout.capex, "#fff"], ["opex_fixe", "Coûts fixes d'exploitation", C.cout.opex_fixe, "#fff"],
+    ["electricite", "Électricité", C.cout.electricite, "#0b0b0b"], ["combustibles", "Combustibles (gaz, charbon, biomasse)", C.cout.combustibles, "#0b0b0b"],
+    ["matieres_energie", "Matières énergétiques (naphta, brut, huiles, biomasse)", C.cout.matieres_energie, "#0b0b0b"],
+    ["matieres", "Autres matières (minerai, ferraille, alumine, calcaire, CO2)", C.cout.matieres, "#0b0b0b"], ["intermediaires", "H2 / méthanol achetés", C.cout.intermediaires, "#0b0b0b"],
+    ["autres", "Autres consommables", "#c9c7bf", "#0b0b0b"], ["co2", "Prix du CO2 sur les émissions résiduelles", C.cout.co2, "#fff"],
+    ["stockage_co2", "Transport et stockage du CO2", C.cout.stockage_co2, "#0b0b0b"], ["coproduits", "Crédit de coproduits", C.cout.coproduits, "#fff"]
+  ];
+  var POSTES_EM = [
+    ["procede", "Chimie du procédé", C.emissions.procede, "#fff"], ["combustion", "Combustion", C.emissions.combustion, "#0b0b0b"],
+    ["amont", "Amont des combustibles et matières", C.emissions.amont, "#0b0b0b"], ["electricite", "Électricité (facteur réseau)", C.emissions.electricite, "#0b0b0b"]
+  ];
+
+  function figCouts(pid) {
+    var f = fa(pid), pr = res[pid], P = prod(pid);
+    var rows = pr.ordre.map(function (rid) {
+      var r = pr.routes[rid], d = routeDef(pid, rid);
+      return {label: K(d), ref: rid === pr.reference, total: r.cout_total * f,
+              segs: POSTES.map(function (p) { return {key: p[0], label: p[1], val: r.cout[p[0]] * f, color: p[2], ink: p[3]}; })};
+    });
+    var svg = barresEmpilees({rows: rows, unit: "€/" + unit(pid), aria: "Coût de production par route",
+      lignes: [{x: Moteur.v(P.prix_marche) * f, label: "prix de marché " + fmt(Moteur.v(P.prix_marche) * f), color: "#52514e"}]});
+    return h("figure", {}, [h("div", {class: "fig"}, [h("div", {class: "ttl"}, ["Coût de production par " + unit(pid) + ", poste par poste"]), svg,
+      legende(POSTES.filter(function (p) { return rows.some(function (r) { return r.segs.some(function (g) { return g.key === p[0] && Math.abs(g.val) > 1e-9; }); }); }).map(function (p) { return {label: p[1], color: p[2]}; }))]),
+      h("figcaption", {}, ["Libellé en gras = route de référence. L'électricité d'un intermédiaire (l'électrolyseur derrière un acier DRI-H2, le méthanol derrière un MTO) est comptée ici comme de l'électricité, pas comme un achat. La ligne pointillée est le prix de marché inscrit dans les hypothèses, pour l'échelle seulement."])]);
+  }
+
+  function figEmissions(pid) {
+    var f = 1, pr = res[pid];
+    var rows = pr.ordre.map(function (rid) {
+      var r = pr.routes[rid], d = routeDef(pid, rid), e = r.emissions;
+      var segs = POSTES_EM.map(function (p) { return {key: p[0], label: p[1], val: e[p[0]] * f, color: p[2], ink: p[3]}; });
+      if (etat.inclure_usage && e.usage) segs.push({key: "usage", label: "Usage / fin de vie (carbone fossile)", val: e.usage * f, color: C.emissions.usage, hatch: "hUsage"});
+      if (e.captage > 1e-9) segs.push({key: "captage", label: "Capté et stocké (non émis)", val: e.captage * f, color: C.emissions.captage, hatch: "hCapt"});
+      return {label: K(d), ref: rid === pr.reference, total: r.em_total * f, segs: segs,
+              extra: rid === pr.reference ? "" : "(" + (r.reduction_emissions >= 0 ? "−" : "+") + pct(Math.abs(r.reduction_emissions)) + ")"};
+    });
+    var svg = barresEmpilees({rows: rows, unit: uem(pid), aria: "Émissions par route"});
+    var leg = POSTES_EM.map(function (p) { return {label: p[1], color: p[2]}; });
+    leg.push({label: "Capté et stocké (tracé après le total, pas dedans)", cls: "hatch"});
+    if (etat.inclure_usage) leg.push({label: "Usage / fin de vie", cls: "usage"});
+    return h("figure", {}, [h("div", {class: "fig"}, [h("div", {class: "ttl"}, ["Émissions par " + unit(pid) + " — " + (etat.inclure_usage ? "du berceau à la tombe" : "du berceau à la sortie d'usine")]), svg, legende(leg)]),
+      h("figcaption", {}, ["Le total (en gras) exclut le CO2 capté, hachuré. Le segment électricité est la consommation × le facteur réseau choisi à gauche : basculer sur le réseau UE-27 pour voir les routes électriques perdre leur avantage."])]);
+  }
+
+  function figAbattement(pid) {
+    var pr = res[pid];
+    var rows = [];
+    pr.ordre.forEach(function (rid) {
+      if (rid === pr.reference) return;
+      var r = pr.routes[rid], d = routeDef(pid, rid);
+      var ab = r.cout_abattement;
+      rows.push({label: K(d), total: ab === null ? undefined : ab, dec: 0, extra: "",
+                 segs: ab === null ? [] : [{key: "ab", label: "Coût d'abattement contre " + K(routeDef(pid, pr.reference)), val: ab, color: ab < 0 ? C.cout.coproduits : C.cout.capex, ink: "#fff"}],
+                 mark: r.prix_co2_bascule, markLabel: "Prix du CO2 auquel cette route passe devant la référence sur le périmètre ETS (émissions directes seules) : " + fmt(r.prix_co2_bascule, 0) + " €/tCO2"});
+    });
+    var lignes = [{x: etat.prix.co2_ets, label: "quota " + fmt(etat.prix.co2_ets, 0), color: C.cout.co2},
+                  {x: Moteur.v(HYP.commun.prix.valeur_action_climat_2030), label: "Quinet 2030 " + fmt(Moteur.v(HYP.commun.prix.valeur_action_climat_2030), 0), color: "#0b0b0b", dash: "2 3"}];
+    var svg = barresEmpilees({rows: rows, unit: "€/tCO2 évitée", lignes: lignes, aria: "Coût d'abattement par route"});
+    return h("figure", {}, [h("div", {class: "fig"}, [h("div", {class: "ttl"}, ["Coût d'abattement contre la route de référence (" + K(routeDef(pid, pr.reference)) + ")"]), svg]),
+      h("figcaption", {}, ["(coût hors prix du CO2 − coût de la référence hors prix du CO2) ÷ (émissions de la référence − émissions de la route), du berceau à la sortie d'usine" + (etat.inclure_usage ? " plus l'usage" : "") + ". Une route qui émet plus que la référence n'a pas de barre. Le triangle noir est la lecture privée : le prix du quota auquel la route devient moins chère pour l'usine, sur ses seules émissions directes. Pointillés : le prix du quota aujourd'hui et la valeur de l'action pour le climat (Quinet 2030, 295 €₂₀₂₄/t)."])]);
+  }
+
+  // ------------------------------------------------------------ onglet produit
+  function kpis(pid) {
+    var pr = res[pid], f = fa(pid), ref = pr.routes[pr.reference];
+    var best = null, bestAb = Infinity, maxE = null, maxEv = -1;
+    pr.ordre.forEach(function (rid) {
+      var r = pr.routes[rid];
+      if (rid !== pr.reference && r.cout_abattement !== null && r.reduction_emissions > 0.3 && r.cout_abattement < bestAb) { bestAb = r.cout_abattement; best = rid; }
+      if (r.part_electricite > maxEv) { maxEv = r.part_electricite; maxE = rid; }
+    });
+    return h("div", {class: "kpis kpis5"}, [
+      h("div", {class: "kpi"}, [h("div", {class: "lb"}, ["Route de référence"]), h("div", {class: "vl"}, [fmt(ref.cout_total * f) + " €"]), h("div", {class: "ex"}, [K(routeDef(pid, pr.reference)) + ", " + fmt(ref.em_total) + " " + uem(pid)])]),
+      h("div", {class: "kpi hi"}, [h("div", {class: "lb"}, ["Baisse profonde la moins chère (> 30 %)"]), h("div", {class: "vl"}, [best ? fmt(bestAb, 0) + " €/tCO2" : "–"]), h("div", {class: "ex"}, [best ? K(routeDef(pid, best)) + ", −" + pct(pr.routes[best].reduction_emissions) : "aucune route ne coupe 30 % sur ce réseau"])]),
+      h("div", {class: "kpi"}, [h("div", {class: "lb"}, ["Part de l'énergie dans le coût complet"]), h("div", {class: "vl"}, [pct(ref.part_energie) + " → " + pct(pr.routes[maxE].part_energie)]), h("div", {class: "ex"}, [K(routeDef(pid, pr.reference)) + " (dont électricité " + pct(ref.part_electricite) + ") → " + K(routeDef(pid, maxE)) + " (électricité " + pct(maxEv) + ") ; combustibles, matières énergétiques et hydrogène tracé compris, coproduits énergétiques déduits"])]),
+      h("div", {class: "kpi"}, [h("div", {class: "lb"}, ["Dépendance à l'électricité, +10 €/MWh"]), h("div", {class: "vl"}, ["+" + fmt(ref.sensibilite_elec_10 * f, f === 1 ? 0 : 2) + " → +" + fmt(pr.routes[maxE].sensibilite_elec_10 * f, f === 1 ? 0 : 2) + " €"]), h("div", {class: "ex"}, ["par " + unit(pid) + " : " + K(routeDef(pid, pr.reference)) + " (" + fmt(ref.elec_mwh * f * 1000 / (f === 1 ? 1000 : 1), 2) + " MWh) → " + K(routeDef(pid, maxE)) + " (" + fmt(pr.routes[maxE].elec_mwh * f * 1000 / (f === 1 ? 1000 : 1), 2) + " MWh), intermédiaires compris"])]),
+      h("div", {class: "kpi"}, [h("div", {class: "lb"}, ["Prix du quota qui fait basculer"]), h("div", {class: "vl"}, [best && pr.routes[best].prix_co2_bascule !== null ? fmt(pr.routes[best].prix_co2_bascule, 0) + " €/t" : "–"]), h("div", {class: "ex"}, [best ? "pour " + K(routeDef(pid, best)) + " (émissions directes seules)" : ""])])
+    ]);
+  }
+
+  function reglerRoute(pid, rid) {
+    ouvert.capex = true; ouvert.rendements = true;
+    ouvertRoute[pid + "/" + rid + "/capex"] = true;
+    ouvertRoute[pid + "/" + rid + "/conso"] = true;
+    construireGauche();
+    var el = document.getElementById("blk-" + pid + "-" + rid + "-capex");
+    if (el) el.scrollIntoView({block: "center"});
+  }
+
+  function carteRoute(pid, rid) {
+    var d = routeDef(pid, rid), r = res[pid].routes[rid], f = fa(pid), pr = res[pid];
+    var det = h("details", {class: "route"});
+    det.appendChild(h("summary", {}, [h("span", {}, [h("span", {class: "nm"}, [L(d)]), h("span", {class: "mat " + d.maturite}, [MATURITE[d.maturite] || d.maturite])]),
+      h("span", {class: "tot"}, [fmt(r.cout_total * f) + " €/" + unit(pid) + " · " + fmt(r.em_total) + " " + uem(pid) + (r.cout_abattement !== null && rid !== pr.reference ? " · " + fmt(r.cout_abattement, 0) + " €/tCO2" : "")])]));
+    var body = h("div", {class: "body"});
+    body.appendChild(h("p", {class: "desc"}, [D(d)]));
+    var tb = h("table", {class: "det"});
+    tb.appendChild(h("tr", {}, [h("th", {}, ["Poste de coût"]), h("th", {}, ["Quantité"]), h("th", {class: "n"}, ["€/" + unit(pid)]), h("th", {class: "n"}, ["part"])]));
+    function ligne(lbl, q, val) { tb.appendChild(h("tr", {}, [h("td", {}, [lbl]), h("td", {}, [q || ""]), h("td", {class: "n"}, [fmt(val * f)]), h("td", {class: "n"}, [r.cout_total ? pct(val / r.cout_total) : ""])])); }
+    ligne("Capital, annualisé", fmt(r.parametres.capex) + " €/(t/an) × CRF " + fmt(r.parametres.crf, 3) + " ÷ " + fmt(r.parametres.facteur_charge, 2), r.cout.capex);
+    ligne("Coûts fixes d'exploitation", fmt(Moteur.v(d.opex_fixe)) + " €/(t/an)/an ÷ " + fmt(r.parametres.facteur_charge, 2), r.cout.opex_fixe);
+    var sur = (etat.routes[pid] || {})[rid] || {};
+    Object.keys(d.conso || {}).forEach(function (k) {
+      var e = d.conso[k], q = (sur.conso && k in sur.conso) ? sur.conso[k] : Moteur.v(e);
+      if (e && e.intermediaire) {
+        var id = r.intermediaires[e.intermediaire];
+        ligne(L(prod(e.intermediaire)) + " (" + (id.route === "achat" ? "acheté" : K(routeDef(e.intermediaire, id.route))) + ")", fmt(q, 3) + " " + U(e.u), id.cout);
+      } else {
+        var val = 0;
+        Object.keys(r.detail).forEach(function (cat) { if (k in r.detail[cat]) val = r.detail[cat][k]; });
+        ligne(nomConso(k) + (k === "co2_capte" ? " (" + L(Moteur.SOURCES_CO2[etat.source_co2[pid]]) + ")" : ""), fmt(q, q < 1 ? 3 : 2) + " " + U(e.u), val);
+      }
+    });
+    if (r.cout.autres) ligne(L(d.autres_couts) || "Autres consommables", "", r.cout.autres);
+    Object.keys(d.coproduits || {}).forEach(function (k) {
+      var q = (sur.coproduits && k in sur.coproduits) ? sur.coproduits[k] : Moteur.v(d.coproduits[k]);
+      ligne("Coproduit : " + nomConso(k), fmt(q) + " " + U(d.coproduits[k].u), r.detail.coproduits[k]);
+    });
+    ligne("Prix du CO2 × émissions directes résiduelles", fmt(r.em_ets, 2) + " " + uem0(pid) + "CO2", r.cout.co2);
+    if (r.cout.stockage_co2) ligne("Transport et stockage du CO2", fmt(r.emissions.captage, 2) + " " + uem0(pid) + "CO2 capté", r.cout.stockage_co2);
+    tb.appendChild(h("tr", {class: "tot"}, [h("td", {}, ["Total"]), h("td"), h("td", {class: "n"}, [fmt(r.cout_total * f)]), h("td", {class: "n"}, ["100 %"])]));
+    var em = r.emissions;
+    var cols = h("div", {class: "cols"});
+    var left = h("div");
+    left.appendChild(h("p", {class: "par"}, ["Durée de vie " + fmt(r.parametres.duree_vie, 0) + " ans → CRF " + fmt(r.parametres.crf, 3) + " à " + fmt(100 * etat.taux, 1) + " %. Facteur de charge " + pct(r.parametres.facteur_charge) + ". Électricité totale, intermédiaires compris : " + fmt(r.elec_mwh * f * (f === 1 ? 1 : 1000), 2) + " " + (f === 1 ? "MWh" : "kWh") + " par " + unit(pid) + " → chaque +10 €/MWh ajoute " + fmt(r.sensibilite_elec_10 * f, f === 1 ? 0 : 2) + " €/" + unit(pid) + "."]));
+    left.appendChild(h("p", {class: "par"}, ["Émissions, " + uem(pid) + " : procédé " + fmt(em.procede, 2) + " · combustion " + fmt(em.combustion, 2) + " · amont " + fmt(em.amont, 2) + " · électricité " + fmt(em.electricite, 2) + (em.captage ? " · capté " + fmt(em.captage, 2) : "") + (em.usage ? " · usage " + fmt(em.usage, 2) + (etat.inclure_usage ? " (compté)" : " (non compté)") : "") + "."]));
+    left.appendChild(h("button", {class: "regler", onclick: function () { reglerRoute(pid, rid); }}, ["Régler les hypothèses de cette route ↖"]));
+    cols.appendChild(left);
+    cols.appendChild(h("div", {class: "scroll"}, [tb]));
+    body.appendChild(cols);
+    det.appendChild(body);
+    return det;
+  }
+
+  var LECONS = {
+    hydrogen: ["Faire glisser le prix de l'électricité de 70 à 30 €/MWh : l'électrolyse baisse de ≈ 1,8 €/kg — l'électricité fait 60-70 % de son coût, l'électrolyseur lui-même moins d'un tiers.",
+      "Baisser ensuite le facteur de charge à 30 % (un parc solaire dédié) : la part du capital triple. Une électricité bon marché ne vaut pas grand-chose si la machine est à l'arrêt.",
+      "Basculer le réseau sur l'UE-27 (240 g) : le même électrolyseur émet désormais plus que le SMR qu'il remplace. « Vert » est une propriété de l'électricité."],
+    steel: ["80 €/t est le prix du charbon de pommes-industry ; le charbon à coke est plutôt à 220. Monter le curseur et regarder le haut fourneau perdre son avantage.",
+      "Le DRI-H2 est à 40 % d'électricité alors que l'usine achète son hydrogène : la facture de l'électrolyseur voyage avec l'hydrogène.",
+      "Le recyclage de ferraille a un coût d'abattement négatif — et ne peut pas croître : la ferraille couvre ≈ 30 % de la demande."],
+    cement: ["Baisser le taux de clinker ne coûte rien et c'est le levier le moins cher ; la limite est la norme produit EN 197, pas la technique.",
+      "Électrifier le four enlève 0,25 t à un coût élevé et laisse les 0,26 t de la pierre ; seul le captage passe sous ce plancher.",
+      "Monter le transport-stockage à 120 €/t (une cimenterie de l'intérieur) : l'oxycombustion reste la seule route sous le plancher, mais son coût d'abattement double."],
+    ammonia: ["Toutes les routes sont la même boucle Haber-Bosch : toute la différence est la route d'hydrogène, importée de l'onglet Hydrogène.",
+      "Au facteur d'émission du réseau européen, l'ammoniac électrolytique émet plus que la route SMR. Le meilleur et le pire procédé sont le même procédé."],
+    methanol: ["L'e-méthanol est à ≈ 90 % du coût de l'hydrogène : amener l'électrolyse à 2,3 €/kg (30 €/MWh, 90 % de charge) et il passe sous le bio-méthanol.",
+      "Choisir « source ponctuelle fossile » puis « captage dans l'air » : le prix change de 480 €/t de méthanol, et la comptabilité climatique du carburant avec."],
+    olefins: ["Le carbone du vapocraqueur est dans le produit, pas dans la cheminée : cocher la case « usage » pour voir apparaître 3,1 t en fin de vie.",
+      "Le craqueur électrique ne s'en sort que si le gaz de queue libéré est vendu : retirer mentalement le crédit de coproduit et il ne rentre jamais dans ses frais."],
+    aluminium: ["L'électricité fait un tiers du coût à 70 €/MWh — à 30 €/MWh (Québec, Norvège, Islande) elle en fait 17 %. C'est pour cela que les fonderies sont au pied des barrages.",
+      "Les anodes inertes suppriment le CO2 de procédé, pas les 15 MWh : sur le réseau européen la route reste dominée par son électricité."],
+    saf: ["L'HEFA est peu cher à construire et cher à nourrir : le prix des huiles usagées fait 80 % du coût, et la ressource est de quelques millions de tonnes pour toute l'Europe.",
+      "L'e-SAF demande 0,62 t d'hydrogène par tonne — ≈ 28 MWh d'électrolyse. Son coût, c'est celui de l'onglet Hydrogène multiplié par 0,62, plus le CO2.",
+      "La référence fossile paie 27 €/t de quota à 70 €/t : à 300 €/t elle en paierait 120, loin encore des 2 000 €/t de n'importe quelle alternative."]
+  };
+
+  function ongletProduit(pid) {
+    var P = prod(pid), pr = res[pid];
+    var main = h("div");
+    main.appendChild(h("div", {class: "prod-head"}, [h("h2", {}, [L(P)]), h("span", {class: "unit"}, ["par " + unit(pid) + " · route de référence : " + L(routeDef(pid, pr.reference))])]));
+    if (LECONS[pid]) main.appendChild(h("div", {class: "lessons"}, [h("b", {}, ["À essayer"]), h("ol", {}, LECONS[pid].map(function (t) { return h("li", {}, [t]); }))]));
+    main.appendChild(kpis(pid));
+    main.appendChild(figCouts(pid));
+    main.appendChild(figEmissions(pid));
+    main.appendChild(figAbattement(pid));
+    main.appendChild(courbesElec(pid));
+    var rs = h("div", {class: "routes"});
+    pr.ordre.forEach(function (rid) { rs.appendChild(carteRoute(pid, rid)); });
+    main.appendChild(h("h3", {style: "margin:6px 0 10px;font-size:16px"}, ["Les routes — en ouvrir une pour lire son détail poste par poste (les curseurs sont dans le panneau de gauche)"]));
+    main.appendChild(rs);
+    return main;
+  }
+
+  // ------------------------------------------------------------ onglet comparaison
+  function ongletComparer() {
+    var main = h("div");
+    main.appendChild(h("h2", {style: "margin:0 0 8px;font-size:22px"}, ["Tous produits — quelle part du coût est de l'énergie"]));
+    main.appendChild(h("p", {class: "intro"}, ["Part de l'énergie dans le coût complet de production de chaque route, aux prix réglés à gauche : électricité, combustibles (gaz, charbon, biomasse) et matières énergétiques (naphta, brut, huiles, biomasse), coproduits énergétiques déduits, l'hydrogène ou le méthanol consommé par une route étant ramené à sa propre énergie. Le reste est du capital, des coûts fixes, d'autres matières et le prix du CO2. La part bouge avec les prix : la lire avec eux."]));
+    var rows = [];
+    HYP.ordre.forEach(function (pid) {
+      res[pid].ordre.forEach(function (rid) {
+        var r = res[pid].routes[rid];
+        rows.push({label: L(prod(pid)) + " · " + K(routeDef(pid, rid)), ref: rid === res[pid].reference, total: 100 * r.part_energie, dec: 0,
+                   segs: [{key: "e", label: "Électricité", val: 100 * r.part_electricite, color: C.cout.electricite, ink: "#0b0b0b"},
+                          {key: "f", label: "Combustibles et matières énergétiques, nets des coproduits", val: 100 * (r.part_energie - r.part_electricite), color: C.cout.combustibles, ink: "#0b0b0b"}]});
+      });
+    });
+    var svg = barresEmpilees({rows: rows, unit: "% du coût complet de production", aria: "Part de l'énergie dans le coût"});
+    main.appendChild(h("figure", {}, [h("div", {class: "fig"}, [h("div", {class: "ttl"}, ["Part de l'énergie dans le coût complet, toutes les routes (électricité " + fmt(etat.prix.electricite, 0) + " €/MWh, gaz " + fmt(etat.prix.gaz, 0) + " €/MWh, charbon " + fmt(etat.prix.charbon, 0) + " €/t)"]), svg,
+      legende([{label: "Électricité", color: C.cout.electricite}, {label: "Combustibles et matières énergétiques, nets des coproduits", color: C.cout.combustibles}])]),
+      h("figcaption", {}, ["En gras = route de référence de chaque produit. Un segment de combustible négatif (bio-naphta) signifie que la route vend plus de coproduits énergétiques qu'elle n'achète de combustible."])]));
+    var rowsD = [];
+    HYP.ordre.forEach(function (pid) {
+      var pr = res[pid], best = null, bestAb = Infinity;
+      pr.ordre.forEach(function (rid) { var r = pr.routes[rid]; if (rid !== pr.reference && r.cout_abattement !== null && r.reduction_emissions > 0.5 && r.cout_abattement < bestAb) { bestAb = r.cout_abattement; best = rid; } });
+      [pr.reference, best].forEach(function (rid) {
+        if (!rid) return;
+        var r = pr.routes[rid], t = r.cout_total;
+        var cap = (r.cout.capex + r.cout.opex_fixe) / t, en = r.cout_energie / t, co2 = (r.cout.co2 + r.cout.stockage_co2) / t;
+        var mat = 1 - cap - en - co2;
+        rowsD.push({label: L(prod(pid)) + " · " + K(routeDef(pid, rid)), ref: rid === pr.reference, total: 100, dec: 0,
+                    segs: [{key: "c", label: "Capital et coûts fixes", val: 100 * cap, color: C.cout.capex, ink: "#fff"},
+                           {key: "e", label: "Énergie (électricité, combustibles, matières énergétiques, net)", val: 100 * en, color: C.cout.combustibles, ink: "#0b0b0b"},
+                           {key: "m", label: "Autres matières et consommables", val: 100 * mat, color: C.cout.matieres, ink: "#0b0b0b"},
+                           {key: "k", label: "Prix du CO2 et stockage", val: 100 * co2, color: C.cout.co2, ink: "#fff"}]});
+      });
+    });
+    var svgD = barresEmpilees({rows: rowsD, unit: "% du coût complet", aria: "Répartition du coût"});
+    main.appendChild(h("figure", {}, [h("div", {class: "fig"}, [h("div", {class: "ttl"}, ["Répartition du coût complet — route de référence (en gras) et route la moins chère coupant plus de 50 %, par produit"]), svgD,
+      legende([{label: "Capital et coûts fixes", color: C.cout.capex}, {label: "Énergie", color: C.cout.combustibles}, {label: "Autres matières", color: C.cout.matieres}, {label: "Prix du CO2 et stockage", color: C.cout.co2}])]),
+      h("figcaption", {}, ["La même coupe que le graphique « répartition du coût annualisé » du cours (Raillard-Cazanove), l'énergie séparée du reste de l'OPEX. Le capital fait 10-25 % partout sauf sur les routes électriques à faible facteur de charge ; ce qui remplit la barre, c'est l'énergie pour l'hydrogène, l'ammoniac, le méthanol et les carburants, et les matières pour l'acier, le ciment, les oléfines et l'aluminium."])]));
+    var tb = h("table", {class: "det"}, [h("tr", {}, [h("th", {}, ["Route"]), h("th", {class: "n"}, ["MWh élec. par unité (H2 et méthanol compris)"]), h("th", {class: "n"}, ["€ par unité pour +10 €/MWh"]), h("th", {class: "n"}, ["Coût au prix courant"]), h("th", {class: "n"}, ["Part énergie"]), h("th", {class: "n"}, ["Part électricité"])])]);
+    HYP.ordre.forEach(function (pid) {
+      var f = fa(pid);
+      res[pid].ordre.forEach(function (rid) {
+        var r = res[pid].routes[rid];
+        tb.appendChild(h("tr", {}, [h("td", {}, [L(prod(pid)) + " · " + K(routeDef(pid, rid)) + " (par " + unit(pid) + ")"]), h("td", {class: "n"}, [fmt(r.elec_mwh * (f === 1 ? 1 : 1000) * f, 2) + (f === 1 ? "" : " kWh")]), h("td", {class: "n"}, ["+" + fmt(r.sensibilite_elec_10 * f, f === 1 ? 0 : 2)]), h("td", {class: "n"}, [fmt(r.cout_total * f)]), h("td", {class: "n"}, [pct(r.part_energie)]), h("td", {class: "n"}, [pct(r.part_electricite)])]));
+      });
+    });
+    main.appendChild(h("h3", {style: "margin:18px 0 6px;font-size:16px"}, ["Dépendance de chaque route à l'électricité"]));
+    main.appendChild(h("p", {class: "intro"}, ["La mesure absolue, indépendante du prix de l'électricité : combien de MWh une tonne demande une fois l'hydrogène et le méthanol qu'elle consomme ramenés à leur électrolyseur, et donc de combien son coût bouge quand le prix de l'électricité bouge. À lire à côté de la part, qui, elle, dépend du prix."]));
+    main.appendChild(h("div", {class: "scroll"}, [tb]));
+    var rows2 = [];
+    HYP.ordre.forEach(function (pid) {
+      res[pid].ordre.forEach(function (rid) {
+        var r = res[pid].routes[rid];
+        if (rid === res[pid].reference || r.cout_abattement === null || r.reduction_emissions < 0.3) return;
+        rows2.push({label: L(prod(pid)) + " · " + K(routeDef(pid, rid)), total: r.cout_abattement, dec: 0, ab: r.cout_abattement, red: r.reduction_emissions,
+                    segs: [{key: "ab", label: "Coût d'abattement", val: r.cout_abattement, color: r.cout_abattement < 0 ? C.cout.coproduits : C.cout.capex, ink: "#fff"}], extra: "(−" + pct(r.reduction_emissions) + ")"});
+      });
+    });
+    rows2.sort(function (a, b) { return a.ab - b.ab; });
+    var svg2 = barresEmpilees({rows: rows2, unit: "€/tCO2 évitée", aria: "Coûts d'abattement, tous produits",
+      lignes: [{x: etat.prix.co2_ets, label: "quota " + fmt(etat.prix.co2_ets, 0), color: C.cout.co2}, {x: Moteur.v(HYP.commun.prix.valeur_action_climat_2030), label: "Quinet 2030", color: "#0b0b0b", dash: "2 3"}]});
+    main.appendChild(h("figure", {}, [h("div", {class: "fig"}, [h("div", {class: "ttl"}, ["Coût d'abattement de toutes les routes qui coupent au moins 30 % de leur référence, triées"]), svg2]),
+      h("figcaption", {}, ["Un ordre de mérite de la décarbonation industrielle à ces prix. Les routes au-dessus de la valeur Quinet ne valent pas la peine d'être faites aux chiffres d'aujourd'hui ; celles sous le prix du quota se paient déjà toutes seules — si l'usine y est exposée."])]));
+    return main;
+  }
+
+  // ------------------------------------------------------------ annexe des sources
+  function ligneAnn(nom, e, ancre) {
+    if (e === null || e === undefined) return null;
+    if (typeof e !== "object") return h("tr", {id: ancre || ""}, [h("td", {}, [nom]), h("td", {class: "n"}, [String(e)]), h("td"), h("td"), h("td"), h("td")]);
+    return h("tr", {id: ancre || ""}, [h("td", {}, [nom + (L(e) ? " — " + L(e) : "")]), h("td", {class: "n"}, [fmt(e.v, e.v !== undefined && Math.abs(e.v) < 1 ? 3 : undefined)]), h("td", {}, [U(e.u)]),
+      h("td", {class: "n"}, [e.marche ? fmt(e.marche.v) + " " + U(e.marche.u) : ""]), h("td", {}, [badge(e) || ""]), h("td", {class: "src"}, [(e.src || "") + (e.note ? " — " + e.note : "") + (e.marche ? " — Marché " + (e.marche.date || "") + " : " + L(e.marche) : "")])]);
+  }
+  function tableAnn(rows) {
+    var t = h("table", {class: "ann"}, [h("tr", {}, [h("th", {}, ["Paramètre"]), h("th", {class: "n"}, ["Défaut"]), h("th", {}, ["Unité"]), h("th", {class: "n"}, ["Marché 2025"]), h("th", {}, ["Statut"]), h("th", {}, ["Source et note"])])]);
+    rows.forEach(function (r) { if (r) t.appendChild(r); });
+    return h("div", {class: "scroll"}, [t]);
+  }
+  function ongletSources() {
+    var main = h("div", {class: "annexe"});
+    main.appendChild(h("h2", {style: "margin:0 0 8px;font-size:22px"}, ["Toutes les hypothèses, avec leur source"]));
+    main.appendChild(h("p", {class: "intro"}, ["Engendré depuis les YAML du modèle (hypotheses/*.yaml dans le dossier du thème) : ce tableau ne peut pas diverger du calcul. Statuts : vérifié = relu dans le document cité ; mémoire = ordre de grandeur pas encore relu ligne à ligne ; calculé = dérivé d'autres valeurs, la note dit comment ; choix = convention pédagogique ; corrigé / douteux = la valeur de la source est invraisemblable et c'est signalé. Source principale : pommes-industry (PERSEE, Mines Paris PSL), France, valeurs 2030 ; décomposition des émissions : Decarbonisation_routes/data/emission_factors.md. Prix en €2024, énergies en PCI."]));
+    main.appendChild(h("h3", {}, ["Prix et facteurs communs"]));
+    var c = HYP.commun;
+    main.appendChild(tableAnn([ligneAnn("taux_actualisation", c.finance.taux_actualisation, "c-taux")]
+      .concat(Object.keys(c.prix).map(function (k) { return ligneAnn(k, c.prix[k], "c-prix-" + k); }))
+      .concat([ligneAnn("facteur_emission_electricite", c.facteurs_emission.electricite, "c-ef")])
+      .concat(Object.keys(c.constantes).map(function (k) { return ligneAnn(k, c.constantes[k]); }))));
+    HYP.ordre.forEach(function (pid) {
+      var d = HYP.produits[pid], P = d.produit;
+      main.appendChild(h("h3", {}, [L(P) + " — par " + (P.unite_fr || P.unite)]));
+      var rows = [ligneAnn("prix_marche", P.prix_marche, pid + "-prix_marche")];
+      if (P.emissions_usage) rows.push(ligneAnn("emissions_usage", P.emissions_usage));
+      Object.keys(d.intrants || {}).forEach(function (k) { rows.push(ligneAnn(k, d.intrants[k], pid + "-in-" + k)); });
+      main.appendChild(tableAnn(rows));
+      d.routes.forEach(function (r) {
+        main.appendChild(h("h4", {}, [L(r) + " (" + (MATURITE[r.maturite] || r.maturite) + ")"]));
+        var rr = [ligneAnn("capex", r.capex, pid + "-" + r.id + "-capex"), ligneAnn("duree_vie", r.duree_vie, pid + "-" + r.id + "-duree_vie"),
+                  ligneAnn("opex_fixe", r.opex_fixe, pid + "-" + r.id + "-opex_fixe"), ligneAnn("facteur_charge", r.facteur_charge, pid + "-" + r.id + "-facteur_charge")];
+        Object.keys(r.conso || {}).forEach(function (k) { rr.push(ligneAnn("conso · " + k + (r.conso[k] && r.conso[k].intermediaire ? " (depuis " + r.conso[k].intermediaire + (r.conso[k].route ? ", route " + r.conso[k].route : "") + ")" : ""), r.conso[k], pid + "-" + r.id + "-conso-" + k)); });
+        Object.keys(r.coproduits || {}).forEach(function (k) { rr.push(ligneAnn("coproduit · " + k, r.coproduits[k], pid + "-" + r.id + "-coproduit-" + k)); });
+        if (r.autres_couts) rr.push(ligneAnn("autres_couts", r.autres_couts));
+        ["procede", "combustion", "amont"].forEach(function (k) { rr.push(ligneAnn("émissions · " + k, r.emissions[k])); });
+        if (r.captage) rr.push(ligneAnn("captage · taux", r.captage.taux, pid + "-" + r.id + "-captage"));
+        main.appendChild(tableAnn(rr));
+      });
+    });
+    return main;
+  }
+
+  // ------------------------------------------------------------ assemblage
+  var contenu, gauche, nav;
+  function rerender() {
+    try { rerender2(); } catch (e) { contenu.innerHTML = ""; contenu.appendChild(h("pre", {style: "color:#C0392B;white-space:pre-wrap"}, ["Erreur JavaScript — merci de la signaler :\n" + (e.stack || e)])); }
+  }
+  function rerender2() {
+    recalc();
+    var ouverts = {};
+    contenu.querySelectorAll("details.route").forEach(function (d, i) { ouverts[i] = d.open; });
+    var pos = window.scrollY;
+    contenu.innerHTML = "";
+    if (onglet === "compare") contenu.appendChild(ongletComparer());
+    else if (onglet === "sources") contenu.appendChild(ongletSources());
+    else contenu.appendChild(ongletProduit(onglet));
+    contenu.querySelectorAll("details.route").forEach(function (d, i) { d.open = !!ouverts[i]; });
+    window.scrollTo(0, pos);
+  }
+  function construireGauche() {
+    gauche.innerHTML = "";
+    gauche.appendChild(panneauGauche());
+  }
+  function majOnglets() {
+    nav.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.id === onglet)); });
+  }
+  function construire() {
+    defaut = JSON.parse(JSON.stringify(etat));
+    var root = $("#app");
+    root.innerHTML = "";
+    nav = h("nav", {class: "tabs", role: "tablist"});
+    var tabs = HYP.ordre.map(function (pid) { return [pid, L(prod(pid))]; }).concat([["compare", "Comparer"], ["sources", "Sources et hypothèses"]]);
+    tabs.forEach(function (t) {
+      var b = h("button", {role: "tab", "aria-selected": String(t[0] === onglet), class: t[0] === "compare" ? "sep" : "", onclick: function () {
+        onglet = t[0]; majOnglets(); construireGauche(); rerender(); window.scrollTo(0, 0); }}, [t[1]]);
+      b.dataset.id = t[0];
+      nav.appendChild(b);
+    });
+    root.appendChild(nav);
+    var grid = h("div", {class: "grid"});
+    gauche = h("div");
+    contenu = h("div");
+    grid.appendChild(gauche); grid.appendChild(contenu);
+    root.appendChild(grid);
+    construireGauche();
+    rerender();
+  }
+  construire();
+})();
+
+</script>
+</body>
+</html>

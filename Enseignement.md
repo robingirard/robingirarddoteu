@@ -12,7 +12,7 @@ les outils interactifs, les supports et les pages de projets étudiants.
 
 ## Outils interactifs
 
-Quatre applications, à ouvrir directement dans un navigateur. Elles fonctionnent
+Cinq applications, à ouvrir directement dans un navigateur. Elles fonctionnent
 entièrement en local : rien n'est envoyé nulle part, et elles restent utilisables
 hors connexion une fois la page chargée. Leur code et leurs sources sont ouverts.
 
@@ -65,6 +65,24 @@ bouge. La France affiche 50 % de bas-carbone en énergie primaire et 23 % en
 La page fonctionne hors ligne et n'embarque aucun jeu de données, seulement les
 valeurs agrégées de la figure. Code et sources :
 [git.persee.minesparis.psl.eu/energy-alternatives/world_energy_mix](https://git.persee.minesparis.psl.eu/energy-alternatives/world_energy_mix)
+
+### [Décarbonation de l'industrie — ce que coûte chaque route]({{site.url}}/IndustryDecarbonisation.html)
+
+Coût de production, émissions et coût d'abattement de quarante-six routes de
+décarbonation, pour huit produits — hydrogène, acier, ciment, ammoniac, méthanol,
+oléfines, aluminium, kérosène. Chaque hypothèse est un curseur qui porte sa valeur,
+ses bornes, sa source et son statut.
+
+L'industrie est l'endroit où la décarbonation cesse d'être une affaire de volonté
+pour devenir une affaire d'arithmétique, et trois nombres font l'essentiel de cette
+arithmétique. Le prix de l'électricité fait passer l'hydrogène électrolytique de
+4,9 à 3,1 €/kg — et à 2,3 si l'électrolyseur tourne en plus 90 % du temps. Le facteur
+d'émission du réseau retourne les routes électriques entre la France et la moyenne
+européenne : sur le réseau européen, l'électrolyse émet plus que le vaporeformage
+qu'elle remplace, et le quota la récompense quand même. Et le prix du charbon à coke
+décide si le haut fourneau reste bon marché. Les coûts viennent de pommes-industry,
+le modèle technico-économique du centre PERSEE. Code, modèle, données et figures :
+[git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes](https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes)
 
 ### [Révise — réviser par répétition espacée]({{site.url}}/Revise.html)
 

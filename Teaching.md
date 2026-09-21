@@ -12,7 +12,7 @@ course material and the student project pages.
 
 ## Interactive tools
 
-Three applications, to be opened straight in a browser. They run entirely on your
+Four applications, to be opened straight in a browser. They run entirely on your
 machine: nothing is sent anywhere, and they keep working offline once the page
 has loaded. All are open source, model and sources included.
 
@@ -45,6 +45,24 @@ cycle — decide the headline number more than the engineering does. Default
 values reproduce the JEC Well-to-Wheels v5 (JRC, EUCAR and Concawe), the
 European Union's reference study. Code, sources and reproducible figures:
 [git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency](https://git.persee.minesparis.psl.eu/energy-alternatives/car_efficiency)
+
+### [Decarbonising industry — what each route costs]({{site.url}}/IndustryDecarbonisation.html)
+
+Production cost, emissions and abatement cost for forty-six decarbonisation routes
+across eight products — hydrogen, steel, cement, ammonia, methanol, olefins,
+aluminium and jet fuel. Every assumption is a slider carrying its value, its bounds,
+its source and its status.
+
+Industry is where decarbonisation stops being a matter of will and becomes a matter
+of arithmetic, and three numbers do most of that arithmetic. The price of
+electricity takes electrolytic hydrogen from €4.9/kg to €3.1 — and to €2.3 if the
+electrolyser also runs 90 % of the time. The grid emission factor flips the electric
+routes over between France and the European average: on the EU grid, electrolysis
+emits more than the reforming it replaces, and the carbon market rewards it anyway.
+And the price of coking coal decides whether the blast furnace still looks cheap.
+Costs come from pommes-industry, the techno-economic model of the PERSEE centre.
+**The application is in French** for now. Code, model, data and figures:
+[git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes](https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes)
 
 ### [Révise — revising by spaced repetition]({{site.url}}/Revise.html)
 
