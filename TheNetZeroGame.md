@@ -12,7 +12,7 @@ and the biogas, biofuel and biomass the country can actually supply.
 
 By **[Robin Girard]({{site.url}}/)**, MINES Paris — PSL.
 
-**[Play the current version]({{site.url}}/assets/netzerogame/latest/index.html)** — v0.20.
+**[Play the current version]({{site.url}}/assets/netzerogame/latest/index.html)** — v0.21.
 
 It runs entirely in your browser. Nothing is sent anywhere, and you can save a
 scenario to a file and load it back on another machine.
@@ -39,6 +39,7 @@ Source code, including the model and its sources:
 Each minor release keeps its own permanent link, so a scenario shared with a class
 still opens against the model it was built on.
 
+ - [v0.21]({{site.url}}/assets/netzerogame/v0.21/index.html)
  - [v0.20]({{site.url}}/assets/netzerogame/v0.20/index.html)
  - [v0.18]({{site.url}}/assets/netzerogame/v0.18/index.html)
  - [v0.14]({{site.url}}/assets/netzerogame/v0.14/index.html)
