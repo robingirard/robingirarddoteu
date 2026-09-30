@@ -13,8 +13,9 @@ description: 'Full Professor at MINES Paris - PSL, PERSEE Center. Net zero trans
 theme_skin: blue # blue turquoise green berry orange ceramic
 chrome_mobile_color: #use hex colors (ex:#1976d2) or leave empty if you don't want a color for chrome mobile searchbar
 
-# Tracker
-analytics: G-2Q50G1CPKN
+# Tracker : code GoatCounter (sans cookie, sans bandeau) ; tableau de bord https://robingirard.goatcounter.com
+# Google Analytics 4 (G-2Q50G1CPKN) retiré le 2026-09-30.
+analytics: robingirard
 
 # Sass/SCSS
 sass:
