@@ -76,12 +76,13 @@ ses bornes, sa source et son statut.
 L'industrie est l'endroit où la décarbonation cesse d'être une affaire de volonté
 pour devenir une affaire d'arithmétique, et trois nombres font l'essentiel de cette
 arithmétique. Le prix de l'électricité fait passer l'hydrogène électrolytique de
-4,9 à 3,1 €/kg — et à 2,3 si l'électrolyseur tourne en plus 90 % du temps. Le facteur
+7,1 à 4,9 €/kg — et à 3,6 si l'électrolyseur tourne en plus 90 % du temps. Le facteur
 d'émission du réseau retourne les routes électriques entre la France et la moyenne
 européenne : sur le réseau européen, l'électrolyse émet plus que le vaporeformage
 qu'elle remplace, et le quota la récompense quand même. Et le prix du charbon à coke
 décide si le haut fourneau reste bon marché. Les coûts viennent de pommes-industry,
-le modèle technico-économique du centre PERSEE. Code, modèle, données et figures :
+le modèle technico-économique du centre PERSEE, et, pour l'électrolyseur, du Global
+Hydrogen Review 2026 de l'AIE. Code, modèle, données et figures :
 [git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes](https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes)
 
 ### [Révise — réviser par répétition espacée]({{site.url}}/Revise.html)

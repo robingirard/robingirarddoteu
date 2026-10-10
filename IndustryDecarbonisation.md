@@ -13,7 +13,7 @@ with every assumption a slider you can move.
 
 By **[Robin Girard]({{site.url}}/)**, MINES Paris — PSL.
 
-**[Open the current version]({{site.url}}/assets/industrydecarbo/latest/index.html)** — v2.0.
+**[Open the current version]({{site.url}}/assets/industrydecarbo/latest/index.html)** — v2.1.
 
 It runs entirely in your browser. Nothing is sent anywhere, and the single HTML
 file keeps working offline, on a memory stick or dropped into a course page.
@@ -27,8 +27,8 @@ because of what it costs — and the point of the tool is to let a student move
 the handful of numbers that decide that, and watch the ranking change.
 
 Three of them are worth the visit on their own. **The price of electricity**:
-at €70/MWh electrolytic hydrogen costs €4.9/kg against €3.3 for steam reforming;
-at €30/MWh it costs €3.1, and €2.3 if the electrolyser runs 90 % of the time.
+at €70/MWh electrolytic hydrogen costs €7.1/kg against €3.3 for steam reforming;
+at €30/MWh it costs €4.9, and €3.6 if the electrolyser runs 90 % of the time.
 Hydrogen-based steel, ammonia, methanol and synthetic kerosene are only multiples
 of that one figure. **The grid emission factor**: switch from France at 56 g to
 the EU-27 at 240 g and the electric routes turn over — electrolysis then emits
@@ -52,7 +52,9 @@ a value shown and a value used cannot differ. The two engines are compared on
 What is not known is written down as such: a status marks the figures that are
 still orders of magnitude rather than sourced values, and the ones kept for want
 of better while known to be wrong. Costs come from **pommes-industry**, the
-techno-economic model of the PERSEE centre, for France in 2030.
+techno-economic model of the PERSEE centre, for France in 2030 — except the
+electrolyser, set since v2.1 on the IEA's *Global Hydrogen Review 2026*
+(installed costs of 2025).
 
 If a number looks wrong to you, that is a contribution — the repository takes
 issues.
@@ -65,6 +67,7 @@ Source code, model, assumptions, data and figures:
 Each minor release keeps its own permanent link, so a result quoted in a class
 still opens against the model it was computed on.
 
+ - [v2.1]({{site.url}}/assets/industrydecarbo/v2.1/index.html)
  - [v2.0]({{site.url}}/assets/industrydecarbo/v2.0/index.html)
 
-<small>Page updated 2026-09-21.</small>
+<small>Page updated 2026-10-10.</small>
