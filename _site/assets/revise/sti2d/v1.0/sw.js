@@ -1,12 +1,12 @@
 // sw.js — service worker : cache-first pour l'enveloppe de l'appli et le contenu.
 // Incrémenter VERSION à chaque mise en ligne pour forcer la mise à jour chez les utilisateurs.
-const VERSION = '2026-09-17.4';
+const VERSION = '2026-10-18.2';
 const CACHE = `revise-sti2d-${VERSION}`;
 const ASSETS = [
   './', './index.html', './manifest.webmanifest', './content.js', './css/app.css',
   './js/main.js', './js/dom.js', './js/dates.js', './js/scheduler.js', './js/progression.js',
   './js/session.js', './js/store.js', './js/render.js', './js/answers.js', './js/bilan.js', './js/guided-logic.js', './js/home.js', './js/anim.js', './js/mech-anim.js',
-  './js/packs.js', './js/profiles.js', './js/carte.js',
+  './js/packs.js', './js/profiles.js', './js/carte.js', './js/cagnotte.js', './js/fusion.js',
   './js/exercises/index.js', './js/exercises/common.js', './js/exercises/flashcard.js',
   './js/exercises/mcq.js', './js/exercises/match.js', './js/exercises/grid.js',
   './js/exercises/order.js', './js/exercises/input.js', './js/exercises/guided.js',

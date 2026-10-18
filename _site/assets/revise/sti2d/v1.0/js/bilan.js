@@ -63,12 +63,15 @@ export function buildBilan(progress, content, today) {
 
 // ---- encodage en lien (base64url, UTF-8), sans jamais évaluer le contenu reçu
 
-export function encodeBilan(bilan) {
-  const bytes = new TextEncoder().encode(JSON.stringify(bilan));
+/** Objet → base64url de son JSON (UTF-8). Sert au bilan et aux liens de la cagnotte. */
+export function encodeJson(obj) {
+  const bytes = new TextEncoder().encode(JSON.stringify(obj));
   let bin = '';
   for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
   return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
+
+export const encodeBilan = (bilan) => encodeJson(bilan);
 
 const num = (x, fallback = 0) => (Number.isFinite(Number(x)) ? Number(x) : fallback);
 const numOrNull = (x) => (x == null || x === '' ? null : num(x, null));
@@ -95,8 +98,9 @@ export function sanitizeBilan(obj) {
   };
 }
 
-export function decodeBilan(encoded) {
-  const bad = () => new Error('Ce lien ne contient pas un bilan valide.');
+/** Réciproque de encodeJson ; lève `message` si le texte n'en est pas un. Le résultat reste à vérifier. */
+export function decodeJson(encoded, message = 'Ce lien ne contient pas un bilan valide.') {
+  const bad = () => new Error(message);
   if (typeof encoded !== 'string' || !/^[A-Za-z0-9_-]{2,}$/.test(encoded)) throw bad();
   let b64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
   b64 += '='.repeat((4 - (b64.length % 4)) % 4);
@@ -104,7 +108,11 @@ export function decodeBilan(encoded) {
   try { bin = atob(b64); } catch { throw bad(); }
   let obj;
   try { obj = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)))); } catch { throw bad(); }
-  return sanitizeBilan(obj);
+  return obj;
+}
+
+export function decodeBilan(encoded) {
+  return sanitizeBilan(decodeJson(encoded));
 }
 
 /** Lien à partager : l'adresse de l'appli (fonctionne sous un sous-chemin, ex. GitHub Pages) + #/bilan?d=… */

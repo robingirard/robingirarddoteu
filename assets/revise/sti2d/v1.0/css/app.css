@@ -348,6 +348,30 @@ th { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-
 .bilan-table td:not(:first-child), .bilan-table th:not(:first-child) { text-align: center; white-space: nowrap; }
 .bilan-recent li, .bilan-weak li { margin: 4px 0; }
 .toggle-row { display: flex; align-items: center; gap: 12px; min-height: var(--tap); cursor: pointer; }
+
+/* ---- passer d'un appareil à l'autre ---- */
+.autres-transferts { margin: 10px 0; }
+.autres-transferts summary { cursor: pointer; color: var(--primary); min-height: 32px; }
+
+/* ---- cagnotte ---- */
+.cagnotte-card {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin: 0 0 12px;
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  border-left: 4px solid var(--accent); color: var(--text); text-decoration: none; min-height: var(--tap);
+}
+.cagnotte-icone { font-size: 1.6rem; }
+.cagnotte-texte { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.cagnotte-gain { color: var(--warn); font-weight: 600; margin: 10px 0; }
+.share-block { margin: 8px 0; }
+.cagnotte-liste { list-style: none; padding: 0; margin: 6px 0 12px; }
+.cagnotte-liste li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.cagnotte-liste li > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.cagnotte-decision { flex-wrap: wrap; }
+.cagnotte-decision-droite { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.cagnotte-choix { width: auto; min-width: 0; }
+.interro-q { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px 14px; margin: 8px 0; }
+.interro-q summary { cursor: pointer; color: var(--primary); margin-top: 8px; min-height: 32px; }
+.interro-rep { font-weight: 700; margin: 6px 0; }
 .toggle-row input { width: 24px; height: 24px; accent-color: var(--primary); }
 
 /* ---- figures de mobilité (mobilite-*) et de contact (contact-*) : tailles selon le contexte ---- */

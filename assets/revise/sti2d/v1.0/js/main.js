@@ -17,6 +17,8 @@ import * as profiles from './profiles.js';
 import * as carte from './carte.js';
 import * as anim from './anim.js';
 import * as mech from './mech-anim.js';
+import * as cg from './cagnotte.js';
+import * as fusion from './fusion.js';
 
 window.__RS_STARTED = true; // signale à index.html que le module a bien démarré
 
@@ -80,6 +82,7 @@ function route() {
       case 'settings': renderSettings(root); break;
       case 'profils': renderProfils(root); break;
       case 'carte': renderCarteRecue(root, query); break;
+      case 'cagnotte': renderCagnotte(root, query); break;
       default: renderHome(root);
     }
     figs.hydrate(root);
@@ -175,6 +178,7 @@ function renderHome(root) {
   const xpToday = prog.xpOnDay(progress.history, today);
   const goal = progress.settings.dailyGoal || prog.DEFAULT_DAILY_GOAL;
   const dueCount = sess.countDue(content, progress, today);
+  if (cg.consolider(progress, content, today, cg.etat(progress).bareme).length) store.save(progress);
   root.append(
     topbar({ title: content.title || 'Révise STI2D', droite: pastilleProfil() }),
     h('section', { class: 'stats' },
@@ -183,6 +187,7 @@ function renderHome(root) {
         h('span', { class: 'stat-value' }, `⭐ ${xpToday} / ${goal} XP`),
         h('span', { class: 'stat-label' }, xpToday >= goal ? 'objectif du jour atteint !' : 'objectif du jour'),
         bar(xpToday / goal, 'bar-small'))),
+    cagnotteCard(),
     dueCount > 0
       ? h('a', { class: 'btn btn-primary btn-block', href: '#/review' }, `Réviser (${dueCount})`)
       : h('div', { class: 'btn btn-block btn-muted', 'aria-disabled': 'true' }, 'Rien à réviser aujourd\'hui 🎉'),
@@ -532,19 +537,24 @@ function finishSession() {
   const result = sess.summary(session);
   const bonus = session.xpBonus || 0; // XP des étapes d'exercices complets
   let xp = prog.sessionXp(result) + bonus, passed = null, leveledUp = false, skill = null, skillState = null;
+  const gains = [];
   if (session.kind === 'skill') {
     skill = sess.findSkill(content, session.skillId);
-    const r = prog.applySession(progress.skills[session.skillId], skill, result, bonus);
+    const avant = progress.skills[session.skillId];
+    const r = prog.applySession(avant, skill, result, bonus);
     progress.skills[session.skillId] = r.state;
     ({ xp, passed, leveledUp } = r);
     skillState = r.state;
+    const pas = cg.pasDeSeance(progress, skill, avant, passed, today);
+    if (pas) gains.push(pas);
   }
   progress.xp += xp;
   progress.streak = prog.updateStreak(progress.streak, today);
-  progress.history.push({ date: today, kind: session.kind, skill: session.skillId, correct: result.correct, total: result.total, xp });
+  progress.history.push({ id: fusion.idSeance(), date: today, kind: session.kind, skill: session.skillId, correct: result.correct, total: result.total, xp });
+  gains.push(...cg.consolider(progress, content, today, cg.etat(progress).bareme));   // une révision peut consolider
   store.save(progress);
   profiles.touch(profiles.current(), today);   // « dernière séance » de la liste des profils
-  lastSummary = { kind: session.kind, skill, skillState, result, xp, passed, leveledUp };
+  lastSummary = { kind: session.kind, skill, skillState, result, xp, passed, leveledUp, gains };
   session = null;
   navigate('#/summary');
 }
@@ -553,7 +563,7 @@ function finishSession() {
 // ---------------------------------------------------------------- bilan
 function renderSummary(root) {
   if (!lastSummary) return navigate('#/');
-  const { kind, skill, skillState, result, xp, passed, leveledUp } = lastSummary;
+  const { kind, skill, skillState, result, xp, passed, leveledUp, gains = [] } = lastSummary;
   const pct = Math.round(100 * result.accuracy);
   const levels = skill ? prog.skillLevels(skill) : 0;
   root.append(
@@ -570,6 +580,7 @@ function renderSummary(root) {
           levelRing(skillState, levels),
           skillState.level < levels ? bar(skillState.progress, 'bar-small') : null)
         : null,
+      gains.length ? gainsCard(gains) : null,
       h('div', { class: 'actions' },
         skill && prog.isUnlocked(skill, progress) ? h('a', { class: 'btn btn-primary btn-block', href: `#/session/${skill.id}` }, 'Encore une séance') : null,
         h('a', { class: 'btn btn-block', href: '#/' }, 'Retour à l\'accueil'))),
@@ -711,6 +722,333 @@ function renderBilan(root, query) {
   root.append(...parts.filter(Boolean)); // Element.append(null) écrirait « null »
 }
 
+// ---------------------------------------------------------------- cagnotte (voir cagnotte.js)
+function nomEleve() {
+  const moi = profiles.currentProfile();
+  return (moi && moi.nom) || progress.settings.name || '';
+}
+
+const adresseAppli = () => location.origin + location.pathname;
+const lienCagnotte = (obj) => `${adresseAppli()}#/cagnotte?d=${bilan.encodeJson(obj)}`;
+
+/**
+ * Bouton de partage : la feuille de partage du téléphone (WhatsApp, Messages, Mail) quand il y en
+ * a une, sinon un texte à copier. `contenu()` est appelé au moment du geste, pour partager l'état
+ * du moment et pas celui de l'affichage.
+ */
+function boutonPartage(libelle, contenu, { primaire = true, apres = null } = {}) {
+  const area = h('textarea', { class: 'json-area', readonly: true, rows: 5, 'aria-label': 'Message à envoyer' });
+  const panel = h('div', { class: 'share-panel', hidden: true },
+    h('p', { class: 'muted small' }, 'Copie ce message et envoie-le (WhatsApp, Messages, mail…).'),
+    area, h('div', { class: 'row-right' }, copyButton(() => area.value)));
+  const btn = h('button', { class: `btn${primaire ? ' btn-primary' : ''} btn-block`, type: 'button', onClick: async () => {
+    const { titre, texte, url } = contenu();
+    if (navigator.share) {
+      try {
+        await navigator.share(url ? { title: titre, text: texte, url } : { title: titre, text: texte });
+        if (apres) apres();
+        return;
+      } catch (err) { if (err && err.name === 'AbortError') return; }
+    }
+    area.value = url ? `${texte}\n${url}` : texte;
+    panel.hidden = false;
+    if (apres) apres();
+  } }, libelle);
+  return h('div', { class: 'share-block' }, btn, panel);
+}
+
+function partageReleve() {
+  return boutonPartage('📨 Envoyer à valider', () => {
+    const rel = cg.releve(progress, nomEleve(), todayStr());
+    const e = cg.etat(progress);
+    const qui = rel.nom || 'Ton enfant';
+    return {
+      titre: `Cagnotte de ${qui}`,
+      texte: `💰 ${qui} : ${plural(rel.pas.length, 'pas', 'pas')} à valider (${cg.euros(e.enAttente)}). Ouvre le lien pour valider :`,
+      url: lienCagnotte(rel),
+    };
+  });
+}
+
+/**
+ * Ce que la séance vient de mettre dans la cagnotte (écran de fin de séance). Pas de bouton d'envoi
+ * ici : les pas s'accumulent, et l'élève envoie le paquet quand il veut, depuis sa cagnotte.
+ */
+function gainsCard(gains) {
+  const e = cg.etat(progress);
+  return h('p', { class: 'cagnotte-gain' }, `💰 +${cg.euros(cg.somme(gains, e.bareme))} · ${cg.euros(e.enAttente)} en attente`);
+}
+
+/** Carte de l'accueil. Un fragment vide si la cagnotte n'est pas activée (append(null) écrirait « null »). */
+function cagnotteCard() {
+  if (!cg.estActive(progress)) return document.createDocumentFragment();
+  const e = cg.etat(progress);
+  return h('a', { class: 'cagnotte-card', href: '#/cagnotte' },
+    h('span', { class: 'cagnotte-icone' }, '💰'),
+    h('span', { class: 'cagnotte-texte' },
+      h('strong', {}, `${cg.euros(e.aRecevoir)} à recevoir`),
+      h('span', { class: 'muted small' }, e.enAttente > 0 ? `+ ${cg.euros(e.enAttente)} en attente de validation` : 'rien en attente')),
+    h('span', { class: 'subject-chevron', 'aria-hidden': 'true' }, '›'));
+}
+
+function libellePas(p) {
+  return p.type === 'conso'
+    ? `${bilan.skillTitle(p.skill, content)} — retenue un mois après`
+    : `${bilan.skillTitle(p.skill, content)} — séance réussie ${p.k}/${p.de}`;
+}
+
+function renderCagnotte(root, query) {
+  if (query.has('parent')) return renderRegistre(root);
+  if (!query.has('d')) return renderMaCagnotte(root);
+  let obj;
+  try {
+    obj = cg.nettoyer(bilan.decodeJson(query.get('d'), 'Ce lien ne contient pas un relevé de cagnotte valide.'));
+  } catch (err) {
+    root.append(topbar({ back: '#/', title: 'Cagnotte' }), h('p', { class: 'error' }, err.message), bottomNav(null));
+    return;
+  }
+  if (obj.t === 'recu') renderRecuRecu(root, obj); else renderValidation(root, obj);
+}
+
+/** L'écran de l'élève : ce qui est validé, ce qui attend, et de quoi envoyer ou réclamer. */
+function renderMaCagnotte(root) {
+  root.append(topbar({ back: '#/', title: '💰 Ma cagnotte' }));
+  if (!cg.estActive(progress)) {
+    root.append(h('section', { class: 'settings' },
+      h('p', {}, 'La cagnotte n\'est pas activée. Elle se met en route dans les réglages : chaque séance réussie y ajoute une petite somme, qu\'un parent valide ensuite.'),
+      h('a', { class: 'btn btn-primary btn-block', href: '#/settings' }, 'Aller aux réglages')), bottomNav(null));
+    return;
+  }
+  const e = cg.etat(progress);
+  const b = e.bareme;
+  const msg = h('p', { class: 'muted small' });
+  const recuInput = h('input', { class: 'text-input', type: 'text', placeholder: 'Colle ici le lien du reçu', 'aria-label': 'Lien du reçu' });
+  const recuBtn = h('button', { class: 'btn', type: 'button', onClick: () => {
+    const brut = recuInput.value.trim();
+    const code = (/[?&]d=([A-Za-z0-9_-]+)/.exec(brut) || [null, brut])[1];
+    try {
+      const r = cg.nettoyer(bilan.decodeJson(code, 'Ce texte n\'est pas un reçu de cagnotte.'));
+      if (r.t !== 'recu') throw new Error('Ce lien est un relevé, pas un reçu : c\'est au parent de l\'ouvrir.');
+      const res = cg.appliquerRecu(progress, r);
+      store.save(progress);
+      if (res.applique) route(); else { msg.textContent = res.raison; msg.className = 'muted small'; }
+    } catch (err) {
+      msg.textContent = err.message;
+      msg.className = 'error small';
+    }
+  } }, 'Enregistrer');
+  const virement = e.aRecevoir > 0
+    ? boutonPartage(`💸 Demander un virement de ${cg.euros(e.aRecevoir)}`, () => ({
+      titre: 'Demande de virement',
+      texte: `💸 Ma cagnotte Révise : ${cg.euros(e.aRecevoir)} validés et pas encore versés. Tu peux me faire le virement sur Revolut ? Merci !`,
+    }), { primaire: false })
+    : null;
+  const ligne = (p, etiquette) => h('li', {}, h('span', {}, `${bilan.formatDate(p.date)} · ${libellePas(p)}`), h('strong', {}, etiquette));
+  root.append(
+    h('section', { class: 'stats' },
+      h('div', { class: 'stat' }, h('span', { class: 'stat-value' }, cg.euros(e.aRecevoir)), h('span', { class: 'stat-label' }, 'validés, à recevoir')),
+      h('div', { class: 'stat' }, h('span', { class: 'stat-value' }, cg.euros(e.enAttente)), h('span', { class: 'stat-label' }, 'en attente de validation')),
+      h('div', { class: 'stat' }, h('span', { class: 'stat-value' }, cg.euros(e.verse)), h('span', { class: 'stat-label' }, 'déjà versés'))),
+    h('section', { class: 'settings' },
+      e.attente.length ? partageReleve() : h('p', { class: 'muted' }, 'Rien en attente : chaque séance réussie ajoute un pas ici.'),
+      virement,
+      h('h2', {}, 'En attente de validation'),
+      e.attente.length
+        ? h('ul', { class: 'cagnotte-liste' }, ...e.attente.slice().reverse().map((p) => ligne(p, cg.euros(cg.montant(p, b)))))
+        : h('p', { class: 'muted small' }, 'Aucun pas en attente.'),
+      e.refuses.length ? h('h2', {}, 'Non validés') : null,
+      e.refuses.length ? h('ul', { class: 'cagnotte-liste muted' }, ...e.refuses.slice(-10).reverse().map((p) => ligne(p, '—'))) : null,
+      h('h2', {}, 'Le reçu du parent'),
+      h('p', { class: 'muted small' }, 'Le parent te renvoie un lien après chaque validation. Si l\'ouvrir ne met pas ta cagnotte à jour (application installée sur l\'écran d\'accueil), copie-le et colle-le ici.'),
+      h('div', { class: 'input-row' }, recuInput, recuBtn), msg,
+      h('h2', {}, 'La règle'),
+      h('ul', { class: 'muted small' },
+        h('li', {}, `Une compétence terminée vaut ${cg.euros(b.competence)}, répartis sur ses séances réussies (au moins 80 % du premier coup) : ${cg.euros(cg.montant({ type: 'seance', k: 1, de: 6 }, b))} par séance pour une compétence à 3 niveaux.`),
+        h('li', {}, `${b.delai} jours après l'avoir terminée, elle rapporte encore ${cg.euros(b.consolidation)} si tu l'as retenue : au moins 80 % de ses exercices maîtrisés, grâce aux révisions.`),
+        h('li', {}, 'Une fois que tu as terminé une compétence, la retravailler ne rapporte plus : c\'est la révision qui compte.'))),
+    bottomNav(null));
+}
+
+/** Questions tirées des compétences à payer, à poser de vive voix avant de valider. */
+function interroOrale(pas) {
+  const zone = h('div', { class: 'interro' }, h('p', { class: 'muted small' }, 'Chargement des questions…'));
+  const niveau = new Map();
+  for (const p of pas) niveau.set(p.skill, Math.max(niveau.get(p.skill) || 1, Math.ceil(p.k / 2)));
+  const skills = [...niveau.keys()].filter((id) => sess.findSkill(content, id));
+  packs.loadForSkills(skills).then(() => {
+    const candidats = [];
+    for (const id of skills) {
+      const skill = sess.findSkill(content, id);
+      const items = (skill.items || []).map((i) => content.items[i])
+        .filter((it) => it && it.payload && (it.type === 'mcq' || it.type === 'input') && (it.level || 1) <= niveau.get(id));
+      if (items.length) candidats.push(items);
+    }
+    clear(zone);
+    if (!candidats.length) { zone.append(h('p', { class: 'muted small' }, 'Pas de question courte disponible pour ces compétences.')); return; }
+    const choisis = [];
+    const pioche = (liste) => liste.splice(Math.floor(Math.random() * liste.length), 1)[0];
+    for (let tour = 0; choisis.length < 2 && tour < 4; tour++) {
+      for (const liste of candidats) if (choisis.length < 2 && liste.length) choisis.push(pioche(liste));
+    }
+    for (const it of choisis) {
+      const p = it.payload;
+      const rep = it.type === 'mcq'
+        ? (p.answer || []).map((i) => p.choices[i]).join(' ; ')
+        : `${p.answer}${p.unit ? ' ' + p.unit : ''}`;
+      zone.append(h('div', { class: 'interro-q' },
+        h('div', { class: 'interro-enonce', html: renderRich(p.prompt, figures) }),
+        h('details', {}, h('summary', {}, 'Voir la réponse'),
+          h('div', { class: 'interro-rep', html: renderRich(String(rep), figures) }),
+          p.explanation ? h('div', { class: 'muted small', html: renderRich(p.explanation, figures) }) : null)));
+    }
+    figs.hydrate(zone);
+  }, () => { clear(zone); zone.append(h('p', { class: 'muted small' }, 'Questions indisponibles hors connexion.')); });
+  return zone;
+}
+
+/** Le parent ouvre un relevé : il valide, reporte ou refuse chaque pas, puis renvoie un reçu. */
+function renderValidation(root, rel) {
+  const today = todayStr();
+  const reg = cg.chargerRegistre(uiStorage());
+  const { enfant, nouveaux } = cg.recevoirReleve(reg, rel);
+  cg.enregistrerRegistre(reg, uiStorage());
+  const qui = enfant.nom || 'l\'élève';
+  root.append(topbar({ back: '#/', title: `💰 Cagnotte de ${qui}` }),
+    h('div', { class: 'received-banner' }, `📨 Relevé reçu de ${qui}, daté du ${bilan.formatDate(rel.date)}.`));
+  if (enfant.reconstitue) {
+    root.append(h('p', { class: 'muted small' }, `Ce registre a été reconstitué à partir du dernier reçu gardé par ${qui} (${cg.euros(enfant.valide)} validés, ${cg.euros(enfant.verse)} versés) : vérifie ces chiffres avec tes virements.`));
+  }
+  const zone = h('section', { class: 'settings' });
+  root.append(zone, bottomNav(null));
+  const recuBloc = () => boutonPartage(`📨 Envoyer le reçu à ${qui}`, () => ({
+    titre: 'Reçu de cagnotte',
+    texte: `✅ Cagnotte : ${cg.euros(enfant.valide)} validés, ${cg.euros(enfant.verse)} déjà versés, ${cg.euros(enfant.valide - enfant.verse)} à verser. Ouvre ce lien pour mettre ta cagnotte à jour :`,
+    url: lienCagnotte(cg.recu(reg, rel.id, todayStr())),
+  }));
+  const totaux = () => h('p', {}, `Validé au total : ${cg.euros(enfant.valide)} · versé : ${cg.euros(enfant.verse)} · `, h('strong', {}, `à verser : ${cg.euros(enfant.valide - enfant.verse)}`));
+  if (!nouveaux.length) {
+    zone.append(h('p', {}, 'Rien de nouveau dans ce relevé : tout a déjà été traité.'), totaux(), recuBloc(),
+      h('a', { class: 'btn btn-block', href: '#/cagnotte?parent' }, 'Le registre et les virements'));
+    return;
+  }
+  const choix = new Map(nouveaux.map((p) => [cg.cle(p), 'v']));
+  const total = h('strong', {});
+  const majTotal = () => {
+    total.textContent = cg.euros(cg.somme(nouveaux.filter((p) => choix.get(cg.cle(p)) === 'v'), reg.bareme));
+  };
+  const lignes = nouveaux.map((p) => {
+    const sel = h('select', { class: 'text-input cagnotte-choix', 'aria-label': `Décision pour ${libellePas(p)}` },
+      h('option', { value: 'v' }, '✔ Valider'), h('option', { value: 'l' }, '⏸ Plus tard'), h('option', { value: 'r' }, '✖ Refuser'));
+    sel.addEventListener('change', () => { choix.set(cg.cle(p), sel.value); majTotal(); });
+    return h('li', { class: 'cagnotte-decision' },
+      h('span', {}, `${bilan.formatDate(p.date)} · ${libellePas(p)}`),
+      h('span', { class: 'cagnotte-decision-droite' }, h('strong', {}, cg.euros(cg.montant(p, reg.bareme))), sel));
+  });
+  majTotal();
+  const valider = h('button', { class: 'btn btn-primary btn-block', type: 'button', onClick: () => {
+    const refuses = new Set(nouveaux.filter((p) => choix.get(cg.cle(p)) === 'r').map(cg.cle));
+    const reportes = new Set(nouveaux.filter((p) => choix.get(cg.cle(p)) === 'l').map(cg.cle));
+    const r = cg.valider(reg, rel.id, nouveaux, { refuses, reportes }, today);
+    cg.enregistrerRegistre(reg, uiStorage());
+    clear(zone);
+    zone.append(
+      h('p', { class: 'ok-text' }, `✔ ${plural(r.nVal, 'pas validé', 'pas validés')} (${cg.euros(r.gagne)})${r.nRef ? `, ${plural(r.nRef, 'refusé', 'refusés')}` : ''}.`),
+      totaux(),
+      h('p', { class: 'muted small' }, `Envoie le reçu à ${qui} : sa cagnotte affichera les mêmes chiffres. Le virement, tu le fais quand tu veux, puis tu le notes dans le registre.`),
+      recuBloc(),
+      h('a', { class: 'btn btn-block', href: '#/cagnotte?parent' }, 'J\'ai fait un virement → registre'));
+  } }, 'Enregistrer ma décision');
+  zone.append(
+    h('h2', {}, 'Ce qui est à valider'),
+    h('ul', { class: 'cagnotte-liste' }, ...lignes),
+    h('p', {}, 'Total validé : ', total),
+    h('h2', {}, '🎤 Deux questions à lui poser'),
+    h('p', { class: 'muted small' }, 'Tirées des compétences de ce relevé. S\'il sait répondre de vive voix, c\'est que le travail est fait.'),
+    interroOrale(nouveaux),
+    valider,
+    h('p', { class: 'muted small' }, `Barème de ce registre : ${cg.euros(reg.bareme.competence)} par compétence, ${cg.euros(reg.bareme.consolidation)} de consolidation. Il se règle dans le registre.`));
+}
+
+/** L'élève ouvre le reçu du parent. */
+function renderRecuRecu(root, r) {
+  root.append(topbar({ back: '#/', title: '💰 Cagnotte' }));
+  let res;
+  try {
+    res = cg.appliquerRecu(progress, r);
+    store.save(progress);
+  } catch (err) {
+    root.append(h('section', { class: 'settings' },
+      h('p', { class: 'error' }, err.message),
+      h('p', { class: 'muted small' }, 'Si tu utilises l\'application installée sur l\'écran d\'accueil, ce lien s\'est ouvert dans le navigateur, qui ne la voit pas : copie-le, puis colle-le dans l\'application (Cagnotte → « Le reçu du parent »).')),
+    bottomNav(null));
+    return;
+  }
+  const e = cg.etat(progress);
+  root.append(h('section', { class: 'settings' },
+    h('p', { class: res.applique ? 'ok-text' : 'muted' }, res.applique ? '✔ Cagnotte mise à jour.' : res.raison),
+    h('p', {}, `${cg.euros(e.aRecevoir)} validés à recevoir · ${cg.euros(e.enAttente)} en attente.`),
+    h('a', { class: 'btn btn-primary btn-block', href: '#/cagnotte' }, 'Voir ma cagnotte')), bottomNav(null));
+}
+
+/** Le registre du parent : totaux par enfant, virements, barème. */
+function renderRegistre(root) {
+  const today = todayStr();
+  const reg = cg.chargerRegistre(uiStorage());
+  const sauver = () => cg.enregistrerRegistre(reg, uiStorage());
+  root.append(topbar({ back: '#/settings', title: '💰 Registre du parent' }));
+  const zone = h('section', { class: 'settings' });
+  const ids = Object.keys(reg.enfants);
+  if (!ids.length) zone.append(h('p', { class: 'muted' }, 'Aucun relevé reçu sur cet appareil. Le registre se crée quand tu ouvres le premier lien « Envoyer à valider ».'));
+  for (const id of ids) {
+    const e = reg.enfants[id];
+    const du = e.valide - e.verse;
+    const montantInput = h('input', { class: 'text-input', type: 'text', inputmode: 'decimal', value: du > 0 ? (du / 100).toFixed(2).replace('.', ',') : '', 'aria-label': 'Montant versé en euros' });
+    const msg = h('p', { class: 'muted small' });
+    const verse = h('button', { class: 'btn', type: 'button', onClick: () => {
+      try {
+        const m = cg.lireEuros(montantInput.value);
+        if (m == null) throw new Error('Montant illisible (exemple : 12,50).');
+        cg.verser(reg, id, m, today);
+        sauver();
+        route();
+      } catch (err) { msg.textContent = err.message; msg.className = 'error small'; }
+    } }, 'J\'ai versé ce montant');
+    zone.append(...[   // Element.append(null) écrirait « null »
+      h('h2', {}, e.nom || id),
+      h('p', {}, `Validé : ${cg.euros(e.valide)} · versé : ${cg.euros(e.verse)} · `, h('strong', {}, `à verser : ${cg.euros(du)}`)),
+      du > 0 ? h('div', { class: 'input-row' }, montantInput, h('span', { class: 'unit' }, '€'), verse) : null, msg,
+      boutonPartage(`📨 Envoyer le reçu à ${e.nom || 'l\'élève'}`, () => ({
+        titre: 'Reçu de cagnotte',
+        texte: `✅ Cagnotte : ${cg.euros(e.valide)} validés, ${cg.euros(e.verse)} déjà versés, ${cg.euros(e.valide - e.verse)} à verser. Ouvre ce lien pour mettre ta cagnotte à jour :`,
+        url: lienCagnotte(cg.recu(reg, id, todayStr())),
+      }), { primaire: false }),
+      e.journal.length
+        ? h('ul', { class: 'cagnotte-liste muted small' }, ...e.journal.slice(-10).reverse().map((j) => h('li', {},
+          h('span', {}, `${bilan.formatDate(j.date)} · ${j.type === 'versement' ? 'virement' : `validation (${j.valides} pas${j.refuses ? `, ${j.refuses} refusés` : ''})`}`),
+          h('strong', {}, cg.euros(j.montant)))))
+        : null].filter(Boolean));
+  }
+  const champ = (val, label) => h('input', { class: 'text-input', type: 'text', inputmode: 'decimal', value: (val / 100).toFixed(2).replace('.', ','), 'aria-label': label });
+  const comp = champ(reg.bareme.competence, 'Montant par compétence');
+  const conso = champ(reg.bareme.consolidation, 'Montant de consolidation');
+  const bmsg = h('p', { class: 'muted small' });
+  const bBtn = h('button', { class: 'btn', type: 'button', onClick: () => {
+    const c = cg.lireEuros(comp.value), k = cg.lireEuros(conso.value);
+    if (c == null || k == null) { bmsg.textContent = 'Montant illisible (exemple : 15 ou 12,50).'; bmsg.className = 'error small'; return; }
+    reg.bareme = cg.normaliserBareme({ ...reg.bareme, competence: c, consolidation: k });
+    sauver();
+    bmsg.textContent = 'Barème enregistré : il s\'applique aux prochaines validations, et l\'élève le verra au prochain reçu.';
+    bmsg.className = 'ok-text small';
+  } }, 'Enregistrer');
+  zone.append(
+    h('h2', {}, 'Barème'),
+    h('div', { class: 'input-row' }, comp, h('span', { class: 'unit' }, '€ par compétence terminée')),
+    h('div', { class: 'input-row' }, conso, h('span', { class: 'unit' }, `€ si elle est retenue ${reg.bareme.delai} jours après`)),
+    h('div', { class: 'row-right' }, bBtn), bmsg,
+    h('p', { class: 'muted small' }, 'Ce registre vit dans ce navigateur. Garde-le au même endroit (le téléphone sur lequel tu ouvres les liens) ; s\'il disparaissait, le prochain relevé le reconstituerait à partir du dernier reçu.'));
+  root.append(zone, bottomNav(null));
+}
+
 // ---------------------------------------------------------------- profils
 /** Bascule sur un profil : la progression change, la séance en cours n'a plus de sens. */
 function changerDeProfil(id) {
@@ -820,9 +1158,19 @@ function renderCarteRecue(root, query) {
     const nom = (profil && profil.nom) || 'Élève';
     const nbSkills = Object.keys((progres && progres.skills) || {}).length;
     clear(zone);
+    const moi = profiles.currentProfile() || { nom: progress.settings.name || '' };
+    const dejaTravaille = progress.history.length > 0 || Object.keys(progress.items || {}).length > 0;
+    const msg = h('p', { class: 'ok-text' });
     zone.append(
       h('p', {}, `Cette carte est celle de ${nom} : ${plural(nbSkills, 'compétence travaillée', 'compétences travaillées')}.`),
-      h('button', { class: 'btn btn-primary btn-block', type: 'button', onClick: () => {
+      dejaTravaille ? h('button', { class: 'btn btn-primary btn-block', type: 'button', onClick: () => {
+        try {
+          const n = fusionnerCarte(carte.toJson(c), moi);
+          if (n) msg.textContent = n;
+        } catch (err) { msg.textContent = err.message; msg.className = 'error'; }
+      } }, `Fusionner avec la progression de ${moi.nom || 'cet appareil'}`) : document.createDocumentFragment(),
+      msg,
+      h('button', { class: `btn${dejaTravaille ? '' : ' btn-primary'} btn-block`, type: 'button', onClick: () => {
         const p = profiles.create({ nom, emoji: profil && profil.emoji });
         store.use(p.id);
         store.save(store.migrate(progres));
@@ -834,6 +1182,27 @@ function renderCarteRecue(root, query) {
     zone.append(h('p', { class: 'error' }, err && err.message ? err.message : 'Lien illisible.'),
       h('a', { class: 'btn', href: '#/' }, 'Accueil'));
   });
+}
+
+// ---------------------------------------------------------------- fusion d'une carte reçue
+/**
+ * Fusionne une carte (texte JSON) dans la progression du profil courant ; renvoie la phrase à
+ * afficher, ou null si l'élève a renoncé. Une carte au nom d'un autre élève demande confirmation.
+ */
+function fusionnerCarte(texte, monProfil) {
+  const { profil, progres } = carte.parse(texte);
+  const nomRecu = profil && profil.nom;
+  if (nomRecu && monProfil && monProfil.nom && nomRecu !== monProfil.nom
+    && !confirm(`Cette progression est celle de ${nomRecu}. La fusionner dans celle de ${monProfil.nom} ?`)) return null;
+  const { progres: f, apport } = fusion.fusionner(progress, store.migrate(progres));
+  progress = f;
+  store.save(progress);
+  if (!apport.seances && !apport.exercices && !apport.pas) return 'Rien de nouveau : les deux appareils étaient déjà à jour ✔';
+  const parts = [];
+  if (apport.seances) parts.push(plural(apport.seances, 'séance ajoutée', 'séances ajoutées'));
+  if (apport.exercices) parts.push(plural(apport.exercices, 'exercice mis à jour', 'exercices mis à jour'));
+  if (apport.pas) parts.push(plural(apport.pas, 'pas de cagnotte', 'pas de cagnotte'));
+  return `Fusion faite ✔ ${parts.join(', ')}.`;
 }
 
 // ---------------------------------------------------------------- réglages
@@ -855,31 +1224,6 @@ function renderSettings(root) {
     progress.settings.unlockAll = unlockInput.checked;
     store.save(progress);
   });
-  const exportArea = h('textarea', { class: 'json-area', readonly: true, rows: 6, 'aria-label': 'Progression exportée' });
-  exportArea.value = store.exportJson(progress);
-  const copyBtn = h('button', { class: 'btn', type: 'button', onClick: async () => {
-    try {
-      await navigator.clipboard.writeText(exportArea.value);
-      copyBtn.textContent = 'Copié ✔';
-    } catch {
-      exportArea.select();
-      copyBtn.textContent = 'Sélectionné : copie avec ⌘C';
-    }
-  } }, 'Copier');
-  const importArea = h('textarea', { class: 'json-area', rows: 6, placeholder: 'Colle ici une progression exportée…', 'aria-label': 'Progression à importer' });
-  const importMsg = h('p', { class: 'muted small' });
-  const importBtn = h('button', { class: 'btn', type: 'button', onClick: () => {
-    try {
-      progress = store.importJson(importArea.value);
-      store.save(progress);
-      importMsg.textContent = 'Progression importée ✔';
-      importMsg.className = 'ok-text small';
-      exportArea.value = store.exportJson(progress);
-    } catch (err) {
-      importMsg.textContent = err.message;
-      importMsg.className = 'error small';
-    }
-  } }, 'Importer');
   const resetBtn = h('button', { class: 'btn btn-danger', type: 'button', onClick: () => {
     if (confirm('Tout remettre à zéro ? La progression sera définitivement effacée.')) {
       progress = store.reset();
@@ -889,9 +1233,44 @@ function renderSettings(root) {
     }
   } }, 'Tout remettre à zéro');
 
-  // ---- carte d'identité : le format d'échange entre appareils (voir carte.js)
+  // ---- passer d'un appareil à l'autre : la carte d'identité (carte.js), fusionnée à l'arrivée (fusion.js)
   const monProfil = profiles.currentProfile() || { nom: progress.settings.name || 'Élève', emoji: '🙂' };
   const carteMsg = h('p', { class: 'muted small' });
+  const dire = (texte, cls = 'ok-text small') => { carteMsg.textContent = texte; carteMsg.className = cls; };
+  const texteCarte = () => carte.toJson(carte.build(monProfil, progress, todayStr()));
+  const recevoir = (texte) => {
+    try {
+      const n = fusionnerCarte(texte, monProfil);
+      if (n) dire(n);
+    } catch (err) {
+      dire(err.message, 'error small');
+    }
+  };
+  const manuel = h('textarea', { class: 'json-area', rows: 4, placeholder: 'Colle ici la progression copiée sur l\'autre appareil…', 'aria-label': 'Progression à fusionner' });
+  const copierBtn = h('button', { class: 'btn btn-primary', type: 'button', onClick: async () => {
+    try {
+      await navigator.clipboard.writeText(texteCarte());
+      dire('Copiée ✔ Sur l\'autre appareil : Réglages → « Coller celle de l\'autre appareil ».');
+    } catch {
+      manuel.value = texteCarte();
+      manuel.closest('details').open = true;
+      manuel.select();
+      dire('Copie automatique impossible : le texte est sélectionné ci-dessous, copie-le avec ⌘C.', 'muted small');
+    }
+  } }, '📋 Copier ma progression');
+  const collerBtn = h('button', { class: 'btn btn-primary', type: 'button', onClick: async () => {
+    let texte = '';
+    try {
+      texte = await navigator.clipboard.readText();
+    } catch {
+      manuel.closest('details').open = true;
+      manuel.focus();
+      dire('Le navigateur ne laisse pas lire le presse-papiers : colle-la ci-dessous (⌘V), puis « Fusionner ».', 'muted small');
+      return;
+    }
+    recevoir(texte);
+  } }, '📥 Coller celle de l\'autre appareil');
+  const fusionnerBtn = h('button', { class: 'btn', type: 'button', onClick: () => recevoir(manuel.value) }, 'Fusionner');
   const telechargerBtn = h('button', { class: 'btn', type: 'button', onClick: () => {
     const c = carte.build(monProfil, progress, todayStr());
     const blob = new Blob([carte.toJson(c)], { type: 'application/json' });
@@ -901,46 +1280,24 @@ function renderSettings(root) {
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    carteMsg.textContent = 'Carte téléchargée. Envoie-la-toi par mail ou AirDrop, puis importe-la sur l\'autre appareil.';
-    carteMsg.className = 'ok-text small';
+    dire('Carte téléchargée. Envoie-la par AirDrop ou par mail, puis ouvre-la ici sur l\'autre appareil.');
   } }, '⬇ Télécharger ma carte');
-  const lienBtn = h('button', { class: 'btn', type: 'button', onClick: async () => {
-    const c = carte.build(monProfil, progress, todayStr());
-    const base = location.origin + location.pathname;
-    const { url, octets, tient } = await carte.versLien(c, base);
-    if (!tient) {
-      // au-delà, l'URL casse selon les messageries : le fichier est le seul transport fiable
-      carteMsg.textContent = `Trop de progression pour un lien (${Math.round(octets / 1024)} ko) : utilise le fichier.`;
-      carteMsg.className = 'muted small';
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(url);
-      carteMsg.textContent = `Lien copié (${Math.round(octets / 1024)} ko). Ouvre-le sur l'autre appareil.`;
-      carteMsg.className = 'ok-text small';
-    } catch {
-      carteMsg.textContent = url;
-      carteMsg.className = 'muted small json-area-inline';
-    }
-  } }, '🔗 Copier un lien');
-  const importFichier = h('input', { type: 'file', accept: 'application/json,.json', class: 'file-input', 'aria-label': 'Carte d\'identité à importer' });
+  const importFichier = h('input', { type: 'file', accept: 'application/json,.json', class: 'file-input', 'aria-label': 'Carte d\'identité à fusionner' });
   importFichier.addEventListener('change', async () => {
     const f = importFichier.files && importFichier.files[0];
-    if (!f) return;
-    try {
-      const { progres } = carte.parse(await f.text());
-      progress = store.migrate(progres);
-      store.save(progress);
-      carteMsg.textContent = 'Carte importée dans le profil courant ✔';
-      carteMsg.className = 'ok-text small';
-      exportArea.value = store.exportJson(progress);
-    } catch (err) {
-      carteMsg.textContent = err.message;
-      carteMsg.className = 'error small';
-    }
+    if (f) recevoir(await f.text());
   });
 
   const offline = renderOfflineFigures();
+
+  const cagnotteInput = h('input', { type: 'checkbox', checked: cg.estActive(progress), 'aria-label': 'Activer la cagnotte' });
+  cagnotteInput.addEventListener('change', () => {
+    if (cagnotteInput.checked) cg.activer(progress, todayStr()); else cg.desactiver(progress);
+    store.save(progress);
+    route();
+  });
+  const registre = cg.chargerRegistre(uiStorage());
+  const nbEnfants = Object.keys(registre.enfants).length;
 
   root.append(
     topbar({ back: '#/', title: 'Réglages' }),
@@ -952,19 +1309,25 @@ function renderSettings(root) {
       h('div', { class: 'input-row' }, goalInput, h('span', { class: 'unit' }, 'XP / jour')),
       h('h2', {}, 'Mode découverte'),
       h('label', { class: 'toggle-row' }, unlockInput, h('span', {}, 'Tout déverrouiller (pour explorer toutes les compétences sans respecter les prérequis).')),
+      h('h2', {}, '💰 Cagnotte'),
+      h('label', { class: 'toggle-row' }, cagnotteInput, h('span', {}, 'Chaque séance réussie ajoute une petite somme à une cagnotte, qu\'un parent valide ensuite.')),
+      cg.estActive(progress) ? h('a', { class: 'btn btn-block', href: '#/cagnotte' }, 'Voir ma cagnotte') : null,
+      nbEnfants ? h('a', { class: 'btn btn-block', href: '#/cagnotte?parent' }, `Côté parent : le registre (${plural(nbEnfants, 'enfant', 'enfants')})`) : null,
       h('h2', {}, 'Profils'),
       h('p', { class: 'muted small' }, 'Plusieurs élèves peuvent se partager cet appareil : chacun garde sa progression.'),
       h('a', { class: 'btn btn-block', href: '#/profils' }, `${monProfil.emoji || '🙂'} ${monProfil.nom} — changer de profil`),
       profiles.current() ? h('p', { class: 'muted small' }, 'C\'est ce prénom qui apparaît dans le bilan partagé avec un parent : renomme le profil pour le changer.') : null,
-      h('h2', {}, 'Carte d\'identité'),
-      h('p', { class: 'muted small' }, 'Tout ce que tu as travaillé, dans toutes les matières, dans un seul fichier. Rien n\'est envoyé : la carte reste sur tes appareils.'),
-      h('div', { class: 'row-buttons' }, telechargerBtn, lienBtn),
-      importFichier, carteMsg,
-      h('h2', {}, 'Exporter au format texte'),
-      h('p', { class: 'muted small' }, 'Le même contenu, à copier-coller.'),
-      exportArea, h('div', { class: 'row-right' }, copyBtn),
-      h('h2', {}, 'Importer une progression'),
-      importArea, h('div', { class: 'row-right' }, importBtn), importMsg,
+      h('h2', {}, '💻 Passer d\'un appareil à l\'autre'),
+      h('p', { class: 'muted small' }, 'Sur l\'appareil où tu viens de travailler : « Copier ». Sur l\'autre : « Coller ». '
+        + 'Les deux progressions sont réunies, cagnotte comprise : rien ne se perd, même si tu as travaillé des deux côtés. '
+        + 'Entre deux Mac du même compte Apple, ce qui est copié sur l\'un se colle sur l\'autre.'),
+      h('div', { class: 'row-buttons' }, copierBtn, collerBtn),
+      carteMsg,
+      h('details', { class: 'autres-transferts' }, h('summary', {}, 'Autres façons (fichier, copier-coller à la main)'),
+        h('p', { class: 'muted small' }, 'La carte d\'identité : tout ce que tu as travaillé, dans un seul fichier. Rien n\'est envoyé : elle reste sur tes appareils.'),
+        h('div', { class: 'row-buttons' }, telechargerBtn),
+        h('p', { class: 'muted small' }, 'Fusionner une carte reçue :'), importFichier,
+        manuel, h('div', { class: 'row-right' }, fusionnerBtn)),
       h('h2', {}, 'Mode hors-ligne'),
       offline,
       h('h2', {}, 'Comment c\'est fait'),
