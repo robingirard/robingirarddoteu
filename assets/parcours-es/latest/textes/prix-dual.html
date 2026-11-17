@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le prix est une duale · Parcours ES 2026</title>
+<meta name="description" content="Sur un ordre de mérite à trois centrales, résolu à la main puis en programme linéaire puis dans pommes_craft, on voit pourquoi le multiplicateur de la contrainte d'équilibre est le prix de l'électricité, comment le lire dans pommes 0.11.0 et ce qu'il ne dit pas.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 60 min</span> · <span>Socle, Optimisation, Prix et marchés, Modélisation, Interco et EnR</span></div>
+    <h1>Le prix est une duale</h1>
+    <p class="resume">Sur un ordre de mérite à trois centrales, résolu à la main puis en programme linéaire puis dans pommes_craft, on voit pourquoi le multiplicateur de la contrainte d'équilibre est le prix de l'électricité, comment le lire dans pommes 0.11.0 et ce qu'il ne dit pas.</p>
+  </header>
+  <h2>1. Trois centrales, trois heures, à la main</h2>
+<p>Trois centrales alimentent une zone. Base : 10 GW à 15 €/MWh. Semi-base : 5 GW à 60 €/MWh. Pointe : 5 GW à 120 €/MWh. La demande vaut 8 GW à la première heure, 13 GW à la deuxième, 18 GW à la troisième.</p>
+<p>On appelle les centrales par coût croissant. C'est l'ordre de mérite.</p>
+<pre><code class="language-text">heure  demande  base   semi-base  pointe  unité marginale  prix
+h1      8 GW   8 GW    0 GW      0 GW    base              15 €/MWh
+h2     13 GW  10 GW    3 GW      0 GW    semi-base         60 €/MWh
+h3     18 GW  10 GW    5 GW      3 GW    pointe           120 €/MWh
+</code></pre>
+<p>Le prix de l'heure est le coût variable de la dernière centrale appelée, celle qui produirait le MWh de plus si la demande montait d'un cran.</p>
+<p>Le coût de production se calcule heure par heure :</p>
+<pre><code class="language-text">h1 :  8 000 × 15                               = 120 000 €
+h2 : 10 000 × 15 + 3 000 × 60                  = 330 000 €
+h3 : 10 000 × 15 + 5 000 × 60 + 3 000 × 120    = 810 000 €
+total                                          = 1 260 000 €
+</code></pre>
+<p>Les consommateurs paient 8 000 × 15 + 13 000 × 60 + 18 000 × 120 = 3 060 000 €. La différence, 1 800 000 €, est la rente inframarginale : 450 000 € à h2 et 1 050 000 € à h3 pour la base, 300 000 € à h3 pour la semi-base. Cette rente rembourse les investissements. La centrale marginale ne gagne rien.</p>
+<h2>2. Le même problème en programme linéaire</h2>
+<p>Variables : la production p_i,h de chaque centrale i à chaque heure h, et un délestage d_h au coût c_def. Objectif : minimiser la somme des c_i × p_i,h et des c_def × d_h. Contraintes : pour chaque heure, l'équilibre Σ_i p_i,h + d_h = D_h, avec un multiplicateur λ_h. Pour chaque centrale et chaque heure, p_i,h ≤ P_i, avec un multiplicateur μ_i,h ≥ 0. Enfin p_i,h ≥ 0.</p>
+<p>Les conditions d'optimalité, dites KKT, tiennent en trois lignes pour une centrale à une heure donnée :</p>
+<pre><code class="language-text">centrale appelée mais non saturée (0 &lt; p &lt; P) :  c_i = λ_h          μ = 0
+centrale saturée (p = P) :                       c_i = λ_h − μ_i,h  donc λ_h ≥ c_i
+centrale non appelée (p = 0) :                   c_i ≥ λ_h
+</code></pre>
+<p>Le multiplicateur λ_h est le prix. Il vaut le coût de la centrale appelée mais non saturée : à h2, la semi-base, 60 €/MWh. Il dépasse le coût des centrales saturées et reste sous celui des centrales à l'arrêt. λ_h est aussi la dérivée du coût optimal par rapport à D_h : un MWh de plus à h2 coûte 60 €. Prix et valeur marginale de la demande sont le même nombre.</p>
+<p>Le délestage se traite comme une centrale de coût c_def : il est non appelé tant que λ_h &lt; c_def.</p>
+<h2>3. Le même problème dans pommes_craft</h2>
+<p>Script exécuté avec l'environnement épinglé du dépôt des cas (pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS). Les capacités sont imposées par <code>power_capacity_investment_min = max</code>, sans coût d'investissement, comme dans <code>pommes_cases/systeme_fr.py</code>.</p>
+<pre><code class="language-python">import sys, tempfile
+from pathlib import Path
+import polars as pl
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
+from pommes_craft import Area, ConversionTechnology, Demand, EconomicHypothesis, LoadShedding, TimeStepManager
+from pommes_craft.core.model import EnergyModel
+from pommes.utils import dual_scale
+from pommes_cases.solve import build_lp, solve_with_extra_constraints
+
+Y, H = 2030, [0, 1, 2]
+def fixe(nom, mw, cout):  # capacité imposée, sans coût d'investissement
+    return ConversionTechnology(name=nom, factor={&quot;electricity&quot;: 1.0}, variable_cost=cout, life_span=1000,
+                                power_capacity_investment_min=mw, power_capacity_investment_max=mw)
+model = EnergyModel(name=&quot;trois_centrales&quot;, folder=Path(tempfile.mkdtemp()), hours=H, year_ops=[Y],
+                    year_invs=[Y], year_decs=[Y + 1000], modes=[], resources=[&quot;electricity&quot;])
+with model.context():
+    EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=Y, planning_step=1)
+    TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=3.0)
+    zone = Area(&quot;FR&quot;)
+    zone.add_component(Demand(name=&quot;demande&quot;, resource=&quot;electricity&quot;,
+                              demand=pl.DataFrame({&quot;hour&quot;: H, &quot;year_op&quot;: [Y] * 3, &quot;demand&quot;: [8000., 13000., 18000.]})))
+    zone.add_component(LoadShedding(name=&quot;defaillance&quot;, resource=&quot;electricity&quot;, cost=3000.))
+    for nom, mw, cout in [(&quot;base&quot;, 10000., 15.), (&quot;semi_base&quot;, 5000., 60.), (&quot;pointe&quot;, 5000., 120.)]:
+        zone.add_component(fixe(nom, mw, cout))
+lp, params = build_lp(model)                 # le programme linéaire, avant résolution
+lp = solve_with_extra_constraints(model)     # HiGHS
+dual = lp.dual[&quot;operation_adequacy_constraint&quot;].sel(area=&quot;FR&quot;, resource=&quot;electricity&quot;).squeeze()
+print(&quot;coût total (EUR) :&quot;, float(lp.objective.value))
+print(&quot;prix (EUR/MWh) :&quot;, (dual / dual_scale(params)).values.ravel())
+</code></pre>
+<p>Le script affiche d'abord une liste de paramètres manquants remplis par défaut (<code>spillage_cost: 0.0</code>, etc.), deux fois : <code>build_lp</code> et <code>solve_with_extra_constraints</code> construisent chacun le programme. Ce n'est pas une erreur. HiGHS n'affiche rien : son journal va dans un fichier. Les deux dernières lignes de la sortie :</p>
+<pre><code class="language-text">coût total (EUR) : 1260000.0
+prix (EUR/MWh) : [ 15.  60. 120.]
+</code></pre>
+<p>Coût et prix sont ceux du calcul à la main. La contrainte d'équilibre s'appelle <code>operation_adequacy_constraint</code> dans pommes 0.11.0 (<code>pommes/model/build_model.py</code>). Sa duale se lit dans <code>lp.dual</code>, indexée par <code>area</code>, <code>resource</code>, <code>hour</code> et <code>year_op</code>, comme le fait <code>prix_horaires</code> dans <code>systeme_fr.py</code>.</p>
+<p>Faut-il diviser par un facteur d'échelle ? Oui, en général. L'objectif de pommes pèse un euro d'exploitation de l'année y par <code>discount_factor × operation_year_weight × operation_year_duration / Σ time_step_duration</code>, et la duale porte le même poids. <code>pommes.utils.dual_scale(params)</code> renvoie ce facteur ; <code>dual / dual_scale</code> est un prix en €/MWh. Ici il vaut 1 : actualisation nulle, une année, <code>operation_year_duration</code> égale aux 3 heures modélisées. Avec <code>operation_year_duration=8760.0</code>, la duale brute devient 43 800, 175 200 et 350 400, le facteur vaut 2 920, la division redonne 15, 60 et 120. Sur 8 760 heures, comme dans <code>systeme_fr.py</code>, le facteur vaut 1. Le piège apparaît sur un modèle à peu d'heures ou à plusieurs années météo pondérées.</p>
+<h2>4. Ce que le prix dual ne dit pas</h2>
+<p>Rareté. Si la demande de h3 passe à 22 GW, les 20 GW de parc ne suffisent plus. Le modèle déleste 2 GW et le prix de h3 vaut 3 000 €/MWh, le coût du <code>LoadShedding</code>. Vérifié par exécution : coût total 7 500 000 €, prix 15, 60, 3 000. Sans composant <code>LoadShedding</code>, pommes_craft 0.6.0 remplit <code>load_shedding_cost = 0</code> et <code>max_capacity = nan</code>. Vérifié par exécution : le modèle déleste toute la demande aux trois heures, aucune centrale ne tourne, le coût total vaut 0 € et tous les prix tombent à zéro. Le <code>LoadShedding</code> à coût élevé n'est pas une option, c'est ce qui donne un sens au prix.</p>
+<p>Rigidités absentes. Le programme linéaire ignore le minimum technique, le coût de démarrage, la montée en charge. Le prix du modèle est en paliers, un par coût variable ; le prix de marché est lissé par ces rigidités et par les stratégies d'offre. Les planches 2026 « Forme des prix et modélisation », remises en cours, comparent les deux.</p>
+<p>Prévision parfaite. L'optimiseur connaît les trois heures d'avance. Le prix dual n'intègre ni l'incertitude de la veille pour le lendemain, ni le coût des réserves.</p>
+<h2>5. Une capacité a aussi une duale</h2>
+<p>La contrainte p_i,h ≤ P_i a son multiplicateur μ_i,h. Il vaut λ_h − c_i quand la centrale est saturée, zéro sinon. C'est la valeur d'un MW de plus à cette heure. Dans pommes, c'est la duale de <code>operation_conversion_power_max_constraint</code>, à diviser par le même facteur. Linopy rend la duale d'une contrainte ≤ avec un signe négatif en minimisation. Voici les valeurs obtenues sur le cas nominal, en valeur absolue :</p>
+<pre><code class="language-text">                 h1    h2     h3    somme
+base              0    45    105    150 €/MW
+semi_base         0     0     60     60 €/MW
+pointe            0     0      0      0 €/MW
+</code></pre>
+<p>Un MW de base en plus économiserait 45 € à h2 et 105 € à h3, soit 150 € sur trois heures. Sur une année, cette somme est le revenu qu'un MW capte sur le marché. Si elle dépasse l'annuité de l'investissement, le modèle de planification investit ; sinon non.</p>
+<p>Une interconnexion saturée est une capacité comme une autre : sa duale est l'écart de prix entre les deux zones, et le produit flux × écart de prix est la rente de congestion. C'est la question du cas F, en construction.</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous retrouvez à la main les prix 15, 60 et 120 €/MWh et le coût 1 260 000 €, puis les mêmes valeurs en sortie du script.</li>
+<li>Vous prédisez sans exécuter le prix de h3 pour une demande de 22 GW, puis le vérifiez : 3 000 €/MWh.</li>
+<li>Vous passez <code>operation_year_duration</code> de 3 à 8 760, lisez <code>dual_scale(params)</code> égal à 2 920, et expliquez pourquoi la duale brute change et le prix non.</li>
+<li>Vous retrouvez 150 €/MW pour la base en sommant la duale de <code>operation_conversion_power_max_constraint</code> sur les heures.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>La contrainte d'adéquation et les contraintes de capacité en notation mathématique : Model description (2) <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (2) : adéquation, capacités et millésimes, stockage, carbone, imports, TURPE</a>. La page documente pommes 0.11.0 ; le nom <code>operation_adequacy_constraint</code> n'y figure pas, il vient du code.</li>
+<li>Lire <code>model.solution</code> et <code>model.dual</code> sur <code>test_case</code> : notebook d'exemple de pommes, à mettre à jour <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/notebooks/example_notebook.html" target="_blank" rel="noopener">Notebook d'exemple de pommes : résoudre test_case et lire solution et duales</a>.</li>
+<li>Le déroulé pommes_craft, de <code>EnergyModel</code> à <code>get_results()</code> : usage de pommes_craft, à mettre à jour <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/usage.html" target="_blank" rel="noopener">Usage de pommes_craft : créer, ajouter des composants, résoudre, lire, sauver</a>.</li>
+<li>La rente de congestion et la duale d'une capacité d'échange : carte du cas F, en construction <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/F.yaml" target="_blank" rel="noopener">Cas F (carte, à construire) — Que vaut une interconnexion France-Espagne ou France-Allemagne ?</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases/solve.py, pommes_cases/systeme_fr.py)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes" target="_blank" rel="noopener">Code source de pommes (pommes/utils.py, dual_scale ; pommes/model/build_model.py, operation_adequacy_constraint)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Documentation pommes, Model description (adéquation, capacités ; page de la version 0.11.0, en notation mathématique)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft (PyPI, version 0.6.0)</a></li></ol></section>
+</article>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

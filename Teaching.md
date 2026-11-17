@@ -83,6 +83,20 @@ Engine (MIT):
 STI2D pack (CC BY 4.0):
 [github.com/robingirard/revise-pour-le-bac-sti2D](https://github.com/robingirard/revise-pour-le-bac-sti2D)
 
+### ES learning path
+
+The site for the course "Évolution du système électrique dans un contexte de transition
+énergétique" (MINES Paris — PSL, Executive Education). A competency-based path, from N0
+(discovery, no code) to N4 (group mini-project): a common core, specialisation tracks, and
+case studies built with POMMES. Progress stays in the browser: nothing is sent anywhere.
+**The site is in French. Reserved for course participants, not indexed by search engines.**
+
+**[Open the learning path]({{site.url}}/assets/parcours-es/latest/index.html)** — v1.0.
+
+<small>Versions — each keeps a permanent link: [v1.0]({{site.url}}/assets/parcours-es/v1.0/index.html).</small>
+
+Content CC BY 4.0, code MIT.
+
 ## I-BE³ — International Bachelor of Environmentally Engaged Engineering
 
 **Introduction to Energy** — a three-day course for the

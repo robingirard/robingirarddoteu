@@ -104,6 +104,20 @@ connexion. Rien n'est envoyé nulle part : la progression reste sur l'appareil. 
 paquet STI2D (CC BY 4.0) :
 [github.com/robingirard/revise-pour-le-bac-sti2D](https://github.com/robingirard/revise-pour-le-bac-sti2D)
 
+### Parcours d'apprentissage ES
+
+Le site du cours « Évolution du système électrique dans un contexte de transition énergétique »
+(MINES Paris — PSL, Executive Education). Un parcours par compétences, de N0 (découverte, sans
+code) à N4 (mini-projet de groupe) : un socle commun, des filières de spécialisation, et des cas
+d'étude construits avec POMMES. La progression reste dans le navigateur : rien n'est envoyé nulle
+part. Page réservée aux participants du cours, non référencée par les moteurs de recherche.
+
+**[Ouvrir le parcours]({{site.url}}/assets/parcours-es/latest/index.html)** — v1.0.
+
+<small>Versions — chacune garde son lien permanent : [v1.0]({{site.url}}/assets/parcours-es/v1.0/index.html).</small>
+
+Contenu CC BY 4.0, code MIT.
+
 ## I-BE³ — International Bachelor of Environmentally Engaged Engineering
 
 **Introduction to Energy** — cours de trois jours pour le

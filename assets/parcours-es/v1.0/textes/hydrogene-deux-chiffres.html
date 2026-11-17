@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pourquoi deux chiffres pour le même hydrogène · Parcours ES 2026</title>
+<meta name="description" content="Le cas D donne un hydrogène électrolytique à 4,4 à 4,9 €/kg, l'outil « ce que coûte chaque route » à 7,1 €/kg : le même électrolyseur, mais pas la même question, et un calcul exécuté retrouve les deux.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Hydrogène, Industrie, Économie</span></div>
+    <h1>Pourquoi deux chiffres pour le même hydrogène</h1>
+    <p class="resume">Le cas D donne un hydrogène électrolytique à 4,4 à 4,9 €/kg, l'outil « ce que coûte chaque route » à 7,1 €/kg : le même électrolyseur, mais pas la même question, et un calcul exécuté retrouve les deux.</p>
+  </header>
+  <h2>Le problème</h2>
+<p>Ce parcours donne deux prix à l'hydrogène électrolytique.</p>
+<p>Le cas D (coûts du TYNDP 2024, année 2030) le met entre 4,4 et 4,9 €/kg selon le jeu de prix, contre 2,1 à 2,5 €/kg pour le reformeur au gaz ; le jeu TYNDP 2024 donne 4,83 €/kg (<code>D_electrolyseur/results.json</code>, configuration <code>electrolyseur</code>, champ <code>cout_kg</code>).</p>
+<p>L'outil « ce que coûte chaque route » le met à 7,1 €/kg à 70 €/MWh et 50 % de facteur de charge, contre 3,3 €/kg pour le vaporeformage. À 30 €/MWh, on lit 4,9 ; à 30 €/MWh et 90 % de charge, 3,6.</p>
+<p>Les deux ont presque le même électrolyseur : 1 961 €/kW électrique dans le cas D (<code>hypotheses.yaml</code>, <code>elec_invest_2030</code> : 3 393 000 €/MW d'hydrogène divisés par 1,73), 1 950 €/kW dans l'outil (AIE, Global Hydrogen Review 2026 : 2 200 USD/kW hors Chine, à 1,13 $/€). L'écart ne vient pas de la machine, mais de ce qu'on lui demande.</p>
+<h2>La formule commune</h2>
+<p>Les deux outils calculent un coût actualisé de l'hydrogène, un LCOH, avec la même structure :</p>
+<pre><code class="language-text">LCOH = (CAPEX × CRF(taux, durée) + OPEX fixe) / (8760 h × FC × production spécifique)
+       + prix de l'électricité × consommation spécifique
+       + autres coûts par tonne
+</code></pre>
+<p>Le CRF est le facteur de recouvrement du capital, <code>i (1+i)^n / ((1+i)^n − 1)</code>, le même que dans l'objectif de pommes. Le facteur de charge FC divise tout le capital : à mi-temps, les postes fixes coûtent deux fois plus par kilogramme.</p>
+<p>En euros par tonne et par an de capacité à pleine charge, les deux CAPEX se comparent : 1 950 €/kW × 53 MWh/t ÷ 8,76 MWh par kW et par an = 11 800 €/(t/an) dans l'outil ; 1 961 × 57,7 ÷ 8,76 = 12 900 €/(t/an) dans le cas D.</p>
+<h2>Les hypothèses, côte à côte</h2>
+<table>
+<thead>
+<tr>
+<th>hypothèse</th>
+<th>cas D (TYNDP 2024, 2030)</th>
+<th>outil routes (AIE GHR 2026)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CAPEX</td>
+<td>1 961 €/kWe</td>
+<td>1 950 €/kWe</td>
+</tr>
+<tr>
+<td>consommation</td>
+<td>1,73 MWh_e/MWh_H2, soit 57,7 MWh/t (58 % PCI)</td>
+<td>53 MWh/t (63 % PCI)</td>
+</tr>
+<tr>
+<td>durée de vie</td>
+<td>20 ans</td>
+<td>25 ans, stack (l'empilement de cellules) remplacé à 50 000 h</td>
+</tr>
+<tr>
+<td>taux</td>
+<td>8 %</td>
+<td>8 %</td>
+</tr>
+<tr>
+<td>OPEX fixe</td>
+<td>12 000 €/MW_H2/an, soit 0,35 % du CAPEX</td>
+<td>3 % du CAPEX par an</td>
+</tr>
+<tr>
+<td>autres</td>
+<td>aucun</td>
+<td>stack 390 €/t, eau 40 €/t</td>
+</tr>
+<tr>
+<td>électricité</td>
+<td>prix horaire du jeu, moyenne 60,2 €/MWh</td>
+<td>curseur, 70 €/MWh par défaut</td>
+</tr>
+<tr>
+<td>facteur de charge</td>
+<td>choisi par l'optimisation : 100 % sans stockage</td>
+<td>curseur, 50 % par défaut</td>
+</tr>
+<tr>
+<td>millésime</td>
+<td>coûts projetés pour 2030</td>
+<td>coûts observés en 2025</td>
+</tr>
+<tr>
+<td>périmètre</td>
+<td>site au prix de gros, sans TURPE ; stockage, PPA, règle RFNBO</td>
+<td>route seule, prix donné</td>
+</tr>
+</tbody>
+</table>
+<p>Le cas D choisit le facteur de charge. Sans stockage, l'électrolyseur tourne 8 760 h : le ruban de 100 MW doit être produit et rien ne permet de décaler. Avec une cavité saline, pommes le fait tourner entre 63 et 89 % selon le jeu de prix 2030 et paie l'électricité 36 à 52 €/MWh pour des moyennes de 56 à 61 (<code>results.json</code>, <code>electrolyseur_cavite</code>, champs <code>facteur_charge</code>, <code>prix_moyen_paye</code> et <code>prix_moyen</code>). Dans les deux jeux TYNDP : 71 % et 47 €/MWh pour 2024, 63 % et 36 €/MWh pour 2026. L'outil prend 50 % comme un fait : le profil d'un électrolyseur couplé à un parc éolien et solaire dédié.</p>
+<h2>Le calcul qui retrouve les deux</h2>
+<p>Ce bloc, exécuté avec l'environnement du dépôt des cas, retrouve 4,83 €/kg avec les hypothèses du cas D, puis 7,06, 4,94 et 3,64 €/kg avec celles de l'outil.</p>
+<pre><code class="language-python">def crf(i, n): return i * (1 + i) ** n / ((1 + i) ** n - 1)
+
+def lcoh(capex_kwe, conso_mwh_t, duree, taux, fc, opex_frac, prix_elec, autres=0.0):
+    capex_t_an = capex_kwe * conso_mwh_t / 8.76          # €/(t/an) à pleine charge
+    capital = capex_t_an * crf(taux, duree) / fc           # €/t
+    fixe = capex_t_an * opex_frac / fc                     # €/t
+    return (capital + fixe + conso_mwh_t * prix_elec + autres) / 1000   # €/kg
+
+# cas D : hypotheses.yaml et prix moyen 60,2 €/MWh (results.json, tyndp2024 2030)
+print(lcoh(3_393_000 / 1.73 / 1000, 1.73 * 1000 / 30, 20, 0.08, 1.0, 12_000 / 3_393_000, 60.2174))
+# -&gt; 4.83   (results.json : 4,8332 = (34,56 + 1,2 + 91,26) M€ / 26,28 Mkg)
+
+# outil : hydrogene.yaml (11 800 €/(t/an), 53 MWh/t, 25 ans, 354 €/(t/an)/an, stack 390 €/t, eau 40 €/t)
+for prix, fc in [(70, 0.5), (30, 0.5), (30, 0.9)]:
+    print(prix, fc, round(lcoh(11_800 / (53 / 8.76), 53, 25, 0.08, fc, 354 / 11_800, prix, 430), 2))
+# -&gt; 70 0.5 7.06 ; 30 0.5 4.94 ; 30 0.9 3.64
+</code></pre>
+<p><code>modele.py</code> de l'outil, lancé avec les mêmes surcharges, affiche 7,1, 4,9 et 3,6.</p>
+<h2>D'où vient l'écart de 2,2 €/kg</h2>
+<p>Du cas D vers l'outil, une hypothèse changée à la fois, dans cet ordre :</p>
+<pre><code class="language-text">4,83 €/kg           cas D, électrolyseur sur réseau, TYNDP 2024 2030
+4,83      (−0,01)   CAPEX 1 961 -&gt; 1 950 €/kWe
+4,44      (−0,39)   consommation 57,7 -&gt; 53 MWh/t
+4,34      (−0,10)   durée 20 -&gt; 25 ans
+4,65      (+0,31)   OPEX fixe 0,35 % -&gt; 3 % du CAPEX par an
+5,08      (+0,43)   remplacement du stack et eau
+5,60      (+0,52)   électricité 60,2 -&gt; 70 €/MWh
+7,06      (+1,46)   facteur de charge 100 % -&gt; 50 %
+</code></pre>
+<p>Trois leçons. Le CAPEX en €/kW ne change rien. Le facteur de charge fait les deux tiers de l'écart. L'exploitation, OPEX fixe et stack, presque nulle dans le TYNDP et à 3 % du CAPEX plus un remplacement chez l'AIE, fait 0,74 €/kg : la source des coûts pèse là, pas dans l'investissement.</p>
+<p>Le prix de l'électricité, enfin. L'outil demande un prix unique. Le cas D prend 8 760 prix et laisse l'électrolyseur en choisir : avec une cavité, le prix payé tombe à 36 €/MWh dans le jeu TYNDP 2026, pour une moyenne de 57,5. Le prix d'un électrolyseur flexible n'est pas la moyenne du marché.</p>
+<h2>Le troisième chiffre : 210 gCO₂/kWh</h2>
+<p>La vidéo « quand l'hydrogène est-il vraiment vert ? » parle d'émissions, pas de coût. À 53 kWh/kg, l'électrolyse émet plus que le vaporeformage dès que le réseau dépasse 11,2 kgCO₂/kg ÷ 53 kWh/kg ≈ 210 gCO₂/kWh ; sur le mix UE-27 de 2023, 240 g, l'hydrogène ressort à 12,7 kgCO₂/kg. Le cas D pose la même question par la règle du règlement 2023/1184 : électricité sous PPA, produite le même mois, puis la même heure dès 2030. Cette corrélation horaire coûte 0,16 à 0,30 €/kg selon le jeu de prix. Ni l'outil ni la vidéo n'ont ce périmètre.</p>
+<h2>Conclusion : quelle question chacun sert</h2>
+<p>Les deux chiffres ne se citent pas côte à côte sans leurs hypothèses. « 4,8 €/kg » répond à : que coûte un hydrogène en ruban pour un site branché au réseau de gros, aux prix d'un scénario 2030, libre de stocker ? « 7,1 €/kg » répond à : que coûte aujourd'hui un électrolyseur acheté hors Chine, alimenté à 70 €/MWh la moitié du temps ? Le premier sert à dimensionner et à arbitrer stockage, PPA et règle. Le second sert à classer des routes et à voir quel curseur fait basculer le classement. Devant un €/kg, cherchez d'abord le facteur de charge et le prix de l'électricité ; le CAPEX vient après.</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous retrouvez 4,83 €/kg à partir des trois postes de <code>results.json</code> (34,56 + 1,2 + 91,26 M€ pour 26,28 Mkg) et 7,06 €/kg avec le bloc de code ci-dessus.</li>
+<li>Vous savez dire, sans calcul, pourquoi un taux ramené de 8 à 4 % baisse davantage le 7,1 que le 4,8.</li>
+<li>Dans l'outil, vous trouvez le facteur de charge à partir duquel l'électrolyse à 30 €/MWh s'affiche à 3,8 €/kg ou moins, et vous expliquez pourquoi le cas D n'a pas ce curseur.</li>
+<li>Vous retrouvez 210 gCO₂/kWh à partir de 11,2 kgCO₂/kg et de 53 kWh/kg.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Le cas D, son <code>hypotheses.yaml</code> et son <code>results.json</code> <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a>.</li>
+<li>L'outil « ce que coûte chaque route » et l'activité guidée sur le prix d'égalité électrolyse-SMR <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a>, <a href="../textes/activites-outils.html">Activité guidée — à quel prix de l'électricité l'électrolyse rattrape le vaporeformage ?</a>, <a href="../textes/activites-outils.html">Activité guidée — à quel prix de l'électricité l'électrolyse rattrape le vaporeformage ?</a>.</li>
+<li>La vidéo sur le seuil des 210 g et l'activité « vert est une propriété de l'électricité » <a href="https://www.youtube.com/watch?v=r7WUx2ainUY" target="_blank" rel="noopener">L'électrolyse : quand l'hydrogène est-il vraiment vert ? (Hydrogène 4b/5)</a>, <a href="../textes/activites-outils.html">Activité guidée — « vert » est une propriété de l'électricité : le facteur réseau qui retourne le verdict</a>.</li>
+<li>L'objectif de pommes, annuités et CRF, pour relier la formule au modèle <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (1) : objectif, actualisation, annuités, poids d'année et conditions d'exploitation</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Cas D, README et hypotheses.yaml (dépôt pommes-case-studies)</a></li><li><a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Outil « Décarbonation de l'industrie : ce que coûte chaque route » (v2.1)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes" target="_blank" rel="noopener">Code et hypothèses de l'outil (hypotheses/hydrogene.yaml, commun.yaml, modele.py)</a></li><li><a href="https://www.youtube.com/watch?v=r7WUx2ainUY" target="_blank" rel="noopener">Vidéo « L'électrolyse : quand l'hydrogène est-il vraiment vert ? »</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Doc pommes, Model description : annuités et CRF</a></li></ol></section>
+</article>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

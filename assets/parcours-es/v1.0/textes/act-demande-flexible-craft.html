@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Une demande déplaçable en trente lignes · Parcours ES 2026</title>
+<meta name="description" content="Ajouter une FlexibleDemand au modèle du tutoriel, vérifier que chaque fenêtre conserve son volume, lire les heures qu'elle quitte et celles qu'elle rejoint, et voir ce que fait le gain quand la part déplaçable augmente chez un preneur de prix.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<article class="texte">
+  <header>
+    <div class="sur"><span>avancé</span> · <span>≈ 45 min</span> · <span>Flexibilité, Demande, Modélisation</span></div>
+    <h1>Une demande déplaçable en trente lignes</h1>
+    <p class="resume">Ajouter une FlexibleDemand au modèle du tutoriel, vérifier que chaque fenêtre conserve son volume, lire les heures qu'elle quitte et celles qu'elle rejoint, et voir ce que fait le gain quand la part déplaçable augmente chez un preneur de prix.</p>
+  </header>
+  <p>Objectif : rendre déplaçable une part de la demande du modèle du tutoriel <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a> et lire ce que l'optimiseur en fait. Prérequis : le dépôt des cas installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, le bloc 2 du tutoriel compris, la différence entre preneur et faiseur de prix [flex-preneur-vs-faiseur]. Chaque résolution prend moins de deux secondes (pommes 0.11.0, pommes_craft 0.6.0, HiGHS) ; valeurs du 16/11/2026, revérifiées le 17/11/2026.</p>
+<h2>1. Le composant</h2>
+<p><code>FlexibleDemand</code> (<code>pommes_craft/components/flexibility.py</code>) prend sept arguments. <code>demand</code> est le profil de référence, en MW par heure ; <code>conservation_hrs</code>, la longueur de la fenêtre où le volume est conservé. <code>min_demand</code> et <code>max_demand</code> bornent la demande horaire après déplacement, <code>ramp_up</code> et <code>ramp_down</code> ses variations d'une heure à l'autre. <code>variable_cost</code> est le coût en euros par MWh déplacé. Pommes crée une variable <code>operation_flexibility_demand</code> par heure, la met dans l'équilibre à la place du profil et impose sur chaque fenêtre <code>somme(variable) = somme(profil)</code>. Le coût ne compte que la demande retirée d'une heure, jamais celle qui s'y ajoute.</p>
+<h2>2. Le modèle en trente lignes</h2>
+<p>Même squelette que le tutoriel : une zone, un réseau qui vend au prix horaire 2030 de la France (TYNDP 2026, NT+) et ne rachète rien, ni délestage ni écrêtement. La demande de 1 MW est coupée en <code>1 - part</code> MW rigides et <code>part</code> MW déplaçables dans la journée, plafonnés à quatre fois leur moyenne. <code>progress: False</code> tait les barres de progression de linopy ; la ligne <code>Flexibility demand sparsity</code> qu'affichait pommes 0.9.0 à chaque résolution, passée au niveau <code>debug</code> du journal, ne s'affiche plus. Les commentaires donnent la sortie des <code>print</code>.</p>
+<pre><code class="language-python">import sys, logging
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
+import numpy as np, polars as pl
+from pommes_cases.prices import load_prices
+from pommes_craft import (EnergyModel, Area, Demand, EconomicHypothesis, TimeStepManager,
+                          LoadShedding, Spillage, NetImport, FlexibleDemand)
+logging.getLogger().setLevel(logging.ERROR)
+p = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2030)
+prix = p[&quot;import_price&quot;].to_numpy()
+H = 8760
+
+def modele(nom, part=0.0, fenetre=24, pmax=None, cout=0.0):
+    m = EnergyModel(name=nom, hours=list(range(H)), year_ops=[2030], year_invs=[2030], year_decs=[2055],
+                    modes=[], resources=[&quot;electricity&quot;], solver_name=&quot;highs&quot;,
+                    solver_options={&quot;output_flag&quot;: False, &quot;progress&quot;: False})
+    with m.context():
+        EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=2030, planning_step=1)
+        TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=float(H))
+        zone = Area(&quot;FR&quot;)
+        zone.add_component(Demand(name=&quot;demande_fixe&quot;, resource=&quot;electricity&quot;,
+                                  demand=pl.DataFrame({&quot;hour&quot;: range(H), &quot;year_op&quot;: 2030, &quot;demand&quot;: 1.0 - part})))
+        if part &gt; 0:
+            zone.add_component(FlexibleDemand(name=&quot;demande_flex&quot;, resource=&quot;electricity&quot;,
+                                              demand=pl.DataFrame({&quot;hour&quot;: range(H), &quot;year_op&quot;: 2030, &quot;demand&quot;: part}),
+                                              conservation_hrs=fenetre, min_demand=0.0,
+                                              max_demand=4 * part if pmax is None else pmax,
+                                              variable_cost=cout))
+        zone.add_component(LoadShedding(name=&quot;delestage&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+        zone.add_component(Spillage(name=&quot;ecretement&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+        zone.add_component(NetImport(name=&quot;reseau&quot;, resource=&quot;electricity&quot;,
+                                     import_price=p.select(&quot;hour&quot;, &quot;year_op&quot;, &quot;import_price&quot;),
+                                     max_yearly_energy_export=0.0))
+    return m
+
+m0 = modele(&quot;rigide&quot;); m0.run(store_linopy_model=True)
+m1 = modele(&quot;flex20&quot;, part=0.2); m1.run(store_linopy_model=True)
+c0, c1 = m0.linopy_model.objective.value, m1.linopy_model.objective.value
+print(f&quot;rigide {c0:,.2f} €, 20 % déplaçable {c1:,.2f} €, gain {c0 - c1:,.2f} €&quot;)
+# rigide 503,709.84 €, 20 % déplaçable 467,376.26 €, gain 36,333.58 €
+</code></pre>
+<p>Le modèle rigide redonne la somme des prix du tutoriel. Un cinquième de demande déplaçable dans la journée fait gagner 36 334 €, soit 7,2 % de la facture.</p>
+<h2>3. Vérifier la conservation, lire le déplacement</h2>
+<pre><code class="language-python">d = m1.linopy_model.solution[&quot;operation_flexibility_demand&quot;].squeeze().values
+print(d.sum(), np.abs(d.reshape(365, 24).sum(axis=1) - 0.2 * 24).max())   # 1752.0  6.5e-11
+hausse, baisse = d &gt; 0.2 + 1e-6, d &lt; 0.2 - 1e-6
+print(hausse.sum(), prix[hausse].mean(), baisse.sum(), prix[baisse].mean())  # 2190 36.76  6570 64.41
+print(np.maximum(0.2 - d, 0).sum(), d.max())                                 # 1314.0 MWh  0.8 MW
+hd = np.arange(H) % 24
+print(np.round([d[hd == h].mean() for h in range(24)], 2))   # pic 0.71 MW à 13 h, 0.00 à 8 h
+print(prix @ d / d.sum())                                     # 36.76 €/MWh payés, contre 57.50 en rigide
+j = 83                                                        # indice 0 : le 84e jour civil
+print(np.sort(prix.reshape(365, 24)[j][d.reshape(365, 24)[j] &gt; 0.5]))  # arrondi : 0.01 0.01 0.01 0.03 0.03 15.63
+</code></pre>
+<p>Les 365 fenêtres conservent 4,8 MWh chacune, à 10⁻¹⁰ près ; l'année fait toujours 1 752 MWh. La solution est en tout ou rien : 0,8 MW pendant 2 190 heures, six par jour, 0 le reste du temps. La demande quitte 6 570 heures à 64,41 €/MWh en moyenne pour six heures à 36,76 €/MWh. Le profil moyen se creuse le matin et le soir et culmine à 13 h : en 2030, l'heure creuse est solaire. Le jour d'indice 83 retient six heures à au plus 15,63 €/MWh, dont cinq sous 0,05 ; la septième la moins chère vaut aussi 15,63 : l'optimiseur a tranché l'égalité. La veille, indice 82, en retient six entre 15,62 et 15,63, aucune à 0. La duale de l'équilibre égale le prix à toutes les heures : le réseau reste marginal.</p>
+<p><code>m1.get_results("operation", "demand", component_classes=[FlexibleDemand])</code> donne la même série en table (colonnes <code>hour</code>, <code>value</code>, <code>datetime</code>, entre autres).</p>
+<h2>4. Le gain quand la part déplaçable augmente</h2>
+<pre><code class="language-python">def gain(**kw):
+    m = modele(&quot;x&quot;, **kw); m.run(store_linopy_model=True)
+    return c0 - m.linopy_model.objective.value
+for part in (0.1, 0.2, 0.3, 0.5):
+    g = gain(part=part); print(part, round(g), round(g / (part * H), 2))
+# 0.1 18167 20.74 | 0.2 36334 20.74 | 0.3 54500 20.74 | 0.5 90834 20.74
+for part in (0.1, 0.2, 0.3, 0.5, 0.8):
+    g = gain(part=part, pmax=1.0); print(part, round(g), round(g / (part * H), 2))
+# 0.1 20610 23.53 | 0.2 38285 21.85 | 0.3 50334 19.15 | 0.5 50994 11.64 | 0.8 28836 4.11
+</code></pre>
+<p>Première série, plafond proportionnel : le gain vaut 20,74 € par MWh déplaçable, quelle que soit la part. Les prix ne bougent pas, chaque MWh de plus trouve les mêmes six heures : signature du preneur de prix. Deuxième série, plafond fixe de 1 MW, celui d'un raccordement : le gain par MWh tombe de 23,53 à 4,11 €, et le gain total plafonne à 51 000 € vers 50 % puis recule. À 0,8 MW déplaçables, écouler le volume demande 19 heures par jour à 1 MW : les heures creuses saturent, le reste part aux heures chères. Chez un preneur de prix, c'est la borne de puissance qui fait baisser le gain, pas le prix. Dans le cas B, c'est le prix qui bouge : la flotte fait fondre les heures sous 10 €/MWh <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/B_ve_pilotes" target="_blank" rel="noopener">Cas B — VE pilotés : que deviennent les heures à prix bas ?</a>.</p>
+<h2>5. Fenêtre et coût du déplacement</h2>
+<p>Même part de 20 % : une fenêtre de 4 h rapporte 8 920 €, 12 h 34 225 €, 24 h 36 334 €, une semaine 46 927 €. Le volume déplacé reste 1 314 MWh : c'est l'écart de prix accessible qui grandit. Un coût de déplacement de 10 €/MWh ramène le gain net à 25 973 € et le volume déplacé à 953 MWh ; 20 €/MWh, 17 401 € et 771 MWh ; 40 €/MWh, 6 352 € et 348 MWh. L'optimiseur ne déplace que les heures dont l'écart de prix dépasse le coût.</p>
+<h2>Trois pièges</h2>
+<p>Une heure où le profil de référence vaut zéro n'a pas de variable : la demande ne peut pas s'y déplacer. Prenez 24 heures, 20 €/MWh de 0 à 7 h et de 20 à 23 h, 100 €/MWh de 8 à 19 h, une fenêtre de 24 h et <code>max_demand=10</code>. Un profil de 1,5 MW le jour et nul la nuit coûte 1 800 € (12 h × 1,5 MW × 100 €/MWh) : rien ne bouge. Le même profil avec 0,001 MW la nuit coûte 360,24 € : les 18,012 MWh passent tous la nuit, à 20 €/MWh. Donnez un plancher positif à votre profil. Ensuite, <code>conservation_hrs=0</code>, le défaut, ne conserve que l'année entière : la demande se concentre sur ses heures les moins chères. Enfin, le coût du déplacement était écrit en une ligne par heure et un terme par heure avant pommes 0.9.0 : plus de 60 Gio sur 13 zones à 8 760 heures, et faux à coût horaire variable (<code>docs/S1_rapport.md</code>). Restez sur l'environnement épinglé <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>.</p>
+<h2>L'autre façon : la flotte du cas B</h2>
+<p><code>pommes_cases.systeme_fr.add_ev</code> écrit la même flexibilité avec trois composants et un garde-fou. Une <code>Demand</code> de conduite porte sur une ressource « ve » ; une <code>ConversionTechnology</code> de recharge convertit l'électricité en « ve » sous un plafond horaire fixé par les voitures branchées ; une <code>StorageTechnology</code> de 16 kWh par voiture s'intercale entre recharge et conduite. Le garde-fou, un <code>NetImport</code> de « ve » borné à zéro, empêche pommes d'importer la ressource gratuitement au lieu de la recharger. Cette forme borne la puissance par les véhicules branchés et l'énergie par la batterie, là où <code>FlexibleDemand</code> n'a que <code>max_demand</code> et une fenêtre ; elle n'a pas de coût du déplacement <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/B_ve_pilotes" target="_blank" rel="noopener">Cas B — VE pilotés : que deviennent les heures à prix bas ?</a>.</p>
+<h2>Trois questions à réponse chiffrée</h2>
+<ol>
+<li>Avec 20 % déplaçables et un plafond à 4 fois la moyenne, combien d'heures par jour la demande déplaçable est-elle active, et à quel prix moyen ? (6 heures, 36,76 €/MWh.)</li>
+<li>Quel gain par MWh déplaçable obtient-on à 10 %, 30 %, 50 % avec le plafond proportionnel, et pourquoi est-il constant ? (20,74 €/MWh : preneur de prix.)</li>
+<li>À quel coût de déplacement le volume déplacé tombe-t-il sous 400 MWh ? (40 €/MWh : 348 MWh.)</li>
+</ol>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous retrouvez 467 376,26 € et un écart de conservation par fenêtre inférieur à 10⁻⁸ MWh.</li>
+<li>Vous tracez le profil horaire moyen de la demande déplacée et expliquez le pic de 13 h par le prix.</li>
+<li>Vous prédisez, avant de lancer, lequel des deux plafonds donne un gain par MWh constant.</li>
+<li>Vous dites en une phrase ce que la flotte du cas B borne que <code>FlexibleDemand</code> ne borne pas.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Model description de pommes : les contraintes de la demande flexible, rampes comprises <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (3) : demande flexible et groupes de production</a>.</li>
+<li>Cas B : la même question à l'échelle de 33 millions de voitures, où le prix répond <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/B_ve_pilotes" target="_blank" rel="noopener">Cas B — VE pilotés : que deviennent les heures à prix bas ?</a>.</li>
+<li>Le tutoriel dont ce modèle est la suite directe <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a>.</li>
+<li>Les pièges de pommes et pommes_craft, dont la correction du coût flexible en 0.9.0 <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases/prices.py, pommes_cases/systeme_fr.py add_ev, docs/S1_rapport.md, B_ve_pilotes/README.md)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Doc pommes, Model description, section Flexible demand constraints</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes/-/raw/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG de pommes (correction du coût de la demande flexible en 0.9.0)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft sur PyPI</a></li></ol></section>
+</article>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

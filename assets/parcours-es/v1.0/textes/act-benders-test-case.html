@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lancer Benders sur test_case · Parcours ES 2026</title>
+<meta name="description" content="Résoudre l'étude exemple test_case de pommes 0.11.0 en monolithe puis par décomposition de Benders, lire la table d'itérations (bornes, écart), comparer objectifs et temps, et dire ce que la méthode décompose et quand elle vaut le coup.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<article class="texte">
+  <header>
+    <div class="sur"><span>avancé</span> · <span>≈ 45 min</span> · <span>Optimisation</span></div>
+    <h1>Lancer Benders sur test_case</h1>
+    <p class="resume">Résoudre l'étude exemple test_case de pommes 0.11.0 en monolithe puis par décomposition de Benders, lire la table d'itérations (bornes, écart), comparer objectifs et temps, et dire ce que la méthode décompose et quand elle vaut le coup.</p>
+  </header>
+  <p>Objectif : résoudre le même problème de planification en un bloc puis par Benders, et lire dans la table d'itérations comment les deux bornes se rejoignent.</p>
+<p>Prérequis : l'environnement épinglé du dépôt des cas (pommes 0.11.0, linopy 0.10.1, HiGHS), test_case déjà résolu <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/notebooks/example_notebook.html" target="_blank" rel="noopener">Notebook d'exemple de pommes : résoudre test_case et lire solution et duales</a>, la lecture d'une duale <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. Valeurs obtenues le 17/11/2026 sur un portable : les temps varient d'une machine à l'autre, pas les objectifs ni le nombre d'itérations.</p>
+<h2>Ce que Benders décompose, en dix lignes</h2>
+<p>Le problème couple les variables de planification <code>planning_*</code> (capacités investies, indexées par année d'investissement et de déclassement) et d'exploitation <code>operation_*</code> (dispatch horaire, indexé par heure et année d'exploitation). Seul lien : les capacités disponibles chaque année, <code>operation_*_capacity_def</code>. Capacités fixées, les années d'exploitation ne se parlent plus : stockage, plafond carbone et quotas d'import sont annuels.</p>
+<p>Le maître garde la planification, son coût annualisé, et une variable <code>benders_theta</code> par année qui minore le coût d'exploitation de l'année. Un sous-problème par année d'exploitation reçoit les capacités du maître, fixées par des égalités <code>benders_fix_*</code>, et optimise le dispatch. La duale de ces égalités est la pente du coût d'exploitation par rapport aux capacités (<a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>, appliqué à la capacité au lieu de la demande). Elle donne une coupe d'optimalité <code>theta_y &gt;= v_y + lambda (x - x_barre)</code>, ajoutée au maître. Un sous-problème qui ne sert pas la demande sans délestage de secours renvoie une coupe de faisabilité qui exclut ce plan. Le maître, relaxation, donne une borne inférieure ; le coût du plan évalué (planification plus dispatch), une borne supérieure. La boucle s'arrête quand l'écart relatif passe sous <code>tol</code>.</p>
+<h2>1. Charger test_case et résoudre le monolithe</h2>
+<pre><code class="language-python">import time, warnings
+import pandas as pd
+from linopy import LinopySemanticsWarning
+warnings.filterwarnings(&quot;ignore&quot;, category=LinopySemanticsWarning)   # voir plus bas
+from pommes import test_case_path
+from pommes.io.build_input_dataset import read_config_file, build_input_parameters
+from pommes.model.data_validation.dataset_check import check_inputs
+from pommes.model.build_model import build_model
+
+p = check_inputs(build_input_parameters(read_config_file(test_case_path / &quot;config.yaml&quot;)))
+print({k: int(v) for k, v in p.sizes.items() if k in (&quot;area&quot;, &quot;hour&quot;, &quot;year_op&quot;, &quot;year_inv&quot;, &quot;conversion_tech&quot;)})
+# {'area': 2, 'conversion_tech': 5, 'hour': 10, 'year_inv': 5, 'year_op': 4}
+
+t0 = time.perf_counter()
+model = build_model(p)
+model.solve(solver_name=&quot;highs&quot;, output_flag=False)
+t_mono = time.perf_counter() - t0
+obj_mono = model.objective.value
+print(f&quot;{model.nvars} variables, {model.ncons} contraintes, objectif {obj_mono:,.2f}, {t_mono:.1f} s&quot;)
+# 3790 variables, 4172 contraintes, objectif 383,960.16, 2.8 s
+</code></pre>
+<p>Deux zones, dix heures, quatre années d'exploitation (2020, 2030, 2040, 2050). <code>solve</code> prend 0,6 s (écriture du LP, HiGHS, relecture) ; le reste des 2,8 s est la construction linopy. Le filtre en tête tait les centaines de <code>LinopySemanticsWarning</code> que linopy 0.10 émet sur le code de pommes, resté à l'ancienne sémantique.</p>
+<h2>2. Résoudre par Benders</h2>
+<p>En 0.11.0 : <code>pommes.solver.benders.solve_benders(model_parameters, solver, tol, max_iter, ...)</code>, même jeu de données que <code>build_model</code>, plus une trentaine d'options nommées (<code>multi_cut</code>, <code>stabilization</code>, <code>n_jobs</code>…). Défauts : <code>tol=1e-4</code>, <code>max_iter=100</code>. Gardez la tolérance, montez <code>max_iter</code> : sur test_case, 100 itérations ne suffisent pas (étape 3).</p>
+<pre><code class="language-python">from pommes.solver.benders import solve_benders
+
+t0 = time.perf_counter()
+res = solve_benders(p, solver=&quot;highs&quot;, tol=1e-4, max_iter=300)
+t_benders = time.perf_counter() - t0
+print(f&quot;statut {res.status}, {res.n_iterations} itérations, {t_benders:.1f} s&quot;)
+print(f&quot;borne sup. {res.objective:,.2f} ; borne inf. {res.lower_bound:,.2f} ; gap {res.gap:.2e}&quot;)
+print(f&quot;écart relatif au monolithe : {abs(res.objective - obj_mono) / obj_mono:.2e}&quot;)
+# statut optimal, 105 itérations, 18.4 s
+# borne sup. 383,996.74 ; borne inf. 383,960.15 ; gap 9.53e-05
+# écart relatif au monolithe : 9.53e-05
+</code></pre>
+<p>L'objectif Benders dépasse le monolithe de 37 € sur 384 000, soit 9,5e-5 : la tolérance demandée, pas une erreur. La borne inférieure (383 960,15) touche l'optimum du monolithe (383 960,16) à 1 centime. Benders met 18 s, le monolithe 2,8 s : sur dix heures, la décomposition ne paie pas (voir la fin).</p>
+<p>Pour suivre les itérations en direct, appelez <code>pommes.configure_logging()</code> avant <code>solve_benders</code> <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/logging.html" target="_blank" rel="noopener">Logging : suivre un run pommes et lire le rapport d'un solveur</a>. Le journal, sur la sortie d'erreur, donne le temps de construction du maître et des quatre sous-problèmes (11 s ici), une ligne par itération (<code>iter</code>, <code>lower</code>, <code>upper</code>, <code>gap</code>, <code>infeas</code>, temps du maître, du niveau, des sous-problèmes et des coupes) et un bilan.</p>
+<h2>3. Lire la table d'itérations</h2>
+<p><code>res.history</code> : une ligne par itération ; outre les colonnes affichées, <code>best_upper_bound</code>, <code>n_infeasible</code> (sous-problèmes infaisables) et une dizaine d'autres.</p>
+<pre><code class="language-python">h = res.history
+cols = [&quot;iteration&quot;, &quot;lower_bound&quot;, &quot;upper_bound&quot;, &quot;gap&quot;, &quot;t_master&quot;, &quot;t_subproblems&quot;, &quot;t_iteration&quot;]
+print(h[cols].iloc[[0, 1, 2, 4, 14, 34, 57, 86, 96, 100, 104]].to_string(float_format=lambda x: f&quot;{x:.6g}&quot;, index=False))
+print(&quot;boucle :&quot;, round(h.t_iteration.sum(), 1), &quot;s ; sous-problèmes&quot;, round(h.t_subproblems.sum(), 1), &quot;s ; maître&quot;, round(h.t_master.sum(), 1), &quot;s&quot;)
+</code></pre>
+<pre><code class="language-text"> iteration  lower_bound  upper_bound         gap   t_master  t_subproblems  t_iteration
+         0            0          inf         NaN 0.00380225      0.0193595    0.0375232
+         1         4680          inf         NaN 0.00372621      0.0222546    0.0480594
+         2      10725.9  3.58565e+09    0.999997 0.00347013       0.017706    0.0762093
+         4       154777          inf    0.999957 0.00382242      0.0147247    0.0395566
+        14       326974       843477     0.61235 0.00373279      0.0116679    0.0384291
+        34       380675       417366   0.0879105 0.00431192      0.0537861    0.0823788
+        57       383850       386226  0.00615268 0.00397858      0.0100817    0.0400457
+        86       383954       384125 0.000444034 0.00414896      0.0118972     0.051044
+        96       383960       384024 0.000166717 0.00454167      0.0119643    0.0539861
+       100       383960       384439 0.000166681 0.00393763      0.0127325    0.0568085
+       104       383960       383997 9.52727e-05 0.00390275      0.0127106     0.756928
+boucle : 5.9 s ; sous-problèmes 1.7 s ; maître 0.4 s
+</code></pre>
+<ul>
+<li>La borne inférieure monte sans redescendre, au bruit du simplexe près (cinq reculs de moins de 1e-9 €) : chaque coupe resserre la relaxation. De 0 (aucune coupe), elle atteint 383 960 à l'itération 90.</li>
+<li>La borne supérieure est <code>inf</code> tant qu'aucun plan évalué ne sert la demande sans délestage de secours, et le redevient souvent : le point évalué (centre de l'ensemble de niveau, stabilisation <code>level-interior</code>) n'est pas toujours réalisable. La meilleure borne supérieure ne remonte jamais.</li>
+<li>Le gap passe sous 1 % à l'itération 57, sous 0,1 % à la 86, puis traîne à 1,67e-4 de la 96 à la 103. Avec le défaut <code>max_iter=100</code>, le run s'arrête en statut <code>max_iter</code> à gap 1,67e-4 : d'où <code>max_iter=300</code>.</li>
+<li>La boucle ne pèse que 5,9 s sur 18 ; le reste est surtout la construction linopy (11 s). Sur dix heures, ce coût fixe domine.</li>
+</ul>
+<h2>4. Regarder le maître et un sous-problème</h2>
+<pre><code class="language-python">master = res.master
+print(master.nvars, &quot;variables,&quot;, master.ncons, &quot;contraintes&quot;)        # 370 variables, 896 contraintes
+print([v for v in master.variables if v.startswith((&quot;planning_&quot;, &quot;benders_&quot;))])
+print(sum(c.startswith(&quot;benders_cut_&quot;) for c in master.constraints),
+      sum(c.startswith(&quot;benders_feas_&quot;) for c in master.constraints))  # 281 135
+sp = res.subproblems[2030]
+print(sp.nvars, &quot;variables,&quot;, sp.ncons, &quot;contraintes, objectif&quot;, round(sp.objective.value, 2))
+# 1237 variables, 1153 contraintes, objectif 70227.45
+print([c for c in sp.constraints if c.startswith(&quot;benders_fix_&quot;)])
+</code></pre>
+<p>Les 370 variables du maître : les <code>planning_*_capacity</code>, les <code>planning_*_costs</code> et <code>benders_theta</code> (une par année). Ses 896 contraintes sont surtout des coupes : 281 d'optimalité et 135 de faisabilité, soit 416 = 104 itérations fois 4 années (la dernière n'ajoute rien). Le sous-problème 2030 a 1 237 variables, dont les capacités fixées par cinq contraintes <code>benders_fix_planning_*</code> ; son objectif, 70 227, est le coût d'exploitation actualisé de l'année au plan final. Dessinez le schéma : maître en haut, quatre sous-problèmes en bas, capacités qui descendent, coupes (valeur et pente) qui remontent.</p>
+<h2>5. Même coût, pas forcément même plan</h2>
+<pre><code class="language-python">wind = lambda s: s.planning_conversion_power_capacity.sel(conversion_tech=&quot;wind_onshore&quot;, area=&quot;area_1&quot;).sum(&quot;year_dec&quot;).to_pandas().round(1)
+print(pd.DataFrame({&quot;Benders&quot;: wind(res.solution), &quot;monolithe&quot;: wind(model.solution)}))
+</code></pre>
+<pre><code class="language-text">          Benders  monolithe
+year_inv
+2010        156.0        0.0
+2020        144.0      300.0
+2030        154.5        0.0
+2040        145.4      300.0
+2050        154.2        0.0
+</code></pre>
+<p>Environ 300 MW d'éolien disponibles en 2030 dans area_1 des deux côtés (298,5 pour Benders), datés différemment. L'optimum est dégénéré : plusieurs plans ont le même coût, le monolithe en renvoie un sommet, Benders un point intérieur. Comparez les objectifs, jamais les capacités une à une.</p>
+<h2>Quand Benders vaut le coup</h2>
+<p>Pas sur test_case. La doc le dit, la mesure le confirme : si le monolithe tient en mémoire et qu'un barrier commercial est disponible, résolvez le monolithe. Benders sert quand le monolithe ne tient plus en mémoire (un sous-problème garde une seule année), quand les années ou années météo sont nombreuses (sous-problèmes en parallèle, <code>n_jobs</code>), ou avec HiGHS seul sur un gros cas : son point intérieur est 6 à 30 fois plus lent que les barriers commerciaux, et la doc mesure Benders sur HiGHS en 25 à 106 s contre 138 s à plus de 40 minutes pour le monolithe HiGHS.</p>
+<p>Depuis la 0.10 (6/11/2026), <code>pommes.solver</code> offre, outre <code>solve_benders</code> et <code>solve_benders_two_phase</code>, une échelle multi-fidélité (<code>solve_benders_multi_fidelity</code>) et des sous-périodes hebdomadaires (<code>solve_benders_subperiods</code>) ; pommes_craft 0.6.0 lance Benders par <code>run(method="benders", benders_options={...})</code>.</p>
+<h2>Questions</h2>
+<ol>
+<li>Itérations et gap final avec <code>tol=1e-3</code> (même <code>max_iter</code>) ? Attendu : 87 itérations, gap 4,4e-4, objectif 384 125.</li>
+<li>Sans stabilisation (<code>stabilization=None</code>), le gap après 100 itérations ? Attendu : 0,998, borne supérieure à 60 millions. La stabilisation n'est pas un détail.</li>
+<li>En coupe unique (<code>multi_cut=False</code>), le gap après 100 itérations ? Attendu : 1,7e-3, contre 1,67e-4 en multi-coupes.</li>
+</ol>
+<h2>Vous l'avez acquise quand</h2>
+<ul>
+<li>Votre table d'itérations montre une borne inférieure croissante et un gap final sous 1e-4, avec le nombre d'itérations (105 sur test_case).</li>
+<li>Vous avez écrit l'écart relatif entre objectifs Benders et monolithe, égal au gap demandé.</li>
+<li>Votre schéma nomme ce qui descend (les capacités <code>planning_*</code>) et ce qui remonte (valeur du sous-problème et duale des <code>benders_fix_*</code>).</li>
+<li>Vous dites en une phrase pourquoi Benders perd sur test_case et où il gagnerait.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/benders.html" target="_blank" rel="noopener">Décomposition de Benders dans pommes</a> Doc pommes, page Benders : structure, coupes de faisabilité, stabilisation par ensemble de niveau, performances mesurées, choix de la méthode.</li>
+<li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/logging.html" target="_blank" rel="noopener">Logging : suivre un run pommes et lire le rapport d'un solveur</a> La page Logging, pour suivre un run et lire les itérations.</li>
+<li><span title="planches-optimisation-avancee-stochastique-decomposition">Optimisation avancée : valeur de l'eau et programmation dynamique, stochastique multi-étapes, lagrangien augmenté/ADMM, décomposition de Benders (remis en cours)</span> Les planches d'optimisation avancée, remises en séance : Benders, ADMM, valeur de l'eau.</li>
+<li><span title="kazempour-dtu-benders-admm">Lectures DTU 31792 (J. Kazempour, 2021) : bilevel, Benders et ses applications, lagrangien augmenté, variantes d'ADMM ; avec Boyd et al. 2011 (ADMM) et Roald et al. 2023 (optimisation sous incertitude) (remis en cours)</span> Les lectures DTU de Kazempour : Benders pas à pas sur un exemple à la main.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/benders.html" target="_blank" rel="noopener">Doc pommes, Benders decomposition (page de la version 0.11.0)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/logging.html" target="_blank" rel="noopener">Doc pommes, Logging</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes/-/raw/main/pommes/examples/test_case/config.yaml" target="_blank" rel="noopener">Étude exemple test_case livrée avec pommes (config.yaml et data/)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes" target="_blank" rel="noopener">Code source de pommes (pommes/solver/benders.py, docstrings de solve_benders et BendersResult)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/notebooks/example_notebook.html" target="_blank" rel="noopener">Notebook d'exemple de pommes sur test_case</a></li></ol></section>
+</article>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

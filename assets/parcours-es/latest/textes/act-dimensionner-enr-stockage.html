@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dimensionner éolien et stockage, avec et sans écrêtement · Parcours ES 2026</title>
+<meta name="description" content="Une zone isolée, une demande de 30 à 70 GW, de l'éolien au facteur de charge PECD et une batterie dimensionnés par pommes : interdire l'écrêtement fait de la batterie une poubelle à 9 %, l'autoriser divise le coût par 1,8, et 7 GW de turbine à gaz font fondre le stockage.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<article class="texte">
+  <header>
+    <div class="sur"><span>avancé</span> · <span>≈ 60 min</span> · <span>Flexibilité, Interco et EnR, Modélisation</span></div>
+    <h1>Dimensionner éolien et stockage, avec et sans écrêtement</h1>
+    <p class="resume">Une zone isolée, une demande de 30 à 70 GW, de l'éolien au facteur de charge PECD et une batterie dimensionnés par pommes : interdire l'écrêtement fait de la batterie une poubelle à 9 %, l'autoriser divise le coût par 1,8, et 7 GW de turbine à gaz font fondre le stockage.</p>
+  </header>
+  <p>Objectif : laisser pommes dimensionner l'éolien et la batterie d'une zone isolée, puis lire ce que change le droit d'écrêter et ce que vaut un gigawatt pilotable. C'est l'exercice des planches « dimensionner éolien + stockage » <span title="planches-dimensionner-enr-stockage">Exercice : dimensionner éolien + stockage pour couvrir une demande, écrêtement, pertes, hydraulique, asservissement tarifaire (remis en cours)</span>, fait à la main heure par heure avec un sondage sur la puissance du stockage (240, 210 ou 65 GW). Ici l'optimiseur répond, énergie comprise.</p>
+<p>Prérequis : le dépôt des cas installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, une batterie déjà écrite dans craft <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>, l'annuité comprise <a href="../textes/cout-annualise.html">Du coût d'investissement à l'annuité : CRF, €/kW/an, LCOE et ses limites</a>. Résolution en 3 à 4 s (pommes 0.11.0, pommes_craft 0.6.0, HiGHS), moins de 30 s en tout. Valeurs du 16/11/2026, revérifiées le 17/11/2026.</p>
+<h2>1. Le modèle</h2>
+<p>Une zone sans <code>NetImport</code>. Une demande de 30 à 70 GW (les bornes des planches), 50 GW en moyenne, 438 TWh sur l'année, qui suit la journée et la saison. L'éolien terrestre français de 2030 vient du PECD du TYNDP 2026 (météo par défaut WS003, facteur de charge moyen 0,279), à 1 029 600 €/MW, 12 474 €/MW/an, 30 ans, 4 %. Une batterie aux coûts du cas A (192 €/kW, 171 €/kWh, 650 €/MW/an, 25 ans, 4 %, rendement 0,91), puissance et énergie choisies séparément. Pas de délestage. Actualisation nulle : l'objectif est le coût d'une année.</p>
+<pre><code class="language-python">import sys, logging
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
+import numpy as np, polars as pl
+from pommes_cases.meteo import load_meteo, availability
+from pommes_craft import (EnergyModel, Area, Demand, EconomicHypothesis, TimeStepManager,
+                          LoadShedding, Spillage, ConversionTechnology, StorageTechnology)
+logging.getLogger().setLevel(logging.ERROR)
+
+H, Y = 8760, 2030
+h = np.arange(H)
+demande = 50_000 + 10_000 * np.sin(2 * np.pi * (h % 24 - 9) / 24) + 10_000 * np.cos(2 * np.pi * h / H)   # MW
+vent = availability(load_meteo(&quot;FR&quot;, Y), &quot;eolien_terrestre&quot;)      # hour, year_op, availability (WS003)
+
+def modele(nom, ecretement=False, tac_mw=0.0, rendement=0.91):
+    m = EnergyModel(name=nom, hours=list(h), year_ops=[Y], year_invs=[Y], year_decs=[Y + 25, Y + 30],
+                    modes=[], resources=[&quot;electricity&quot;], solver_name=&quot;highs&quot;, solver_options={&quot;output_flag&quot;: False})
+    with m.context():
+        EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=Y, planning_step=1)
+        TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=float(H))
+        z = Area(&quot;ile&quot;)
+        z.add_component(Demand(&quot;demande&quot;, resource=&quot;electricity&quot;,
+                               demand=pl.DataFrame({&quot;hour&quot;: h, &quot;year_op&quot;: Y, &quot;demand&quot;: demande})))
+        z.add_component(LoadShedding(&quot;delestage&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+        z.add_component(Spillage(&quot;ecretement&quot;, resource=&quot;electricity&quot;, cost=0.0,
+                                 max_capacity=1e7 if ecretement else 0.0))
+        z.add_component(ConversionTechnology(&quot;eolien&quot;, factor={&quot;electricity&quot;: 1.0}, availability=vent, must_run=1.0,
+                                             invest_cost=1_029_600.0, fixed_cost=12_474.0, life_span=30, finance_rate=0.04))
+        z.add_component(StorageTechnology(&quot;batterie&quot;, factor_in={&quot;electricity&quot;: -1.0}, factor_out={&quot;electricity&quot;: rendement},
+                                          factor_keep={&quot;electricity&quot;: 0.0}, invest_cost_power=192_000.0,
+                                          invest_cost_energy=171_000.0, fixed_cost_power=650.0, life_span=25, finance_rate=0.04))
+        if tac_mw &gt; 0:
+            z.add_component(ConversionTechnology(&quot;tac&quot;, factor={&quot;electricity&quot;: 1.0}, variable_cost=83.0,
+                                                 invest_cost=600_000.0, fixed_cost=20_000.0, life_span=30, finance_rate=0.04,
+                                                 power_capacity_investment_min=tac_mw, power_capacity_investment_max=tac_mw))
+    return m
+
+def lire(m):
+    m.run(store_linopy_model=True)
+    s = m.linopy_model.solution
+    print(f&quot;éolien {float(s['planning_conversion_power_capacity'].sel(conversion_tech='eolien').max()) / 1e3:.1f} GW ; &quot;
+          f&quot;batterie {float(s['planning_storage_power_capacity'].max()) / 1e3:.1f} GW, &quot;
+          f&quot;{float(s['planning_storage_energy_capacity'].max()) / 1e3:.0f} GWh ; &quot;
+          f&quot;chargé {float(s['operation_storage_power_in'].sum()) / 1e6:.1f} TWh ; &quot;
+          f&quot;écrêté {float(s['operation_spillage_power'].sum()) / 1e6:.1f} TWh ; &quot;
+          f&quot;coût {float(m.linopy_model.objective.value) / 1e9:.2f} Mrd€/an&quot;)
+    return s
+</code></pre>
+<p>Deux conventions. <code>year_decs</code> contient <code>Y + durée de vie</code> de chaque composant, sinon pommes_craft refuse le modèle (<code>ValueError: Max life span: 30.0, Max year_inv: 2030, Max year_dec: 2055</code>). <code>must_run=1.0</code> rend l'éolien fatal : <code>production == capacité × availability</code> à chaque heure, et seul le <code>Spillage</code> peut jeter le surplus ; sans lui, la conversion peut produire moins que le vent et le <code>Spillage</code> ne sert à rien, comme pour le PV du tutoriel <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a>.</p>
+<h2>2. Étape 1 : écrêtement libre</h2>
+<pre><code class="language-python">s = lire(modele(&quot;libre&quot;, ecretement=True))
+# éolien 537.7 GW ; batterie 73.4 GW, 2328 GWh ; chargé 45.0 TWh ; écrêté 872.6 TWh ; coût 65.16 Mrd€/an
+</code></pre>
+<p>Pour 50 GW de demande moyenne, 538 GW d'éolien, qui produisent 1 315 TWh. L'optimiseur en jette 873, soit 66 %, pendant 5 808 heures, et n'en stocke que 45. La batterie fait 73 GW et 2 328 GWh : 32 heures de durée, pas une batterie de 2 h mais un stockage de plusieurs jours payé au prix des cellules. Le coût : 38,7 Mrd€ d'éolien (annuité 0,05783 × 1 029 600 + 12 474 ≈ 72 016 €/MW/an) et 26,4 Mrd€ de batterie.</p>
+<p>Un MWh éolien revient à 72 016 / (0,279 × 8 760) = 29,45 €/MWh quand tout est pris ; les 873 TWh écrêtés valent donc 873 × 29,45 = 25,7 Mrd€/an, 40 % de la facture. Le MWh effectivement consommé coûte 38,7 Mrd€ / 442 TWh = 87,6 €/MWh, trois fois le coût de production. Mais à 171 €/kWh, stocker coûte plus cher que surproduire et jeter : l'écrêtement est la flexibilité la moins chère du modèle, la première qu'un modèle de dimensionnement doit savoir faire.</p>
+<pre><code class="language-python">niv = s[&quot;operation_storage_level&quot;].squeeze().values / 1e3                     # GWh
+print(niv.argmax(), niv.max())                                                # 312  2328.2 : plein le 14 janvier (heure 312)
+print(312 + niv[312:481].argmin(), niv[312:481].min())                        # 378  0.0 : vide le 16 janvier (heure 378)
+net = (s[&quot;operation_storage_power_out&quot;] - s[&quot;operation_storage_power_in&quot;]).squeeze().values.reshape(365, 24).sum(1) / 1e3
+sem = np.convolve(net, np.ones(7), &quot;valid&quot;); j = sem.argmax()
+print(j, round(sem[j]))                                                      # 13  2144 : jours 13 à 19 (du 14 au 20 janvier), 2 144 GWh déstockés net
+</code></pre>
+<p>Une seule semaine fixe l'énergie de la batterie. Du 14 au 20 janvier, le facteur de charge tombe à 0,092 : les 538 GW ne donnent que 49 GW contre 60 GW de demande. Le stock, plein le 14 (2 328 GWh), vide le 16, remonte un peu et finit le 20 janvier à 183 GWh ; la semaine déstocke 2 144 GWh net. C'est la « semaine sans vent » du cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/G.yaml" target="_blank" rel="noopener">Cas G (carte, vague 2) — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>, sur une seule année météo ; une autre WS déplacerait cette semaine et la taille du stockage <a href="../textes/act-annees-meteo-poids.html">Empiler trois années météo sur le modèle du tutoriel avec operation_year_weight</a>.</p>
+<h2>3. Étape 2 : écrêtement interdit</h2>
+<pre><code class="language-python">lire(modele(&quot;sans_ecretement&quot;))
+# éolien 471.7 GW ; batterie 3240.6 GW, 3592 GWh ; chargé 7947.6 TWh ; écrêté 0.0 TWh ; coût 115.22 Mrd€/an
+lire(modele(&quot;sans_pertes&quot;, rendement=1.0))
+# éolien 179.1 GW ; batterie 120.1 GW, 42985 GWh ; chargé 144.1 TWh ; écrêté 0.0 TWh ; coût 484.98 Mrd€/an
+</code></pre>
+<p>Sans soupape, chaque MWh de vent doit être consommé ou stocké. Le seul puits est le rendement : la batterie, qui joue le rôle de l'écrêtement, absorbe 7 948 TWh dans l'année et en perd 9 %, 715 TWh. Il lui faut 3 241 GW et 3 592 GWh, et la facture monte à 115 Mrd€/an, 1,8 fois plus. Autoriser l'écrêtement ramène l'énergie de 3 592 à 2 328 GWh et la puissance de 3 241 à 73 GW.</p>
+<p>Sans pertes (<code>rendement=1.0</code>), le puits disparaît et le modèle reste faisable : le stock est cyclique sur l'année, il suffit que la production annuelle égale la demande. L'éolien est calé à 179,1 GW, soit 438 TWh / (0,279 × 8 760), avec un stock saisonnier de 42 985 GWh, à 485 Mrd€/an : 7,4 fois le coût avec écrêtement. Résultat des planches : la puissance du stockage descend de l'option 240 GW du sondage à 65 GW une fois l'écrêtement autorisé.</p>
+<h2>4. Étape 3 : 7 GW de turbine à gaz</h2>
+<p>Une turbine à combustion imposée à 10 % de la pointe : 600 000 €/MW, 20 000 €/MW/an, 30 ans (TYNDP 2024 via le cas C), gaz à 33,2 €/MWh PCI (TYNDP 2026 NT+ 2030, cas D), rendement 40 % (choix de l'activité), soit 83 €/MWh.</p>
+<pre><code class="language-python">for gw in (7, 14, 35):
+    lire(modele(f&quot;tac{gw}&quot;, ecretement=True, tac_mw=gw * 1e3))
+# tac7  : éolien 474.1 GW ; batterie 65.2 GW, 2059 GWh ; écrêté 718.0 TWh ; coût 58.03 Mrd€/an  (TAC 1.4 TWh, 209 h)
+# tac14 : éolien 410.3 GW ; batterie 58.0 GW, 1792 GWh ; écrêté 566.3 TWh ; coût 51.21 Mrd€/an  (TAC 6.4 TWh, 533 h)
+# tac35 : éolien 229.7 GW ; batterie 37.7 GW,  961 GWh ; écrêté 190.5 TWh ; coût 35.39 Mrd€/an  (TAC 71.3 TWh, 2 954 h)
+</code></pre>
+<p>Sept gigawatts qui tournent 209 heures et produisent 1,4 TWh, 0,3 % de la demande, enlèvent 64 GW d'éolien, 270 GWh de batterie et 7,1 Mrd€/an : chaque GW pilotable vaut ici environ 1 Mrd€/an. La turbine ne remplace pas de l'énergie mais la pointe de la semaine sans vent, que batterie et éolien surdimensionné couvraient à grands frais. À 35 GW, l'éolien retombe à 230 GW, proche des 300 GW du sondage, et le gaz fournit 16 % de l'énergie.</p>
+<h2>Ce qu'il faut noter</h2>
+<ul>
+<li>Pour les trois étapes : capacités (GW, GWh), énergie écrêtée et stockée, coût.</li>
+<li>La durée en heures de la batterie (31,7 h ici) et pourquoi elle dit que le modèle manque d'un stockage de long terme.</li>
+</ul>
+<h2>Trois questions à réponse chiffrée</h2>
+<ol>
+<li>Quelle part de la production éolienne est écrêtée à l'étape 1, et combien coûte-t-elle au prix de production du MWh éolien ? (66 %, 25,7 Mrd€/an.)</li>
+<li>Écrêtement interdit : combien d'énergie la batterie fait-elle transiter, et combien en perd-elle ? (7 948 TWh, 715 TWh.)</li>
+<li>De combien la capacité d'énergie du stockage baisse-t-elle entre 0 et 14 GW de turbine à gaz ? (2 328 à 1 792 GWh, 23 %.)</li>
+</ol>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous retrouvez 2 328 GWh avec écrêtement, 3 592 GWh sans, et 65,16 et 115,22 Mrd€/an.</li>
+<li>Vous expliquez en une phrase pourquoi l'écrêtement est une flexibilité : jeter un MWh à 29 € coûte moins cher que le stocker à 171 €/kWh, et la soupape dispense la batterie d'absorber le surplus.</li>
+<li>Vous situez la semaine qui fixe l'énergie du stockage et dites ce qu'une autre année météo y changerait.</li>
+<li>Avant de lancer le calcul, vous prédisez dans quel sens varie le stockage avec 7 GW pilotables.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>La carte du cas G : quatre pays, stockage court et long, interconnexions, plusieurs années météo <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/G.yaml" target="_blank" rel="noopener">Cas G (carte, vague 2) — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>.</li>
+<li>Le notebook 2025 « 100 % renouvelable », point de départ du cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/legacy_tp2025/notebooks/100_renewable_energy.ipynb" target="_blank" rel="noopener">Notebook 2025 — Une Europe à 100 % renouvelable : minimiser le recours aux combustibles verts</a>.</li>
+<li>Les contraintes de pommes : stockage, écrêtement, adéquation <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (2) : adéquation, capacités et millésimes, stockage, carbone, imports, TURPE</a> ; la contrainte <code>must_run</code> dans la référence API <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/autoapi/index.html" target="_blank" rel="noopener">Référence API de pommes (autoapi)</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (data/meteo/README.md et pommes_cases/meteo.py pour les facteurs de charge PECD ; D_electrolyseur/hypotheses.yaml pour l'éolien, A_batteries/hypotheses.yaml pour la batterie, C_thermosensibilite/hypotheses.yaml pour la turbine à combustion)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Documentation POMMES, description du modèle (conversion avec availability, stockage, spillage)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/autoapi/pommes/model/conversion/index.html" target="_blank" rel="noopener">Référence API de pommes, module pommes.model.conversion (contrainte must_run)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft (PyPI)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/G.yaml" target="_blank" rel="noopener">Carte du cas G, pommes-case-studies (docs/cartes/G.yaml)</a></li></ol></section>
+</article>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

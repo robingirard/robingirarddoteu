@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L'ordre de mérite des abattements face au quota et à la valeur tutélaire · Parcours ES 2026</title>
+<meta name="description" content="Une activité guidée sur l'onglet Comparer de l'outil industrie (v2.1) : lire l'ordre de mérite des coûts d'abattement de 27 routes, le confronter au prix du quota et à la valeur Quinet 2030 (295 €₂₀₂₄/t), puis voir qu'il bouge avec l'électricité et le transport du CO₂, et qu'un coût d'abattement n'est pas un prix de bascule.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<article class="texte">
+  <header>
+    <div class="sur"><span>avancé</span> · <span>≈ 50 min</span> · <span>Économie, Industrie</span></div>
+    <h1>L'ordre de mérite des abattements face au quota et à la valeur tutélaire</h1>
+    <p class="resume">Une activité guidée sur l'onglet Comparer de l'outil industrie (v2.1) : lire l'ordre de mérite des coûts d'abattement de 27 routes, le confronter au prix du quota et à la valeur Quinet 2030 (295 €₂₀₂₄/t), puis voir qu'il bouge avec l'électricité et le transport du CO₂, et qu'un coût d'abattement n'est pas un prix de bascule.</p>
+  </header>
+  <h2>Avant de commencer</h2>
+<p>Ouvrez le lien épinglé de la version 2.1 (première source). Valeurs attendues relevées sur cette version, aux réglages par défaut : électricité 70 €/MWh, gaz 35 €/MWh, quota 70 €/t, transport-stockage du CO₂ 20 €/t, taux d'actualisation 8 %, réseau France 56 g/kWh. Un rechargement remet les défauts : notez à la main. Cas d'école, pas une prévision : les coûts sont ceux de l'outil (pommes-industry, France 2030, et l'AIE pour l'électrolyseur).</p>
+<p>Le <strong>coût d'abattement</strong> d'une route est son surcoût par rapport à la route de référence de son produit, divisé par les émissions qu'elle évite, du berceau à la sortie d'usine. Le surcoût est compté <strong>hors prix du CO₂</strong>, sinon il dépendrait du quota qu'il sert à juger.</p>
+<h2>1. Lire l'ordre de mérite (10 min)</h2>
+<p>Onglet <strong>Comparer</strong>, dernière figure : « Coût d'abattement de toutes les routes qui coupent au moins 30 % de leur référence, triées ». 27 routes, réduction entre parenthèses. L'axe est écrasé par le kérosène (4 315 et 4 992 €/tCO₂) : comptez d'après les nombres affichés, pas d'après la longueur des barres.</p>
+<ol>
+<li>Relevez les trois routes les moins chères qui coupent <strong>plus de 50 %</strong> des émissions de leur produit.</li>
+<li>Leur coût est négatif : dites ce qui les limite, que la figure ne montre pas (cartes de route des onglets produit).</li>
+<li>Relevez les trois routes de <strong>production primaire</strong> (pas de recyclage) les moins chères au-delà de 50 %. Quelle technique ont-elles en commun ?</li>
+<li>Pourquoi « Acier · BF-BOF + CCS », à 52 €/tCO₂, n'est-il pas dans cette liste ?</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Attendu (v2.1)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trois moins chères au-delà de 50 %</td>
+<td>Oléfines · Recyclage méca. −410 (−78 %) ; Aluminium · Recyclage −239 (−92 %) ; Acier · Ferraille EAF −25 (−93 %) €/tCO₂</td>
+<td></td>
+</tr>
+<tr>
+<td>trois moins chères en production primaire</td>
+<td>Ciment · + oxycombustion CCS 39 (−90 %) ; Hydrogène · ATR + CCS 52 (−75 %) ; Ammoniac · ATR + CCS + HB 52 (−73 %)</td>
+<td></td>
+</tr>
+<tr>
+<td>haut fourneau avec captage</td>
+<td>52 €/tCO₂, mais −49 % : sous le seuil de 50 %</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Le recyclage coûte moins que la référence parce qu'il saute l'étape la plus chère, réduire le minerai ou refaire le polymère : le fer de la ferraille est déjà du fer. Mais on ne recycle que ce qu'on collecte : selon l'outil, la ferraille couvre environ 30 % de la demande d'acier, le recyclage mécanique des plastiques environ 10 %. Les deux premières barres (oléfines, aluminium) reposent d'ailleurs sur des ordres de grandeur au statut « mémoire » (onglet Sources).</p>
+<p>Les trois routes primaires suivantes captent le CO₂ : elles gardent le gaz et le charbon à leur prix, d'où leur faible coût. L'ammoniac a le coût de l'hydrogène (52) : même référence derrière la même boucle Haber-Bosch, donc surcoût et tonnes évitées de l'hydrogène qu'il contient.</p>
+<p>Attention au ciment : « + oxycombustion CCS » vient en plus du clinker 0,50. Son 39 €/tCO₂ est une moyenne qui contient ce levier gratuit (−13) ; le captage seul, par rapport au clinker 0,50, coûte environ 88 €/tCO₂. Ce n'est donc pas une courbe de coût marginal : des routes qui s'excluent y côtoient des paliers qui s'empilent.</p>
+<h2>2. Monter le quota : la ligne bouge, pas les barres (10 min)</h2>
+<ol>
+<li>Curseur « Prix du CO2 (quota EU ETS) », famille « Prix du CO2 et du stockage » à déplier à gauche : 70, puis 150, puis 300 €/t. Comptez les routes à gauche de la ligne « quota ».</li>
+<li>Comptez les routes à gauche de la ligne pointillée « Quinet 2030 ». À 300 €/t, les deux lignes se superposent.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Quota</th>
+<th>Routes sous la ligne (sur 27)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>70 €/t</td>
+<td>9</td>
+<td></td>
+</tr>
+<tr>
+<td>150 €/t</td>
+<td>17</td>
+<td></td>
+</tr>
+<tr>
+<td>300 €/t</td>
+<td>21</td>
+<td></td>
+</tr>
+<tr>
+<td>Quinet 2030, 295 €/t</td>
+<td>21</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Les barres sont fixes : le coût d'abattement est hors prix du CO₂. Sous la ligne du quota, une route évite une tonne pour moins que le prix du quota. Qu'elle se paie toute seule pour l'usine, c'est le prix de bascule qui le dit (section 5) ; aux réglages par défaut, les deux lectures donnent les mêmes listes. Au-dessus de Quinet, la route coûte plus que la valeur publique d'une tonne évitée en 2030, coût calculé au taux privé de 8 % ; à 4 ou 5 %, les mêmes 21 routes restent dessous et l'acier DRI-H2 descend à 194-199 €/tCO₂. Entre 214 (Acier · DRI-H2 + EAF) et 534 €/tCO₂ (Hydrogène · Électrolyse), aucune route : monter de 300 à 400 €/t, le bout du curseur, n'en ajoute pas une seule.</p>
+<h2>3. Le prix de l'électricité déplace les routes électriques (10 min)</h2>
+<p>Tableau « Dépendance de chaque route à l'électricité », colonne « € par unité pour +10 €/MWh ».</p>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Attendu (v2.1)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hydrogène · Électrolyse (par kg H2)</td>
+<td>+0,53 €</td>
+<td></td>
+</tr>
+<tr>
+<td>Acier · DRI-H2 + EAF (par t acier)</td>
+<td>+39 €</td>
+<td></td>
+</tr>
+<tr>
+<td>Aluminium · Hall-Héroult (par t Al)</td>
+<td>+150 €</td>
+<td></td>
+</tr>
+<tr>
+<td>Kérosène · e-SAF (FT) (par t kérosène)</td>
+<td>+332 €</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Puis faites glisser « Prix de l'électricité » de 70 à 30 puis à 100 €/MWh et relevez deux coûts d'abattement dans la figure :</p>
+<table>
+<thead>
+<tr>
+<th>Électricité</th>
+<th>DRI-H2 + EAF</th>
+<th>Hydrogène · Électrolyse</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30 €/MWh</td>
+<td>127 €/tCO₂</td>
+<td>281 €/tCO₂</td>
+<td></td>
+</tr>
+<tr>
+<td>70 €/MWh</td>
+<td>214 €/tCO₂</td>
+<td>534 €/tCO₂</td>
+<td></td>
+</tr>
+<tr>
+<td>100 €/MWh</td>
+<td>279 €/tCO₂</td>
+<td>723 €/tCO₂</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Pour l'hydrogène, la part de l'énergie bouge peu (51 % du coût au SMR, 53 % à l'électrolyse), mais l'énergie change : du gaz à prix international vers l'électricité à prix national. Pour l'acier, elle passe de 13 % au haut fourneau à 36 % au DRI-H2, presque toute électrique (première figure de Comparer). Le bloc de la section 5 refait le calcul.</p>
+<h2>4. Le transport du CO₂ déplace les routes de captage (5 min)</h2>
+<p>Remettez l'électricité à 70. Curseur « Transport et stockage du CO2 » : de 20 à 120 €/t, le coût d'une cimenterie loin d'un port et d'un stockage.</p>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>à 20 €/t</th>
+<th>à 120 €/t</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ciment · + oxycombustion CCS</td>
+<td>39</td>
+<td>98</td>
+<td></td>
+</tr>
+<tr>
+<td>Ciment · CCS amines</td>
+<td>127</td>
+<td>230</td>
+<td></td>
+</tr>
+<tr>
+<td>Hydrogène · ATR + CCS</td>
+<td>52</td>
+<td>143</td>
+<td></td>
+</tr>
+<tr>
+<td>Acier · BF-BOF + CCS</td>
+<td>52</td>
+<td>153</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>À 120 €/t, l'hydrogène et l'ammoniac ATR + CCS (143 €/tCO₂) passent derrière l'anode inerte + Bayer propre de l'aluminium (78) et l'électrolyse du minerai (112). L'oxycombustion du ciment reste parmi les trois premières routes primaires, mais à 98 €/tCO₂ (le captage seul y monte à 204) : l'avantage du captage dépend d'un réseau de transport du CO₂ qui n'existe pas encore partout.</p>
+<h2>5. Pourquoi « 200 à 300 €/t » n'est pas un prix de bascule (10 min)</h2>
+<p>On lit souvent qu'un quota de 200 à 300 €/t ferait basculer l'industrie. Quatre raisons de s'en méfier :</p>
+<ul>
+<li><strong>Le coût d'abattement bouge</strong> avec l'électricité (section 3) et le transport du CO₂ (section 4). L'acier à l'hydrogène est sous 200 €/tCO₂ à 30 €/MWh, au-dessus de 250 à 100 €/MWh.</li>
+<li><strong>Ce n'est pas le calcul de l'usine.</strong> Le triangle noir de chaque onglet produit est le <strong>prix de bascule</strong> : le quota auquel la route devient moins chère pour l'usine, sur ses émissions directes. L'électrolyse de l'hydrogène bascule à 479 €/t de quota, alors que son coût d'abattement est 534 €/tCO₂. Le quota compte les 9,23 kg de CO₂ directs du vaporeformage par kg d'hydrogène. L'abattement ne compte que les 8,29 kg réellement évités, une fois l'amont du gaz et l'électricité du réseau de l'électrolyseur comptés. Pour le bio-méthanol, l'écart va dans l'autre sens : 911 d'abattement, 1 495 de bascule.</li>
+<li><strong>L'usine doit être exposée au quota.</strong> Les quotas gratuits allègent sa facture sans effacer, en principe, le coût d'opportunité d'une tonne émise ; leur extinction, que le mécanisme d'ajustement carbone accompagne en taxant les importations, décide de ce qu'elle paiera.</li>
+<li><strong>Le gisement plafonne</strong> les routes les moins chères (section 1).</li>
+</ul>
+<p>La liste des routes qui passent sous 200 ou 300 €/t change avec chaque hypothèse : une fourchette, pas un seuil.</p>
+<p>Facultatif, une calculatrice suffit :</p>
+<pre><code class="language-python">quota = 70                                   # €/tCO2, défaut de l'outil
+# Acier : DRI-H2 contre le haut fourneau (BF-BOF), par tonne d'acier
+cout_bf, direct_bf, em_bf = 522.68, 1.76, 2.021      # €/t, tCO2/t au quota, tCO2/t du berceau à la porte
+cout_h2, direct_h2, em_h2 = 772.35, 0.06, 0.300
+d_cout = (cout_h2 - quota * direct_h2) - (cout_bf - quota * direct_bf)   # hors prix du CO2
+print(f&quot;abattement DRI-H2 : {d_cout / (em_bf - em_h2):.0f} €/tCO2&quot;)
+print(f&quot;bascule privée    : {d_cout / (direct_bf - direct_h2):.0f} €/tCO2&quot;)
+print(f&quot;+10 €/MWh         : {(39.34 - 1.94) / (em_bf - em_h2):+.1f} €/tCO2 sur l'abattement&quot;)
+# abattement DRI-H2 : 214 €/tCO2 ; bascule privée : 217 €/tCO2 ; +10 €/MWh : +21.7 €/tCO2
+</code></pre>
+<p>Les valeurs du bloc sont celles du modèle au centime (dépôt de l'outil). L'interface les arrondit : 523 et 772 €/t, 2,02 et 0,30 tCO₂/t dans l'onglet Acier, +39 et +2 (haut fourneau) dans le tableau de Comparer ; avec ces arrondis, la bascule sort à 216. Le quota du haut fourneau, 1,76 t × 70 = 123 €/t, est celui de l'activité 6 de <a href="../textes/activites-outils.html">Activité guidée — acier : le prix du charbon à coke et le prix du CO₂ qui font basculer le haut fourneau</a>. +10 €/MWh ajoute environ 22 €/tCO₂ à l'abattement de l'acier à l'hydrogène.</p>
+<h2>Ponts vers les cas</h2>
+<ul>
+<li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/H.yaml" target="_blank" rel="noopener">Cas H (carte, vague 2) — À quel prix du CO₂ l'industrie change-t-elle de procédé ?</a> : le prix du CO₂ qui fait changer de procédé, en trajectoire et non pour une tonne.</li>
+<li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/E_vapeur" target="_blank" rel="noopener">Cas E — Vapeur à 180 °C : tout électrifier, garder le gaz, ou les deux ?</a> : le prix du CO₂ de l'ETS2 pèse, avec le prix de l'électricité, sur le choix entre chaudière au gaz, électrique ou hybride ; même lecture, un seul site.</li>
+</ul>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous nommez les trois recyclages en tête, ce qui les plafonne, puis les trois routes de captage (39, 52, 52 €/tCO₂) et ce que cache le 39 du ciment.</li>
+<li>Vous dites combien de routes passent sous le quota à 70, 150 et 300 €/t (9, 17, 21) et pourquoi les barres ne bougent pas.</li>
+<li>Vous citez l'effet de +10 €/MWh sur l'hydrogène électrolytique (+0,53 €/kg), l'acier DRI-H2 (+39 €/t), l'aluminium (+150 €/t) et l'e-kérosène (+332 €/t).</li>
+<li>Vous écrivez en une phrase pourquoi « 200 à 300 €/t » n'est pas un prix de bascule.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Variante : cochez la case « usage » (famille « Réseau, périmètre et intermédiaires »), le CO₂ de l'usage ou de l'incinération. Le kérosène HEFA passe de 4 315 à 473 €/tCO₂, le bio-naphta de 1 357 à 383, le bio-méthanol de 911 à 327 : le périmètre divise par neuf à douze le coût des carburants (BtL : de 4 992 à 424) et par trois celui des deux autres.</li>
+<li>L'outil onglet par onglet (version courante) : <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a>.</li>
+<li>Le quota, les quotas gratuits et le mécanisme d'ajustement carbone aux frontières : <a href="https://www.energy-alternatives.eu/linkedin/2026-09-22-macf-le-signal-et-la-regle.html" target="_blank" rel="noopener">Juin prend, septembre rend : MACF, quotas gratuits et la semaine où l'Europe s'est corrigée</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.robingirard.eu/assets/industrydecarbo/v2.1/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route, v2.1 (lien épinglé)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes" target="_blank" rel="noopener">Dépôt de l'outil : modèle, hypothèses YAML</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes/-/blob/main/Note_Economie_routes.md" target="_blank" rel="noopener">Note de l'outil : « Ce que coûte chaque route »</a></li><li>A. Quinet (dir.), La valeur de l'action pour le climat, France Stratégie, 2019 : 250 €₂₀₁₈/t en 2030, soit 295 €₂₀₂₄ dans l'outil</li></ol></section>
+</article>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

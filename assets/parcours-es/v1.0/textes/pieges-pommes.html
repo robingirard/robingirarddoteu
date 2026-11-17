@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les pièges connus de pommes et pommes_craft · Parcours ES 2026</title>
+<meta name="description" content="Dix pièges de pommes 0.11.0, pommes_craft 0.6.0 et linopy 0.10.1, chacun avec son symptôme, sa cause, son remède et un extrait de code, vérifiés sur des modèles de 24 heures, et ce qui change quand on lit un code ou un résultat écrit en 0.9.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 25 min</span> · <span>Atelier du cas, Socle, Modélisation, Optimisation, Prix et marchés, Hydrogène</span></div>
+    <h1>Les pièges connus de pommes et pommes_craft</h1>
+    <p class="resume">Dix pièges de pommes 0.11.0, pommes_craft 0.6.0 et linopy 0.10.1, chacun avec son symptôme, sa cause, son remède et un extrait de code, vérifiés sur des modèles de 24 heures, et ce qui change quand on lit un code ou un résultat écrit en 0.9.</p>
+  </header>
+  <p>Cette fiche vaut pour l'environnement du cours, épinglé dans le dépôt des cas : pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS (highspy 1.15.1), dans le même venv que pommes-assistant 0.4.0. Chaque piège donne le symptôme, la cause, le remède et un extrait. Les chiffres viennent de modèles de 24 heures exécutés avec cet environnement le 17/11/2026, ou du dépôt des cas. Un piège corrigé par pommes reste signalé en une phrase. La dernière section dit ce qui change quand on lit un code ou un résultat écrit en 0.9.</p>
+<h2>1. Sans LoadShedding, le délestage est gratuit et illimité</h2>
+<p><strong>Symptôme.</strong> Un modèle avec 100 MW de demande et une centrale à 50 €/MWh rend un coût total de 0 €, une production nulle et 2 400 MWh de délestage. Si le modèle vend au prix du marché, HiGHS répond <code>unbounded</code>.</p>
+<p><strong>Cause.</strong> Les défauts de pommes sont <code>load_shedding_cost = 0.0</code> et <code>load_shedding_max_capacity = nan</code> (Dataset description). La variable de délestage existe donc par défaut, sans borne et sans coût. Elle entre dans l'équilibre comme une production gratuite : exportée à prix positif, elle rend l'objectif non borné.</p>
+<p><strong>Remède.</strong> Toujours poser un <code>LoadShedding</code> par zone et par ressource. Le défaut de pommes_craft est <code>cost=1000., max_capacity=nan</code> ; <code>max_capacity=0.0</code> l'interdit. Avec le composant, le même modèle rend 120 000 € et 2 400 MWh de gaz.</p>
+<pre><code class="language-python">from pommes_craft import LoadShedding, Spillage
+with model.context():
+    area.add_component(LoadShedding(name=&quot;delestage&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+    area.add_component(Spillage(name=&quot;ecretement&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+</code></pre>
+<p>C'est ce que fait <code>price_zone_model</code> dans <code>pommes_cases/blocks.py</code>.</p>
+<h2>2. NetImport : unique, prix nul par défaut, et il ouvre toutes les ressources</h2>
+<p><strong>Symptôme (a).</strong> Deux <code>NetImport</code> sur la même zone et la même ressource : <code>ValueError: Conflicting values for the same index in 'net_import_resource_area_hour_year_op.csv'</code>. Les paliers de prix du cas A sont donc des variables ajoutées avant la résolution, pas un second composant.</p>
+<p><strong>Symptôme (b).</strong> Une demande d'hydrogène, un électrolyseur, un <code>NetImport</code> d'électricité à 50 €/MWh : coût 0 €, électrolyse nulle, 240 MWh d'hydrogène importés.</p>
+<p><strong>Cause.</strong> <code>net_import</code> est un interrupteur global : dès qu'un composant existe, pommes crée les variables d'import pour toutes les ressources de la zone, avec <code>import_price = 0.0</code> et <code>max_yearly_energy_import = nan</code> (vérifié dans les paramètres construits). Il n'existe aucune borne de puissance horaire, seulement des bornes annuelles.</p>
+<p><strong>Remède.</strong> Donner à chaque ressource son <code>NetImport</code>, borné à zéro si elle ne s'échange pas. Le modèle rend alors 17 142,9 € (10 MW × 24 h / 0,7 × 50 €/MWh).</p>
+<pre><code class="language-python">area.add_component(NetImport(name=&quot;import_h2&quot;, resource=&quot;hydrogene&quot;,
+                             max_yearly_energy_import=0.0, max_yearly_energy_export=0.0))
+</code></pre>
+<p>Voir l'en-tête de <code>pommes_cases/systeme_fr.py</code>.</p>
+<h2>3. Une capacité n'existe que si year_dec − year_inv égale la durée de vie</h2>
+<p><strong>Symptôme.</strong> <code>life_span=20</code> avec <code>year_dec = year_inv + 1000</code> : le masque de <code>planning_conversion_power_capacity</code> vaut <code>False</code> et le modèle est <code>infeasible</code>. Si une <code>power_capacity_investment_min</code> est imposée, <code>build_model</code> lève une <code>ValueError</code> qui nomme le paramètre et le millésime (depuis pommes 0.10.0, numéro 129 ; jusqu'en 0.9.0, la borne disparaissait sans message).</p>
+<p><strong>Cause.</strong> pommes ne crée la variable d'un millésime que si sa fin de vie est une étiquette <code>year_dec</code>. Ici <code>conversion_end_of_life</code> vaut 2050 (2030 + 20 ans), qui n'en est pas une. Jusqu'en 0.9.0, elle pouvait aussi prendre une valeur sans sens (-2**63, numéro 41 du CHANGELOG 0.10.0).</p>
+<p><strong>Remède.</strong> Accorder les deux : <code>year_decs=[year_inv + life_span]</code>, ou <code>life_span=1000</code> pour une capacité imposée (cas A, <code>_gabarit/README.md</code>) ; les deux rendent 120 000 € sur cet essai. Lancer <code>pommes.pre_analysis(params)</code> avant de construire : il avertit (contrôle <code>capacity</code>, sévérité <code>warning</code>). Les paramètres se lisent sans construire le LP, par <code>build_pommes_parameters()</code> de pommes_craft 0.6.0 ; <code>build_lp(model)</code> lèverait déjà la <code>ValueError</code>.</p>
+<pre><code class="language-python">from pommes import pre_analysis
+params = model.build_pommes_parameters()
+for f in pre_analysis(params).findings:
+    if f.check == &quot;capacity&quot;:
+        print(f)
+# [warning] capacity (area=zone, conversion_tech=gaz, year_inv=2030):
+#   conversion_power_capacity_investment_min = 100 is imposed on a vintage
+#   without planning variable: no year_dec label can retire it (its end of life is 2050).
+#   build_model refuses it.
+</code></pre>
+<p>Sans le filtre, <code>pre_analysis</code> dit aussi pourquoi le modèle est infaisable : deux lignes <code>[infeasible] adequacy</code>, la demande dépasse l'offre possible.</p>
+<h2>4. Une duale brute n'est pas un prix</h2>
+<p><strong>Symptôme.</strong> Sur 24 heures modélisées avec <code>operation_year_duration=8760</code>, la duale de <code>operation_adequacy_constraint</code> vaut 18 250 là où le coût marginal est 50 €/MWh.</p>
+<p><strong>Cause.</strong> L'objectif pondère chaque euro d'exploitation par <code>discount_factor × operation_year_weight × operation_year_normalization × operating_condition_weight</code>. La duale porte le même facteur : ici 8 760 / 24 = 365. Sur 35 années météo équipondérées, elle est 35 fois trop petite.</p>
+<p><strong>Remède.</strong> <code>pommes.utils.dual_scale</code> (depuis 0.7.0).</p>
+<pre><code class="language-python">from pommes.utils import dual_scale
+scale = dual_scale(params)
+prix = lp.dual[&quot;operation_adequacy_constraint&quot;] / scale.where(scale &gt; 0)   # 18250 / 365 = 50 €/MWh
+</code></pre>
+<h2>5. Un groupby linopy sans nom crée une dimension « group »</h2>
+<p><strong>Symptôme.</strong> Une contrainte hebdomadaire écrite sur <code>variable.groupby(cle).sum()</code> se croise mal avec son second membre. linopy 0.10 prévient seulement : <code>Constant RHS contains dimensions {'jour'} not present in the expression</code>, puis écrit une contrainte par couple (groupe, jour), 4 au lieu de 2 sur deux jours.</p>
+<p><strong>Cause.</strong> Quand la clé est un <code>DataArray</code> sans <code>name</code>, la dimension résultante s'appelle <code>group</code> ; nommée, elle porte ce nom (vérifié : <code>('group', '_term')</code> contre <code>('jour', '_term')</code>).</p>
+<pre><code class="language-python">semaine = xr.DataArray(np.arange(8760) // 168, dims=&quot;hour&quot;,
+                       coords={&quot;hour&quot;: params.hour.values}, name=&quot;semaine&quot;)   # name obligatoire
+lp.add_constraints(prod.groupby(semaine).sum() &lt;= budget, name=&quot;lac_hebdo&quot;)
+</code></pre>
+<p>C'est le <code>lake_hook</code> de <code>systeme_fr.py</code>.</p>
+<h2>6. Unités : kilogrammes, signes, fractions</h2>
+<p><strong>Symptôme.</strong> Une taxe carbone de 45 passe inaperçue ; un électrolyseur produit de l'électricité ; une annuité explose.</p>
+<p><strong>Cause et remède.</strong> La nomenclature de pommes est en kg : <code>carbon_tax</code> en €/kg de CO2, les facteurs d'émission en kg CO2/MWh. Un prix ETS de 45 €/t s'écrit 0,045. Dans <code>factor</code>, la ressource consommée est négative. Les facteurs d'émission multiplient <code>operation_conversion_power</code>, la puissance de la technologie, c'est-à-dire la ressource dont le <code>factor</code> vaut 1 par convention. Les taux sont des fractions : depuis 0.6.0, <code>finance_rate=5</code> lève une <code>ValueError</code> ; jusqu'en 0.5.0, un taux hors grille était remplacé par 0 sans message.</p>
+<pre><code class="language-python">ConversionTechnology(name=&quot;chaudiere_gaz&quot;, factor={&quot;vapeur&quot;: 1.0, &quot;methane&quot;: -1 / 0.94},
+                     emission_factor=0.202 * 1000 / 0.94,   # kg CO2 par MWh de vapeur (0,202 t par MWh de méthane)
+                     finance_rate=0.08, life_span=25)
+</code></pre>
+<h2>7. hdf5plugin et certificats macOS</h2>
+<p><strong>Symptôme.</strong> <code>CERTIFICATE_VERIFY_FAILED</code> au premier téléchargement de supplyforge ou demandforge.</p>
+<p><strong>Cause.</strong> Le Python de python.org n'a pas de magasin de certificats tant que <code>Install Certificates.command</code> n'a pas tourné. Corrigé : avant pommes 0.6.0, <code>import pommes</code> pouvait échouer sur <code>ModuleNotFoundError: No module named 'hdf5plugin'</code>, paquet absent de <code>pyproject.toml</code> ; pommes 0.11.0 le déclare, et <code>requirements.txt</code> du dépôt l'épingle (7.1.0).</p>
+<pre><code class="language-bash">pip install -r requirements.txt
+export SSL_CERT_FILE=$(python -m certifi)
+</code></pre>
+<p>Source : <code>docs/S1_rapport.md</code>, section 2.</p>
+<h2>8. Le temps de calcul explose avec un stockage d'hydrogène</h2>
+<p><strong>Symptôme.</strong> Un site d'électrolyse du cas D (2030, TYNDP 2026 NT+) se résout en 0,2 s sans stockage (61 330 variables), en 8,5 s avec un réservoir d'hydrogène à dimensionner (87 616) et en 70 à 110 s avec réservoir et règle horaire (113 904), selon la charge de la machine. Le README, mesuré en pommes 0.9.0, donne 90 à 170 s pour six configurations du cas D résolues ensemble et 6 à 13 min pour trois sites sous règle horaire, alors que la France entière d'une année se résout en 7 à 15 s.</p>
+<p><strong>Cause.</strong> Le niveau de stock lie toutes les heures de l'année entre elles. Le point intérieur n'aide pas : sur les sites d'hybridation de l'archive 2025, 121, 143 et 193 s au lieu de 88, 69 et 165 s (pommes 0.9.0).</p>
+<p><strong>Remède.</strong> Réduire les années ou les heures avant de changer de solveur (tableau du README, <code>docs/S1_rapport.md</code> section 3). Les tailles de LP de ces deux documents datent de pommes 0.9.0 : pommes 0.11 écrit, pour le même problème, de 14 % à près de la moitié de variables et de contraintes en moins (219 024 variables en 0.9.0 pour le site horaire ci-dessus). Les temps, eux, restent du même ordre.</p>
+<h2>9. Des dizaines de LinopySemanticsWarning à chaque construction</h2>
+<p><strong>Symptôme.</strong> Chaque <code>run()</code> ou <code>build_model</code> affiche une série de <code>LinopySemanticsWarning</code>, une douzaine à une vingtaine sur les petits modèles de cette fiche, davantage sur un cas, chacun sur cinq lignes : <code>Variable 'operation_load_shedding_power' has absent slots (from mask= / .where() / .shift() / .reindex()). Under legacy each absent slot contributes 0 [...]</code>. Le résultat n'est pas faux.</p>
+<p><strong>Cause.</strong> linopy 0.10 annonce une sémantique « v1 », où un terme masqué rend absente toute l'expression au lieu de compter pour zéro. Il prévient à chaque masque ou NaN qu'il rencontre, presque toujours dans le code de pommes. pommes 0.11 garde la sémantique « legacy » (<code>linopy.options["semantics"]</code> vaut <code>"legacy"</code>) et exige linopy &lt; 0.11 : le changement annoncé ne le touche pas encore. L'avertissement est un <code>FutureWarning</code>, affiché par défaut.</p>
+<p><strong>Remède.</strong> <code>import pommes_cases</code> les tait. Un script ou un carnet qui ne l'importe pas les tait lui-même, avant de construire le modèle. N'appliquez pas la ligne <code>Opt in: linopy.options['semantics'] = 'v1'</code> que suggère le message : pommes n'y est pas prêt.</p>
+<pre><code class="language-python">import warnings
+from linopy import LinopySemanticsWarning
+warnings.filterwarnings(&quot;ignore&quot;, category=LinopySemanticsWarning)
+</code></pre>
+<h2>10. Le journal HiGHS ne s'affiche plus avec run()</h2>
+<p><strong>Symptôme.</strong> Depuis pommes_craft 0.6.0, <code>model.run()</code> n'affiche rien du solveur : ni bannière HiGHS, ni taille du problème, ni présolve, ni itérations. Un calcul long a l'air figé.</p>
+<p><strong>Cause.</strong> <code>run()</code> passe par <code>pommes.solve_model</code>, qui écrit le journal du solveur dans un fichier (<code>log_to_console=False</code> pour HiGHS). Sans réglage, ce fichier est temporaire et effacé à la fin de la résolution.</p>
+<p><strong>Remède.</strong> Choisir où va le journal. <code>pommes.configure_logging(solver_logs=...)</code> (depuis pommes 0.10) le garde dans <code>model.log</code>, qui ne tient que la dernière résolution, et affiche sur la console une ligne par étape (<code>Model     17527 rows, 17527 columns</code>), puis une ligne toutes les 5 minutes pendant une résolution longue (<code>solver_progress_interval</code>). Le paramètre <code>log_fn</code> de <code>solve_model</code>, passé par <code>solver_options</code>, nomme le fichier pour un modèle. <code>log_to_console=True</code> remet le journal à la console. <code>solver_options={"output_flag": False}</code>, comme au tutoriel, coupe aussi le fichier.</p>
+<pre><code class="language-python">import pommes
+pommes.configure_logging(solver_logs=&quot;journaux&quot;)      # journaux/model.log
+model.solver_options = {&quot;log_fn&quot;: &quot;highs.log&quot;}         # ou : ce fichier, pour ce modèle
+model.solver_options = {&quot;log_to_console&quot;: True}        # ou : la console, comme avant 0.6.0
+model.run()
+</code></pre>
+<p><code>solve_with_extra_constraints</code> de <code>pommes_cases/solve.py</code> passe aussi par <code>solve_model</code> (par défaut, <code>quiet=True</code>) : même fichier, mêmes réglages ; <code>quiet=False</code> remet le journal à la console.</p>
+<h2>Lire un code ou un résultat écrit en 0.9</h2>
+<p>Un carnet de l'archive 2025, un notebook d'un camarade ou un chiffre d'un texte antérieur au 17/11/2026 a pu être écrit en pommes 0.9.0 et pommes_craft 0.5.1. Ce qui ne se lit plus de la même façon :</p>
+<ul>
+<li>Les productions nettes (<code>operation_*_net_generation</code>) et les émissions (<code>operation_carbon_emissions</code>, <code>operation_total_carbon_emissions</code>) sont des expressions depuis pommes 0.10. <code>lp.variables[...]</code> lève une <code>KeyError</code>, et les duales des lignes <code>*_def</code> qui les définissaient n'existent plus. <code>lp.solution</code> les donne toujours, sous les mêmes noms. Un crochet qui s'appuyait sur elles repart de <code>operation_conversion_power</code> et du <code>factor</code> <a href="../textes/txt-crochet-avant-solve.html">Ajouter une contrainte avant le solve : le contrat d'un crochet (solve_with_extra_constraints)</a>.</li>
+<li>Une taille de LP citée en 0.9 (variables, contraintes, non-zéros, lignes et colonnes HiGHS, présolve) est trop grande : de 14 % à près de la moitié de moins en 0.11 selon le modèle, pour le même problème. Les objectifs et les duales de <code>operation_adequacy_constraint</code> ne changent pas.</li>
+<li>Une contrainte de pommes dont le masque est vide n'est plus écrite : tester <code>nom in lp.constraints</code> avant de la lire.</li>
+<li>Imports et exports des liens : jusqu'en 0.10, <code>get_capacities</code> et les résumés comptaient un lien comme import de la zone qui exporte (0.11.0, numéro 157). Une colonne <code>transport_import</code> d'un résultat 0.9 se lit comme une exportation.</li>
+<li>Hurdle costs : depuis 0.11.0, un coût variable comme les autres, actualisé et ramené à l'année (numéro 133). Un résultat 0.9 avec hurdle costs change si le taux d'actualisation est positif ou si les heures ne couvrent pas l'année.</li>
+<li>Pas de temps : depuis 0.10.0, les émissions des imports et le coût de la demande flexible ne sont plus multipliés par <code>time_step_duration</code> (sans effet au pas horaire ; à 6 h, le carbone importé valait environ 155 au lieu de 26 €/MWh).</li>
+<li>Un code 0.9 peut lever une <code>ValueError</code> qu'il ne levait pas : borne d'investissement sur un millésime sans <code>year_dec</code> (piège 3).</li>
+<li>pommes_craft 0.6.0 : le journal HiGHS ne sort plus de <code>run()</code> (piège 10) ; <code>build_pommes_parameters()</code> donne les paramètres vérifiés sans résoudre. <code>run()</code> n'a toujours pas d'argument <code>before_solve=</code> : un crochet passe par <code>solve_with_extra_constraints</code>.</li>
+</ul>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous reproduisez le piège 1 : un modèle de 24 h sans <code>LoadShedding</code> rend 0 € et 2 400 MWh de délestage ; avec, 120 000 €.</li>
+<li>Vous retrouvez 17 142,9 € au piège 2 en bornant l'import d'hydrogène à zéro.</li>
+<li>Vous lisez une duale de 18 250 et écrivez pourquoi <code>dual_scale</code> vaut 365.</li>
+<li>Vous expliquez pourquoi <code>_batterie</code> du cas A donne <code>life_span=1000.0</code> à une batterie de taille imposée.</li>
+<li>Vous retrouvez le journal HiGHS d'un <code>run()</code> dans <code>journaux/model.log</code>, et la taille du problème qu'il annonce.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Le gabarit d'un cas et ses pièges relevés <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/_gabarit" target="_blank" rel="noopener">Le gabarit d'un cas (_gabarit/) : écrire son propre cas POMMES</a>.</li>
+<li>Pré-analyse d'un jeu de données : pourquoi un modèle est infaisable <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/pre_analysis.html" target="_blank" rel="noopener">Pré-analyse d'un jeu de données : pourquoi un modèle est infaisable</a>.</li>
+<li>Dataset description : la table des valeurs par défaut <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/dataset_description.html" target="_blank" rel="noopener">Dataset description : la table de tous les paramètres (défaut, dimensions, type)</a>.</li>
+<li>CHANGELOG de pommes : ce qui a changé entre 0.9 et 0.11 <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes/-/raw/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG de pommes : ce qui a changé entre 0.9 et 0.11</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (README, _gabarit/README.md, docs/S1_rapport.md, pommes_cases/blocks.py, solve.py, systeme_fr.py)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes/-/raw/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG de pommes (0.6.0 à 0.11.0)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/dataset_description.html" target="_blank" rel="noopener">Doc pommes, Dataset description (valeurs par défaut)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/nomenclature.html" target="_blank" rel="noopener">Doc pommes, Nomenclature (unités)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/pre_analysis.html" target="_blank" rel="noopener">Doc pommes, Pre-analysis</a></li></ol></section>
+</article>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

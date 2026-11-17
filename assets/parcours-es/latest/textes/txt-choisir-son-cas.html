@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Choisir son cas le lundi soir · Parcours ES 2026</title>
+<meta name="description" content="Les onze cas en un tableau, comment lire une carte, comment envoyer ses trois préférences, comment se forment les groupes et les quatre rôles à poser le mardi.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<article class="texte">
+  <header>
+    <div class="sur"><span>découverte</span> · <span>≈ 10 min</span> · <span>Atelier du cas, Socle</span></div>
+    <h1>Choisir son cas le lundi soir</h1>
+    <p class="resume">Les onze cas en un tableau, comment lire une carte, comment envoyer ses trois préférences, comment se forment les groupes et les quatre rôles à poser le mardi.</p>
+  </header>
+  <h2>Ce que vous décidez lundi soir</h2>
+<p>Lundi en fin d'après-midi, chacun envoie trois cas préférés, dans l'ordre. Le soir, les groupes de deux ou trois se forment. Mardi, le groupe relit sa carte, exécute le notebook tel quel et pose ses rôles. Vendredi matin, il présente en dix planches et dix minutes <a href="../textes/restitution.html">La restitution du vendredi : dix planches, dix minutes, grille à cinq critères, quatre rôles</a>. Ce soir, lisez deux cartes et choisissez un cas dont la question vous intéresse, pas le plus simple.</p>
+<h2>Les onze cas</h2>
+<p>Le dépôt public des cas rassemble les onze cartes dans <code>docs/cartes.json</code> ; le tableau en est tiré. Les cas de <strong>vague 1</strong> (0, A à F) sont construits avant le cours. Tous ont un notebook exécuté ; A à E ont aussi une page « jouer » et des hypothèses sourcées. Le cas 0 est sans optimisation, F encore en construction. Les cas de <strong>vague 2</strong> (G à J) ont une carte, et un modèle à construire par le groupe à partir d'un notebook de 2025 ou d'un modèle public.</p>
+<table>
+<thead>
+<tr>
+<th>cas</th>
+<th>question en une ligne</th>
+<th>vague</th>
+<th>niveau</th>
+<th>durée</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Les scénarios de prix : pourquoi divergent-ils ?</td>
+<td>1</td>
+<td>découverte</td>
+<td>2 h</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Batteries : que rapporte l'arbitrage au n-ième GW ?</td>
+<td>1</td>
+<td>découverte</td>
+<td>3 h</td>
+</tr>
+<tr>
+<td>B</td>
+<td>VE pilotés : que deviennent les heures à prix bas ?</td>
+<td>1</td>
+<td>intermédiaire</td>
+<td>3 h</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Thermosensibilité : que coûte la pointe d'hiver, selon la météo ?</td>
+<td>1</td>
+<td>intermédiaire</td>
+<td>3 h</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</td>
+<td>1</td>
+<td>intermédiaire</td>
+<td>3 h</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Vapeur à 180 °C : électrifier, garder le gaz, ou les deux ?</td>
+<td>1</td>
+<td>découverte</td>
+<td>3 h</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Que vaut une interconnexion France-Espagne ou France-Allemagne ?</td>
+<td>1 (en cours)</td>
+<td>avancé</td>
+<td>4 h</td>
+</tr>
+<tr>
+<td>G</td>
+<td>Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</td>
+<td>2</td>
+<td>avancé</td>
+<td>12 h</td>
+</tr>
+<tr>
+<td>H</td>
+<td>À quel prix du CO₂ l'industrie change-t-elle de procédé ?</td>
+<td>2</td>
+<td>avancé</td>
+<td>12 h</td>
+</tr>
+<tr>
+<td>I</td>
+<td>e-kérosène en France : l'électricité, les heures ou la règle ?</td>
+<td>2</td>
+<td>avancé</td>
+<td>12 h</td>
+</tr>
+<tr>
+<td>J</td>
+<td>Produire l'hydrogène ou le fer réduit ailleurs dans le monde ?</td>
+<td>2</td>
+<td>intermédiaire</td>
+<td>12 h</td>
+</tr>
+</tbody>
+</table>
+<p>Durée : celle du TP prévu par la carte, restitution non comptée ; 12 h, c'est toute la semaine.</p>
+<p>Pour refaire le tableau :</p>
+<pre><code class="language-python">import json
+cartes = json.load(open(&quot;pommes-case-studies/docs/cartes.json&quot;, encoding=&quot;utf-8&quot;))
+print(len(cartes), &quot;cas&quot;)
+for c in cartes:
+    print(c[&quot;id&quot;], &quot;| vague&quot;, c[&quot;vague&quot;], &quot;|&quot;, c[&quot;niveau&quot;], &quot;|&quot;, c[&quot;etat&quot;], &quot;|&quot;, c[&quot;duree_tp_h&quot;], &quot;h |&quot;, c[&quot;titre&quot;][&quot;fr&quot;])
+# 11 cas
+# 0 | vague 1 | découverte | prêt | 2 h | Les scénarios de prix : pourquoi divergent-ils ?
+# ...
+# J | vague 2 | intermédiaire | prévu | 12 h | Produire l'hydrogène ou le fer réduit ailleurs dans le monde ?
+</code></pre>
+<h2>Lire une carte</h2>
+<p>Chaque cas a une carte FR/EN : <code>card.yaml</code> dans le dossier du cas (A à E), <code>docs/cartes/&lt;lettre&gt;.yaml</code> sinon. Les planches remises en cours en montrent une par cas <span title="planches-pommes-cas-2026">POMMES et les cas d'étude 2026 : fil rouge « même installation, plusieurs futurs », les onze cas en deux vagues, jeux de prix publiés (remis en cours)</span>. Les rubriques, toujours les mêmes, se lisent dans cet ordre :</p>
+<ol>
+<li><strong>question</strong> : ce à quoi le groupe répond vendredi. Si elle ne vous parle pas, passez au cas suivant.</li>
+<li><strong>resume</strong> : le modèle en quelques phrases, ce qui est fixé, ce que le solveur choisit. Cas A : un nœud, une flotte de batteries face au prix horaire français.</li>
+<li><strong>prix</strong> : les jeux de prix ou les années météo sous lesquels le verdict est rendu. Cas A : quatre jeux publiés, 293 séries ; cas C : le prix sort du modèle sur 30 années météo.</li>
+<li><strong>niveau</strong> et <strong>duree_tp_h</strong>.</li>
+<li><strong>prerequis</strong> et <strong>perimetre</strong> : ce qu'il faut savoir, et ce que le modèle ne représente pas.</li>
+<li><strong>on_apprend</strong> : trois ou quatre savoir-faire.</li>
+<li><strong>pistes_mini_projet</strong> : trois à cinq pistes pour la planche 10 de la restitution.</li>
+</ol>
+<p>Preuve de la compétence : un tableau question / modèle (le resume en une phrase) / jeux de prix / niveau / une piste. Remplissez-le pour deux cartes, l'une de vague 1, l'autre de vague 2. La carte du cas A est l'exemple complet <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</p>
+<h2>Envoyer ses trois préférences</h2>
+<p>Trois cas, dans l'ordre, avant l'heure dite lundi. Le canal est confirmé en séance par l'enseignant : un formulaire ou un mail à l'équipe pédagogique. Un lien de vote vu ailleurs ne compte pas.</p>
+<p>Ajoutez votre profil : Python tous les jours, un peu, ou pas du tout. Il sert à composer les groupes.</p>
+<h2>Comment se forment les groupes</h2>
+<ul>
+<li><strong>Deux ou trois personnes</strong> : à quatre, quelqu'un n'a plus de rôle.</li>
+<li><strong>Les préférences d'abord.</strong> Chacun obtient l'un de ses trois cas, le premier autant que possible. Un cas très demandé peut aller à deux groupes, sur des variantes différentes.</li>
+<li><strong>Les profils se mélangent</strong> : au moins une personne qui code et une du métier. Sourcer et écrire ne demandent pas de code.</li>
+<li>Un cas sans candidat n'est pas distribué de force.</li>
+</ul>
+<h2>Les quatre rôles</h2>
+<p>Posez-les mardi matin, par écrit, un nom par rôle. Détail dans <a href="../textes/restitution.html">La restitution du vendredi : dix planches, dix minutes, grille à cinq critères, quatre rôles</a>.</p>
+<table>
+<thead>
+<tr>
+<th>rôle</th>
+<th>ce qu'il fait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>qui fait tourner</td>
+<td>exécute le notebook, lance les variantes, garde les résultats</td>
+</tr>
+<tr>
+<td>qui source</td>
+<td>relit chaque hypothèse à sa source, fixe son statut dans <code>hypotheses.yaml</code></td>
+</tr>
+<tr>
+<td>qui fait la figure</td>
+<td>choisit la grandeur et les deux futurs, refait la figure jusqu'à ce qu'elle se lise seule</td>
+</tr>
+<tr>
+<td>qui écrit</td>
+<td>tient les dix planches, écrit la question et le verdict en une phrase chacun</td>
+</tr>
+</tbody>
+</table>
+<p>À deux, une personne tient deux rôles ; chacun a un nom vendredi.</p>
+<h2>Deux conseils</h2>
+<p><strong>Premier contact avec pommes : un cas de vague 1.</strong> Les cas 0, A et E sont de niveau découverte. Les cartes A et E disent qu'« aucune connaissance de pommes n'est supposée » ; le cas 0 est sans optimisation, Python et pandas suffisent. Le notebook tourne en quelques minutes au plus sur un portable ; pour A et E, la page « jouer » montre le verdict sans écrire une ligne. Le temps restant va à une variante, qui vaut plus qu'un modèle inachevé.</p>
+<p><strong>Un cas de vague 2 seulement si le groupe a déjà un N3.</strong> Les cartes G, H, I et J prévoient 12 h et un modèle à construire. La carte G demande d'être « à l'aise avec les modèles pommes (cas A ou F déjà faits) ». La carte I dit qu'avoir fait le cas D « aide beaucoup ». Si personne dans le groupe n'a construit sa propre variante d'un modèle (palier N3), la semaine passera à faire tourner le modèle, sans verdict vendredi. Prenez alors le cas de vague 1 voisin : D avant I, A ou F avant G.</p>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous avez rempli le tableau question / modèle / jeux de prix / niveau / une piste pour deux cartes, l'une de vague 1, l'autre de vague 2.</li>
+<li>Vos trois préférences, dans l'ordre, sont parties lundi soir par le canal indiqué.</li>
+<li>Chaque membre du groupe a un rôle écrit parmi les quatre.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>La restitution du vendredi : dix planches, dix minutes, la grille et le calendrier mardi-vendredi <a href="../textes/restitution.html">La restitution du vendredi : dix planches, dix minutes, grille à cinq critères, quatre rôles</a></li>
+<li>Cas A, batteries : la carte, le README et le notebook d'un cas complet <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a></li>
+<li>Cas 0, les scénarios de prix : le cas qui ouvre la semaine, 2 h, sans optimisation <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a></li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes.json" target="_blank" rel="noopener">Les onze cartes rassemblées (docs/cartes.json du dépôt public des cas)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/README.md" target="_blank" rel="noopener">README du dépôt des cas : section « Les cartes des cas »</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/A_batteries/card.yaml" target="_blank" rel="noopener">La carte du cas A (A_batteries/card.yaml), exemple complet</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/_gabarit/README.md" target="_blank" rel="noopener">Le gabarit d'un cas et le format d'une carte (_gabarit/README.md)</a></li></ol></section>
+</article>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lire une série de prix horaires · Parcours ES 2026</title>
+<meta name="description" content="Devant une série de 8 760 prix de l'électricité, savoir lire la moyenne, la dispersion, la monotone, les heures nulles et les heures au plafond, et en déduire ce que vaut une batterie, un électrolyseur ou une pompe à chaleur.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<article class="texte">
+  <header>
+    <div class="sur"><span>découverte</span> · <span>≈ 30 min</span> · <span>Socle, Prix et marchés, Flexibilité, Modélisation</span></div>
+    <h1>Lire une série de prix horaires</h1>
+    <p class="resume">Devant une série de 8 760 prix de l'électricité, savoir lire la moyenne, la dispersion, la monotone, les heures nulles et les heures au plafond, et en déduire ce que vaut une batterie, un électrolyseur ou une pompe à chaleur.</p>
+  </header>
+  <p>Tous les cas du cours posent la même question : que vaut une installation face à un prix horaire de l'électricité ? Ce prix sort d'un modèle, sous des hypothèses que vous n'avez pas choisies. Avant de brancher une batterie dessus, il faut savoir le lire. Ce texte s'appuie sur la figure et les tableaux du cas 0.</p>
+<p><img alt="Les jeux de prix horaires pour la France divergent" src="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/00_prix/figures/divergence_fr.png"></p>
+<h2>Six choses à lire dans une série de 8 760 prix</h2>
+<p><strong>La moyenne.</strong> C'est ce que paie un consommateur plat, qui tire 1 MW toutes les heures. Le cas 0 le vérifie : une demande constante de 1 MW servie par le seul réseau coûte exactement la somme des prix horaires, 503 710 € pour le TYNDP 2026 en 2030. La moyenne ne dit rien de ce que gagne une installation flexible.</p>
+<p><strong>L'écart-type.</strong> Il mesure la dispersion autour de la moyenne. TYNDP 2026 et fos-sur-mer ont des moyennes voisines en 2030, 57,5 et 61,5 €/MWh, et des écarts-types de 32 et 124 €/MWh. La seconde série paie une batterie, pas la première.</p>
+<p><strong>La monotone.</strong> On trie les 8 760 prix du plus cher au moins cher. L'aire sous la courbe est la facture du consommateur plat. La queue de gauche porte les heures rares et chères, le plateau de droite les heures bon marché. Sur la figure, les jeux se ressemblent au milieu et divergent aux deux bouts.</p>
+<p><strong>Les heures à prix nul.</strong> Quand une production fatale est écrêtée, un prix de modèle tombe à 0 €/MWh. Il ne descend jamais en dessous : le marché réel a compté 352 heures négatives en 2024 et 513 en 2025 en France, aucun des jeux du dépôt n'en a une seule pour la France. Seule exception, hors de notre périmètre : 1 700 heures à -0,01 €/MWh en Suisse dans le TYNDP 2026, un artefact numérique signalé dans le datapackage. Le cas 0 compte les heures sous 5 €/MWh : de 69 à 1 374 heures selon le jeu en 2030, alors que le marché en a eu 1 019 en 2024 et 1 072 en 2025.</p>
+<p><strong>Les heures au plafond.</strong> Quand la demande n'est pas servie, le prix saute au coût de l'énergie non servie, 3 000 €/MWh dans le TYNDP 2024. Pour la France, le TYNDP 2024 compte 2 heures à 1 000 €/MWh ou plus en 2030 et 42 en 2040. Toutes ne sont pas au plafond : 17 sont à 3 000 €/MWh, 25 à 2 130. Ces 42 heures pèsent 104 000 € par MW, un sixième de la facture annuelle d'un consommateur plat (73,3 €/MWh × 8 760 h ≈ 642 000 €). Tout ce qui ne vaut quelque chose qu'à la pointe hérite de ce chiffre.</p>
+<p><strong>Les paliers.</strong> Un prix de modèle est un coût marginal : il prend peu de valeurs, celles des centrales qui fixent le prix. Dans le TYNDP 2026 pour 2030, le palier 15,63 €/MWh occupe à lui seul 1 011 heures. Cette marche se voit sur la monotone. Les planches « Forme des prix et modélisation » remises en cours expliquent pourquoi un modèle linéaire produit ces marches.</p>
+<p>Une septième chose ne se voit pas sur la figure : l'année météo. Le TYNDP 2024 ne publie que l'année climatique 2009 pour son scénario central NT, et trois pour DE et GA (1995, 2008, 2009). Le TYNDP 2026 en garde trois par année cible, pondérées. Le jeu POMMES en fait tourner trente pour la France. Une série de prix est une réalisation, pas une distribution.</p>
+<h2>Les chiffres clés du cas 0</h2>
+<p>En 2030, les quatre séries centrales s'accordent sur la moyenne pour la France : 56 à 62 €/MWh, à comparer aux 58 et 61 €/MWh observés en 2024 et 2025. Mais les 132 séries 2030 du jeu POMMES, deux jeux d'hypothèses × 17 contextes gaz × demande × 3 météos, plus 30 années météo, vont de 19 à 119 €/MWh de moyenne : l'hypothèse de prix du gaz déplace le prix plus que le choix du modèle.</p>
+<p>En 2040, les séries centrales se séparent : moyennes de 44 (POMMES) à 73 €/MWh (TYNDP 2024), écarts-types de 54 à 176 €/MWh, et 0 à 42 heures au plafond.</p>
+<p>Et 2022, avec 276 €/MWh de moyenne observée, est hors de tout scénario.</p>
+<h2>Ce que ça change pour trois installations</h2>
+<p><strong>Une batterie</strong> vit de l'écart entre le creux et la pointe d'une même journée. Sur la série TYNDP 2026 pour 2030, cet écart vaut 42,6 €/MWh en moyenne (calcul ci-dessous). C'est l'écart-type qui la renseigne, pas la moyenne, et quelques heures au plafond peuvent faire plus du tiers de son revenu, jusqu'à 40 % dans le cas A : le cas A donne toujours son résultat avec et sans ces heures.</p>
+<p><strong>Un électrolyseur</strong> achète les heures les moins chères. Sur la même série, les 3 000 heures les moins chères coûtent 22,4 €/MWh en moyenne, contre 57,5 pour l'année entière. Il regarde le plateau de droite de la monotone et les heures sous 5 €/MWh, qui varient d'un facteur vingt entre les jeux en 2030.</p>
+<p><strong>Une pompe à chaleur</strong> consomme quand il fait froid, donc à la pointe. Elle regarde la queue de gauche : les heures au plafond, et l'année météo qui les produit. Une année climatique douce les efface.</p>
+<h2>Les quatre jeux de prix du dépôt</h2>
+<table>
+<thead>
+<tr>
+<th>jeu</th>
+<th>ce que c'est</th>
+<th>licence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tyndp2024</code></td>
+<td>coûts marginaux du modèle de marché de l'ENTSO-E (PLEXOS), NT 2030 et 2040, DE et GA 2035 à 2050</td>
+<td>CC BY 4.0</td>
+</tr>
+<tr>
+<td><code>tyndp2026</code></td>
+<td>même source, scénario NT+ du TYNDP 2026, version provisoire de juin 2026, trois météos pondérées</td>
+<td>CC BY 4.0</td>
+</tr>
+<tr>
+<td><code>etage1_tyndp2026</code></td>
+<td>modèle POMMES sur les hypothèses du TYNDP 2026 NT+ : 17 contextes gaz × demande, 30 années météo pour la France</td>
+<td>CC BY 4.0</td>
+</tr>
+<tr>
+<td><code>fos_sur_mer</code></td>
+<td>prix français de l'étude fos-sur-mer (Jodry et al., Energy Policy 2026), 2020 à 2050</td>
+<td>MIT</td>
+</tr>
+</tbody>
+</table>
+<p><code>data/prix/datapackage.json</code> donne pour chaque jeu la source, l'attribution, l'empreinte SHA-256 et les artefacts connus ; <code>load_prices</code> refuse un fichier modifié. Les prix observés 2019-2025 n'y sont qu'en statistiques annuelles et en monotone à 101 points, sans les séries horaires.</p>
+<h2>Trois questions devant toute figure de prix</h2>
+<ol>
+<li>Quel modèle, quel prix du gaz, quelle demande, quelle année météo ? Sans réponse, la figure ne se compare à rien.</li>
+<li>Où sont le plancher et le plafond ? Combien d'heures à 0, combien d'heures à 1 000 €/MWh ou plus, et quelle part du résultat en dépend ?</li>
+<li>Est-ce un prix de modèle ou un prix observé ? Le premier n'a pas d'heures négatives et n'a pas connu 2022.</li>
+</ol>
+<h2>Facultatif : dix lignes pour refaire les chiffres</h2>
+<p>Avec l'environnement du dépôt des cas, pommes 0.11.0, pommes_craft 0.6.0 et linopy 0.10.1 :</p>
+<pre><code class="language-python">import sys; sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)  # le clone du dépôt des cas
+from pommes_cases.prices import load_prices
+p = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2030)        # année météo par défaut : WS003
+prix = p[&quot;import_price&quot;]
+print(&quot;moyenne&quot;, round(prix.mean(), 1), &quot;; écart-type&quot;, round(prix.std(), 1), &quot;€/MWh&quot;)
+print(&quot;heures sous 5 €/MWh :&quot;, (prix &lt; 5).sum(), &quot;; sous 0,5 :&quot;, (prix &lt; 0.5).sum(), &quot;; exactement à 0 :&quot;, (prix == 0).sum())
+print(&quot;maximum :&quot;, prix.max(), &quot;€/MWh ; heures à 1 000 ou plus :&quot;, (prix &gt;= 1000).sum())
+jours = prix.to_numpy().reshape(365, 24)
+print(&quot;écart max-min d'une journée, en moyenne :&quot;, round((jours.max(axis=1) - jours.min(axis=1)).mean(), 1), &quot;€/MWh&quot;)
+print(&quot;prix moyen des 3 000 heures les moins chères :&quot;, round(prix.sort()[:3000].mean(), 1), &quot;€/MWh&quot;)
+</code></pre>
+<p>Sortie obtenue :</p>
+<pre><code class="language-text">moyenne 57.5 ; écart-type 32.3 €/MWh
+heures sous 5 €/MWh : 208 ; sous 0,5 : 196 ; exactement à 0 : 8
+maximum : 350.0 €/MWh ; heures à 1 000 ou plus : 0
+écart max-min d'une journée, en moyenne : 42.6 €/MWh
+prix moyen des 3 000 heures les moins chères : 22.4 €/MWh
+</code></pre>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Sur la figure, vous retrouvez les séries centrales à 56-62 €/MWh en 2030 et celle qui monte à 73 €/MWh en 2040.</li>
+<li>Vous savez dire, pour le TYNDP 2026 en 2030, pourquoi 208 heures sous 5 €/MWh et 0 heure à 1 000 €/MWh ou plus font une mauvaise année pour une batterie et une année correcte pour un consommateur plat.</li>
+<li>Devant une série de prix que vous n'avez jamais vue, vous posez les trois questions ci-dessus avant de lire la moyenne.</li>
+<li>Vous expliquez en une phrase pourquoi aucun jeu du dépôt n'a d'heure négative pour la France alors que le marché en a eu 513 en 2025.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a> Le notebook du cas 0 : tableaux complets par jeu et par année, paliers de chaque série.</li>
+<li><a href="https://www.energy-alternatives.eu/cas/etage1-tyndp2026.html" target="_blank" rel="noopener">Prix de l'électricité et de l'hydrogène en Europe en 2030, 2035 et 2040 : POMMES sur les scénarios du TYNDP 2026</a> La page interactive des prix POMMES sur le TYNDP 2026 : 30 années météo pour la France.</li>
+<li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a> Le cas A : ce que rapporte l'arbitrage d'une batterie sous plusieurs jeux de prix.</li>
+<li><span title="planches-forme-des-prix-modelisation">Forme des prix et modélisation : ce qu'un modèle linéaire reproduit et ne reproduit pas du marché (rejeu 2024, 2030, quels prix pour quelle question) (remis en cours)</span> Planches « Forme des prix et modélisation », remises en cours : pourquoi un modèle linéaire fait des paliers, un plancher et un plafond.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/00_prix/notebook.ipynb" target="_blank" rel="noopener">Cas 0 du dépôt pommes-case-studies, notebook exécuté</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/00_prix/figures/divergence_fr.png" target="_blank" rel="noopener">Figure « les jeux de prix divergent » (cas 0)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/data/prix/README.md" target="_blank" rel="noopener">Jeux de prix du dépôt, README et datapackage.json (sources, licences, artefacts)</a></li><li><a href="https://2024.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E et ENTSOG, TYNDP 2024 Scenarios, téléchargements</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E et ENTSOG, TYNDP 2026 Scenarios, téléchargements</a></li><li><a href="https://www.energy-alternatives.eu/cas/etage1-tyndp2026.html" target="_blank" rel="noopener">Prix POMMES sur les scénarios TYNDP 2026 NT+ (jeu etage1-tyndp2026)</a></li></ol></section>
+</article>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>
