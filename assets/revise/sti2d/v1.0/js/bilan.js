@@ -63,12 +63,24 @@ export function buildBilan(progress, content, today) {
 
 // ---- encodage en lien (base64url, UTF-8), sans jamais évaluer le contenu reçu
 
-/** Objet → base64url de son JSON (UTF-8). Sert au bilan et aux liens de la cagnotte. */
+// Le détecteur de liens d'Apple (Messages, Mail, Notes) coupe une adresse dont la valeur contient une
+// longue suite de lettres et de chiffres sans ponctuation : le base64 d'un JSON en est presque fait, et
+// le parent recevait `#/cagnotte?d` sans rien derrière (relevé de 35 €, nov. 2026). Un point toutes les
+// 100 lettres garde l'adresse entière ; la lecture retire les points, donc les anciens liens restent lus.
+const TRANCHE = 100;
+
+/** Insère un point toutes les TRANCHE lettres d'une valeur base64url. */
+export const trancher = (code) => code.replace(new RegExp(`.{${TRANCHE}}(?=.)`, 'g'), '$&.');
+
+/** Réciproque de trancher ; accepte aussi une valeur sans point. */
+export const recoller = (code) => String(code).replace(/\./g, '');
+
+/** Objet → base64url de son JSON (UTF-8), tranché. Sert au bilan et aux liens de la cagnotte. */
 export function encodeJson(obj) {
   const bytes = new TextEncoder().encode(JSON.stringify(obj));
   let bin = '';
   for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return trancher(btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''));
 }
 
 export const encodeBilan = (bilan) => encodeJson(bilan);
@@ -101,8 +113,8 @@ export function sanitizeBilan(obj) {
 /** Réciproque de encodeJson ; lève `message` si le texte n'en est pas un. Le résultat reste à vérifier. */
 export function decodeJson(encoded, message = 'Ce lien ne contient pas un bilan valide.') {
   const bad = () => new Error(message);
-  if (typeof encoded !== 'string' || !/^[A-Za-z0-9_-]{2,}$/.test(encoded)) throw bad();
-  let b64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+  if (typeof encoded !== 'string' || !/^[A-Za-z0-9_.-]{2,}$/.test(encoded)) throw bad();
+  let b64 = recoller(encoded).replace(/-/g, '+').replace(/_/g, '/');
   b64 += '='.repeat((4 - (b64.length % 4)) % 4);
   let bin;
   try { bin = atob(b64); } catch { throw bad(); }
@@ -170,7 +182,7 @@ export function formatDate(day) {
 export function bilanText(bilan, content) {
   const who = bilan.name ? ` de ${bilan.name}` : '';
   const lines = [
-    `Bilan Révise STI2D${who} — ${formatDate(bilan.date)}`,
+    `Bilan ${(content && content.title) || 'Révise'}${who} — ${formatDate(bilan.date)}`,
     `Série : ${bilan.streak} jour${bilan.streak > 1 ? 's' : ''} · ${bilan.xp} XP au total`,
     `Cette semaine : ${bilan.sessions7d} séance${bilan.sessions7d > 1 ? 's' : ''}${bilan.accuracy7d != null ? `, ${bilan.accuracy7d} % de bonnes réponses` : ''}`,
     '',

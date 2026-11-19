@@ -1,6 +1,9 @@
 // home.js — accueil : regroupement des unités par matière et état d'affichage des sections (fonctions pures)
 
-/** Matières, dans l'ordre d'affichage. `matiere` d'une unité : 'ingenierie' | 'physique' | 'maths'. */
+/**
+ * Matières connues, dans l'ordre d'affichage : le repli d'un paquet qui ne déclare pas les siennes
+ * (et la table des libellés quand `pack.yaml` les donne en ids nus, comme le paquet STI2D).
+ */
 export const SUBJECTS = [
   { id: 'ingenierie', label: 'Ingénierie 2I2D', icon: '⚙️' },
   { id: 'physique', label: 'Physique-chimie', icon: '🔬' },
@@ -9,21 +12,35 @@ export const SUBJECTS = [
 export const DEFAULT_SUBJECT = 'ingenierie';
 export const UI_KEY = 'revise-sti2d.ui.v1';
 
-export function subjectById(id) {
-  return SUBJECTS.find((s) => s.id === id) || null;
+/**
+ * Matières du contenu, dans l'ordre d'affichage (moteur 1.3) : celles que le paquet déclare
+ * (`content.pack.matieres`, objets { id, label, icon } normalisés par le build), sinon SUBJECTS.
+ */
+export function subjectsOf(content) {
+  const declared = content && content.pack && content.pack.matieres;
+  if (!Array.isArray(declared) || declared.length === 0) return SUBJECTS;
+  return declared
+    .filter((m) => m && m.id)
+    .map((m) => ({ ...(SUBJECTS.find((s) => s.id === m.id) || {}), ...m }))
+    .map((m) => ({ id: m.id, label: m.label || m.id, icon: m.icon || '📚' }));
 }
 
-/** Matière d'une unité (une valeur inconnue ou absente → ingénierie). */
-export function subjectOf(unit) {
+export function subjectById(id, content) {
+  return subjectsOf(content).find((s) => s.id === id) || null;
+}
+
+/** Matière d'une unité (une valeur inconnue ou absente → la première matière du contenu). */
+export function subjectOf(unit, content) {
   const m = unit && unit.matiere;
-  return subjectById(m) ? m : DEFAULT_SUBJECT;
+  if (subjectById(m, content)) return m;
+  return content && content.pack && content.pack.matieres ? subjectsOf(content)[0].id : DEFAULT_SUBJECT;
 }
 
 /** Groupes ordonnés { id, label, icon, units, skillCount } ; les matières sans unité sont omises. */
 export function groupUnitsBySubject(content) {
-  const groups = SUBJECTS.map((s) => ({ ...s, units: [], skillCount: 0 }));
+  const groups = subjectsOf(content).map((s) => ({ ...s, units: [], skillCount: 0 }));
   for (const unit of (content && content.units) || []) {
-    const g = groups.find((x) => x.id === subjectOf(unit));
+    const g = groups.find((x) => x.id === subjectOf(unit, content));
     g.units.push(unit);
     g.skillCount += (unit.skills || []).length;
   }
@@ -45,7 +62,7 @@ export function reachedCount(group, progress) {
 /** Matière d'une compétence (par son id) d'après le contenu ; null si inconnue. */
 export function subjectOfSkill(skillId, content) {
   for (const unit of (content && content.units) || []) {
-    if ((unit.skills || []).some((s) => s.id === skillId)) return subjectOf(unit);
+    if ((unit.skills || []).some((s) => s.id === skillId)) return subjectOf(unit, content);
   }
   return null;
 }
@@ -55,7 +72,7 @@ export function subjectOfSkill(skillId, content) {
  * les compétences inconnues du contenu à la fin (« Autres »). Un seul groupe → pas d'en-tête.
  */
 export function groupSkillRows(rows, content) {
-  const groups = SUBJECTS.map((s) => ({ ...s, rows: [] }));
+  const groups = subjectsOf(content).map((s) => ({ ...s, rows: [] }));
   const other = { id: 'autres', label: 'Autres compétences', icon: '📚', rows: [] };
   for (const row of rows || []) {
     const subj = subjectOfSkill(row.id, content);

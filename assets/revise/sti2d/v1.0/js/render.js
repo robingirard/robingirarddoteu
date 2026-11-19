@@ -9,10 +9,21 @@ const FIG_ONLY_RE = /^\s*\{\{fig:([\w.-]+)\}\}\s*$/;
 // Jetons traités avant l'échappement : figure, maths affichées ($$…$$ ou \[…\]), maths en ligne ($…$ ou \(…\)).
 // Un « $ » isolé (sans fermeture sur la même ligne) reste un simple caractère.
 // Le code en ligne `…` est reconnu en premier : ni maths, ni figure, ni gras à l'intérieur.
-const TOKEN_RE = /(`[^`\n]+?`)|(\{\{fig:[\w.-]+\}\})|(\$\$[\s\S]+?\$\$)|(\\\[[\s\S]+?\\\])|(\$[^$\n]+?\$)|(\\\([^\n]+?\\\))/g;
+// Un lien [texte](url) (moteur 1.3) est aussi un jeton : son url ne passe pas par la mise en forme.
+const TOKEN_RE = /(`[^`\n]+?`)|(\{\{fig:[\w.-]+\}\})|(\$\$[\s\S]+?\$\$)|(\\\[[\s\S]+?\\\])|(\$[^$\n]+?\$)|(\\\([^\n]+?\\\))|(\[[^\]\n]+\]\([^)\s]+\))/g;
 const MATH_ONLY_RE = /^\s*(\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\])\s*$/;
 const EMOJI_RE = /\{\{emoji:([^{}<>&]{1,16})\}\}/g;          // appliqué sur le texte déjà échappé
 const EMOJI_ONLY_RE = /^\s*\{\{emoji:[^{}<>&]{1,16}\}\}\s*$/;
+
+/**
+ * Adresse admise dans un lien : http(s), ou relative (pas de « schéma: » avant le premier /, ? ou #).
+ * `javascript:`, `data:` et les autres schémas sont refusés : le lien reste alors du texte.
+ */
+export function safeHref(url) {
+  const u = String(url || '').trim();
+  if (/^https?:\/\//i.test(u)) return u;
+  return /^[^/?#]*:/.test(u) ? null : u;
+}
 
 export function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -57,7 +68,7 @@ export function mathHtml(src, { display = false } = {}) {
   return display ? `<div class="math-display">${html}</div>` : html;
 }
 
-/** Texte riche : **gras**, *italique*, \n, `code`, {{fig:ID}}, {{emoji:🚪}}, $math$, $$maths affichées$$. */
+/** Texte riche : **gras**, *italique*, \n, `code`, {{fig:ID}}, {{emoji:🚪}}, $math$, $$maths affichées$$, [lien](url). */
 export function renderRich(text, figures = {}) {
   if (text == null) return '';
   const str = String(text);
@@ -70,12 +81,20 @@ export function renderRich(text, figures = {}) {
   const rendus = [];
   let travail = '';
   let last = 0;
-  TOKEN_RE.lastIndex = 0;
-  for (let m; (m = TOKEN_RE.exec(str));) {
+  // Une expression propre à cet appel : le libellé d'un lien est rendu par un appel récursif, qui
+  // remettrait à zéro le lastIndex d'une expression partagée (boucle sans fin).
+  const tokenRe = new RegExp(TOKEN_RE.source, 'g');
+  for (let m; (m = tokenRe.exec(str));) {
     travail += str.slice(last, m.index);
-    const [tok, code, fig, dd, bracket, d, paren] = m;
+    const [tok, code, fig, dd, bracket, d, paren, link] = m;
     let html;
-    if (code) html = `<code>${escapeHtml(tok.slice(1, -1))}</code>`;
+    if (link) {
+      const cut = tok.indexOf('](');
+      const href = safeHref(tok.slice(cut + 2, -1));
+      html = href
+        ? `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${renderRich(tok.slice(1, cut), figures)}</a>`
+        : escapeHtml(tok);
+    } else if (code) html = `<code>${escapeHtml(tok.slice(1, -1))}</code>`;
     else if (fig) html = figureHtml(tok.slice(6, -2), figures, { block });
     else if (dd) html = mathHtml(dd.slice(2, -2), { display: true });
     else if (bracket) html = mathHtml(bracket.slice(2, -2), { display: true });

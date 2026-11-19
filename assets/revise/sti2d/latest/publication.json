@@ -10,8 +10,9 @@
   ],
   "licence": "CC BY 4.0",
   "version": "1.0",
-  "moteur": "1.2.0",
-  "date": "2026-10-18",
+  "depot": "https://github.com/robingirard/revise-pour-le-bac-sti2D",
+  "moteur": "1.3.1",
+  "date": "2026-11-19",
   "stats": {
     "unites": 22,
     "competences": 98,

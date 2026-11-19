@@ -23,6 +23,8 @@ import * as fusion from './fusion.js';
 window.__RS_STARTED = true; // signale à index.html que le module a bien démarré
 
 const content = window.CONTENT;
+// Le titre de l'onglet vient du paquet (moteur 1.3) : index.html ne dit que « Révise ».
+if (content && content.title) document.title = content.title;
 const figures = (content && content.figures) || {};
 figs.configure({ index: (content && content.figureIndex) || null }); // figures chargées à la demande
 packs.configure({ content });   // énoncés et leçons chargés unité par unité (voir packs.js)
@@ -180,7 +182,7 @@ function renderHome(root) {
   const dueCount = sess.countDue(content, progress, today);
   if (cg.consolider(progress, content, today, cg.etat(progress).bareme).length) store.save(progress);
   root.append(
-    topbar({ title: content.title || 'Révise STI2D', droite: pastilleProfil() }),
+    topbar({ title: content.title || 'Révise', droite: pastilleProfil() }),
     h('section', { class: 'stats' },
       h('div', { class: 'stat' }, h('span', { class: 'stat-value' }, `🔥 ${streak}`), h('span', { class: 'stat-label' }, plural(streak, 'jour de série', 'jours de série').replace(/^\d+ /, ''))),
       h('div', { class: 'stat stat-wide' },
@@ -642,7 +644,7 @@ function bilanCard(today) {
   const b = bilan.buildBilan(progress, content, today);
   const text = bilan.bilanText(b, content);
   const url = bilan.bilanUrl(b);
-  const title = `Bilan Révise STI2D${b.name ? ' de ' + b.name : ''}`;
+  const title = `Bilan ${content.title || 'Révise'}${b.name ? ' de ' + b.name : ''}`;
   const full = `${text}\n\nBilan détaillé : ${url}`;
   const area = h('textarea', { class: 'json-area', readonly: true, rows: 7, 'aria-label': 'Bilan à partager' });
   area.value = full;
@@ -825,7 +827,7 @@ function renderMaCagnotte(root) {
   const recuInput = h('input', { class: 'text-input', type: 'text', placeholder: 'Colle ici le lien du reçu', 'aria-label': 'Lien du reçu' });
   const recuBtn = h('button', { class: 'btn', type: 'button', onClick: () => {
     const brut = recuInput.value.trim();
-    const code = (/[?&]d=([A-Za-z0-9_-]+)/.exec(brut) || [null, brut])[1];
+    const code = (/[?&]d=([A-Za-z0-9_.-]+)/.exec(brut) || [null, brut])[1];
     try {
       const r = cg.nettoyer(bilan.decodeJson(code, 'Ce texte n\'est pas un reçu de cagnotte.'));
       if (r.t !== 'recu') throw new Error('Ce lien est un relevé, pas un reçu : c\'est au parent de l\'ouvrir.');

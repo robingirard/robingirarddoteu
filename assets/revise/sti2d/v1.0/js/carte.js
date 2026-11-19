@@ -20,6 +20,7 @@
 
 import { MASTERED_INTERVAL } from './scheduler.js';
 import { addDays, isValidDay } from './dates.js';
+import { trancher, recoller } from './bilan.js';
 
 export const FORMAT = 'revise.carte';
 export const VERSION = 1;
@@ -258,7 +259,7 @@ const estGzip = (o) => o.length > 2 && o[0] === 0x1f && o[1] === 0x8b;
 export async function versLien(carte, base = '') {
   const allegee = { ...carte, progres: compacter(carte.progres) };
   const brut = new TextEncoder().encode(JSON.stringify(allegee));
-  const url = `${base}#/carte?d=${versBase64url(await comprimer(brut))}`;
+  const url = `${base}#/carte?d=${trancher(versBase64url(await comprimer(brut)))}`;
   const octets = new TextEncoder().encode(url).length;
   return { url, octets, tient: octets <= LIMITE_LIEN };
 }
@@ -271,8 +272,8 @@ export async function depuisLien(fragment) {
   if (typeof fragment !== 'string' || !fragment.trim()) {
     throw new Error('Ce lien est vide.');
   }
-  const m = /[?&]d=([A-Za-z0-9_-]+)/.exec(fragment);
-  const encode = m ? m[1] : fragment.trim();
+  const m = /[?&]d=([A-Za-z0-9_.-]+)/.exec(fragment);
+  const encode = recoller(m ? m[1] : fragment.trim());
   if (!/^[A-Za-z0-9_-]{4,}$/.test(encode)) {
     throw new Error('Ce lien ne contient pas de carte : il manque la partie « d=… ».');
   }

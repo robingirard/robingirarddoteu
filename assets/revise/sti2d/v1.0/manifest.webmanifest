@@ -1,7 +1,7 @@
 {
   "name": "Revise",
   "short_name": "Revise",
-  "description": "Entraînement au bac STI2D : répétition espacée et progression par compétences.",
+  "description": "Répétition espacée et progression par compétences.",
   "lang": "fr",
   "start_url": "./",
   "scope": "./",
