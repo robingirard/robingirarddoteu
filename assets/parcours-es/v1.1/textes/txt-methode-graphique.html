@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dimensionner un parc par la méthode graphique · Parcours ES 2026</title>
+<meta name="description" content="La monotone de charge, une droite de coût par technologie, l'heure de bascule (60 000 / 130 ≈ 460 h/an), le parc lu sur la courbe et qui le paie, puis ce que la méthode ne voit pas (stockage, liens bornés, choix du parc renouvelable) et qui oblige à passer au programme linéaire horaire.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Optimisation, Économie</span></div>
+    <h1>Dimensionner un parc par la méthode graphique</h1>
+    <p class="resume">La monotone de charge, une droite de coût par technologie, l'heure de bascule (60 000 / 130 ≈ 460 h/an), le parc lu sur la courbe et qui le paie, puis ce que la méthode ne voit pas (stockage, liens bornés, choix du parc renouvelable) et qui oblige à passer au programme linéaire horaire.</p>
+  </header>
+  <p>Avant les programmes linéaires, on dimensionnait un parc sur deux graphiques tracés à la main. La méthode donne la bonne réponse tant que deux conditions tiennent : pas de stockage, pas de lien borné avec un voisin (et des centrales parfaitement souples, pour un parc renouvelable donné). Cas d'école, pas une prévision : les coûts ci-dessous sont des valeurs rondes choisies pour le calcul.</p>
+<h2>1. La monotone de charge</h2>
+<p>Triez les 8 760 puissances horaires appelées dans l'année de la plus forte à la plus faible : c'est la <strong>monotone de charge</strong>. Pour une puissance P en ordonnée, l'abscisse dit combien d'heures par an la demande dépasse P. Elle garde le maximum, le creux et l'énergie (l'aire sous la courbe) ; elle jette l'ordre des heures, d'où la section 5.</p>
+<h2>2. Une droite de coût par technologie</h2>
+<p>Deux technologies, en coûts annualisés (du coût d'investissement à l'annuité : <a href="../textes/cout-annualise.html">Du coût d'investissement à l'annuité : CRF, €/kW/an, LCOE et ses limites</a>) :</p>
+<table>
+<thead>
+<tr>
+<th>technologie</th>
+<th>coût fixe</th>
+<th>coût variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base (chère à construire, bon marché à faire tourner)</td>
+<td>100 €/kW/an = 100 000 €/MW/an</td>
+<td>20 €/MWh</td>
+</tr>
+<tr>
+<td>pointe (bon marché à construire, chère à faire tourner)</td>
+<td>40 €/kW/an = 40 000 €/MW/an</td>
+<td>150 €/MWh</td>
+</tr>
+</tbody>
+</table>
+<p>Un MW qui tourne n heures par an coûte son fixe plus n fois son variable :</p>
+<ul>
+<li>base : 100 000 + 20 × n €/MW/an ;</li>
+<li>pointe : 40 000 + 150 × n €/MW/an.</li>
+</ul>
+<p>À n = 0, la pointe est moins chère (40 000 contre 100 000) ; à n = 8 760, la base l'emporte de loin (275 200 contre 1 354 000).</p>
+<h2>3. L'heure de bascule : 60 000 / 130 ≈ 460 h/an</h2>
+<p>Les droites se coupent quand 100 000 + 20 × n = 40 000 + 150 × n, soit :</p>
+<p>n* = (100 000 − 40 000) / (150 − 20) = 60 000 / 130 ≈ 461,5 h/an, environ 5 % de l'année.</p>
+<p>Au croisement, un MW coûte 109 231 €/an dans les deux technologies. La règle : <strong>un MW qui tournera moins de 460 h par an doit être un MW de pointe ; au-delà, un MW de base.</strong> Écart de coût fixe sur écart de coût variable : la formule vaut pour toute paire où l'une est plus chère à construire et moins chère à faire tourner.</p>
+<h2>4. Lire le parc sur la monotone</h2>
+<p>On empile les MW du bas vers le haut de la monotone : le MW situé à la hauteur P tourne autant d'heures que la demande dépasse P. Le dernier MW de base est celui qui tourne n* heures : <strong>la puissance de base est la puissance atteinte ou dépassée 462 heures par an</strong> (461,5 arrondi à l'heure supérieure), et la pointe couvre le reste, jusqu'au maximum.</p>
+<p>Sur la demande française 2030 du TYNDP 2026 (le plan décennal des gestionnaires de réseau européens, scénario National Trends +), demande native hors recharge des voitures, électrolyse et pompes à chaleur hybrides. Le TYNDP retient pour 2030 trois années météo simulées, notées WS (<em>weather scenario</em>) :</p>
+<table>
+<thead>
+<tr>
+<th>année météo</th>
+<th>maximum</th>
+<th>base (dépassée 462 h)</th>
+<th>pointe à installer (sans délestage)</th>
+<th>creux</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WS003</td>
+<td>101,9 GW</td>
+<td>76,8 GW</td>
+<td>25,1 GW</td>
+<td>33,5 GW</td>
+</tr>
+<tr>
+<td>WS021</td>
+<td>86,0 GW</td>
+<td>72,1 GW</td>
+<td>13,9 GW</td>
+<td>33,7 GW</td>
+</tr>
+<tr>
+<td>WS029</td>
+<td>93,3 GW</td>
+<td>76,3 GW</td>
+<td>17,0 GW</td>
+<td>33,4 GW</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Qui paie la pointe ?</strong> Si le prix horaire n'était que le coût variable de la dernière centrale appelée (20 €/MWh quand la base suffit, 150 quand la pointe tourne), la pointe ne rembourserait jamais ses 40 000 €/MW/an, et la base ne gagnerait au-dessus de son coût variable que 130 × 461,5 = 60 000 € sur ses 100 000. Mais à l'heure du maximum, tout le parc tourne : le prix n'y est plus un coût variable, c'est la rareté. Un programme linéaire qui impose de servir toute la demande y met 40 150 €/MWh, et les comptes tombent juste.</p>
+<p>Plus réaliste : donner une valeur V à l'énergie non servie. On renonce alors aux MW de pointe qui tourneraient moins de 40 000 / (V − 150) heures par an, et l'on déleste ces heures-là. Avec V = 20 000 €/MWh, environ 2 h par an : la pointe à installer descend à 24,3, 13,5 et 15,6 GW. Dans ces heures, le prix vaut V et chaque technologie récupère exactement son coût fixe :</p>
+<ul>
+<li>pointe : (20 000 − 150) × 2,015 h = 40 000 €/MW/an ;</li>
+<li>base : 130 € × 461,5 h + (20 000 − 150) € × 2,015 h = 60 000 + 40 000 = 100 000 €/MW/an.</li>
+</ul>
+<p>C'est le résultat de Boiteux et de Steiner : dans un parc optimal, la rente que chaque centrale touche au-dessus de son coût variable paie exactement son coût fixe. Ce prix est la duale de l'équilibre offre-demande : <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>.</p>
+<h2>5. Ce que la méthode voit encore, et ce qu'elle ne voit pas</h2>
+<p><strong>Plusieurs années météo : elle les voit, si on l'aide.</strong> Dimensionner sur WS021, c'est délester un hiver comme WS003 (142 heures au-dessus de 86 GW). Dimensionner sur WS003, c'est construire 15,8 GW qui ne tournent pas une heure d'un hiver comme WS021. On range alors les 3 × 8 760 heures dans une seule monotone, chaque heure comptée avec le poids de son année (0,63, 0,07 et 0,30 au TYNDP), et l'on y lit le parc. Avec V = 20 000 €/MWh : 76,2 GW de base et 24,1 GW de pointe, presque le parc de WS003, parce qu'un MW de pointe coûte peu. Le même calcul en programme linéaire : <a href="../textes/act-annees-meteo-poids.html">Empiler trois années météo sur le modèle du tutoriel avec operation_year_weight</a>.</p>
+<p><strong>Le stockage, pour deux raisons au moins.</strong> La monotone a jeté l'ordre des heures : une batterie ne décharge qu'après avoir chargé, et son niveau de charge relie chaque heure à la précédente. Et le stockage déplace de l'énergie des heures creuses vers les plus chargées : il déforme la monotone elle-même, qui devient une conséquence de la décision.</p>
+<p><strong>Les liens bornés.</strong> Deux pays dont les maxima de demande ne tombent pas aux mêmes heures ont besoin, ensemble, de moins de pointe que séparément. Avec un lien sans limite, on trace encore la monotone de la somme ; c'est la capacité finie du lien qui oblige au calcul heure par heure. L'activité <a href="../textes/act-transport-deux-zones.html">Deux zones et un lien : flux, duale de la capacité d'échange et rente de congestion</a> lit flux, prix et valeur d'un MW de lien entre deux zones, à capacités imposées.</p>
+<p><strong>Le choix du parc renouvelable.</strong> Une éolienne ne choisit pas ses heures : on la retire de la demande pour tracer la <strong>monotone résiduelle</strong>, puis on dimensionne le pilotable dessus. Pour WS003, la résiduelle (demande moins solaire, éolien et fil de l'eau, production après écrêtement par le modèle du TYNDP) culmine à 89,3 GW et la base y tombe à 63,3 GW. Elle passe sous zéro pendant 72 heures (creux à −8,2 GW) : des surplus à exporter, stocker ou écrêter, dont la monotone ne dit pas quoi faire. Et la méthode ne peut pas choisir ce parc renouvelable : la valeur d'un MW éolien dépend du moment où il produit.</p>
+<p>D'où le programme linéaire horaire : les 8 760 heures dans l'ordre, une contrainte d'équilibre par heure, le stockage, les liens. Sans stockage ni lien borné, il retrouve la méthode graphique, y compris sur plusieurs années pondérées. Avec, il va plus loin : <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a>, puis <a href="../textes/act-dimensionner-enr-stockage.html">Dimensionner éolien et stockage dans craft, avec et sans écrêtement</a>.</p>
+<h2>Vérifier en Python (facultatif)</h2>
+<p>Depuis la racine du dépôt pommes-case-studies, dans son environnement (<a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>) :</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+
+fixe = {&quot;base&quot;: 100_000, &quot;pointe&quot;: 40_000}   # €/MW/an
+var = {&quot;base&quot;: 20, &quot;pointe&quot;: 150}            # €/MWh
+h_bascule = (fixe[&quot;base&quot;] - fixe[&quot;pointe&quot;]) / (var[&quot;pointe&quot;] - var[&quot;base&quot;])
+k = int(np.ceil(h_bascule)) - 1              # rang de l'heure 462 dans la monotone
+print(f&quot;bascule : {h_bascule:.1f} h/an&quot;)
+
+d = pd.read_parquet(&quot;data/systeme/fr_horaire.parquet&quot;)
+d = d[d.annee == 2030]
+for meteo, g in d.groupby(&quot;meteo&quot;):
+    monotone = np.sort(g.demande_native.to_numpy())[::-1] / 1000   # GW, de la plus forte heure à la plus faible
+    print(f&quot;{meteo} : maximum {monotone[0]:.1f} GW, base {monotone[k]:.1f} GW, &quot;
+          f&quot;pointe à installer {monotone[0] - monotone[k]:.1f} GW, creux {monotone[-1]:.1f} GW&quot;)
+
+# trois années dans une seule monotone pondérée, délestage à V = 20 000 €/MWh
+poids = d.meteo.map({&quot;WS003&quot;: 0.63, &quot;WS021&quot;: 0.07, &quot;WS029&quot;: 0.30}).to_numpy()
+ordre = np.argsort(-d.demande_native.to_numpy())
+p, heures = d.demande_native.to_numpy()[ordre] / 1000, np.cumsum(poids[ordre])
+base = p[np.searchsorted(heures, h_bascule)]
+haut = p[np.searchsorted(heures, fixe[&quot;pointe&quot;] / (20_000 - var[&quot;pointe&quot;]))]
+print(f&quot;pondérée : base {base:.1f} GW, pointe {haut - base:.1f} GW&quot;)
+
+g = d[d.meteo == &quot;WS003&quot;]
+residuelle = g.demande_native - g.pv - g.pv_toiture - g.eolien_terrestre - g.eolien_mer - g.fil_eau
+monotone_r = np.sort(residuelle.to_numpy())[::-1] / 1000
+print(f&quot;résiduelle WS003 : maximum {monotone_r[0]:.1f} GW, base {monotone_r[k]:.1f} GW, &quot;
+      f&quot;creux {monotone_r[-1]:.1f} GW, {(monotone_r &lt; 0).sum()} heures négatives&quot;)
+</code></pre>
+<p>Sortie attendue :</p>
+<pre><code class="language-text">bascule : 461.5 h/an
+WS003 : maximum 101.9 GW, base 76.8 GW, pointe à installer 25.1 GW, creux 33.5 GW
+WS021 : maximum 86.0 GW, base 72.1 GW, pointe à installer 13.9 GW, creux 33.7 GW
+WS029 : maximum 93.3 GW, base 76.3 GW, pointe à installer 17.0 GW, creux 33.4 GW
+pondérée : base 76.2 GW, pointe 24.1 GW
+résiduelle WS003 : maximum 89.3 GW, base 63.3 GW, creux -8.2 GW, 72 heures négatives
+</code></pre>
+<p>Ces chiffres sont des sorties d'un modèle de marché (TYNDP 2026, version provisoire), pas des mesures.</p>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous retrouvez sans aide l'heure de bascule de la base (100 €/kW/an + 20 €/MWh) contre la pointe (40 €/kW/an + 150 €/MWh) : 60 000 / 130 ≈ 460 h/an.</li>
+<li>Vous dites qui paie la pointe : la rareté à l'heure du maximum, ou la valeur de l'énergie non servie.</li>
+<li>Vous donnez deux raisons pour lesquelles la méthode ne traite pas le stockage : l'ordre des heures perdu, la monotone déformée par la décision.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Le coût annuel en fixe plus variable, sans la monotone : le billet <a href="https://www.energy-alternatives.eu/2020/05/07/mix-de-production-delectricite-energie-et-puissance.html" target="_blank" rel="noopener">Mix de production d'électricité : énergie et puissance</a>.</li>
+<li>Variante : ajoutez une troisième technologie (70 €/kW/an + 60 €/MWh). Ses bascules avec la base et la pointe valent 750 et 333 h/an : elle prend les MW qui tournent entre 333 et 750 h par an, et la bascule à 461,5 h ne sert plus. Une technologie dont la droite n'est jamais la plus basse n'est pas construite.</li>
+<li>La résolution graphique dans les planches remises en séance : <span title="planches-dispatch-capacity-expansion-intro">Intro optimisation : economic dispatch (merit order), couplages temporel et spatial, stockage, DSM, capacity expansion et résolution graphique (Boiteux) (remis en cours)</span>.</li>
+<li>Ce qu'un programme linéaire voit et ne voit pas non plus : <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E & ENTSOG, TYNDP 2026 Scenarios, National Trends + (version provisoire du 10/06/2026), CC BY 4.0</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/data/systeme/README.md" target="_blank" rel="noopener">Dépôt pommes-case-studies : data/systeme (demande française horaire 2030, trois années météo)</a></li><li><a href="https://www.energy-alternatives.eu/2020/05/07/mix-de-production-delectricite-energie-et-puissance.html" target="_blank" rel="noopener">Mix de production d'électricité : énergie et puissance (billet, energy-alternatives.eu)</a></li><li>M. Boiteux, « La tarification des demandes en pointe : application de la théorie de la vente au coût marginal », Revue générale de l'électricité, 58, août 1949, p. 321-340</li><li>P. O. Steiner, « Peak loads and efficient pricing », Quarterly Journal of Economics, 71(4), 1957</li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>D'où viennent le besoin de chaleur et le besoin de froid d'une maison · Parcours ES 2026</title>
+<meta name="description" content="Bilan thermique d'une maison, l'hiver et l'été : par où la chaleur se perd, ce que change le niveau BBC, ce qui décide l'été (protections solaires, ventilation de nuit, inertie). Puis la thermosensibilité, de la maison (4,4 W par degré et par mètre carré non isolée, moins de 1 rénovée) au pays (2,4 GW par degré l'hiver selon RTE), et ce qu'on en fait : l'ordre des gestes sur un logement, la page « Le parc bâti et sa thermosensibilité », le report dans le cas C.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>D'où viennent le besoin de chaleur et le besoin de froid d'une maison</h1>
+    <p class="resume">Bilan thermique d'une maison, l'hiver et l'été : par où la chaleur se perd, ce que change le niveau BBC, ce qui décide l'été (protections solaires, ventilation de nuit, inertie). Puis la thermosensibilité, de la maison (4,4 W par degré et par mètre carré non isolée, moins de 1 rénovée) au pays (2,4 GW par degré l'hiver selon RTE), et ce qu'on en fait : l'ordre des gestes sur un logement, la page « Le parc bâti et sa thermosensibilité », le report dans le cas C.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-C">Mener le mini-projet du cas C : comment passer la pointe d'un hiver froid ?</a></li><li><a href="../index.html#mp-mod-cas-c">Mener le mini-projet « combien d'années météo ? » sur le cas C</a></li></ul></aside>
+<h2 id="en-bref">En bref</h2>
+<p><strong>La question</strong> : quand il fait un degré de moins
+dehors, de combien monte le besoin de chauffage d’une maison, et de
+combien monte la consommation d’électricité de tout le pays ?</p>
+<p><strong>La réponse</strong> : une maison ne consomme pas de chaleur,
+elle en perd, et ce qu’elle perd pour un degré d’écart avec l’extérieur,
+son <em>coefficient de déperdition</em>, est sa thermosensibilité ; il
+vaut 4,4 W par degré et par mètre carré pour une maison d’avant 1975,
+moins de 1 W pour la même maison rénovée, et, additionné sur les
+surfaces chauffées à l’électricité, il donne les 2,4 GW par degré que
+RTE mesure l’hiver sur la consommation française.</p>
+<p><strong>À quoi sert la note</strong> : à savoir quel geste réduit
+quoi (isoler, changer d’appareil, fermer un volet), puis à choisir et à
+défendre la thermosensibilité qu’on met dans une simulation du système
+électrique, avec la page « Le parc bâti et sa thermosensibilité » du
+parcours et le cas C du cours (section 7).</p>
+<h2 id="plan">Plan</h2>
+<p>La note suit un seul fil, de la maison au pays.</p>
+<ol type="1">
+<li><strong>La maison de référence</strong>, et comment lire les
+planches.</li>
+<li><strong>L’hiver</strong> : où passe la chaleur d’une maison non
+isolée, et ce qui change au niveau BBC.</li>
+<li><strong>L’été</strong> : la même enveloppe, conçue ou non pour la
+chaleur.</li>
+<li><strong>Une maison, deux saisons</strong> : presque toutes les
+flèches changent de sens.</li>
+<li><strong>La thermosensibilité d’une maison</strong>, par mètre carré
+: le chiffre qui fait le pont.</li>
+<li><strong>La thermosensibilité du pays</strong>, en gigawatts par
+degré : ce que mesure RTE, et ce qui la fait bouger.</li>
+<li><strong>Ce qu’on en fait</strong> : les gestes sur un logement, la
+page du parcours, le cas C.</li>
+<li><strong>Les chiffres répandus qui sont faux.</strong></li>
+<li><strong>Les limites du calcul, et d’où viennent ses
+chiffres.</strong></li>
+<li><strong>Reproduire.</strong></li>
+</ol>
+<h2 id="la-maison-de-référence">1. La maison de référence</h2>
+<p>Toutes les planches montrent la même maison, pour que les
+comparaisons aient un sens :</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Surface habitable chauffée</td>
+<td>100 m², deux niveaux</td>
+</tr>
+<tr class="even">
+<td>Volume chauffé</td>
+<td>250 m³</td>
+</tr>
+<tr class="odd">
+<td>Murs opaques</td>
+<td>120 m²</td>
+</tr>
+<tr class="even">
+<td>Baies vitrées</td>
+<td>20 m² (un cinquième de la surface habitable)</td>
+</tr>
+<tr class="odd">
+<td>Toiture / plafond sous combles</td>
+<td>60 m²</td>
+</tr>
+<tr class="even">
+<td>Plancher bas</td>
+<td>60 m²</td>
+</tr>
+<tr class="odd">
+<td>Consigne intérieure</td>
+<td>20 °C l’hiver, 26 °C accepté l’été</td>
+</tr>
+<tr class="even">
+<td>Climat</td>
+<td>France métropolitaine : 2500 degrés-jours base 18 °C, −7 °C au jour
+le plus froid retenu pour dimensionner</td>
+</tr>
+</tbody>
+</table>
+<p>Elle existe à deux niveaux de performance. Le coefficient
+<code>U</code> d’une paroi est la puissance qu’elle laisse passer par
+mètre carré et par degré d’écart entre l’intérieur et l’extérieur (en
+W/m²K) ; plus il est bas, mieux la paroi isole.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Poste</th>
+<th>Classe E (avant 1975)</th>
+<th>BBC (neuf ou rénovation performante)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Murs, <code>U</code></td>
+<td>1,40 W/m²K</td>
+<td>0,20</td>
+</tr>
+<tr class="even">
+<td>Toiture, <code>U</code></td>
+<td>0,45</td>
+<td>0,12</td>
+</tr>
+<tr class="odd">
+<td>Plancher bas, <code>U</code></td>
+<td>1,00</td>
+<td>0,20</td>
+</tr>
+<tr class="even">
+<td>Vitrages, <code>U</code></td>
+<td>3,00 (double ancien)</td>
+<td>1,30 (triple)</td>
+</tr>
+<tr class="odd">
+<td>Ponts thermiques</td>
+<td>+20 % de l’enveloppe</td>
+<td>+10 %</td>
+</tr>
+<tr class="even">
+<td>Ventilation</td>
+<td>simple flux + infiltrations, 0,7 vol/h</td>
+<td>double flux, 75 % de récupération, + 0,1 vol/h d’infiltration</td>
+</tr>
+<tr class="odd">
+<td><strong>Coefficient de déperdition <code>H</code></strong></td>
+<td><strong>438 W/K</strong>, soit 4,38 W/K par m²</td>
+<td><strong>95 W/K</strong>, soit 0,95</td>
+</tr>
+</tbody>
+</table>
+<p>Le coefficient de déperdition <code>H</code> additionne tout ce que
+la maison perd pour un degré d’écart : murs, toit, plancher, fenêtres,
+ponts thermiques (les jonctions mal isolées entre parois) et air
+renouvelé. C’est le nombre qui reviendra jusqu’à la fin de la note.</p>
+<p><strong>Lire une planche.</strong> Ce qui entre arrive par la gauche
+(soleil, chauffage) ou naît à l’intérieur (occupants, appareils) ; ce
+qui sort part par la droite, le haut et le bas. La largeur d’une flèche
+est proportionnelle au flux, et une couleur désigne un poste, la même
+partout. L’histogramme de droite montre que le bilan boucle : ce qui
+entre égale ce qui sort.</p>
+<h2 id="lhiver-la-maison-non-isolée-puis-la-même-au-niveau-bbc">2.
+L’hiver : la maison non isolée, puis la même au niveau BBC</h2>
+<figure>
+<img
+src="img/note-thermal-balance/d1553898c48e9baeb54a530f765a42807f89ca0c.png"
+alt="Bilan d’hiver, maison classe E" />
+<figcaption aria-hidden="true">Bilan d’hiver, maison classe
+E</figcaption>
+</figure>
+<figure>
+<img
+src="img/note-thermal-balance/ce8cf53a5fb239c1814636eeabe36f84ef1de24c.png"
+alt="Bilan d’hiver, la même maison au niveau BBC" />
+<figcaption aria-hidden="true">Bilan d’hiver, la même maison au niveau
+BBC</figcaption>
+</figure>
+<p>Les deux planches ont la même échelle de flèches : une même largeur
+vaut la même énergie. La différence entre une passoire et un BBC se voit
+donc sans lire un chiffre.</p>
+<h3 id="le-bilan-boucle-et-cest-le-point-de-départ">2.1 Le bilan boucle,
+et c’est le point de départ</h3>
+<p>Sur une saison de chauffe, la maison classe E reçoit 26,3 MWh (20,30
+de chauffage, 3,15 de soleil, 2,85 d’apports internes) et en perd
+exactement autant. Il n’y a pas de « consommation » quelque part : il y
+a un flux qui traverse la maison. Rénover, c’est <strong>rétrécir les
+flèches de sortie</strong> ; changer de chaudière ne change que la façon
+d’alimenter la flèche d’entrée.</p>
+<h3 id="où-passe-la-chaleur-en-classe-e">2.2 Où passe la chaleur, en
+classe E</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Poste</th>
+<th>MWh/an</th>
+<th>Part</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Murs</td>
+<td>10,08</td>
+<td>38 %</td>
+</tr>
+<tr class="even">
+<td>Ponts thermiques</td>
+<td>3,78</td>
+<td>14 %</td>
+</tr>
+<tr class="odd">
+<td>Fenêtres</td>
+<td>3,60</td>
+<td>14 %</td>
+</tr>
+<tr class="even">
+<td>Ventilation et infiltrations</td>
+<td>3,57</td>
+<td>14 %</td>
+</tr>
+<tr class="odd">
+<td>Plancher bas</td>
+<td>3,60</td>
+<td>14 %</td>
+</tr>
+<tr class="even">
+<td>Toiture</td>
+<td>1,62</td>
+<td>6 %</td>
+</tr>
+<tr class="odd">
+<td>Apports non utilisés</td>
+<td>0,06</td>
+<td>0 %</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Besoin de chauffage : 20,3 MWh/an, soit 203
+kWh/m²/an.</strong> Deux enseignements :</p>
+<ul>
+<li>les <strong>murs et les ponts thermiques</strong> font la moitié de
+ce qui sort. Changer la chaudière ne touche aucune de ces flèches ;</li>
+<li>la <strong>toiture est le petit poste</strong> de cette maison, non
+parce qu’une toiture perd peu, mais parce que celle-ci a été isolée dans
+les années 1980. On la traite d’abord quand elle ne l’est pas, parce que
+c’est le moins cher, pas parce que c’est le plus gros poste.</li>
+</ul>
+<h3 id="la-même-maison-au-niveau-bbc">2.3 La même maison au niveau
+BBC</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Poste</th>
+<th>MWh/an</th>
+<th>Part</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fenêtres</td>
+<td>1,56</td>
+<td>22 %</td>
+</tr>
+<tr class="even">
+<td>Murs</td>
+<td>1,44</td>
+<td>21 %</td>
+</tr>
+<tr class="odd">
+<td>Ventilation et infiltrations</td>
+<td>1,15</td>
+<td>16 %</td>
+</tr>
+<tr class="even">
+<td>Apports non utilisés</td>
+<td>1,28</td>
+<td>18 %</td>
+</tr>
+<tr class="odd">
+<td>Plancher bas</td>
+<td>0,72</td>
+<td>10 %</td>
+</tr>
+<tr class="even">
+<td>Toiture</td>
+<td>0,43</td>
+<td>6 %</td>
+</tr>
+<tr class="odd">
+<td>Ponts thermiques</td>
+<td>0,42</td>
+<td>6 %</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Besoin de chauffage : 1,52 MWh/an, soit 15
+kWh/m²/an.</strong> Le coefficient de déperdition est divisé par 4,6, le
+besoin de chauffage par 13. Trois choses changent de nature :</p>
+<ol type="1">
+<li><strong>Le classement s’inverse.</strong> Les fenêtres passent
+devant les murs : quand le mur est isolé à 0,20 W/m²K, un triple vitrage
+à 1,30 perd encore six fois plus au mètre carré.</li>
+<li><strong>Les apports gratuits couvrent 73 % des pertes.</strong> Ils
+sont à peu près les mêmes dans les deux maisons (6,0 MWh en classe E,
+5,5 au BBC, dont les mêmes 2,85 d’apports internes), mais ils pèsent
+bien plus lourd face à des pertes cinq fois plus petites. C’est pourquoi
+le besoin baisse plus vite que le coefficient : le soleil et le
+réfrigérateur chauffent la maison, la chaudière fait l’appoint.</li>
+<li><strong>Une partie des apports ne sert plus à rien</strong> : 1,28
+MWh arrivent quand la maison est déjà à 20 °C ; ils ne sont pas
+économisés, ils sont évacués (le <em>facteur d’utilisation</em> des
+apports tombe à 77 %). C’est le premier signe, en hiver, du problème qui
+devient le principal l’été.</li>
+</ol>
+<h3 id="la-puissance-pas-seulement-lénergie">2.4 La puissance, pas
+seulement l’énergie</h3>
+<p>Le jour le plus froid retenu (−7 °C), la classe E demande
+<strong>11,8 kW</strong> et le BBC <strong>2,6 kW</strong>. C’est
+<code>H</code> multiplié par l’écart de 27 °C entre l’intérieur et
+l’extérieur. Cette puissance décide de la taille de la chaudière, de
+celle des radiateurs, de la possibilité d’installer une pompe à chaleur,
+et, additionnée sur un parc, de la pointe de consommation électrique des
+soirs de février. La section 5 y revient.</p>
+<h2 id="lété-la-même-enveloppe-conçue-ou-non-pour-la-chaleur">3. L’été :
+la même enveloppe, conçue ou non pour la chaleur</h2>
+<figure>
+<img
+src="img/note-thermal-balance/c5688f38d489d57ba7551d53e52a1f925a976993.png"
+alt="Bilan d’une journée chaude, bâtiment mal conçu pour l’été" />
+<figcaption aria-hidden="true">Bilan d’une journée chaude, bâtiment mal
+conçu pour l’été</figcaption>
+</figure>
+<figure>
+<img
+src="img/note-thermal-balance/0e3e85b1b6c24bfe6711f0ed27a1de70172c785e.png"
+alt="La même enveloppe, conçue pour l’été" />
+<figcaption aria-hidden="true">La même enveloppe, conçue pour
+l’été</figcaption>
+</figure>
+<p>Le bilan d’été est fait sur <strong>une journée chaude</strong>, en
+kWh par jour, et non sur une saison : le besoin de froid d’une saison
+dépend trop du climat et du confort accepté pour être un chiffre de
+cours, alors que les leviers se lisent très bien sur 24 heures. Journée
+type : 34 °C l’après-midi, 19 °C avant l’aube, 26 °C acceptés à
+l’intérieur.</p>
+<p><strong>Les deux bâtiments ont exactement la même enveloppe</strong>,
+celle de la maison BBC de la section 2. Ce qui les sépare n’est pas
+l’isolation, ce sont les <strong>trois leviers de la conception
+d’été</strong> :</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Levier</th>
+<th>Conçu pour l’été</th>
+<th>Pas conçu pour l’été</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Protection solaire</td>
+<td>volets ou stores <strong>extérieurs</strong> fermés le jour : il
+passe 15 % du soleil</td>
+<td>rien devant le verre (ou un store intérieur, qui ne sert à rien) :
+il passe 100 %</td>
+</tr>
+<tr class="even">
+<td>Ventilation de nuit</td>
+<td>fenêtres ouvertes en courant d’air, 5 vol/h de 22 h à 6 h</td>
+<td>fenêtres fermées la nuit (bruit, insectes, sécurité), 1,5 vol/h</td>
+</tr>
+<tr class="odd">
+<td>Inertie</td>
+<td>dalle et murs lourds : la fraîcheur de la nuit est stockée et toute
+récupérée</td>
+<td>construction légère : on refroidit l’air, pas le bâtiment (35 %
+récupérés)</td>
+</tr>
+</tbody>
+</table>
+<p>Le bilan qui en découle :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Sur 24 h</th>
+<th>Conçu pour l’été</th>
+<th>Pas conçu pour l’été</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Soleil à travers les vitrages</td>
+<td>3,9 kWh</td>
+<td>26,2</td>
+</tr>
+<tr class="even">
+<td>Apports internes</td>
+<td>11,8</td>
+<td>11,8</td>
+</tr>
+<tr class="odd">
+<td>Transmission par murs et toiture</td>
+<td>4,6</td>
+<td>4,6</td>
+</tr>
+<tr class="even">
+<td>Ventilation avec de l’air extérieur chaud</td>
+<td>1,1</td>
+<td>1,1</td>
+</tr>
+<tr class="odd">
+<td><strong>Total à évacuer</strong></td>
+<td><strong>21,5</strong></td>
+<td><strong>43,8</strong></td>
+</tr>
+<tr class="even">
+<td>− ventilation de nuit, gratuite</td>
+<td>20,4</td>
+<td>2,1</td>
+</tr>
+<tr class="odd">
+<td><strong>= reste pour le climatiseur</strong></td>
+<td><strong>1,1</strong></td>
+<td><strong>41,6</strong></td>
+</tr>
+<tr class="even">
+<td>soit en électricité (rendement du climatiseur de 3)</td>
+<td>0,4 kWh</td>
+<td>13,9</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Un facteur 38 sur le froid à produire, à enveloppe
+identique.</strong> Ce que les deux planches font voir :</p>
+<ul>
+<li><strong>le soleil qui traverse le vitrage fait trois cinquièmes du
+problème</strong>, et c’est le seul poste sur lequel un occupant agit en
+trois secondes ;</li>
+<li><strong>la protection solaire doit être extérieure.</strong> Un
+store intérieur arrête la lumière mais pas la chaleur : le rayonnement a
+déjà franchi le verre, il est dans la pièce ;</li>
+<li><strong>la ventilation de nuit est la plus grosse machine
+frigorifique de la maison.</strong> Cinq volumes par heure, soit 425 W
+par degré, pendant huit heures, avec 6 °C d’écart entre l’air de la nuit
+et la maison : 20,4 kWh gratuits, à comparer aux 41,6 kWh que le
+climatiseur doit extraire quand on s’en prive ;</li>
+<li><strong>l’inertie ne retire rien par elle-même.</strong> Une dalle
+lourde stocke la chaleur du jour et la rend trois ou quatre heures plus
+tard ; elle ne fait sortir aucun joule. Elle est utile parce qu’elle
+repousse la chaleur vers les heures où la ventilation de nuit peut
+l’évacuer. Sans ventilation de nuit, l’inertie ne sert à rien ; sans
+inertie, la ventilation de nuit ne sert presque à rien. Les trois
+leviers ne s’additionnent pas, ils se multiplient.</li>
+</ul>
+<p>L’ordre des gestes est donc fixé par la figure : <strong>arrêter le
+soleil dehors, balayer la nuit, et seulement ensuite acheter une
+machine.</strong></p>
+<h2 id="une-maison-deux-saisons">4. Une maison, deux saisons</h2>
+<figure>
+<img
+src="img/note-thermal-balance/edc8c96bc18982af5312b4185594135b16c87446.png"
+alt="Hiver : passoire contre BBC" />
+<figcaption aria-hidden="true">Hiver : passoire contre BBC</figcaption>
+</figure>
+<figure>
+<img
+src="img/note-thermal-balance/cdf260c5b8fa7aee0010858cb11de59a559af870.png"
+alt="Été : mal conçu contre bien conçu, à enveloppe identique" />
+<figcaption aria-hidden="true">Été : mal conçu contre bien conçu, à
+enveloppe identique</figcaption>
+</figure>
+<p>Ces deux planches 16:9 portent chacune une comparaison entière sur un
+écran, avec la même échelle de flèches à gauche et à droite. Les six
+postes de déperdition y sont regroupés en une flèche « enveloppe ». Le
+contraste est de même nature, un facteur 13 l’hiver, 38 l’été, mais les
+leviers n’ont rien à voir : l’hiver on épaissit des isolants, l’été on
+ferme des volets et on ouvre des fenêtres la nuit.</p>
+<figure>
+<img
+src="img/note-thermal-balance/16ffb5bb6b5ff4a7b2aae0aabefb803aa8d6e062.png"
+alt="Hiver et été, la même maison" />
+<figcaption aria-hidden="true">Hiver et été, la même maison</figcaption>
+</figure>
+<p>La troisième planche met les deux saisons côte à côte, sur la même
+maison. Elle ne compare pas des chiffres (les unités diffèrent : MWh par
+an l’hiver, kWh par jour l’été) ; elle montre que <strong>presque toutes
+les flèches changent de sens ou de rôle</strong> :</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Hiver</th>
+<th>Été</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Le soleil</td>
+<td>est un apport gratuit qu’on cherche</td>
+<td>est le problème qu’on doit arrêter</td>
+</tr>
+<tr class="even">
+<td>La chaleur</td>
+<td>fuit vers l’extérieur</td>
+<td>rentre</td>
+</tr>
+<tr class="odd">
+<td>La ventilation</td>
+<td>est une perte qu’on récupère</td>
+<td>est le moyen d’évacuer, la nuit</td>
+</tr>
+<tr class="even">
+<td>Les apports internes</td>
+<td>aident</td>
+<td>nuisent</td>
+</tr>
+<tr class="odd">
+<td>Ce qui décide</td>
+<td>l’enveloppe : isolation, étanchéité</td>
+<td>la conception : protections solaires, nuit, inertie</td>
+</tr>
+</tbody>
+</table>
+<p>Un bon bâtiment d’hiver n’est donc pas forcément un bon bâtiment
+d’été.</p>
+<h2 id="la-thermosensibilité-dune-maison-par-mètre-carré">5. La
+thermosensibilité d’une maison, par mètre carré</h2>
+<p>Jusqu’ici, la note a compté des énergies sur une saison ou une
+journée. Pour passer au système électrique, il faut une autre grandeur :
+la <strong>thermosensibilité</strong>, c’est-à-dire la puissance de
+chauffage supplémentaire que demande la maison pour chaque degré de
+moins dehors.</p>
+<h3
+id="par-temps-froid-la-thermosensibilité-est-le-coefficient-de-déperdition">5.1
+Par temps froid, la thermosensibilité est le coefficient de
+déperdition</h3>
+<p>Tant que la maison a besoin de chauffage, la puissance à fournir vaut
+<code>H</code> multiplié par l’écart entre la température intérieure et
+la température extérieure, moins les apports gratuits. Quand la
+température extérieure baisse d’un degré, la puissance monte de
+<code>H</code>, et de rien d’autre : <strong>la thermosensibilité d’une
+maison est son coefficient de déperdition</strong>. Pour la maison de
+référence, 438 W par degré en classe E, 95 W au BBC. Les 11,8 kW et 2,6
+kW de la section 2.4 ne sont que cette pente prolongée jusqu’à −7
+°C.</p>
+<p>Les apports gratuits ne changent pas la pente : ils fixent la
+<strong>température à partir de laquelle on commence à
+chauffer</strong>, le <em>seuil de chauffage</em>. Avec les seuls
+apports internes de la convention 3CL-DPE (4,92 W/m², section 9), soit
+492 W pour 100 m², le chauffage démarre vers 19 °C dehors en classe E
+(20 − 492/438), et seulement vers 15 °C au BBC (20 − 492/95) ; le soleil
+l’abaisse encore dans la journée (calcul de cette note, statut « calculé
+»). Rénover agit donc deux fois : la pente baisse, et le seuil aussi.
+C’est l’autre façon de lire l’écart entre le facteur 4,6 et le facteur
+13 de la section 2.3.</p>
+<h3 id="pourquoi-la-rapporter-au-mètre-carré">5.2 Pourquoi la rapporter
+au mètre carré</h3>
+<p>Une thermosensibilité par mètre carré se compare d’un logement à
+l’autre, quelle que soit sa taille, et se multiplie par une surface pour
+passer au parc. C’est le pont entre la maison et le pays.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>La maison de référence</th>
+<th>Classe E</th>
+<th>BBC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Coefficient de déperdition <code>H</code></td>
+<td>438 W/K</td>
+<td>95 W/K</td>
+</tr>
+<tr class="even">
+<td><strong>Thermosensibilité par mètre carré</strong></td>
+<td><strong>4,38 W/K/m²</strong></td>
+<td><strong>0,95 W/K/m²</strong></td>
+</tr>
+<tr class="odd">
+<td>Seuil de chauffage, apports internes seuls (calculé)</td>
+<td>≈ 19 °C</td>
+<td>≈ 15 °C</td>
+</tr>
+<tr class="even">
+<td>Puissance au jour le plus froid (−7 °C)</td>
+<td>11,8 kW</td>
+<td>2,6 kW</td>
+</tr>
+<tr class="odd">
+<td>Besoin de chauffage sur l’année</td>
+<td>203 kWh/m²</td>
+<td>15 kWh/m²</td>
+</tr>
+</tbody>
+</table>
+<h3 id="chaleur-et-électricité-deux-pentes-différentes">5.3 Chaleur et
+électricité : deux pentes différentes</h3>
+<p><code>H</code> est une thermosensibilité <strong>de chaleur</strong>.
+La thermosensibilité <strong>électrique</strong> d’un logement dépend en
+plus de l’appareil qui fournit cette chaleur, et de son rendement <em>au
+froid</em> :</p>
+<ul>
+<li>un convecteur électrique (effet Joule) donne un kilowattheure de
+chaleur par kilowattheure d’électricité, au plus froid comme en moyenne
+: sa pente électrique est <code>H</code> ;</li>
+<li>une pompe à chaleur divise la pente par son rendement au froid, qui
+est plus bas que son rendement moyen sur l’année ;</li>
+<li>un logement chauffé au gaz, au fioul ou au bois n’a presque pas de
+pente électrique.</li>
+</ul>
+<p>L’été, la pente d’une maison dépend moins de <code>H</code> que du
+soleil qui traverse les vitrages et de la ventilation de nuit (section
+3) : la note ne la chiffre pas par degré.</p>
+<h2 id="la-thermosensibilité-du-pays-en-gigawatts-par-degré">6. La
+thermosensibilité du pays, en gigawatts par degré</h2>
+<h3 id="ce-que-mesure-rte">6.1 Ce que mesure RTE</h3>
+<p>RTE, le gestionnaire du réseau de transport d’électricité, mesure la
+thermosensibilité de la consommation française sur ses données :</p>
+<ul>
+<li><strong>l’hiver</strong>, sous 15 °C, chaque degré perdu ajoute
+environ <strong>2 400 MW</strong> à la consommation (<a href="https://assets.rte-france.com/prod/public/2021-03/Bilan%20electrique%202020_0.pdf" target="_blank" rel="noopener">Bilan
+électrique 2020</a>, p. 19 ; <a href="https://assets.rte-france.com/prod/public/2021-11/BP2050_rapport-complet_chapitre8_climat-systeme-electrique.pdf" target="_blank" rel="noopener">Futurs
+énergétiques 2050, chapitre 8</a>, § 8.3.1, p. 342). Le bilan du premier
+semestre 2026 donne « de l’ordre de + 2,0 à + 2,4 GW par degré en moins
+» (<a href="https://assets.rte-france.com/analyse-et-donnees/2026-07/Bilan%20premier%20semestre%202026%20-%20Rapport%20complet.pdf" target="_blank" rel="noopener">RTE,
+2026</a>, p. 14) : l’ordre de grandeur n’a guère bougé ;</li>
+<li><strong>l’été</strong>, au-dessus de 25 °C, chaque degré de plus
+ajoute <strong>de 0,7 à 1,1 GW</strong>, selon l’heure de la journée ;
+c’est la climatisation et la ventilation (<a href="https://assets.rte-france.com/analyse-et-donnees/2026-09/20260921%20-%20Premi%C3%A8res%20analyses%20%C3%A9t%C3%A9%202026.pdf" target="_blank" rel="noopener">RTE,
+premières analyses de l’été 2026</a>, p. 2). Le chiffre de 0,5 GW par
+degré, parfois cité, n’est pas celui de RTE.</li>
+</ul>
+<p>Ces sources ont été relues le 18/11/2026 par la session qui a
+construit la page du parcours ; les deux chiffres attendent leur fiche
+dans le Cerveau (entrants du 18/11/2026).</p>
+<h3 id="de-la-maison-au-pays">6.2 De la maison au pays</h3>
+<p>Dans les données du parc de 2020 du Net Zero Game (le jeu de
+prospective du cours), les logements et les bureaux chauffés à
+l’électricité, par effet Joule ou par pompe à chaleur, couvrent
+<strong>1 054 millions de m²</strong>. Les 2,4 GW par degré de RTE,
+rapportés à cette surface, font <strong>2,3 W par degré et par mètre
+carré</strong> chauffé à l’électricité (calcul de la page du parcours,
+section 7.2) : entre la maison classe E (4,38) et la maison BBC
+(0,95).</p>
+<p>C’est l’ordre de grandeur attendu : le parc mêle des logements
+anciens et rénovés ; une partie est chauffée par des pompes à chaleur,
+qui divisent leur part de la pente par leur rendement au froid ; et un
+appartement, qui partage des murs avec ses voisins, perd moins par mètre
+carré qu’une maison individuelle. La comparaison relie les deux échelles
+; elle ne mesure rien.</p>
+<p>Elle donne aussi deux bornes simples (calcul de cette note, statut «
+calculé ») : si ces 1 054 millions de m² perdaient comme la maison
+classe E et étaient chauffés par convecteurs, la pente serait de 4,38 ×
+1 054 ≈ <strong>4,6 GW par degré</strong> ; s’ils perdaient comme la
+maison BBC, de 0,95 × 1 054 ≈ <strong>1,0 GW par degré</strong>. Ce
+n’est pas une estimation du parc réel : c’est l’écart que l’enveloppe
+des bâtiments peut faire, à appareils inchangés.</p>
+<h3 id="ce-qui-fait-bouger-la-pente-nationale">6.3 Ce qui fait bouger la
+pente nationale</h3>
+<p>La pente nationale n’est pas une constante. Elle suit l’appel du
+chauffage électrique au plus froid, et chaque geste sur le parc la
+déplace dans un sens connu :</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Geste</th>
+<th>Effet sur la pente d’hiver</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Rénover, baisser la consigne (sobriété)</td>
+<td>baisse : moins de chaleur à fournir par degré, pour tous les
+appareils</td>
+</tr>
+<tr class="even">
+<td>Remplacer des convecteurs par des pompes à chaleur</td>
+<td>baisse : leur part de la pente est divisée par le rendement au froid
+des pompes</td>
+</tr>
+<tr class="odd">
+<td>Remplacer une chaudière par une pompe à chaleur</td>
+<td><strong>monte</strong> : cette chaleur ne dépendait pas de
+l’électricité</td>
+</tr>
+<tr class="even">
+<td>Installer une pompe à chaleur hybride (avec chaudière à gaz)</td>
+<td>monte peu : elle passe surtout au gaz les soirs les plus froids,
+mais elle garde le gaz</td>
+</tr>
+<tr class="odd">
+<td>Équiper plus de logements en climatisation</td>
+<td>ne change pas la pente d’hiver ; fait monter celle d’été</td>
+</tr>
+</tbody>
+</table>
+<p>C’est pourquoi l’électrification du chauffage fait monter la pente,
+et la rénovation la fait baisser. Au scénario de référence du Net Zero
+Game, la pente d’hiver passe de 2,4 GW par degré en 2020 à 3,3 vers
+2040, puis redescend à 3,0 en 2050 (modèle du jeu, statut « calculé » ;
+les années intermédiaires supposent que chaque geste avance en ligne
+droite de 2020 à 2050, ce qui est une hypothèse de rythme et non une
+trajectoire étudiée).</p>
+<h2 id="ce-quon-en-fait">7. Ce qu’on en fait</h2>
+<h3 id="pour-un-logement-lordre-des-gestes">7.1 Pour un logement :
+l’ordre des gestes</h3>
+<p><strong>L’hiver</strong>, on rétrécit les flèches de sortie avant de
+toucher à l’appareil :</p>
+<ol type="1">
+<li>isoler les combles s’ils ne le sont pas : c’est le geste le moins
+cher, et c’est le seul cas où la toiture est un gros poste (section 8.3)
+;</li>
+<li>traiter les murs et les ponts thermiques, la moitié des pertes d’une
+maison d’avant 1975 ;</li>
+<li>après isolation, les fenêtres et l’air renouvelé deviennent les
+points faibles : vitrages, étanchéité, ventilation double flux ;</li>
+<li>changer d’appareil ensuite. Cela ne réduit aucune perte, mais
+choisit qui paie la pente : le réseau électrique (convecteur, pompe à
+chaleur) ou le gaz. Une maison rénovée demande aussi une pompe à chaleur
+plus petite (2,6 kW au lieu de 11,8 au plus froid).</li>
+</ol>
+<p><strong>L’été</strong>, l’ordre est celui de la section 3 :
+protections solaires extérieures, ventilation de nuit avec un bâtiment
+lourd, et seulement ensuite une machine.</p>
+<h3
+id="pour-le-système-la-page-le-parc-bâti-et-sa-thermosensibilité">7.2
+Pour le système : la page « Le parc bâti et sa thermosensibilité »</h3>
+<p>La page <a
+href="../outils/nzg-bloc-batiment.html">«
+Le parc bâti et sa thermosensibilité »</a> du parcours du cours
+(ressource <code>nzg-bloc-batiment</code>) reprend le bloc « bâtiment »
+du Net Zero Game, avec ses équations et ses données. On y règle l’état
+du parc en 2050 : part du parc rénovée en profondeur, sobriété sur la
+consigne, part de la chaleur fournie par l’électricité, et répartition
+entre pompes à chaleur air-air, air-eau, hybrides, convecteurs et
+grandes pompes à chaleur sur réseau de chaleur. Elle calcule, pour 2020
+à 2050, l’électricité de chauffage, l’appel du chauffage électrique à la
+pointe d’hiver et les thermosensibilités d’hiver et d’été. En 2020, elle
+redonne par construction les 40 GW de pointe et les 2,4 GW par degré de
+RTE.</p>
+<p>Quatre essais à faire, chacun relié à une section de cette note :</p>
+<ul>
+<li><strong>la rénovation seule</strong> : partir du scénario de
+référence, mettre la part rénovée à zéro, puis au maximum, sans rien
+toucher d’autre. On lit sur la pente d’hiver l’effet de l’enveloppe
+(sections 2 et 6.2) ;</li>
+<li><strong>l’appareil seul</strong> : à part électrique égale,
+remplacer les convecteurs par des pompes à chaleur air-eau. La pente
+baisse du rendement au froid des pompes (section 5.3) ;</li>
+<li><strong>l’électrification</strong> : monter la part de la chaleur
+fournie par l’électricité, sans rénover. La pente monte, puisque la
+chaleur prise au gaz passe sur le réseau (section 6.3) ;</li>
+<li><strong>les hybrides</strong> : remplacer une partie des pompes à
+chaleur par des hybrides. La pente monte moins, mais le gaz reste.</li>
+</ul>
+<p>La page dit aussi ce qu’elle ne fait pas : le pilotage du chauffage
+n’est pas chiffré, il n’y a qu’un niveau de rénovation (un gain de 60 %
+du besoin pour une rénovation profonde, constante du modèle), le parc ne
+grandit pas, et la rénovation n’y change pas la pente d’été, alors
+qu’une maison bien conçue (section 3) a beaucoup moins besoin d’être
+rafraîchie.</p>
+<h3 id="reporter-lhypothèse-dans-le-cas-c">7.3 Reporter l’hypothèse dans
+le cas C</h3>
+<p>Le cas C du cours, <a
+href="../index.html#cas-C">«
+Thermosensibilité : que coûte la pointe d’hiver, selon la météo ? »</a>,
+simule heure par heure le système électrique français de 2035 sur 30
+années météo, et demande ce que coûte la pointe quand les pompes à
+chaleur remplacent le chauffage au gaz et au fioul. Il ne prend pas de
+pente en entrée : il tire sa thermosensibilité d’une régression de la
+demande du TYNDP 2026 (l’exercice de prospective des gestionnaires de
+réseau européens) sur la température.</p>
+<p>Pour y reporter une hypothèse de la page, on multiplie les
+coefficients de la régression par le rapport entre deux années de la
+page, l’année de la demande du cas (2035) et l’année dont on veut
+l’hypothèse ; l’encadré « Reporter le résultat dans le cas C » de la
+page donne ces rapports et le code. Deux précautions, que la page
+détaille :</p>
+<ul>
+<li>le cas ajoute déjà ses propres pompes à chaleur. Si on les garde, on
+multiplie le chauffage par le rapport des <strong>besoins de
+chauffage</strong> (rénovation et sobriété seulement), pour ne pas
+compter deux fois l’électrification ; si on les retire, on peut prendre
+le rapport des <strong>pentes d’hiver</strong>, qui contient toute
+l’électrification de la page ;</li>
+<li>dans le notebook, on calcule la normalisation avant de modifier les
+coefficients.</li>
+</ul>
+<p>Trois pistes de mini-projet du cas C prolongent directement cette
+note : « Rénovation contre pompes à chaleur : quel mélange abaisse le
+plus la pointe, à coût égal ? » (sections 2 et 6.3) ; « PAC hybrides
+(avec appoint gaz) : combien de gaz garder pour passer les vagues de
+froid ? » (section 6.3) ; « Pilotage du chauffage et inertie des
+bâtiments : décaler la chauffe de quelques heures » (l’inertie de la
+section 3, utilisée l’hiver). Pour refaire soi-même la régression,
+l’activité <a
+href="../textes/thermosensibilite-activite.html">«
+Séparer la part fixe et la part thermosensible de la demande »</a> du
+parcours la montre pas à pas.</p>
+<h3 id="citer-une-thermosensibilité">7.4 Citer une
+thermosensibilité</h3>
+<p>Une pente ne se cite jamais seule. Il faut dire :</p>
+<ul>
+<li><strong>son seuil</strong> : RTE compte l’hiver sous 15 °C et l’été
+au-dessus de 25 °C ;</li>
+<li><strong>ce qu’elle mesure</strong> : de la chaleur (<code>H</code>,
+en W/K) ou de l’électricité (en GW/°C), un logement ou le pays ;</li>
+<li><strong>sa méthode</strong> : la pente d’une régression dépend de ce
+qu’on met à côté d’elle (le calendrier, les mois). Le cas C chauffe sous
+le même seuil que RTE, mais la pente de sa régression est plus faible
+que celle de RTE pour cette raison.</li>
+</ul>
+<h2 id="les-chiffres-répandus-qui-sont-faux">8. Les chiffres répandus
+qui sont faux</h2>
+<h3 id="le-dpe-e-cest-250-kwhm²an-de-chauffage">8.1 « Le DPE E, c’est
+250 kWh/m²/an de chauffage »</h3>
+<p>Non. Les classes du DPE (diagnostic de performance énergétique) sont
+en <strong>énergie primaire, tous usages</strong> (chauffage, eau
+chaude, refroidissement, éclairage, auxiliaires), avec un double seuil
+énergie et carbone depuis 2021. La classe E va de 230 à 330 kWh/m²/an
+d’énergie primaire. Le <strong>besoin de chauffage utile</strong>
+calculé ici, 203 kWh/m²/an, est une autre grandeur : il ne contient ni
+l’eau chaude, ni le rendement de la chaudière, ni le passage en énergie
+primaire. Les deux nombres se ressemblent par coïncidence, et les
+confondre est l’erreur la plus fréquente du sujet.</p>
+<h3 id="le-bbc-cest-50-kwhm²an">8.2 « Le BBC, c’est 50 kWh/m²/an »</h3>
+<p>Le label BBC-Effinergie fixe <strong>50 kWh/m²/an d’énergie primaire,
+modulés selon la zone climatique et l’altitude</strong>, sur cinq
+usages. Le besoin de chauffage utile d’un tel bâtiment est de l’ordre de
+15 à 25 kWh/m²/an : là encore, deux grandeurs différentes. Les 15
+kWh/m²/an de cette note sont un besoin utile, dans le bas de la
+fourchette parce que l’enveloppe retenue est très bonne.</p>
+<h3 id="des-pertes-passent-par-la-toiture">8.3 « 30 % des pertes passent
+par la toiture »</h3>
+<p>C’est le chiffre le plus répété du secteur, et il ne veut rien dire
+hors contexte : il décrit une maison ancienne à <strong>combles non
+isolés</strong>. Dès que les combles sont traités, ce qui est le cas de
+la plupart des maisons depuis les années 1980, y compris notre classe E,
+la toiture retombe à 6 % et les murs prennent la première place. Une
+répartition en pourcentages n’est pas une propriété des bâtiments :
+c’est une propriété d’<strong>un</strong> bâtiment.</p>
+<h2 id="les-limites-du-calcul-et-doù-viennent-ses-chiffres">9. Les
+limites du calcul, et d’où viennent ses chiffres</h2>
+<p><strong>Ce qui vient d’une source officielle : les apports
+internes.</strong> Ils suivent la convention de la méthode 3CL-DPE 2021
+(arrêté du 31 mars 2021, annexe 1), archivée dans le dossier
+<code>bibliographie/</code> :</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Composante</th>
+<th>Valeur</th>
+<th>Origine</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Équipements</td>
+<td>3,18 W/m²</td>
+<td>5,7 W/m² quand les occupants sont là et éveillés, 1,1 W/m² sinon,
+moyennés sur la semaine type de la convention</td>
+</tr>
+<tr class="even">
+<td>Éclairage</td>
+<td>0,34 W/m²</td>
+<td>1,4 W/m² pendant 2123 h sur 8760</td>
+</tr>
+<tr class="odd">
+<td>Occupants</td>
+<td>1,40 W/m²</td>
+<td>90 W par adulte équivalent, 1,975 adulte équivalent pour 100 m²,
+présents 132 h sur 168</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td><strong>4,92 W/m²</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>C’est ce qui permet de dire, sans arbitraire, que dans un BBC les
+apports gratuits couvrent près des trois quarts des pertes.</p>
+<p><strong>Ce que le calcul ne prétend pas faire.</strong></p>
+<ul>
+<li>Ce n’est pas un calcul réglementaire. La méthode 3CL-DPE compte en
+degrés-heures base 19 °C par zone climatique, mois par mois ; cette note
+compte en degrés-jours base 18 °C sur la France entière. Cela suffit à
+classer les postes, pas à établir une étiquette.</li>
+<li>Les <strong>2500 degrés-jours</strong> et les <strong>350 kWh/m² de
+vitrage</strong> sur la saison sont des ordres de grandeur d’usage, sans
+document archivé. Une extraction PVGIS (l’outil d’ensoleillement de la
+Commission européenne) par façade rendrait la ligne « soleil »
+défendable ; c’est la première amélioration à faire.</li>
+<li>Le <strong>facteur d’utilisation des apports</strong> vient de la
+forme classique de la norme EN ISO 13790, η = (1 − γ^a) / (1 − γ^(a+1))
+avec <code>a = 3</code> ; la norme est payante et n’est donc pas dans
+<code>bibliographie/</code>.</li>
+<li>Le <strong>rendement du climatiseur</strong> (3 kWh de froid par kWh
+d’électricité) est bas-moyen : le parc réel va de 2,5 à 5. Le message de
+la planche d’été n’en dépend pas.</li>
+<li>Le <strong>passage au pays</strong> (section 6.2) rapproche une
+maison individuelle de référence et un parc qui mêle maisons,
+appartements et bureaux : il donne un ordre de grandeur, pas une
+mesure.</li>
+</ul>
+<h2 id="reproduire">10. Reproduire</h2>
+<pre><code>cd Thematic_analysis/Building/Thermal_balance
+python3 compute_balance.py     # le bilan poste par poste, à l&#39;écran et en CSV
+./build_figures.sh             # les dix planches, PNG + PDF + SVG</code></pre>
+<p>Toutes les hypothèses sont en tête de
+<code>compute_balance.py</code>. Les figures ne contiennent aucun
+chiffre saisi à la main : elles lisent
+<code>figures/_balance_numbers.tex</code>, que le script écrit. Changer
+une hypothèse et relancer le build suffit à refaire toutes les planches
+de façon cohérente. Les chiffres de la section 6 (parc de 2020, scénario
+de référence) viennent du dépôt du Net Zero Game
+(<code>app/blocks/batiment.yaml</code>,
+<code>python3 app/tools/block_page.py --check</code>).</p>
+<h2 id="historique">Historique</h2>
+<ul>
+<li>2026-11-19 · v2 · réécriture (session curateur, tâche d3c6ebe9), à
+la demande de Robin (18/11) : « En bref » en trois phrases (question,
+réponse, usage), plan annoncé et suivi, fil de la maison au pays ;
+nouvelles sections 5 (thermosensibilité d’une maison par mètre carré,
+seuil de chauffage calculé), 6 (thermosensibilité nationale : RTE 2,4
+GW/°C l’hiver, 0,7 à 1,1 l’été ; 1 054 Mm² chauffés à l’électricité, 2,3
+W/K/m² ; bornes calculées 4,6 et 1,0 GW/°C ; scénario de référence du
+jeu) et 7 (gestes sur un logement, page « Le parc bâti et sa
+thermosensibilité » du parcours, report dans le cas C, citer une pente)
+; schémas et tableaux gardés ; « Écrire simple » appliqué (termes
+expliqués au premier passage) ; titre de niveau 1 ajouté, que
+<code>pdf/build_pdf.sh</code> prend pour titre du PDF (il affichait «
+Note_Thermal_balance »)</li>
+<li>2026-11-19 · v2 · correction : ventilation de nuit de 425 W/K (5
+vol/h × 250 m³ × 0,34 Wh/m³K) et 6 °C d’écart, au lieu de « 340 W/K
+entre 19 et 25 °C » ; les 20,4 kWh étaient justes
+(<code>compute_balance.py</code>) ; même correction dans la planche
+<code>cooling_balance_summer_good</code>, reconstruite</li>
+<li>2026-11-19 · v2 · correction : les apports gratuits ne sont pas
+identiques dans les deux maisons d’hiver (6,0 MWh en classe E, 5,5 au
+BBC : le triple vitrage laisse passer moins de soleil) ; l’ancien texte
+disait qu’ils « ne changent pas d’un cas à l’autre »</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Thermal_balance.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

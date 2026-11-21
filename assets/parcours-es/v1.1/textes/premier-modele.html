@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Un premier modèle pommes_craft en une heure · Parcours ES 2026</title>
+<meta name="description" content="Construire pas à pas, en sept blocs de code exécutés, un modèle d'une zone face au prix horaire 2030, y ajouter du PV, une turbine et un délestage explicite, puis lire sa solution et ses prix duaux.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 60 min</span> · <span>Socle, Modélisation, Optimisation, Prix et marchés</span></div>
+    <h1>Un premier modèle pommes_craft en une heure</h1>
+    <p class="resume">Construire pas à pas, en sept blocs de code exécutés, un modèle d'une zone face au prix horaire 2030, y ajouter du PV, une turbine et un délestage explicite, puis lire sa solution et ses prix duaux.</p>
+  </header>
+  <p>Vous allez écrire un modèle d'une zone qui achète son électricité au prix horaire français de 2030, puis l'enrichir composant par composant. Les blocs 1 à 5 font le premier modèle ; les blocs 6 et 7 relient la solution au cours : coûts annualisés, prix duaux. Comptez une heure si vous tapez le code ; chaque résolution prend ≈ 1 s avec l'environnement épinglé du dépôt des cas (pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS), le bloc 5 en fait deux. Valeurs attendues datées du 17/11/2026 : un écart au centime près est normal, au pour cent ne l'est pas.</p>
+<p>Prérequis : dépôt pommes-case-studies cloné, <code>.venv</code> installé, chemin dans <code>sys.path</code>.</p>
+<h2>1. Charger un prix horaire 2030</h2>
+<p><code>load_prices</code> lit le jeu <code>tyndp2026</code>, scénario NT+ de l'ENTSO-E, zone FR, année 2030, et renvoie les colonnes dont <code>NetImport</code> a besoin (<code>hour</code>, <code>year_op</code>, <code>import_price</code>, <code>export_price</code>). Année météo par défaut : celle de plus grand poids, WS003.</p>
+<pre><code class="language-python">import sys
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
+from pommes_cases.prices import load_prices, price_sets
+
+p = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2030)
+print(p.shape, p.columns)   # (8760, 4) ['hour', 'year_op', 'import_price', 'export_price']
+print(price_sets()[&quot;tyndp2026&quot;].default_meteo(2030))   # WS003
+prix = p[&quot;import_price&quot;]
+print(f&quot;moyenne {prix.mean():.2f} €/MWh, min {prix.min():.2f}, max {prix.max():.2f}, somme {prix.sum():,.0f} €&quot;)
+# moyenne 57.50 €/MWh, min 0.00, max 350.00, somme 503,710 €
+</code></pre>
+<h2>2. Une zone, une demande plate, le réseau</h2>
+<p>Un <code>EnergyModel</code> porte quatre indices : <code>hour</code> (8 760), <code>year_op</code> (exploitation, 2030), <code>year_inv</code> (investissement, 2030), <code>year_dec</code> (sortie, 2055). Sans déclassement anticipé, pommes n'ouvre une capacité que si <code>year_dec - year_inv</code> égale sa durée de vie : 25 ans ici.</p>
+<p><code>EconomicHypothesis</code> fixe le taux d'actualisation, nul ici. <code>TimeStepManager</code> dit qu'un pas vaut une heure et l'année 8 760. <code>Area</code> est la zone, <code>Demand</code> sa consommation (1 MW plat), <code>NetImport</code> le réseau : il vend au prix horaire et ne rachète rien (<code>max_yearly_energy_export=0.0</code>). <code>LoadShedding</code> et <code>Spillage</code> à capacité nulle interdisent délestage et écrêtement ; le bloc 5 dit pourquoi.</p>
+<pre><code class="language-python">import logging
+import polars as pl
+from pommes_craft import (EnergyModel, Area, Demand, EconomicHypothesis, TimeStepManager,
+                          LoadShedding, Spillage, NetImport, ConversionTechnology)
+logging.getLogger().setLevel(logging.ERROR)  # tait l'écho des paramètres par défaut
+
+def modele_de_base(nom, delestage=&quot;interdit&quot;):
+    &quot;&quot;&quot;delestage : &quot;interdit&quot; (capacité 0), &quot;aucun&quot; (pas de composant) ou un coût en €/MWh.&quot;&quot;&quot;
+    m = EnergyModel(name=nom, hours=list(range(8760)), year_ops=[2030], year_invs=[2030], year_decs=[2055],
+                    modes=[], resources=[&quot;electricity&quot;], solver_name=&quot;highs&quot;,
+                    solver_options={&quot;output_flag&quot;: False})
+    with m.context():
+        EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=2030, planning_step=1)
+        TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=8760.0)
+        zone = Area(&quot;FR&quot;)
+        zone.add_component(Demand(name=&quot;demande&quot;, resource=&quot;electricity&quot;,
+                                  demand=pl.DataFrame({&quot;hour&quot;: range(8760), &quot;year_op&quot;: 2030, &quot;demand&quot;: 1.0})))
+        if delestage == &quot;interdit&quot;:
+            zone.add_component(LoadShedding(name=&quot;delestage&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+        elif delestage != &quot;aucun&quot;:
+            zone.add_component(LoadShedding(name=&quot;delestage&quot;, resource=&quot;electricity&quot;, cost=float(delestage)))
+        zone.add_component(Spillage(name=&quot;ecretement&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+        zone.add_component(NetImport(name=&quot;reseau&quot;, resource=&quot;electricity&quot;,
+                                     import_price=p.select(&quot;hour&quot;, &quot;year_op&quot;, &quot;import_price&quot;),
+                                     max_yearly_energy_export=0.0))
+    return m, zone
+
+m, zone = modele_de_base(&quot;reseau_seul&quot;)
+m.run(store_linopy_model=True)
+print(f&quot;coût total {m.linopy_model.objective.value:,.2f} €, somme des prix {prix.sum():,.2f} €&quot;)
+# coût total 503,709.84 €, somme des prix 503,709.84 €
+</code></pre>
+<p>Le coût total vaut la somme des 8 760 prix : 1 MW pendant une heure est 1 MWh payé au prix de l'heure. Test de la cellule « premier modèle » du cas 0.</p>
+<p>La résolution n'affiche rien d'autre : pommes_craft 0.6.0 envoie le journal de HiGHS dans un fichier temporaire, sauf si <code>pommes.configure_logging(solver_logs=...)</code> lui donne un dossier. linopy 0.10.1 émet des <code>LinopySemanticsWarning</code> sur le code de pommes à chaque construction ; l'import de <code>pommes_cases</code> au bloc 1 les tait, comme <code>warnings.filterwarnings("ignore", category=LinopySemanticsWarning)</code> dans un script qui ne l'importe pas.</p>
+<h2>3. Un PV dont pommes choisit la taille</h2>
+<p><code>ConversionTechnology</code> produit une ressource (<code>factor={"electricity": 1.0}</code>) sous un plafond horaire <code>availability</code>, ici le facteur de charge PV de WS003. Avec 600 000 €/MW, 25 ans, 4 % : annuité 600 000 × 0,04 / (1 − 1,04⁻²⁵) = 38 407 €/MW/an ; pommes choisit la capacité qui minimise annuité plus achats.</p>
+<pre><code class="language-python">from pommes_cases.meteo import load_meteo, availability
+
+pv_dispo = availability(load_meteo(&quot;FR&quot;, 2030), &quot;pv&quot;)
+print(f&quot;facteur de charge PV moyen {pv_dispo['availability'].mean():.3f}&quot;)   # 0.138
+
+def pv():
+    return ConversionTechnology(name=&quot;pv&quot;, factor={&quot;electricity&quot;: 1.0}, availability=pv_dispo,
+                                invest_cost=600_000.0, life_span=25, finance_rate=0.04)
+
+m, zone = modele_de_base(&quot;reseau_pv&quot;)
+with m.context():
+    zone.add_component(pv())
+m.run(store_linopy_model=True)
+print(m.get_results(&quot;planning&quot;, &quot;power_capacity&quot;).select(&quot;name&quot;, &quot;value&quot;))   # pv  1.647446
+print(f&quot;coût total {m.linopy_model.objective.value:,.2f} €&quot;)                 # 500,124.82 €
+</code></pre>
+<p>1,647 MW de PV pour 1 MW de demande : au-delà, le surplus de midi ne trouve plus de preneur (la zone ne revend pas). Coût en baisse de 3 585 €.</p>
+<h2>4. Une turbine à gaz existante, à coût variable</h2>
+<p>Une turbine neuve ne se justifie pas : écarts de prix au-dessus de 110 €/MWh, 2 843 €/MW/an, contre 32 006 € d'annuité pour 500 000 €/MW. On modélise une turbine déjà là, sans investissement, à 110 €/MWh de coût variable ; <code>power_capacity_investment_min</code> et <code>max</code> à 1,0 imposent son 1 MW.</p>
+<pre><code class="language-python">def turbine():
+    return ConversionTechnology(name=&quot;turbine_gaz&quot;, factor={&quot;electricity&quot;: 1.0}, variable_cost=110.0,
+                                invest_cost=0.0, life_span=25,
+                                power_capacity_investment_min=1.0, power_capacity_investment_max=1.0)
+
+m, zone = modele_de_base(&quot;reseau_pv_turbine&quot;)
+with m.context():
+    zone.add_component(pv())
+    zone.add_component(turbine())
+m.run(store_linopy_model=True, store_pommes_parameters=True)
+print(f&quot;coût total {m.linopy_model.objective.value:,.2f} €&quot;)          # 497,405.29 €
+print(f&quot;heures où le prix dépasse 110 €/MWh : {(prix &gt; 110).sum()}&quot;)   # 199
+</code></pre>
+<h2>5. Le piège du délestage gratuit</h2>
+<p>Sans <code>LoadShedding</code>, pommes 0.11.0 ajoute un délestage gratuit et illimité : le modèle ne produit ni n'achète rien, et coûte zéro. Deux remèdes : la capacité nulle du bloc 2, ou un coût de défaillance explicite, 3 000 €/MWh, qui ici ne sert jamais (sans <code>cost</code>, pommes_craft 0.6.0 met 1 000 €/MWh par défaut).</p>
+<pre><code class="language-python">m_piege, zone = modele_de_base(&quot;sans_delestage&quot;, delestage=&quot;aucun&quot;)
+with m_piege.context():
+    zone.add_component(pv())
+    zone.add_component(turbine())
+m_piege.run(store_linopy_model=True)
+sol = m_piege.linopy_model.solution
+print(f&quot;coût total {m_piege.linopy_model.objective.value:,.2f} €, &quot;
+      f&quot;délestage {float(sol['operation_load_shedding_power'].sum()):,.0f} MWh&quot;)
+# coût total 0.00 €, délestage 8,760 MWh
+
+m_vdl, zone = modele_de_base(&quot;delestage_3000&quot;, delestage=3000.0)
+with m_vdl.context():
+    zone.add_component(pv())
+    zone.add_component(turbine())
+m_vdl.run(store_linopy_model=True)
+print(f&quot;coût total {m_vdl.linopy_model.objective.value:,.2f} €, &quot;
+      f&quot;délestage {float(m_vdl.linopy_model.solution['operation_load_shedding_power'].sum()):,.0f} MWh&quot;)
+# coût total 497,405.29 €, délestage 0 MWh
+</code></pre>
+<h2>6. Lire la solution</h2>
+<p><code>get_results</code> rassemble une variable par composant ; <code>m.linopy_model.solution</code> donne les variables pommes brutes, nommées module puis grandeur.</p>
+<pre><code class="language-python">sol = m.linopy_model.solution
+prod = m.get_results(&quot;operation&quot;, &quot;power&quot;, component_classes=[ConversionTechnology])
+print(prod.group_by(&quot;name&quot;).agg(pl.col(&quot;value&quot;).sum().alias(&quot;MWh&quot;)).sort(&quot;name&quot;))
+# pv 1959.40   turbine_gaz 181.58
+print(f&quot;import {float(sol['operation_net_import_import'].sum()):,.0f} MWh&quot;)           # 6,619 MWh
+for v in (&quot;planning_conversion_costs&quot;, &quot;operation_conversion_costs&quot;, &quot;operation_net_import_costs&quot;):
+    print(f&quot;{v:32s} {float(sol[v].sum()):&gt;12,.0f} €&quot;)
+# 63,274 €   19,974 €   414,158 €  (somme : 497,405 €)
+cap = float(sol[&quot;planning_conversion_power_capacity&quot;].sel(conversion_tech=&quot;pv&quot;).sum())
+print(f&quot;PV : {cap:.3f} MW, potentiel {cap * pv_dispo['availability'].sum():,.0f} MWh&quot;)   # 1.647 MW, 1,991 MWh
+</code></pre>
+<p>Bilan fermé : 1 959 + 182 + 6 619 = 8 760 MWh. Le PV écrête 32 MWh (sous le plafond <code>availability</code>). La turbine tourne 199 heures, exactement celles où le prix dépasse 110 €/MWh. Annuité PV : 1,647 × 38 407 = 63 274 €.</p>
+<h2>7. La duale de l'équilibre offre-demande</h2>
+<p>La contrainte <code>operation_adequacy_constraint</code> impose, chaque heure, production plus import égale demande ; sa duale est le coût d'un MWh de demande en plus. Pommes pondère les coûts d'exploitation dans l'objectif (actualisation, poids d'année, normalisation) ; <code>pommes.utils.dual_scale</code> renvoie ce facteur, qui divise la duale pour lire un prix en €/MWh. Ici il vaut 1 (taux nul, une seule année, 8 760 heures sur 8 760).</p>
+<pre><code class="language-python">import numpy as np
+from pommes.utils import dual_scale
+
+echelle = dual_scale(m.pommes_parameters)
+print(&quot;échelle des duales :&quot;, echelle.values)                                   # [1.]
+duale = m.linopy_model.dual[&quot;operation_adequacy_constraint&quot;].squeeze().values / echelle.item()
+importe = sol[&quot;operation_net_import_import&quot;].squeeze().values &gt; 1e-6
+turbine_seule = (sol[&quot;operation_conversion_power&quot;].sel(conversion_tech=&quot;turbine_gaz&quot;).squeeze().values &gt; 1e-6) &amp; ~importe
+prix_np = prix.to_numpy()
+print(importe.sum(), np.abs(duale[importe] - prix_np[importe]).max())        # 8304 heures, écart 0.000000
+print(turbine_seule.sum(), duale[turbine_seule].min(), duale[turbine_seule].max())   # 199 heures, 110.0, 350.0
+pv_seul = ~importe &amp; ~turbine_seule
+print(pv_seul.sum(), duale[pv_seul].mean(), prix_np[pv_seul].mean())        # 257 heures, 0.55, 14.02
+print(f&quot;{duale.sum():,.2f} € contre {m.linopy_model.objective.value:,.2f} €&quot;)   # 499,345.72 contre 497,405.29
+rente = float(m.linopy_model.dual[&quot;planning_conversion_power_capacity_def&quot;].sel(conversion_tech=&quot;turbine_gaz&quot;).squeeze())
+print(f&quot;duale de la capacité imposée de la turbine : {rente:,.2f} €&quot;)              # -1,940.43 €
+</code></pre>
+<p>Trois régimes. Quand la zone importe, la duale égale le prix de marché. Quand le PV suffit, elle est proche de zéro. Quand la turbine couvre seule la demande (marché à 124 €/MWh en moyenne) : sur 76 heures elle tourne en partie avec le PV, marginale, duale à 110 €/MWh ; sur 123 heures elle tourne à plein (1 MW pour 1 MW de demande), saturée, et la duale n'est pas unique — tout prix entre 110 € et le prix de marché vérifie l'optimalité. HiGHS rend ici le prix de marché ; pommes 0.9.0 rendait 110.</p>
+<p>La somme des duales fois 1 MW vaut 499 345,72 €, 1 940,43 € de plus que le coût total : c'est la rente de la turbine sur ses 123 heures pleines, payée par le prix dual et reprise par la duale de sa capacité imposée (−1 940,43 €). Cette rente déduite, le prix dual rémunère exactement le système, annuité du PV comprise.</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous retrouvez 503 709,84 € au bloc 2 et savez dire pourquoi c'est la somme des prix.</li>
+<li>Vous changez <code>invest_cost</code> du PV à 300 000 €/MW et prédisez, avant de lancer, le sens de variation de la capacité (elle monte) et du coût.</li>
+<li>Vous expliquez en une phrase pourquoi le bloc 5 coûte 0 € sans <code>LoadShedding</code>.</li>
+<li>Vous retrouvez 110 €/MWh de duale sur les 76 heures où la turbine tourne en partie, et pourquoi ses 123 heures à plein peuvent porter un autre prix.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>README de pommes_craft : le même squelette en une soixantaine de lignes, deux ressources (electricity, methane), version 0.6.0 <a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft (PyPI) : un premier modèle en quarante lignes</a>.</li>
+<li>Usage de pommes_craft : créer, ajouter, résoudre, lire, sauver <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/usage.html" target="_blank" rel="noopener">Usage de pommes_craft : créer, ajouter des composants, résoudre, lire, sauver</a>.</li>
+<li>Nomenclature de pommes : indices et noms de variables du bloc 6 <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/nomenclature.html" target="_blank" rel="noopener">Nomenclature : indices, paramètres et variables de pommes</a>.</li>
+<li>Cas 0 : d'où viennent les prix et pourquoi les scénarios divergent <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases/prices.py, pommes_cases/meteo.py, pommes_cases/blocks.py, 00_prix/notebook.ipynb, data/prix/README.md)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft sur PyPI</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/usage.html" target="_blank" rel="noopener">Usage de pommes_craft</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/nomenclature.html" target="_blank" rel="noopener">Nomenclature de pommes (indices, paramètres, variables)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/autoapi/index.html" target="_blank" rel="noopener">Référence API de pommes (pommes.utils.dual_scale)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

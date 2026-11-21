@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deux zones et un lien : flux, duale de la capacité d'échange et rente de congestion · Parcours ES 2026</title>
+<meta name="description" content="Deux zones reliées par une ligne de 1 600 MW, du PV abondant au sud et une turbine à gaz chère au nord. Lire les flux, le prix de chaque zone et la duale de la capacité du lien, puis vérifier qu'elle vaut l'écart de prix moins le hurdle cost aux heures saturées et l'économie d'un MW de plus. Élargir ensuite la ligne et voir l'écart de prix fondre.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Interco et EnR, Prix et marchés, Optimisation, Modélisation</span></div>
+    <h1>Deux zones et un lien : flux, duale de la capacité d'échange et rente de congestion</h1>
+    <p class="resume">Deux zones reliées par une ligne de 1 600 MW, du PV abondant au sud et une turbine à gaz chère au nord. Lire les flux, le prix de chaque zone et la duale de la capacité du lien, puis vérifier qu'elle vaut l'écart de prix moins le hurdle cost aux heures saturées et l'économie d'un MW de plus. Élargir ensuite la ligne et voir l'écart de prix fondre.</p>
+  </header>
+  <h2>Objectif</h2>
+<p>Relier deux zones par une ligne bornée, lire leurs prix et la duale de la capacité du lien, puis vérifier par deux résolutions qu'elle vaut un MW de plus.</p>
+<p>Prérequis : le dépôt des cas installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a> ; le tutoriel d'une zone <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a> ; les duales de l'équilibre offre-demande et d'une capacité (interconnexion saturée), § 5 de <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. Neuf résolutions de deux à trois secondes, construction comprise. Valeurs du 16/11/2026, revérifiées le 17/11/2026 avec pommes 0.11.0, pommes_craft 0.6.0 et linopy 0.10.1.</p>
+<h2>1. Le modèle</h2>
+<p>Sud : demande plate de 1 500 MW, 5 000 MW de PV au facteur de charge horaire de l'Espagne (jeu <code>pecd2026</code>, 2030, météo par défaut, moyenne 0,181), 5 000 MW de cycle combiné à 60 €/MWh. Nord : demande de 1 000 MW à 3 h à 3 000 MW à 15 h, 3 000 MW de turbine à gaz à 120 €/MWh. Délestage à 3 000 €/MWh des deux côtés. Capacités imposées (<code>power_capacity_investment_min = max</code>), sans coût d'investissement, comme dans <code>pommes_cases/systeme_fr.py</code>.</p>
+<p>Le lien : un <code>Link</code> de Sud vers Nord et une <code>TransportTechnology</code> qui porte la capacité, imposée de même, avec un <code>hurdle_costs</code> de 1 €/MWh transporté. Un <code>Link</code> est orienté (<code>operation_transport_power</code> positive ou nulle, de <code>area_from</code> vers <code>area_to</code>) ; le Nord étant toujours plus cher, un seul suffit.</p>
+<pre><code class="language-python">import sys, logging, tempfile
+from pathlib import Path
+import numpy as np, polars as pl
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
+from pommes_craft import (EnergyModel, Area, Link, TransportTechnology, ConversionTechnology, Demand,
+                          EconomicHypothesis, TimeStepManager, LoadShedding)
+from pommes_cases.solve import build_lp, solve_with_extra_constraints
+from pommes_cases.meteo import load_meteo, availability
+from pommes.utils import dual_scale
+logging.getLogger().setLevel(logging.ERROR)
+
+H, Y = 8760, 2030
+h = np.arange(H)
+pv_dispo = availability(load_meteo(&quot;ES&quot;, Y), &quot;pv&quot;)                      # facteur de charge PV, Espagne, WS003
+demande_nord = 2000 + 1000 * np.sin(2 * np.pi * (h % 24 - 9) / 24)      # 1 000 MW à 3 h, 3 000 MW à 15 h
+frame = lambda v, col: pl.DataFrame({&quot;hour&quot;: h, &quot;year_op&quot;: np.full(H, Y), col: v}).with_columns(pl.col(&quot;hour&quot;, &quot;year_op&quot;).cast(pl.Int64))
+
+def fixe(nom, mw, **kw):   # capacité existante, imposée, sans coût d'investissement
+    return ConversionTechnology(name=nom, factor={&quot;electricity&quot;: 1.0}, life_span=1000, invest_cost=0.0,
+                                power_capacity_investment_min=mw, power_capacity_investment_max=mw, **kw)
+
+def modele(capacite_lien, hurdle=1.0):
+    m = EnergyModel(name=&quot;deux_zones&quot;, folder=Path(tempfile.mkdtemp()), hours=list(h), year_ops=[Y],
+                    year_invs=[Y], year_decs=[Y + 1000], modes=[], resources=[&quot;electricity&quot;])
+    with m.context():
+        EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=Y, planning_step=1)
+        TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=float(H))
+        sud, nord = Area(&quot;Sud&quot;), Area(&quot;Nord&quot;)
+        for zone, dem in ((sud, np.full(H, 1500.0)), (nord, demande_nord)):
+            zone.add_component(Demand(name=&quot;demande&quot;, resource=&quot;electricity&quot;, demand=frame(dem, &quot;demand&quot;)))
+            zone.add_component(LoadShedding(name=&quot;delestage&quot;, resource=&quot;electricity&quot;, cost=3000.0))
+        sud.add_component(fixe(&quot;pv&quot;, 5000.0, availability=pv_dispo))
+        sud.add_component(fixe(&quot;ccg&quot;, 5000.0, variable_cost=60.0))
+        nord.add_component(fixe(&quot;tac&quot;, 3000.0, variable_cost=120.0))
+        lien = Link(name=&quot;sud_nord&quot;, area_from=sud, area_to=nord)          # un Link = un sens
+        lien.add_transport_technology(TransportTechnology(
+            name=&quot;ligne&quot;, resource=&quot;electricity&quot;, life_span=1000, invest_cost=0.0, hurdle_costs=hurdle,
+            power_capacity_investment_min=capacite_lien, power_capacity_investment_max=capacite_lien))
+    return m
+</code></pre>
+<h2>2. Résoudre et lire flux et prix</h2>
+<p>Le flux, en MW : la variable <code>operation_transport_power</code> (dimensions <code>link</code>, <code>transport_tech</code>, <code>resource</code>, <code>hour</code>, <code>year_op</code>). Le prix de chaque zone : la duale de <code>operation_adequacy_constraint</code> (dimensions <code>area</code>, <code>hour</code>, <code>resource</code>, <code>year_op</code> ; 8 760 valeurs par zone), divisée par <code>dual_scale(params)</code>, qui vaut 1 ici (actualisation nulle, 8 760 heures). La duale de la capacité : celle de <code>operation_transport_power_max_constraint</code>, contrainte ≤ que linopy rend négative en minimisation, d'où le signe moins. On lit <code>lp.solution</code> : avant pommes 0.11.0, <code>get_capacities</code> et les résumés de pommes_craft comptaient un lien comme import de la zone exportatrice (CHANGELOG, #157).</p>
+<pre><code class="language-python">def lire(capacite_lien, hurdle=1.0):
+    m = modele(capacite_lien, hurdle)
+    _, params = build_lp(m)
+    lp = solve_with_extra_constraints(m)
+    s = float(dual_scale(params).squeeze())                                # 1.0 ici
+    flux = lp.solution[&quot;operation_transport_power&quot;].squeeze().values      # MW, de Sud vers Nord
+    prix = lp.dual[&quot;operation_adequacy_constraint&quot;].squeeze() / s         # €/MWh, par zone
+    p_sud, p_nord = prix.sel(area=&quot;Sud&quot;).values, prix.sel(area=&quot;Nord&quot;).values
+    mu = -lp.dual[&quot;operation_transport_power_max_constraint&quot;].squeeze().values / s   # €/MW, duale de la capacité
+    sature = flux &gt; capacite_lien - 1e-6
+    return dict(cout=float(lp.objective.value), flux=flux, p_sud=p_sud, p_nord=p_nord, mu=mu, sature=sature,
+                rente=float((flux * (p_nord - p_sud)).sum()), scale=s)
+
+r = lire(1600.0)
+print(f&quot;coût total {r['cout']:,.0f} € ; énergie transportée {r['flux'].sum()/1e6:.2f} TWh ; heures saturées {r['sature'].sum()}&quot;)
+print(&quot;prix Sud :&quot;, np.unique(np.round(r['p_sud'], 1) + 0.0), &quot;; prix Nord :&quot;, np.unique(np.round(r['p_nord'], 1)))   # + 0.0 : -0. devient 0.
+print(f&quot;prix moyen Sud {r['p_sud'].mean():.2f}, Nord {r['p_nord'].mean():.2f} €/MWh ; rente {r['rente']/1e6:.2f} M€&quot;)
+# coût total 1,671,805,728 € ; énergie transportée 12.75 TWh ; heures saturées 5475
+# prix Sud : [ 0. 60.] ; prix Nord : [ 61. 120.]
+# prix moyen Sud 55.93, Nord 97.88 €/MWh ; rente 586.61 M€
+</code></pre>
+<p>Flux du Sud au Nord toutes les heures. Prix du Sud : 0 quand le PV est écrêté, 60 quand le cycle combiné est marginal. Prix du Nord : 120 quand la turbine tourne, 61 sinon, soit le prix du Sud plus le hurdle cost : lien non saturé, le MWh de plus au Nord vient du Sud. La rente de congestion, Σ flux × (prix Nord − prix Sud), vaut 586,6 M€ pour 1 600 MW.</p>
+<h2>3. La duale de la capacité</h2>
+<pre><code class="language-python">sat = r[&quot;sature&quot;]
+print(f&quot;Σ mu {r['mu'].sum():,.0f} €/MW ; Σ (Nord - Sud - hurdle) aux heures saturées {(r['p_nord'] - r['p_sud'] - 1.0)[sat].sum():,.0f}&quot;)
+print(f&quot;mu max hors saturation {r['mu'][~sat].max():.3f} ; écart Nord - Sud hors saturation {np.unique((r['p_nord'] - r['p_sud'])[~sat].round(2))}&quot;)
+# Σ mu 358,665 €/MW ; Σ (Nord - Sud - hurdle) aux heures saturées 358,665
+# mu max hors saturation 0.000 ; écart Nord - Sud hors saturation [1.]
+</code></pre>
+<p>Aux 5 475 heures saturées, la duale vaut l'écart de prix moins le hurdle cost : 4 881 heures à 60 − 1, 594 à 120 − 1. Hors saturation, elle est nulle. Sur l'année, 358 665 €/MW : ce que rapporterait un MW de ligne en plus. La rente s'en déduit : 1 600 × (358 665 + 1 × 5 475) plus le hurdle sur le flux hors saturation, soit 586,6 M€.</p>
+<h2>4. Vérifier par une seconde résolution</h2>
+<pre><code class="language-python">r1 = lire(1601.0)
+print(f&quot;baisse du coût pour 1 MW de plus {r['cout'] - r1['cout']:,.0f} € ; Σ mu {r['mu'].sum():,.0f} €&quot;)
+# baisse du coût pour 1 MW de plus 358,485 € ; Σ mu 358,665 €
+</code></pre>
+<p>Écart de 0,05 %, parce que le MW ajouté change les heures saturées à la marge : la duale est bien la dérivée du coût total par rapport à la capacité.</p>
+<h2>5. Élargir le lien</h2>
+<pre><code class="language-python">for cap in [800.0, 1200.0, 1600.0, 2400.0, 2800.0, 3200.0]:
+    x = lire(cap)
+    print(f&quot;{cap:5.0f} MW  h_sat {x['sature'].sum():4d}  Sud {x['p_sud'].mean():5.1f}  Nord {x['p_nord'].mean():5.1f}&quot;
+          f&quot;  écart {(x['p_nord'] - x['p_sud']).mean():5.1f} €/MWh  rente {x['rente']/1e6:6.1f} M€  Σ mu {x['mu'].sum()/1e3:6.1f} k€/MW&quot;)
+</code></pre>
+<pre><code class="language-text">  cap    h_sat   Sud    Nord   écart   rente    Σ mu
+  800    8760   48.9   120.0   71.1   498.5   614.4
+ 1200    6935   52.2   107.7   55.5   582.8   477.1
+ 1600    5475   55.9    97.9   41.9   586.6   358.7
+ 2400    3285   60.0    83.1   23.1   481.7   193.9
+ 2800    1825   60.0    73.3   13.3   318.8   107.7
+ 3200       0   60.0    61.0    1.0    17.5     0.0
+</code></pre>
+<p>À chaque élargissement, écart de prix et Σ mu baissent ; le Nord devient moins cher, le Sud plus cher : exporter le PV de midi fait disparaître ses heures à prix nul. À 3 200 MW, plus aucune heure saturée, les prix ne diffèrent que du hurdle cost : une seule zone de prix. La rente monte d'abord, de 498 à 587 M€, puis fond : produit d'une capacité qui grandit par un écart qui rétrécit. Le gestionnaire de réseau vit de la rente, le planificateur regarde Σ mu : pas le même nombre.</p>
+<p>En Europe, les gestionnaires de réseau de transport des deux côtés de la frontière se partagent cette rente. L'article 19 du règlement (UE) 2019/943 leur impose d'abord de l'employer à garantir la disponibilité réelle de la capacité allouée et à maintenir ou accroître les capacités d'échange entre zones ; le reste peut venir en déduction des tarifs de réseau. En zonal, comme ici, un prix par zone et la rente concentrée sur le lien ; en nodal, un prix par nœud et la rente répartie sur toutes les lignes saturées.</p>
+<h2>Trois questions à réponse chiffrée</h2>
+<ol>
+<li>À 1 600 MW, combien d'heures saturées ont un écart de prix de 120 €/MWh ? (594.)</li>
+<li>Parmi les six capacités, laquelle maximise la rente, et que vaut alors un MW de plus ? (1 600 MW ; 358,7 k€/MW/an.)</li>
+<li>Mettez le hurdle cost à 0 : que devient le prix du Nord hors saturation, et Σ mu à 1 600 MW ? (Prévoyez, puis vérifiez : 60 €/MWh au lieu de 61 ; Σ mu passe de 358 665 à 364 140 €/MW, 5 475 € de plus, le hurdle une fois par heure saturée ; les heures saturées ne bougent pas.)</li>
+</ol>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous retrouvez 5 475 heures saturées, les prix 0 et 60 au Sud, 61 et 120 au Nord, à quelles heures ils tombent, et la rente de 586,6 M€.</li>
+<li>Vous expliquez sans calcul pourquoi la duale vaut l'écart de prix moins le hurdle cost, zéro hors saturation.</li>
+<li>Par deux résolutions, vous obtenez une baisse du coût pour 1 MW proche de Σ mu (écart inférieur à 1 %).</li>
+<li>Vous dites en une phrase pourquoi la rente peut monter à l'élargissement alors que Σ mu baisse toujours.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>« Two Areas with Link », doc de pommes_craft figée en 0.3.7 : même structure, capacité du lien à investir <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/examples.html" target="_blank" rel="noopener">Examples de pommes_craft : PV + gaz, deux zones reliées, batterie</a>.</li>
+<li>Le cas F, en construction : que vaut un GW d'interconnexion France-Espagne ou France-Allemagne, en multi-nœuds, face aux prix exogènes des voisins <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/F.yaml" target="_blank" rel="noopener">Cas F (carte, à construire) — Que vaut une interconnexion France-Espagne ou France-Allemagne ?</a>.</li>
+<li>Le notebook 2025 à quatre pays, point de départ du cas F, à lire d'un œil critique : sa 14e cellule (index 13 ; <code>ic_FR_ES.set_attribute('power_capacity_investment_max', 3.6e6)</code>) renforce FR-ES de 3,6e6 MW, soit 3,6 TW : le résultat « interco ES+ » est celui d'un lien illimité <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/legacy_tp2025/notebooks/Interconnections.ipynb" target="_blank" rel="noopener">Notebook 2025 — Valeur des interconnexions en Europe de l'Ouest (ES, FR, IT, DE)</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases/solve.py, pommes_cases/meteo.py, data/meteo/README.md ; environnement épinglé pommes 0.11.0, pommes_craft 0.6.0, HiGHS)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes" target="_blank" rel="noopener">Code source de pommes (pommes/model/transport.py ; pommes/utils.py, dual_scale) et CHANGELOG (0.11.0 : #133 hurdle costs, #157 imports et exports des liens)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/examples.html" target="_blank" rel="noopener">Exemples de pommes_craft, « Two Areas with Link » (doc figée en 0.3.7)</a></li><li><a href="https://eur-lex.europa.eu/eli/reg/2019/943/oj" target="_blank" rel="noopener">Règlement (UE) 2019/943 sur le marché intérieur de l'électricité, article 19 (recettes de congestion)</a></li><li><a href="https://www.legislation.gov.uk/eur/2019/943/article/19" target="_blank" rel="noopener">Même article 19, version anglaise consolidée lisible sans script (legislation.gov.uk)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

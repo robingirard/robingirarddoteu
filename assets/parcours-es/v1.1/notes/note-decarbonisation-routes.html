@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Décarboner l'industrie lourde : cinq filières, et ce que l'électrification déplace · Parcours ES 2026</title>
+<meta name="description" content="Acier, ciment, ammoniac, hydrogène et oléfines : pour chacun, le procédé d'aujourd'hui, les routes qui le décarbonent et les émissions de chaque route, en une planche par filière.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 10 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Décarboner l'industrie lourde : cinq filières, et ce que l'électrification déplace</h1>
+    <p class="resume">Acier, ciment, ammoniac, hydrogène et oléfines : pour chacun, le procédé d'aujourd'hui, les routes qui le décarbonent et les émissions de chaque route, en une planche par filière.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-H">Mener le mini-projet du cas H : à quel prix du CO₂ l'industrie change-t-elle de procédé ?</a></li></ul></aside>
+<p>Cinq planches, cinq filières : acier, ciment, ammoniac, hydrogène,
+oléfines. Chacune tient sur une diapositive 16:9 et met en regard
+<strong>le procédé d’aujourd’hui</strong>, <strong>les routes qui le
+décarbonent</strong>, et <strong>les émissions
+correspondantes</strong>.</p>
+<p>Les figures sont dans <code>output/</code>, les sources TikZ dans
+<code>figures/</code>, et toutes les valeurs viennent d’un fichier
+unique, <code>data/emission_factors.md</code>.</p>
+<h2 id="la-convention-de-lecture-et-pourquoi-elle-est-le-message">1. La
+convention de lecture, et pourquoi elle est le message</h2>
+<p>Chaque route est évaluée <strong>deux fois</strong>, sous deux
+contenus carbone de l’électricité, et les deux résultats sont sur la
+<strong>même barre</strong> :</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mode</th>
+<th>gCO₂/kWh</th>
+<th>Rendu</th>
+<th>Ce que ça dit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Électricité sans émissions</td>
+<td>0</td>
+<td>partie <strong>pleine</strong>, total <strong>vert</strong></td>
+<td>l’irréductible de la route</td>
+</tr>
+<tr class="even">
+<td>Réseau UE-27 (2023)</td>
+<td>240</td>
+<td>extension <strong>bleue à contour plein</strong>, total
+<strong>bleu</strong></td>
+<td>ce que le réseau d’aujourd’hui ajoute</td>
+</tr>
+</tbody>
+</table>
+<p>La hauteur du segment bleu est donc directement le <strong>degré de
+dépendance au réseau</strong> de la route. Elle se lit sans lire un
+mot.</p>
+<p>Le mode « propre » est pris à <strong>0 g</strong> et non à une
+valeur d’ACV (~25 g pour l’éolien) : c’est une borne, elle isole
+exactement la part électrique.</p>
+<p>L’empilement de la partie pleine découpe le CO₂ <strong>par
+origine</strong>, et c’est le second message : rouge = chimie du
+procédé, ambre = combustion, gris = amont du combustible. <strong>Ce qui
+vient du combustible se remplace ; ce qui vient de la chimie ne se
+remplace pas</strong> — il faut changer de réaction, ou capter.</p>
+<p>Le prune hachuré, au-dessus, est ce que la route capte et enfouit. Il
+est tracé en fantôme, avec une flèche vers le bas : il se lit comme une
+masse <strong>retirée</strong>, pas comme une masse émise.</p>
+<h2 id="ce-qui-est-établi-filière-par-filière">2. Ce qui est établi,
+filière par filière</h2>
+<h3 id="acier-le-co₂-du-haut-fourneau-nest-pas-un-combustible">2.1 Acier
+— le CO₂ du haut fourneau n’est pas un combustible</h3>
+<p>Le carbone du haut fourneau est le <strong>réducteur</strong> : Fe₂O₃
++ 3 CO → 2 Fe + 3 CO₂. Changer de combustible ne l’enlève pas ; changer
+de réducteur, si. D’où le DRI (réduction directe), au gaz naturel ou à
+l’hydrogène.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>Élec. 0 g</th>
+<th>Réseau UE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BF-BOF intégré</td>
+<td>2,10</td>
+<td>2,24</td>
+</tr>
+<tr class="even">
+<td>DRI gaz naturel + FEA</td>
+<td>0,90</td>
+<td>1,12</td>
+</tr>
+<tr class="odd">
+<td>DRI-NG + FEA + CSC</td>
+<td>0,31</td>
+<td>0,57</td>
+</tr>
+<tr class="even">
+<td>DRI-H₂ + FEA</td>
+<td><strong>0,07</strong></td>
+<td><strong>0,91</strong></td>
+</tr>
+<tr class="odd">
+<td>FEA sur ferraille</td>
+<td>0,16</td>
+<td>0,32</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Le DRI-H₂ est la route la plus conditionnelle de toute la
+série : facteur 13 entre les deux modes.</strong> Sur le réseau UE
+d’aujourd’hui, il passe tout juste sous le DRI au gaz naturel. Il
+consomme ≈ 3,5 MWh/t, dont ≈ 2,9 pour l’électrolyse de ≈ 55 kg H₂ par
+tonne de DRI (réduction seule ; ≈ 80 kg par tonne d’acier si le gaz est
+réchauffé à l’H₂, ≈ 55 kg + ≈ 0,7 MWh s’il l’est à l’électricité).</p>
+<p>Le résiduel de 0,03 de la route H₂ n’est pas une imperfection : c’est
+le <strong>carbone de carburation</strong> ajouté au four à arc. Un
+acier contient du carbone, par définition.</p>
+<p><strong>Et la ferraille plafonne.</strong> Le stock mondial ne couvre
+qu’environ 30 % de la demande : on ne recycle pas un acier qui est
+encore dans un pont. La route la moins émettrice est aussi celle qui ne
+peut pas grandir.</p>
+<h3 id="ciment-le-co₂-sort-de-la-pierre">2.2 Ciment — le CO₂ sort de la
+pierre</h3>
+<p>0,83 tCO₂ par tonne de clinker, dont <strong>0,52 de décarbonatation
+(CaCO₃ → CaO + CO₂) et 0,31 de combustion</strong> : <strong>62 % du CO₂
+direct ne vient d’aucun combustible</strong>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Route (cumulative)</th>
+<th>Élec. 0 g</th>
+<th>Réseau UE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Four actuel, k = 0,75</td>
+<td>0,64</td>
+<td>0,67</td>
+</tr>
+<tr class="even">
+<td>+ 50 % combustibles alternatifs</td>
+<td>0,57</td>
+<td>0,60</td>
+</tr>
+<tr class="odd">
+<td>+ clinker k = 0,50</td>
+<td>0,38</td>
+<td>0,41</td>
+</tr>
+<tr class="even">
+<td>+ four électrifié</td>
+<td>0,27</td>
+<td>0,35</td>
+</tr>
+<tr class="odd">
+<td>+ oxycombustion, capture 90 %</td>
+<td>0,05</td>
+<td>0,16</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Le ciment est la filière la moins sensible au réseau de la
+série</strong> — les segments bleus y sont minuscules. C’est le
+contraire exact de l’acier H₂ et de l’hydrogène, et c’est
+pédagogiquement précieux : son problème n’est pas l’électricité, c’est
+la pierre. Aucun réseau, si propre soit-il, ne le règle.</p>
+<p>Le <strong>plancher de calcination à 0,26 tCO₂/t</strong> (k = 0,50)
+est tracé sur la figure : seule la capture passe dessous.</p>
+<p>Deux conséquences contre-intuitives :</p>
+<ul>
+<li><strong>Électrifier le four n’est pas rentable pour son CO₂
+direct</strong> : sur le réseau UE, il n’apporte que 0,04 de plus que le
+seul abaissement du taux de clinker, pour ≈ 0,25 MWh/t. Son intérêt est
+ailleurs — il supprime la dilution par l’azote de l’air, donc le flux de
+sortie est bien plus concentré en CO₂. <strong>L’électrification du
+ciment prépare la capture, elle ne la remplace pas.</strong></li>
+<li>Le <strong>taux de clinker</strong> est le levier le moins cher et
+déjà disponible. Il ne bute pas sur la technique mais sur la
+<strong>norme produit EN 197</strong>.</li>
+</ul>
+<h3 id="ammoniac-le-co₂-du-vaporeformage-est-stœchiométrique">2.3
+Ammoniac — le CO₂ du vaporeformage est stœchiométrique</h3>
+<p>CH₄ + 2 H₂O → CO₂ + 4 H₂. Fabriquer l’hydrogène à partir du méthane
+produit du CO₂ <strong>par construction</strong>, même avec un four
+parfait.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>Élec. 0 g</th>
+<th>Réseau UE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gazéification de charbon (Chine)</td>
+<td>3,80</td>
+<td>4,02</td>
+</tr>
+<tr class="even">
+<td>Vaporeformage (SMR)</td>
+<td>1,95</td>
+<td>2,01</td>
+</tr>
+<tr class="odd">
+<td>SMR + capture flux procédé (≈ 60 %)</td>
+<td>0,92</td>
+<td>1,04</td>
+</tr>
+<tr class="even">
+<td>ATR + capture (≈ 93 %)</td>
+<td>0,39</td>
+<td>0,56</td>
+</tr>
+<tr class="odd">
+<td>Électrolyse</td>
+<td><strong>0,00</strong></td>
+<td><strong>2,64</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>La barre de l’électrolyse a une partie pleine strictement
+nulle</strong> : elle n’est <em>que</em> du segment bleu, et elle
+dépasse le SMR. Le meilleur et le pire procédé de la planche sont le
+même procédé ; seul le réseau les sépare. ≈ 11 MWh par tonne de NH₃.</p>
+<p><strong>Pourquoi le passage SMR → ATR</strong>, qui est la vraie
+raison technique et non un détail : le SMR a <strong>deux</strong>
+sorties de CO₂ — le flux procédé, concentré et facile à capter, et les
+<strong>fumées du four</strong>, diluées dans l’azote de l’air et
+chères. D’où un plafond de capture vers 60 %. L’ATR déplace toute la
+combustion dans le flux procédé : une seule sortie concentrée, ≈ 93
+%.</p>
+<h3
+id="hydrogène-vert-est-une-propriété-de-lélectricité-pas-de-lélectrolyseur">2.4
+Hydrogène — « vert » est une propriété de l’électricité, pas de
+l’électrolyseur</h3>
+<p>En kgCO₂ par kg d’H₂ :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>Élec. 0 g</th>
+<th>Réseau UE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gazéification de charbon</td>
+<td>19,50</td>
+<td>19,98</td>
+</tr>
+<tr class="even">
+<td>SMR (≈ 60 % de l’H₂ mondial)</td>
+<td>11,00</td>
+<td>11,19</td>
+</tr>
+<tr class="odd">
+<td>SMR + CCS flux procédé (56 %)</td>
+<td>5,60</td>
+<td>6,20</td>
+</tr>
+<tr class="even">
+<td>ATR + CCS (94 %)</td>
+<td>2,65</td>
+<td>3,47</td>
+</tr>
+<tr class="odd">
+<td>Électrolyse</td>
+<td><strong>0,00</strong></td>
+<td><strong>12,72</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Le nombre à retenir du thème : ≈ 210 gCO₂/kWh</strong> (11,19
+÷ 53). En dessous, l’électrolyse bat le vaporeformage ; au-dessus,
+<strong>la même machine émet plus que le reformeur qu’elle
+remplace</strong>. Le réseau UE moyen est à 240, donc au-dessus. Le même
+électrolyseur donne 2,97 en France (56 g), 12,72 en UE (240 g) et 25,44
+dans le monde (480 g) — soit, dans ce dernier cas, <strong>pire que la
+gazéification du charbon</strong>.</p>
+<p>C’est exactement ce que le vocabulaire « hydrogène gris / bleu / vert
+» masque : il attribue à la machine une propriété qui appartient à son
+électricité.</p>
+<p>Électrolyseur : <strong>53 kWh/kg</strong> livré (PEM/alcalin
+industriel), soit ≈ 63 % PCI (74 % PCS). Les <strong>39,4
+kWh/kg</strong> sont le PCS de l’hydrogène, pas un minimum
+thermodynamique d’électricité.</p>
+<p>Second enseignement : <strong>avec l’ATR + CCS, le poste dominant
+devient l’amont du méthane</strong> — 2,0 sur 2,65 en électricité
+propre, soit 75 %. La performance d’un hydrogène « bleu » se décide
+<strong>au champ gazier, pas à l’usine</strong>.</p>
+<p>Usages aujourd’hui : ≈ 97 Mt/an, dont ≈ 44 % raffinage, ≈ 33 %
+ammoniac, ≈ 17 % méthanol et ≈ 6 % acier (IEA, <em>Global Hydrogen
+Review 2024</em> ; corrigé le 22/09/2026, voir
+<code>Note_Procedes_industriels.md</code> § 4.1). Presque rien pour la
+mobilité — ce qui remet à l’endroit la plupart des débats publics sur
+l’hydrogène.</p>
+<h3
+id="oléfines-le-carbone-ne-brûle-pas-à-lusine-il-part-dans-le-produit">2.5
+Oléfines — le carbone ne brûle pas à l’usine, il part dans le
+produit</h3>
+<p>En tCO₂ par tonne d’HVC :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>Élec. 0 g</th>
+<th>Réseau UE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vapocraqueur naphta (référence)</td>
+<td>1,85</td>
+<td>1,95</td>
+</tr>
+<tr class="even">
+<td>Craqueur électrique</td>
+<td><strong>0,70</strong></td>
+<td><strong>1,90</strong></td>
+</tr>
+<tr class="odd">
+<td>Vapocraqueur + capture fumées (70 %)</td>
+<td>0,95</td>
+<td>1,15</td>
+</tr>
+<tr class="even">
+<td>Naphta biosourcé + craqueur électrique</td>
+<td>0,30</td>
+<td>1,50</td>
+</tr>
+<tr class="odd">
+<td>Recyclage mécanique</td>
+<td>0,25</td>
+<td>0,50</td>
+</tr>
+<tr class="even">
+<td><em>Fin de vie : incinération</em></td>
+<td>—</td>
+<td><strong>3,10</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>La bande « chimie du procédé » est vide sur les cinq
+routes</strong>, et c’est le sujet de la planche. Contrairement au
+ciment et à l’acier, le carbone du naphta ne devient pas du CO₂ à
+l’usine : il <strong>part dans le produit</strong> — le polyéthylène est
+≈ 86 % de carbone en masse.</p>
+<p>Il revient à la fin de vie. <strong>Incinérer une tonne de
+polyoléfine rend ≈ 3,1 tCO₂, soit plus d’une fois et demie ce qu’a coûté
+sa fabrication.</strong> Décarboner le craqueur sans traiter la fin de
+vie ne traite qu’environ un tiers du problème. Seule une route où le
+carbone <strong>circule</strong> — recyclage, biomasse, CO₂ capté comme
+matière première — ferme le bilan.</p>
+<p>Au passage, le craqueur électrique est la deuxième route la plus
+sensible au réseau de la série (0,70 → 1,90, ≈ 5 MWh/t) : sur le réseau
+UE, il n’apporte rien face au vapocraqueur (1,95).</p>
+<h2 id="la-conclusion-transverse-ce-que-lélectrification-déplace">3. La
+conclusion transverse — ce que l’électrification déplace</h2>
+<p>Classement par <strong>sensibilité au réseau</strong>, c’est-à-dire
+par hauteur relative du segment bleu :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Filière</th>
+<th>Élec. 0 g → réseau UE</th>
+<th>Facteur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hydrogène électrolytique</td>
+<td>0,00 → 12,72</td>
+<td>∞</td>
+</tr>
+<tr class="even">
+<td>Ammoniac électrolytique</td>
+<td>0,00 → 2,64</td>
+<td>∞</td>
+</tr>
+<tr class="odd">
+<td>Acier DRI-H₂</td>
+<td>0,07 → 0,91</td>
+<td>× 13</td>
+</tr>
+<tr class="even">
+<td>Oléfines, craqueur électrique</td>
+<td>0,70 → 1,90</td>
+<td>× 2,7</td>
+</tr>
+<tr class="odd">
+<td>Ciment, four électrifié</td>
+<td>0,27 → 0,35</td>
+<td>× 1,3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Électrifier un procédé ne décarbone rien en soi : cela
+transfère la question au système électrique.</strong> Les filières qui
+électrifient le plus (hydrogène, ammoniac, acier H₂) sont donc celles
+qui exigent le plus un réseau <em>déjà</em> décarboné — elles ne se
+déploient pas dans n’importe quel ordre, et un pays qui les lance sur un
+réseau à 240 g fabrique une industrie qui n’est pas meilleure que celle
+qu’elle remplace.</p>
+<p>Le corollaire inverse vaut pour le ciment : <strong>aucun réseau, si
+propre soit-il, ne réglera son problème</strong>, parce que son CO₂ sort
+de la pierre. Il n’a pas besoin d’électricité propre, il a besoin de
+capture ou de moins de clinker.</p>
+<p>C’est le vrai enseignement de la série, et il n’apparaît qu’en
+mettant les cinq planches côte à côte.</p>
+<h2 id="ce-qui-reste-à-faire">4. Ce qui reste à faire</h2>
+<ul>
+<li><strong>La bibliographie est vide.</strong> Les valeurs sont des
+ordres de grandeur d’ingénierie, cohérents entre eux et avec la
+littérature, mais <strong>non sourcés ligne à ligne</strong>. Ne pas
+prétendre le contraire. À récupérer : IEA <em>Iron and Steel Technology
+Roadmap</em>, worldsteel <em>Sustainability Indicators</em>, IEA
+<em>Cement Roadmap</em>, GCCA <em>Concrete Future</em>, IEA <em>Ammonia
+Technology Roadmap</em>, IEA <em>Global Hydrogen Review</em>, IEA
+<em>The Future of Petrochemicals</em>, JRC BREF <em>Large Volume Organic
+Chemicals</em>, EEA pour le facteur UE.</li>
+<li>Le facteur <strong>UE à 240 gCO₂/kWh</strong> est celui de 2023 et
+baisse vite. Toutes les extensions bleues des cinq planches sont donc à
+revoir chaque année ; c’est précisément le point, mais il faut le dater
+dans la figure.</li>
+<li>Vérifier le <strong>9,8 GJ/MWh de worldsteel</strong> avant de
+comparer les GJ/t d’acier à quoi que ce soit (cf. le thème voisin
+<code>Industry/reduction</code>) : ne jamais diviser leurs GJ/t par
+3,6.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Decarbonisation_routes.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-procedes-industriels.html">Les procédés industriels lourds : comment ils marchent, et où sort le CO₂</a></li><li><a href="note-economie-routes.html">Ce que coûte chaque route de décarbonation de l'industrie</a></li><li><a href="note-co2-capture.html">Capter le CO₂ : d'où il vient, comment on l'attrape, ce qu'on en fait, ce que ça coûte</a></li></ul></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

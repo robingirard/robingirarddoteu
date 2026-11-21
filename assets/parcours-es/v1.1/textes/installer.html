@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Installer et vérifier en dix minutes · Parcours ES 2026</title>
+<meta name="description" content="Installer l'environnement épinglé des cas POMMES dans un venv (pommes 0.11.0, pommes-craft 0.6.0, pommes-assistant 0.5.2), lancer un test de contrôle d'une minute, savoir quoi faire si ça casse, et le repli sur Colab.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Socle</span></div>
+    <h1>Installer et vérifier en dix minutes</h1>
+    <p class="resume">Installer l'environnement épinglé des cas POMMES dans un venv (pommes 0.11.0, pommes-craft 0.6.0, pommes-assistant 0.5.2), lancer un test de contrôle d'une minute, savoir quoi faire si ça casse, et le repli sur Colab.</p>
+  </header>
+  <p>Lundi après-midi, chacun doit pouvoir lancer un cas sur son portable. Cette page installe l'environnement du cours, le vérifie par une commande et dit quoi faire quand ça casse.</p>
+<h2>1. Ce qu'il faut avant de commencer</h2>
+<ul>
+<li>Python 3.12 ou 3.13 (<code>python3 --version</code>). Testé en 3.12. pommes-assistant, dans le même environnement, demande 3.12 au moins.</li>
+<li><code>pip</code> et <code>venv</code>, livrés avec Python. Pas besoin de conda, ni de droits d'administrateur, ni de solveur commercial : le solveur HiGHS vient avec le paquet <code>highspy</code>.</li>
+<li>Du réseau, une seule fois, pour les paquets. Les cas 0 et A à E lisent ensuite leurs données dans le dépôt et tournent hors ligne.</li>
+<li><code>git</code>, ou à défaut l'archive ZIP du dépôt, téléchargée depuis la page GitLab (bouton Code).</li>
+</ul>
+<h2>2. Installer : quatre commandes</h2>
+<pre><code class="language-bash">git clone https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies
+cd pommes-case-studies
+python3.12 -m venv .venv &amp;&amp; source .venv/bin/activate   # Windows : .venv\Scripts\activate
+pip install -r requirements.txt
+</code></pre>
+<p>Sur la machine de référence, <code>pip install -r requirements.txt</code> dans un venv neuf, sans cache, a pris 43 s le 17/11/2026, et <code>pip check</code> n'a trouvé aucun conflit. Comptez une à trois minutes.</p>
+<p>Ce que <code>requirements.txt</code> installe, et pourquoi c'est épinglé :</p>
+<table>
+<thead>
+<tr>
+<th>paquet</th>
+<th>version</th>
+<th>rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pommes</td>
+<td>0.11.0</td>
+<td>le modèle d'optimisation</td>
+</tr>
+<tr>
+<td>pommes-craft</td>
+<td>0.6.0</td>
+<td>l'interface objet pour écrire un modèle en Python</td>
+</tr>
+<tr>
+<td>pommes-assistant</td>
+<td>0.5.2</td>
+<td>l'assistant en langage naturel pour écrire une étude pommes, avec ses options (<code>[all]</code>)</td>
+</tr>
+<tr>
+<td>linopy</td>
+<td>0.10.1</td>
+<td>la couche qui construit le programme linéaire</td>
+</tr>
+<tr>
+<td>highspy</td>
+<td>1.15.1</td>
+<td>le solveur HiGHS</td>
+</tr>
+<tr>
+<td>hdf5plugin</td>
+<td>7.1.0</td>
+<td>lecture des NetCDF compressés ; <code>import pommes</code> échouait sans lui avant pommes 0.6</td>
+</tr>
+<tr>
+<td>pandas</td>
+<td>3.1.1</td>
+<td>tableaux ; API mouvante</td>
+</tr>
+<tr>
+<td>polars</td>
+<td>2.1.0</td>
+<td>lecture des Parquet</td>
+</tr>
+<tr>
+<td>numpy</td>
+<td>2.5.4</td>
+<td>calcul numérique</td>
+</tr>
+<tr>
+<td>xarray</td>
+<td>2026.9.0</td>
+<td>tableaux étiquetés, le format de pommes</td>
+</tr>
+<tr>
+<td>jupyter</td>
+<td>1.1.1</td>
+<td>les notebooks</td>
+</tr>
+</tbody>
+</table>
+<p>Les grilles complètes versionnées du dépôt (<code>results.json</code>) ont été calculées en pommes 0.9.0 ; rejouées en 0.11.0 le 17/11/2026, leurs grilles rapides redonnent les mêmes chiffres. Ne mettez rien à jour pendant la semaine : les valeurs attendues des consignes dépendent de ces versions.</p>
+<h2>3. Vérifier : une commande, une minute</h2>
+<p>Depuis la racine du dépôt, venv activé :</p>
+<pre><code class="language-bash">python A_batteries/grid.py --rapide
+</code></pre>
+<p>Le script garde les séries de prix centrales du cas A et fait 10 résolutions HiGHS. Relevé sur un MacBook Pro M3 Max : 34 à 36 s sur trois essais ; comptez 1 à 2 minutes sur un portable ordinaire. HiGHS n'affiche rien : son journal va dans un fichier. Ce qu'on doit voir :</p>
+<pre><code class="language-text">verdict 1/2 : 7 séries, 11 s (12 s en tout)
+verdict 2/2 : 6 séries, 8 s (10 s en tout)
+n-ième GW : tyndp2024, σ = 15 €/MWh → 24.9 €/kW/an (0.9 s)
+n-ième GW : tyndp2024, σ = 60 €/MWh → 13.7 €/kW/an (0.8 s)
+n-ième GW : tyndp2026, σ = 15 €/MWh → 17.8 €/kW/an (0.8 s)
+...
+n-ième GW : fos_sur_mer, σ = 60 €/MWh → 36.9 €/kW/an (0.9 s)
+results_rapide.json : 10 résolutions, 37 s      (le temps varie, le reste non)
+</code></pre>
+<p>Les chiffres en €/kW/an doivent être identiques aux vôtres : modèle linéaire, données figées. Seuls les temps changent.</p>
+<p>Si vous êtes pressé, un test plus court contrôle le lecteur de prix et un premier modèle pommes_craft en 2 s :</p>
+<pre><code class="language-bash">python tests/test_prices.py
+</code></pre>
+<p>Il affiche d'abord la liste des paramètres que pommes remplit par défaut (<code>Missing variables in input dataset. Adding defaults:</code>, puis <code>flexibility_demand: 0.0</code>…), puis <code>test_format : ok</code>, <code>refusé comme attendu : ...</code>, <code>test_refuse_fichier_modifie : ok</code> et <code>test_net_import : ok</code>. Trois lignes <code>: ok</code> en tout.</p>
+<h2>4. Ouvrir un notebook</h2>
+<pre><code class="language-bash">jupyter lab
+</code></pre>
+<p>Le navigateur s'ouvre sur l'arborescence du dépôt. Commencez par <code>00_prix/notebook.ipynb</code> (les jeux de prix), puis <code>A_batteries/notebook.ipynb</code>. Les notebooks sont en anglais et déjà exécutés : lisez d'abord, relancez ensuite. Ils relisent le <code>results.json</code> versionné et ne refont que quelques résolutions, une minute environ pour le cas A. Lancez <code>jupyter lab</code> depuis le venv activé, sinon le noyau ne trouvera pas <code>pommes</code>.</p>
+<h2>5. Où sont les données</h2>
+<p>Tout est dans le dépôt, rien n'est téléchargé à l'exécution et aucun jeton n'est demandé.</p>
+<table>
+<thead>
+<tr>
+<th>dossier</th>
+<th>contenu</th>
+<th>taille</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data/prix/</code></td>
+<td>prix horaires FR et voisins : TYNDP 2024, TYNDP 2026 NT+, POMMES sur le TYNDP 2026, fos-sur-mer ; quatre Parquet, <code>scenarios.csv</code>, <code>datapackage.json</code></td>
+<td>12 Mo</td>
+</tr>
+<tr>
+<td><code>data/meteo/</code></td>
+<td>facteurs de charge PV et éolien du PECD 2026, température du PECD v4.2, ERA5 aux sites du cas J</td>
+<td>9,4 Mo</td>
+</tr>
+<tr>
+<td><code>data/systeme/</code></td>
+<td>parc, séries horaires, échanges, flotte de VE et COP du TYNDP 2026 NT+ pour la France, 2030, 2035, 2040</td>
+<td>1,9 Mo</td>
+</tr>
+</tbody>
+</table>
+<p>Le lecteur compare l'empreinte SHA-256 de chaque fichier à celle du <code>datapackage.json</code> et refuse un fichier modifié : <code>test_prices.py</code> le vérifie. Sources et licences : les <code>README.md</code> de ces dossiers.</p>
+<h2>6. Combien de temps prend un cas</h2>
+<p>Temps du README du dépôt, MacBook Pro M3 Max, HiGHS par défaut, 8 760 heures, mesurés le 17/11/2026 avec l'environnement du cours. Un portable plus modeste ira 2 à 3 fois moins vite.</p>
+<table>
+<thead>
+<tr>
+<th>modèle</th>
+<th>taille du LP</th>
+<th>résolution HiGHS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>une zone au prix exogène, batteries (cas A), une série</td>
+<td>0,04 à 0,22 M colonnes</td>
+<td>0,4 à 0,8 s, plus 1 s de construction</td>
+</tr>
+<tr>
+<td>un site de vapeur (cas E), cinq configurations</td>
+<td>0,48 M colonnes</td>
+<td>4 à 5 s</td>
+</tr>
+<tr>
+<td>la France de 2035, parc fixé, une année météo (cas B, C)</td>
+<td>0,35 M colonnes</td>
+<td>environ 2 s</td>
+</tr>
+<tr>
+<td>idem, 10 années météo empilées (cas C)</td>
+<td>3,5 M colonnes</td>
+<td>30 s</td>
+</tr>
+<tr>
+<td>un site d'hydrogène sans règle (cas D), six configurations</td>
+<td>0,74 M colonnes</td>
+<td>49 s</td>
+</tr>
+<tr>
+<td>un site d'hydrogène sous règle horaire (cas D), trois sites</td>
+<td>0,34 M colonnes</td>
+<td>environ 6 min</td>
+</tr>
+</tbody>
+</table>
+<p>Une grille complète prend 6 à 20 minutes de résolution cumulée, champ <code>temps_total_s</code> des <code>results.json</code> (calculés en pommes 0.9.0) : B 356 s, C 470 s, E 502 s, A 1 177 s. Le cas D cumule 7 009 s, soit 23 minutes de mur sur 6 cœurs ; ses sites sous règle sont environ 1,7 fois plus lents en pommes 0.11.0. Vous n'en avez pas besoin : les résultats sont versionnés.</p>
+<h2>7. Si ça ne marche pas</h2>
+<p>Trois pannes fréquentes.</p>
+<ol>
+<li><code>CERTIFICATE_VERIFY_FAILED</code> sous macOS, avec le Python de python.org. Ce Python n'a pas de magasin de certificats tant qu'on n'a pas lancé une fois <code>Install Certificates.command</code>, dans le dossier Python des Applications. Variante : <code>export SSL_CERT_FILE=$(python -m certifi)</code>. Cela touche surtout les notebooks 2025 de <code>legacy_tp2025/</code>, qui téléchargent des données au premier passage ; les cas 0 et A à E n'ont pas ce problème. La même panne touche le téléchargement du catalogue par pommes-assistant (<code>pommes-assistant catalogue</code>, ou un <code>source: {kind: catalogue, ...}</code> dans un StudySpec) : même remède.</li>
+<li><code>ModuleNotFoundError: No module named 'pommes'</code> dans un notebook. Le noyau Jupyter n'est pas celui du venv. Fermez Jupyter, activez le venv, relancez <code>jupyter lab</code> depuis la racine du dépôt.</li>
+<li><code>pip</code> ne trouve pas une version (<code>No matching distribution found for pommes-assistant</code>…), ou échoue à compiler. Votre <code>python3</code> n'est pas en 3.12 ou 3.13. Recréez le venv avec la bonne commande, <code>python3.12 -m venv .venv</code> ; sous Windows, <code>py -3.12 -m venv .venv</code>.</li>
+</ol>
+<p>Une quatrième situation n'est pas une panne : pas de Python installable sur la machine (poste verrouillé). Passez au repli, section 8.</p>
+<h2>8. Le repli : Google Colab</h2>
+<p>Si l'installation échoue et que la section 7 n'y fait rien, les cas tournent sur Google Colab, avec un compte Google. Le repli n'a pas encore été essayé de bout en bout : un essai est prévu avant le cours, et cette section sera corrigée d'après lui.</p>
+<ol>
+<li>Ouvrez un notebook du dépôt dans Colab : téléchargez-le depuis la page GitLab du dépôt (par exemple <code>A_batteries/notebook.ipynb</code>), puis Fichier › Importer un notebook.</li>
+<li>Insérez une cellule en tête et exécutez-la :</li>
+</ol>
+<pre><code class="language-python">!git clone -q https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies
+%cd pommes-case-studies
+!python --version                      # 3.12 ou plus, sinon pommes-assistant refuse de s'installer
+!pip install -q -r requirements.txt
+</code></pre>
+<ol start="3">
+<li>Colab a déjà importé ses propres numpy et pandas : redémarrez la session (Exécution › Redémarrer la session), puis relancez seulement <code>%cd pommes-case-studies</code> avant les cellules du notebook.</li>
+<li>pip peut se plaindre de conflits avec des paquets de Colab (<code>google-colab requires pandas==…</code>) : ils ne servent pas aux cas.</li>
+</ol>
+<p>Les fichiers de la session disparaissent quand elle se ferme : téléchargez ce que vous voulez garder. Le contrôle <code>python A_batteries/grid.py --rapide</code> y tourne aussi (<code>!python A_batteries/grid.py --rapide</code>), plus lentement que sur un portable.</p>
+<h2>9. Un seul environnement, avec l'assistant</h2>
+<p>pommes-assistant 0.5.2, l'assistant en langage naturel pour écrire une étude pommes, est installé par <code>requirements.txt</code> dans le même venv que les cas, avec ses options (serveur MCP, vues, client Anthropic) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant : ce que c'est, installer, trois façons de s'en servir, commandes</a>. Pendant la semaine, tout tourne dans <code>.venv</code> : n'y lancez ni <code>pip install --upgrade</code> ni un <code>pip install</code> d'une autre version de pommes, qui remplacerait les versions épinglées. Le mode d'emploi détaillé de l'assistant pour la semaine est <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/cours_decembre.md" target="_blank" rel="noopener">docs/cours_decembre.md</a>.</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li><code>python A_batteries/grid.py --rapide</code> finit par <code>results_rapide.json : 10 résolutions</code> et affiche 24.9 €/kW/an pour tyndp2024 à σ = 15 €/MWh.</li>
+<li><code>python tests/test_prices.py</code> affiche trois lignes <code>: ok</code>.</li>
+<li>Vous savez dire, sans regarder, dans quel dossier du dépôt se trouvent les prix horaires du TYNDP 2026, et pourquoi un fichier modifié y est refusé.</li>
+<li>Vous savez pourquoi on ne tape pas <code>pip install --upgrade pommes</code> pendant la semaine.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Cas 0, les scénarios de prix horaires : le premier notebook à ouvrir <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a>.</li>
+<li>Cas A, batteries : le cas dont le test de contrôle est tiré <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</li>
+<li>README de pommes_craft : un premier modèle en quarante lignes <a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft (PyPI) : un premier modèle en quarante lignes</a>.</li>
+<li>README de pommes-assistant : les voies d'usage de l'assistant (Claude Code, Python, terminal) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant : ce que c'est, installer, trois façons de s'en servir, commandes</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (README, § Installer et § Temps de calcul mesurés)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Rapport S1 du dépôt (docs/S1_rapport.md, § 2 L'environnement)</a></li><li><a href="https://pypi.org/project/pommes/" target="_blank" rel="noopener">pommes sur PyPI (dernière version publiée)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">pommes-craft sur PyPI (dernière version publiée)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/cours_decembre.md" target="_blank" rel="noopener">Mode d'emploi de pommes-assistant pour la semaine (docs/cours_decembre.md)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

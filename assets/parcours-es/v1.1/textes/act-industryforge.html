@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les usines d'Europe dans un tableau (industryforge) · Parcours ES 2026</title>
+<meta name="description" content="Ouvrir avec pandas le registre des 4 488 sites industriels européens d'industryforge (Zenodo, CC BY 4.0), y trouver les plus gros émetteurs français, séparer le CO₂ de procédé de celui de combustion, ranger la chaleur par température, comparer le haut fourneau à l'acier à l'hydrogène et chiffrer l'ammoniac électrolytique, en évitant les quatre pièges du jeu.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 100 min</span> · <span>Industrie, Hydrogène</span></div>
+    <h1>Les usines d'Europe dans un tableau (industryforge)</h1>
+    <p class="resume">Ouvrir avec pandas le registre des 4 488 sites industriels européens d'industryforge (Zenodo, CC BY 4.0), y trouver les plus gros émetteurs français, séparer le CO₂ de procédé de celui de combustion, ranger la chaleur par température, comparer le haut fourneau à l'acier à l'hydrogène et chiffrer l'ammoniac électrolytique, en évitant les quatre pièges du jeu.</p>
+  </header>
+  <p>Objectif : lire un vrai jeu de données industriel, site par site, et savoir ce qu'il permet de dire et ce qu'il ne permet pas. La partie A (N1, 40 min) suffit pour la compétence « les plus gros émetteurs » ; la partie B (N2, 60 min) prépare les cas H, K et L. Il faut Python avec pandas et pyarrow (<code>pip install pandas pyarrow</code>), et une connexion pour télécharger l'archive une fois (2,8 Mo). Valeurs relevées le 18/11/2026 sur la version <code>2023_20261003-1738</code> (année de données 2023, publiée le 05/10/2026).</p>
+<h2>Avant de commencer : télécharger et ouvrir l'archive</h2>
+<p>industryforge est un registre des sites industriels de l'Union européenne, du Royaume-Uni, de la Norvège et de la Suisse (30 pays), avec pour chaque site sa production, ses consommations d'énergie par vecteur et ses émissions. Il est publié sur Zenodo sous licence CC BY 4.0 : citez « industryforge, version 2023_20261003-1738, DOI 10.5281/zenodo.23158813 ». Le DOI 10.5281/zenodo.21979416 désigne toutes les versions et pointe sur la dernière : notez celle que vous avez lue.</p>
+<p>L'archive est petite : on la télécharge en mémoire, puis on lit les tables Parquet qu'elle contient.</p>
+<pre><code class="language-python">import io, zipfile, urllib.request
+import pandas as pd
+pd.set_option(&quot;display.width&quot;, 200); pd.set_option(&quot;display.max_columns&quot;, 10)
+URL = &quot;https://zenodo.org/records/23158813/files/industryforge_2023_20261003-1738.zip?download=1&quot;
+archive = zipfile.ZipFile(io.BytesIO(urllib.request.urlopen(URL).read()))
+def lire(chemin):
+    return pd.read_parquet(archive.open(&quot;industryforge_2023_20261003-1738/&quot; + chemin))
+usines = lire(&quot;industry/facilities.parquet&quot;)
+fr = usines[usines[&quot;country&quot;] == &quot;FR&quot;]
+print(usines.shape, len(fr))   # (4488, 83) 569
+</code></pre>
+<p>Une ligne est un couple site–produit (un site qui fait deux produits a deux lignes). Les énergies sont en MWh par an, sauf les colonnes qui finissent par <code>_gwh</code> (en GWh) ; l'hydrogène est en tonnes ; le CO₂ en tonnes par an. Le dictionnaire de données est à côté de l'archive sur Zenodo <a href="https://doi.org/10.5281/zenodo.23158813" target="_blank" rel="noopener">industryforge — énergie, production et CO₂ des sites industriels européens en 2023 (Zenodo, CC BY 4.0)</a> : gardez-le ouvert.</p>
+<h2>Partie A (N1). Les plus gros émetteurs, et ce qu'est une émission « vérifiée »</h2>
+<h3>1. Les dix plus gros émetteurs français (15 min)</h3>
+<p>Deux colonnes ressemblent à « les émissions du site ». <code>verified_emissions_t_co2</code> est le chiffre vérifié du marché du carbone européen (ETS). <code>emissions_t_co2</code> prend ce chiffre s'il existe, sinon un chiffre déclaré à un autre registre (E-PRTR), sinon une estimation par satellite et inventaire (Climate TRACE), sinon un chiffre calculé. <strong>Prenez <code>verified_emissions_t_co2</code>.</strong></p>
+<pre><code class="language-python">top = fr.nlargest(10, &quot;verified_emissions_t_co2&quot;)[[&quot;name&quot;, &quot;sector&quot;, &quot;verified_emissions_t_co2&quot;]]
+print(top.assign(Mt=top.verified_emissions_t_co2 / 1e6).round(2).drop(columns=&quot;verified_emissions_t_co2&quot;))
+print(&quot;vérifié :&quot;, round(fr.verified_emissions_t_co2.sum() / 1e6, 1), &quot;Mt ; emissions_t_co2 :&quot;,
+      round(fr.emissions_t_co2.sum() / 1e6, 1), &quot;Mt&quot;)
+print(fr.groupby(&quot;emissions_basis&quot;).emissions_t_co2.sum().div(1e6).round(2))
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Grandeur</th>
+<th>Attendu</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1er et 2e émetteurs</td>
+<td>les deux aciéries intégrées, Fos (5,32 Mt) et Dunkerque (5,30 Mt)</td>
+<td></td>
+</tr>
+<tr>
+<td>3e à 10e</td>
+<td>quatre raffineries (Port-Jérôme 1,85, Normandie 1,72, Petroineos 1,22, Feyzin 1,02) et quatre sites de pétrochimie (Lavera 1,26, Gonfreville 0,96, Gravenchon 0,92, Aubette 0,83 Mt)</td>
+<td></td>
+</tr>
+<tr>
+<td>total vérifié, France</td>
+<td>49,8 Mt</td>
+<td></td>
+</tr>
+<tr>
+<td>total de <code>emissions_t_co2</code>, France</td>
+<td>64,3 Mt (+14,5 Mt, +29 %), dont 12,9 Mt de base <code>eprtr_reported</code>, 0,9 de <code>climate_trace</code> et 0,7 de <code>calculated</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Pourquoi <code>emissions_t_co2</code> compte trop : dans cette version, un site sans permis ETS prend le chiffre de l'établissement E-PRTR le plus proche à moins de 12 km, quelle que soit son activité, et deux sites peuvent prendre le même. Ce chiffre est souvent celui d'un voisin déjà compté sur une autre ligne (Eramet Sandouville porte les 1,72 Mt de la raffinerie de Gonfreville ; KEM ONE Lavera les 1,26 Mt de Naphtachimie), ou d'une installation qui n'est pas industrielle (Arjowiggins et Lecta portent tous deux les 457 kt de l'incinérateur d'Issy-les-Moulineaux ; la cokerie de Carling les 1,15 Mt de la centrale de Saint-Avold). Le dépôt du code l'explique (CHANGELOG, correction postérieure à la version déposée) ; le dictionnaire de Zenodo ne le dit pas encore. Retenez la règle : un total se fait sur un chiffre dont on connaît la provenance.</p>
+<h3>2. CO₂ de procédé contre CO₂ de combustion (25 min)</h3>
+<p>Le CO₂ de combustion sort d'un combustible brûlé pour faire de la chaleur ; le CO₂ de procédé sort de la matière elle-même (le calcaire qui se décompose en chaux). Le jeu sépare les deux : <code>co2_process_t + co2_combustion_t = verified_emissions_t_co2</code>.</p>
+<pre><code class="language-python">t = fr.groupby(&quot;sector&quot;)[[&quot;co2_process_t&quot;, &quot;co2_combustion_t&quot;]].sum() / 1e6
+t[&quot;part_procede_%&quot;] = 100 * t.co2_process_t / (t.co2_process_t + t.co2_combustion_t)
+print(t.loc[[&quot;cement&quot;, &quot;lime&quot;, &quot;ammonia&quot;, &quot;glass&quot;, &quot;steel&quot;, &quot;refinery&quot;]].round(2))
+print(&quot;France : procédé&quot;, round(t.co2_process_t.sum(), 1), &quot;Mt ; combustion&quot;, round(t.co2_combustion_t.sum(), 1), &quot;Mt&quot;)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Secteur (France)</th>
+<th>Procédé (Mt)</th>
+<th>Combustion (Mt)</th>
+<th>Part du procédé</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ciment</td>
+<td>5,38</td>
+<td>2,84</td>
+<td>65 %</td>
+<td></td>
+</tr>
+<tr>
+<td>chaux</td>
+<td>1,51</td>
+<td>0,69</td>
+<td>69 %</td>
+<td></td>
+</tr>
+<tr>
+<td>ammoniac</td>
+<td>1,05</td>
+<td>0,49</td>
+<td>68 %</td>
+<td></td>
+</tr>
+<tr>
+<td>verre</td>
+<td>0,43</td>
+<td>1,72</td>
+<td>20 %</td>
+<td></td>
+</tr>
+<tr>
+<td>acier</td>
+<td>0,28</td>
+<td>11,88</td>
+<td>2 %</td>
+<td></td>
+</tr>
+<tr>
+<td>raffinage</td>
+<td>0</td>
+<td>7,77</td>
+<td>0 %</td>
+<td></td>
+</tr>
+<tr>
+<td>total</td>
+<td>10,0</td>
+<td>39,8</td>
+<td>20 %</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Deux pièges à écrire en une phrase chacun. <strong>L'acier</strong> : le jeu met le carbone du coke qui réduit le minerai en combustion (son facteur de procédé du haut fourneau vaut zéro) ; les inventaires nationaux du GIEC le mettent en procédé. La même tonne de CO₂ change de colonne selon la convention. <strong>Le raffinage, la chimie, le papier</strong> : zéro procédé faute de facteur de référence, pas parce qu'ils n'en émettent pas. La comparaison a donc un sens pour le ciment, la chaux, l'ammoniac et le verre.</p>
+<h2>Partie B (N2). Chaleur, acier, ammoniac : ce que l'électricité devrait fournir</h2>
+<h3>3. La chaleur par niveau de température (15 min)</h3>
+<pre><code class="language-python">bandes = [&quot;process_heat_lt100c_mwh&quot;, &quot;process_heat_100_500c_mwh&quot;,
+          &quot;process_heat_500_1000c_mwh&quot;, &quot;process_heat_gt1000c_mwh&quot;]
+twh = fr[bandes].sum() / 1e6
+print(twh.round(1), &quot;total&quot;, round(twh.sum(), 1), &quot;TWh&quot;)
+print(&quot;sous 100 °C :&quot;, round(100 * twh.iloc[0] / twh.sum(), 1), &quot;% ; au-dessus de 500 °C :&quot;,
+      round(100 * twh.iloc[2:].sum() / twh.sum(), 1), &quot;%&quot;)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Tranche (France)</th>
+<th>Attendu (TWh)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sous 100 °C / 100-500 °C</td>
+<td>35,6 / 33,5</td>
+<td></td>
+</tr>
+<tr>
+<td>500-1 000 °C / au-dessus de 1 000 °C</td>
+<td>39,6 / 56,5</td>
+<td></td>
+</tr>
+<tr>
+<td>total ; part sous 100 °C ; part au-dessus de 500 °C</td>
+<td>165,2 ; 21,6 % ; 58,1 %</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Les tranches du jeu sont 100, 500 et 1 000 °C : <strong>il n'y a pas de seuil à 200 °C</strong> pour la chaleur de procédé, alors que les vidéos Chaleur du cours <a href="https://www.youtube.com/watch?v=rz29IEcqVU0" target="_blank" rel="noopener">Tout est affaire de température (Chaleur dans l'industrie 2/6)</a> parlent de « 39 % sous 200 °C » (Europe). La colonne <code>heat_excess_100_200c_gwh</code> est autre chose : de la chaleur perdue (chaleur fatale), en GWh. Ces tranches redécoupent les combustibles des sites ; elles ne s'ajoutent pas aux combustibles. Écrivez en une phrase quelle tranche une chaudière électrique ou une pompe à chaleur peut prendre (cas E), et laquelle demande de changer de procédé (cas H).</p>
+<h3>4. Haut fourneau contre acier à l'hydrogène, et d'où vient un chiffre (35 min)</h3>
+<p>Le parc de 2023, filière par filière (Europe, 30 pays) :</p>
+<pre><code class="language-python">acier = usines[(usines.sector == &quot;steel&quot;) &amp; (usines.production_t_per_yr &gt; 0)]
+cols = [&quot;coal_demand_mwh_per_yr&quot;, &quot;methane_demand_mwh_per_yr&quot;, &quot;electricity_demand_mwh_per_yr&quot;]
+g = acier.groupby(&quot;route&quot;)[cols + [&quot;production_t_per_yr&quot;]].sum()
+print(g[cols].div(g.production_t_per_yr, axis=0).round(2))   # MWh par tonne d'acier
+co2 = acier.groupby(&quot;route&quot;)[[&quot;verified_emissions_t_co2&quot;, &quot;production_t_per_yr&quot;]].sum()
+print((co2.verified_emissions_t_co2 / co2.production_t_per_yr).round(2))   # tCO2 vérifiées par tonne
+</code></pre>
+<p>Le haut fourneau (<code>bf_bof</code>) consomme 5,16 MWh de charbon, 0,70 de gaz et 0,59 d'électricité par tonne d'acier (moyenne européenne). Aucune aciérie à l'hydrogène ne tournait en 2023 : l'acier par réduction directe à l'hydrogène (DRI-H₂) n'existe dans le jeu que comme recette d'hypothèse, dans le fichier <code>route_vector_hypotheses.csv</code> du dépôt du code <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industryforge" target="_blank" rel="noopener">Dépôt du code industryforge (README, recettes par filière, CHANGELOG)</a> (il n'est pas dans l'archive Zenodo).</p>
+<p><strong>Exercice de provenance.</strong> L'électricité du DRI-H₂ vaut 1,40 MWh par tonne d'acier dans le README du code et 1,737 dans <code>route_vector_hypotheses.csv</code>. Lequel est juste ?</p>
+<ol>
+<li>Ouvrir les deux fichiers sur le dépôt public, le <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industryforge/-/raw/main/README.md" target="_blank" rel="noopener">README</a> (section « Routes of production ») et <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industryforge/-/raw/main/industryforge/data/route_vector_hypotheses.csv" target="_blank" rel="noopener">route_vector_hypotheses.csv</a>, et relever pour les filières acier les valeurs qui diffèrent (le README donne aussi 0,40 pour le haut fourneau, le CSV 0,625).</li>
+<li>Lire la colonne source du CSV : « JRC-IDEES-2023 ISI_fec branch-scope SEC per route ». JRC-IDEES (le Centre commun de recherche de la Commission) détaille la consommation de la sidérurgie par étape pour deux filières seulement, le haut fourneau et le four à arc. Pour le four à arc, en électricité, par tonne d'acier brut : four 0,509, aval (affinage, laminage, finition) 0,259, auxiliaires 0,078 MWh.</li>
+<li>Calculer 1,737 − 1,40 et le comparer à 0,259 + 0,078. Conclure : les deux valeurs excluent l'électrolyse ; 1,40 couvre le four de réduction et le four à arc, 1,737 y ajoute le laminage et les auxiliaires. Elles ne disent pas la même chose, et aucune n'est « la » consommation de l'usine.</li>
+<li>JRC-IDEES ne connaît pas de filière DRI : le 1,40 n'en vient donc pas. L'historique du dépôt le citait comme « IEA Future of Hydrogen 2019 », sans page ni tableau. Comparer à Vogl et al. (2018) : environ 1,1 MWh/t hors électrolyse avec un réchauffeur électrique du gaz réducteur.</li>
+<li>Ajouter l'électrolyse : environ 55 kg d'hydrogène par tonne de fer réduit, à environ 53 kWh/kg, soit environ 2,9 MWh/t. L'aciérie à l'hydrogène demande donc de l'ordre de 4,3 à 4,6 MWh d'électricité par tonne d'acier, contre 0,6 pour le haut fourneau : calculer combien de TWh demanderaient les 5,9 Mt d'acier des deux aciéries intégrées françaises en 2023 (<code>fr[fr.route == "bf_bof"].production_t_per_yr.sum()</code>) : environ 25 à 27 TWh, contre 4,7 TWh d'électricité aujourd'hui pour ces deux sites. Le comparer aux 58 TWh d'électricité que le cas H donne en 2040 à 100 €/t de CO₂ (jeu TYNDP 2026) pour les sept produits qu'il modélise.</li>
+</ol>
+<p>Dernier piège, pour lire le tableau du parc : la moyenne « dri_eaf » (1,14 tCO₂/t) mélange l'unique usine de réduction directe au gaz (Hambourg) avec SSAB Luleå, qui est un haut fourneau mal classé. Un classement faux dans un registre fausse toute moyenne par filière.</p>
+<h3>5. L'ammoniac par électrolyse, en TWh (10 min)</h3>
+<pre><code class="language-python">nh3 = fr[fr.sector == &quot;ammonia&quot;]
+mt = nh3.production_t_per_yr.sum() / 1e6
+print(round(mt, 3), &quot;Mt d'ammoniac -&gt;&quot;, round(mt * 10.4, 1), &quot;TWh d'électricité à 10,4 MWh/t&quot;)
+print(nh3[[&quot;name&quot;, &quot;production_t_per_yr&quot;, &quot;capacity_t_per_yr&quot;, &quot;production_derivation&quot;]])
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Grandeur</th>
+<th>Attendu</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ammoniac produit en France (4 sites)</td>
+<td>0,902 Mt</td>
+<td></td>
+</tr>
+<tr>
+<td>électricité pour tout faire par électrolyse (10,4 MWh/t, AIE 2021)</td>
+<td>9,4 TWh</td>
+<td></td>
+</tr>
+<tr>
+<td>par l'hydrogène (<code>h2_demand_t_per_yr</code>, 0,162 Mt × 53 MWh/t ; pas un contrôle indépendant : le jeu pose 0,18 t d'hydrogène par tonne)</td>
+<td>8,6 TWh</td>
+<td></td>
+</tr>
+<tr>
+<td>la même chose pour l'UE à 27 (retirer <code>UK</code>, <code>NO</code>, <code>CH</code>)</td>
+<td>12,3 Mt, 128 TWh</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Regardez la colonne <code>production_derivation</code> : <code>from_emissions</code>. La production n'est pas une statistique, elle est déduite du CO₂ vérifié (environ 1,7 tCO₂/t). Yara Le Havre y produit 421 kt pour une capacité de 181 kt : l'un des deux chiffres est faux, le jeu ne dit pas lequel. Écrivez ce que cela change à vos 9,4 TWh, et ce qu'il faudrait pour faire mieux (la production réelle des usines, que le jeu n'a pas).</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous dites pourquoi la France émet 49,8 Mt de CO₂ industriel vérifié et pas 64,3, et vous ne sommez jamais <code>emissions_t_co2</code>.</li>
+<li>Vous expliquez pourquoi l'acier n'a « que 2 % » de CO₂ de procédé dans ce jeu.</li>
+<li>Vous retrouvez 1,737 = 1,40 + 0,259 + 0,078 et vous savez dire ce qu'aucun des deux ne contient.</li>
+<li>Chacun de vos chiffres porte la version du jeu et la colonne lue.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>La chaleur industrielle par usage et par température, avec les sources de chaque chiffre <a href="../notes/note-chaleur-industrielle.html">La chaleur industrielle : combien, à quelle température, et ce que l'électricité peut en faire (note, 22/10/2026)</a>.</li>
+<li>Ce que coûte chaque route, une tonne à la fois <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a>, et le moteur de l'outil en Python <a href="../textes/act-routes-python.html">Activité guidée — le moteur de l'outil « routes » en Python</a>.</li>
+<li>La France industrielle dans un modèle d'investissement : le cas H <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/H_industrie_co2" target="_blank" rel="noopener">Cas H — À quel prix du CO₂ l'industrie française change-t-elle de procédé, et qu'est-ce qui se verrouille ?</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://doi.org/10.5281/zenodo.23158813" target="_blank" rel="noopener">industryforge, version 2023_20261003-1738 (Zenodo, DOI 10.5281/zenodo.23158813, CC BY 4.0)</a></li><li><a href="https://zenodo.org/records/23158813/files/data_dictionary.md?download=1" target="_blank" rel="noopener">Dictionnaire de données de la version déposée (Zenodo)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industryforge" target="_blank" rel="noopener">Dépôt du code industryforge (README, route_vector_hypotheses.csv, CHANGELOG)</a></li><li><a href="https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/JRC-IDEES/JRC-IDEES-2023_v1/" target="_blank" rel="noopener">JRC-IDEES 2023 (Centre commun de recherche), fichiers par pays : JRC-IDEES-2023_EU27.zip, classeur Industry, feuilles ISI et ISI_fec</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

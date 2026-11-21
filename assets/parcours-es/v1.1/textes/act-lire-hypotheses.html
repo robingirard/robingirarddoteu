@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lire hypotheses.yaml et compter les statuts · Parcours ES 2026</title>
+<meta name="description" content="Ouvrir le fichier d'hypothèses d'un cas POMMES dans le navigateur, comprendre valeur, unité, source et statut, compter les statuts des cas A, D et E, et dire ce qui ferait monter une hypothèse « mémoire » d'un cran.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Socle, Atelier</span></div>
+    <h1>Lire hypotheses.yaml et compter les statuts</h1>
+    <p class="resume">Ouvrir le fichier d'hypothèses d'un cas POMMES dans le navigateur, comprendre valeur, unité, source et statut, compter les statuts des cas A, D et E, et dire ce qui ferait monter une hypothèse « mémoire » d'un cran.</p>
+  </header>
+  <p>Objectif : lire le fichier d'hypothèses d'un cas, compter ses statuts et repérer l'hypothèse la plus fragile. Aucun code n'est nécessaire ; le bloc Python de la fin est un bonus pour ceux qui ont installé l'environnement (<a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>).</p>
+<p>Prérequis : un navigateur. Savoir ce qu'est un cas POMMES aide (<a href="../textes/txt-choisir-son-cas.html">Choisir son mini-projet le lundi soir : deux sortes de mini-projets, les cartes, les quatre rôles</a>).</p>
+<h2>Une hypothèse sourcée, c'est quatre choses et un statut</h2>
+<p>Dans le dépôt des cas, chaque nombre que le modèle utilise vit dans un fichier <code>hypotheses.yaml</code>, pas dans le code. Le modèle le lit : changer une valeur dans le fichier change le calcul. Chaque hypothèse porte six champs obligatoires : <code>id</code>, <code>nom</code>, <code>valeur</code>, <code>unite</code>, <code>source</code>, <code>statut</code> ; deux facultatifs : <code>formule</code> et <code>remarque</code>.</p>
+<p>Le statut dit à quel point on peut se fier à la valeur. Les six statuts admis, du plus sûr au moins sûr, sont ceux de <code>pommes_cases/hypotheses.py</code> :</p>
+<table>
+<thead>
+<tr>
+<th>statut</th>
+<th>ce que ça veut dire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vérifié</code></td>
+<td>lu dans la source primaire</td>
+</tr>
+<tr>
+<td><code>calculé</code></td>
+<td>dérivé ici, formule donnée</td>
+</tr>
+<tr>
+<td><code>lu sur figure</code></td>
+<td>relevé sur un graphique, pas dans un tableau</td>
+</tr>
+<tr>
+<td><code>repris</code></td>
+<td>valeur d'une source secondaire ou d'un autre modèle, source primaire non relue</td>
+</tr>
+<tr>
+<td><code>choix du cas</code></td>
+<td>un paramètre du cas, pas un fait</td>
+</tr>
+<tr>
+<td><code>mémoire</code></td>
+<td>de tête, à vérifier</td>
+</tr>
+</tbody>
+</table>
+<p>Tout autre statut fait échouer la lecture par <code>load_hypotheses</code>, le lecteur du dépôt (le bonus de la fin lit le YAML brut sans rien vérifier). Un <code>mémoire</code> n'est pas interdit. Il est annoncé. C'est ce qui distingue un cas honnête d'un cas qui cache ses angles morts.</p>
+<h2>Étapes</h2>
+<ol>
+<li>
+<p>Ouvrez <code>A_batteries/hypotheses.yaml</code> dans le navigateur (lien dans les sources). GitLab affiche le YAML en clair, sans compte. Lisez l'en-tête, puis le bloc <code>perimetre</code> : ce que le cas compte et ce qu'il laisse de côté (pas de services système, pas de TURPE, pas d'usure des cellules).</p>
+</li>
+<li>
+<p>Repérez les blocs thématiques : <code>batterie</code>, <code>couts_variantes</code>, <code>prix</code>, <code>marche</code>. Chaque ligne entre accolades est une hypothèse. Comptez-les, puis comptez par statut. Valeurs attendues :</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>cas A</th>
+<th>nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>total</td>
+<td>17</td>
+</tr>
+<tr>
+<td><code>repris</code></td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>choix du cas</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>calculé</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>vérifié</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>mémoire</code></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Huit <code>repris</code> sur dix-sept. Six des huit viennent du TYNDP 2024 via un extracteur (pommes-tyndp), source primaire non relue ; les deux autres, des coûts de système clés en main, de BloombergNEF cité par Energy-Storage.News. Le seul <code>vérifié</code> est le jeu de prix, dont la source et l'empreinte sont dans <code>data/prix/datapackage.json</code>.</p>
+<ol start="3">
+<li>
+<p>Lisez une hypothèse <code>calculé</code> en entier : <code>cout_annuel_2h</code> vaut 34,8 €/kW/an et sa <code>formule</code> est écrite (annuité à 4 % sur 25 ans × (192 + 2 × 171) + 0,65). Refaites-la à la main : la valeur est reproductible.</p>
+</li>
+<li>
+<p>Ouvrez <code>D_electrolyseur/hypotheses.yaml</code>. Valeurs attendues : 58 hypothèses, dont 29 <code>repris</code>, 17 <code>vérifié</code>, 7 <code>choix du cas</code>, 4 <code>mémoire</code>, 1 <code>calculé</code>. Cherchez <code>statut: mémoire</code> (Ctrl+F). Vous en trouvez quatre :</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>valeur</th>
+<th>pourquoi « mémoire »</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kg_par_mwh</code></td>
+<td>30 kg/MWh</td>
+<td>PCI de l'hydrogène de tête</td>
+</tr>
+<tr>
+<td><code>smr_fixe</code></td>
+<td>40 000 €/MW_H2/an</td>
+<td>ratio AIE appliqué à un investissement TYNDP, source primaire non retrouvée</td>
+</tr>
+<tr>
+<td><code>part_rfnbo</code></td>
+<td>100 % ou 42 %</td>
+<td>objectif RED III cité de mémoire</td>
+</tr>
+<tr>
+<td><code>facteur_co2_gaz</code></td>
+<td>0,202 tCO2/MWh</td>
+<td>tableau 2.2 du GIEC 2006 cité de mémoire</td>
+</tr>
+</tbody>
+</table>
+<ol start="5">
+<li>
+<p>Arrêtez-vous sur <code>smr_fixe</code>, le coût fixe du reformeur gardé en appoint. Sa <code>remarque</code> dit tout : pommes-tyndp donne 144 000 €/MW/an, soit 3,6 fois plus, et la source primaire n'a pas été retrouvée. Le README du cas D le signale dans ses limites : cette valeur « pèse sur l'hybridation ». Ce qui la ferait passer en <code>vérifié</code> : lire le coût fixe d'exploitation d'un vaporeformeur dans un document primaire et le citer avec sa page. Deux candidats sont dans les sources : les données d'entrée des scénarios du TYNDP 2024 (coûts d'exploitation des conversions), ou l'annexe d'hypothèses du Global Hydrogen Review de l'AIE. Si la valeur lue est 144 000 et non 40 000, tant mieux : vérifier une hypothèse, c'est accepter qu'elle change.</p>
+</li>
+<li>
+<p>Ouvrez <code>E_vapeur/hypotheses.yaml</code>. Valeurs attendues : 37 hypothèses, dont 21 <code>vérifié</code>, 8 <code>choix du cas</code>, 5 <code>repris</code>, 2 <code>mémoire</code>, 1 <code>calculé</code>. Le cas E est le mieux sourcé des trois : coûts des chaudières lus dans les fiches de la Danish Energy Agency, gaz et CO2 dans les classeurs de l'ENTSO-E. Les deux <code>mémoire</code> : la température de la vapeur saturée à 10 bar et, à nouveau, le facteur d'émission du gaz.</p>
+</li>
+<li>
+<p>Lisez le § « Ce que dit le cas » du README de E. Une phrase y dit quelle hypothèse décide : « Le prix du CO2 payé par le site décide d'abord. » Dans <code>hypotheses.yaml</code>, c'est <code>co2_ets2</code>, 45 €/t, statut <code>choix du cas</code>. Au CO2 du scénario (97,5 à 297,5 €/t selon le jeu et l'année), le tout électrique fait jeu égal avec le gaz en 2030 sous deux jeux sur quatre (TYNDP 2026 et POMMES) et coûte 40 à 55 % de moins en 2040 ; sans CO2, le gaz gagne partout. L'hypothèse qui pèse le plus sur le verdict n'est donc pas une <code>mémoire</code>, mais un <code>choix du cas</code> assumé.</p>
+</li>
+</ol>
+<h2>Bonus : compter en dix lignes</h2>
+<p>Depuis la racine du dépôt cloné, environnement activé. Le script compte les statuts d'un <code>hypotheses.yaml</code> et liste ses <code>mémoire</code>.</p>
+<pre><code class="language-python">import sys, yaml
+from collections import Counter
+
+fichier = sys.argv[1]                      # ex. A_batteries/hypotheses.yaml
+blocs = yaml.safe_load(open(fichier, encoding=&quot;utf-8&quot;))
+blocs.pop(&quot;perimetre&quot;)                     # le périmètre n'est pas une hypothèse
+hyps = [h for liste in blocs.values() for h in liste]
+print(len(hyps), &quot;hypothèses&quot;)
+for statut, n in Counter(h[&quot;statut&quot;] for h in hyps).most_common():
+    print(f&quot;{n:3d}  {statut}&quot;)
+for h in hyps:
+    if h[&quot;statut&quot;] == &quot;mémoire&quot;:
+        print(&quot;mémoire :&quot;, h[&quot;id&quot;], &quot;=&quot;, h[&quot;valeur&quot;], h[&quot;unite&quot;])
+</code></pre>
+<p>Sortie obtenue pour <code>D_electrolyseur/hypotheses.yaml</code> :</p>
+<pre><code>58 hypothèses
+ 29  repris
+ 17  vérifié
+  7  choix du cas
+  4  mémoire
+  1  calculé
+mémoire : kg_par_mwh = 30.0 kg/MWh
+mémoire : smr_fixe = 40000 €/MW_H2/an
+mémoire : part_rfnbo = 100 % (tout RFNBO) ou 42 % -
+mémoire : facteur_co2_gaz = 0.202 tCO2/MWh (PCI)
+</code></pre>
+<p><code>pommes_cases.hypotheses.load_hypotheses</code> fait la même lecture en vérifiant les six champs et les statuts admis ; la page <a href="../textes/restitution.html">La restitution du vendredi : dix minutes, cinq à dix planches, grille à cinq critères, quatre rôles</a> l'utilise.</p>
+<h2>Ce qu'il faut noter</h2>
+<ul>
+<li>Pour chaque cas lu : le total, les <code>repris</code>, les <code>mémoire</code>.</li>
+<li>Pour une <code>mémoire</code> de votre choix : sa valeur, et la source primaire qui la passerait en <code>vérifié</code>.</li>
+<li>Pour le cas que votre groupe envisage : l'hypothèse qui décide du verdict d'après son README, et son statut.</li>
+</ul>
+<h2>Questions</h2>
+<ol>
+<li>Combien d'hypothèses <code>repris</code> dans le cas A, et d'où viennent-elles presque toutes ? (8 ; du TYNDP 2024 via pommes-tyndp.)</li>
+<li>Quel facteur sépare la valeur <code>mémoire</code> de <code>smr_fixe</code> et la valeur donnée par pommes-tyndp ? (144 000 / 40 000 = 3,6.)</li>
+<li>Quelle hypothèse du cas E a le plus d'effet sur le verdict, quelle est sa valeur par défaut et son statut ? (<code>co2_ets2</code>, 45 €/t, <code>choix du cas</code>.)</li>
+</ol>
+<h2>Vous l'avez acquise quand</h2>
+<ul>
+<li>Vous retrouvez les 17 hypothèses du cas A et leur répartition : 8 <code>repris</code>, 5 <code>choix du cas</code>, 3 <code>calculé</code>, 1 <code>vérifié</code>.</li>
+<li>Vous trouvez les quatre <code>mémoire</code> du cas D, dont <code>smr_fixe</code> à 40 000 €/MW_H2/an, et vous nommez un document primaire qui le passerait en <code>vérifié</code>.</li>
+<li>Vous dites, pour le cas E, que le prix du CO2 payé par le site (<code>co2_ets2</code>, 45 €/t) décide du verdict avant toute autre hypothèse.</li>
+<li>Dans votre groupe, vous savez tenir le rôle « qui source » : relire chaque hypothèse à sa source et fixer son statut, sans écrire une ligne de code.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Le contrat complet du fichier et le gabarit d'un cas, pour écrire votre propre <code>hypotheses.yaml</code> <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/_gabarit" target="_blank" rel="noopener">Le gabarit d'un cas (_gabarit/) : écrire son propre cas POMMES</a>.</li>
+<li>La page « jouer » du cas D (<code>page.html</code>, construite par <code>build_page.py</code>), qui affiche le tableau nom, valeur, unité, source, statut à partir du même fichier <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a>.</li>
+<li>Le format StudySpec de pommes-assistant : la même idée, la source de chaque nombre, étendue à une étude entière <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/studyspec.md" target="_blank" rel="noopener">Format StudySpec 0.2 : une étude pommes avec la source de chaque nombre</a>.</li>
+<li>L'outil Décarbonation de l'industrie, qui montre le statut de chaque hypothèse à côté de sa valeur <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/A_batteries/hypotheses.yaml" target="_blank" rel="noopener">A_batteries/hypotheses.yaml (dépôt pommes-case-studies)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/D_electrolyseur/hypotheses.yaml" target="_blank" rel="noopener">D_electrolyseur/hypotheses.yaml</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/E_vapeur/hypotheses.yaml" target="_blank" rel="noopener">E_vapeur/hypotheses.yaml</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/E_vapeur/README.md" target="_blank" rel="noopener">E_vapeur/README.md, § Ce que dit le cas</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/_gabarit/README.md" target="_blank" rel="noopener">Le contrat du fichier : _gabarit/README.md et pommes_cases/hypotheses.py</a></li><li><a href="https://2024.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E, TYNDP 2024 Scenarios (données d'entrée téléchargeables)</a></li><li><a href="https://www.iea.org/reports/global-hydrogen-review-2024" target="_blank" rel="noopener">AIE, Global Hydrogen Review 2024</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

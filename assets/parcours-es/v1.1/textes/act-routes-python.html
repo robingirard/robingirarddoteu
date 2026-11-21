@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le moteur de l'outil « routes » en Python · Parcours ES 2026</title>
+<meta name="description" content="Télécharger le moteur public de l'outil « ce que coûte chaque route » (un fichier Python et neuf fichiers d'hypothèses), tracer le prix du CO₂ qui fait basculer l'acier vers l'hydrogène en fonction du prix de l'électricité, puis refaire les prix de bascule que le cas H calcule aux tarifs des jeux de prix publiés, et changer une hypothèse.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 80 min</span> · <span>Industrie, Hydrogène, Économie</span></div>
+    <h1>Le moteur de l'outil « routes » en Python</h1>
+    <p class="resume">Télécharger le moteur public de l'outil « ce que coûte chaque route » (un fichier Python et neuf fichiers d'hypothèses), tracer le prix du CO₂ qui fait basculer l'acier vers l'hydrogène en fonction du prix de l'électricité, puis refaire les prix de bascule que le cas H calcule aux tarifs des jeux de prix publiés, et changer une hypothèse.</p>
+  </header>
+  <p>Objectif : passer du curseur au calcul. L'outil web <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a> fait tourner un petit moteur, écrit deux fois (JavaScript pour la page, Python pour les calculs), vérifiés identiques sur les 46 routes. Le moteur Python est public. La partie A (N1, 35 min) trace une courbe de bascule ; la partie B (N2, 45 min) refait ce que fait le cas H avant de lancer son modèle. Il faut Python avec pyyaml et matplotlib (<code>pip install pyyaml matplotlib</code>). Valeurs du 18/11/2026, moteur v2.1 (10/10/2026).</p>
+<h2>Partie A (N1). Le prix de l'électricité qui fait basculer l'acier</h2>
+<p>Un <strong>prix de bascule</strong> est le prix du CO₂ à partir duquel une route bas carbone coûte moins cher que la route de référence (ici le haut fourneau, BF-BOF), en comptant ce que chacune paie de quota. Le DRI-H₂ (fer réduit à l'hydrogène, puis four électrique) achète son hydrogène, donc son électricité : son prix de bascule dépend du prix de l'électricité.</p>
+<ol>
+<li>Télécharger le moteur et ses hypothèses (les cinq premières lignes du bloc), puis vérifier qu'on retrouve l'onglet Acier : BF-BOF 523 €/t, DRI-H₂ 772 €/t.</li>
+<li>Faire varier l'électricité de 10 à 150 €/MWh et tracer le prix de bascule du DRI-H₂. Constater que c'est une droite, et lire sa pente.</li>
+<li>En déduire le prix de l'électricité qui ramène la bascule à 100 €/tCO₂.</li>
+<li>Par dichotomie : avec un quota à 300 €/t, sous quel prix de l'électricité le DRI-H₂ coûte-t-il moins que le haut fourneau avec captage du CO₂ (BF-BOF + CCS) ?</li>
+<li>Vérifier un point dans le navigateur : électricité à 30 €/MWh, onglet Acier, figure « Coût d'abattement contre la route de référence (BF-BOF) ». Le prix de bascule n'y est écrit que dans l'infobulle du petit triangle noir posé sur la barre du DRI-H₂ (survoler à la souris) : 129 €/tCO₂. Deux pièges : la barre elle-même donne le coût d'abattement (127), et la vignette « Prix du quota qui fait basculer » parle d'une autre route (le recyclage).</li>
+</ol>
+<pre><code class="language-python">import sys, pathlib, urllib.request
+BASE = &quot;https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes/-/raw/main/&quot;
+for f in [&quot;modele.py&quot;] + [f&quot;hypotheses/{n}.yaml&quot; for n in &quot;commun hydrogene acier ciment ammoniac methanol olefines aluminium saf&quot;.split()]:
+    (pathlib.Path(&quot;idr&quot;) / f).parent.mkdir(parents=True, exist_ok=True)
+    urllib.request.urlretrieve(BASE + f, pathlib.Path(&quot;idr&quot;) / f)
+sys.path.insert(0, &quot;idr&quot;); import modele
+import matplotlib.pyplot as plt
+hyp = modele.charger()
+def acier(elec=70, co2=70):                                     # €/MWh, €/tCO2 ; le reste par défaut
+    etat = modele.etat_defaut(hyp)
+    etat[&quot;prix&quot;][&quot;electricite&quot;], etat[&quot;prix&quot;][&quot;co2_ets&quot;] = elec, co2
+    return modele.calculer_produit(hyp, etat, &quot;steel&quot;)[&quot;routes&quot;]
+r = acier()
+print(&quot;BF-BOF&quot;, round(r[&quot;bf_bof&quot;][&quot;cout_total&quot;], 1), &quot;| DRI-H2&quot;, round(r[&quot;dri_h2_eaf&quot;][&quot;cout_total&quot;], 1),
+      &quot;€/t | bascule DRI-H2&quot;, round(r[&quot;dri_h2_eaf&quot;][&quot;prix_co2_bascule&quot;], 1), &quot;€/tCO2&quot;)
+prix = range(10, 151, 10)
+bascule = [acier(p)[&quot;dri_h2_eaf&quot;][&quot;prix_co2_bascule&quot;] for p in prix]
+pente = (bascule[-1] - bascule[0]) / (prix[-1] - prix[0])        # la courbe est une droite
+print(&quot;pente&quot;, round(pente, 2), &quot;€/tCO2 par €/MWh ; bascule à 100 €/tCO2 si élec =&quot;,
+      round(70 - (acier()[&quot;dri_h2_eaf&quot;][&quot;prix_co2_bascule&quot;] - 100) / pente, 1), &quot;€/MWh&quot;)
+ecart = lambda p, co2: acier(p, co2)[&quot;dri_h2_eaf&quot;][&quot;cout_total&quot;] - acier(p, co2)[&quot;bf_bof_ccs&quot;][&quot;cout_total&quot;]
+bas, haut = 10.0, 150.0                                         # dichotomie : hydrogène = captage, quota 300 €/t
+for _ in range(40):
+    milieu = (bas + haut) / 2
+    bas, haut = (milieu, haut) if ecart(milieu, 300) &lt; 0 else (bas, milieu)
+print(&quot;quota 300 : DRI-H2 moins cher que BF-BOF + CCS sous&quot;, round(bas, 1), &quot;€/MWh&quot;)
+print(dict(zip(prix, [round(b, 1) for b in bascule])))          # la courbe, point par point
+plt.plot(prix, bascule, &quot;o-&quot;); plt.xlabel(&quot;électricité (€/MWh)&quot;); plt.ylabel(&quot;bascule DRI-H2 (€/tCO2)&quot;)
+plt.savefig(&quot;bascule_dri_h2.png&quot;, dpi=120)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Grandeur</th>
+<th>Attendu (v2.1)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BF-BOF / DRI-H₂ aux défauts</td>
+<td>522,7 / 772,4 €/t</td>
+<td></td>
+</tr>
+<tr>
+<td>bascule du DRI-H₂ à 10 / 30 / 70 / 150 €/MWh</td>
+<td>84,9 / 128,9 / 216,9 / 392,9 €/tCO₂</td>
+<td></td>
+</tr>
+<tr>
+<td>pente</td>
+<td>2,2 €/tCO₂ par €/MWh</td>
+<td></td>
+</tr>
+<tr>
+<td>électricité qui ramène la bascule à 100 €/tCO₂</td>
+<td>16,9 €/MWh</td>
+<td></td>
+</tr>
+<tr>
+<td>quota 300 €/t : DRI-H₂ &lt; BF-BOF + CCS sous</td>
+<td>40,5 €/MWh</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>D'où vient la pente : dans l'outil, l'aciérie à l'hydrogène consomme 3,93 MWh d'électricité par tonne d'acier (hydrogène compris, champ <code>elec_mwh</code>) contre 0,19 pour le haut fourneau, et paie 1,70 tCO₂ de quota de moins par tonne (champ <code>em_ets</code> : 1,76 contre 0,06) ; (3,93 − 0,19) / 1,70 ≈ 2,2. Écrire en une phrase pourquoi un tarif d'heures creuses (cas D, cas K) change plus le verdict qu'un CAPEX d'électrolyseur.</p>
+<p>Pièges du moteur : l'hydrogène y est en €/t (7 059 €/t = 7,06 €/kg) ; <code>prix_co2_bascule</code> et <code>cout_abattement</code> valent <code>None</code> pour la route de référence et pour celles qui émettent plus qu'elle (la bascule compare les émissions directes, qui paient le quota, <code>em_ets</code> ; le coût d'abattement compare les émissions totales, <code>em_total</code>) ; le moteur ne borne pas les curseurs (on peut sortir de la plage de la page) ; une hypothèse changée en mémoire le reste jusqu'au prochain <code>modele.charger()</code>.</p>
+<h2>Partie B (N2). Refaire les prix de bascule du cas H, puis changer une hypothèse</h2>
+<p>Le cas H <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/H_industrie_co2" target="_blank" rel="noopener">Cas H — À quel prix du CO₂ l'industrie française change-t-elle de procédé, et qu'est-ce qui se verrouille ?</a> commence par là : il pose dans le moteur le prix de l'électricité (réseau compris, 6 €/MWh) et du gaz de chaque jeu de prix publié, et en tire les prix de bascule usine par usine. Il les compare ensuite à ce que fait le parc français dans le modèle pommes. Le résultat est public (<code>economie_routes.json</code>).</p>
+<ol>
+<li>Télécharger le moteur comme en partie A (dossier <code>idr/</code>).</li>
+<li>Lire le JSON public du cas H et garder l'acier primaire, jeu TYNDP 2026, année 2030 : quatre routes, deux tarifs (le prix moyen de l'année, <code>electricity</code>, et celui des 50 % d'heures les moins chères, <code>electricity_50%_LF</code>).</li>
+<li>Pour chaque ligne, poser l'électricité et le gaz du cas, recalculer, comparer au champ <code>bascule</code> : l'écart doit être nul.</li>
+<li>Expliquer pourquoi le tarif des heures les moins chères fait tomber le DRI-H₂ de 205 à 141 €/tCO₂ et l'électrolyse directe du minerai de 103 à 46, mais ne change presque pas le captage.</li>
+<li>Changer une hypothèse en mémoire : l'outil n'a qu'un prix du charbon, 80 €/t par défaut (celui du charbon vapeur) ; le porter à 220 €/t, celui du charbon à coke (<code>commun.yaml</code>, <code>prix.charbon.v</code>), et relever ce qui bouge et ce qui ne bouge pas.</li>
+</ol>
+<pre><code class="language-python">import json, sys, urllib.request
+sys.path.insert(0, &quot;idr&quot;); import modele                       # idr/ : téléchargé comme en partie A
+URL = (&quot;https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies&quot;
+       &quot;/-/raw/main/H_industrie_co2/economie_routes.json&quot;)
+cas = json.load(urllib.request.urlopen(URL))
+lignes = [l for l in cas[&quot;routes&quot;] if l[&quot;jeu&quot;] == &quot;tyndp2026&quot; and l[&quot;annee&quot;] == 2030 and l[&quot;produit&quot;] == &quot;steel_primary&quot;]
+hyp = modele.charger()
+def bascules(elec, gaz, hyp=hyp):
+    etat = modele.etat_defaut(hyp)
+    etat[&quot;prix&quot;][&quot;electricite&quot;], etat[&quot;prix&quot;][&quot;gaz&quot;] = elec, gaz      # elec : tarif du cas + réseau
+    return modele.calculer_produit(hyp, etat, &quot;steel&quot;)[&quot;routes&quot;]
+for l in lignes:
+    r = bascules(l[&quot;elec&quot;], l[&quot;gaz&quot;])[l[&quot;route&quot;]]
+    print(f&quot;{l['tarif']:20s} {l['route']:20s} élec {l['elec']:5.1f} gaz {l['gaz']:4.1f}  cas {l['bascule']:6.1f}&quot;
+          f&quot;  moteur {r['prix_co2_bascule']:6.1f}  écart {abs(r['prix_co2_bascule'] - l['bascule']):.1e}&quot;)
+hyp[&quot;commun&quot;][&quot;prix&quot;][&quot;charbon&quot;][&quot;v&quot;] = 220                     # le prix du charbon à coke, au lieu de 80 €/t
+l = next(x for x in lignes if x[&quot;tarif&quot;] == &quot;electricity&quot; and x[&quot;route&quot;] == &quot;dri_h2_eaf&quot;)
+r = bascules(l[&quot;elec&quot;], l[&quot;gaz&quot;], hyp)
+print(&quot;charbon 220 :&quot;, {k: round(r[k][&quot;prix_co2_bascule&quot;], 1) for k in (&quot;bf_bof_ccs&quot;, &quot;dri_ng_eaf&quot;, &quot;dri_h2_eaf&quot;)})
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Route (TYNDP 2026, 2030)</th>
+<th>Tarif moyen, 64,5 €/MWh</th>
+<th>50 % d'heures, 35,4 €/MWh</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>haut fourneau + captage</td>
+<td>51,3 €/tCO₂</td>
+<td>48,6</td>
+<td></td>
+</tr>
+<tr>
+<td>DRI au gaz</td>
+<td>112,8</td>
+<td>79,4</td>
+<td></td>
+</tr>
+<tr>
+<td>DRI-H₂</td>
+<td>204,7</td>
+<td>140,8</td>
+<td></td>
+</tr>
+<tr>
+<td>électrolyse du minerai</td>
+<td>103,5</td>
+<td>46,4</td>
+<td></td>
+</tr>
+<tr>
+<td>charbon à 220 €/t (tarif moyen) : captage / DRI gaz / DRI-H₂</td>
+<td>51,3 / 3,9 / 147,0</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Ce qu'il faut voir : le charbon cher rapproche toutes les routes du haut fourneau, sauf le captage, qui garde son charbon. Et le calcul usine par usine du cas H (<code>economie_routes.py</code>) applique le tarif des heures creuses à toute l'électricité de l'usine, four compris, alors que dans le modèle pommes du cas seule l'électrolyse achète aux heures les moins chères : une simplification à écrire dans vos limites. Le pas suivant est dans le cas H lui-même : le parc français bascule vers l'hydrogène dès 125 €/t en 2030 sous ce jeu, bien plus bas que les 205 €/t de l'usine seule. Pourquoi ? C'est la compétence suivante.</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous retrouvez la pente de 2,2 €/tCO₂ par €/MWh à partir de deux chiffres de l'outil.</li>
+<li>Vos huit prix de bascule tombent à l'écart nul, et vous savez dire d'où vient chaque prix d'électricité.</li>
+<li>Vous distinguez un prix de bascule (privé, une usine, un prix) d'un coût d'abattement <a href="../textes/act-ordre-merite-co2.html">Activité guidée — l'ordre de mérite des abattements face au quota et à la valeur Quinet</a>.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>La note compagnon de l'outil : hypothèses, sources, statuts <a href="../notes/note-economie-routes.html">Ce que coûte chaque route de décarbonation de l'industrie (note, 20/09/2026, v2.1 du 10/10)</a>.</li>
+<li>Le parc plutôt que l'usine : le cas H <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/H_industrie_co2" target="_blank" rel="noopener">Cas H — À quel prix du CO₂ l'industrie française change-t-elle de procédé, et qu'est-ce qui se verrouille ?</a> ; l'usine qui suit le prix heure par heure : le cas K <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/K_acierie_dri" target="_blank" rel="noopener">Cas K — Une aciérie DRI qui choisit son gaz heure par heure : que vaut sa flexibilité, que lui retire une rampe ?</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes" target="_blank" rel="noopener">Dépôt public industry_decarbo_routes (modele.py, hypotheses/*.yaml ; code MIT, hypothèses CC BY 4.0)</a></li><li><a href="https://www.robingirard.eu/assets/industrydecarbo/v2.1/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie v2.1 (lien épinglé)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/H_industrie_co2" target="_blank" rel="noopener">Cas H du dépôt pommes-case-studies : economie_routes.py et economie_routes.json</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

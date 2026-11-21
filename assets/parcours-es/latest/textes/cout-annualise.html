@@ -44,6 +44,19 @@ a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2
 .bandeau a { color: var(--bleu-clair); text-decoration: none; }
 .bandeau a:hover { text-decoration: underline; }
 .enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
 article.texte { padding-block: 28px 56px; }
 article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
 article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
@@ -52,6 +65,9 @@ h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
 h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
 h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
 .resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
 p, li { max-width: 68ch; }
 ul, ol { padding-left: 1.3em; }
 li + li { margin-top: .25em; }
@@ -75,6 +91,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <body>
 <div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
 <main class="enveloppe">
+<div class="disposition">
 <article class="texte">
   <header>
     <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Socle, Économie, Modélisation, Flexibilité, Industrie</span></div>
@@ -145,7 +162,7 @@ print(round((90_000 * a + 2_000) / mwh_par_mw + 1.23 + gaz, 1))      # 36.7 €/
 <h2>Les limites du LCOE</h2>
 <p>Le LCOE répond à « combien coûte un MWh produit », pas à « combien vaut ce MWh ». Trois pièges.</p>
 <p>Le facteur de charge n'est pas une donnée. Pour une batterie ou une chaudière hybride, c'est le résultat de l'optimisation face aux prix. Dans le cas E, l'hybride produit 0 à 67 % de sa vapeur à l'électricité selon le jeu de prix, pour 24 à 43 €/MWh.</p>
-<p>La valeur de marché dépend des heures. Deux actifs au même LCOE ne gagnent pas la même chose s'ils produisent à des heures différentes. Dans le cas A, la série centrale de fos-sur-mer rapporte 54,8 €/kW/an, dont 20,9 en 15 heures au plafond de 1 000 €/MWh. Sans ces heures, 34,8 : l'équilibre exact.</p>
+<p>La valeur de marché dépend des heures. Deux actifs au même LCOE ne gagnent pas la même chose s'ils produisent à des heures différentes. Dans le cas A, la série centrale de fos-sur-mer rapporte 54,8 €/kW/an, dont 20,9 en 15 heures au plafond de 1 000 €/MWh, soit 38 % du revenu. Sans ces heures, la batterie est réoptimisée (chaque heure au plafond est ramenée au plus haut prix hors plafond de l'année) et rapporte 34,8 €/kW/an — pas 54,8 − 20,9 = 33,9 (<code>A_batteries/results.json</code>, lignes <code>sans_plafond</code> à <code>false</code> et <code>true</code>). 34,8 €/kW/an, c'est justement le coût annualisé d'une batterie de 2 h au coût central du TYNDP 2030 : l'équilibre exact.</p>
 <p>La cannibalisation. Quand toutes les batteries déchargent aux mêmes heures, elles font baisser le prix qu'elles visaient. Le cas A le modélise par une pente de marché : à 1 €/MWh par GW déchargé, une flotte de 10 GW gagne environ 20 % de moins par kW qu'une batterie seule, 19,9 contre 25,7 €/kW/an sous le TYNDP 2026. Le LCOE ne bouge pas ; la valeur fond.</p>
 <h2>Le coût de défaillance</h2>
 <p>Un modèle de planification doit aussi décider ce que coûte un MWh non servi. Dans pommes, c'est le paramètre <code>load_shedding_cost</code>, nul par défaut quand aucun composant n'est posé ; le composant <code>LoadShedding</code> de pommes_craft le fixe par son argument <code>cost</code>, 1 000 €/MWh par défaut. Les cas à prix exogène lui donnent une capacité nulle : la demande doit être servie. Dans un modèle de système entier, ce coût fixe la hauteur des pics : le prix dual monte au coût de défaillance quand la demande n'est pas servie. Le cas A traite toute heure à 1 000 €/MWh ou plus comme une heure de défaillance du modèle de prix, statut « choix du cas », et donne le verdict avec et sans ces heures. Pour l'adéquation et la LOLE : <span title="planches-lole-adequation-pointe">Adéquation : défaillance, pointe « à une chance sur dix », LOLE dans le capacity expansion (remis en cours)</span>.</p>
@@ -165,6 +182,8 @@ print(round((90_000 * a + 2_000) / mwh_par_mw + 1.23 + gaz, 1))      # 36.7 €/
 </ul>
   <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies : A_batteries/hypotheses.yaml, A_batteries/README.md, E_vapeur/hypotheses.yaml, E_vapeur/README.md</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Documentation pommes, Model description : objectif, actualisation, annuités</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/autoapi/index.html" target="_blank" rel="noopener">Documentation pommes, référence API (pommes.utils.crf)</a></li><li><a href="https://www.energy-alternatives.eu/2020/08/20/decomposition-lcoe.html" target="_blank" rel="noopener">Évaluer le coût économique de la production d'électricité (décomposition du LCOE)</a></li></ol></section>
 </article>
+
+</div>
 </main>
 <footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
 </body>

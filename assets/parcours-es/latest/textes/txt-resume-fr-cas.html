@@ -44,6 +44,19 @@ a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2
 .bandeau a { color: var(--bleu-clair); text-decoration: none; }
 .bandeau a:hover { text-decoration: underline; }
 .enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
 article.texte { padding-block: 28px 56px; }
 article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
 article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
@@ -52,6 +65,9 @@ h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
 h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
 h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
 .resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
 p, li { max-width: 68ch; }
 ul, ol { padding-left: 1.3em; }
 li + li { margin-top: .25em; }
@@ -75,13 +91,14 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <body>
 <div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
 <main class="enveloppe">
+<div class="disposition">
 <article class="texte">
   <header>
-    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Socle, Atelier du cas</span></div>
+    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Socle, Atelier</span></div>
     <h1>Les cas 0 et A à E en français, palier par palier</h1>
     <p class="resume">Pour chaque cas prêt du dépôt, les paliers de son notebook (en anglais) résumés en français, avec la sortie à regarder, la valeur attendue, le temps d'exécution et le chiffre à retenir, puis un glossaire FR/EN des termes de pommes et pommes_craft.</p>
   </header>
-  <p>Les six notebooks prêts sont en anglais. Cette page les résume en français, palier par palier : la sortie à lire et la valeur à y voir (sorties enregistrées des notebooks, README). Les temps sont ceux du README (MacBook Pro M3 Max) ; comptez le double sur un portable. Chaque notebook relit le <code>results.json</code> de sa grille. Écrire un modèle : <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a> ; choisir son cas : <a href="../textes/txt-choisir-son-cas.html">Choisir son cas le lundi soir : les onze cartes, le vote de repli, les quatre rôles</a>.</p>
+  <p>Les six notebooks prêts sont en anglais. Cette page les résume en français, palier par palier : la sortie à lire et la valeur à y voir (sorties enregistrées des notebooks, README). Les temps sont ceux du README (MacBook Pro M3 Max) ; comptez le double sur un portable. Chaque notebook relit le <code>results.json</code> de sa grille. Écrire un modèle : <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a> ; choisir son cas : <a href="../textes/txt-choisir-son-cas.html">Choisir son mini-projet le lundi soir : deux sortes de mini-projets, les cartes, les quatre rôles</a>.</p>
 <h2>Cas 0 : les jeux de prix divergent (2 h, aucun calcul lourd)</h2>
 <table>
 <thead>
@@ -152,8 +169,8 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tr>
 <tr>
 <td>5. The n-th GW</td>
-<td><code>price_depth_hook</code>, pente s</td>
-<td>10 GW, s = 1 : 19,91 au lieu de 25,21 €/kW/an</td>
+<td><code>price_depth_hook</code>, pente s calibrée à 1,8 €/MWh par GW</td>
+<td>10 GW : 16,9 au lieu de 25,7 €/kW/an (TYNDP 2026 NT+)</td>
 </tr>
 </tbody>
 </table>
@@ -176,12 +193,12 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <tr>
 <td>2. One car facing the prices</td>
 <td><code>preneur_de_prix</code>, colonne <code>gain</code></td>
-<td>57,0 (TYNDP 2026 NT+), 47,3 (POMMES) €/voiture/an</td>
+<td>54,0 (TYNDP 2026 NT+), 45,0 (POMMES) €/voiture/an</td>
 </tr>
 <tr>
 <td>3. Millions of cars in 2035</td>
 <td><code>M.france</code> ; <code>heures_prix_bas</code>, <code>recharge_pointe_gw</code>, <code>gain_vehicule</code></td>
-<td>16,6 M pilotées : 301 h sous 10 €/MWh au lieu de 452, pointe 51 GW, gain 52 €</td>
+<td>16,6 M pilotées : 275 h sous 10 €/MWh au lieu de 452, pointe 50 GW, gain 46 €</td>
 </tr>
 <tr>
 <td>4. RTE's N03, corrected</td>
@@ -190,8 +207,8 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tr>
 </tbody>
 </table>
-<p>À retenir : de 8 à 33 millions de voitures pilotées, gain de 54 à 47 €/an, heures sous 10 €/MWh de 452 à 93.</p>
-<h2>Cas C : thermosensibilité, la pointe d'hiver (3 h ; notebook ≈ 30 s, grille 9 min)</h2>
+<p>À retenir : de 8 à 33 millions de voitures pilotées, gain de 49 à 42 €/an, heures sous 10 €/MWh de 452 à 64.</p>
+<h2>Cas C : thermosensibilité, la pointe d'hiver (3 h ; notebook ≈ 30 s, grille ≈ 15 min, 27 résolutions)</h2>
 <table>
 <thead>
 <tr>
@@ -208,18 +225,23 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tr>
 <tr>
 <td>2. Heat pumps</td>
-<td>COP par température, chaleur à fournir</td>
-<td>2,3 à −12 °C, 3,4 à 18 °C ; 158 TWh</td>
+<td>COP par température, chaleur à fournir ; profil en degrés-heures seuls</td>
+<td>2,3 à −12 °C, 3,4 à 18 °C ; 158 TWh ; pointe des PAC de WS060 : 60,5 GW avec les pentes de grand froid, 49,2 sans</td>
 </tr>
 <tr>
 <td>3. Two winters, solved live</td>
 <td><code>M.resoudre(["WS037", "WS060"], part, dec=dec, norm=norm)</code> ; <code>defaillance_max_gw</code></td>
-<td>0,7 M variables, 5 à 9 s ; WS060, 100 % PAC : 72,4 GW manquants (pointe non unique : 75,6 dans un autre calcul)</td>
+<td>0,7 M variables, 5 à 9 s ; WS060, 100 % PAC : 53,5 GW manquants (unique : variable de pointe pénalisée de 0,01 €/MW)</td>
 </tr>
 <tr>
-<td>4. The cost of the peak</td>
-<td><code>results.json</code>, 30 hivers ; <code>cout_pointe_meur</code></td>
-<td>100 % : 2 859 à 13 146 M€/an, médiane 6 475</td>
+<td>4. The extra cost for the power system</td>
+<td><code>results.json</code>, 30 hivers ; <code>surcout_systeme_meur</code> = <code>surcout_energie_meur</code> + <code>surcout_puissance_meur</code></td>
+<td>100 % : 2 970 à 10 888 M€/an, médiane 5 894, 76 % d'énergie ; combustible évité 12 010 M€/an</td>
+</tr>
+<tr>
+<td>Sensitivities</td>
+<td>table <code>sensibilites</code></td>
+<td>surcoût médian 5,2 (chaudières 0,85) à 6,4 Md€/an (COP 1,9 à −10 °C ; TAC +30 %)</td>
 </tr>
 <tr>
 <td>5. Checks against prices</td>
@@ -228,7 +250,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tr>
 </tbody>
 </table>
-<p>À retenir : le même choix coûte du simple au quadruple selon l'hiver.</p>
+<p>À retenir : le même choix coûte du simple au triple et demi selon l'hiver, surtout en énergie, et moins que le gaz et le fioul qu'il évite.</p>
 <h2>Cas D : électrolyseur et règle horaire (3 h ; notebook ≈ 2 min, grille 40 min sur 6 cœurs)</h2>
 <table>
 <thead>
@@ -409,6 +431,8 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </ul>
   <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt public des cas pommes-case-studies (README, card.yaml, notebook.ipynb et results.json de chaque cas)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/nomenclature.html" target="_blank" rel="noopener">Nomenclature de pommes : indices, paramètres, variables</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description de pommes (contrainte d'adéquation)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft sur PyPI</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/usage.html" target="_blank" rel="noopener">Usage de pommes_craft : run, get_results, save</a></li></ol></section>
 </article>
+
+</div>
 </main>
 <footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
 </body>

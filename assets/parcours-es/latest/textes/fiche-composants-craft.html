@@ -44,6 +44,19 @@ a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2
 .bandeau a { color: var(--bleu-clair); text-decoration: none; }
 .bandeau a:hover { text-decoration: underline; }
 .enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
 article.texte { padding-block: 28px 56px; }
 article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
 article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
@@ -52,6 +65,9 @@ h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
 h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
 h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
 .resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
 p, li { max-width: 68ch; }
 ul, ol { padding-left: 1.3em; }
 li + li { margin-top: .25em; }
@@ -75,15 +91,16 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <body>
 <div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
 <main class="enveloppe">
+<div class="disposition">
 <article class="texte">
   <header>
-    <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Atelier du cas, Flexibilité, Hydrogène, Industrie, Interco et EnR</span></div>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Atelier, Flexibilité, Hydrogène, Industrie, Interco et EnR</span></div>
     <h1>Les composants de pommes_craft et leurs défauts</h1>
     <p class="resume">Pour chaque composant de pommes_craft 0.6.0, ce qu'il représente, ses principaux arguments avec leurs unités et leurs défauts lus dans le code, le paramètre pommes qu'il alimente et son piège ; cinq hypothèses traduites en composant ; une batterie de 1 MW / 2 h ajoutée au modèle du tutoriel.</p>
   </header>
-  <p>Un modèle pommes_craft est une liste de composants déclarés dans <code>with model.context():</code>. Chaque composant devient un ou plusieurs paramètres pommes, préfixés par son nom de module (<code>conversion_</code>, <code>storage_</code>, <code>net_import_</code>...). Deux jeux de défauts se superposent : ceux de la signature pommes_craft, qui s'appliquent dès que le composant existe, et ceux de pommes, qui s'appliquent quand le composant n'existe pas. Ils ne coïncident pas toujours. Les défauts ci-dessous sont lus dans le code installé de pommes_craft 0.6.0 (<code>inspect.signature</code>) et dans <code>dataset_description.yaml</code> de pommes 0.11.0. Les tableaux donnent les principaux arguments, pas tous : les arguments d'annuité (<code>annuity_cost</code>, <code>annuity_perfect_foresight</code>), de déclassement anticipé (<code>early_decommissioning</code>, <code>end_of_life</code>) et quelques bornes sont omis. Les unités suivent la nomenclature pommes : MW, MWh, €, kg de CO₂. Les pièges renvoient à <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>.</p>
+  <p>Un modèle pommes_craft est une liste de composants déclarés dans <code>with model.context():</code>. Chaque composant devient un ou plusieurs paramètres pommes, préfixés par son module (<code>conversion_</code>, <code>storage_</code>, <code>net_import_</code>...). Deux jeux de défauts se superposent, qui ne coïncident pas toujours : ceux de la signature pommes_craft, dès que le composant existe, et ceux de pommes, quand il n'existe pas. Défauts lus dans le code installé de pommes_craft 0.6.0 (<code>inspect.signature</code>) et dans <code>dataset_description.yaml</code> de pommes 0.11.0 ; tableaux non exhaustifs (annuité, déclassement anticipé et quelques bornes omis). Unités : nomenclature pommes, MW, MWh, €, kg de CO₂. Pièges : <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>.</p>
 <h2>Le cadre : EnergyModel et trois composants sans zone</h2>
-<p><code>EnergyModel</code> porte les indices. Ses arguments s'écrivent nommés, jamais en positionnel : l'ordre réel est <code>name, folder, hours, year_ops, year_invs, year_decs, year_rets, modes, resources, hour_types, operating_conditions, operating_condition_weights, add_modules, pre_process, solver_name="highs", solver_options</code>. Une capacité investie en <code>year_inv</code> n'existe que si <code>year_inv + life_span</code> est une étiquette de <code>year_decs</code> (piège 3).</p>
+<p><code>EnergyModel</code> porte les indices ; ses arguments s'écrivent nommés, jamais en positionnel. Une capacité investie en <code>year_inv</code> n'existe que si <code>year_inv + life_span</code> est une étiquette de <code>year_decs</code> (piège 3).</p>
 <table>
 <thead>
 <tr>
@@ -103,7 +120,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <tr>
 <td><code>TimeStepManager</code></td>
 <td>Le pas et l'année</td>
-<td><code>time_step_duration=nan</code> (h par pas), <code>operation_year_duration=nan</code> (h par an ; la docstring dit « days », pommes divise par la somme des pas : écrire 8760.0)</td>
+<td><code>time_step_duration=nan</code> (h par pas), <code>operation_year_duration=nan</code> (h par an ; docstring « days » trompeuse : écrire 8760.0)</td>
 <td><code>time_step_duration</code>, <code>operation_year_duration</code></td>
 </tr>
 <tr>
@@ -297,6 +314,8 @@ print(f&quot;{m5.linopy_model.objective.value:,.2f} €&quot;, float(m5.linopy_m
 </ul>
   <section class="sources"><h2>Sources</h2><ol><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">pommes_craft 0.6.0 sur PyPI (code lu : pommes_craft/components/*.py, core/model.py)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_craft" target="_blank" rel="noopener">Dépôt pommes_craft (RELEASE_NOTES, examples)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/dataset_description.html" target="_blank" rel="noopener">Doc pommes, Dataset description (défauts de pommes 0.11.0, lus dans model/data_validation/dataset_description.yaml)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Doc pommes, Model description (stockage, carbone, transport, demande flexible)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (A_batteries/model.py, pommes_cases/systeme_fr.py, pommes_cases/blocks.py)</a></li></ol></section>
 </article>
+
+</div>
 </main>
 <footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
 </body>

@@ -44,6 +44,19 @@ a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2
 .bandeau a { color: var(--bleu-clair); text-decoration: none; }
 .bandeau a:hover { text-decoration: underline; }
 .enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
 article.texte { padding-block: 28px 56px; }
 article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
 article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
@@ -52,6 +65,9 @@ h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
 h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
 h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
 .resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
 p, li { max-width: 68ch; }
 ul, ol { padding-left: 1.3em; }
 li + li { margin-top: .25em; }
@@ -75,14 +91,15 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <body>
 <div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
 <main class="enveloppe">
+<div class="disposition">
 <article class="texte">
   <header>
-    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Socle, Atelier du cas</span></div>
+    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Socle, Atelier</span></div>
     <h1>Lire hypotheses.yaml et compter les statuts</h1>
     <p class="resume">Ouvrir le fichier d'hypothèses d'un cas POMMES dans le navigateur, comprendre valeur, unité, source et statut, compter les statuts des cas A, D et E, et dire ce qui ferait monter une hypothèse « mémoire » d'un cran.</p>
   </header>
   <p>Objectif : lire le fichier d'hypothèses d'un cas, compter ses statuts et repérer l'hypothèse la plus fragile. Aucun code n'est nécessaire ; le bloc Python de la fin est un bonus pour ceux qui ont installé l'environnement (<a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>).</p>
-<p>Prérequis : un navigateur. Savoir ce qu'est un cas POMMES aide (<a href="../textes/txt-choisir-son-cas.html">Choisir son cas le lundi soir : les onze cartes, le vote de repli, les quatre rôles</a>).</p>
+<p>Prérequis : un navigateur. Savoir ce qu'est un cas POMMES aide (<a href="../textes/txt-choisir-son-cas.html">Choisir son mini-projet le lundi soir : deux sortes de mini-projets, les cartes, les quatre rôles</a>).</p>
 <h2>Une hypothèse sourcée, c'est quatre choses et un statut</h2>
 <p>Dans le dépôt des cas, chaque nombre que le modèle utilise vit dans un fichier <code>hypotheses.yaml</code>, pas dans le code. Le modèle le lit : changer une valeur dans le fichier change le calcul. Chaque hypothèse porte six champs obligatoires : <code>id</code>, <code>nom</code>, <code>valeur</code>, <code>unite</code>, <code>source</code>, <code>statut</code> ; deux facultatifs : <code>formule</code> et <code>remarque</code>.</p>
 <p>Le statut dit à quel point on peut se fier à la valeur. Les six statuts admis, du plus sûr au moins sûr, sont ceux de <code>pommes_cases/hypotheses.py</code> :</p>
@@ -243,7 +260,7 @@ mémoire : smr_fixe = 40000 €/MW_H2/an
 mémoire : part_rfnbo = 100 % (tout RFNBO) ou 42 % -
 mémoire : facteur_co2_gaz = 0.202 tCO2/MWh (PCI)
 </code></pre>
-<p><code>pommes_cases.hypotheses.load_hypotheses</code> fait la même lecture en vérifiant les six champs et les statuts admis ; la page <a href="../textes/restitution.html">La restitution du vendredi : dix planches, dix minutes, grille à cinq critères, quatre rôles</a> l'utilise.</p>
+<p><code>pommes_cases.hypotheses.load_hypotheses</code> fait la même lecture en vérifiant les six champs et les statuts admis ; la page <a href="../textes/restitution.html">La restitution du vendredi : dix minutes, cinq à dix planches, grille à cinq critères, quatre rôles</a> l'utilise.</p>
 <h2>Ce qu'il faut noter</h2>
 <ul>
 <li>Pour chaque cas lu : le total, les <code>repris</code>, les <code>mémoire</code>.</li>
@@ -272,6 +289,8 @@ mémoire : facteur_co2_gaz = 0.202 tCO2/MWh (PCI)
 </ul>
   <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/A_batteries/hypotheses.yaml" target="_blank" rel="noopener">A_batteries/hypotheses.yaml (dépôt pommes-case-studies)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/D_electrolyseur/hypotheses.yaml" target="_blank" rel="noopener">D_electrolyseur/hypotheses.yaml</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/E_vapeur/hypotheses.yaml" target="_blank" rel="noopener">E_vapeur/hypotheses.yaml</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/E_vapeur/README.md" target="_blank" rel="noopener">E_vapeur/README.md, § Ce que dit le cas</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/_gabarit/README.md" target="_blank" rel="noopener">Le contrat du fichier : _gabarit/README.md et pommes_cases/hypotheses.py</a></li><li><a href="https://2024.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E, TYNDP 2024 Scenarios (données d'entrée téléchargeables)</a></li><li><a href="https://www.iea.org/reports/global-hydrogen-review-2024" target="_blank" rel="noopener">AIE, Global Hydrogen Review 2024</a></li></ol></section>
 </article>
+
+</div>
 </main>
 <footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
 </body>

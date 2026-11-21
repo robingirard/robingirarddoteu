@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les taxes sur l'énergie : ce que l'État prend, sur quoi, et à qui · Parcours ES 2026</title>
+<meta name="description" content="Ce que rapportent les taxes sur l'énergie en France et ailleurs, sur quels produits et payées par qui, avec dix figures refaites à partir des données publiques. La note dit aussi quels chiffres répandus sont faux ou mal posés.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Les taxes sur l'énergie : ce que l'État prend, sur quoi, et à qui</h1>
+    <p class="resume">Ce que rapportent les taxes sur l'énergie en France et ailleurs, sur quels produits et payées par qui, avec dix figures refaites à partir des données publiques. La note dit aussi quels chiffres répandus sont faux ou mal posés.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#mp-eco-role-economique">Porter la lecture économique d'un mini-projet : taux, annuité, qui paie, qui gagne</a></li><li><a href="../index.html#cas-E">Mener le mini-projet du cas E : la vapeur d'une usine, électrique, au gaz, ou les deux ?</a></li></ul></aside><p>Cette note est le compagnon du thème
+<code>Economie/Energy_Taxes</code> : dix figures (<code>output/</code>),
+quatre scripts de préparation qui impriment leurs contrôles à chaque
+exécution, vingt-trois pièges documentés
+(<code>notes/00_pieges_de_construction.md</code>) et une bibliographie
+locale (<code>bibliographie/README_france.md</code>,
+<code>README_international.md</code>). Elle dit ce qui est établi, avec
+quelles sources, et ce qui ne l’est pas — y compris les chiffres
+répandus qui se révèlent faux ou mal posés. Les nombres cités sont ceux
+des CSV de <code>data/processed/</code>, recalculés le 27 septembre
+2026.</p>
+<h2 id="en-cinq-phrases">1. En cinq phrases</h2>
+<ol type="1">
+<li>En France en 2025, les prélèvements font <strong>57 % du prix de
+l’essence</strong>, 54 % du gazole, 30 % des factures d’électricité et
+de gaz d’un ménage, et <strong>7,5 % du bois</strong> de chauffage :
+d’un vecteur à l’autre, ce n’est pas le coût de l’énergie qui varie
+autant, c’est l’impôt.</li>
+<li>Pour l’électricité, les accises hors TVA passent de <strong>37
+€/MWh</strong> pour un ménage à <strong>0,7 €/MWh</strong> pour un site
+de plus de 150 GWh par an — un facteur 50, le plancher étant le minimum
+de la directive européenne.</li>
+<li>« Les taxes sur l’énergie rapportent X Md€ » a <strong>quatre
+réponses justes</strong> pour 2024 : 20, 44, 52 ou 60 Md€. C’est la
+phrase prononcée qui choisit le nombre.</li>
+<li>Les prélèvements (59,7 Md€) et la facture énergétique extérieure
+(57,8 Md€) sont du même ordre en 2024, mais l’un est assis sur des
+volumes et l’autre sur des prix : leur rapport va de 0,47 à 2,15 selon
+l’année, et <strong>il n’y a pas de ratio à citer</strong>.</li>
+<li>Les substituts bas-carbone — biocarburants, biométhane injecté —
+sont <strong>plus taxés au MWh</strong> que les fossiles qu’ils
+remplacent, tandis que le kérosène des vols internationaux et le fioul
+des navires sont à zéro.</li>
+</ol>
+<h2 id="ce-que-paie-un-client-vecteur-par-vecteur">2. Ce que paie un
+client, vecteur par vecteur</h2>
+<p><img
+src="img/note-energy-taxes/96fc64ddd24bc1786cbcf41818a1bd33116213f8.png" /></p>
+<p>La figure est celle de <strong>2024</strong>, dernière année où la
+dépense en kérosène et le prix du biométhane sont publiés ; le tableau
+qui suit est celui de 2025.</p>
+<p>France <strong>2025</strong>, part des prélèvements (accises et TVA)
+dans la facture TTC, sauf pour les deux colonnes « ind. », où l’acheteur
+récupère la TVA. Eurostat pour l’électricité et le gaz (année entière),
+Weekly Oil Bulletin pour les carburants (moyenne des 52 semaines), bilan
+SDES pour le bois :</p>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">Essence</th>
+<th style="text-align: right;">Gazole</th>
+<th style="text-align: right;">Fioul</th>
+<th style="text-align: right;">Élec. mén.</th>
+<th style="text-align: right;">Gaz mén.</th>
+<th style="text-align: right;">Bois mén.</th>
+<th style="text-align: right;">Élec. ind.</th>
+<th style="text-align: right;">Gaz ind.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Part des taxes</td>
+<td style="text-align: right;">57 %</td>
+<td style="text-align: right;">54 %</td>
+<td style="text-align: right;">30 %</td>
+<td style="text-align: right;">29,5 %</td>
+<td style="text-align: right;">30 %</td>
+<td style="text-align: right;">7,5 %</td>
+<td style="text-align: right;">14 % ¹</td>
+<td style="text-align: right;">17 % ¹</td>
+</tr>
+<tr class="even">
+<td>Facture TTC (€/MWh)</td>
+<td style="text-align: right;">199</td>
+<td style="text-align: right;">164</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">262</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">189 (160 HT)</td>
+<td style="text-align: right;">78 (66 HT)</td>
+</tr>
+<tr class="odd">
+<td>… dans l’unité d’usage</td>
+<td style="text-align: right;">1,73 €/L</td>
+<td style="text-align: right;">1,62 €/L</td>
+<td style="text-align: right;">1,13 €/L</td>
+<td style="text-align: right;">0,26 €/kWh</td>
+<td style="text-align: right;">0,136 €/kWh</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0,19 €/kWh</td>
+<td style="text-align: right;">0,078 €/kWh</td>
+</tr>
+</tbody>
+</table>
+<p>¹ Tranche de référence Eurostat (0,5–2 GWh pour l’électricité, 10–100
+TJ pour le gaz). Prélèvements <strong>hors TVA</strong>, rapportés au
+prix <strong>hors TVA</strong> : 22,5 €/MWh sur 160 pour l’électricité,
+11,5 sur 66,5 pour le gaz. TVA comprise, on lirait 27 % et 30 % — mais
+cette TVA (28,8 et 11,9 €/MWh) est récupérée par l’entreprise ; elle est
+hachurée sur la figure.</p>
+<p>La dernière ligne est là pour être vérifiée de tête : un €/MWh de
+gazole ne se contrôle pas, un €/L si.</p>
+<p><strong>Le réseau n’est pas un prélèvement.</strong> Le TURPE est le
+prix du transport et de la distribution ; il est affiché à part, et la
+part de taxes de l’électricité des ménages passerait de 29,5 % à 58 % si
+on l’y rangeait. Seule exception, la CTA : c’est un impôt (elle finance
+la retraite des industries électriques et gazières), assis sur le tarif
+de réseau — 1,5 Md€ en 2024.</p>
+<p><strong>Le bois est la barre qui fait le contraste.</strong> Il n’est
+pas soumis à l’accise, et c’est écrit (art. L. 312-9 du CIBS). Ses 7,5 %
+sont de la TVA, et encore : le taux légal est de 10 %, l’écart étant la
+part qui ne passe par aucune transaction taxée (bois autoconsommé,
+marché informel). Le taux est <strong>déduit</strong> du rapport taxes /
+dépense du SDES, pas posé en hypothèse.</p>
+<p><strong>La même molécule, deux tarifs selon le contenant.</strong>
+L’éthanol incorporé au SP95-E10 supporte l’accise de l’essence,
+<strong>75,4 €/MWh</strong> (L. 312-83) ; vendu en superéthanol E85, il
+est à <strong>17,9 €/MWh</strong> (L. 312-84). Un facteur 4,2 selon la
+pompe (<code>CLM-energy-taxes-ethanol-e85-vs-e10</code>). L’accise
+reconstituée à partir des prix DGEC tombe à 17,9 contre 17,894 au tarif
+légal, ce qui valide au passage le prix et le coefficient
+énergétique.</p>
+<h2 id="le-gradient-selon-la-taille-du-client">3. Le gradient selon la
+taille du client</h2>
+<p><img
+src="img/note-energy-taxes/63bfcaddc3b7069bd8e52fdf44a633fdda414dea.png" /></p>
+<p>Électricité, France 2025, en €/MWh :</p>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">Ménage 1–2,5 MWh</th>
+<th style="text-align: right;">Ménage 2,5–5 MWh</th>
+<th style="text-align: right;">Site &gt; 150 GWh</th>
+<th style="text-align: right;">Rapport</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Énergie et fourniture</td>
+<td style="text-align: right;">117,9</td>
+<td style="text-align: right;">108,8</td>
+<td style="text-align: right;">59,1</td>
+<td style="text-align: right;">2,0</td>
+</tr>
+<tr class="even">
+<td>Total des prélèvements, TVA comprise</td>
+<td style="text-align: right;">87,3</td>
+<td style="text-align: right;">77,2</td>
+<td style="text-align: right;">9,4</td>
+<td style="text-align: right;">9,3</td>
+</tr>
+<tr class="odd">
+<td>dont TVA</td>
+<td style="text-align: right;">45,0</td>
+<td style="text-align: right;">40,1</td>
+<td style="text-align: right;">8,7, <strong>récupérée</strong></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>dont accises et taxes, <strong>hors TVA</strong></td>
+<td style="text-align: right;">42,3</td>
+<td style="text-align: right;">37,1</td>
+<td style="text-align: right;">0,7</td>
+<td style="text-align: right;"><strong>60</strong></td>
+</tr>
+<tr class="odd">
+<td>Part des prélèvements</td>
+<td style="text-align: right;">29 % du TTC</td>
+<td style="text-align: right;">29,5 % du TTC</td>
+<td style="text-align: right;"><strong>1 % du HT</strong></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Le rapport qui compte est <strong>60</strong> : la TVA du gros site,
+hachurée sur la figure, ne lui coûte rien. Ses prélèvements font 1,1 %
+de son prix hors TVA (65,4 €/MWh), et non les 13 % qu’on lit en comptant
+la TVA.</p>
+<p>L’énergie coûte deux fois moins cher au gros industriel ; l’accise,
+soixante fois moins. Le plancher de 0,5 €/MWh est le minimum fixé par la
+directive 2003/96/CE pour l’électricité à usage professionnel. L’accise
+seule — la composante <code>TAX_ENV</code> d’Eurostat — est de 30,4
+€/MWh pour le ménage de référence
+(<code>CLM-energy-taxes-accise-elec-30-4-vs-0-5</code>).</p>
+<p>Le prix moyen de l’électricité des ménages, toutes tranches
+confondues, est de <strong>255 €/MWh</strong> en 2025. La tranche «
+moins de 1 MWh/an » ressort à 473 €/MWh parce que l’abonnement y est
+étalé sur presque rien : elle est écartée par défaut de la figure (piège
+10).</p>
+<h2 id="combien-pour-la-puissance-publique-quatre-nombres-justes">4.
+Combien pour la puissance publique : quatre nombres justes</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 30%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>France 2024</th>
+<th style="text-align: right;">Md€</th>
+<th>Périmètre</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Taxes sur l’énergie, <strong>TVA comprise, brutes</strong></td>
+<td style="text-align: right;"><strong>59,7</strong></td>
+<td>toutes administrations</td>
+<td>SDES, somme par vecteur</td>
+</tr>
+<tr class="even">
+<td>… nettes des subventions à l’énergie</td>
+<td style="text-align: right;">52,5</td>
+<td>idem</td>
+<td>SDES <code>SY079MFR</code></td>
+</tr>
+<tr class="odd">
+<td>Taxes sur l’énergie, <strong>hors TVA</strong></td>
+<td style="text-align: right;"><strong>43,6</strong></td>
+<td>toutes administrations</td>
+<td>Eurostat <code>env_ac_tax</code>, <code>NRG</code></td>
+</tr>
+<tr class="even">
+<td>… dont accises, <strong>part État nette</strong></td>
+<td style="text-align: right;"><strong>20,2</strong></td>
+<td>budget général seul</td>
+<td>Voies et moyens t. I, PLF 2026</td>
+</tr>
+</tbody>
+</table>
+<p>L’écart de 59,7 à 43,6 est la <strong>TVA</strong>, qu’Eurostat
+exclut par convention (déductible, non ciblée) : de 10,7 à 16,1 Md€
+selon l’année. L’écart de 43,6 à 20,2 est le <strong>transfert</strong>
+aux régions, aux départements et à l’AFITF : la moitié de l’ex-TICPE
+n’atteint jamais le budget général. Entre les deux, le budget vert du
+PLF 2026 chiffre l’<strong>accise seule</strong>, toutes affectations, à
+37,8 Md€ (<code>CLM-energy-taxes-budget-vert-accise-37-8</code>).</p>
+<p><strong>La règle.</strong> « Ce que l’État encaisse » : 20 Md€. « Ce
+que la puissance publique prélève sur l’énergie » : 44 Md€ hors TVA, 60
+avec. Ne jamais donner le nombre sans dire lequel.</p>
+<p>En part : <strong>1,49 % du PIB</strong> et 3,3 % des prélèvements
+obligatoires (Eurostat, hors TVA), comme l’Allemagne (1,48 % du PIB,
+64,2 Md€). Les ménages en acquittent <strong>59,6 %</strong> en France,
+47,4 % en Allemagne — calculé sur le compte ventilé par payeur (40,9
+Md€), qui n’est pas le même que le total agrégé (piège 6).</p>
+<h2 id="face-à-la-facture-énergétique-et-vecteur-par-vecteur">5. Face à
+la facture énergétique, et vecteur par vecteur</h2>
+<p><img
+src="img/note-energy-taxes/12d7a23fe6c591e9011c94d925dc4daf388a12aa.png" /></p>
+<p>La facture énergétique extérieure — somme des soldes importations −
+exportations par produit — fait <strong>57,8 Md€</strong> en 2024 : du
+même ordre que les 59,7 Md€ de prélèvements. Mais la facture suit les
+prix (25 Md€ en 2020, 118 Md€ en 2022, un facteur 4,7) quand les taxes
+suivent les volumes (±10 % en dix ans).</p>
+<p>Et l’égalité des totaux cache trois situations opposées :</p>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>France 2024, Md€</th>
+<th style="text-align: right;">Balance commerciale</th>
+<th style="text-align: right;">Taxes</th>
+<th style="text-align: right;">Volume (TWh)</th>
+<th style="text-align: right;">Taux implicite (€/MWh)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pétrole (soutes comprises)</td>
+<td style="text-align: right;">41,0</td>
+<td style="text-align: right;">36,4</td>
+<td style="text-align: right;">666</td>
+<td style="text-align: right;">54,7</td>
+</tr>
+<tr class="even">
+<td>Biocarburants</td>
+<td style="text-align: right;">2,8</td>
+<td style="text-align: right;">4,0</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;"><strong>105,4</strong></td>
+</tr>
+<tr class="odd">
+<td>Gaz naturel</td>
+<td style="text-align: right;">17,4</td>
+<td style="text-align: right;">5,6</td>
+<td style="text-align: right;">263</td>
+<td style="text-align: right;">21,3</td>
+</tr>
+<tr class="even">
+<td>Électricité</td>
+<td style="text-align: right;"><strong>−5,2</strong></td>
+<td style="text-align: right;">13,4</td>
+<td style="text-align: right;">398</td>
+<td style="text-align: right;">33,6</td>
+</tr>
+<tr class="odd">
+<td>Biomasse, chaleur, autres</td>
+<td style="text-align: right;">0,3</td>
+<td style="text-align: right;">0,2</td>
+<td style="text-align: right;">208</td>
+<td style="text-align: right;">1,2</td>
+</tr>
+<tr class="even">
+<td>Charbon</td>
+<td style="text-align: right;">1,4</td>
+<td style="text-align: right;">0,0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1,3</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>57,8</strong></td>
+<td style="text-align: right;"><strong>59,7</strong></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Le pétrole</strong> : on importe autant qu’on taxe.</li>
+<li><strong>Le gaz</strong> : on paie beaucoup, on taxe peu. Le facteur
+2,6 de taux implicite entre pétrole et gaz, combiné à 2,5 de volume,
+fait le facteur 6,5 des recettes — moitié volume, moitié taux.</li>
+<li><strong>L’électricité</strong> : le seul vecteur qui
+<strong>rapporte</strong> des devises est celui dont la fiscalité est la
+plus lourde rapportée à sa position commerciale. Il n’a été en déficit
+qu’en 2022, l’année des arrêts pour corrosion sous contrainte.</li>
+</ul>
+<p><strong>Les soutes internationales</strong>, 80,2 TWh en 2024
+(kérosène des vols internationaux et fioul des navires : 79,6 TWh de
+produits raffinés et 0,7 de biokérosène, total publié
+<code>SY032TFR</code>), sont dans la balance commerciale (~4,9 Md€) et,
+par choix de périmètre, dans le volume du pétrole — mais <strong>taxées
+à zéro</strong> (art. L. 312-58 et L. 312-55 du CIBS). Le taux implicite
+du pétrole seul vaut 54,7 €/MWh en les comptant, 62,1 sans elles ;
+pétrole et biocarburants réunis, 57,4 et 64,8. C’est le plus gros trou
+de l’assiette fiscale française de l’énergie.</p>
+<p><strong>Les substituts bas-carbone paient plus au MWh.</strong> Même
+accise que le fossile — c’est le même litre, le même tuyau — mais une
+TVA assise sur un coût de production bien supérieur :</p>
+<table>
+<thead>
+<tr class="header">
+<th>France 2024</th>
+<th style="text-align: right;">€/MWh TTC</th>
+<th style="text-align: right;">part de taxes</th>
+<th style="text-align: right;">taxes en €/MWh</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gaz fossile ménages</td>
+<td style="text-align: right;">125,3</td>
+<td style="text-align: right;">29,6 %</td>
+<td style="text-align: right;">37,1</td>
+</tr>
+<tr class="even">
+<td><strong>Biométhane injecté</strong></td>
+<td style="text-align: right;"><strong>201,4</strong></td>
+<td style="text-align: right;">23,8 %</td>
+<td style="text-align: right;"><strong>48,0</strong></td>
+</tr>
+<tr class="odd">
+<td>Gazole routier</td>
+<td style="text-align: right;">171,9</td>
+<td style="text-align: right;">52,6 %</td>
+<td style="text-align: right;">90,5</td>
+</tr>
+<tr class="even">
+<td><strong>Biocarburants</strong></td>
+<td style="text-align: right;"><strong>234,7</strong></td>
+<td style="text-align: right;">45,1 %</td>
+<td style="text-align: right;"><strong>105,8</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Lire la seule colonne « part de taxes » ferait dire que les
+substituts sont moins taxés : c’est l’inverse. Le biométhane injecté a
+en outre perdu son régime réduit en 2024 (article 92 de la LF 2024),
+l’année où le tarif normal du gaz passait de 8,37 à 16,37 €/MWh.</p>
+<h2 id="le-bouclier-puis-sa-sortie">6. 2022-2025 : le bouclier, puis sa
+sortie</h2>
+<p>En 2022, la facture double pendant que les prélèvements
+<strong>baissent</strong> — remise à la pompe, bouclier tarifaire,
+accise sur l’électricité ramenée à son plancher européen. Sur
+l’électricité, les taxes brutes passent de 15,8 Md€ (2021) à 8,9 (2022)
+et 6,8 (2023), puis remontent à 13,4 en 2024 : un taux implicite de 36,6
+→ 21,6 → 17,2 → 33,6 €/MWh
+(<code>CLM-energy-taxes-taxes-brutes-electricite-2021-2024</code>).</p>
+<p><strong>C’est une décision, pas un mécanisme.</strong> Les prix de
+gros s’effondrent en 2023 et les taxes baissent encore cette année-là :
+une baisse qui ne suit pas le marché est discrétionnaire
+(<code>ADR-005</code>). Ces séries se montrent en <strong>brut, TVA
+comprise</strong>, et la mention figure sur l’image
+(<code>ADR-004</code>) : le bouclier ne se lit pas dans l’écart brut/net
+du SDES, il se chiffre avec la Cour des comptes.</p>
+<p>La contrepartie arrive en 2025 : la part État nette de l’accise sur
+l’électricité (ex-TICFE, ligne 1503 des Voies et moyens) passe de 1,5
+Md€ à 5,6 Md€, sans qu’aucun taux nouveau ait été créé. Et la hausse
+d’août 2025 (25,09 → 29,98 €/MWh pour les ménages) est pour partie un
+<strong>reclassement</strong> : la nouvelle brique ZNI de l’accise
+finance la péréquation outre-mer et le CAS Facé, que payait jusque-là le
+TURPE (piège 7).</p>
+<h2 id="les-chiffres-répandus-qui-se-révèlent-faux-ou-mal-posés">7. Les
+chiffres répandus qui se révèlent faux, ou mal posés</h2>
+<ul>
+<li><strong>« L’État encaisse 44 Md€ de taxes sur l’énergie. »</strong>
+Faux : la puissance publique prélève 44 Md€ hors TVA ; l’État, budget
+général, en garde 20.</li>
+<li><strong>« Les taxes représentent X % de la facture énergétique du
+pays. »</strong> Ce ratio n’existe pas : 0,47 en 2022, 2,15 en 2020.
+Montrer les deux séries, jamais leur quotient.</li>
+<li><strong>« Les biocarburants sont moins taxés que le gazole.
+»</strong> En part oui (45 % contre 53 %), en €/MWh non (105,8 contre
+90,5) : la part baisse parce que le produit est plus cher.</li>
+<li><strong>« L’accise électricité a augmenté de 19 % en août 2025.
+»</strong> En partie un poste qui change de case, du réseau vers
+l’accise.</li>
+<li><strong>« L’accise sur les carburants est le prix de la route.
+»</strong> Le tarif suit le contenant et non l’usage (le même éthanol à
+75,4 ou 17,9 €/MWh), il ignore le lieu, l’heure et la congestion, et son
+assiette s’effondre avec l’électrification (<code>ADR-006</code>).</li>
+<li><strong>Additionner <code>TAX_FEE_LEV_CHRG</code> et
+<code>VAT</code> chez Eurostat.</strong> Le premier est déjà le total
+TVA comprise : l’empiler avec la TVA la compte deux fois (piège 1).</li>
+<li><strong>Taxes sur l’énergie et taxes sur les transports.</strong> La
+TICPE est une taxe sur l’énergie (<code>NRG</code>) ; les taxes sur les
+véhicules (<code>TRA</code>, 7,5 Md€) sont autre chose. Les confondre
+fausse le total d’un facteur 6.</li>
+<li><strong>Remonter avant 2019 sur Eurostat.</strong> L’Allemagne n’a
+pas déclaré sa composante fiscale en 2017 et 2018 sans que rien ne le
+signale, et l’agrégat UE-27 en est contaminé.</li>
+</ul>
+<h2 id="ce-qui-nest-pas-établi">8. Ce qui n’est pas établi</h2>
+<ul>
+<li><strong>Le résidu du SDES en 2023.</strong> La somme des taxes par
+vecteur moins <code>SY079MFR</code> devrait valoir les subventions à
+l’énergie ; elle devient négative en 2023 (−1,3 Md€), ce qu’aucune
+subvention n’explique. Ne pas commenter 2023 sur la série nette.</li>
+<li><strong>La taxe sur les biocarburants est reconstituée</strong>, pas
+publiée : c’est la seule grandeur du dossier dans ce cas (piège 21). La
+figure par défaut fusionne donc biocarburants et pétrole.</li>
+<li><strong>Les reversements des contrats EnR en 2022-2023</strong> au
+budget de l’État (compléments de rémunération négatifs) ne sont pas
+chiffrés ici ; ils pourraient changer la lecture du fléchage
+(<code>QUE-energy-taxes-reversements-cspe-2022-2023</code>).</li>
+<li><strong>La comparaison internationale</strong> (Royaume-Uni,
+États-Unis, Inde, Chine) en brut et net de subventions, à partir de la
+base OCDE, n’est pas faite. Seul le taux britannique est vérifié : 52,95
+p/L, et non 57,95
+(<code>CLM-energy-taxes-uk-fuel-duty-52-95</code>).</li>
+<li><strong>La régressivité</strong> n’est pas recalculée ici : on
+reprend le budget vert du PLF 2026, qui chiffre l’accise à 580 € par
+ménage et par an, soit 2,1 % du revenu du premier cinquième contre 0,7 %
+du dernier.</li>
+</ul>
+<h2 id="reproduire">9. Reproduire</h2>
+<p>Depuis le dossier du thème : <code>prepare_eurostat.py</code>,
+<code>prepare_carburants.py</code>, <code>prepare_recettes.py</code>,
+<code>prepare_bilan_sdes.py</code>, puis les quatre scripts
+<code>plot_*.py</code>. Les options et la liste des figures sont dans le
+<code>README.md</code>. Trois scripts écrivent un fichier de résidus
+(<code>controle_*.csv</code>) : ce sont les points où la source ne se
+recoupe pas avec elle-même, conservés plutôt que lissés.</p>
+<h2 id="sources">10. Sources</h2>
+<ul>
+<li><strong>Eurostat</strong> — composantes du prix de l’électricité et
+du gaz, <code>nrg_pc_204_c</code> (ménages) et <code>nrg_pc_205_c</code>
+(non-ménages), 2019-2025 ; recettes <code>env_ac_tax</code> (1995-2024)
+et <code>env_ac_taxind2</code> (par payeur).</li>
+<li><strong>Commission européenne, Weekly Oil Bulletin</strong> — prix
+des carburants avec et sans taxes, barèmes d’accise et de TVA.</li>
+<li><strong>SDES, bilan énergétique de la France</strong> — facture
+énergétique et taxes par vecteur, TVA comprise ; séries
+<code>SY079MFR</code>, <code>SY081MFR</code>, <code>EN322€MR</code>,
+<code>EN171MFR</code>, <code>EN177MFR</code>, soutes
+<code>PE009TFR</code>, <code>PE010TFR</code>, <code>N115MFR</code>.</li>
+<li><strong>PLF 2026</strong> — Voies et moyens, tome I (part État des
+accises) ; rapport sur l’impact environnemental du budget, partie II
+p. 243-250.</li>
+<li><strong>DGEC/DLF, Guide de la fiscalité des énergies 2026</strong> —
+§ I.1.d p. 12 (brique ZNI), § V.b (bois), annexe 3 p. 37 (tous vecteurs
+en €/MWh).</li>
+<li><strong>Code des impositions sur les biens et services</strong> —
+art. L. 312-9, 312-35, 312-37-1, 312-55, 312-58, 312-83, 312-84,
+312-86.</li>
+<li><strong>OBR, <em>Fuel duties</em></strong> — taux et recettes
+britanniques.</li>
+</ul>
+<p>Le détail de chaque fichier, avec l’URL et les pages utilisées, est
+dans <code>bibliographie/README_france.md</code> et
+<code>README_international.md</code>.</p>
+
+  <section class="sources"><p><a href="Note_Energy_Taxes.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-financement-transition.html">Financer la transition : qui paie, à quel taux, pourquoi (note, 29/09/2026) + classeur LCOE vs coût du capital</a></li><li><a href="note-investissement-transition.html">Investir dans la transition énergétique : combien, où, et combien il en faudrait</a></li><li><a href="note-chaleur-industrielle.html">La chaleur industrielle : combien, à quelle température, et ce que l'électricité peut en faire</a></li><li><a href="note-stockage-chaleur.html">Stocker la chaleur dans l'industrie : techniques, coûts, maturité</a></li></ul></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

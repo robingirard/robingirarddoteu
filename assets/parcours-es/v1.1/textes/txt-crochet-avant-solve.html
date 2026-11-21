@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ajouter une contrainte avant le solve : le contrat d'un crochet · Parcours ES 2026</title>
+<meta name="description" content="Ce que reçoit un crochet de solve_with_extra_constraints (le modèle linopy construit par pommes et ses paramètres), comment nommer ce qu'on y ajoute, comment lire la duale de la contrainte ajoutée et pourquoi la diviser par dual_scale, sur l'exemple d'un plafond d'énergie importée appliqué au modèle du tutoriel.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>avancé</span> · <span>≈ 20 min</span> · <span>Atelier, Optimisation, Modélisation, Prix et marchés, Hydrogène</span></div>
+    <h1>Ajouter une contrainte avant le solve : le contrat d'un crochet</h1>
+    <p class="resume">Ce que reçoit un crochet de solve_with_extra_constraints (le modèle linopy construit par pommes et ses paramètres), comment nommer ce qu'on y ajoute, comment lire la duale de la contrainte ajoutée et pourquoi la diviser par dual_scale, sur l'exemple d'un plafond d'énergie importée appliqué au modèle du tutoriel.</p>
+  </header>
+  <p>Vous savez construire un modèle et lire ses duales <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a>, <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. Il reste un geste : écrire une règle que pommes ne connaît pas (plafond annuel, marché en paliers, clause réglementaire) et la glisser dans le programme linéaire avant la résolution. Dans le dépôt des cas, ce geste a un contrat, celui du crochet de <code>solve_with_extra_constraints</code>, expliqué ici sur un exemple exécuté (pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS ; 3 à 4 secondes par résolution).</p>
+<h2>1. Pourquoi un crochet</h2>
+<p><code>EnergyModel.run()</code> construit le modèle linopy à partir des composants, puis le résout, d'un seul appel. Entre les deux, on ne peut rien ajouter. <code>pommes_cases/solve.py</code> sépare les étapes, celles que <code>run()</code> enchaîne en pommes_craft 0.6.0. <code>build_lp(model)</code> appelle <code>model.build_pommes_parameters()</code> puis <code>build_model</code> de pommes, et renvoie le couple <code>(lp, params)</code> : le programme linéaire et le jeu de paramètres vérifié. <code>solve_with_extra_constraints(model, add_fn)</code> enchaîne construction, appel de <code>add_fn(lp, params)</code>, résolution par HiGHS, puis range solution et duales dans le modèle comme <code>run()</code>. Comme <code>run()</code>, la résolution passe par <code>pommes.solve_model</code> : le journal de HiGHS va dans un fichier, sans rien afficher ; <code>quiet=False</code> le rend à la console. Le docstring du module propose à pommes_craft un argument <code>before_solve=</code> de <code>run()</code>, absent de la 0.6.0 ; en attendant, cette fonction.</p>
+<h2>2. Le contrat</h2>
+<p>Le crochet est une fonction à deux arguments, qui ne renvoie rien.</p>
+<ul>
+<li><code>lp</code> est un <code>PommesModel</code>, c'est-à-dire un <code>linopy.Model</code> qui garde en plus le catalogue de ses variables, construit par la fonction <code>build_model</code> de pommes (module <code>pommes.model.build_model</code>). Ses variables portent les noms de la nomenclature, module puis grandeur : <code>operation_net_import_import</code>, <code>operation_conversion_power</code>, <code>planning_conversion_power_capacity</code>. Ce sont des tableaux xarray : les variables d'exploitation sont indexées par <code>area</code>, <code>resource</code> ou <code>conversion_tech</code>, <code>hour</code> et <code>year_op</code> ; les variables de planification par <code>area</code>, <code>conversion_tech</code>, <code>year_dec</code> et <code>year_inv</code>. On sélectionne avec <code>.sel()</code>, on somme avec <code>.sum("hour")</code>. Depuis pommes 0.10, les productions nettes (<code>operation_conversion_net_generation</code>, <code>operation_net_import_net_generation</code>…) et les émissions (<code>operation_carbon_emissions</code>, <code>operation_total_carbon_emissions</code>) ne sont plus des variables : ce sont des expressions écrites directement dans l'équilibre et dans le coût carbone. Elles manquent à <code>lp.variables</code>, un crochet ne peut pas s'y accrocher : il repart de <code>operation_conversion_power</code>, multipliée par le <code>factor</code> de la ressource, ou de <code>operation_net_import_import</code>. Après la résolution, <code>lp.solution</code> les recalcule sous leur ancien nom. De même, une contrainte de pommes dont le masque est vide n'est pas écrite : testez <code>nom in lp.constraints</code> avant de la lire.</li>
+<li><code>params</code> est un <code>xarray.Dataset</code> : les paramètres d'entrée après <code>check_inputs</code>, donc avec les valeurs par défaut remplies. On y lit <code>params["demand"]</code>, <code>params.hour</code>, <code>params.year_op</code>. C'est aussi l'argument de <code>dual_scale</code>.</li>
+</ul>
+<p>Dans le crochet, trois opérations suffisent : <code>lp.add_variables(lower=..., upper=..., name=...)</code>, <code>lp.add_constraints(expression, name=...)</code>, et <code>lp.objective = lp.objective + terme</code>. Le crochet n'édite aucune contrainte de pommes ; il en ajoute. <code>price_depth_hook</code> dans <code>blocks.py</code> en est le modèle : il crée deux variables <code>palier_vente</code> et <code>palier_achat</code> avec une coordonnée <code>palier</code> qui n'existe pas dans pommes, les relie aux variables d'export et d'import par deux contraintes d'égalité <code>palier_vente_def</code> et <code>palier_achat_def</code>, puis ajoute à l'objectif la prime de chaque palier. Le programme reste linéaire.</p>
+<p>Après la résolution, <code>solve_with_extra_constraints</code> renvoie le modèle linopy résolu, aussi rangé dans <code>model.linopy_model</code> ; <code>model.solve_times</code> donne les secondes de construction et de résolution. <code>model.get_results()</code> fonctionne comme après <code>run()</code>. En revanche <code>model.pommes_parameters</code> n'est pas rempli (vérifié) : pour avoir <code>params</code> après le solve, gardez-le depuis le crochet, par exemple dans un dictionnaire.</p>
+<h2>3. Nommer</h2>
+<p>Le nom donné à <code>add_constraints</code> est la clé de <code>lp.constraints</code> et de <code>lp.dual</code>. Trois règles.</p>
+<ul>
+<li>Un nom distinct de ceux de pommes : linopy refuse un doublon. Préfixez par le sujet : <code>plafond_import_annuel</code>, <code>palier_vente_def</code>, <code>rfnbo_mensuel</code>.</li>
+<li>Une dimension par indice conservé. <code>imp.sum("hour")</code> laisse <code>year_op</code> : la contrainte, et sa duale, ont pour seule dimension <code>year_op</code>. Une contrainte horaire garde <code>hour</code> et <code>year_op</code> et a 8 760 duales par année.</li>
+<li>Un <code>groupby</code> linopy prend une clé nommée, sinon la dimension s'appelle <code>group</code> (piège 5 de <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>).</li>
+</ul>
+<h2>4. Exemple : plafonner l'énergie importée</h2>
+<p>Reprenez les blocs 1 à 4 du tutoriel <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a> : <code>p</code>, <code>prix</code>, <code>modele_de_base</code>, <code>pv</code> et <code>turbine</code> sont définis. Le crochet plafonne l'import annuel à une part de la demande, lue dans <code>params</code>, et garde <code>params</code> pour la suite.</p>
+<pre><code class="language-python">from pommes_cases.solve import solve_with_extra_constraints
+from pommes.utils import dual_scale
+
+def plafond_import(part, memo):
+    def crochet(lp, params):
+        memo[&quot;params&quot;] = params
+        imp = lp.variables[&quot;operation_net_import_import&quot;].sel(area=&quot;FR&quot;, resource=&quot;electricity&quot;)
+        demande = float(params[&quot;demand&quot;].sel(area=&quot;FR&quot;, resource=&quot;electricity&quot;).sum())   # 8 760 MWh
+        lp.add_constraints(imp.sum(&quot;hour&quot;) &lt;= part * demande, name=&quot;plafond_import_annuel&quot;)
+    return crochet
+
+def essai(nom, composants, part):
+    m, zone = modele_de_base(nom)
+    with m.context():
+        for c in composants:
+            zone.add_component(c())
+    memo = {}
+    lp = solve_with_extra_constraints(m, plafond_import(part, memo))
+    importe = float(lp.solution[&quot;operation_net_import_import&quot;].sum())
+    duale = float(lp.dual[&quot;plafond_import_annuel&quot;].squeeze()) / dual_scale(memo[&quot;params&quot;]).item()
+    print(f&quot;{nom}: coût {lp.objective.value:,.2f} €, import {importe:,.2f} MWh &quot;
+          f&quot;sur {part * 8760:,.0f} autorisés, duale {duale:.4f} €/MWh&quot;)
+    return lp
+
+essai(&quot;pv_turbine_80&quot;, [pv, turbine], 0.80)
+# coût 497,405.29 €, import 6,619.02 MWh sur 7,008 autorisés, duale -0.0000 €/MWh
+essai(&quot;pv_turbine_70&quot;, [pv, turbine], 0.70)
+# coût 499,587.72 €, import 6,132.00 MWh sur 6,132 autorisés, duale -10.3323 €/MWh
+essai(&quot;turbine_80&quot;, [turbine], 0.80)
+# coût 523,329.25 €, import 7,008.00 MWh sur 7,008 autorisés, duale -18.9600 €/MWh
+</code></pre>
+<p>Première ligne : sur le modèle complet du tutoriel (PV et turbine), le plafond de 80 % ne mord pas. Le modèle importait déjà 6 619 MWh, soit 75,6 % de la demande ; la solution ne change pas et la duale vaut zéro : la règle est inactive.</p>
+<p>Deuxième ligne : à 70 %, la borne est atteinte à l'écart 0,0000 %. Le modèle installe plus de PV (2,078 MW au lieu de 1,647), qui produit 2 337 MWh au lieu de 1 959, et fait produire 291 MWh à la turbine au lieu de 182 ; le coût monte de 2 182 €. La duale vaut 10,33 €/MWh : un MWh d'import autorisé en plus ferait économiser 10,33 €. Vérifié en relançant avec la borne plus un MWh : 499 577,38 €, soit 10,33 € de moins.</p>
+<p>Troisième ligne : sans PV, le plafond de 80 % mord. La turbine remplace l'import aux 1 752 heures les plus chères. Le prix de la 1 752ᵉ heure est 91,04 €/MWh, partagé par quinze heures, et la duale vaut 110 − 91,04 = 18,96 €/MWh. C'est l'écart de coût entre la turbine et l'import à l'heure marginale, et le gain d'un MWh de quota, vérifié par la même méthode (523 310,29 €).</p>
+<h2>5. Lire la duale : signe et échelle</h2>
+<p>Le signe. Pour une contrainte ≤ dans une minimisation, linopy et HiGHS renvoient une duale négative : relâcher la borne diminue le coût. On lit sa valeur absolue, 10,33 €/MWh, et le texte dit dans quel sens. Écrire la contrainte sous la forme <code>part * demande - imp.sum("hour") &gt;= 0</code> donne le même nombre avec le signe opposé.</p>
+<p>L'échelle. L'objectif de pommes ne somme pas des euros bruts : chaque euro d'exploitation de l'année <code>y</code> est pondéré par le facteur d'actualisation, le poids de l'année et le rapport <code>operation_year_duration / Σ time_step_duration</code>. La duale d'une contrainte porte ce même poids, parce qu'elle mesure la variation de l'objectif. <code>pommes.utils.dual_scale(params)</code> renvoie le facteur par année ; la division redonne des euros par MWh. Ici il vaut 1 : taux nul, une année, 8 760 heures sur 8 760. Il cesse de valoir 1 dès qu'on réduit le modèle à un mois (facteur 12) ou qu'on pondère plusieurs années météo <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. C'est pour l'avoir sous la main que le crochet garde <code>params</code>.</p>
+<h2>Questions</h2>
+<ol>
+<li>Sur le modèle complet, à quelle part de la demande le plafond commence-t-il à mordre ? Réponse attendue : juste sous 6 619 / 8 760, soit 75,6 %.</li>
+<li>À 70 %, quelle capacité PV le modèle installe-t-il, et quel coût supplémentaire la règle impose-t-elle au système ? Réponse : 2,078 MW ; 2 182 €.</li>
+<li>Sans PV, à 80 %, pourquoi la duale vaut-elle 18,96 €/MWh ? Réponse : 110 − 91,04, prix de la 1 752ᵉ heure la plus chère.</li>
+</ol>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Votre crochet ajoute <code>plafond_import_annuel</code> et la solution atteint la borne à moins de 0,1 %, à 70 % sur le modèle complet ou à 80 % sans PV.</li>
+<li>Vous lisez la duale dans <code>lp.dual</code>, la divisez par <code>dual_scale(params)</code>, écrivez 10,33 ou 18,96 €/MWh et expliquez son signe.</li>
+<li>Vous retrouvez cette valeur en relançant avec la borne plus un MWh.</li>
+<li>Vous dites en une phrase ce que signifie une duale nulle à 80 % sur le modèle complet.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li><code>price_depth_hook</code>, le marché en paliers du cas A : variables ajoutées, coordonnée nouvelle, terme d'objectif <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</li>
+<li>Le gabarit d'un cas, <code>_gabarit/model.py</code> et <code>blocks.py</code>, pour écrire son propre crochet <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/_gabarit" target="_blank" rel="noopener">Le gabarit d'un cas (_gabarit/) : écrire son propre cas POMMES</a>.</li>
+<li>Les noms de variables et d'indices que le crochet manipule <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/nomenclature.html" target="_blank" rel="noopener">Nomenclature : indices, paramètres et variables de pommes</a>.</li>
+<li><code>dual_scale</code> dans la référence API de pommes <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/autoapi/index.html" target="_blank" rel="noopener">Référence API de pommes (autoapi)</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases/solve.py, pommes_cases/blocks.py, A_batteries/model.py)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/nomenclature.html" target="_blank" rel="noopener">Nomenclature de pommes (indices, paramètres, variables)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/autoapi/index.html" target="_blank" rel="noopener">Référence API de pommes (pommes.utils.dual_scale)</a></li><li><a href="https://linopy.readthedocs.io/en/latest/" target="_blank" rel="noopener">Documentation de linopy</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

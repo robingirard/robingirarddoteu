@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ce que coûte un mégawattheure du système, et pas seulement de chaque centrale · Parcours ES 2026</title>
+<meta name="description" content="Sur la page « coût du système électrique » tirée du Net Zero Game : le LCOE moyen classe M0 devant N03, le coût du système fait l'inverse ; trouver ce qui fait l'écart (secours, écrêtement, réseau), le taux et le CAPEX de l'EPR2 qui le referment, et ce que changent les imports et le critère de sécurité.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 75 min</span> · <span>Économie, Modélisation, Interco et EnR</span></div>
+    <h1>Ce que coûte un mégawattheure du système, et pas seulement de chaque centrale</h1>
+    <p class="resume">Sur la page « coût du système électrique » tirée du Net Zero Game : le LCOE moyen classe M0 devant N03, le coût du système fait l'inverse ; trouver ce qui fait l'écart (secours, écrêtement, réseau), le taux et le CAPEX de l'EPR2 qui le referment, et ce que changent les imports et le critère de sécurité.</p>
+  </header>
+  <p>Objectif : voir, chiffres à l'appui, pourquoi le coût complet de chaque filière (LCOE) ne suffit pas à comparer des mix électriques, et nommer les postes qui font la différence. L'outil : la page « Ce que coûte un mégawattheure du système électrique » <a href="../outils/nzg-bloc-systeme-electrique.html">Ce que coûte un mégawattheure du système électrique : une page tirée du Net Zero Game</a>. Elle reprend les six parcs 2050 de RTE que le Net Zero Game applique à sa demande, et y ajoute ce que le jeu ne calcule pas : un équilibre heure par heure sur trois années météo du TYNDP 2026, le stockage, les turbines de secours, les imports et le réseau.</p>
+<p>Prérequis : l'annuité comprise <a href="../textes/cout-annualise.html">Du coût d'investissement à l'annuité : CRF, €/kW/an, LCOE et ses limites</a>. Valeurs relevées le 19/11/2026 sur la page tirée du Net Zero Game (après la version 0.41.0, commit b65b1f7), aux réglages de départ sauf indication : coûts RTE 2026 à 6 %, imports 5,5 GW, électrolyse 50 TWh, consommation hors électrolyse 595 TWh, critère de 3 h par an. Notez la version affichée en haut de la page.</p>
+<h2>1. Le LCOE et le système ne classent pas les mix de la même façon (15 min)</h2>
+<p>Cliquez M0, puis N1, puis N03. Relevez, dans la colonne de droite, le coût du mégawattheure du système et le LCOE moyen des centrales du mix.</p>
+<table>
+<thead>
+<tr>
+<th>Scénario</th>
+<th>Système (€/MWh)</th>
+<th>LCOE du mix (€/MWh)</th>
+<th>Turbines de secours (GW)</th>
+<th>Écrêtement (TWh)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M0</td>
+<td>≈ 149</td>
+<td>≈ 66</td>
+<td>≈ 62</td>
+<td>≈ 145</td>
+<td></td>
+</tr>
+<tr>
+<td>N1 (départ)</td>
+<td>≈ 125</td>
+<td>≈ 70</td>
+<td>≈ 38</td>
+<td>≈ 31</td>
+<td></td>
+</tr>
+<tr>
+<td>N03</td>
+<td>≈ 115</td>
+<td>≈ 75</td>
+<td>≈ 24</td>
+<td>≈ 0</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Le LCOE classe M0 en tête ; le système classe N03 en tête. Écrivez en trois lignes quels postes de la barre empilée font basculer le classement, et pourquoi l'écrêtement n'apparaît pas comme un poste à part (il est payé dans la production).</p>
+<h2>2. Lire la semaine la plus tendue (10 min)</h2>
+<p>Pour M0, graphique « La semaine la plus tendue », année météo WS077. Qu'est-ce qui tient la consommation quand le vent tombe ? Basculez sur « La monotone du secours » : combien d'heures par an tournent les cycles combinés, et pourquoi la tranche du haut va-t-elle aux turbines à combustion et aux effacements ? Reliez au texte sur la méthode graphique <a href="../textes/txt-methode-graphique.html">Dimensionner un parc par la méthode graphique : monotone de charge, droites de coût, heures de bascule</a>.</p>
+<h2>3. Le taux et le CAPEX qui referment l'écart (20 min)</h2>
+<p>Onglet « Hypothèses économiques ». Pour M0 et N03, faites varier le taux d'actualisation, puis, dans le tableau par filière, le CAPEX du nouveau nucléaire.</p>
+<table>
+<thead>
+<tr>
+<th>Réglage</th>
+<th>Écart M0 − N03 (€/MWh)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Départ (6 %)</td>
+<td>≈ 34</td>
+<td></td>
+</tr>
+<tr>
+<td>Taux 12 %</td>
+<td>≈ 10</td>
+<td></td>
+</tr>
+<tr>
+<td>Taux 2 %</td>
+<td>≈ 40</td>
+<td></td>
+</tr>
+<tr>
+<td>EPR2 à 12 000 €/kW (6 %)</td>
+<td>≈ 21</td>
+<td></td>
+</tr>
+<tr>
+<td>EPR2 à 16 000 €/kW (6 %)</td>
+<td>≈ 7</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>À quel CAPEX de l'EPR2 l'écart s'annule-t-il ? Comparez à la fourchette des SMR de l'annexe de RTE (7 000 à 18 000 €/kW). Ouvrez l'onglet « Coût par filière » : pourquoi le nucléaire de N1, très modulé, coûte-t-il environ une fois et demie plus cher à son facteur de charge réalisé (≈ 52 %) qu'à son facteur de charge possible (≈ 76 %) ?</p>
+<h2>4. Les voisins et le critère de sécurité (15 min)</h2>
+<p>Revenez au départ (N1). Faites varier les imports sur lesquels compter au pire moment.</p>
+<table>
+<thead>
+<tr>
+<th>Imports au pire moment</th>
+<th>Système (€/MWh)</th>
+<th>Turbines (GW)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 GW</td>
+<td>≈ 129</td>
+<td>≈ 44</td>
+<td></td>
+</tr>
+<tr>
+<td>5,5 GW (départ)</td>
+<td>≈ 125</td>
+<td>≈ 38</td>
+<td></td>
+</tr>
+<tr>
+<td>20 GW</td>
+<td>≈ 121</td>
+<td>≈ 24</td>
+<td></td>
+</tr>
+<tr>
+<td>39 GW (l'interconnexion de RTE)</td>
+<td>≈ 119</td>
+<td>≈ 5</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Le départ de 5,5 GW est ce que la France importe dans le TYNDP 2040 pendant ses 100 heures les plus tendues. Qui a raison, la page ou RTE qui compte sur 39 GW ? Le cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/G.yaml" target="_blank" rel="noopener">Cas G (carte, vague 2) — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a> répond en partie : il modélise les voisins. Passez ensuite le critère à « la pire heure » pour M0 puis N03 : de combien montent les turbines (≈ 62 → 80 GW pour M0, ≈ 24 → 39 GW pour N03), et de combien le coût (2 à 3 €/MWh) ? Pourquoi si peu ?</p>
+<h2>5. Le calage sur RTE et le verdict (15 min)</h2>
+<p>Onglet « Calage sur RTE » : avec les coûts et le taux de RTE 2022, la page retrouve les totaux de RTE à moins de 10 % près, mais l'écart M0 − N03 y fait environ 25 Md€ par an, contre 17,5 chez RTE. Nommez deux raisons de cet écart, lues dans l'onglet (imports, turbines, nucléaire existant, horizon 2060). Puis écrivez un verdict de cinq lignes : quel mix coûte le moins cher en système sous vos hypothèses, de combien, et sous quel taux et quel CAPEX ce classement tombe. Ordre de grandeur, pas une prévision : chaque chiffre porte sa source (l'onglet « Sources » les donne).</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous expliquez en une phrase pourquoi le mix au LCOE le plus bas n'est pas le système le moins cher.</li>
+<li>Vous chiffrez la part de la flexibilité et du réseau dans le coût d'au moins deux mix.</li>
+<li>Vous donnez le taux et le CAPEX qui font basculer votre verdict.</li>
+<li>Vous dites ce que la page ne voit pas (un seul nœud, une règle et non une optimisation, trois années météo) et quel cas POMMES le voit.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Le même calcul fait par un optimiseur, avec les voisins : le cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/G.yaml" target="_blank" rel="noopener">Cas G (carte, vague 2) — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>.</li>
+<li>Dimensionner éolien et stockage soi-même dans craft <a href="../textes/act-dimensionner-enr-stockage.html">Dimensionner éolien et stockage dans craft, avec et sans écrêtement</a>.</li>
+<li>La valeur d'une batterie face à son annuité : le cas A <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li>RTE (2022), Futurs énergétiques 2050, rapport complet, chapitre 5 (parcs des six scénarios, p. 174 à 179) et chapitre 11 « Analyse économique » (figures 11.29 à 11.32)</li><li><a href="https://assets.rte-france.com/prod/public/2026-04/RTE%20-%20Actualisation%20des%20FE%202050%20-%20consultation%20publique%202026%20-%20annexes.xlsx" target="_blank" rel="noopener">RTE (avril 2026), Actualisation des Futurs énergétiques 2050, consultation publique, annexes (coûts 2024 et évolutions proposées pour 2050)</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E & ENTSOG, TYNDP 2026 Scenarios, National Trends+ 2040 et PECD 2026 (CC BY 4.0)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

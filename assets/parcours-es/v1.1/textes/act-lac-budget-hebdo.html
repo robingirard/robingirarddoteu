@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le lac à budget en trente lignes de craft · Parcours ES 2026</title>
+<meta name="description" content="Un lac sans coût variable face à une centrale gaz : la duale de son budget d'énergie, annuel puis hebdomadaire, prend la valeur du gaz qu'il remplace, et le prix devient plat ; trois variantes montrent quand cette valeur change et pourquoi une contrainte d'énergie ne crée pas d'heures bon marché.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Modélisation, Optimisation, Prix et marchés, Flexibilité</span></div>
+    <h1>Le lac à budget en trente lignes de craft</h1>
+    <p class="resume">Un lac sans coût variable face à une centrale gaz : la duale de son budget d'énergie, annuel puis hebdomadaire, prend la valeur du gaz qu'il remplace, et le prix devient plat ; trois variantes montrent quand cette valeur change et pourquoi une contrainte d'énergie ne crée pas d'heures bon marché.</p>
+  </header>
+  <h2>Objectif</h2>
+<p>Lire la duale d'un budget d'énergie, vérifier qu'elle vaut le coût variable de la centrale remplacée, puis mesurer ce qui la fait bouger.</p>
+<p>Prérequis : le dépôt des cas installé et vérifié <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, la duale de l'équilibre offre-demande <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a> ; <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a> dit pourquoi l'exercice compte. Une résolution prend environ une seconde.</p>
+<h2>Le modèle</h2>
+<p>Une quarantaine de lignes à copier. Une zone, une demande horaire de 26 à 54 GW (350,4 TWh par an) qui suit la journée et la saison. Une centrale gaz de 60 GW à 90 €/MWh, toujours disponible. Un « lac » de 30 GW sans coût variable, plafonné à 120 TWh par an (<code>max_yearly_production</code>). Capacités imposées (<code>power_capacity_investment_min = max</code>), sans investissement, comme dans <code>pommes_cases/systeme_fr.py</code>. Délestage à 3 000 €/MWh, écrêtement gratuit.</p>
+<pre><code class="language-python">import sys, numpy as np, polars as pl, xarray as xr
+sys.path.insert(0, &quot;chemin/vers/pommes-case-studies&quot;)
+from pathlib import Path
+from pommes_craft import Area, ConversionTechnology, Demand, EconomicHypothesis, LoadShedding, Spillage, TimeStepManager
+from pommes_craft.core.model import EnergyModel
+from pommes_cases.solve import solve_with_extra_constraints
+from pommes.utils import dual_scale
+
+H, Y = 8760, 2024
+h = np.arange(H)
+demande = 40_000 + 8_000 * np.sin(2 * np.pi * (h % 24 - 9) / 24) + 6_000 * np.cos(2 * np.pi * h / H)   # MW
+frame = lambda v, col: pl.DataFrame({&quot;hour&quot;: h, &quot;year_op&quot;: np.full(H, Y), col: v}).with_columns(pl.col(&quot;hour&quot;, &quot;year_op&quot;).cast(pl.Int64))
+
+def modele(cout_lac=0.0, must_run=np.nan, budget_twh=120.0, cout_gaz=90.0, dispo_gaz=None):
+    m = EnergyModel(name=&quot;lac_budget&quot;, folder=Path(&quot;sortie&quot;), hours=list(h), year_ops=[Y], year_invs=[Y],
+                    year_decs=[Y + 1000], modes=[], resources=[&quot;elec&quot;])      # folder : dossier sortie/ créé dans le répertoire courant
+    with m.context():
+        EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=Y, planning_step=1)
+        TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=float(H))
+        zone = Area(&quot;zone&quot;)
+        zone.add_component(Demand(&quot;demande&quot;, resource=&quot;elec&quot;, demand=frame(demande, &quot;demand&quot;)))
+        zone.add_component(LoadShedding(&quot;delestage&quot;, resource=&quot;elec&quot;, cost=3000.0))
+        zone.add_component(Spillage(&quot;ecretement&quot;, resource=&quot;elec&quot;, cost=0.0, max_capacity=1e6))
+        kw = {} if dispo_gaz is None else {&quot;availability&quot;: frame(dispo_gaz, &quot;availability&quot;)}
+        zone.add_component(ConversionTechnology(&quot;gaz&quot;, factor={&quot;elec&quot;: 1.0}, variable_cost=cout_gaz, life_span=1000,
+                                                power_capacity_investment_min=60_000, power_capacity_investment_max=60_000, **kw))
+        zone.add_component(ConversionTechnology(&quot;lac&quot;, factor={&quot;elec&quot;: 1.0}, variable_cost=cout_lac, life_span=1000,
+                                                power_capacity_investment_min=30_000, power_capacity_investment_max=30_000,
+                                                max_yearly_production=np.nan if budget_twh is None else budget_twh * 1e6, must_run=must_run))
+    return m
+
+def resoudre(m, hook=None):
+    params = {}
+    def crochet(lp, p):
+        params[&quot;p&quot;] = p                      # on garde les paramètres pour dual_scale
+        if hook: hook(lp, p)                 # et on ajoute, s'il y a lieu, des contraintes avant la résolution
+    lp = solve_with_extra_constraints(m, crochet)
+    scale = float(dual_scale(params[&quot;p&quot;]).sel(year_op=Y))          # 1.0 ici : taux nul, 8 760 h
+    prix = np.round(lp.dual[&quot;operation_adequacy_constraint&quot;].sel(area=&quot;zone&quot;, resource=&quot;elec&quot;).values.ravel() / scale, 6) + 0.0
+    return lp, prix, scale
+
+def valeur_budget(lp, scale):
+    return -lp.dual[&quot;operation_conversion_yearly_production_max_constraint&quot;].sel(area=&quot;zone&quot;, conversion_tech=&quot;lac&quot;).squeeze().item() / scale
+</code></pre>
+<p>Deux conventions : la duale d'une contrainte « inférieur ou égal » sort négative en minimisation, on prend l'opposé ; elle se lit divisée par <code>dual_scale</code> (1 ici, pas sur un modèle à peu d'heures ou à plusieurs années météo) <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>.</p>
+<h2>Étape 1 : le budget annuel, trois variantes</h2>
+<pre><code class="language-python">for nom, kw in [(&quot;a&quot;, {}), (&quot;b&quot;, {&quot;cout_lac&quot;: 15.6}), (&quot;c&quot;, {&quot;cout_lac&quot;: 15.6, &quot;must_run&quot;: 0.9, &quot;budget_twh&quot;: 250.0})]:
+    lp, prix, scale = resoudre(modele(**kw))
+    v = valeur_budget(lp, scale)
+    print(f&quot;{nom}) valeur du budget {v:.1f} ; coût + valeur {kw.get('cout_lac', 0.0) + v:.1f} ; &quot;
+          f&quot;prix moyen {prix.mean():.1f}, min {prix.min():.1f}, écart-type {prix.std():.1f} ; heures sous 20 : {(prix &lt; 20).sum()}&quot;)
+</code></pre>
+<p>Sortie avec pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1 et HiGHS :</p>
+<pre><code class="language-text">a) valeur du budget 90.0 ; coût + valeur 90.0 ; prix moyen 90.0, min 90.0, écart-type 0.0 ; heures sous 20 : 0
+b) valeur du budget 74.4 ; coût + valeur 90.0 ; prix moyen 90.0, min 90.0, écart-type 0.0 ; heures sous 20 : 0
+c) valeur du budget 74.4 ; coût + valeur 90.0 ; prix moyen 88.1, min 0.0, écart-type 12.9 ; heures sous 20 : 184
+</code></pre>
+<p>En a et b, le lac turbine ses 120 TWh, le gaz les 230,4 TWh restants. Chaque MWh d'eau remplace un MWh de gaz : le budget vaut 90 €/MWh si l'eau est gratuite, 74,4 si elle coûte déjà 15,6 ; la somme vaut toujours le gaz. Le prix est plat à 90, alors que la demande varie du simple au double.</p>
+<p>Avant de lancer c, prédisez les heures à prix nul : le lac tourne au moins à 0,9 × 30 = 27 GW, donc <code>(demande &lt; 27_000).sum()</code>, soit 184. Elles viennent du must-run, pas du budget : l'eau vaut toujours 74,4.</p>
+<h2>Étape 2 : le budget par semaine, avec un crochet</h2>
+<p>Un vrai lac reçoit ses apports chaque semaine. Ce crochet découpe l'année en 53 semaines et borne l'énergie de chacune au prorata de ses heures : 2,30 TWh par semaine de 168 h pour 120 TWh. C'est la logique de <code>lake_hook</code> (<code>systeme_fr.py</code>), qui borne les lacs français par l'énergie hebdomadaire du TYNDP.</p>
+<pre><code class="language-python">def budget_hebdo(budget_twh):
+    def hook(lp, p):
+        prod = lp.variables[&quot;operation_conversion_power&quot;].sel(area=&quot;zone&quot;, conversion_tech=&quot;lac&quot;)
+        semaine = xr.DataArray(h // 168, dims=&quot;hour&quot;, coords={&quot;hour&quot;: p.hour.values}, name=&quot;semaine&quot;)   # nommée, sinon dimension « group »
+        heures = np.bincount(h // 168)                                                                 # 52 semaines de 168 h, une de 24 h
+        budget = xr.DataArray(budget_twh * 1e6 * heures / H, dims=&quot;semaine&quot;, coords={&quot;semaine&quot;: np.arange(53)})
+        lp.add_constraints(prod.groupby(semaine).sum() &lt;= budget, name=&quot;lac_hebdo&quot;)
+    return hook
+
+lp, prix, scale = resoudre(modele(budget_twh=None), budget_hebdo(120.0))
+valeurs = -lp.dual[&quot;lac_hebdo&quot;].squeeze().values / scale + 0.0
+print(np.unique(np.round(valeurs, 3)), prix.std())        # [90.]  0.0
+</code></pre>
+<p>Les 53 duales valent 90 €/MWh, le prix reste plat, le coût total est celui de a, 20,736 milliards d'euros : avec un gaz toujours disponible au même prix, aucune semaine d'eau ne vaut plus qu'une autre.</p>
+<h2>Étape 3 : ce qui fait bouger la valeur de l'eau</h2>
+<pre><code class="language-python">dispo = np.ones(H); dispo[:744] = 0.0                                  # janvier sans gaz
+for nom, kw, b in [(&quot;lac plus gros&quot;, {}, 300.0), (&quot;gaz à 150&quot;, {&quot;cout_gaz&quot;: 150.0}, 120.0), (&quot;janvier sans gaz&quot;, {&quot;dispo_gaz&quot;: dispo}, 120.0)]:
+    lp, prix, scale = resoudre(modele(budget_twh=None, **kw), budget_hebdo(b))
+    v = np.round(-lp.dual[&quot;lac_hebdo&quot;].squeeze().values / scale + 0.0, 1)
+    ens = lp.solution[&quot;operation_load_shedding_power&quot;].sel(area=&quot;zone&quot;, resource=&quot;elec&quot;).values.sum() / 1e6
+    print(f&quot;{nom}: duales {np.unique(v)} ; prix moyen {prix.mean():.1f} ; heures sous 20 : {(prix &lt; 20).sum()} ; délestage {ens:.1f} TWh&quot;)
+</code></pre>
+<pre><code class="language-text">lac plus gros:     duales [0.]          ; prix moyen 81.4  ; heures sous 20 : 835 ; délestage 0.0 TWh
+gaz à 150:         duales [150.]        ; prix moyen 150.0 ; heures sous 20 : 0   ; délestage 0.0 TWh
+janvier sans gaz:  duales [90. 3000.]   ; prix moyen 337.2 ; heures sous 20 : 0   ; délestage 22.7 TWh
+</code></pre>
+<p>Lac plus gros. 300 TWh donnent 5,75 TWh par semaine, plus que les 5,04 TWh que 30 GW turbinent en 168 h. Le budget ne serre plus (duale nulle) : c'est la capacité qui compte, et le lac, gratuit, est marginal les 835 heures où la demande passe sous 30 GW.</p>
+<p>Gaz plus cher. L'eau suit le gaz à 150 ; le programme du lac ne change pas.</p>
+<p>Un mois sans gaz. Dans les quatre semaines entièrement en janvier, l'eau vaut 3 000 €/MWh, le délestage qu'elle remplace. La cinquième chevauche février : son budget de 2,30 TWh dépasse ce que 30 GW turbinent en 72 heures sans gaz, son dernier MWh sert donc une heure de gaz, et sa duale vaut 90. Le prix vaut 3 000 les 744 heures de janvier, 90 ailleurs. Avec le budget annuel, <code>modele(budget_twh=120.0, dispo_gaz=dispo)</code> sans crochet, le lac turbine 22,3 TWh en janvier au lieu de 11,4 et le délestage tombe de 22,7 à 11,7 TWh ; la valeur du budget reste 90, son dernier MWh servant une heure de gaz hors janvier.</p>
+<h2>Ce qu'il faut retenir</h2>
+<p>En prévision parfaite, un stock sans coût propre vaut ce qu'il remplace à la marge : le gaz à 90, le gaz à 150, le délestage à 3 000. L'optimiseur, qui connaît l'année, place l'eau où elle évite le coût le plus élevé jusqu'à l'égaliser sur toutes les heures où elle sert : le prix se lisse. C'est le « budget nucléaire » de <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a> : 15,6 + 74 = 90 sur le parc réel, 15,6 + 74,4 = 90 ici en b. La doc POMMES (version 0.11) appelle cette duale valeur d'usage <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html" target="_blank" rel="noopener">Fenêtre d'exploitation : capacités fixées, stocks aux bornes, valeurs d'usage</a>.</p>
+<p>Une contrainte d'énergie n'est pas une rigidité : elle déplace la production entre les heures, sans jamais forcer une unité à produire à perte. Les heures à prix nul des étapes 1c et 3 viennent d'une contrainte de puissance : un minimum à tenir, une capacité qui déborde la demande. Un exploitant myope, sans connaître l'année, fixerait une valeur d'usage à son eau et turbinerait dès que le prix la dépasse ; quand il se trompe, l'eau manque ou déborde et les prix retrouvent une forme.</p>
+<h2>Trois questions à réponse chiffrée</h2>
+<ol>
+<li>Lac à 15,6 €/MWh, gaz passé de 90 à 120 : quelle valeur de budget attendez-vous ? Vérifiez.</li>
+<li>Quel budget annuel, au plus, laisse sa duale strictement positive ? Indice : <code>np.minimum(demande, 30_000).sum()</code>, soit 261,1 TWh.</li>
+<li>Janvier sans gaz, budget hebdomadaire : pourquoi le lac turbine-t-il 11,4 TWh en janvier et pas 10,2 (prorata de 120 TWh sur 744 h) ?</li>
+</ol>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous retrouvez 90,0 puis 74,4 €/MWh comme valeur du budget en a et b, et expliquez en une phrase pourquoi la somme vaut le gaz.</li>
+<li>Vous prédisez 184 heures à zéro avant de lancer c, et dites d'où elles viennent.</li>
+<li>Vous lisez les 53 duales de <code>lac_hebdo</code> et dites, pour chaque variante, ce que remplace le dernier MWh d'eau.</li>
+<li>Vous dites ce qu'un exploitant myope changerait au programme et à la forme des prix.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Fenêtre d'exploitation et valeurs d'usage, API expérimentale de POMMES 0.11 (<code>pommes.solver.build_operation_window</code>), déjà dans le pommes 0.11.0 du dépôt <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html" target="_blank" rel="noopener">Fenêtre d'exploitation : capacités fixées, stocks aux bornes, valeurs d'usage</a>.</li>
+<li>Model description (2) : ces contraintes en notation mathématique <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (2) : adéquation, capacités et millésimes, stockage, carbone, imports, TURPE</a>.</li>
+<li>Le contrat d'un crochet <code>solve_with_extra_constraints</code> <a href="../textes/txt-crochet-avant-solve.html">Ajouter une contrainte avant le solve : le contrat d'un crochet (solve_with_extra_constraints)</a>.</li>
+<li>Cas B, VE pilotés : les heures à prix bas quand un stock choisit ses heures <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/B_ve_pilotes" target="_blank" rel="noopener">Cas B — VE pilotés : que deviennent les heures à prix bas ?</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases/solve.py, solve_with_extra_constraints ; pommes_cases/systeme_fr.py, lake_hook ; environnement épinglé pommes 0.11.0, pommes_craft 0.6.0)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Documentation POMMES, description du modèle (contrainte d'adéquation, plafond annuel de production)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html" target="_blank" rel="noopener">Documentation POMMES, fenêtre d'exploitation et valeurs d'usage</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft (PyPI)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>La restitution du vendredi · Parcours ES 2026</title>
-<meta name="description" content="Ce que le groupe rend vendredi matin, dans quel ordre, comment il s'organise pendant la semaine, comment il est noté, et trois erreurs des notebooks de TP 2025 à ne pas refaire.">
+<meta name="description" content="Ce que le groupe présente vendredi matin (dix minutes, cinq à dix planches), dans quel ordre, comment il s'organise pendant la semaine, comment il est noté, et trois erreurs des notebooks de TP 2025 à ne pas refaire.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -44,6 +44,19 @@ a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2
 .bandeau a { color: var(--bleu-clair); text-decoration: none; }
 .bandeau a:hover { text-decoration: underline; }
 .enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
 article.texte { padding-block: 28px 56px; }
 article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
 article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
@@ -52,6 +65,9 @@ h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
 h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
 h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
 .resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
 p, li { max-width: 68ch; }
 ul, ol { padding-left: 1.3em; }
 li + li { margin-top: .25em; }
@@ -75,29 +91,33 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <body>
 <div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
 <main class="enveloppe">
+<div class="disposition">
 <article class="texte">
   <header>
-    <div class="sur"><span>intermédiaire</span> · <span>≈ 25 min</span> · <span>Atelier du cas, Socle, Modélisation, Optimisation, Prix et marchés, Économie, Flexibilité, Demande, Hydrogène, Industrie, Interco et EnR</span></div>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 25 min</span> · <span>Atelier, Socle, Modélisation, Optimisation, Prix et marchés, Économie, Flexibilité, Demande, Hydrogène, Industrie, Interco et EnR</span></div>
     <h1>La restitution du vendredi</h1>
-    <p class="resume">Ce que le groupe rend vendredi matin, dans quel ordre, comment il s'organise pendant la semaine, comment il est noté, et trois erreurs des notebooks de TP 2025 à ne pas refaire.</p>
+    <p class="resume">Ce que le groupe présente vendredi matin (dix minutes, cinq à dix planches), dans quel ordre, comment il s'organise pendant la semaine, comment il est noté, et trois erreurs des notebooks de TP 2025 à ne pas refaire.</p>
   </header>
   <h2>Ce que vous rendez</h2>
-<p>Vendredi 4 décembre au matin, chaque groupe présente son cas en <strong>10 planches et 10 minutes</strong>, suivies de <strong>5 minutes de questions</strong>. Le fichier est déposé avant la séance. Pas de rapport écrit : les planches et ce que vous en dites sont le livrable. Ces règles et la grille plus bas sont une proposition pour 2026 ; l'enseignant les confirme le lundi.</p>
+<p>Vendredi 4 décembre au matin, chaque groupe présente son mini-projet en <strong>10 minutes</strong>, suivies de <strong>5 minutes de questions</strong>. La contrainte est le temps : comptez <strong>entre 5 et 10 planches</strong>, et 10 est un maximum, pas un objectif. Le fichier est déposé avant la séance. Pas de rapport écrit : les planches et ce que vous en dites sont le livrable. Ces règles et la grille plus bas sont une proposition pour 2026 ; l'enseignant les confirme le lundi.</p>
 <p>Le fil rouge du cours vaut pour la restitution : <strong>même installation, plusieurs futurs</strong>. Un cas POMMES ne prédit rien. Il prend une installation, une batterie, une flotte de voitures, un électrolyseur, un site de vapeur, et la fait tourner sous plusieurs jeux de prix ou plusieurs années météo. Le verdict est ce qui tient d'un futur à l'autre, et ce qui bascule. Dites-le dès la première planche : <strong>cas d'école, pas une prévision</strong>.</p>
 <h2>La structure imposée</h2>
-<p>Dix planches, dans cet ordre. Le jury connaît l'ordre et attend chaque pièce.</p>
+<p>Dix pièces, dans cet ordre. Le jury connaît l'ordre et attend chaque pièce. Une pièce n'est pas une planche : la question et le modèle tiennent souvent sur une même planche, la figure porte à la fois le verdict, la grandeur qui bascule et l'heure où ça se joue, les limites et la piste suivante se partagent la dernière.</p>
 <ol>
 <li><strong>La question du cas.</strong> Une phrase, celle de la carte du cas ou la vôtre si vous l'avez resserrée. Exemple du dépôt : « Batteries : que rapporte l'arbitrage au n-ième GW ? »</li>
-<li><strong>Le modèle en une planche.</strong> Les composants pommes_craft, ce qui est fixé, ce que le solveur choisit, l'horizon. Un schéma vaut mieux qu'une liste.</li>
+<li><strong>Le modèle.</strong> Les composants pommes_craft, ce qui est fixé, ce que le solveur choisit, l'horizon. Un schéma vaut mieux qu'une liste.</li>
 <li><strong>Les hypothèses sourcées, avec leur statut.</strong> Un tableau tiré de votre <code>hypotheses.yaml</code> : nom, valeur, unité, source, statut. Les statuts admis sont ceux du dépôt : <code>vérifié</code>, <code>calculé</code>, <code>lu sur figure</code>, <code>repris</code>, <code>choix du cas</code>, <code>mémoire</code>. Un statut <code>mémoire</code> n'est pas interdit, il est annoncé.</li>
 <li><strong>Le verdict sous au moins deux futurs.</strong> Deux jeux de prix, ou deux années météo, ou les deux. Un seul futur ne donne pas de verdict, il donne un chiffre.</li>
-<li><strong>La figure qui le montre.</strong> Une seule figure, lisible depuis le fond de la salle, avec le futur en abscisse ou en couleur.</li>
+<li><strong>La figure qui le montre.</strong> Une figure principale, lisible depuis le fond de la salle, avec le futur en abscisse ou en couleur.</li>
 <li><strong>La grandeur qui bascule</strong> d'un futur à l'autre.</li>
 <li><strong>L'heure ou la saison où ça se joue.</strong></li>
 <li><strong>La sensibilité à une hypothèse.</strong></li>
 <li><strong>Les limites.</strong> Ce que le modèle ne représente pas et qui pourrait changer la réponse.</li>
 <li><strong>La piste suivante.</strong> Ce que vous feriez avec une semaine de plus. Les cartes des cas en proposent ; reprenez-en une ou formulez la vôtre.</li>
 </ol>
+<h2>Deux mini-projets reliés</h2>
+<p>Un groupe qui a mené deux mini-projets présente toujours en 10 minutes. Ce n'est pas deux présentations l'une après l'autre : c'est une présentation plus intéressante, soit un « double projet » dont les deux questions se répondent, soit un projet maître et un ou deux projets liés, qui disent ce que le lien change au verdict. Si le groupe a vraiment quelque chose à ajouter, demandez un peu plus de temps le jeudi.</p>
+<p>Si des personnes de groupes différents se sont mises ensemble en cours de semaine sur des mini-projets liés (la boucle H ↔ L, par exemple), leur travail enrichit les présentations des groupes liés.</p>
 <h2>Les hypothèses : la planche qui fait la différence</h2>
 <p>Le dépôt lit les hypothèses d'un cas dans un fichier, et le modèle y prend ses valeurs. Comptez les statuts du cas A pour voir à quoi ressemble un cas honnête :</p>
 <pre><code class="language-python">import sys
@@ -129,7 +149,7 @@ for jeu, sc, an in [(&quot;tyndp2024&quot;, &quot;NT&quot;, 2030), (&quot;tyndp2
 <li><strong>Qui fait tourner.</strong> Exécute le notebook, lance les variantes, garde les <code>results.json</code>. Un seul poste suffit.</li>
 <li><strong>Qui source.</strong> Relit chaque hypothèse à sa source, remplit le <code>hypotheses.yaml</code>, fixe les statuts. Ne demande aucun code. C'est le rôle le plus souvent négligé et le plus payant.</li>
 <li><strong>Qui fait la figure.</strong> Choisit la grandeur à montrer, les deux futurs, les axes. Une figure, refaite trois fois, vaut mieux que six figures.</li>
-<li><strong>Qui écrit.</strong> Tient les dix planches à jour dès le mercredi, écrit la question et le verdict en une phrase chacun.</li>
+<li><strong>Qui écrit.</strong> Tient les planches à jour dès le mercredi, écrit la question et le verdict en une phrase chacun.</li>
 </ul>
 <p>Tournez si vous voulez, mais chaque rôle a un nom à la fin de la semaine.</p>
 <h2>Le calendrier</h2>
@@ -151,7 +171,7 @@ for jeu, sc, an in [(&quot;tyndp2024&quot;, &quot;NT&quot;, 2030), (&quot;tyndp2
 </tr>
 <tr>
 <td>jeudi</td>
-<td>le verdict sous plusieurs futurs, la figure qui le montre, les planches 1 à 10 en brouillon</td>
+<td>le verdict sous plusieurs futurs, la figure qui le montre, toutes les planches en brouillon, une répétition chronométrée</td>
 </tr>
 <tr>
 <td>vendredi matin</td>
@@ -216,8 +236,9 @@ print(3.6e6 / 1e6, &quot;TW&quot;)       # 3.6 TW       : 3,6 GW probablement vo
 <p>Leçon : chaque nombre du tableau d'hypothèses a une formule ou une source, et quelqu'un du groupe refait le calcul à la main.</p>
 <h2>Vous l'avez compris quand…</h2>
 <ul>
-<li>Votre planche 3 permet à un autre groupe de refaire votre modèle sans vous poser de question.</li>
-<li>Votre planche 4 montre deux futurs et votre phrase de verdict dit ce qui tient dans les deux.</li>
+<li>Votre planche des hypothèses permet à un autre groupe de refaire votre modèle sans vous poser de question.</li>
+<li>Votre planche du verdict montre deux futurs et votre phrase de verdict dit ce qui tient dans les deux.</li>
+<li>Votre répétition tient en moins de dix minutes.</li>
 <li>Vous savez dire, pour chaque chiffre de vos planches, s'il est <code>vérifié</code>, <code>calculé</code>, <code>repris</code> ou <code>choix du cas</code>.</li>
 <li>Vous avez relancé une résolution après avoir changé une hypothèse et vu le verdict bouger, ou ne pas bouger.</li>
 </ul>
@@ -230,6 +251,8 @@ print(3.6e6 / 1e6, &quot;TW&quot;)       # 3.6 TW       : 3,6 GW probablement vo
 </ul>
   <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt public des cas POMMES (pommes-case-studies)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/_gabarit/README.md" target="_blank" rel="noopener">Le gabarit d'un cas et le contrat de hypotheses.yaml (_gabarit/README.md)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/data/prix/README.md" target="_blank" rel="noopener">Jeux de prix horaires du dépôt (data/prix/README.md)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/S1_rapport.md" target="_blank" rel="noopener">Rapport S1 : erreurs de fond des notebooks 2025 (docs/S1_rapport.md, section 4)</a></li><li><a href="https://2024.entsos-tyndp-scenarios.eu/" target="_blank" rel="noopener">ENTSO-E, TYNDP 2024 Scenarios</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E, TYNDP 2026 Scenarios</a></li></ol></section>
 </article>
+
+</div>
 </main>
 <footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
 </body>

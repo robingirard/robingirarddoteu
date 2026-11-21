@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aluminium : à quel prix de l'électricité une fonderie européenne tient · Parcours ES 2026</title>
+<meta name="description" content="Dans l'onglet Aluminium de l'outil « ce que coûte chaque route », trouver le prix de l'électricité qui met une fonderie neuve, puis une fonderie existante, au niveau du prix de marché, et lire dans l'onglet Sources quelle hypothèse décide du verdict. Sans code, 20 minutes.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Industrie</span></div>
+    <h1>Aluminium : à quel prix de l'électricité une fonderie européenne tient</h1>
+    <p class="resume">Dans l'onglet Aluminium de l'outil « ce que coûte chaque route », trouver le prix de l'électricité qui met une fonderie neuve, puis une fonderie existante, au niveau du prix de marché, et lire dans l'onglet Sources quelle hypothèse décide du verdict. Sans code, 20 minutes.</p>
+  </header>
+  <p>Objectif : voir sur un produit où l'électricité pèse un tiers du coût ce que veut dire « un prix de bascule », et distinguer une usine qu'on construit d'une usine qui existe déjà. Outil v2.1, lien épinglé <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a> ; valeurs relevées le 18/11/2026 aux réglages par défaut (électricité 70 €/MWh, quota 70 €/t, taux 8 %). L'outil ne garde rien : notez vos valeurs à la main.</p>
+<h2>La manipulation</h2>
+<ol>
+<li>Onglet Aluminium. Relever le coût complet de la route Hall-Héroult (l'électrolyse de l'alumine), la part de l'électricité dans ce coût, et le prix de marché (la ligne grise de la figure de coût). Déplier la carte de la route pour lire le poste « capital » et le quota (ligne « Prix du CO2 × émissions directes résiduelles »).</li>
+<li>Baisser le curseur « Prix de l'électricité » jusqu'à ce que Hall-Héroult passe sous le prix de marché. C'est le prix d'électricité qui fait vivre une fonderie <strong>neuve</strong>.</li>
+<li>Une fonderie <strong>existante</strong> a déjà payé son capital. À la main : retrancher le capital du coût complet, puis chercher le prix d'électricité qui ramène ce coût au prix de marché. La pente se lit dans l'onglet Comparer, tableau « +10 €/MWh » : 150 €/t d'aluminium pour 10 €/MWh, soit 15 MWh par tonne. Refaire en retranchant aussi le quota (une fonderie qui reçoit ses quotas gratuitement).</li>
+<li>Onglet Sources et hypothèses, section Aluminium : relever le statut (vérifié, mémoire…) de la consommation d'électricité de Hall-Héroult, de son coût d'investissement et du prix de marché. Laquelle des trois décide du verdict, et peut-on s'y fier ?</li>
+<li>Écrire en trois lignes pourquoi les fonderies s'installent au pied des barrages, et ce que fait à une fonderie européenne existante une hausse durable de 30 €/MWh.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Grandeur</th>
+<th>Attendu (v2.1)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hall-Héroult, coût complet</td>
+<td>3 223 €/t (capital 561, électricité 1 050 soit 33 %, quota 217)</td>
+<td></td>
+</tr>
+<tr>
+<td>prix de marché</td>
+<td>2 400 €/t</td>
+<td></td>
+</tr>
+<tr>
+<td>égalité, fonderie neuve</td>
+<td>≈ 15 au curseur (pas de 5 €/MWh), 15,1 au calcul</td>
+<td></td>
+</tr>
+<tr>
+<td>égalité, fonderie existante (sans le capital)</td>
+<td>52,5 €/MWh</td>
+<td></td>
+</tr>
+<tr>
+<td>idem, sans le quota</td>
+<td>67,0 €/MWh</td>
+<td></td>
+</tr>
+<tr>
+<td>à 30 €/MWh</td>
+<td>2 623 €/t, dont 17 % d'électricité</td>
+<td></td>
+</tr>
+<tr>
+<td>statuts</td>
+<td>électricité 15 MWh/t « vérifié » ; coût d'investissement et prix de marché « mémoire »</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Le calcul de l'étape 3 : 70 − (3 223 − 561 − 2 400) / 15 = 52,5 €/MWh ; sans le quota, 70 − (2 662 − 217 − 2 400) / 15 = 67,0 €/MWh.</p>
+<p>Ce que l'outil ne dit pas : une fonderie module peu sa puissance et ne peut pas s'arrêter longtemps (le bain fige) ; son facteur de charge de 95 % est un « choix » de l'outil. Elle ne peut donc pas suivre le prix heure par heure comme l'aciérie du cas K ; elle paie le prix moyen, ou un contrat. Le quota de 217 €/t compte aussi le raffinage de la bauxite en alumine et la cuisson des anodes : une fonderie qui achète son alumine en paie moins. Et son prix d'égalité dépend d'un prix de marché au statut « mémoire ».</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous expliquez l'écart entre 15 et 52,5 €/MWh sans parler de technique : c'est le capital déjà dépensé.</li>
+<li>Vous dites quelle hypothèse au statut « mémoire » porte le verdict.</li>
+<li>Vous citez la version de l'outil à côté de chacun de vos chiffres.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Le même raisonnement pour l'acier, au charbon et au CO₂ <a href="../textes/activites-outils.html">Activité guidée — acier : le prix du charbon à coke et le prix du CO₂ qui font basculer le haut fourneau</a>.</li>
+<li>Le moteur de l'outil en Python, pour tracer un prix de bascule au lieu de le chercher au curseur <a href="../textes/act-routes-python.html">Activité guidée — le moteur de l'outil « routes » en Python</a>.</li>
+<li>Une usine qui, elle, peut suivre le prix : le cas K <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/K_acierie_dri" target="_blank" rel="noopener">Cas K — Une aciérie DRI qui choisit son gaz heure par heure : que vaut sa flexibilité, que lui retire une rampe ?</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.robingirard.eu/assets/industrydecarbo/v2.1/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie v2.1 (lien épinglé)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/industry_decarbo_routes" target="_blank" rel="noopener">Dépôt public de l'outil : moteur Python et hypothèses YAML (hypotheses/aluminium.yaml)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Capter le CO₂ : d'où il vient, comment on l'attrape, ce qu'on en fait, ce que ça coûte · Parcours ES 2026</title>
+<meta name="description" content="Pourquoi le coût du captage dépend d'abord de la concentration du CO₂ dans les fumées, les techniques de captage, le transport et le stockage, et ce que coûte la tonne évitée selon la source. Chaque chiffre porte son statut et sa page.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Capter le CO₂ : d'où il vient, comment on l'attrape, ce qu'on en fait, ce que ça coûte</h1>
+    <p class="resume">Pourquoi le coût du captage dépend d'abord de la concentration du CO₂ dans les fumées, les techniques de captage, le transport et le stockage, et ce que coûte la tonne évitée selon la source. Chaque chiffre porte son statut et sa page.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-H">Mener le mini-projet du cas H : à quel prix du CO₂ l'industrie change-t-elle de procédé ?</a></li><li><a href="../index.html#cas-K">Mener le mini-projet du cas K : que vaut la flexibilité d'une aciérie DRI, et que lui retire une rampe ?</a></li></ul></aside><p>Cette note est le compagnon du thème
+<code>Industry/CO2_capture</code> : cinq planches dessinées
+(<code>figures/</code>), une fiche de chiffres
+(<code>data/capture_factors.md</code>) où chaque valeur porte son statut
+et sa page, et une bibliographie locale (<code>bibliographie/</code>).
+Elle dit ce qui est établi, avec quelles sources, et ce qui ne l’est pas
+— y compris les chiffres répandus qui se révèlent faux. Elle sert aux
+cours (Bachelor, Option-ISE, UE14) et à la série de vidéos courtes «
+Capture », publiée avant la série « Ciment ».</p>
+<h2 id="en-cinq-phrases">1. En cinq phrases</h2>
+<ol type="1">
+<li>Le coût de la capture est d’abord une fonction de la
+<strong>pression partielle du CO₂</strong> dans le flux : de 0,04 % dans
+l’air à 99 % en sortie d’une usine d’ammoniac, un facteur deux mille, et
+les coûts vont de 15 à plus de 1 000 dollars la tonne.</li>
+<li>Ce qu’on capte aujourd’hui — 64 Mt/an de capacité, 0,17 % des
+émissions mondiales — est aux deux tiers du CO₂ que le traitement du gaz
+naturel devait retirer de toute façon ; la capture sur cheminée
+industrielle commence à peine (Brevik, 2025).</li>
+<li>Attraper le CO₂ demande de l’énergie : 3,6 à 4 GJ de chaleur par
+tonne aux amines, 7 à 9,5 GJ dans l’air — vingt fois le minimum
+thermodynamique, parce que la séparation réelle est très loin de
+l’idéal.</li>
+<li><strong>Utiliser le CO₂ le rend à l’atmosphère</strong> en quelques
+jours (boissons), semaines (urée) ou moins d’un an (carburants) ; seul
+le stockage géologique le retire, et c’est ce que font Sleipner depuis
+1996 et Northern Lights depuis août 2025.</li>
+<li>Les taux de captage annoncés sont des performances de conception :
+Gorgon capte 25 % de son CO₂ pour 80 % promis, Boundary Dam 57 % pour
+90, Mammoth 119 tonnes nettes pour 36 000 nominales — l’écart se creuse
+là où le flux est dilué.</li>
+</ol>
+<h2 id="doù-vient-le-co₂-quon-peut-capter">2. D’où vient le CO₂ qu’on
+peut capter</h2>
+<figure>
+<img
+src="img/note-co2-capture/cd0016629c3b766c12ddc6b142fbfffa8a5a54c5.png"
+alt="Les sources de CO₂ captable, rangées par concentration" />
+<figcaption aria-hidden="true">Les sources de CO₂ captable, rangées par
+concentration</figcaption>
+</figure>
+<p>Trois familles, et une variable qui les ordonne.</p>
+<p><strong>Le CO₂ déjà pur.</strong> Une usine d’ammoniac, une
+distillerie d’éthanol, une unité de traitement de gaz naturel produisent
+un flux de CO₂ presque pur — non par vertu, mais parce que le procédé
+l’exige : l’ammoniac ne se synthétise pas avec du CO₂ dans le gaz, et le
+gaz naturel ne se vend pas avec 9 % de CO₂ (Sleipner) ou 65 %. Ici, «
+capter » se réduit à comprimer et transporter, pour 15 à 35 dollars la
+tonne (IEA 2020, fig. 3.4). C’est de là que vient l’essentiel des 64
+Mt/an captés aujourd’hui.</p>
+<p><strong>Le CO₂ concentré mais mélangé.</strong> Les fumées d’une
+cimenterie (14 à 33 %), le gaz de gueulard d’un haut fourneau (20 à 27
+%), les fumées d’une centrale à charbon (13 à 15 %) contiennent du CO₂
+dilué dans l’azote de l’air de combustion. Il faut le séparer : 60 à 120
+dollars la tonne.</p>
+<p><strong>Le CO₂ dilué.</strong> Une turbine à gaz (3 à 4 %), une cuve
+d’électrolyse d’aluminium (1 à 2 %, le flux industriel le plus dilué),
+et l’air (0,042 %, 423 ppm en 2024). Ici l’énergie de séparation domine
+tout.</p>
+<p>La variable juste n’est pas la concentration mais la <strong>pression
+partielle</strong> (ETC 2022, p. 15). Le flux procédé d’un vaporeformeur
+d’hydrogène ne contient que 15 à 20 % de CO₂, mais sous 22 à 27 bar : sa
+pression partielle, 3 à 5 bar, est dix à trente-cinq fois celle d’un
+four de cimenterie à 20 % sous 1 bar. C’est pourquoi la capture sur
+hydrogène (50 à 80 $/t) coûte moins que sur ciment alors que la
+concentration y est plus basse, et pourquoi Quest (Alberta, 2015, plus
+d’un million de tonnes par an) et Cryocap (Port-Jérôme, 2015, cent mille
+tonnes par an) captent ce flux-là et pas les fumées du four.</p>
+<p><strong>Biogénique ou fossile.</strong> La molécule est la même ; ce
+qui change est d’où venait le carbone. Le CO₂ d’une fermentation vient
+d’une plante qui l’avait pris dans l’air ; le CO₂ d’une cimenterie vient
+d’une pierre. Capter le premier et l’enfouir retire du CO₂ de
+l’atmosphère ; capter le second évite une émission. Un mot pour chaque,
+et on ne les échange pas (§ 6).</p>
+<h2 id="comment-on-lattrape">3. Comment on l’attrape</h2>
+<figure>
+<img
+src="img/note-co2-capture/7f38431684356eec20297efff8e26d8e2924eee2.png"
+alt="Les trois voies de capture" />
+<figcaption aria-hidden="true">Les trois voies de capture</figcaption>
+</figure>
+<p><strong>Post-combustion</strong> : on ne change rien en amont, on
+lave les fumées. Le lavage aux amines est la technique de référence
+depuis les années 1930 dans le traitement du gaz : un solvant qui fixe
+le CO₂ vers 40 °C dans une colonne d’absorption et le relâche vers 120
+°C dans une colonne de régénération, chauffée par un rebouilleur à la
+vapeur. C’est le retrofit universel — Brevik (Norvège, juin 2025, 400
+000 t/an, la moitié des émissions de la cimenterie) en est le premier
+exemple industriel dans le ciment — mais le flux est dilué, et le
+rebouilleur est le poste d’énergie.</p>
+<figure>
+<img
+src="img/note-co2-capture/f48cdf736f80798912270e43ead282b1e378dbfb.png"
+alt="La boucle des amines" />
+<figcaption aria-hidden="true">La boucle des amines</figcaption>
+</figure>
+<p>Pour la monoéthanolamine à 30 % et 90 % de captage, le rebouilleur
+demande <strong>3,6 à 4,0 GJ par tonne captée</strong> (Bui et al. 2018,
+table 4) ; les solvants avancés descendent à 2,3-3,3 GJ. La compression
+de 1 à 150 bar ajoute 132 kWh, soit 0,48 GJ (Keith et al. 2018). Le
+minimum thermodynamique pour séparer 90 % du CO₂ d’une fumée à 12 % est
+de 0,16 GJ/t (44 kWh) : le procédé réel dépense vingt-cinq fois plus en
+énergie, une dizaine de fois en travail équivalent — la chaleur basse
+d’un rebouilleur n’est pas du travail, et il faut choisir sa convention
+avant de citer un facteur. Sur une centrale à charbon, la pénalité est
+d’une dizaine de points de rendement, avec un plancher thermodynamique
+de 5 à 10 points (Bui et al. 2018).</p>
+<p><strong>Précombustion</strong> : on sépare le carbone avant de
+brûler. Le gaz ou le charbon est transformé en gaz de synthèse, le
+monoxyde de carbone converti en CO₂ et hydrogène (<em>shift</em>), et le
+CO₂ séparé sous pression, aux amines ou par adsorption. C’est la voie de
+l’hydrogène et de l’ammoniac, et la raison du plafond de 56-60 % des
+reels « Hydrogène » et « Ammoniac » : on ne capte que le flux procédé,
+les fumées du four de reformage restent — d’où le passage au reformage
+autotherme, qui brûle à l’oxygène à l’intérieur du réacteur et n’a plus
+qu’une sortie de CO₂ (93-94 %).</p>
+<p><strong>Oxycombustion</strong> : on brûle à l’oxygène pur, sans azote
+; les fumées sont du CO₂ et de la vapeur d’eau, presque pures une fois
+l’eau condensée. Il faut une unité de séparation d’air (≈ 240 kWh par
+tonne d’oxygène, Keith 2018) et un four conçu pour — d’où les projets
+neufs plutôt que les retrofits : K6 à Lumbres (Eqiom, Air Liquide, four
+à oxycombustion, 8 Mt sur dix ans à partir de 2028, Fonds Innovation
+2021). C’est aussi ce que prépare l’électrification d’un four de
+cimenterie : sans air de combustion, plus d’azote, et le CO₂ de la
+pierre sort concentré. Le modèle IND-OPT de l’équipe le chiffre : 49 €/t
+de clinker de CAPEX de capture derrière un four oxy ou électrique,
+contre 270 derrière un four classique aux amines — un facteur cinq et
+demi.</p>
+<h2 id="utiliser-ou-enfouir">4. Utiliser, ou enfouir</h2>
+<figure>
+<img
+src="img/note-co2-capture/27923bb50139d3ebe4e9faa25d844fff78af6af5.png"
+alt="Ce que devient le CO₂ capté" />
+<figcaption aria-hidden="true">Ce que devient le CO₂ capté</figcaption>
+</figure>
+<p><strong>L’usage d’aujourd’hui.</strong> Le monde utilise 230 Mt de
+CO₂ par an (IEA 2019, données 2015) : 130 Mt pour l’urée, 70 à 80 Mt
+pour la récupération assistée du pétrole, le reste en boissons, serres,
+métallurgie. Ce CO₂ vient surtout d’usines qui le produisent pour cela,
+ou de gisements naturels de CO₂. Dans l’urée, le carbone ressort au
+champ en quelques semaines ; dans une boisson, en quelques jours ; dans
+un carburant de synthèse, en moins d’un an ; seuls les matériaux de
+construction le gardent des millions d’années (IEA 2019, p. 8). «
+<em>CO₂ used is not the same as CO₂ avoided</em> » (IEA 2019, p. 4).</p>
+<p><strong>La récupération assistée du pétrole (EOR).</strong> Injecté
+dans un gisement en fin de vie, le CO₂ pousse le pétrole vers le puits
+producteur ; une partie reste au fond, le reste remonte et est
+réinjecté. Aux États-Unis, 0,3 à 0,6 t de CO₂ sont injectées par baril
+produit, et ce baril émet 0,5 t une fois brûlé (0,4 à la combustion, 0,1
+en amont) : le bilan n’est négatif que si l’on injecte plus qu’on
+n’émet, ce que la moyenne actuelle n’atteint pas (IEA, commentaire du 11
+avril 2019). Deux chiffres à ne pas confondre : environ 70 % du CO₂
+injecté en EOR aux États-Unis vient de gisements naturels de CO₂, pas de
+capture ; et 41 % de la capacité de capture mondiale en service déclare
+l’EOR comme destination, avec 37 % « non précisé » (GCCSI 2025). C’est
+ainsi que la capture a démarré — Weyburn reçoit depuis 2000 le CO₂ d’une
+usine de gazéification du Dakota du Nord par un pipeline de 320 km — et
+c’est encore là que va la plus grande part du CO₂ capté.</p>
+<p><strong>Le stockage géologique.</strong> Au-delà de 800 m, le CO₂ est
+dense comme un liquide (500 kg/m³ à 800 m, 700 au-delà de 1,5 km, IPCC
+2005 fig. 5.2) ; on l’injecte sous une roche-couverture imperméable,
+dans un aquifère salin ou un gisement épuisé. Sleipner (Norvège) le fait
+depuis 1996, un million de tonnes par an, plus de 20 Mt stockées, parce
+qu’une taxe CO₂ norvégienne sur l’offshore, instituée en 1991, rendait
+le projet rentable (IEA 2020, p. 26). Northern Lights (Øygarden,
+première injection le 25 août 2025) reçoit par bateau le CO₂ de Brevik,
+d’un incinérateur d’Oslo et de Yara à Sluiskil, et l’injecte à 2 600 m
+sous le fond de la mer du Nord : 1,5 Mt/an, puis 5 en 2028. Porthos
+(Rotterdam, 2027) visera un gisement de gaz épuisé à 3-4 km. La capacité
+théorique mondiale est de 8 000 à 55 000 Gt (IEA 2022), très supérieure
+au besoin, mais peu caractérisée.</p>
+<p><strong>Transport et stockage coûtent à part</strong> : environ 25 %
+du coût total du CCUS (IEA 2020). Pipeline à terre 1 à 12 $/t par 250 km
+selon le débit, en mer 40 à 70 % de plus ; bateau 21 à 29 $/t pour 100 à
+1 000 km ; stockage : la moitié du potentiel terrestre américain sous 10
+$/t, la moitié du potentiel en mer sous 35 $/t (IEA 2020, fig. 3.6, 3.7,
+p. 116). Les modèles retiennent autour de 20 €/t (IEA ; IND-OPT : 21 €/t
+en 2030) ; France Stratégie prend 50 €/t stockée pour le ciment ;
+l’ADEME, pour Dunkerque, 120 à 160 €/t. Northern Lights ne publie aucun
+prix.</p>
+<h2 id="capter-dans-lair-et-dans-la-biomasse">5. Capter dans l’air, et
+dans la biomasse</h2>
+<figure>
+<img
+src="img/note-co2-capture/2210a6d668e2f664e487412924862d4daf581f23.png"
+alt="Capture directe dans l’air et bioénergie avec captage" />
+<figcaption aria-hidden="true">Capture directe dans l’air et bioénergie
+avec captage</figcaption>
+</figure>
+<p><strong>Dans l’air.</strong> À 423 ppm, une tonne de CO₂ est diluée
+dans 1,3 million de mètres cubes d’air ; avec le taux d’extraction d’un
+contacteur réel, il en faut plutôt 2,6 millions. Le minimum
+thermodynamique n’est pourtant que de 0,455 GJ/t (House et al. 2011 : 20
+kJ/mol), 2,9 fois celui d’une fumée de charbon. Le réel est à 7,2-9,5
+GJ/t pour les sorbants solides (Climeworks : 75-80 % de chaleur à 100
+°C, le reste en électricité) et 5,5-8,8 GJ/t pour les solvants liquides
+(Carbon Engineering : 8,81 GJ de gaz par tonne, Keith et al. 2018) —
+vingt fois le minimum, parce que le rendement de seconde loi de ces
+procédés est inférieur à 5 %. Ce qui existe : Orca (Islande, 2021, 4 000
+t/an), Mammoth (2024, 36 000 t/an nominales, 119 t nettes au premier
+semestre 2025), Stratos (Texas, 2025, jusqu’à 500 000 t/an, premiers
+permis de stockage dédié pour du DAC). Au total, 18 installations et
+0,01 Mt/an à la date du rapport IEA 2022, 0,045 Mt/an en 2025 : moins
+d’une minute des émissions mondiales par an. L’IEA en attend 980 Mt en
+2050 dans son scénario net zéro, dont 350 pour des carburants de
+synthèse ; l’ETC plafonne la voie à 3-4,5 Gt. Coût : 125 à 335 $/t pour
+une grande installation « construite aujourd’hui » selon l’IEA (2022) ;
+Climeworks vend ses crédits autour de 1 000 €/t et vise 400 à 600 $/t de
+retrait net en 2030 — et Keith rappelle que sur une tonne captée dans
+l’air, 0,9 seulement est nette une fois comptés la construction, le gaz
+brûlé et les appoints.</p>
+<p><strong>Dans la biomasse.</strong> Une plante a pris son carbone dans
+l’air ; si l’on brûle ou fait fermenter cette plante et qu’on enfouit le
+CO₂, le carbone a fait atmosphère → plante → sous-sol. C’est la seule
+capture qui soit à la fois la moins chère (un flux de fermentation est
+presque pur : ADM Decatur, Illinois, 2017, 1 Mt/an) et « négative » — à
+condition que la plante repousse, et que le stockage tienne : Decatur a
+arrêté l’injection un an en 2024-2025 après deux fuites de tubage.
+Aujourd’hui, environ 2 Mt/an de CO₂ biogénique sont captées, moins d’une
+stockée (IEA, cité par la fiche QCF — non relu en source primaire).
+Stockholm Exergi enverra jusqu’à 0,9 Mt/an à Northern Lights à partir de
+2028.</p>
+<p><strong>Le mot « négatif ».</strong> Capter le CO₂ d’une cimenterie
+évite une émission ; capter celui d’une plante ou de l’air en retire
+une. La comptabilité ne les additionne pas, et un CO₂ fossile capté puis
+utilisé dans un carburant n’est ni l’un ni l’autre : il est émis une
+fois au lieu de deux.</p>
+<h2 id="ce-que-ça-coûte-et-qui-paie">6. Ce que ça coûte, et qui
+paie</h2>
+<figure>
+<img
+src="img/note-co2-capture/27ca650d9d029deec6edb982d8e7afbe04c3f617.png"
+alt="Coût de la capture par source" />
+<figcaption aria-hidden="true">Coût de la capture par
+source</figcaption>
+</figure>
+<p>Le coût suit la dilution (IEA 2020, fig. 3.4, dollars 2019, par tonne
+captée, compression incluse) : 16-28 $/t pour le traitement du gaz,
+25-37 pour l’éthanol et l’ammoniac, 50-80 pour l’hydrogène, 60-100 pour
+l’acier, 60-120 pour le ciment, 50-100 pour une centrale, 135-330 pour
+l’air. Transport et stockage s’ajoutent (≈ 25 %). Une <strong>tonne
+captée n’est pas une tonne évitée</strong> : l’énergie du captage émet,
+et France Stratégie (2023, partie ciment) obtient ainsi <strong>135 à
+215 €₂₀₁₈ par tonne évitée</strong> pour le captage-stockage en
+cimenterie — 60-120 d’installation, 60-80 de transport-stockage (pour 50
+€/t stockée), 15-20 de transports de clinker — contre 15 €/t pour les
+argiles calcinées dans le même rapport. Deux repères : le quota
+européen, autour de 75 €/t en 2025, et la valeur de l’action pour le
+climat, 250 €₂₀₁₈/t en 2030. Le CO₂ déjà pur passe sous le quota ; tout
+le reste, non, sauf si quelqu’un paie la différence. Aux États-Unis, le
+crédit 45Q paie 85 $/t en point source et 180 $/t dans l’air — et depuis
+le 4 juillet 2025, autant pour du CO₂ injecté en EOR ou utilisé que pour
+du CO₂ stocké. En Europe, le Fonds Innovation (K6 à Lumbres : 150 M€ ;
+Northern Lights phase 2 : 131 M€) et l’État norvégien (Longship, deux
+tiers de Northern Lights). Sans ce soutien, aucun des projets nommés ici
+n’aurait été construit. Le modèle IND-OPT de l’équipe
+(Raillard-Cazanove, Rogeau, Girard 2025) trouve qu’un prix du carbone de
+150 €/t réduit les émissions industrielles européennes de 65 à 85 %
+selon le prix de l’électricité, 300 €/t de 97 %, et qu’au-delà de 300 le
+prix n’a plus d’effet ; dans le scénario de référence, le CO₂ capté est
+stocké plutôt que réutilisé entre 2030 et 2040, faute de débouchés.</p>
+<h2 id="les-chiffres-répandus-qui-se-révèlent-faux-ou-mal-posés">7. Les
+chiffres répandus qui se révèlent faux, ou mal posés</h2>
+<ul>
+<li>« 70 % du CO₂ capté part en récupération de pétrole » — la donnée
+juste est qu’environ 70 % du CO₂ <em>injecté</em> en EOR aux États-Unis
+est <em>naturel</em> (IEA 2020, p. 26) ; la part de la capture qui va
+vers l’EOR est « au moins 41 % » (GCCSI 2025).</li>
+<li>« Une centrale à gaz se capte à 80-160 $/t » — aucune source ; l’IEA
+ne distingue pas charbon et gaz (50-100).</li>
+<li>« Le CO₂ d’un flux pur se capte à 15-25 $/t » — vrai pour le gaz
+naturel, 25-37 pour l’ammoniac et l’éthanol.</li>
+<li>« 400 à 630 Mt/an en projet » mêlait une capacité (416 puis 513
+Mt/an) et un nombre de projets (628 puis 734).</li>
+<li>« Le crédit 45Q paie 60 $/t en EOR contre 85 en stockage » — vrai
+jusqu’au 4 juillet 2025 ; parité depuis.</li>
+<li>« Le DAC coûte cent fois plus que la capture en cheminée en
+thermodynamique » — non : 2,9 fois en minimum ; le facteur vingt est le
+rendement du procédé.</li>
+<li>« Le béton stocke des dizaines de kg de CO₂ par tonne » —
+l’injection dans le béton frais en stocke 0,3 à 1,1 kg par m³, moins de
+1 % du CO₂ de son ciment (le « 21 kg/m³ » souvent repris est une moyenne
+de l’ETC sur un catalogue, corrigé le 26/09/2026), et l’annonce « − 80 %
+» n’est pas vérifiée indépendamment.</li>
+<li>« Porthos démarre en 2026 » — second semestre 2027.</li>
+<li>« Gorgon capte 4 Mt/an » — 1,33 Mt en 2024-25, un quart du CO₂ du
+gisement.</li>
+</ul>
+<h2 id="ce-qui-nest-pas-établi">8. Ce qui n’est pas établi</h2>
+<p>La concentration des fumées d’un four de vaporeformage (la planche «
+Hydrogène » dit ≈ 8 % sans source) ; la pureté exacte des flux
+d’ammoniac et d’éthanol (≈ 99, cohérent avec la classe IEA) ; la pureté
+des fumées d’oxycombustion (« near-pure ») ; les 2 Mt/an biogéniques ;
+le prix du service Northern Lights ; le niveau de 1991 de la taxe
+norvégienne ; l’absence de fuite à Sleipner (Furre et al. 2017 non
+ouvert) ; le taux de captage SMR + CCS de l’équipe, 56-60 % dans les
+reels et 52 / 85 % dans la thèse selon qu’on prend le flux procédé seul
+ou avec les fumées.</p>
+<h2 id="sources">9. Sources</h2>
+<p>Les PDF sont dans <code>bibliographie/</code>, le détail des pages
+dans <code>bibliographie/catalogue.md</code> et
+<code>data/verification*.md</code>. Principales : IEA, <em>CCUS in Clean
+Energy Transitions</em> (2020) ; IEA, <em>Putting CO₂ to Use</em> (2019)
+; IEA, <em>Direct Air Capture</em> (2022) ; IEA, <em>Net Zero Roadmap
+2023 Update</em> ; Global CCS Institute, <em>Global Status of CCS
+2025</em> ; ETC, <em>CCUS — Technical Annex</em> (2022) ; Bui et al.,
+<em>Energy Environ. Sci.</em> 11 (2018) ; Keith et al., <em>Joule</em> 2
+(2018) ; House et al., <em>PNAS</em> 108 (2011) ; IPCC, <em>SRCCS</em>
+(2005) ; France Stratégie, <em>Les coûts d’abattement</em>, parties 1
+(2021) et 6 (2023) ; Raillard-Cazanove, Rogeau, Girard, <em>Applied
+Energy</em> 382 (2025) et Raillard-Cazanove, Knibiehly, Girard, <em>J.
+Clean. Prod.</em> 508 (2025) ; NOAA GML (2026). Corpus local : la fiche
+QCF de Louise (2024), le dossier Zenon (mémoire ENGIE/Mines de J. Di
+Mascolo, 2022), la thèse de Q. Raillard-Cazanove (2024), la note ADEME
+pour la DGEC (2024).</p>
+
+  <section class="sources"><p><a href="Note_CO2_capture.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-decarbonisation-routes.html">Décarboner l'industrie lourde : cinq filières, et ce que l'électrification déplace</a></li><li><a href="note-procedes-industriels.html">Les procédés industriels lourds : comment ils marchent, et où sort le CO₂</a></li><li><a href="note-economie-routes.html">Ce que coûte chaque route de décarbonation de l'industrie</a></li><li><a href="note-hydrogene-industrie.html">L'hydrogène dans l'industrie : usages, technologies, coûts, projets</a></li></ul></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

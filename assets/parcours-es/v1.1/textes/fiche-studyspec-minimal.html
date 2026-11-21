@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>StudySpec en une page · Parcours ES 2026</title>
+<meta name="description" content="Décrire une étude pommes dans un fichier .study.yaml où chaque nombre porte sa source, la valider, l'esquisser en quelques secondes, le tout dans le venv des cas, qui porte aussi pommes-assistant.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>avancé</span> · <span>≈ 20 min</span> · <span>Atelier, Optimisation</span></div>
+    <h1>StudySpec en une page</h1>
+    <p class="resume">Décrire une étude pommes dans un fichier .study.yaml où chaque nombre porte sa source, la valider, l'esquisser en quelques secondes, le tout dans le venv des cas, qui porte aussi pommes-assistant.</p>
+  </header>
+  <p>Un StudySpec est un fichier <code>.study.yaml</code> qui décrit une étude pommes entière : coordonnées, composants, question posée. Sa règle unique : aucun nombre sans source. pommes-assistant le lit, le valide, l'esquisse et le compile en étude pommes ordinaire. Cette fiche montre un fichier complet de 73 lignes, ce que <code>validate</code> en dit, et ce que <code>sketch</code> en tire. Sorties obtenues le 18/11/2026 dans le venv des cas : pommes-assistant 0.5.0, pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS 1.15.1.</p>
+<h2>1. Un seul venv, celui des cas</h2>
+<p>pommes-assistant 0.5.0 demande Python 3.12 au moins et n'a pas de venv à lui : le <code>requirements.txt</code> du dépôt des cas épingle pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, highspy 1.15.1 et <code>pommes-assistant[all]==0.5.0</code> <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>. Le venv des cas sert donc aux notebooks et à l'assistant, avec le même pommes.</p>
+<pre><code class="language-bash">python3.12 --version                                  # 3.12 ou plus, sinon rien ne marche
+source .venv/bin/activate                             # le venv du dépôt pommes-case-studies
+pip show pommes-assistant | head -2                   # Version: 0.5.0
+pommes-assistant --help                               # 19 sous-commandes
+</code></pre>
+<p>Sans <code>[all]</code>, seul le cœur est installé : lire et valider un StudySpec, sans résoudre.</p>
+<h2>2. Le fichier : une batterie face au prix horaire de 2035</h2>
+<p>Une zone, une demande plate de 1 GW, le réseau au prix horaire français 2035 du jeu etage1-tyndp2026 (téléchargé par le catalogue, 1,7 Mo), une batterie aux coûts du cas A <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>. Une personne nommée, Camille Martin, prend les décisions sans source écrite. La ligne <code>versions</code> choisit le schéma de paramètres contre lequel les noms sont contrôlés : pommes-assistant 0.5.0 embarque <code>pommes-0.11.0.json</code> (144 paramètres, relevé avec pommes_craft 0.6.0), et <code>versions: {pommes: 0.11.0, pommes_craft: 0.6.0}</code> correspond ici exactement au pommes du venv, sans retomber sur un schéma plus ancien comme le faisait l'assistant 0.4.0.</p>
+<pre><code class="language-yaml"># Batterie en France face au prix horaire de 2035. Chaque nombre porte sa source.
+studyspec: '0.2'
+name: batterie_fr_2035
+title: Une batterie est-elle rentable face au prix horaire français de 2035 ?
+versions: {pommes: 0.11.0, pommes_craft: 0.6.0}
+references:
+  CAS_A:
+    title: &quot;Cas A du dépôt pommes-case-studies : A_batteries/hypotheses.yaml&quot;
+    url: https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/A_batteries/hypotheses.yaml
+selection:
+  price_scenario: {value: vdoc35ref, note: &quot;2035, point TYNDP 2026 NT+ (hypothèses du TYNDP)&quot;}
+  price_set: {value: gtyndp-d1000, note: &quot;gaz et CO2 du TYNDP (33,93 €/MWh en 2035), demande × 1&quot;}
+  price_ws: {value: 37, source: {kind: user, who: Camille Martin, quote: &quot;l'année climatique 37, la plus probable en 2035&quot;}}
+  price_zone: {value: FR}
+  price_vector: {value: elec}
+intent:
+  question: &quot;Face aux prix horaires 2035 de l'étage 1, quelle puissance et quelle durée de batterie le modèle installe-t-il pour servir 1 GW de demande plate ?&quot;
+model:
+  coords:
+    area: [FR]
+    resource: [electricity]
+    storage_tech: [battery]
+    hour: {range: {start: 1, stop: 8761}, source: {kind: user, who: Camille Martin, quote: &quot;les 8 760 heures de l'année&quot;}}
+    year_op: {value: [2035], source: {kind: user, who: Camille Martin, quote: &quot;une seule année, 2035&quot;}}
+    year_inv: {value: [2035], source: {kind: user, who: Camille Martin, quote: &quot;on investit en 2035&quot;}}
+    year_dec: {value: [2060], source: {kind: user, who: Camille Martin, quote: &quot;déclassement au plus tard en 2060&quot;}}
+  add_modules: {storage: true, net_import: true}
+components:
+- class: EconomicHypothesis
+  name: eco
+  attributes:
+    discount_rate: {value: 0.04, unit: &quot;-&quot;, source: {kind: reference, ref: CAS_A, locator: &quot;batterie.taux&quot;}}
+    year_ref: {value: 2035, unit: year, source: {kind: user, who: Camille Martin, quote: &quot;coûts actualisés en 2035&quot;}}
+    planning_step: {value: 25, unit: year, source: {kind: user, who: Camille Martin, quote: &quot;un seul pas de planification, la vie de la batterie&quot;}}
+- class: TimeStepManager
+  name: time_steps
+  attributes:
+    time_step_duration: {value: 1, unit: h, source: {kind: user, who: Camille Martin, quote: &quot;pas horaire&quot;}}
+    operation_year_duration: {value: 8760, unit: h, source: {kind: user, who: Camille Martin, quote: &quot;les 8 760 heures de l'année&quot;}}
+- class: Demand
+  name: demande
+  area: FR
+  resource: electricity
+  attributes:
+    demand: {value: 1000, unit: MW, source: {kind: user, who: Camille Martin, quote: &quot;1 GW de demande plate&quot;}}
+- class: NetImport
+  name: reseau
+  area: FR
+  resource: electricity
+  attributes:
+    import_price:
+      table: {dataset: etage1_tyndp2026, column: import_price, index: [area, hour, resource, year_op]}
+      unit: EUR/MWh
+      source: {kind: catalogue, dataset: etage1_tyndp2026, version: 2026.11.0-draft, table: net_import_import_price}
+- class: LoadShedding
+  name: delestage
+  area: FR
+  resource: electricity
+  attributes:
+    cost: {value: 3000, unit: EUR/MWh, source: {kind: user, who: Camille Martin, quote: &quot;délestage à 3 000 €/MWh, soupape de faisabilité&quot;}}
+- class: StorageTechnology
+  name: battery
+  area: FR
+  attributes:
+    invest_cost_power: {value: 192, unit: EUR/kW, source: {kind: reference, ref: CAS_A, locator: &quot;batterie.cout_puissance&quot;}}
+    invest_cost_energy: {value: 171, unit: EUR/kWh, source: {kind: reference, ref: CAS_A, locator: &quot;batterie.cout_energie&quot;}}
+    fixed_cost_power: {value: 650, unit: EUR/MW/an, source: {kind: reference, ref: CAS_A, locator: &quot;batterie.cout_fixe&quot;}}
+    life_span: {value: 25, unit: year, source: {kind: reference, ref: CAS_A, locator: &quot;batterie.duree_vie&quot;}}
+    finance_rate: {value: 0.04, unit: &quot;-&quot;, source: {kind: reference, ref: CAS_A, locator: &quot;batterie.taux&quot;}}
+    factor_in: {value: {electricity: -1.0}, unit: &quot;-&quot;, source: {kind: reference, ref: CAS_A, locator: &quot;batterie.rendement : pertes portées à la décharge&quot;}}
+    factor_out: {value: {electricity: 0.91}, unit: &quot;-&quot;, source: {kind: reference, ref: CAS_A, locator: &quot;batterie.rendement&quot;}}
+    factor_keep: {value: {electricity: 0.0}, unit: &quot;-&quot;, source: {kind: user, who: Camille Martin, quote: &quot;pas de perte au maintien&quot;}}
+execution: {target: local, solver: highs}
+</code></pre>
+<p>Trois sortes de sources suffisent ici (12 <code>user</code>, 8 <code>reference</code>, 1 <code>catalogue</code>) : <code>user</code>, une personne nommée citée mot pour mot ; <code>reference</code>, un document du registre <code>references</code> avec un <code>locator</code> ; <code>catalogue</code>, un jeu de données téléchargé et vérifié par empreinte. Une quatrième, <code>default</code>, ne s'écrit pas : <code>validate</code> signale chaque défaut de pommes ou pommes_craft appliqué à votre place. Les autres (<code>file</code>, <code>assumption</code>, <code>derived</code>, <code>computed</code>) sont dans la doc du format <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/studyspec.md" target="_blank" rel="noopener">Format StudySpec 0.2 : une étude pommes avec la source de chaque nombre</a>. Les commentaires YAML ne survivent pas à une réécriture par un outil : ce qui compte va dans un champ <code>note:</code>.</p>
+<h2>3. validate : des écarts typés, pas des avis</h2>
+<p>Ma première version différait sur trois points : pas de <code>factor_keep</code>, un <code>price_ws: 37</code> avec une <code>note</code> mais sans <code>source</code>, pas de <code>LoadShedding</code> (cinq composants). Sortie réelle :</p>
+<pre><code>StudySpec batterie_fr_2035 — batterie_v1.study.yaml
+  5 composants, 0 paramètres liés, 0 corrections, 0 contraintes
+  14 écarts, dont 3 bloquants
+
+Manquant : 3
+  [load_shedding_implicit] Délestage implicite (gratuit et sans plafond) d'une ressource (1)
+    ✗ components[LoadShedding@FR/electricity] — aucun LoadShedding pour electricity à FR : pommes y déleste gratuitement et sans plafond ...
+  [craft_required] Attribut exigé par pommes_craft, absent (1)
+    ! components[StorageTechnology/battery@FR].factor_keep — StorageTechnology exige factor_keep ...
+  [unsourced] Valeur numérique sans source (1)
+    ! selection.price_ws — valeur numérique sans source
+
+Valeurs par défaut appliquées (pour information) : 11
+</code></pre>
+<p>Chaque écart a un type et une règle stable. Six types : <code>invalid</code>, <code>missing</code> (obligatoire et absent), <code>ambiguous</code>, <code>out_of_coverage</code>, <code>suspicious</code> (à confirmer, jamais corrigé), <code>default_applied</code>. Bloquant : toute erreur et tout <code>missing</code>. Code de sortie : 2 si la lecture échoue, 1 s'il reste un écart bloquant, 0 sinon. <code>build --dry-run</code> sur cette première version refuse, code 1 :</p>
+<pre><code>Construction refusée — 3 écart(s) bloquant(s) : la construction attend qu'ils soient levés (spec.questions les pose)
+</code></pre>
+<p>Corrigé, le fichier de la section 2 donne 6 composants, 11 écarts, 0 bloquant, tous <code>default_applied</code> (2 pommes, 9 pommes_craft), code 0.</p>
+<h2>4. sketch : une esquisse sous bandeau</h2>
+<pre><code class="language-bash">pommes-assistant sketch batterie.study.yaml -o esquisse        # L0 : une heure moyenne
+pommes-assistant sketch batterie.study.yaml --peak-hours 24    # L0+ : L0 plus 24 h de pointe
+pommes-assistant sketch batterie.study.yaml --level L1         # 4 semaines représentatives
+pommes-assistant estimate batterie.study.yaml                  # taille du modèle complet
+</code></pre>
+<p>Après deux lignes de HiGHS (avertissements de pommes et <code>LinopySemanticsWarning</code> de linopy 0.10.1 vont sur la sortie d'erreur ; <code>2&gt;/dev/null</code> les tait), la première ligne est le bandeau, aussi première clé de <code>sketch.json</code> :</p>
+<pre><code>⚠ ESQUISSE L0, PAS UN RÉSULTAT — une heure représentative, pondérée 8 760 fois ; chronologie et cycles de stockage ignorés, pointes aussi
+Confiance : moyenne — stockage présent : L0 ne lui donne aucune valeur (pas de cycle)
+StudySpec batterie_fr_2035 — L0 highs optimal ; construction 0.6 s, résolution 0.12 s ; 17 variables, 13 contraintes, 36 non-zéros
+Coût total actualisé : 307.61 M€
+Fourniture (TWh, toutes zones ; par an) et parts :
+  electricity : 8.8 — net_import 100 %
+Prix moyens (€/MWh) : electricity 35.1
+</code></pre>
+<p>Les temps varient d'une exécution à l'autre ; tailles, coûts et prix, non. L0+ est L0 avec <code>--peak-hours</code>, les 24 heures de plus forte demande gardées à côté de l'heure moyenne : ici, demande plate, rien ne change (185 variables, 307,61 M€, 35,1 €/MWh) ; sur un cas avec une vraie pointe, c'est ce qui fait entrer la capacité ferme <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/sketch.md" target="_blank" rel="noopener">Esquisse L0 / L0+ / L1, estimateur de taille et de temps, besoin de flexibilité</a>. L1 (4 714 variables, 3 368 contraintes) donne 319,20 M€ et 36,4 €/MWh. <code>estimate</code> annonce le modèle complet : 61 330 variables, 43 808 contraintes, 183 979 non-zéros, 1,5 Go de RAM crête. Construit par <code>build</code> et résolu par <code>run local</code> en 3,1 s : 307 605 496 € et aucune batterie installée. À 192 €/kW et 171 €/kWh, l'arbitrage ne paie pas l'annuité ; le cas A chiffre ce que rapporte le n-ième GW <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</p>
+<h2>5. Trois voies</h2>
+<p>Les outils ci-dessus ne demandent aucune IA : c'est la voie CLI, <code>validate</code>, <code>sketch</code>, <code>estimate</code>, <code>build</code>, <code>run</code>, <code>results</code>. Avec un abonnement Claude, Claude Code pilote ces mêmes outils par MCP : <code>claude mcp add pommes-assistant -- pommes-assistant mcp</code> puis <code>pommes-assistant skill --install .</code> dans le dossier du projet, et on lui parle en français. Avec une clé API (<code>ANTHROPIC_API_KEY</code>, <code>GEMINI_API_KEY</code> ou <code>OPENAI_API_KEY</code>), <code>Assistant(backend="anthropic")</code> en Python ou <code>pommes-assistant chat --backend anthropic</code>. Dans les trois cas, c'est l'ossature qui refuse un nombre sans source, pas le modèle de langage. Une étude décrite à une IA payante part chez son fournisseur.</p>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Votre <code>.study.yaml</code> passe <code>pommes-assistant validate</code> avec 0 écart bloquant et <code>echo $?</code> affiche 0.</li>
+<li>Vous savez dire pourquoi <code>area: [FR]</code> n'a pas de source et pourquoi <code>year_op: [2035]</code> en a une.</li>
+<li><code>sketch</code> affiche le bandeau et vous avez noté la taille du modèle complet que donne <code>estimate</code>.</li>
+<li><code>pip list</code> dans le venv des cas montre pommes 0.11.0 et pommes-assistant 0.5.0.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>README de pommes-assistant : les commandes, les trois voies et la liste des quatre StudySpec d'exemple du dossier <code>examples/</code> (dont tyndp_8n à huit nœuds) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant : ce que c'est, installer, trois façons de s'en servir, commandes</a>.</li>
+<li>Format StudySpec 0.2 : toutes les sources, l'héritage <code>extends</code>, la table complète des écarts <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/studyspec.md" target="_blank" rel="noopener">Format StudySpec 0.2 : une étude pommes avec la source de chaque nombre</a>.</li>
+<li>Esquisse L0 / L0+ / L1 et estimateur : mesures sur tyndp_8n (L0 sous-estime le coût complet de 14,3 %, L1 de 0,6 %) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/sketch.md" target="_blank" rel="noopener">Esquisse L0 / L0+ / L1, estimateur de taille et de temps, besoin de flexibilité</a>.</li>
+<li>Installer et vérifier le venv des cas, le seul du cours <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant (installation, trois voies, commandes, liste des exemples)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/studyspec.md" target="_blank" rel="noopener">Format StudySpec 0.2 (docs/studyspec.md, source de vérité du format et des écarts typés)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/sketch.md" target="_blank" rel="noopener">Esquisse L0, L0+ (heures de pointe) et L1, estimateur (docs/sketch.md)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/guide.md" target="_blank" rel="noopener">Mode d'emploi (docs/guide.md, § 2 Installation et § 3 Trois façons de parler à l'assistant)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/tree/main/examples" target="_blank" rel="noopener">Les quatre StudySpec d'exemple et le notebook assistant.ipynb (dossier examples/ du dépôt)</a></li><li><a href="https://pypi.org/project/pommes-assistant/0.5.0/" target="_blank" rel="noopener">pommes-assistant 0.5.0 sur PyPI (Python >= 3.12)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/A_batteries/hypotheses.yaml" target="_blank" rel="noopener">Hypothèses du cas A (A_batteries/hypotheses.yaml, dépôt pommes-case-studies)</a></li><li><a href="https://www.energy-alternatives.eu/cas/etage1-tyndp2026.html" target="_blank" rel="noopener">Jeu de prix etage1-tyndp2026 (présentation, méthode, licence CC BY 4.0)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

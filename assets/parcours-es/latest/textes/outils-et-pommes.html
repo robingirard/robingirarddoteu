@@ -44,6 +44,19 @@ a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2
 .bandeau a { color: var(--bleu-clair); text-decoration: none; }
 .bandeau a:hover { text-decoration: underline; }
 .enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
 article.texte { padding-block: 28px 56px; }
 article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
 article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
@@ -52,6 +65,9 @@ h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
 h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
 h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
 .resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
 p, li { max-width: 68ch; }
 ul, ol { padding-left: 1.3em; }
 li + li { margin-top: .25em; }
@@ -75,6 +91,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <body>
 <div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
 <main class="enveloppe">
+<div class="disposition">
 <article class="texte">
   <header>
     <div class="sur"><span>découverte</span> · <span>≈ 25 min</span> · <span>Socle, Modélisation, Demande, Hydrogène, Industrie, Interco et EnR</span></div>
@@ -95,7 +112,7 @@ for lever, val in [(&quot;bldgElectricShare&quot;, 40.0), (&quot;bldgRetrofit&qu
 </code></pre>
 <p>Part électrique du chauffage de 49 à 40 % : 41,3 GW. Rénovation de 65 % du parc : 25,3 GW. Sobriété à 25 % : 40,0 GW. Côté hydrogène, la référence produit déjà tout l'hydrogène par électrolyse : 80,9 TWh d'électricité. Passer au vaporeformage, électrolyse ramenée à 0 et vaporeformage à 100, ajoute 62 TWh de demande de biogaz, pour une offre de 70 TWh. Le curseur vaporeformage seul à 100 renormalise les parts et n'ajoute que 31 TWh.</p>
 <p><strong>La question qu'il ne peut pas traiter.</strong> L'onglet Système électrique le dit : il « ne vérifie pas que le mix fonctionne ». Pas d'équilibre horaire, pas d'adéquation, pas de stockage. Le jeu dit combien de GW fait la pointe, pas ce qu'il en coûte de la tenir, ni si l'hiver change la réponse.</p>
-<p><strong>Les cas POMMES qui la traitent.</strong> Le cas C rejoue le dispatch horaire de la France de 2035, parc du TYNDP 2026 fixé, sur 30 années météo. Tout le chauffage fossile en pompes à chaleur : la puissance qui manque va de 0 à 73 GW et la pointe coûte de 2,9 à 13,1 milliards d'euros par an selon l'hiver. Pour l'hydrogène, le cas D ajoute l'heure, le facteur de charge, le stockage et la règle européenne de corrélation horaire. En 2030, série centrale de chaque jeu de prix, le reformeur coûte 2,1 à 2,5 euros par kilogramme contre 4,4 à 4,9 pour l'électrolyseur.</p>
+<p><strong>Les cas POMMES qui la traitent.</strong> Le cas C rejoue le dispatch horaire de la France de 2035, parc du TYNDP 2026 fixé, sur 30 années météo. Tout le chauffage fossile en pompes à chaleur : la capacité ferme qui manque va de 0 à 52 GW, et le système électrique paie de 3,0 à 10,9 milliards d'euros par an de plus selon l'hiver, aux trois quarts en énergie. Pour l'hydrogène, le cas D ajoute l'heure, le facteur de charge, le stockage et la règle européenne de corrélation horaire. En 2030, série centrale de chaque jeu de prix, le reformeur coûte 2,1 à 2,5 euros par kilogramme contre 4,4 à 4,9 pour l'électrolyseur.</p>
 <h2>World energy mix : l'empilement depuis 1800, sous quatre conventions</h2>
 <p><strong>Ce qu'il montre bien.</strong> Aucune source d'énergie n'a jamais été remplacée à l'échelle mondiale : chacune s'est ajoutée aux précédentes. Et « énergie primaire » est une convention : le nucléaire compte 3,07 fois son électricité dans une méthode et 2,47 dans l'autre, l'éolien 1,00 ou 2,45. La France est à environ 50 % de bas-carbone en primaire et 23 % en finale.</p>
 <p><strong>La question qu'il ne peut pas traiter.</strong> Des TWh par an ne disent rien d'une semaine d'hiver froide, sombre et sans vent. Un mix peut être excellent en bilan annuel et infaisable pendant cent heures.</p>
@@ -197,7 +214,7 @@ print(min(r[&quot;cout_pointe_meur&quot;] for r in rows), max(r[&quot;cout_point
 <ul>
 <li>Vous ouvrez le Net Zero Game v0.38, onglet Bâtiments, mettez la part électrique du chauffage à 40 % et lisez 41,3 GW sur la carte « Pic électrique hivernal ».</li>
 <li>Vous écrivez en une phrase pourquoi le jeu ne peut pas dire si cette pointe est couverte, et vous nommez le cas qui le dit.</li>
-<li>Vous relancez le second bloc de code dans le venv du dépôt des cas et retrouvez 8 760 lignes, 30 années météo, 0 à 73 GW manquants.</li>
+<li>Vous relancez le second bloc de code dans le venv du dépôt des cas et retrouvez 8 760 lignes, 30 années météo, 0 à 52 GW manquants.</li>
 <li>Vous classez chaque ligne du tableau en « bilan annuel » ou « équilibre horaire » sans regarder les colonnes de droite.</li>
 </ul>
 <h2>Pour aller plus loin</h2>
@@ -209,6 +226,8 @@ print(min(r[&quot;cout_pointe_meur&quot;] for r in rows), max(r[&quot;cout_point
 </ul>
   <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.robingirard.eu/assets/netzerogame/v0.38/index.html" target="_blank" rel="noopener">The Net Zero Game, édition France, v0.38 (lien épinglé)</a></li><li><a href="https://www.robingirard.eu/assets/worldenergymix/v1.0/index.html" target="_blank" rel="noopener">World energy mix, v1.0</a></li><li><a href="https://www.robingirard.eu/assets/industrydecarbo/v2.1/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie : ce que coûte chaque route, v2.1</a></li><li><a href="https://www.robingirard.eu/assets/carefficiency/v1.0/index.html" target="_blank" rel="noopener">Rendement des véhicules du puits à la roue, v1.0</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt public des cas d'étude POMMES (README, cartes des cas, results.json de chaque cas)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/notebooks/example_notebook.html" target="_blank" rel="noopener">Documentation de pommes : notebook d'exemple, solution et duales (doc publiée pour pommes 0.11.0, la version que le dépôt des cas épingle)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/principles.html" target="_blank" rel="noopener">Documentation de pommes_craft : Principles, ce qu'optimise un modèle de planification</a></li></ol></section>
 </article>
+
+</div>
 </main>
 <footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
 </body>

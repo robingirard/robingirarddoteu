@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Investir dans la transition énergétique : combien, où, et combien il en faudrait · Parcours ES 2026</title>
+<meta name="description" content="Combien le monde investit chaque année dans la transition (2 309 milliards de dollars en 2025 selon BloombergNEF), dans quels secteurs et quels pays, et l'écart avec ce qu'il faudrait. Quatre figures refaites à partir des chiffres publiés.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 15 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Investir dans la transition énergétique : combien, où, et combien il en faudrait</h1>
+    <p class="resume">Combien le monde investit chaque année dans la transition (2 309 milliards de dollars en 2025 selon BloombergNEF), dans quels secteurs et quels pays, et l'écart avec ce qu'il faudrait. Quatre figures refaites à partir des chiffres publiés.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#mp-eco-role-economique">Porter la lecture économique d'un mini-projet : taux, annuité, qui paie, qui gagne</a></li></ul></aside><p>Cette note est le compagnon du thème
+<code>Economie/Investissement_transition</code>, qui a refait à partir
+des chiffres publiés les graphiques d’une diapositive jusque-là faite de
+captures du PDF de BloombergNEF (BNEF) — non reproductibles et, faute de
+licence, non réutilisables. Les chiffres sont dans
+<code>donnees_maj_2026.md</code>, les rapports dans
+<code>bibliographie/</code>, et les quatre figures sortent d’un seul
+script, <code>figures_investissement.py</code>. Les chiffres clés ont
+été relus dans les PDF le 27 septembre 2026.</p>
+<h2 id="en-cinq-phrases">1. En cinq phrases</h2>
+<ol type="1">
+<li>En 2025, <strong>2 309 milliards de dollars</strong> ont été
+investis dans la transition énergétique selon BNEF (+8,1 %), et la
+croissance ralentit : 27 % en 2021, premier taux à un seul chiffre
+depuis 2019.</li>
+<li>Le <strong>transport électrifié</strong> est devenu le premier poste
+(893 Md$), devant les renouvelables (690 Md$, en baisse de 9,5 %) et les
+réseaux électriques (483 Md$, +17 %).</li>
+<li>La Chine reste le premier investisseur (800 Md$, un tiers du total)
+mais recule pour la première fois depuis 2013 ; l’Union européenne (455
+Md$, +18 %) fait l’essentiel de la hausse mondiale.</li>
+<li>Le saut de 2019 à 2020 (581 → 973 Md$) est un <strong>changement de
+périmètre</strong> — les réseaux électriques entrent dans la série cette
+année-là —, pas une accélération.</li>
+<li>Pour une trajectoire de neutralité, il faudrait environ
+<strong>doubler</strong> : 4,8 T$ par an sur 2026-2030 selon BNEF, 4,5
+T$ au début des années 2030 selon l’AIE.</li>
+</ol>
+<h2 id="la-série-et-sa-rupture">2. La série et sa rupture</h2>
+<p><img
+src="img/note-investissement-transition/30aa6758bcf598bc2b504bb38100c52b17b39a17.png" /></p>
+<p>BNEF, <em>Energy Transition Investment Trends 2026</em>, en milliards
+de dollars courants :</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">2005</th>
+<th style="text-align: right;">2010</th>
+<th style="text-align: right;">2015</th>
+<th style="text-align: right;">2019</th>
+<th style="text-align: right;">2020</th>
+<th style="text-align: right;">2021</th>
+<th style="text-align: right;">2022</th>
+<th style="text-align: right;">2023</th>
+<th style="text-align: right;">2024</th>
+<th style="text-align: right;">2025</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">212</td>
+<td style="text-align: right;">389</td>
+<td style="text-align: right;">581</td>
+<td style="text-align: right;">973</td>
+<td style="text-align: right;">1 225</td>
+<td style="text-align: right;">1 557</td>
+<td style="text-align: right;">1 906</td>
+<td style="text-align: right;">2 136</td>
+<td style="text-align: right;">2 309</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Deux ruptures, à dire en cours.</strong> Le nucléaire n’entre
+dans le périmètre qu’en 2015, les réseaux électriques qu’en 2020 : la
+série double presque en 2020 sans que le monde ait investi deux fois
+plus. La figure marque cette rupture ; la lire comme une accélération
+est l’erreur qu’elle doit empêcher.</p>
+<p><strong>La série a été rebasée en 2026.</strong> L’édition 2025
+donnait 2 083 Md$ pour 2024 ; l’édition 2026 révise ce même 2024 à 2
+136. Ne jamais juxtaposer deux éditions.</p>
+<h2 id="où-va-largent-en-2025">3. Où va l’argent en 2025</h2>
+<p><img
+src="img/note-investissement-transition/f17ceb9528a1a5af8f9cc5ca40c932558af9b991.png" /></p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Secteur</th>
+<th style="text-align: right;">Md$ 2025</th>
+<th>Évolution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Transport électrifié (véhicules et recharge)</td>
+<td style="text-align: right;">893</td>
+<td>+21 %</td>
+</tr>
+<tr class="even">
+<td>Énergies renouvelables</td>
+<td style="text-align: right;">690</td>
+<td>−9,5 % (réforme du marché électrique chinois)</td>
+</tr>
+<tr class="odd">
+<td>Réseaux électriques</td>
+<td style="text-align: right;">483</td>
+<td>+17 %</td>
+</tr>
+<tr class="even">
+<td>Chaleur électrifiée</td>
+<td style="text-align: right;">84</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Stockage</td>
+<td style="text-align: right;">71</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Nucléaire</td>
+<td style="text-align: right;">36</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Industrie propre</td>
+<td style="text-align: right;">34</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Hydrogène</td>
+<td style="text-align: right;">7,3</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Captage et stockage du CO₂</td>
+<td style="text-align: right;">6,6</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Transport maritime propre</td>
+<td style="text-align: right;">4,1</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Les trois premiers postes font à eux seuls plus de 2 000 Md$.
+L’hydrogène et le captage du CO₂, très présents dans le débat public,
+pèsent ensemble moins de 1 % du total.</p>
+<p>Pour ordre de grandeur, BNEF estime l’investissement dans les centres
+de données à « environ un demi-billion de dollars » en 2025 (p. 3) :
+plus que le solaire, moins que le transport électrifié. Ce n’est pas
+l’un des dix secteurs de la série.</p>
+<p><img
+src="img/note-investissement-transition/2e89e0265dc0346d2080e5040de4363463289fd4.png" /></p>
+<p>Par économie : Chine 800 Md$ (−4 %, 4 % de son PIB), UE-27 455 Md$
+(+18 %), États-Unis 378 Md$ (+3,5 %), puis le Royaume-Uni (85), l’Inde
+(68), le Japon (39), le Brésil (38) et l’Arabie saoudite (34, +70 %) ;
+dans l’UE, l’Allemagne (148), la France (55) et l’Italie (40).
+États-Unis, UE et Royaume-Uni réunis (918 Md$) dépassent la Chine.</p>
+<h2 id="deux-séries-deux-périmètres">4. Deux séries, deux
+périmètres</h2>
+<p>L’AIE (<em>World Energy Investment 2026</em>) compte autrement, en
+dollars constants, sur un périmètre plus large :</p>
+<table>
+<thead>
+<tr class="header">
+<th>AIE, Md$</th>
+<th style="text-align: right;">2025</th>
+<th style="text-align: right;">2026e</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Toute l’énergie</td>
+<td style="text-align: right;">3 300</td>
+<td style="text-align: right;"><strong>3 400</strong></td>
+</tr>
+<tr class="even">
+<td>dont énergie propre</td>
+<td style="text-align: right;">~2 200</td>
+<td style="text-align: right;">~2 200</td>
+</tr>
+<tr class="odd">
+<td>dont fossiles</td>
+<td style="text-align: right;">~1 100</td>
+<td style="text-align: right;">~1 200</td>
+</tr>
+<tr class="even">
+<td>Réseaux</td>
+<td style="text-align: right;">~450</td>
+<td style="text-align: right;">~550</td>
+</tr>
+</tbody>
+</table>
+<p>L’énergie propre selon l’AIE (2 200 Md$) et la transition selon BNEF
+(2 309 Md$) sont du même ordre, <strong>mais ne s’additionnent ni ne se
+soustraient</strong> : les périmètres diffèrent (l’AIE compte
+l’efficacité, BNEF le transport électrifié à l’achat). Rapportée au PIB
+mondial (118 000 Md$ en 2025, Banque mondiale), toute l’énergie pèse
+environ <strong>2,9 % du PIB</strong>, dont 65 % pour l’énergie
+propre.</p>
+<p>À noter dans la même publication : l’investissement dans l’offre de
+charbon atteint 180 Md$ en 2026, son plus haut depuis 2012, dont plus de
+65 % en Chine.</p>
+<h2 id="ce-quil-faudrait-investir">5. Ce qu’il faudrait investir</h2>
+<p><img
+src="img/note-investissement-transition/e3a8d63b1dac180510c1180c54dffbb4264664e8.png" /></p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Besoin annuel</th>
+<th style="text-align: right;">Md$/an</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Scénario de base (≈ 2,4 °C en 2100)</td>
+<td style="text-align: right;">2 900</td>
+<td>BNEF, moyenne 2026-2030</td>
+</tr>
+<tr class="even">
+<td>Neutralité, BNEF (pic à 1,81 °C)</td>
+<td style="text-align: right;">4 800</td>
+<td>BNEF NEO 2026, 2026-2030 ; puis 7 700 en 2031-2035</td>
+</tr>
+<tr class="odd">
+<td>Neutralité, AIE</td>
+<td style="text-align: right;">≈ 4 500</td>
+<td>AIE, <em>Net Zero Roadmap</em> (2023), début des années 2030</td>
+</tr>
+<tr class="even">
+<td>1,5 °C, IRENA</td>
+<td style="text-align: right;">≈ 6 700</td>
+<td>IRENA, WETO 2024, périmètre plus large</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Le scénario « Net Zero » de BNEF n’est plus un scénario 1,5
+°C</strong> : BNEF considère que la fenêtre est fermée, et son scénario
+plafonne à 1,81 °C. Le « 1 700 Md$ pour 1,5 °C » de l’ancienne
+diapositive ne correspond plus à aucune publication à jour.</p>
+<p><strong>En France</strong>, I4CE (<em>Panorama des financements
+climat</em>, édition 2025) compte 102 Md€ d’investissements climat en
+2024 (−5 %), et un besoin supplémentaire de 87 Md€ par an d’ici 2030
+pour la stratégie nationale bas-carbone.</p>
+<h2 id="les-chiffres-répandus-qui-se-révèlent-faux-ou-mal-posés">6. Les
+chiffres répandus qui se révèlent faux, ou mal posés</h2>
+<ul>
+<li><strong>« L’investissement dans la transition a bondi de 67 % en
+2020. »</strong> C’est l’entrée des réseaux dans la série.</li>
+<li><strong>Comparer 2 083 Md$ (2024, édition 2025) et 2 309 Md$ (2025,
+édition 2026)</strong> : +11 % au lieu de +8,1 %, parce que la série a
+été révisée entre les deux.</li>
+<li><strong>« Il faut 1 700 Md$ par an pour 1,5 °C. »</strong> Chiffre
+périmé ; les ordres de grandeur actuels sont de 4 500 à 6 700 Md$, et
+aucun ne porte plus sur 1,5 °C chez BNEF.</li>
+<li><strong>Additionner BNEF et AIE</strong>, ou BNEF et les flux
+financiers du même rapport (1 226 Md$ de dette de transition, 77 Md$ de
+capital-risque) : ce sont des mesures du même argent vu d’un autre
+côté.</li>
+</ul>
+<h2 id="ce-qui-nest-pas-établi-et-les-écarts-aux-conventions">7. Ce qui
+n’est pas établi, et les écarts aux conventions</h2>
+<ul>
+<li><strong>Les valeurs 2005-2023 de la série ont été lues sur le
+graphique</strong> du résumé BNEF, pas dans un tableau : précision de
+l’ordre de la dizaine de milliards.</li>
+<li><strong>La part de l’investissement dans le PIB par pays</strong>
+n’est publiée que pour la Chine (4 %) ; les autres points du graphique
+BNEF ne sont pas étiquetés, et la figure ne les invente pas.</li>
+<li><strong>Le besoin de l’AIE date de 2023</strong> : le <em>World
+Energy Investment 2026</em> ne l’a pas mis à jour.</li>
+<li><strong>Les figures sont en français</strong>, contre la convention
+du dépôt (anglais par défaut, français en supplément <code>_fr</code>),
+et le dossier n’a pas de <code>bibliographie/README.md</code> donnant
+pages et tableaux.</li>
+<li><strong>Droits</strong> : le résumé BNEF est en accès libre mais
+sans licence de réutilisation ; les figures refaites portent la mention
+« Données : BloombergNEF, <em>Energy Transition Investment Trends
+2026</em> ». Les figures de l’AIE sont sous CC BY 4.0.</li>
+</ul>
+<h2 id="reproduire">8. Reproduire</h2>
+<p><code>python3 figures_investissement.py</code> depuis le dossier du
+thème, sans argument : quatre figures dans <code>output/</code>, en PDF,
+SVG, PNG et PNG à fond transparent.</p>
+<h2 id="sources">9. Sources</h2>
+<ul>
+<li><strong>BloombergNEF (27 janvier 2026)</strong>, <em>Energy
+Transition Investment Trends 2026</em>, résumé public, p. 3 (chiffres
+clés) et p. 10 (série, rupture de périmètre 2020).</li>
+<li><strong>BloombergNEF (mai 2026)</strong>, <em>New Energy Outlook
+2026</em>, résumé, p. 4 et p. 15 (4,8 T$/an, 1,81 °C).</li>
+<li><strong>AIE (28 mai 2026)</strong>, <em>World Energy Investment
+2026</em>, rapport et présentation de lancement.</li>
+<li><strong>AIE (septembre 2023)</strong>, <em>Net Zero Roadmap</em> ;
+<strong>IRENA (2024)</strong>, <em>World Energy Transitions
+Outlook</em>.</li>
+<li><strong>I4CE (juillet 2025)</strong>, <em>Panorama des financements
+climat</em>, synthèse.</li>
+<li><strong>Banque mondiale</strong> — PIB mondial 2025.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Investissement_transition.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-financement-transition.html">Financer la transition : qui paie, à quel taux, pourquoi (note, 29/09/2026) + classeur LCOE vs coût du capital</a></li><li><a href="note-energy-taxes.html">Les taxes sur l'énergie : ce que l'État prend, sur quoi, et à qui</a></li></ul></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

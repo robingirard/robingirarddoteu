@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les cas 0 et A à E en français, palier par palier · Parcours ES 2026</title>
+<meta name="description" content="Pour chaque cas prêt du dépôt, les paliers de son notebook (en anglais) résumés en français, avec la sortie à regarder, la valeur attendue, le temps d'exécution et le chiffre à retenir, puis un glossaire FR/EN des termes de pommes et pommes_craft.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Socle, Atelier</span></div>
+    <h1>Les cas 0 et A à E en français, palier par palier</h1>
+    <p class="resume">Pour chaque cas prêt du dépôt, les paliers de son notebook (en anglais) résumés en français, avec la sortie à regarder, la valeur attendue, le temps d'exécution et le chiffre à retenir, puis un glossaire FR/EN des termes de pommes et pommes_craft.</p>
+  </header>
+  <p>Les six notebooks prêts sont en anglais. Cette page les résume en français, palier par palier : la sortie à lire et la valeur à y voir (sorties enregistrées des notebooks, README). Les temps sont ceux du README (MacBook Pro M3 Max) ; comptez le double sur un portable. Chaque notebook relit le <code>results.json</code> de sa grille. Écrire un modèle : <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a> ; choisir son cas : <a href="../textes/txt-choisir-son-cas.html">Choisir son mini-projet le lundi soir : deux sortes de mini-projets, les cartes, les quatre rôles</a>.</p>
+<h2>Cas 0 : les jeux de prix divergent (2 h, aucun calcul lourd)</h2>
+<table>
+<thead>
+<tr>
+<th>palier</th>
+<th>sortie</th>
+<th>valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. The price sets</td>
+<td>catalogue des quatre jeux</td>
+<td>tyndp2024 : 3 scénarios, 7 zones ; etage1_tyndp2026 : 36 scénarios, FR</td>
+</tr>
+<tr>
+<td>2. One price, ready for POMMES</td>
+<td><code>load_prices</code>, <code>NetImport</code> devant 1 MW</td>
+<td>coût 503 710 € (TYNDP 2026 NT+, FR, 2030)</td>
+</tr>
+<tr>
+<td>3. How different are they?</td>
+<td>moyenne, écart-type, heures extrêmes</td>
+<td>2030 : centrales de 56 à 62 €/MWh ; POMMES de 18 à 119</td>
+</tr>
+<tr>
+<td>4. Artefacts</td>
+<td>colonnes <code>h_zero</code>, <code>h_au_max</code>, <code>max</code></td>
+<td>TYNDP 2024, 2030 : 241 heures à 0, plafond 3 000 €/MWh</td>
+</tr>
+<tr>
+<td>5. What it means</td>
+<td>règles pour les cas</td>
+<td>un revenu se donne avec et sans heures au plafond</td>
+</tr>
+</tbody>
+</table>
+<p>À retenir : marché, 352 heures négatives en 2024, 513 en 2025 ; aucun jeu de modèle sous 0.</p>
+<h2>Cas A : batteries, le n-ième GW (3 h ; notebook ≈ 1 min, grille 20 min)</h2>
+<table>
+<thead>
+<tr>
+<th>palier</th>
+<th>sortie</th>
+<th>valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. The prices a battery sees</td>
+<td>série centrale 2030, semaine de février</td>
+<td>quatre courbes en escalier</td>
+</tr>
+<tr>
+<td>2. A battery in pommes_craft</td>
+<td><code>StorageTechnology</code> sur <code>price_zone_model</code>, <code>M.arbitrage</code></td>
+<td>385 510 variables, 5 s ; 2 h : 25,7 (TYNDP 2026), 54,8 (fos-sur-mer) €/kW/an</td>
+</tr>
+<tr>
+<td>3. What a battery costs</td>
+<td><code>cout_annuel</code> pour 1, 2, 4 h</td>
+<td>34,8 €/kW/an pour 2 h (TYNDP 2024)</td>
+</tr>
+<tr>
+<td>4. Verdict under every series</td>
+<td><code>results.json</code> : central, min, max</td>
+<td>30 résolutions, 20 min ; POMMES : 4,7 à 48,2</td>
+</tr>
+<tr>
+<td>5. The n-th GW</td>
+<td><code>price_depth_hook</code>, pente s calibrée à 1,8 €/MWh par GW</td>
+<td>10 GW : 16,9 au lieu de 25,7 €/kW/an (TYNDP 2026 NT+)</td>
+</tr>
+</tbody>
+</table>
+<p>À retenir : seule la série centrale fos-sur-mer couvre une batterie de 2 h (15 heures au plafond).</p>
+<h2>Cas B : VE pilotés, les heures à prix bas (3 h ; notebook 6 à 17 s par résolution, grille 7 min)</h2>
+<table>
+<thead>
+<tr>
+<th>palier</th>
+<th>sortie</th>
+<th>valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. The fleet</td>
+<td><code>M.flotte(2035, 16.6e6, True)</code></td>
+<td>2 911 kWh/voiture/an, fenêtre 16 kWh, rendement 0,94</td>
+</tr>
+<tr>
+<td>2. One car facing the prices</td>
+<td><code>preneur_de_prix</code>, colonne <code>gain</code></td>
+<td>54,0 (TYNDP 2026 NT+), 45,0 (POMMES) €/voiture/an</td>
+</tr>
+<tr>
+<td>3. Millions of cars in 2035</td>
+<td><code>M.france</code> ; <code>heures_prix_bas</code>, <code>recharge_pointe_gw</code>, <code>gain_vehicule</code></td>
+<td>16,6 M pilotées : 275 h sous 10 €/MWh au lieu de 452, pointe 50 GW, gain 46 €</td>
+</tr>
+<tr>
+<td>4. RTE's N03, corrected</td>
+<td><code>capacites_n03</code>, GW par filière</td>
+<td>nucléaire 51, PV 36,8 + 33,2, éolien 43 + 22</td>
+</tr>
+</tbody>
+</table>
+<p>À retenir : de 8 à 33 millions de voitures pilotées, gain de 49 à 42 €/an, heures sous 10 €/MWh de 452 à 64.</p>
+<h2>Cas C : thermosensibilité, la pointe d'hiver (3 h ; notebook ≈ 30 s, grille ≈ 15 min, 27 résolutions)</h2>
+<table>
+<thead>
+<tr>
+<th>palier</th>
+<th>sortie</th>
+<th>valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Splitting the demand</td>
+<td>régression sur la température : R², résidus, gradient</td>
+<td>0,951 ; 2,48 GW ; 1,74 GW/°C</td>
+</tr>
+<tr>
+<td>2. Heat pumps</td>
+<td>COP par température, chaleur à fournir ; profil en degrés-heures seuls</td>
+<td>2,3 à −12 °C, 3,4 à 18 °C ; 158 TWh ; pointe des PAC de WS060 : 60,5 GW avec les pentes de grand froid, 49,2 sans</td>
+</tr>
+<tr>
+<td>3. Two winters, solved live</td>
+<td><code>M.resoudre(["WS037", "WS060"], part, dec=dec, norm=norm)</code> ; <code>defaillance_max_gw</code></td>
+<td>0,7 M variables, 5 à 9 s ; WS060, 100 % PAC : 53,5 GW manquants (unique : variable de pointe pénalisée de 0,01 €/MW)</td>
+</tr>
+<tr>
+<td>4. The extra cost for the power system</td>
+<td><code>results.json</code>, 30 hivers ; <code>surcout_systeme_meur</code> = <code>surcout_energie_meur</code> + <code>surcout_puissance_meur</code></td>
+<td>100 % : 2 970 à 10 888 M€/an, médiane 5 894, 76 % d'énergie ; combustible évité 12 010 M€/an</td>
+</tr>
+<tr>
+<td>Sensitivities</td>
+<td>table <code>sensibilites</code></td>
+<td>surcoût médian 5,2 (chaudières 0,85) à 6,4 Md€/an (COP 1,9 à −10 °C ; TAC +30 %)</td>
+</tr>
+<tr>
+<td>5. Checks against prices</td>
+<td>prix du modèle contre POMMES</td>
+<td>corrélation 0,80</td>
+</tr>
+</tbody>
+</table>
+<p>À retenir : le même choix coûte du simple au triple et demi selon l'hiver, surtout en énergie, et moins que le gaz et le fioul qu'il évite.</p>
+<h2>Cas D : électrolyseur et règle horaire (3 h ; notebook ≈ 2 min, grille 40 min sur 6 cœurs)</h2>
+<table>
+<thead>
+<tr>
+<th>palier</th>
+<th>sortie</th>
+<th>valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Two ways to make H₂</td>
+<td>reformeur contre électrolyseur en ruban, €/kg</td>
+<td>2,14 à 2,46 contre 4,59 à 4,91</td>
+</tr>
+<tr>
+<td>2. The site in pommes_craft</td>
+<td><code>M.resoudre</code> ; <code>cout_kg</code>, <code>cavite_mwh</code></td>
+<td>385 511 variables, 20 s ; cavité 4,44 €/kg, 178 530 MWh</td>
+</tr>
+<tr>
+<td>3. Hybridisation and storage</td>
+<td><code>results.json</code>, 96 sites</td>
+<td>22 résolutions, 117 min ; POMMES 2040 : cavité 2,37, reformeur 4,41</td>
+</tr>
+<tr>
+<td>4, 5. The rule as constraints</td>
+<td><code>crochet_regle</code>, un site <code>rfnbo_horaire</code></td>
+<td>113 904 variables, 76 à 103 s ; 4,91 €/kg, 497 MW PV, 1 058 MW éolien</td>
+</tr>
+<tr>
+<td>6. What hourly matching costs</td>
+<td>colonne hourly − monthly</td>
+<td>+0,16 à +0,30 €/kg (3 à 6,6 %) ; WS021 : +0,51</td>
+</tr>
+</tbody>
+</table>
+<p>À retenir : la corrélation mensuelle ne coûte rien ici, l'horaire 0,16 à 0,30 €/kg.</p>
+<h2>Cas E : vapeur à 180 °C (3 h ; notebook ≈ 15 s, grille 9 min)</h2>
+<table>
+<thead>
+<tr>
+<th>palier</th>
+<th>sortie</th>
+<th>valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. The prices the plant sees</td>
+<td>prix de bascule, heures sous ce prix</td>
+<td>44,5 €/MWh, 3 680 h (TYNDP 2026 NT+)</td>
+</tr>
+<tr>
+<td>2. One site in pommes_craft</td>
+<td><code>site_model</code>, deux <code>ConversionTechnology</code></td>
+<td>1,25 MW chacune ; 302 k€/an, 41,4 €/MWh</td>
+</tr>
+<tr>
+<td>3. When does each boiler run?</td>
+<td><code>lp.solution["operation_conversion_power"]</code>, semaine de février</td>
+<td>part électrique 48 %</td>
+</tr>
+<tr>
+<td>4. Five options, one series</td>
+<td><code>M.resoudre</code> ; colonne <code>€/MWh steam</code></td>
+<td>481 891 variables, 5 s ; gaz 48,0, électrique 59,4, hybride 41,4</td>
+</tr>
+<tr>
+<td>5. Verdict under every set</td>
+<td><code>results.json</code>, 346 sites</td>
+<td>hybride 24,2 à 43,0 €/MWh, le moins cher ou à égalité partout (gaz = hybride = 36,7, TYNDP 2024 2030)</td>
+</tr>
+<tr>
+<td>6. Gas and electricity together</td>
+<td>pente du coût au gaz</td>
+<td>1,06 (gaz), 0,79 (électrique)</td>
+</tr>
+<tr>
+<td>7. Which carbon price?</td>
+<td>ETS2, SEQE, rien</td>
+<td>SEQE 2040, POMMES : gaz 106,6, électrique 46,6</td>
+</tr>
+</tbody>
+</table>
+<p>À retenir : bascule = (gaz + CO₂)/0,94 × 0,99, CO₂ étant le coût du carbone par MWh de gaz (0,202 t × prix de la tonne : 33,2 + 45 × 0,202 = 42,3, d'où 44,5). Au-dessus, la chaudière à gaz tourne : la valeur à retrouver pour [soc-lire-solution].</p>
+<h2>Glossaire FR/EN</h2>
+<table>
+<thead>
+<tr>
+<th>terme (nom dans le code)</th>
+<th>définition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Area (<code>area</code>)</td>
+<td>zone : un nœud où l'offre égale la demande, par ressource (<code>resource</code>)</td>
+</tr>
+<tr>
+<td>Demand (<code>demand</code>)</td>
+<td>demande exogène par heure et année [MWh]</td>
+</tr>
+<tr>
+<td>ConversionTechnology (<code>conversion_tech</code>)</td>
+<td>convertit une ressource en une autre (turbine, chaudière, électrolyseur)</td>
+</tr>
+<tr>
+<td>StorageTechnology (<code>storage_tech</code>)</td>
+<td>stocke une ressource : batterie, cavité, réservoir</td>
+</tr>
+<tr>
+<td>NetImport (<code>net_import</code>)</td>
+<td>échange extérieur à <code>import_price</code> / <code>export_price</code> ; un seul par zone et ressource</td>
+</tr>
+<tr>
+<td>LoadShedding, Spillage</td>
+<td>délestage (défaut craft 1 000 €/MWh, capacité illimitée) ; écrêtement (défaut capacité 0)</td>
+</tr>
+<tr>
+<td>year_inv, year_op, hour</td>
+<td>année d'investissement ; année d'exploitation ; pas de temps (8 760 par an)</td>
+</tr>
+<tr>
+<td>year_dec</td>
+<td>année de déclassement ; sans déclassement anticipé, year_dec = end_of_life, le dernier year_dec ≤ year_inv + life_span</td>
+</tr>
+<tr>
+<td>TimeStepManager</td>
+<td><code>time_step_duration</code>, <code>operation_year_duration</code>, en heures pour pommes (8 760 dans les cas) ; le docstring craft dit « in days », à tort</td>
+</tr>
+<tr>
+<td>EconomicHypothesis (<code>discount_rate</code>)</td>
+<td>taux d'actualisation en fraction (0.05) et année de référence</td>
+</tr>
+<tr>
+<td>availability (<code>conversion_availability</code>)</td>
+<td>disponibilité horaire entre 0 et 1 (le profil d'un PV)</td>
+</tr>
+<tr>
+<td>factor (<code>conversion_factor</code>)</td>
+<td>coefficient par ressource : consommée en négatif, produite en positif</td>
+</tr>
+<tr>
+<td>invest_cost, fixed_cost, variable_cost</td>
+<td>[€/MW], [€/MW/an], [€/MWh] ; stockage : <code>invest_cost_power</code> et <code>invest_cost_energy</code></td>
+</tr>
+<tr>
+<td>life_span, finance_rate</td>
+<td>durée de vie [années] ; taux de l'annuité, fraction dans [0, 1), NaN sans annuité</td>
+</tr>
+<tr>
+<td>adéquation (<code>operation_adequacy_constraint</code>)</td>
+<td>par zone, ressource et heure : productions nettes + imports + délestage = demande + écrêtement</td>
+</tr>
+<tr>
+<td>dual (<code>lp.dual</code>)</td>
+<td>valeur marginale d'une contrainte ; adéquation / <code>dual_scale</code> = prix [€/MWh]</td>
+</tr>
+<tr>
+<td>solution (<code>lp.solution</code>)</td>
+<td><code>planning_conversion_power_capacity</code> (capacités), <code>operation_conversion_power</code> (production horaire) ; craft : <code>model.get_results("operation", "power")</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Vous l'avez acquise quand</h2>
+<ul>
+<li>Devant un palier, vous dites ce que fait sa cellule et quelle colonne lire.</li>
+<li>Vous retrouvez trois valeurs ci-dessus dans les notebooks.</li>
+<li>Vous distinguez <code>year_inv</code>, <code>year_op</code>, <code>year_dec</code>, et capacité planifiée de production horaire.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/nomenclature.html" target="_blank" rel="noopener">Nomenclature : indices, paramètres et variables de pommes</a> : tables symbole, variable, unité.</li>
+<li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/usage.html" target="_blank" rel="noopener">Usage de pommes_craft : créer, ajouter des composants, résoudre, lire, sauver</a> : créer, résoudre, lire, sauver un modèle craft.</li>
+<li><a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a> : les pièges connus de pommes 0.11.0 et pommes_craft 0.6.0.</li>
+<li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a> : le notebook le plus court.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt public des cas pommes-case-studies (README, card.yaml, notebook.ipynb et results.json de chaque cas)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/nomenclature.html" target="_blank" rel="noopener">Nomenclature de pommes : indices, paramètres, variables</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description de pommes (contrainte d'adéquation)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft sur PyPI</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/usage.html" target="_blank" rel="noopener">Usage de pommes_craft : run, get_results, save</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

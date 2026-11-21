@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Empiler trois années météo sur le modèle du tutoriel avec operation_year_weight · Parcours ES 2026</title>
+<meta name="description" content="Sur le modèle du tutoriel, empiler les trois années météo 2030 du TYNDP 2026 comme trois year_op pondérées par operation_year_weight, vérifier que la capacité PV est commune et que l'objectif est la moyenne pondérée des coûts, puis mesurer ce que change le poids des années.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>avancé</span> · <span>≈ 45 min</span> · <span>Modélisation, Optimisation, Interco et EnR</span></div>
+    <h1>Empiler trois années météo sur le modèle du tutoriel avec operation_year_weight</h1>
+    <p class="resume">Sur le modèle du tutoriel, empiler les trois années météo 2030 du TYNDP 2026 comme trois year_op pondérées par operation_year_weight, vérifier que la capacité PV est commune et que l'objectif est la moyenne pondérée des coûts, puis mesurer ce que change le poids des années.</p>
+  </header>
+  <p>Objectif : faire tourner le modèle PV du tutoriel <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a> sur trois années météo à la fois, une seule capacité PV, un poids par année, puis lire ce que la décision gagne à connaître plusieurs années.</p>
+<p>Prérequis : blocs 1 à 3 du tutoriel ; pommes-case-studies cloné, <code>.venv</code> installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, chemin dans <code>sys.path</code>. Résolution en 1 à 2 s (pommes 0.11.0, pommes_craft 0.6.0, HiGHS). Valeurs du 16/11/2026, revérifiées le 17/11/2026.</p>
+<h2>Pourquoi une année météo ne suffit pas</h2>
+<p>Un modèle dimensionne des capacités qui vivront 25 ans sur les 8 760 heures d'une seule année : ensoleillée, il met trop de PV ; douce, il oublie la pointe d'hiver. France 2035, sur 30 années météo : la pointe de la demande native (sans pompes à chaleur) va de 87,9 à 122,4 GW <a href="../textes/thermosensibilite-activite.html">Séparer la part fixe et la part thermosensible de la demande, en pandas</a> ; sans elles, le système du cas C passe 26 hivers sur 30 sans délester, pas les 4 plus froids <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/C_thermosensibilite" target="_blank" rel="noopener">Cas C — Thermosensibilité : que coûte la pointe d'hiver, selon la météo ?</a>. Côté prix, adéquation et pointes demandent beaucoup d'années météo : quels prix, combien d'années, pour quelle question <span title="planches-forme-des-prix-modelisation">Forme des prix et modélisation : ce qu'un modèle linéaire reproduit et ne reproduit pas du marché (rejeu 2024, 2030, quels prix pour quelle question) (remis en cours)</span>.</p>
+<p>Pommes le règle sans changer de programme : chaque année météo devient un <code>year_op</code> (prix, facteurs de charge) ; les capacités, décidées une fois en <code>year_inv</code>, servent dans tous. Une décision, plusieurs futurs : programme stochastique à deux étages. Le TYNDP 2026 retient pour 2030 trois scénarios météo (WS), pondérés (<code>data/meteo/README.md</code>) : WS003 à 0,63, WS021 à 0,07, WS029 à 0,30.</p>
+<h2>Comment on passe le poids</h2>
+<p>Dans pommes_craft 0.6.0, c'est l'argument <code>operation_year_weight</code> d'<code>EconomicHypothesis</code> : flottant, dictionnaire <code>{year_op: poids}</code> ou DataFrame <code>year_op, operation_year_weight</code> ; défaut 1 par année. Pommes 0.11.0 minimise la somme sur les <code>year_op</code> de <code>discount_factor × operation_year_weight × annualised_totex</code>, totex = annuité des capacités vivantes + coûts d'exploitation de l'année (<code>pommes.utils.objective_year_weight</code>). <code>check_inputs</code> refuse un poids négatif, non fini ou nul partout. Les cas B et C empilent leurs années sans poids : tous à 1.</p>
+<h2>Étape 1 : le modèle, un <code>year_op</code> par année</h2>
+<p>Une étiquette entière par année, comme <code>price_zone_model</code> (<code>pommes_cases/blocks.py</code>) ; prix et PV d'une même WS vont ensemble, et le dépôt a un prix 2030 pour exactement ces trois WS. Investissement en 1, sortie en 26 (vie de 25 ans), demande répétée chaque année ; <code>cap_fixe</code> impose la capacité PV (dernière section).</p>
+<pre><code class="language-python">import sys, time, logging
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
+import numpy as np, polars as pl
+from pommes_cases.prices import load_prices
+from pommes_cases.meteo import load_meteo, availability, ws_poids
+from pommes_craft import (EnergyModel, Area, Demand, EconomicHypothesis, TimeStepManager,
+                          LoadShedding, Spillage, NetImport, ConversionTechnology)
+logging.getLogger().setLevel(logging.ERROR)
+
+poids = ws_poids(2030)          # {'WS003': 0.63, 'WS021': 0.07, 'WS029': 0.3}
+WS = list(poids)
+
+def donnees(ws_list):
+    prix, pv = [], []
+    for k, ws in enumerate(ws_list, start=1):
+        prix.append(load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2030, ws, year_op=k).select(&quot;hour&quot;, &quot;year_op&quot;, &quot;import_price&quot;))
+        pv.append(availability(load_meteo(&quot;FR&quot;, 2030, ws, year_op=k), &quot;pv&quot;))
+    return pl.concat(prix), pl.concat(pv)
+
+def modele(nom, ws_list, poids_annees, cap_fixe=None):
+    prix, pv_dispo = donnees(ws_list)
+    year_ops = list(range(1, len(ws_list) + 1))
+    bornes = {} if cap_fixe is None else {&quot;power_capacity_investment_min&quot;: cap_fixe, &quot;power_capacity_investment_max&quot;: cap_fixe}
+    m = EnergyModel(name=nom, hours=list(range(8760)), year_ops=year_ops, year_invs=[1], year_decs=[26],
+                    modes=[], resources=[&quot;electricity&quot;], solver_name=&quot;highs&quot;, solver_options={&quot;output_flag&quot;: False})
+    with m.context():
+        EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=1, planning_step=1, operation_year_weight=poids_annees)
+        TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=8760.0)
+        zone = Area(&quot;FR&quot;)
+        zone.add_component(Demand(name=&quot;demande&quot;, resource=&quot;electricity&quot;,
+            demand=pl.concat([pl.DataFrame({&quot;hour&quot;: range(8760), &quot;year_op&quot;: y, &quot;demand&quot;: 1.0}) for y in year_ops])))
+        zone.add_component(LoadShedding(name=&quot;delestage&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+        zone.add_component(Spillage(name=&quot;ecretement&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+        zone.add_component(NetImport(name=&quot;reseau&quot;, resource=&quot;electricity&quot;, import_price=prix, max_yearly_energy_export=0.0))
+        zone.add_component(ConversionTechnology(name=&quot;pv&quot;, factor={&quot;electricity&quot;: 1.0}, availability=pv_dispo,
+                                                invest_cost=600_000.0, life_span=25, finance_rate=0.04, **bornes))
+    t0 = time.perf_counter()
+    m.run(store_linopy_model=True, store_pommes_parameters=True)
+    cap = float(m.linopy_model.solution[&quot;planning_conversion_power_capacity&quot;].sel(conversion_tech=&quot;pv&quot;).max())
+    return m, cap, float(m.linopy_model.objective.value), time.perf_counter() - t0
+</code></pre>
+<h2>Étape 2 : une année à la fois</h2>
+<pre><code class="language-python">cap_seule = {}
+for ws in WS:
+    p, a = donnees([ws])
+    _, cap_seule[ws], obj, dt = modele(ws, [ws], {1: 1.0})
+    print(f&quot;{ws}: prix {p['import_price'].mean():.2f} €/MWh, FC PV {a['availability'].mean():.3f}, &quot;
+          f&quot;PV {cap_seule[ws]:.3f} MW, coût {obj:,.2f} €, {dt:.1f} s&quot;)
+# WS003: prix 57.50 €/MWh, FC PV 0.138, PV 1.647 MW, coût 500,124.82 €, 1.4 s   (bloc 3 du tutoriel)
+# WS021: prix 62.38 €/MWh, FC PV 0.157, PV 1.761 MW, coût 532,653.41 €, 1.2 s
+# WS029: prix 55.52 €/MWh, FC PV 0.143, PV 1.495 MW, coût 484,854.49 €, 1.2 s
+</code></pre>
+<p>Trois années, trois tailles de PV : de 1,495 à 1,761 MW, 18 % d'écart. WS021, la plus ensoleillée et la plus chère, appelle le plus de PV.</p>
+<h2>Étape 3 : les trois ensemble, poids du TYNDP</h2>
+<pre><code class="language-python">w = {k: poids[ws] for k, ws in enumerate(WS, start=1)}        # {1: 0.63, 2: 0.07, 3: 0.3}
+m3, cap3, obj3, dt3 = modele(&quot;trois&quot;, WS, w)
+sol = m3.linopy_model.solution
+totex = sol[&quot;annualised_totex&quot;].sum(&quot;area&quot;)
+print(f&quot;PV {cap3:.3f} MW, objectif {obj3:,.2f} €, {dt3:.1f} s, {m3.linopy_model.nvars} variables&quot;)
+print({int(y): round(float(totex.sel(year_op=y))) for y in totex.year_op.values})
+print(round(float(sum(w[int(y)] * totex.sel(year_op=y) for y in totex.year_op.values)), 2))
+print(sol[&quot;planning_conversion_power_capacity&quot;].sel(conversion_tech=&quot;pv&quot;).values.round(4))
+# PV 1.613 MW, objectif 497,873.96 €, 1.9 s, 78862 variables
+# {1: 500134, 2: 532897, 3: 484956}
+# 497873.96
+# [[[1.6129]]]
+</code></pre>
+<p>Une seule variable de capacité, 1,613 MW, pas trois : la décision commune. L'objectif vaut exactement Σ poids × totex ; chaque totex porte l'annuité entière, 1,613 × 38 407 = 61 947 €, que le poids pondère avec le reste. Trois années coûtent 1,9 s contre 1,3 s, pour trois fois plus de variables ; le cas C empile 10 années du système français, 5 millions de variables, en 27 à 33 s (son README).</p>
+<h2>Étape 4 : poids égaux, par défaut, extrême</h2>
+<pre><code class="language-python">for w4 in ({1: 1/3, 2: 1/3, 3: 1/3}, 1.0, {1: 0.05, 2: 0.05, 3: 0.9}):
+    _, cap, obj, dt = modele(&quot;poids&quot;, WS, w4)
+    print(f&quot;{w4}: PV {cap:.3f} MW, objectif {obj:,.2f} €&quot;)
+# 1/3 chacun : PV 1.656 MW, objectif 505,977.21 €
+# 1.0 (défaut) : PV 1.656 MW, objectif 1,517,931.64 €
+# 0.9 sur WS029 : PV 1.522 MW, objectif 488,050.30 €
+</code></pre>
+<p>Poids tous à 1 : même capacité que des tiers, objectif trois fois plus grand. Seul le rapport des poids décide ; leur somme fixe l'unité de l'objectif. Un poids de 0,9 sur WS029 rapproche la capacité de celle de WS029 seule (1,522 contre 1,495 MW) sans l'atteindre : les deux autres années, même à 0,05, retiennent la décision.</p>
+<h2>Étape 5 : les duales se lisent divisées par le poids</h2>
+<pre><code class="language-python">from pommes.utils import dual_scale
+echelle = dual_scale(m3.pommes_parameters)              # [0.63 0.07 0.3 ]
+duale = m3.linopy_model.dual[&quot;operation_adequacy_constraint&quot;].squeeze().sel(year_op=2).values
+imp = sol[&quot;operation_net_import_import&quot;].sel(year_op=2).squeeze().values &gt; 1e-6
+pr = donnees(WS)[0].filter(pl.col(&quot;year_op&quot;) == 2)[&quot;import_price&quot;].to_numpy()
+print(imp.sum(), np.abs(duale[imp] - pr[imp]).max(), np.abs(duale[imp] / float(echelle.sel(year_op=2)) - pr[imp]).max())
+# 8312 121.09 0.0
+</code></pre>
+<p>La duale brute d'une heure d'import vaut poids × prix : sans <code>dual_scale</code>, l'année à 0,07 semble vendre 14 fois moins cher. Même piège que <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a> et <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a>.</p>
+<h2>Ce que coûte de se tromper d'année</h2>
+<p>Imposez aux trois années pondérées la capacité exacte de chaque année seule (étape 2), et comparez au coût libre (étape 3).</p>
+<pre><code class="language-python">print(round(0.63 * 500124.82 + 0.07 * 532653.41 + 0.3 * 484854.49, 2))   # si l'on connaissait l'année à l'avance
+for ws in WS:
+    _, _, obj, _ = modele(&quot;fixe&quot;, WS, w, cap_fixe=cap_seule[ws])
+    print(f&quot;plan {ws}, {cap_seule[ws]:.3f} MW imposés : {obj:,.2f} €, +{obj - obj3:.2f} €&quot;)
+# 497820.72
+# plan WS003, 1.647 MW imposés : 497,880.53 €, +6.57 €
+# plan WS021, 1.761 MW imposés : 498,023.75 €, +149.79 €
+# plan WS029, 1.495 MW imposés : 497,970.01 €, +96.05 €
+</code></pre>
+<p>Connaître l'année à l'avance ne vaudrait que 53 € par an sur 498 000 (0,01 %). Le plan WS003 perd 7 € par an, le plan WS021 150 €. La capacité bouge de 18 %, le coût de 0,03 % : un PV preneur de prix a un optimum très plat, son dernier MW gagne à peu près son annuité quelle que soit la météo. L'année météo fait mal quand il faut couvrir une pointe : délestage à 3 000 €/MWh sur un hiver froid, stockage vidé par une semaine sans vent. C'est le cas C, et le cas G (quatre pays, plusieurs années météo PECD), où la même mécanique cherche la pire semaine <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/G.yaml" target="_blank" rel="noopener">Cas G (carte, vague 2) — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>.</p>
+<h2>Trois questions à réponse chiffrée</h2>
+<ol>
+<li>De combien la capacité PV des trois années pondérées s'écarte-t-elle de celle de WS003 seule, en MW et en % ?</li>
+<li>Quel rapport attendez-vous entre l'objectif à poids 1, 1, 1 et celui à poids 1/3, 1/3, 1/3 ? Pourquoi la capacité ne change-t-elle pas ?</li>
+<li>Année 2 (WS021) : quel facteur sépare la duale brute d'adéquation du prix de marché aux heures d'import ?</li>
+</ol>
+<p>Réponses. 1 : 1,613 contre 1,647 MW, soit 0,034 MW de moins, 2,1 %. 2 : 3,000 (1 517 931,64 / 505 977,21) ; objectif multiplié par une constante, optimum inchangé. 3 : 0,07, le poids de l'année ; divisée par lui, la duale redonne 62,38 €/MWh en moyenne.</p>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous retrouvez 1,613 MW et 497 873,96 € (étape 3) et vérifiez que l'objectif est Σ poids × totex.</li>
+<li>Vous montrez que <code>planning_conversion_power_capacity</code> n'a qu'une valeur pour trois <code>year_op</code>, et dites pourquoi.</li>
+<li>Vous prédisez puis vérifiez l'effet d'un poids 0,9 sur WS029 : 1,522 MW.</li>
+<li>Vous relisez un prix de marché exact dans la duale d'une année à faible poids.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Model description de pommes : objectif, <code>operation_year_weight</code> et sa généralisation, conditions d'exploitation <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (1) : objectif, actualisation, annuités, poids d'année et conditions d'exploitation</a>.</li>
+<li>Cas C, paliers 3 et 4 : deux hivers en direct, puis 30 hivers, défaillance et surcoût (énergie, puissance) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/C_thermosensibilite" target="_blank" rel="noopener">Cas C — Thermosensibilité : que coûte la pointe d'hiver, selon la météo ?</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases/meteo.py, pommes_cases/prices.py, pommes_cases/blocks.py, data/meteo/README.md, C_thermosensibilite/README.md)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">pommes, Model description : fonction objectif, poids d'année</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/usage.html" target="_blank" rel="noopener">Usage de pommes_craft</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">TYNDP 2026 Scenarios, ENTSO-E et ENTSOG (scénarios météo et leurs poids)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

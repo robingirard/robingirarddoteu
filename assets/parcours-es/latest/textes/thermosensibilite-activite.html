@@ -44,6 +44,19 @@ a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2
 .bandeau a { color: var(--bleu-clair); text-decoration: none; }
 .bandeau a:hover { text-decoration: underline; }
 .enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
 article.texte { padding-block: 28px 56px; }
 article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
 article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
@@ -52,6 +65,9 @@ h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
 h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
 h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
 .resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
 p, li { max-width: 68ch; }
 ul, ol { padding-left: 1.3em; }
 li + li { margin-top: .25em; }
@@ -75,6 +91,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <body>
 <div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
 <main class="enveloppe">
+<div class="disposition">
 <article class="texte">
   <header>
     <div class="sur"><span>intermédiaire</span> · <span>≈ 30 min</span> · <span>Demande, Modélisation, Flexibilité</span></div>
@@ -140,7 +157,7 @@ fig.tight_layout()
 </code></pre>
 <p>En hiver, la reconstruction suit les vagues de froid. En été, elle reste sur le profil calendaire. Les pics ratés sont le prix d'un modèle à une seule pente : le vrai chauffage n'a pas le même profil à 7 h et à 15 h.</p>
 <h2>Étape 3 : la régression du cas C et une autre année météo</h2>
-<p>Le cas C fait le même travail avec plus de soin. Il régresse les trois années météo publiées ensemble. Il ajoute un calendrier saisonnier, douze tranches de 730 heures plutôt que des mois calendaires, un gradient de chauffage par heure du jour, deux pentes de plus sous 5 °C et 0 °C, et une part climatisation au-dessus de 20 °C. La fonction <code>decomposition</code> de <code>C_thermosensibilite/model.py</code> renvoie la part fixe et les coefficients ; <code>demande</code> recalcule la demande d'une température quelconque.</p>
+<p>Le cas C fait le même travail avec plus de soin. Il régresse les trois années météo publiées ensemble. Il ajoute un calendrier saisonnier, douze tranches de 730 heures plutôt que des mois calendaires, un gradient de chauffage par heure du jour, deux pentes de plus sous 5 °C et 0 °C, et une part climatisation au-dessus de 20 °C. La fonction <code>decomposition</code> de <code>C_thermosensibilite/model.py</code> renvoie la part fixe et les coefficients ; <code>demande</code> recalcule la demande d'une température quelconque. Les deux pentes sous 5 °C et 0 °C décrivent de l'électricité : par grand froid, les pompes à chaleur déjà installées perdent du COP et l'appoint résistif s'allume. Le cas C les garde donc dans la demande, mais pas dans le profil de chaleur des pompes à chaleur qu'il ajoute, qu'il divise lui-même par le COP horaire : sinon la baisse du COP serait comptée deux fois.</p>
 <pre><code class="language-python">sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies/C_thermosensibilite&quot;)
 import model as M
 dec = M.decomposition()
@@ -178,6 +195,8 @@ pointe : 87.9 GW (WS045) à 122.4 GW (WS042), médiane 103.1 GW
 </ul>
   <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">pommes-case-studies : data/systeme/README.md et datapackage.json (TYNDP 2026 NT+, CC BY 4.0)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">pommes-case-studies : C_thermosensibilite/model.py, README.md, hypotheses.yaml, results.json</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">TYNDP 2026 Scenarios, ENTSO-E et ENTSOG, version provisoire du 10/06/2026</a></li><li><a href="https://www.energy-alternatives.eu/2019/05/24/variabilite-de-la-consommation-electrique-et-thermo-sensibilite.html" target="_blank" rel="noopener">Variabilité de la consommation électrique et thermosensibilité (billet de blog, 2019)</a></li></ol></section>
 </article>
+
+</div>
 </main>
 <footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
 </body>

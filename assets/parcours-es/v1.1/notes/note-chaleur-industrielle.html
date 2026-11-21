@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La chaleur industrielle : combien, à quelle température, et ce que l'électricité peut en faire · Parcours ES 2026</title>
+<meta name="description" content="Note qui accompagne les six vidéos courtes « Chaleur dans l'industrie » ; chaque chiffre y est rangé avec sa page, son périmètre et son statut (fichier data/chaleur_factors.md) ; sept figures redessinées (celles d'Agora et de Systemiq sont sous droits).">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 15 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>La chaleur industrielle : combien, à quelle température, et ce que l'électricité peut en faire</h1>
+    <p class="resume">Note qui accompagne les six vidéos courtes « Chaleur dans l'industrie » ; chaque chiffre y est rangé avec sa page, son périmètre et son statut (fichier data/chaleur_factors.md) ; sept figures redessinées (celles d'Agora et de Systemiq sont sous droits).</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-E">Mener le mini-projet du cas E : la vapeur d'une usine, électrique, au gaz, ou les deux ?</a></li><li><a href="../index.html#cas-H">Mener la boucle H ↔ L : la demande de l'industrie fait le prix, le prix fait la demande</a></li><li><a href="../index.html#cas-L">Mener le mini-projet du cas L : quand l'industrie électrifiée module, que vaut le n-ième GW flexible ?</a></li></ul></aside><h2 id="ce-que-dit-cette-note">1. Ce que dit cette note</h2>
+<p>La chaleur est le premier usage de l’énergie dans l’industrie et la
+première cause de ses émissions. En Europe, elle vient encore aux trois
+quarts de la combustion fossile, et l’électricité n’en fournit que 4 %.
+Ce n’est pas faute de machines : sous 200 °C, la pompe à chaleur rend
+trois fois plus de chaleur qu’elle ne consomme d’électricité ;
+au-dessus, la résistance, l’induction, l’arc et le plasma couvrent
+presque toutes les températures. Une étude du Fraunhofer ISI pour Agora
+Industry estime que 90 % de l’énergie de l’industrie européenne qui
+n’est pas encore électrique pourrait l’être d’ici 2035, techniquement.
+Ce qui reste, c’est surtout le charbon de la sidérurgie, qui ne sert pas
+qu’à chauffer.</p>
+<p>Chaque chiffre de cette note est dans
+<code>data/chaleur_factors.md</code>, avec sa page, son périmètre et son
+statut (vérifié, calculé, seconde main).</p>
+<h2 id="combien-de-chaleur">2. Combien de chaleur</h2>
+<p><strong>Europe.</strong> En 2019, l’industrie de l’UE-27 a demandé
+environ 4 000 TWh (3 968), en comptant les matières premières. La
+chaleur de procédé en prend 1 861 TWh, près de la moitié (47 %) ;
+viennent ensuite les matières premières (1 011), la force motrice et
+l’éclairage (872), le chauffage des locaux (224). <em>(Agora 2024,
+fig. 4)</em></p>
+<figure>
+<img
+src="img/note-chaleur-industrielle/Industry/Chaleur_industrielle/output/editorial/usages_vecteurs_ue27_fr.png"
+alt="L’énergie de l’industrie européenne par usage, et la chaleur de procédé par vecteur" />
+<figcaption aria-hidden="true">L’énergie de l’industrie européenne par
+usage, et la chaleur de procédé par vecteur</figcaption>
+</figure>
+<p><strong>Monde.</strong> L’AIE ne publie pas le total, mais il se
+déduit de sa projection : la demande de chaleur industrielle doit
+croître de 16 %, soit 17,6 EJ, entre 2023 et 2028. La base de 2022 est
+donc d’environ 110 EJ, soit 30 600 TWh (calculé). Le monde chauffe ses
+usines avec seize fois la chaleur de l’Europe.</p>
+<p><strong>France.</strong> Il n’existe pas de statistique publique
+récente de la « chaleur de procédé » française. Deux ordres de grandeur
+se recoupent :</p>
+<ul>
+<li>l’ADEME (2015, données 2012) : 271 TWh de combustibles à usage
+énergétique, dont 70 % (190 TWh) pour les fours et les séchoirs, plus 21
+TWh d’électricité qui sert à chauffer (fours à résistance et à arc)
+;</li>
+<li>IndustryEU (base ouverte du centre PERSEE, 2023) : 165 TWh de
+chaleur de procédé utile pour les grandes usines, estimés avec des parts
+par température moyennes de l’UE.</li>
+</ul>
+<p>Pour situer : Eurostat compte 284 TWh de consommation finale
+énergétique pour toute l’industrie française en 2023, dont 102 TWh
+d’électricité (36 %).</p>
+<figure>
+<img
+src="img/note-chaleur-industrielle/Industry/Chaleur_industrielle/output/editorial/carres_monde_ue_france_fr.png"
+alt="Monde, Europe, France : trois ordres de grandeur, trois périmètres" />
+<figcaption aria-hidden="true">Monde, Europe, France : trois ordres de
+grandeur, trois périmètres</figcaption>
+</figure>
+<h2 id="doù-elle-vient-et-ce-quelle-émet">3. D’où elle vient, et ce
+qu’elle émet</h2>
+<p>La chaleur de procédé européenne vient du gaz (657 TWh), du charbon
+(348), de la biomasse (278), d’autres fossiles (265, dont les gaz
+sidérurgiques et les déchets), du fioul (120), des réseaux de chaleur
+(117) et, en dernier, de l’électricité (77 TWh, 4 %). Les fossiles en
+font environ 75 %.</p>
+<p>Les mêmes trois quarts se retrouvent dans les émissions : les fours
+font 51 % des gaz à effet de serre de l’industrie européenne, la vapeur
+et l’eau chaude 24 %, les émissions de procédé (la décarbonatation du
+calcaire, par exemple) 20 % et le chauffage des locaux 5 %. <em>(Agora
+2024, fig. 3, données 2018)</em></p>
+<h2 id="tout-est-affaire-de-température">4. Tout est affaire de
+température</h2>
+<p>La moitié de la chaleur de procédé européenne dépasse 500 °C ; près
+de 40 % reste sous 200 °C. Le partage suit les industries : la
+sidérurgie (460 TWh, dont 390 au-dessus de 500 °C), la chimie et les
+minéraux non métalliques (ciment, chaux, verre, céramique) chauffent
+haut ; le papier (221 TWh sur 237 sous 200 °C) et l’agroalimentaire (137
+sur 163) chauffent bas, le plus souvent par de la vapeur.</p>
+<figure>
+<img
+src="img/note-chaleur-industrielle/Industry/Chaleur_industrielle/output/editorial/secteurs_temperature_ue27_fr.png"
+alt="Chaleur de procédé de l’UE-27 par secteur et par température" />
+<figcaption aria-hidden="true">Chaleur de procédé de l’UE-27 par secteur
+et par température</figcaption>
+</figure>
+<p>À l’échelle du monde, le rapport Systemiq (2024) projette pour 2030
+une combustion de 25 400 TWh dans sept industries, dont 67 % au-dessus
+de 400 °C, la sidérurgie seule pesant 11 000 TWh. C’est une projection,
+sur la combustion seule : elle ne se compare pas terme à terme aux
+chiffres européens.</p>
+<figure>
+<img
+src="img/note-chaleur-industrielle/Industry/Chaleur_industrielle/output/editorial/monde_temperature_2030_fr.png"
+alt="Combustion de sept industries dans le monde en 2030, par température" />
+<figcaption aria-hidden="true">Combustion de sept industries dans le
+monde en 2030, par température</figcaption>
+</figure>
+<h2 id="quelle-machine-électrique-pour-quelle-température">5. Quelle
+machine électrique pour quelle température</h2>
+<figure>
+<img
+src="img/note-chaleur-industrielle/Industry/Chaleur_industrielle/output/editorial/technologies_temperature_fr.png"
+alt="Plages de température adaptées des techniques électriques, horizon 2035" />
+<figcaption aria-hidden="true">Plages de température adaptées des
+techniques électriques, horizon 2035</figcaption>
+</figure>
+<p><strong>Sous 200 °C, la pompe à chaleur.</strong> Elle ne produit pas
+la chaleur, elle la déplace : elle prend la chaleur perdue d’une étape
+et la remonte à la température d’une autre. Marina <em>et al.</em>
+(2021) ont recensé, procédé par procédé, ce que des pompes à chaleur
+pourraient reprendre sur la chaleur fatale dans quatre industries
+européennes (papier, chimie, agroalimentaire, raffinage) : 23 GW en 4
+174 machines, qui donneraient 641 PJ (178 TWh) de chaleur par an pour
+195 PJ (54 TWh) d’électricité. Le COP de l’ensemble est de 3,28, le COP
+médian d’une machine de 2,77. Les auteurs tiennent ce potentiel pour une
+borne basse.</p>
+<figure>
+<img
+src="img/note-chaleur-industrielle/Industry/Chaleur_industrielle/output/editorial/pompes_a_chaleur_ue28_fr.png"
+alt="Potentiel des pompes à chaleur sur chaleur fatale, UE-28" />
+<figcaption aria-hidden="true">Potentiel des pompes à chaleur sur
+chaleur fatale, UE-28</figcaption>
+</figure>
+<p>En France, l’exemple le plus récent est la levurerie Lesaffre de
+Marcq-en-Barœul : deux pompes à chaleur de 19 MW thermiques au total,
+qui reprennent la chaleur de la fermentation pour le séchage, couvrent
+70 % des besoins de chaleur du site depuis leur inauguration le 14
+octobre 2025.</p>
+<p><strong>Au-dessus, la résistance, l’induction, l’arc, le
+plasma.</strong> La chaudière électrique va jusqu’à 500 °C, la
+résistance jusqu’à 2 000 °C, l’arc et le plasma au-delà. Deux
+réalisations datées : le four de verre 100 % électrique de Verallia à
+Châteaubernard (180 t de verre par jour, inauguré en septembre 2024) et
+le vapocraqueur chauffé à l’électricité de BASF, SABIC et Linde à
+Ludwigshafen (démonstrateur de 6 MW, démarré le 17 avril 2024).</p>
+<p><strong>Ce que tout cela permettrait.</strong> Agora estime qu’avec
+les techniques existantes ou attendues d’ici 2035, 90 % des 2 068 TWh
+que l’industrie européenne consomme encore sous une autre forme que
+l’électricité pourraient être électrifiés : 62 % dès 2025, 20 % de plus
+dès 2030 et 8 % dès 2035. Restent 208 TWh, dont 202 dans la sidérurgie,
+où le carbone réduit le minerai : ce n’est plus de la chaleur, c’est de
+la chimie.</p>
+<figure>
+<img
+src="img/note-chaleur-industrielle/Industry/Chaleur_industrielle/output/editorial/potentiel_electrification_ue27_fr.png"
+alt="Ce que l’électrification directe peut atteindre, par secteur" />
+<figcaption aria-hidden="true">Ce que l’électrification directe peut
+atteindre, par secteur</figcaption>
+</figure>
+<p>Ce potentiel est <strong>technique</strong>. Il ne dit rien du prix
+de l’électricité, qui décide en pratique (c’est l’objet de la série «
+Économie »).</p>
+<h2 id="stocker-la-chaleur">6. Stocker la chaleur</h2>
+<p>Une usine chauffe jour et nuit ; l’électricité bon marché, elle,
+arrive par moments. Une batterie de chaleur (briques, sable, roche, sel
+fondu) se charge quand le courant est bon marché et rend la chaleur à
+toute heure. Systemiq estime à 3 100 TWh le marché accessible sous 400
+°C d’ici 2030 (projection). Les premières installations industrielles
+sont récentes : Rondo en Californie (100 MWh, octobre 2025, sur un champ
+solaire), Kyoto Group en Hongrie (56 MWh chez KALL Ingredients, octobre
+2025). En France, Eco-Tech Ceram stocke à 600 °C la chaleur perdue des
+fours de tuileries pour leurs séchoirs (Tegulys, 1,3 MWh, 2019 ;
+Wienerberger à Pontigny, 2 × 2,3 MWh, 2024) : c’est du stockage de
+chaleur fatale, pas d’électricité.</p>
+<p>La première batterie « électricité → vapeur » de l’industrie
+française, selon son constructeur, est celle d’Epyr, inaugurée le 29 mai
+2026 dans la papeterie WEPA de Troyes : des briques céramiques chauffées
+aux heures d’électricité bon marché y fournissent un quart de la vapeur
+du site (capacité non publiée).</p>
+<p>Les techniques, leurs coûts et leur maturité sont détaillés dans une
+note à part, <code>Note_Stockage_chaleur.md</code> (table
+<code>data/stockage_chaleur_factors.md</code>).</p>
+<h2 id="le-solaire-thermique-un-appoint">7. Le solaire thermique, un
+appoint</h2>
+<p>On peut aussi faire de la chaleur basse température sans combustion
+avec le soleil. La plus grande centrale solaire thermique de France,
+LACTOSOL (Newheat, chez Lactalis Ingredients à Verdun, en service depuis
+juin 2023), aligne 15 000 m² de capteurs, 12,4 MW thermiques en crête et
+3 000 m³ de stockage d’eau chaude, pour environ 8 000 MWh par an : 6 %
+de la chaleur de l’usine. Dans le monde, l’AIE compte un peu plus de 850
+MW de solaire thermique industriel fin 2022 et environ 22 PJ (6 TWh) de
+chaleur par an, soit de l’ordre de 0,02 % de la chaleur industrielle
+(calculé).</p>
+<h2 id="ce-qui-nest-pas-établi-et-les-chiffres-qui-circulent-mal">8. Ce
+qui n’est pas établi, et les chiffres qui circulent mal</h2>
+<ul>
+<li><strong>« 90 % de la chaleur est électrifiable »</strong> : non, 90
+% de l’énergie finale de l’industrie pas encore électrique (≈ 2 070 TWh,
+chaleur, moteurs et locaux confondus).</li>
+<li><strong>La figure d’Agora n’est pas cohérente avec
+elle-même</strong> : ses barres par secteur donnent 1 425 TWh
+électrifiables dès 2025, sa barre totale 1 290. Les autres étapes
+concordent.</li>
+<li><strong>Le charbon fait 19 % de la chaleur de procédé</strong> (348
+/ 1 861), pas 27 % comme l’écrit le résumé du même rapport.</li>
+<li><strong>L’alumine de Systemiq</strong> : 69 % est une coquille pour
+60 %.</li>
+<li><strong>Les températures de stockage annoncées</strong> (1 800 °C, «
+plus de 1 000 °C ») sont celles des briques, pas celles de la chaleur
+livrée.</li>
+<li><strong>Le COP de 3,5 sous 200 °C</strong> qui circule pour le monde
+est une hypothèse interne d’un industriel, optimiste pour de la vapeur
+au-dessus de 150 °C ; Marina <em>et al.</em> donnent 3,28 en moyenne,
+2,77 en médiane.</li>
+<li><strong>La France</strong> : les chiffres de l’ADEME de 2017 (110
+TWh de chaleur fatale, dont 53 au-dessus de 100 °C) et de 2020 (42 TWh
+de chaleur électrifiable par des techniques matures) ne sont connus ici
+que par le rapport PEPS5 ; la librairie de l’ADEME était inaccessible.
+L’édition 2015 donnait 51 TWh au-dessus de 100 °C.</li>
+</ul>
+<h2 id="sources">9. Sources</h2>
+<ul>
+<li>Fraunhofer ISI pour Agora Industry (2024), <em>Direct
+electrification of industrial process heat</em>, v1.1, juin 2024, CC
+BY-NC-SA 4.0. Figures 1 à 5 redessinées.</li>
+<li>Systemiq (2024), <em>Catalysing the global opportunity for
+electrothermal energy storage</em>, février 2024. Figure 5 redessinée à
+partir de ses chiffres.</li>
+<li>AIE (2024), <em>Renewables 2023</em>, chapitre 3, CC BY 4.0.</li>
+<li>Projets Epyr (epyr.co) et Newheat (newheat.com), voir
+<code>projets_reels_catalogue.md</code>.</li>
+<li>Marina A. <em>et al.</em> (2021), « An estimation of the European
+industrial heat pump market potential », <em>Renewable and Sustainable
+Energy Reviews</em> 139:110545.</li>
+<li>ADEME (2015), <em>La chaleur fatale industrielle</em> ; ATEE/ADEME
+(2023), <em>Étude PEPS5</em>.</li>
+<li>Eurostat, <code>nrg_bal_c</code> ; IndustryEU (2026),
+doi:10.5281/zenodo.21979416.</li>
+<li>Projets : communiqués et presse cités dans
+<code>projets_reels_catalogue.md</code>.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Chaleur_industrielle.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-stockage-chaleur.html">Stocker la chaleur dans l'industrie : techniques, coûts, maturité</a></li><li><a href="note-energy-taxes.html">Les taxes sur l'énergie : ce que l'État prend, sur quoi, et à qui</a></li><li><a href="note-procedes-industriels.html">Les procédés industriels lourds : comment ils marchent, et où sort le CO₂</a></li></ul></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

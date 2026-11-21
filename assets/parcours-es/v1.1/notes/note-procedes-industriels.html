@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les procédés industriels lourds : comment ils marchent, et où sort le CO₂ · Parcours ES 2026</title>
+<meta name="description" content="Le texte qui accompagne les schémas d'usine de la note précédente : comment fonctionnent un haut fourneau, une réduction directe du minerai, un four à clinker, une synthèse d'ammoniac, un vapocraqueur, et à quelle étape sort le CO₂.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 30 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Les procédés industriels lourds : comment ils marchent, et où sort le CO₂</h1>
+    <p class="resume">Le texte qui accompagne les schémas d'usine de la note précédente : comment fonctionnent un haut fourneau, une réduction directe du minerai, un four à clinker, une synthèse d'ammoniac, un vapocraqueur, et à quelle étape sort le CO₂.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-H">Mener le mini-projet du cas H : à quel prix du CO₂ l'industrie change-t-elle de procédé ?</a></li><li><a href="../index.html#cas-K">Mener le mini-projet du cas K : que vaut la flexibilité d'une aciérie DRI, et que lui retire une rampe ?</a></li><li><a href="../index.html#cas-H">Mener la boucle H ↔ L : la demande de l'industrie fait le prix, le prix fait la demande</a></li><li><a href="../index.html#cas-L">Mener le mini-projet du cas L : quand l'industrie électrifiée module, que vaut le n-ième GW flexible ?</a></li></ul></aside>
+<p>Ce texte accompagne les dix planches du thème
+<code>Thematic_analysis/Industry/Decarbonisation_routes/</code> : cinq
+schémas d’usine dessinés (<code>*_layout</code>) et cinq comparaisons de
+routes (<code>*_routes</code>).</p>
+<p>Les planches ont été <strong>volontairement dépouillées de leur
+texte</strong> : en amphithéâtre, ce sont les chiffres et le dessin qui
+doivent porter, pas la prose. Tout ce qui a été retiré des figures se
+trouve ici, augmenté de ce qu’il faut pour comprendre les procédés.</p>
+<p>L’ordre suit celui des planches. Chaque chapitre dit : <strong>à quoi
+sert l’usine</strong>, <strong>comment elle marche</strong>,
+<strong>d’où vient son CO₂</strong>, et <strong>ce qui peut le
+supprimer</strong>.</p>
+<p>Les valeurs numériques viennent toutes de
+<code>data/emission_factors.md</code>, qui est la source unique du
+thème. Ce sont des <strong>ordres de grandeur d’ingénierie</strong>
+2025, en périmètre <em>cradle-to-gate</em>, amont du combustible
+compris.</p>
+<h2 id="la-convention-des-deux-électricités">La convention des deux
+électricités</h2>
+<p>Toutes les planches évaluent chaque route <strong>deux fois</strong>
+:</p>
+<ul>
+<li>avec une <strong>électricité sans émissions</strong> (0 gCO₂/kWh) —
+c’est l’<strong>irréductible</strong> de la route, ce qui ne dépend pas
+du réseau ;</li>
+<li>avec le <strong>réseau européen</strong> (240 gCO₂/kWh, moyenne
+UE-27 2023).</li>
+</ul>
+<p>L’écart entre les deux est le <strong>degré de dépendance au
+réseau</strong> de la route. C’est la grandeur la plus instructive du
+thème, et elle donne le classement suivant :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Filière</th>
+<th>0 g → 240 g</th>
+<th>Facteur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hydrogène électrolytique</td>
+<td>0,00 → 12,72 kg/kg</td>
+<td>∞</td>
+</tr>
+<tr class="even">
+<td>Ammoniac électrolytique</td>
+<td>0,00 → 2,64 t/t</td>
+<td>∞</td>
+</tr>
+<tr class="odd">
+<td>Acier DRI-H₂</td>
+<td>0,07 → 0,91 t/t</td>
+<td>× 13</td>
+</tr>
+<tr class="even">
+<td>Oléfines, craqueur électrique</td>
+<td>0,70 → 1,90 t/t</td>
+<td>× 2,7</td>
+</tr>
+<tr class="odd">
+<td>Ciment, four électrifié</td>
+<td>0,27 → 0,35 t/t</td>
+<td>× 1,3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Électrifier un procédé ne décarbone rien en soi : cela
+transfère la question au système électrique.</strong> Les filières qui
+électrifient le plus sont celles qui exigent le plus un réseau
+<em>déjà</em> décarboné.</p>
+<hr />
+<h1 id="lacier">1. L’acier</h1>
+<h2 id="ce-que-fait-une-aciérie-intégrée">1.1 Ce que fait une aciérie
+intégrée</h2>
+<p>Le minerai de fer est un <strong>oxyde</strong> : hématite Fe₂O₃ ou
+magnétite Fe₃O₄. Faire de l’acier, c’est d’abord <strong>arracher
+l’oxygène au fer</strong>. Toute la filière tourne autour de cette seule
+opération, appelée <em>réduction</em>.</p>
+<p>La filière intégrée enchaîne :</p>
+<ol type="1">
+<li><strong>La cokerie.</strong> Le charbon est cuit à ~1100 °C
+<strong>à l’abri de l’air</strong> pendant 16 à 20 heures. On en chasse
+les matières volatiles et il reste du <strong>coke</strong>, presque du
+carbone pur, poreux et surtout mécaniquement résistant — il doit
+supporter le poids de la charge dans le haut fourneau sans s’écraser.
+C’est pour cette résistance mécanique qu’on ne peut pas simplement
+remplacer le coke par du charbon en poudre.</li>
+<li><strong>L’agglomération.</strong> Les fines de minerai, trop petites
+pour laisser passer le gaz, sont fondues en surface sur une grille
+mobile pour former des morceaux perméables.</li>
+<li><strong>Le haut fourneau.</strong> Voir ci-dessous.</li>
+<li><strong>Le convertisseur à oxygène (BOF).</strong> La fonte sortant
+du haut fourneau contient <strong>4,5 % de carbone</strong> : elle est
+cassante, inutilisable. On souffle de l’oxygène pur à travers une lance
+sur le bain, ce qui brûle ce carbone excédentaire et le fait sortir en
+CO puis CO₂. On passe de 4,5 % à <strong>0,05 % de carbone en une
+vingtaine de minutes</strong>.</li>
+<li><strong>La coulée continue</strong> (l’acier liquide devient une
+brame solide) puis le <strong>laminage</strong> à chaud (la brame
+devient une bobine de tôle). Un train à bandes moderne produit 4 à 5 Mt
+d’acier par an.</li>
+</ol>
+<h2 id="le-haut-fourneau-et-pourquoi-son-co₂-est-irréductible">1.2 Le
+haut fourneau, et pourquoi son CO₂ est irréductible</h2>
+<p>Un haut fourneau est un <strong>réacteur à contre-courant</strong>.
+Par le gueulard, on charge des <strong>lits alternés</strong> de
+minerai, de coke et de fondants. Par le bas, aux
+<strong>tuyères</strong>, on souffle de l’air préchauffé à ~1200 °C — le
+<em>vent chaud</em>, réchauffé dans les <em>cowpers</em> par la
+combustion du gaz de gueulard récupéré. La charge descend, le gaz monte,
+et l’échange se fait sur toute la hauteur (~30 m). Au creuset, à ~1500
+°C, la fonte liquide et le laitier se séparent par densité. Une coulée
+donne environ <strong>500 tonnes</strong> de fonte.</p>
+<p>Le <strong>gaz de gueulard</strong> qui ressort en haut contient
+encore environ <strong>22 % de CO et 22 % de CO₂</strong> : il est
+combustible, et il est brûlé dans les cowpers pour préchauffer le vent.
+Cette composition est instructive en elle-même — un cinquième du carbone
+entré ressort sous forme réduite, ce qui dit à quel point la réaction
+est loin d’être complète en un passage.</p>
+<p>La filière intégrée consomme par ailleurs ≈ 0,6 MWh d’électricité par
+tonne d’acier, largement autoproduite à partir des gaz
+sidérurgiques.</p>
+<p>La réaction centrale est :</p>
+<p><strong>Fe₂O₃ + 3 CO → 2 Fe + 3 CO₂</strong></p>
+<p>Le carbone n’est pas là pour chauffer : il est là pour
+<strong>prendre l’oxygène</strong>. Il ressort donc en CO₂ <strong>quel
+que soit le rendement du four</strong>. Un haut fourneau consomme 300 à
+350 kg de coke et 150 à 180 kg de charbon injecté par tonne de fonte, et
+cette consommation est fixée par la stœchiométrie, pas par la qualité de
+l’isolation.</p>
+<p><strong>C’est la distinction que la planche cherche à faire
+passer</strong> : sur les 2,10 tCO₂ par tonne d’acier, <strong>1,30 est
+de la chimie de réduction</strong>. Aucune mesure d’efficacité
+énergétique ne la touche. Seul un <strong>changement de
+réducteur</strong> l’efface.</p>
+<h2 id="les-routes-de-sortie">1.3 Les routes de sortie</h2>
+<p><strong>La réduction directe (DRI).</strong> Au lieu de fondre le
+minerai, on le réduit <strong>à l’état solide</strong>, dans une cuve
+verticale où les boulettes descendent à contre-courant d’un gaz
+réducteur chaud (~900 °C). On obtient du <em>fer spongieux</em>, qui est
+ensuite fondu dans un <strong>four à arc électrique</strong>. Le gaz
+réducteur peut être :</p>
+<ul>
+<li>du <strong>gaz naturel</strong> reformé (CO + H₂) : 1,05 tCO₂/t. Le
+CO₂ vient du carbone du méthane ;</li>
+<li>de l’<strong>hydrogène</strong> pur : <strong>Fe₂O₃ + 3 H₂ → 2 Fe +
+3 H₂O</strong>. Le sous-produit est de l’<strong>eau</strong>. Le CO₂ de
+réduction disparaît entièrement.</li>
+</ul>
+<p>Il reste alors 0,03 tCO₂/t, qui est le <strong>carbone de
+carburation</strong> ajouté au four à arc : un acier contient du
+carbone, par définition — c’est ce qui le distingue du fer.</p>
+<p><strong>Mais la route hydrogène consomme ≈ 3,5 MWh par tonne
+d’acier</strong> : environ 2,9 pour électrolyser ≈ 55 kg d’H₂ par tonne
+de DRI (réduction seule ; ≈ 80 kg par tonne d’acier si le gaz est
+réchauffé à l’H₂, ≈ 55 kg + ≈ 0,7 MWh s’il l’est à l’électricité), et
+0,6 pour le four à arc. C’est la route la plus sensible au réseau de
+toute la série : <strong>0,07 tCO₂/t avec une électricité décarbonée,
+0,91 sur le réseau européen — un facteur 13</strong>. Sur le réseau UE
+d’aujourd’hui, elle passe tout juste sous le DRI au gaz naturel
+(1,12).</p>
+<p><strong>Le recyclage.</strong> Un four à arc sur ferraille n’a
+<strong>aucune étape de réduction</strong> : le fer est déjà réduit, on
+ne fait que le refondre. D’où 0,16 tCO₂/t seulement, pour ≈ 0,65
+MWh/t.</p>
+<p><strong>Mais la ferraille plafonne.</strong> Le gisement mondial ne
+couvre qu’environ <strong>30 % de la demande d’acier</strong>. On ne
+recycle pas un acier encore debout dans un pont ou un immeuble : le
+stock disponible est fixé par ce qui a été construit il y a trente à
+cinquante ans. Les 70 % restants devront être réduits à partir du
+minerai — au carbone aujourd’hui, à l’hydrogène ou aux électrons
+demain.</p>
+<h2 id="lélectrolyse-directe-du-minerai-supprimer-le-réducteur">1.4
+L’électrolyse directe du minerai : supprimer le réducteur</h2>
+<p>Le DRI-H₂ <strong>change</strong> de réducteur. Il existe une famille
+de procédés qui le <strong>supprime</strong> :</p>
+<p><strong>2 Fe₂O₃ → 4 Fe + 3 O₂</strong></p>
+<p>Pas de carbone dans l’équation. Le sous-produit est de
+l’<strong>oxygène</strong>. C’est exactement ce que fait Hall-Héroult
+pour l’aluminium depuis 1886 (chapitre 6), et c’est la seule autre place
+du thème où la chimie de réduction disparaît au lieu d’être
+remplacée.</p>
+<p>Deux familles, à deux températures très différentes :</p>
+<p><strong>L’électrolyse en oxyde fondu (MOE</strong>, Boston
+Metal<strong>)</strong> dissout l’oxyde de fer dans un électrolyte
+d’oxydes fondus à <strong>≈ 1600 °C</strong>, avec une anode inerte. Le
+fer se dépose liquide au fond et se soutire par coulée : le métal sort
+<strong>prêt à couler</strong>. ≈ 4,2 MWh/t.</p>
+<p><strong>L’électrogagnage alcalin</strong> (ULCOWIN / SIDERWIN,
+ArcelorMittal) met le minerai fin en suspension dans de la soude à
+<strong>≈ 110 °C</strong> et <strong>dépose le fer en plaques</strong>
+sur la cathode. ≈ 3,6 MWh/t — mais les plaques doivent ensuite être
+<strong>refondues</strong>, ce qui est l’étape supplémentaire de cette
+voie.</p>
+<p>Le CO₂ résiduel est de <strong>0,07 tCO₂/t</strong>, comme le DRI-H₂
+: c’est le carbone de carburation, incompressible.</p>
+<p><strong>Le vrai argument n’est donc pas le bilan carbone — il est
+identique — c’est le nombre de conversions.</strong> Le DRI-H₂ fait
+<em>électricité → électrolyseur (≈ 63 % PCI) → hydrogène → fer</em> :
+trois étapes, avec un intermédiaire gazeux à produire, comprimer,
+stocker et manipuler. L’électrolyse directe fait <em>électricité →
+fer</em>, en une seule.</p>
+<p>Cela se lit dans les consommations, rapportées au <strong>minimum
+thermodynamique de la réduction du fer, ≈ 2,6 MWh/t</strong> :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>MWh/t</th>
+<th>Rapport au minimum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Électrogagnage alcalin</td>
+<td>3,6</td>
+<td>× 1,4</td>
+</tr>
+<tr class="even">
+<td>DRI-H₂ (pertes d’électrolyseur incluses)</td>
+<td>3,5</td>
+<td>× 1,3</td>
+</tr>
+<tr class="odd">
+<td>MOE</td>
+<td>4,2</td>
+<td>× 1,6</td>
+</tr>
+</tbody>
+</table>
+<p>Le DRI-H₂ paraît le meilleur, mais son chiffre inclut déjà les pertes
+d’un électrolyseur mûr, tandis que les cellules directes sont au tout
+début de leur courbe d’apprentissage. <strong>La marge de progrès est du
+côté de l’électrolyse directe.</strong></p>
+<p><strong>Le point faible est la maturité, et il faut le dire.</strong>
+Le DRI-H₂ est au stade industriel (Hybrit, Stegra). MOE et
+électrogagnage sont au <strong>pilote</strong> — quelques tonnes par
+jour au mieux, contre 500 tonnes par coulée pour un haut fourneau. Ce
+sont des routes crédibles, pas des routes disponibles.</p>
+<p>Et comme toutes les routes électriques du thème, elles ne valent que
+leur électricité : sur le réseau UE à 240 g, elles remontent à
+<strong>0,93 (alcaline)</strong> ou <strong>1,08 (MOE)</strong>, soit à
+peine mieux que le DRI au gaz naturel (1,12).</p>
+<hr />
+<h1 id="le-ciment">2. Le ciment</h1>
+<h2 id="ce-que-fait-une-cimenterie">2.1 Ce que fait une cimenterie</h2>
+<p>Le ciment Portland est obtenu en cuisant un mélange de
+<strong>calcaire (~80 %)</strong>, d’argile, de sable et de fer. Il faut
+environ <strong>1,5 tonne de matière crue par tonne de clinker</strong>,
+la différence partant en CO₂ et en eau.</p>
+<p>La ligne de cuisson :</p>
+<ol type="1">
+<li><strong>La carrière</strong> puis le <strong>broyeur cru</strong>,
+qui moud et sèche la matière — le séchage se fait avec les gaz chauds
+sortant du four, pas avec un brûleur dédié.</li>
+<li><strong>La tour de préchauffage</strong> : une pile de
+<strong>cyclones</strong> dans laquelle la farine descend à
+contre-courant des gaz chauds qui montent. C’est l’organe qui a fait
+chuter la consommation des cimenteries au XXᵉ siècle.</li>
+<li><strong>Le précalcinateur</strong>, en bas de la tour, où se fait
+~90 % de la décarbonatation, <strong>avant même que le clinker
+existe</strong>. Il reçoit environ <strong>60 % du combustible</strong>
+de l’usine.</li>
+<li><strong>Le four rotatif</strong> : un tube incliné de 50 à 70 m de
+long, 4 à 5 m de diamètre, tournant à ~3 tours/minute sur des galets. La
+pente réelle est de 3 à 4 % — sur la planche elle est <strong>dessinée
+plus forte</strong>, sinon le tube paraît horizontal et on perd l’idée
+que la matière descend. Le brûleur principal, à l’aval, reçoit les 40 %
+restants du combustible (charbon, coke de pétrole, combustibles de
+récupération) et porte la matière à <strong>1450 °C</strong> — la
+température qui forme les silicates de calcium.</li>
+<li><strong>Le refroidisseur à grilles</strong>, qui trempe le clinker
+de 1450 à 100 °C et <strong>renvoie l’air chaud vers le
+précalcinateur</strong>. Sans cette récupération, la facture de
+combustible serait un tiers plus élevée.</li>
+<li><strong>Le broyeur à ciment</strong>, où le clinker est moulu avec
+du gypse et des <strong>additions</strong>.</li>
+<li>Les <strong>silos</strong> et l’expédition. Le filtre à manches en
+amont de la cheminée arrête les poussières — <strong>pas le
+CO₂</strong>.</li>
+</ol>
+<h2 id="doù-vient-le-co₂-la-pierre-avant-le-feu">2.2 D’où vient le CO₂ :
+la pierre avant le feu</h2>
+<p>Par tonne de clinker, <strong>0,83 tCO₂</strong>, en deux parts :</p>
+<p><strong>0,52 de décarbonatation.</strong> CaCO₃ → CaO + CO₂. Le
+carbone <strong>est déjà dans la roche</strong> ; le chauffer ne fait
+que le libérer. Cette part ne dépend d’aucun combustible.</p>
+<p><strong>0,31 de combustion</strong>, pour atteindre 1450 °C.</p>
+<p>Soit <strong>62 % du CO₂ direct qui ne vient d’aucun
+combustible</strong>. C’est le chiffre central de la planche, et il
+explique pourquoi le ciment résiste à tout ce qui marche ailleurs.</p>
+<p>Un point souvent mal compris : <strong>l’efficacité énergétique n’est
+pas le levier</strong>. Un four moderne consomme 3,2 à 3,7 GJ par tonne
+de clinker, soit à 15 % près son minimum thermodynamique. Il n’y a plus
+rien à gagner de ce côté.</p>
+<h2 id="les-leviers-dans-lordre-de-disponibilité">2.3 Les leviers, dans
+l’ordre de disponibilité</h2>
+<p><strong>Les combustibles alternatifs</strong> (biomasse, déchets,
+pneus) attaquent les 0,31 seulement. Effet : −0,07 tCO₂/t de ciment
+(0,64 → 0,57).</p>
+<p><strong>Le taux de clinker</strong> est le levier <strong>le moins
+cher et déjà disponible</strong> : il suffit de remplacer une partie du
+clinker par du calcaire, du laitier de haut fourneau ou de l’argile
+calcinée (ciments LC3). Passer de k = 0,75 (convention de cours) à k =
+0,50 fait tomber le CO₂ de 0,62 à 0,42 tCO₂/t de ciment — <strong>−0,21,
+sans aucune technologie nouvelle</strong>. Le plafond n’est pas
+technique mais <strong>normatif</strong> : la norme produit EN 197 fixe
+ce qu’on a le droit d’appeler ciment.</p>
+<p><em>(Attention à ne pas confondre deux calculs : 0,62 et 0,42 sont le
+seul effet du taux de clinker, 0,83 × k. Les 0,64 et 0,38 du tableau des
+routes cumulent en plus les combustibles alternatifs et l’amont. Les
+deux séries sont justes et ne mesurent pas la même chose.)</em></p>
+<p><strong>L’électrification du four</strong> ne supprime que les 0,31.
+<strong>Les 0,52 restent.</strong> Aucun système électrique, si propre
+soit-il, ne passe sous ce plancher — seule la capture le fait.</p>
+<p>Elle vaut néanmoins la peine, pour une autre raison : <strong>sans
+azote de l’air de combustion</strong>, le gaz de sortie est presque du
+CO₂ pur au lieu d’être dilué à ~20 %. La capture devient alors bien
+moins chère. <strong>L’électrification du ciment prépare la capture ;
+elle ne la remplace pas.</strong></p>
+<p><strong>L’oxycombustion et la capture</strong> sont donc le seul
+levier qui franchisse le plancher de calcination : 0,05 tCO₂/t, avec
+0,33 capté et stocké.</p>
+<hr />
+<h1 id="lammoniac">3. L’ammoniac</h1>
+<h2 id="pourquoi-ce-procédé-compte">3.1 Pourquoi ce procédé compte</h2>
+<p>L’ammoniac NH₃ est l’engrais azoté de la planète. Il représente
+environ <strong>2 % de l’énergie mondiale</strong> et <strong>1,3 % des
+émissions de CO₂</strong>, et <strong>un atome d’azote sur deux dans les
+protéines humaines</strong> est passé par un réacteur Haber-Bosch.
+Environ 70 % de la production part en engrais, le reste en explosifs,
+plastiques et fibres.</p>
+<p>Faire de l’ammoniac, c’est combiner l’azote de l’air avec de
+l’hydrogène. La difficulté n’est pas l’azote — il y en a 78 % dans
+l’air, et une simple unité de séparation d’air suffit. <strong>Toute la
+question est de fabriquer l’hydrogène</strong>, et c’est là que se joue
+l’intégralité du CO₂.</p>
+<h2 id="la-voie-vapoformage">3.2 La voie vapoformage</h2>
+<ol type="1">
+<li><strong>Désulfuration</strong> sur lit de ZnO : le soufre empoisonne
+les catalyseurs.</li>
+<li><strong>Reformeur primaire</strong> : une <strong>boîte à
+feu</strong> contenant plusieurs centaines de tubes verticaux remplis de
+catalyseur, chauffés par des brûleurs placés entre les rangées. À ~850
+°C : <strong>CH₄ + H₂O → CO + 3 H₂</strong>, réaction endothermique —
+d’où le four.</li>
+<li><strong>Reformeur secondaire</strong>, soufflé à l’air : c’est
+<strong>l’air qui apporte l’azote</strong> du futur NH₃.</li>
+<li><strong>Conversion du CO (shift)</strong>, en deux étages, sur
+catalyseurs Fe-Cr puis Cu-Zn : <strong>CO + H₂O → CO₂ +
+H₂</strong>.</li>
+<li><strong>Décarbonatation</strong> (lavage aux amines ou PSA), qui
+retire le CO₂.</li>
+<li><strong>Compression</strong> à ~200 bar et <strong>boucle de
+synthèse</strong>.</li>
+</ol>
+<p>Bilan : <strong>CH₄ + 2 H₂O → CO₂ + 4 H₂</strong>. Le CO₂ est
+<strong>stœchiométrique</strong> : faire de l’hydrogène à partir de
+méthane produit du CO₂ <strong>par construction</strong>, même avec un
+four parfait. Sur les 2,0 tCO₂ par tonne de NH₃, <strong>1,15 est cette
+ligne-là</strong>, 0,55 est la combustion du four, 0,25 l’amont du
+gaz.</p>
+<p>Ce poste amont de 0,25 suppose un <strong>taux de fuite de méthane de
+1,5 %</strong> entre le puits et l’usine ; c’est l’hypothèse la plus
+discutable de tout le thème, et celle qui déplace le plus les résultats
+si on la change. La compression du gaz de synthèse à 200 bar coûte quant
+à elle ≈ 0,25 MWh par tonne de NH₃.</p>
+<h2 id="la-boucle-haber-bosch">3.3 La boucle Haber-Bosch</h2>
+<p><strong>N₂ + 3 H₂ ⇌ 2 NH₃</strong>, à ~450 °C et ~200 bar sur
+catalyseur au fer.</p>
+<p>L’équilibre est défavorable : <strong>seuls ~15 % du gaz sont
+convertis à chaque passage</strong> dans le réacteur. On condense donc
+l’ammoniac formé (il liquéfie avant l’azote et l’hydrogène), on le
+soutire, et <strong>on renvoie le gaz non converti au
+compresseur</strong>. C’est pour cette raison qu’on parle d’une
+<em>boucle</em> et non d’une chaîne — et c’est ce que le schéma dessiné
+montre et qu’un diagramme en blocs ne peut pas montrer.</p>
+<p>L’ammoniac est stocké liquide à <strong>−33 °C</strong>, à pression
+quasi atmosphérique.</p>
+<h2 id="pourquoi-lindustrie-passe-du-smr-à-latr">3.4 Pourquoi
+l’industrie passe du SMR à l’ATR</h2>
+<p>C’est une question de <strong>géométrie des sorties de CO₂</strong>,
+et c’est le vrai contenu technique de la planche.</p>
+<p>Un vaporeformeur a <strong>deux sorties de CO₂</strong> :</p>
+<ul>
+<li>le <strong>flux procédé</strong>, en amont de la décarbonatation :
+concentré, sous pression, <strong>facile et bon marché à capter</strong>
+;</li>
+<li>les <strong>fumées du four</strong>, par la cheminée : le CO₂ y est
+<strong>dilué dans l’azote de l’air de combustion</strong>, à quelques
+pour cent en volume. Le capter coûte très cher.</li>
+</ul>
+<p>D’où le plafond : SMR + capture ne prend en pratique que le flux
+procédé, soit <strong>≈ 60 %</strong>. Il reste 0,92 tCO₂/t.</p>
+<p>Le <strong>reformage autotherme (ATR)</strong> supprime le four : on
+injecte de <strong>l’oxygène pur</strong> (d’où l’unité de séparation
+d’air) et la combustion se fait <strong>à l’intérieur</strong> du
+réacteur, dans le flux procédé lui-même. Il n’y a plus qu’<strong>une
+seule sortie de CO₂, concentrée</strong>, et la capture monte à
+<strong>≈ 93 %</strong> : 0,39 tCO₂/t.</p>
+<h2 id="la-voie-électrolytique">3.5 La voie électrolytique</h2>
+<p>De l’électricité, de l’eau, un électrolyseur pour l’H₂, une unité de
+séparation d’air pour l’N₂, et <strong>la même boucle
+Haber-Bosch</strong>. Aucun atome de carbone n’entre jamais dans l’usine
+: le CO₂ de procédé et de combustible est <strong>nul</strong>.</p>
+<p>Mais elle consomme <strong>≈ 11 MWh par tonne de NH₃</strong> (≈ 9,5
+pour l’hydrogène, ≈ 0,6 pour la séparation d’air et la synthèse).
+Résultat :</p>
+<ul>
+<li><strong>0,00 tCO₂/t</strong> avec une électricité sans émissions
+;</li>
+<li><strong>2,64 tCO₂/t</strong> sur le réseau européen 2023 —
+c’est-à-dire <strong>plus que le vaporeformage qu’elle remplace</strong>
+(2,01).</li>
+</ul>
+<p>Le meilleur et le pire procédé de la planche sont <strong>le même
+procédé</strong>. Seul le contenu carbone du réseau les sépare.</p>
+<hr />
+<h1 id="lhydrogène">4. L’hydrogène</h1>
+<h2 id="à-quoi-sert-lhydrogène-aujourdhui">4.1 À quoi sert l’hydrogène
+aujourd’hui</h2>
+<p>Environ <strong>97 Mt/an</strong> (2023). La répartition surprend
+souvent :</p>
+<ul>
+<li><strong>raffinage ≈ 44 %</strong> (43 Mt : désulfuration des
+carburants, hydrocraquage) ;</li>
+<li><strong>ammoniac ≈ 33 %</strong> ;</li>
+<li>méthanol ≈ 17 % ; acier (réduction directe) ≈ 6 % ;</li>
+<li><strong>mobilité : moins de 0,1 %</strong> (60 kt en transport
+routier) — l’usage dont on parle le plus.</li>
+</ul>
+<p>Il est produit aux ~deux tiers à partir du gaz naturel (vaporeformage
+surtout), ~20 % par gazéification du charbon, plus de 15 % en
+sous-produit du raffinage et de la pétrochimie. <strong>Moins de 1 %
+bas-carbone</strong>, et l’électrolyse sous 100 kt. Plus de 35 % de
+l’hydrogène des raffineries est un sous-produit de leur propre reformage
+catalytique.</p>
+<p><em>Source et base de comptage</em> : IEA, <em>Global Hydrogen Review
+2024</em> (encadré 2.1, p. 22 ; p. 28-32 ; p. 60-61) — l’hydrogène
+produit exprès pour un usage, hors ≈ 30 Mt de gaz résiduels brûlés pour
+la chaleur. <em>Corrigé le 22/09/2026</em> : la version précédente
+disait 55 / 35 / 10 ; 55 % est la part du raffinage dans l’hydrogène
+<strong>pur</strong> seul (38 / 73 Mt, IEA 2019), pas dans le total qui
+inclut méthanol et acier. Sur la base IEA 2019 qui compte aussi les gaz
+résiduels (115 Mt), le raffinage tombe à 33 %.</p>
+<p>Conséquence à garder en tête : <strong>décarboner l’hydrogène est un
+problème industriel — 95 Mt de matière première — bien avant d’être un
+problème de transport.</strong></p>
+<h2 id="le-vaporeformeur">4.2 Le vaporeformeur</h2>
+<p>Le procédé est décrit au chapitre 3. Vu depuis l’hydrogène :</p>
+<ul>
+<li><strong>CH₄ + H₂O → CO + 3 H₂</strong> à ~900 °C dans les tubes
+catalytiques, réaction endothermique, d’où la boîte à feu et ses
+brûleurs ;</li>
+<li>la <strong>section de convection</strong> en aval récupère la
+chaleur des fumées pour produire la vapeur du procédé ;</li>
+<li><strong>CO + H₂O → CO₂ + H₂</strong> dans le réacteur de shift, à
+200–400 °C ;</li>
+<li><strong>le PSA</strong> (<em>pressure swing adsorption</em>) purifie
+à 99,9 % : plusieurs bouteilles d’adsorbant en parallèle, l’une purifie
+pendant que les autres se régénèrent en abaissant la pression.</li>
+</ul>
+<p>Émissions : <strong>11,0 kgCO₂ par kg d’H₂</strong> avec une
+électricité propre (5,7 de flux procédé, 3,3 de combustible du four, 2,0
+d’amont méthane), 11,19 sur le réseau UE.</p>
+<h2 id="le-seuil-des-210-gco₂kwh">4.3 Le seuil des 210 gCO₂/kWh</h2>
+<p>C’est <strong>le nombre du thème</strong>, et il mérite d’être retenu
+comme tel.</p>
+<p>Un électrolyseur industriel consomme <strong>53 kWh par kg
+d’hydrogène</strong> livré (PEM ou alcalin), quand ce kilo en rend 33,3
+(PCI) : un rendement de <strong>63 %</strong> (74 % sur le PCS de 39,4
+kWh/kg). 39,4 kWh/kg est l’énergie de la réaction, pas le minimum
+d’électricité (≈ 33 kWh/kg à 25 °C) : une partie peut venir de chaleur.
+Dans un électrolyseur alcalin ou PEM, tout passe pourtant par
+l’électricité ; l’électrolyse à haute température (oxyde solide,
+maturité 8) remplace une part du courant par de la chaleur : ≈ 38 kWh
+d’électricité + 9 kWh de chaleur par kg (DOE 2024). <em>Corrigé le
+30/09/2026 (disait « minimum thermodynamique 39,4 », « 62 % », et « elle
+n’est pas substituable par un combustible »).</em></p>
+<p>Un électrolyseur n’émet donc <strong>rien d’autre que ce qu’émet son
+électricité</strong>. Le seuil auquel il fait jeu égal avec le
+vaporeformage est :</p>
+<p><strong>11,19 ÷ 53 ≈ 210 gCO₂/kWh</strong></p>
+<p>En dessous, l’électrolyse gagne. <strong>Au-dessus, la même machine
+émet plus que le reformeur qu’elle remplace.</strong> Le réseau européen
+moyen est à 240 g : il est <strong>au-dessus de la ligne</strong>.</p>
+<p>Le même électrolyseur donne :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Réseau</th>
+<th>gCO₂/kWh</th>
+<th>kgCO₂/kg H₂</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Électricité dédiée bas carbone</td>
+<td>~0–25</td>
+<td>0,0–1,3</td>
+</tr>
+<tr class="even">
+<td>France 2023</td>
+<td>56</td>
+<td>2,97</td>
+</tr>
+<tr class="odd">
+<td><strong>UE-27 2023</strong></td>
+<td><strong>240</strong></td>
+<td><strong>12,72</strong></td>
+</tr>
+<tr class="even">
+<td>Monde 2023</td>
+<td>480</td>
+<td>25,44</td>
+</tr>
+</tbody>
+</table>
+<p>Le dernier cas est <strong>pire que la gazéification du
+charbon</strong> (19,5), la route la plus sale en service.</p>
+<p><strong>« Vert » n’est donc pas une propriété de l’électrolyseur mais
+de son électricité.</strong> Le vocabulaire « hydrogène gris / bleu /
+vert » masque exactement cela : il attribue à la machine une propriété
+qui appartient à son alimentation. C’est pourquoi les planches nomment
+les <strong>procédés</strong> (SMR, ATR + CCS, électrolyse) et non les
+couleurs.</p>
+<h2 id="lhydrogène-bleu-se-décide-au-champ-gazier">4.4 L’hydrogène «
+bleu » se décide au champ gazier</h2>
+<p>Avec l’ATR + capture à 94 %, il reste 2,65 kgCO₂/kg H₂ — dont
+<strong>2,0 d’amont méthane, soit 75 % du total restant</strong>.</p>
+<p>Autrement dit, une fois la capture installée, la performance
+climatique d’un hydrogène bas carbone fossile ne dépend presque plus de
+l’usine : elle dépend du <strong>taux de fuite de méthane</strong> chez
+le producteur de gaz, de la distance de transport, et de l’énergie
+dépensée à l’extraction. Un même procédé, alimenté par deux gaz
+différents, donne deux résultats très différents.</p>
+<hr />
+<h1 id="les-oléfines">5. Les oléfines</h1>
+<h2 id="ce-que-fait-un-vapocraqueur">5.1 Ce que fait un
+vapocraqueur</h2>
+<p>C’est la porte d’entrée de toute la chimie organique. On y casse des
+hydrocarbures longs (naphta, éthane) en molécules courtes et réactives :
+<strong>éthylène, propylène, butadiène, aromatiques</strong> — ce que
+l’industrie appelle les <em>HVC</em>, high-value chemicals. Ils
+deviennent ensuite polyéthylène, polypropylène, PVC, solvants,
+textiles.</p>
+<ol type="1">
+<li><strong>Les fours de craquage.</strong> Le naphta, dilué à la
+vapeur, traverse des <strong>serpentins</strong> dans une boîte à feu
+portée à <strong>~850 °C</strong>. Le point remarquable est le
+<strong>temps de séjour inférieur à la seconde</strong> : au-delà, les
+molécules formées se recraqueraient en coke.</li>
+<li><strong>La trempe.</strong> Il faut <strong>figer la réaction
+immédiatement</strong> — échangeur de trempe puis colonne — sinon le
+produit se dégrade.</li>
+<li><strong>La compression</strong>, en quatre à cinq étages avec
+réfrigération intermédiaire, puis lavage des gaz acides et séchage.</li>
+<li><strong>Le train de séparation cryogénique</strong>, à <strong>−100
+°C</strong> et ~30 bar : une série de colonnes à plateaux —
+déméthaniseur, dééthaniseur, splitter éthylène, dépropaniseur — qui
+séparent les produits par point d’ébullition. C’est le poste le plus
+consommateur d’énergie de l’usine après les fours.</li>
+<li><strong>La polymérisation</strong> : <em>n</em> C₂H₄ →
+−(CH₂−CH₂)<sub>n</sub>−, puis granulés et objets.</li>
+</ol>
+<h2 id="la-singularité-le-carbone-part-dans-le-produit">5.2 La
+singularité : le carbone part dans le produit</h2>
+<p><strong>C’est le point qui distingue cette filière de toutes les
+autres du thème.</strong></p>
+<p>Dans le ciment, le carbone de la roche devient du CO₂ à l’usine. Dans
+l’acier, le carbone réducteur devient du CO₂ à l’usine. <strong>Dans un
+vapocraqueur, le carbone du naphta ne devient pas du CO₂ : il part dans
+le produit.</strong> Le polyéthylène est ≈ 86 % de carbone en masse.</p>
+<p>La colonne « chimie du procédé » du bilan est donc
+<strong>vide</strong> : 0,00.</p>
+<p>D’où vient alors le 1,95 tCO₂ par tonne d’HVC ?</p>
+<ul>
+<li><strong>1,30 des brûleurs des fours.</strong> Et l’essentiel de ce
+combustible est le <strong>gaz de queue</strong> de l’usine elle-même —
+l’hydrogène et le méthane produits par le craquage, séparés au
+déméthaniseur et <strong>renvoyés aux brûleurs</strong>. L’usine brûle
+son propre sous-produit.</li>
+<li><strong>0,55 d’amont</strong> : extraction du brut et raffinage
+jusqu’au naphta.</li>
+<li><strong>0,10 de compression</strong> sur le réseau UE (≈ 0,4
+MWh/t).</li>
+</ul>
+<p>Le bilan carbone matière, par tonne d’HVC : environ <strong>1,21
+tonne de carbone manipulée</strong>, dont <strong>0,86 (71 %) part dans
+la molécule</strong> et <strong>0,35 (29 %) est brûlée en gaz de
+queue</strong> — ces 0,35 × 44/12 donnant précisément les 1,30 tCO₂ des
+cheminées.</p>
+<h2 id="la-fin-de-vie-qui-est-le-vrai-bilan">5.3 La fin de vie, qui est
+le vrai bilan</h2>
+<p>Le carbone parti dans le produit <strong>revient</strong>. Incinérer
+une tonne de polyoléfine libère :</p>
+<p><strong>0,86 × 44/12 ≈ 3,1 tCO₂</strong></p>
+<p>soit <strong>1,6 fois ce qu’a coûté sa fabrication</strong> (1,95).
+L’usine n’avait fait que le <strong>stocker</strong> temporairement.</p>
+<p><strong>Conséquence directe : décarboner le craqueur ne traite
+qu’environ un tiers du problème.</strong> Un craqueur parfaitement
+décarboné qui alimente une filière d’incinération reste un émetteur net
+de 3,1 t par tonne.</p>
+<h2 id="les-leviers">5.4 Les leviers</h2>
+<p><strong>Le craqueur électrique</strong> remplace les brûleurs par des
+résistances. Il supprime l’essentiel des 1,30 — mais consomme <strong>≈
+5 MWh par tonne d’HVC</strong>. D’où : <strong>0,70 tCO₂/t avec une
+électricité propre, 1,90 sur le réseau européen</strong>, contre 1,95
+pour le vapocraqueur classique. <strong>Sur le réseau d’aujourd’hui, il
+n’apporte rien.</strong> C’est la deuxième route la plus sensible au
+réseau de la série, après l’électrolyse.</p>
+<p><strong>La capture sur les fumées</strong> est difficile : le CO₂ est
+dilué et réparti sur de nombreuses cheminées. 70 % de capture donne 1,15
+tCO₂/t.</p>
+<p><strong>Le naphta biosourcé</strong> et le <strong>recyclage</strong>
+sont les seules routes qui touchent au carbone lui-même plutôt qu’à la
+chaleur. Le recyclage mécanique descend à 0,25 (électricité propre) ou
+0,50 (réseau UE) tCO₂/t, et surtout il <strong>renvoie le carbone dans
+le cycle</strong> au lieu de le libérer.</p>
+<p><strong>Seule une route où le carbone circule — recyclage, biomasse,
+CO₂ capté utilisé comme matière première — ferme réellement le
+bilan.</strong> Remplacer la chaleur n’y suffit pas.</p>
+<hr />
+<h1 id="laluminium">6. L’aluminium</h1>
+<h2 id="de-lélectricité-solidifiée">6.1 De l’électricité solidifiée</h2>
+<p>L’aluminium est le cas extrême du thème. Sa production consomme
+<strong>≈ 15 MWh d’électricité par tonne</strong> — un <strong>ordre de
+grandeur</strong> au-dessus de tout le reste :</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>MWh par tonne de produit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Aluminium primaire</strong></td>
+<td><strong>15,0</strong></td>
+</tr>
+<tr class="even">
+<td>Acier DRI-H₂</td>
+<td>3,5</td>
+</tr>
+<tr class="odd">
+<td>Acier intégré (BF-BOF)</td>
+<td>0,6</td>
+</tr>
+<tr class="even">
+<td>Ciment</td>
+<td>0,11</td>
+</tr>
+</tbody>
+</table>
+<p>C’est le seul matériau dont on peut dire sans exagérer que
+<strong>son empreinte <em>est</em> celle de son réseau
+électrique</strong>. Un même procédé, une même usine, donne 3,35 tCO₂/t
+avec une électricité décarbonée et 6,95 sur le réseau européen ; il
+donnerait plus de 10 sur un réseau au charbon. C’est pourquoi les
+alumineries se sont historiquement installées là où il y avait de
+l’hydroélectricité — Norvège, Québec, Islande, vallées alpines — bien
+avant qu’on parle de climat.</p>
+<h2 id="comment-on-fait-de-laluminium">6.2 Comment on fait de
+l’aluminium</h2>
+<p>L’aluminium n’existe pas à l’état métallique dans la nature : c’est
+le troisième élément le plus abondant de la croûte terrestre, mais
+toujours combiné à l’oxygène. Comme pour le fer, tout le procédé
+consiste à <strong>arracher cet oxygène</strong> — mais l’alumine est
+bien plus stable que l’oxyde de fer, et aucun réducteur chimique
+ordinaire n’en vient à bout à température raisonnable. D’où le recours à
+l’électricité.</p>
+<p><strong>1. Le raffinage Bayer.</strong> La bauxite est attaquée par
+de la soude à ~250 °C sous pression (digestion), ce qui dissout
+l’alumine et laisse un résidu — les <strong>boues rouges</strong>, 1 à
+1,5 tonne par tonne d’alumine, un passif considérable qui n’est pas du
+carbone mais qui compte. La liqueur est décantée, filtrée, puis on
+précipite l’hydroxyde d’aluminium, calciné à ~1000 °C pour donner
+l’alumine Al₂O₃. Il faut <strong>≈ 2 tonnes d’alumine par tonne
+d’aluminium</strong>.</p>
+<p>Cette étape est <strong>thermique</strong> : c’est elle qui porte
+l’essentiel des 1,35 tCO₂ de combustible (≈ 1,20, le reste allant à la
+cuisson des anodes). Ce sont les chiffres d’une <strong>raffinerie au
+gaz</strong> ; au charbon, c’est bien plus, et la moyenne mondiale du
+seul thermique du raffinage est 1,5 tCO₂e par tonne d’aluminium (IAI
+2023) — [[CTR-aluminium-raffinage-bayer-par-tonne]].</p>
+<p><strong>2. La fabrication des anodes.</strong> Coke de pétrole et
+brai de houille sont malaxés et cuits à ~1100 °C pour donner des blocs
+de carbone.</p>
+<p><strong>3. L’électrolyse Hall-Héroult.</strong> C’est le cœur. Une
+<strong>cuve</strong> est un caisson d’acier garni de carbone qui sert
+de <strong>cathode</strong>. Elle contient un bain de <strong>cryolithe
+Na₃AlF₆ fondue à ≈ 960 °C</strong>, dans lequel on dissout 2 à 4 %
+d’alumine — la cryolithe sert de solvant, c’est la découverte de 1886
+qui a rendu l’aluminium bon marché. Des <strong>anodes de
+carbone</strong> plongent dans le bain depuis un cadre mobile.
+L’aluminium liquide, plus dense que le bain, s’accumule au fond en une
+nappe.</p>
+<p>Une cuve travaille à <strong>300 à 600 kA sous seulement ≈ 4,2
+V</strong>. On en aligne <strong>200 à 400 en série</strong> dans une
+halle — la <em>potline</em> — soit plus de 1000 V aux bornes de la
+série, alimentés par un redresseur qui transforme l’alternatif du réseau
+en continu.</p>
+<p><strong>4. La coulée.</strong> L’aluminium liquide est soutiré par
+siphon, maintenu en température, allié, puis coulé en lingots ou
+billettes.</p>
+<h2 id="doù-vient-le-co₂-une-électrode-qui-se-consomme">6.3 D’où vient
+le CO₂ : une électrode qui se consomme</h2>
+<p>La réaction est :</p>
+<p><strong>2 Al₂O₃ + 3 C → 4 Al + 3 CO₂</strong></p>
+<p>Le carbone de l’anode <strong>est un réactif</strong>, pas un
+combustible. L’anode s’use et doit être remplacée régulièrement. C’est
+une situation voisine de celle du haut fourneau, avec une différence
+notable : ici le réducteur est <strong>l’électrode elle-même</strong>,
+et ce sont les électrons qui font l’essentiel du travail.</p>
+<p>La stœchiométrie donne 1,22 tCO₂ par tonne d’aluminium. La
+consommation réelle d’anode est plus élevée — 0,40 à 0,45 kg de carbone
+par kg d’aluminium, parce qu’une partie de l’anode brûle simplement à
+l’air — d’où <strong>≈ 1,50 tCO₂/t</strong>.</p>
+<p><strong>Les PFC, un poste propre à l’aluminium.</strong> Quand
+l’alumine dissoute dans le bain s’épuise, la cuve part en <strong>effet
+d’anode</strong> : la tension s’envole et le fluor de la cryolithe
+réagit avec le carbone de l’anode pour produire des
+<strong>perfluorocarbures</strong>, <strong>CF₄ (PRG ≈ 7380)</strong> et
+<strong>C₂F₆ (PRG ≈ 12 400)</strong>. Ce sont des gaz extraordinairement
+puissants et très persistants — le CF₄ a une durée de vie atmosphérique
+de 50 000 ans.</p>
+<p>Dans une usine récente hors Chine, cela ajoute <strong>≈ 0,25 tCO₂e
+par tonne</strong> (0,27 pour les usines déclarantes à l’IAI en 2019) ;
+la <strong>moyenne mondiale est 0,8</strong> (IAI 2023), tirée par la
+Chine et par les effets d’anode à basse tension —
+[[CTR-aluminium-effets-d-anode-par-tonne]]. C’est presque rien sur une
+cuve à alimentation ponctuelle qui détecte et corrige l’effet d’anode
+avant qu’il se déclenche. C’est <strong>le seul poste non-CO₂ de tout le
+thème</strong> : la bande rouge de la planche aluminium n’est pas que du
+CO₂.</p>
+<h2 id="lanode-inerte-la-seule-vraie-sortie-chimique-du-thème">6.4
+L’anode inerte : la seule vraie sortie chimique du thème</h2>
+<p>Si l’anode ne se consommait pas, la réaction deviendrait :</p>
+<p><strong>2 Al₂O₃ → 4 Al + 3 O₂</strong></p>
+<p>Plus de carbone dans l’équation, donc <strong>plus de CO₂ de procédé
+du tout</strong>, et plus de PFC. Le sous-produit est de
+l’<strong>oxygène</strong>. Des anodes en alliages métalliques ou en
+cermets sont en développement industriel (Elysis, Rusal).</p>
+<p><strong>C’est remarquable, et il faut le comparer aux autres
+filières.</strong> Dans le ciment, aucune chimie de substitution
+n’existe : le CaCO₃ se décompose, point. Dans l’acier, on peut changer
+de réducteur (H₂ au lieu de C) mais il faut un réducteur. Dans
+l’aluminium, on peut <strong>supprimer le réactif chimique
+entièrement</strong> et ne garder que les électrons. C’est la seule
+filière du thème dans ce cas.</p>
+<p>Le prix à payer : une tension de cuve plus élevée, donc <strong>+10 à
+15 % d’électricité</strong> — de 15 à ~16,5 MWh/t. Ce qui, sur un réseau
+non décarboné, annule une partie du gain.</p>
+<h2 id="les-routes-et-pourquoi-elles-restent-dominées-par-le-réseau">6.5
+Les routes, et pourquoi elles restent dominées par le réseau</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>Élec. 0 g</th>
+<th>Réseau UE</th>
+<th>MWh/t</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hall-Héroult, anode carbone</td>
+<td>3,35</td>
+<td>6,95</td>
+<td>15,0</td>
+</tr>
+<tr class="even">
+<td>+ suppression des effets d’anode</td>
+<td>3,10</td>
+<td>6,70</td>
+<td>15,0</td>
+</tr>
+<tr class="odd">
+<td>+ anode inerte</td>
+<td>1,60</td>
+<td>5,56</td>
+<td>16,5</td>
+</tr>
+<tr class="even">
+<td>+ raffinage d’alumine décarboné</td>
+<td><strong>0,35</strong></td>
+<td><strong>4,79</strong></td>
+<td>18,5</td>
+</tr>
+<tr class="odd">
+<td>Recyclage</td>
+<td>0,30</td>
+<td>0,47</td>
+<td>0,7</td>
+</tr>
+</tbody>
+</table>
+<p>Le point à ne pas manquer : même en supprimant <strong>tout</strong>
+le CO₂ chimique et <strong>tout</strong> le combustible, la route
+primaire la plus propre reste à <strong>4,79 sur le réseau
+européen</strong>, dont 4,44 de seule électricité. Sa partie
+irréductible est de 0,35 — mais elle est <strong>écrasée par son
+alimentation</strong>.</p>
+<p>C’est le seul cas de la série où la meilleure route disponible reste
+dominée par le réseau. Décarboner l’aluminium primaire n’est donc pas
+d’abord un problème de procédé : <strong>c’est un problème de système
+électrique</strong>, et l’ordre de déploiement compte plus
+qu’ailleurs.</p>
+<h2 id="le-recyclage-meilleur-rapport-de-toute-lindustrie">6.6 Le
+recyclage, meilleur rapport de toute l’industrie</h2>
+<p>Refondre de l’aluminium ne coûte que <strong>≈ 0,7 MWh/t, soit 5 % de
+l’énergie de la production primaire</strong>. Aucune autre filière
+n’affiche un rapport pareil. C’est pour cette raison que la ferraille
+d’aluminium a une <strong>valeur marchande réelle</strong>, là où le
+verre ou le plastique doivent souvent être subventionnés pour être
+collectés : le recyclage de l’aluminium est rentable sans aucune
+politique publique.</p>
+<p><strong>Sa limite n’est pas le gisement, c’est l’alliage.</strong>
+L’aluminium n’est presque jamais pur : les séries 1000 à 7000
+contiennent du cuivre, du magnésium, du silicium, du zinc en proportions
+variées. Mélanger des ferrailles de séries différentes donne un métal
+dont on ne peut plus retirer les éléments d’addition — bon pour de la
+pièce moulée, impropre à la tôle de carrosserie.</p>
+<p>On parle de <strong>downcycling</strong> : le métal reste de
+l’aluminium, mais il descend d’un cran en qualité à chaque boucle. La
+parade est le <strong>tri par alliage</strong> à la source, pas une
+meilleure fonderie.</p>
+<hr />
+<h1 id="ce-qui-nest-pas-sourcé">7. Ce qui n’est pas sourcé</h1>
+<p>Les valeurs de ce document et des planches sont des <strong>ordres de
+grandeur d’ingénierie</strong>, cohérents entre eux et avec la
+littérature, mais <strong>non sourcés ligne à ligne</strong>. Le
+répertoire <code>bibliographie/</code> du thème est vide à ce jour.</p>
+<p>À récupérer pour y remédier : IEA <em>Iron and Steel Technology
+Roadmap</em> (2020), worldsteel <em>Sustainability Indicators</em>, IEA
+<em>Technology Roadmap: Low-Carbon Transition in the Cement
+Industry</em> (2018), GCCA <em>Concrete Future</em> (2021) et la base
+GNR, IEA <em>Ammonia Technology Roadmap</em> (2021), IEA <em>Global
+Hydrogen Review</em>, IEA <em>The Future of Petrochemicals</em> (2018),
+JRC BREF <em>Large Volume Organic Chemicals</em>, et l’EEA pour
+l’intensité carbone de l’électricité européenne.</p>
+<p>Deux mises en garde de méthode, valables au-delà de ce thème :</p>
+<ul>
+<li><strong>Le facteur électrique de 240 gCO₂/kWh est daté 2023 et
+baisse vite.</strong> Toutes les valeurs « réseau UE » de ce document
+sont donc périssables et doivent être redatées chaque année.</li>
+<li><strong>Ne jamais diviser les GJ/t de worldsteel par 3,6</strong> :
+leur guide de collecte convertit l’électricité à 9,8 GJ/MWh. L’effet est
+faible sur le haut fourneau mais change du simple au double les chiffres
+du four à arc.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Procedes_industriels.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-decarbonisation-routes.html">Décarboner l'industrie lourde : cinq filières, et ce que l'électrification déplace</a></li><li><a href="note-economie-routes.html">Ce que coûte chaque route de décarbonation de l'industrie</a></li><li><a href="note-co2-capture.html">Capter le CO₂ : d'où il vient, comment on l'attrape, ce qu'on en fait, ce que ça coûte</a></li><li><a href="note-hydrogene-industrie.html">L'hydrogène dans l'industrie : usages, technologies, coûts, projets</a></li><li><a href="note-chaleur-industrielle.html">La chaleur industrielle : combien, à quelle température, et ce que l'électricité peut en faire</a></li></ul></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>
