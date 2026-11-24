@@ -81,6 +81,8 @@ th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: l
 th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
 img { max-width: 100%; height: auto; border-radius: 8px; }
 hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.telecharger-nb { margin: 0 0 24px; padding: 10px 14px; border: 1px solid var(--trait); border-radius: 8px; font-size: .92rem; color: var(--encre-2); }
+.telecharger-nb a { font-weight: 600; }
 .sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
 .sources h2 { font-size: 1rem; margin: 0 0 8px; }
 .sources ol { padding-left: 1.2em; }
@@ -98,7 +100,8 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Le prix est une duale</h1>
     <p class="resume">Sur un ordre de mérite à trois centrales, résolu à la main puis en programme linéaire puis dans pommes_craft, on voit pourquoi le multiplicateur de la contrainte d'équilibre est le prix de l'électricité, comment le lire dans pommes 0.11.0 et ce qu'il ne dit pas.</p>
   </header>
-  <h2>1. Trois centrales, trois heures, à la main</h2>
+  <p class="telecharger-nb"><a href="../notebooks/prix-dual.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
+<h2>1. Trois centrales, trois heures, à la main</h2>
 <p>Trois centrales alimentent une zone. Base : 10 GW à 15 €/MWh. Semi-base : 5 GW à 60 €/MWh. Pointe : 5 GW à 120 €/MWh. La demande vaut 8 GW à la première heure, 13 GW à la deuxième, 18 GW à la troisième.</p>
 <p>On appelle les centrales par coût croissant. C'est l'ordre de mérite.</p>
 <pre><code class="language-text">heure  demande  base   semi-base  pointe  unité marginale  prix

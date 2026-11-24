@@ -81,6 +81,8 @@ th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: l
 th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
 img { max-width: 100%; height: auto; border-radius: 8px; }
 hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.telecharger-nb { margin: 0 0 24px; padding: 10px 14px; border: 1px solid var(--trait); border-radius: 8px; font-size: .92rem; color: var(--encre-2); }
+.telecharger-nb a { font-weight: 600; }
 .sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
 .sources h2 { font-size: 1rem; margin: 0 0 8px; }
 .sources ol { padding-left: 1.2em; }
@@ -98,7 +100,8 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Une installation face au prix : un électrolyseur, deux chaudières</h1>
     <p class="resume">Le squelette du premier modèle appliqué à deux installations qui achètent l'électricité au prix horaire français de 2030 : un électrolyseur avec une cavité saline, qui tourne 63 % du temps et paie son électricité 36,18 €/MWh au lieu de 57,50, puis une chaudière électrique à côté d'une chaudière à gaz, qui tourne exactement les 3 680 heures sous le prix de bascule de 44,54 €/MWh.</p>
   </header>
-  <p>Deux installations achètent l'électricité au prix horaire, pour fabriquer de l'hydrogène puis de la vapeur. Pommes choisit leur taille et leurs heures de marche ; vous retrouvez à la main ce qu'il décide. Première marche des cas D et E : un cas d'école, pas une prévision. Valeurs du 23/11/2026 (pommes 0.11.0, pommes_craft 0.6.0, HiGHS) ; blocs à exécuter à la suite, en ≈ 20 s puis ≈ 2 s.</p>
+  <p class="telecharger-nb"><a href="../notebooks/installation-face-au-prix.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
+<p>Deux installations achètent l'électricité au prix horaire, pour fabriquer de l'hydrogène puis de la vapeur. Pommes choisit leur taille et leurs heures de marche ; vous retrouvez à la main ce qu'il décide. Première marche des cas D et E : un cas d'école, pas une prévision. Valeurs du 23/11/2026 (pommes 0.11.0, pommes_craft 0.6.0, HiGHS) ; blocs à exécuter à la suite, en ≈ 20 s puis ≈ 2 s.</p>
 <h2>1. Le squelette du premier modèle</h2>
 <p>On garde le squelette du premier modèle (<code>modele_de_base</code>) : série TYNDP 2026 NT+, France, 2030 (57,50 €/MWh en moyenne), une zone, une demande plate, un réseau qui vend à l'heure sans racheter, ni délestage ni écrêtement. Deux changements : la demande porte sur le produit, et chaque autre ressource reçoit son import, fermé (bornes à zéro) ou à prix fixe, sans quoi pommes l'ouvrirait gratuitement ; les années de sortie suivent les durées de vie (pièges 2 et 3 de <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>).</p>
 <pre><code class="language-python">import sys, logging

@@ -81,6 +81,8 @@ th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: l
 th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
 img { max-width: 100%; height: auto; border-radius: 8px; }
 hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.telecharger-nb { margin: 0 0 24px; padding: 10px 14px; border: 1px solid var(--trait); border-radius: 8px; font-size: .92rem; color: var(--encre-2); }
+.telecharger-nb a { font-weight: 600; }
 .sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
 .sources h2 { font-size: 1rem; margin: 0 0 8px; }
 .sources ol { padding-left: 1.2em; }
@@ -98,7 +100,8 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Deux zones et un lien : flux, duale de la capacité d'échange et rente de congestion</h1>
     <p class="resume">Deux zones reliées par une ligne de 1 600 MW, du PV abondant au sud et une turbine à gaz chère au nord. Lire les flux, le prix de chaque zone et la duale de la capacité du lien, puis vérifier qu'elle vaut l'écart de prix moins le hurdle cost aux heures saturées et l'économie d'un MW de plus. Élargir ensuite la ligne et voir l'écart de prix fondre.</p>
   </header>
-  <h2>Objectif</h2>
+  <p class="telecharger-nb"><a href="../notebooks/act-transport-deux-zones.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
+<h2>Objectif</h2>
 <p>Relier deux zones par une ligne bornée, lire leurs prix et la duale de la capacité du lien, puis vérifier par deux résolutions qu'elle vaut un MW de plus.</p>
 <p>Prérequis : le dépôt des cas installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a> ; le tutoriel d'une zone <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a> ; les duales de l'équilibre offre-demande et d'une capacité (interconnexion saturée), § 5 de <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. Neuf résolutions de deux à trois secondes, construction comprise. Valeurs du 16/11/2026, revérifiées le 17/11/2026 avec pommes 0.11.0, pommes_craft 0.6.0 et linopy 0.10.1.</p>
 <h2>1. Le modèle</h2>

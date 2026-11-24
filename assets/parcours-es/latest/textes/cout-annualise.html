@@ -81,6 +81,8 @@ th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: l
 th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
 img { max-width: 100%; height: auto; border-radius: 8px; }
 hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.telecharger-nb { margin: 0 0 24px; padding: 10px 14px; border: 1px solid var(--trait); border-radius: 8px; font-size: .92rem; color: var(--encre-2); }
+.telecharger-nb a { font-weight: 600; }
 .sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
 .sources h2 { font-size: 1rem; margin: 0 0 8px; }
 .sources ol { padding-left: 1.2em; }
@@ -98,7 +100,8 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Du coût d'investissement à l'annuité</h1>
     <p class="resume">Comment un investissement en €/kW devient un coût annuel en €/kW/an, puis un coût par MWh, et pourquoi ce dernier ne suffit pas à juger un actif.</p>
   </header>
-  <h2>Pourquoi annualiser</h2>
+  <p class="telecharger-nb"><a href="../notebooks/cout-annualise.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
+<h2>Pourquoi annualiser</h2>
 <p>Une batterie coûte des euros par kW le jour où on l'achète. Elle gagne des euros par kW et par an pendant vingt-cinq ans. Pour comparer les deux, on ramène l'investissement à un coût annuel : l'annuité. C'est ce que fait pommes dans son objectif, et c'est ce que vous lisez dans chaque verdict des cas.</p>
 <p>Deux paramètres suffisent : la durée de vie n, en années, et le taux d'actualisation r. Le taux dit ce que vaut un euro de l'an prochain par rapport à un euro d'aujourd'hui. Le cas A emprunte 4 % au TYNDP ; le cas E prend 8 %, « typique d'un projet industriel ». Le même actif n'a donc pas le même coût annuel selon qui le finance.</p>
 <h2>Le facteur de recouvrement du capital</h2>

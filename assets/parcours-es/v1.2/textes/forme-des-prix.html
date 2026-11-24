@@ -81,6 +81,8 @@ th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: l
 th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
 img { max-width: 100%; height: auto; border-radius: 8px; }
 hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.telecharger-nb { margin: 0 0 24px; padding: 10px 14px; border: 1px solid var(--trait); border-radius: 8px; font-size: .92rem; color: var(--encre-2); }
+.telecharger-nb a { font-weight: 600; }
 .sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
 .sources h2 { font-size: 1rem; margin: 0 0 8px; }
 .sources ol { padding-left: 1.2em; }
@@ -98,7 +100,8 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Une contrainte d'énergie n'est pas une rigidité</h1>
     <p class="resume">Pourquoi un modèle linéaire en prévision parfaite retrouve le niveau moyen des prix mais pas leur forme, et quels prix de modèle servent à quelle question.</p>
   </header>
-  <h2>Le niveau est bon, la forme a disparu</h2>
+  <p class="telecharger-nb"><a href="../notebooks/forme-des-prix.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
+<h2>Le niveau est bon, la forme a disparu</h2>
 <p>Un modèle fondamental rejoue 2024 : parc, météo, demande, gaz à 38 €/MWh PCI et CO2 à 65 €/t observés, 16 zones, 8 760 heures, programmation linéaire en prévision parfaite. En Allemagne, le prix moyen sort à 83 €/MWh contre 79 sur le marché.</p>
 <p>Sur le marché, le profil journalier des prix, rapporté à la moyenne annuelle, dessine deux creux (la nuit, et midi avec le solaire) et deux pointes, le matin et le soir, jusqu'à 1,55 fois la moyenne. Le modèle donne une droite entre 0,95 et 1,05. Marché contre modèle : écart-type des prix horaires 53 €/MWh contre 6 ; heures sous 20 €/MWh, 12 % contre 0 % ; France et Allemagne au même prix, 22 % des heures contre 80 %. Chiffres des planches du cours et d'une étude en cours au centre PERSEE (prix day-ahead EPEX via Energy-Charts, productions ENTSO-E).</p>
 <p>Évalués sur ces prix, une batterie ou un électrolyseur ne gagnent presque rien à choisir leurs heures : le facteur de profil d'un électrolyseur qui tourne la nuit et à midi vaut 0,83 sur le marché, 0,98 dans le modèle.</p>

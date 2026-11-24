@@ -81,6 +81,8 @@ th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: l
 th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
 img { max-width: 100%; height: auto; border-radius: 8px; }
 hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.telecharger-nb { margin: 0 0 24px; padding: 10px 14px; border: 1px solid var(--trait); border-radius: 8px; font-size: .92rem; color: var(--encre-2); }
+.telecharger-nb a { font-weight: 600; }
 .sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
 .sources h2 { font-size: 1rem; margin: 0 0 8px; }
 .sources ol { padding-left: 1.2em; }
@@ -98,7 +100,8 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>L'ordre de mérite sur une année : d'où vient la série de prix</h1>
     <p class="resume">Fabriquer soi-même, en cinq blocs de code exécutés, les 8 760 prix horaires de la France de 2030 : parc du TYNDP 2026 fixé, demande et météo d'une année, coût variable du gaz calculé à la main ; compter les heures où chaque filière fixe le prix, bouger le gaz et le CO₂ pour voir ce qui change et ce qui ne change pas, puis comparer à la série publiée du TYNDP.</p>
   </header>
-  <p>Le premier modèle achetait au prix horaire de la France en 2030 publié par le TYNDP 2026, le plan décennal des réseaux européens, dans son scénario National Trends+ (NT+), qui suit les plans nationaux. Le texte sur la duale montrait que ce prix est la valeur d'un MWh de demande en plus. Ici, vous fabriquez la série vous-même : le parc de 2030 est fixé, le modèle choisit seulement quelle centrale tourne à chaque heure. C'est un cas d'école, pas une prévision.</p>
+  <p class="telecharger-nb"><a href="../notebooks/ordre-merite-annee.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
+<p>Le premier modèle achetait au prix horaire de la France en 2030 publié par le TYNDP 2026, le plan décennal des réseaux européens, dans son scénario National Trends+ (NT+), qui suit les plans nationaux. Le texte sur la duale montrait que ce prix est la valeur d'un MWh de demande en plus. Ici, vous fabriquez la série vous-même : le parc de 2030 est fixé, le modèle choisit seulement quelle centrale tourne à chaque heure. C'est un cas d'école, pas une prévision.</p>
 <p>Les valeurs datent du 23/11/2026, avec l'environnement du dépôt des cas : pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS 1.15.1. Les blocs s'enchaînent dans une session : cinq résolutions de 1 à 2 s, 2 Go de mémoire.</p>
 <h2>1. Le parc et le coût variable de chaque centrale</h2>
 <p>Le coût variable d'une centrale est ce que coûte un MWh de plus : le combustible et le CO₂, divisés par le rendement (MWh d'électricité par MWh de combustible, au pouvoir calorifique inférieur, PCI), plus l'entretien proportionnel à la production. Pour le cycle combiné au gaz (CCGT), le gaz du TYNDP pour 2030 vaut 33,242 €/MWh PCI, le CO₂ 97,47 €/t, un MWh de gaz émet 0,2052 t de CO₂, et le rendement vaut 0,58 (cycles combinés français : 0,56 à 0,60) :</p>
