@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Une contrainte d'énergie n'est pas une rigidité · Parcours ES 2026</title>
+<meta name="description" content="Pourquoi un modèle linéaire en prévision parfaite retrouve le niveau moyen des prix mais pas leur forme, et quels prix de modèle servent à quelle question.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 60 min</span> · <span>Modélisation, Prix et marchés, Optimisation, Flexibilité, Hydrogène</span></div>
+    <h1>Une contrainte d'énergie n'est pas une rigidité</h1>
+    <p class="resume">Pourquoi un modèle linéaire en prévision parfaite retrouve le niveau moyen des prix mais pas leur forme, et quels prix de modèle servent à quelle question.</p>
+  </header>
+  <h2>Le niveau est bon, la forme a disparu</h2>
+<p>Un modèle fondamental rejoue 2024 : parc, météo, demande, gaz à 38 €/MWh PCI et CO2 à 65 €/t observés, 16 zones, 8 760 heures, programmation linéaire en prévision parfaite. En Allemagne, le prix moyen sort à 83 €/MWh contre 79 sur le marché.</p>
+<p>Sur le marché, le profil journalier des prix, rapporté à la moyenne annuelle, dessine deux creux (la nuit, et midi avec le solaire) et deux pointes, le matin et le soir, jusqu'à 1,55 fois la moyenne. Le modèle donne une droite entre 0,95 et 1,05. Marché contre modèle : écart-type des prix horaires 53 €/MWh contre 6 ; heures sous 20 €/MWh, 12 % contre 0 % ; France et Allemagne au même prix, 22 % des heures contre 80 %. Chiffres des planches du cours et d'une étude en cours au centre PERSEE (prix day-ahead EPEX via Energy-Charts, productions ENTSO-E).</p>
+<p>Évalués sur ces prix, une batterie ou un électrolyseur ne gagnent presque rien à choisir leurs heures : le facteur de profil d'un électrolyseur qui tourne la nuit et à midi vaut 0,83 sur le marché, 0,98 dans le modèle.</p>
+<h2>Le prix est le coût de l'unité qui baisse</h2>
+<p>Prenez les 1 055 heures de 2024 où le prix allemand passe sous 20 €/MWh. Nucléaire, fossile et lacs totalisent presque autant en réalité que dans le modèle : 112 GW contre 110. Mais la réalité garde 38 GW de fossile et 16 GW de lacs en marche et module le nucléaire de 14 GW. Le modèle fait l'inverse : ordre de mérite pur, le nucléaire à 15,6 €/MWh module en dernier.</p>
+<p>Or le prix d'une heure est le coût de l'unité qui baisserait si la demande baissait d'un MW. Sur le marché, à ces heures, c'est le nucléaire qui module ou l'éolien qui s'écrête : près de zéro. Dans le modèle, c'est toujours une centrale au charbon ou au gaz, de 78 à 90 €/MWh, ou un lac dont la valeur de l'eau s'est alignée sur elle. Le fossile flexible des 16 zones ne descend jamais sous 0,8 GW.</p>
+<h2>Ce que le programme linéaire ne représente pas</h2>
+<table>
+<thead>
+<tr>
+<th>Ce qui manque</th>
+<th>Dans le modèle</th>
+<th>Effet sur les prix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimum technique, coût de démarrage</td>
+<td>Une centrale passe de 100 % à 0 sans coût</td>
+<td>Cause principale : pas d'heures bon marché, pas de prime du soir</td>
+</tr>
+<tr>
+<td>Débit minimal des lacs</td>
+<td>L'eau vaut le cycle combiné au gaz, 88 à 90 €/MWh</td>
+<td>Les lacs plafonnent la distribution des deux côtés</td>
+</tr>
+<tr>
+<td>Modulation réelle du nucléaire</td>
+<td>Jamais marginal : 0,3 % des heures en France</td>
+<td>La CRE lui attribue le prix 31 % des heures en 2025</td>
+</tr>
+<tr>
+<td>Échanges</td>
+<td>Capacités fixes, sans flow-based</td>
+<td>Couplage trop fréquent, forme inchangée</td>
+</tr>
+</tbody>
+</table>
+<p>Ce sont des contraintes en nombres entiers (marche ou arrêt), que les modèles continentaux omettent pour rester résolubles. Une rampe n'y change presque rien : elle limite une vitesse, la rigidité qui manque est un niveau.</p>
+<h2>Le budget nucléaire : 15,6 + 74 = 90</h2>
+<p>Pour le faire moduler comme en réalité, on impose au nucléaire sa production réelle, mois par mois. Il module bien ses 44 TWh, mais le combustible devient un stock. Le dual du budget, valeur d'un MWh gardé pour plus tard, vaut 74 €/MWh ; ajouté au coût variable de 15,6, il redonne 90 €/MWh, le coût du cycle combiné au gaz. Le nucléaire devient un lac de plus ; l'écart-type des prix tombe à 1,4 €/MWh.</p>
+<p>C'est la logique de la valeur de l'eau : en prévision parfaite, avec un fossile toujours disponible, chaque stock vaut le fossile qu'il remplace. Une contrainte d'énergie déplace la production ; les heures bon marché viennent d'unités qui doivent produire quel que soit le prix.</p>
+<h2>Exercice : lire le dual d'un budget dans pommes_craft</h2>
+<p><code>ConversionTechnology</code> de pommes_craft 0.6.0 porte un paramètre <code>max_yearly_production</code>, plafond d'énergie annuel qui devient la contrainte <code>operation_conversion_yearly_production_max_constraint</code> de pommes 0.11.0. Le « lac » : technologie sans coût variable, capacité fixée, budget. Face à lui, un cycle combiné au gaz à 90 €/MWh et une demande sinusoïdale de 26 à 54 GW. Environnement épinglé du dépôt des cas ; environ une seconde en tout.</p>
+<pre><code class="language-python">import sys, numpy as np, polars as pl
+sys.path.insert(0, &quot;chemin/vers/pommes-case-studies&quot;)
+from pathlib import Path
+from pommes_craft import Area, ConversionTechnology, Demand, EconomicHypothesis, LoadShedding, Spillage, TimeStepManager
+from pommes_craft.core.model import EnergyModel
+from pommes_cases.solve import solve_with_extra_constraints
+from pommes.utils import dual_scale
+
+H, Y = 8760, 2024
+h = np.arange(H)
+demande = 40_000 + 8_000 * np.sin(2 * np.pi * (h % 24 - 9) / 24) + 6_000 * np.cos(2 * np.pi * h / H)  # MW
+COUT_LAC, MUST_RUN, BUDGET_TWH = 0.0, np.nan, 120.0        # variante b : 15.6, nan, 120 ; variante c : 15.6, 0.9, 250
+frame = lambda v, col: pl.DataFrame({&quot;hour&quot;: h, &quot;year_op&quot;: np.full(H, Y), col: v}).with_columns(pl.col(&quot;hour&quot;, &quot;year_op&quot;).cast(pl.Int64))
+
+model = EnergyModel(name=&quot;lac_budget&quot;, folder=Path(&quot;sortie&quot;), hours=list(h), year_ops=[Y], year_invs=[Y],
+                    year_decs=[Y + 1000], modes=[], resources=[&quot;elec&quot;])
+with model.context():
+    EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=Y, planning_step=1)
+    TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=float(H))
+    zone = Area(&quot;zone&quot;)
+    zone.add_component(Demand(&quot;demande&quot;, resource=&quot;elec&quot;, demand=frame(demande, &quot;demand&quot;)))
+    zone.add_component(LoadShedding(&quot;delestage&quot;, resource=&quot;elec&quot;, cost=3000.0))
+    zone.add_component(Spillage(&quot;ecretement&quot;, resource=&quot;elec&quot;, cost=0.0, max_capacity=1e6))   # nan serait lu 0 par craft 0.6.0
+    zone.add_component(ConversionTechnology(&quot;gaz&quot;, factor={&quot;elec&quot;: 1.0}, variable_cost=90.0, life_span=1000,
+                                            power_capacity_investment_min=60_000, power_capacity_investment_max=60_000))
+    zone.add_component(ConversionTechnology(&quot;lac&quot;, factor={&quot;elec&quot;: 1.0}, variable_cost=COUT_LAC, life_span=1000,
+                                            power_capacity_investment_min=30_000, power_capacity_investment_max=30_000,
+                                            max_yearly_production=BUDGET_TWH * 1e6, must_run=MUST_RUN))
+
+params = {}
+lp = solve_with_extra_constraints(model, lambda lp, p: params.setdefault(&quot;p&quot;, p))   # le crochet garde les paramètres
+scale = float(dual_scale(params[&quot;p&quot;]).sel(year_op=Y))                              # 1.0 ici : taux nul, 8 760 h
+prix = np.round(lp.dual[&quot;operation_adequacy_constraint&quot;].sel(area=&quot;zone&quot;, resource=&quot;elec&quot;).values.ravel() / scale, 6) + 0.0   # + 0.0 efface le zéro négatif
+valeur = -lp.dual[&quot;operation_conversion_yearly_production_max_constraint&quot;].sel(area=&quot;zone&quot;, conversion_tech=&quot;lac&quot;).squeeze().item() / scale
+print(f&quot;valeur du budget : {valeur:.1f} €/MWh ; coût variable + valeur = {COUT_LAC + valeur:.1f} (gaz : 90)&quot;)
+print(f&quot;prix : moyen {prix.mean():.1f}, min {prix.min():.1f}, max {prix.max():.1f}, écart-type {prix.std():.1f} ; heures sous 20 : {(prix &lt; 20).sum()}&quot;)
+</code></pre>
+<p>Résultats avec pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1 et HiGHS :</p>
+<pre><code class="language-text">a) lac à 0 €/MWh, budget 120 TWh      valeur du budget : 90.0 ; prix : moyen 90.0, min 90.0, max 90.0, écart-type 0.0 ; heures sous 20 : 0
+b) coût 15,6 €/MWh, budget 120 TWh    valeur du budget : 74.4 ; coût variable + valeur = 90.0 ; prix : écart-type 0.0 ; heures sous 20 : 0
+c) idem + must_run 0,9, budget 250 TWh valeur du budget : 74.4 ; prix : moyen 88.1, min 0.0, max 90.0, écart-type 12.9 ; heures sous 20 : 184
+</code></pre>
+<p>En a, la valeur de l'eau s'aligne sur le gaz : prix plat à 90 €/MWh toutes les heures, alors que la demande varie du simple au double. En b, 15,6 + 74,4 = 90 : le budget nucléaire en petit. En c, le lac doit tourner à 27 GW au moins : les 184 heures où la demande est plus basse passent à zéro. La rigidité crée les heures bon marché ; le budget ne les a jamais créées.</p>
+<p>Trois détails. Le dual d'une contrainte « inférieur ou égal » sort négatif : on prend l'opposé. Un prix se lit divisé par <code>pommes.utils.dual_scale</code>, qui vaut 1 ici mais pas sur plusieurs années météo. Le crochet de <code>solve_with_extra_constraints</code> récupère ici les paramètres ; dans les cas A et D, il ajoute des contraintes avant la résolution.</p>
+<h2>2030 : le creux de midi arrive, la soirée s'efface</h2>
+<p>Avec le parc National Trends+ du TYNDP 2026, le modèle produit un vrai excédent solaire : 144 à 161 TWh écrêtés sur 16 zones, 14 à 24 % des heures allemandes sous 20 €/MWh. Le creux de midi apparaît, aussi profond qu'aujourd'hui sur le marché. Mais la nuit coûte autant que le soir : rapport nuit/soir de 0,95 dans le modèle, 0,65 sur le marché. Au-dessus du surplus, l'offre n'a qu'une marche : le gaz et les stocks alignés sur lui. Le modèle de l'ENTSO-E a le même profil ; deux modèles d'accord entre eux ne prouvent rien sur la forme.</p>
+<h2>Quels prix pour quelle question</h2>
+<table>
+<thead>
+<tr>
+<th>Ce qu'on évalue</th>
+<th>Ce qui compte</th>
+<th>Prix de modèle 2030</th>
+<th>Ce qu'il faut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Batterie, effacement, stockage journalier</td>
+<td>L'écart dans la journée</td>
+<td>Sous-estimé d'environ moitié</td>
+<td>Des prix à la forme du marché ; prévoir 24 h suffit</td>
+</tr>
+<tr>
+<td>Électrolyseur qui choisit ses heures</td>
+<td>Le prix des heures les moins chères</td>
+<td>Du même ordre que le marché en DE et NL</td>
+<td>Les prix de modèle conviennent, plutôt prudents</td>
+</tr>
+<tr>
+<td>Stockage de plusieurs jours, cavité d'hydrogène</td>
+<td>Les écarts entre jours et semaines</td>
+<td>Du même ordre que le marché</td>
+<td>Exploitant myope et valeurs d'usage</td>
+</tr>
+<tr>
+<td>Réseau, adéquation</td>
+<td>Les pointes, les écarts entre zones</td>
+<td>Haut de la distribution absent</td>
+<td>Beaucoup d'années météo, plusieurs conduites</td>
+</tr>
+</tbody>
+</table>
+<p>Plus la valeur cherchée tient à la journée, plus il faut corriger la forme des prix ; plus elle tient au temps long, plus il faut corriger la prévision. Sur un cas TYNDP 2050, une étude en cours au centre PERSEE mesure qu'un exploitant myope coûte environ 3 % de plus que la prévision parfaite en médiane (chiffre provisoire).</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous retrouvez 74,4 €/MWh en variante b et dites en une phrase pourquoi 15,6 + 74,4 vaut le coût du gaz.</li>
+<li>Avant de lancer la variante c, vous prédisez le nombre d'heures à zéro : demande sous 0,9 fois 30 GW.</li>
+<li>Pour une batterie et une cavité d'hydrogène, vous dites quoi corriger : la forme des prix ou la prévision.</li>
+<li>Vous expliquez pourquoi des prix « plus variables » ne suffisent pas à mieux évaluer un stockage saisonnier.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Fenêtre d'exploitation et valeurs d'usage, doc POMMES <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html" target="_blank" rel="noopener">Fenêtre d'exploitation : capacités fixées, stocks aux bornes, valeurs d'usage</a> : https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html</li>
+<li>Planches remises en séance : KKT et dualité, du multiplicateur de l'équilibre au prix <span title="planches-kkt-dualite-prix">KKT, dualité de Lagrange et prix de marché : exploitation, planification, prix locaux, nodal vs zonal (remis en cours)</span> ; contraintes techniques des centrales, démarrage, minimum technique, modulation du nucléaire <span title="planches-contraintes-techniques-centrales">Contraintes techniques des centrales : démarrage, durée minimale, minimum technique, rendement à charge partielle, flexibilité du nucléaire (remis en cours)</span>.</li>
+<li>Cas A : revenu d'arbitrage d'une batterie sous plusieurs jeux de prix <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a> : https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li>Planches du cours « Forme des prix et modélisation » (six planches et notes d'orateur, remises en séance)</li><li><a href="https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/2026/Rapport_de_surveillance_2025.pdf" target="_blank" rel="noopener">CRE, La surveillance et le fonctionnement des marchés de gros de l'électricité et du gaz naturel en 2025</a></li><li><a href="https://transparency.entsoe.eu/" target="_blank" rel="noopener">ENTSO-E Transparency Platform (production réalisée par filière, prix day-ahead)</a></li><li><a href="https://www.energy-charts.info/charts/price_spot_market/chart.htm" target="_blank" rel="noopener">Energy-Charts (Fraunhofer ISE), prix day-ahead EPEX SPOT par zone</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/" target="_blank" rel="noopener">ENTSO-E et ENTSOG, scénarios du TYNDP 2026 (National Trends+)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Documentation POMMES, description du modèle (contrainte d'adéquation, plafond annuel de production)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html" target="_blank" rel="noopener">Documentation POMMES, fenêtre d'exploitation et valeurs d'usage</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases.solve.solve_with_extra_constraints, environnement épinglé)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

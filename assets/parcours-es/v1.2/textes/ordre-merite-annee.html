@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L'ordre de mérite sur une année : d'où vient la série de prix · Parcours ES 2026</title>
+<meta name="description" content="Fabriquer soi-même, en cinq blocs de code exécutés, les 8 760 prix horaires de la France de 2030 : parc du TYNDP 2026 fixé, demande et météo d'une année, coût variable du gaz calculé à la main ; compter les heures où chaque filière fixe le prix, bouger le gaz et le CO₂ pour voir ce qui change et ce qui ne change pas, puis comparer à la série publiée du TYNDP.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 60 min</span> · <span>Prix et marchés, Optimisation</span></div>
+    <h1>L'ordre de mérite sur une année : d'où vient la série de prix</h1>
+    <p class="resume">Fabriquer soi-même, en cinq blocs de code exécutés, les 8 760 prix horaires de la France de 2030 : parc du TYNDP 2026 fixé, demande et météo d'une année, coût variable du gaz calculé à la main ; compter les heures où chaque filière fixe le prix, bouger le gaz et le CO₂ pour voir ce qui change et ce qui ne change pas, puis comparer à la série publiée du TYNDP.</p>
+  </header>
+  <p>Le premier modèle achetait au prix horaire de la France en 2030 publié par le TYNDP 2026, le plan décennal des réseaux européens, dans son scénario National Trends+ (NT+), qui suit les plans nationaux. Le texte sur la duale montrait que ce prix est la valeur d'un MWh de demande en plus. Ici, vous fabriquez la série vous-même : le parc de 2030 est fixé, le modèle choisit seulement quelle centrale tourne à chaque heure. C'est un cas d'école, pas une prévision.</p>
+<p>Les valeurs datent du 23/11/2026, avec l'environnement du dépôt des cas : pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS 1.15.1. Les blocs s'enchaînent dans une session : cinq résolutions de 1 à 2 s, 2 Go de mémoire.</p>
+<h2>1. Le parc et le coût variable de chaque centrale</h2>
+<p>Le coût variable d'une centrale est ce que coûte un MWh de plus : le combustible et le CO₂, divisés par le rendement (MWh d'électricité par MWh de combustible, au pouvoir calorifique inférieur, PCI), plus l'entretien proportionnel à la production. Pour le cycle combiné au gaz (CCGT), le gaz du TYNDP pour 2030 vaut 33,242 €/MWh PCI, le CO₂ 97,47 €/t, un MWh de gaz émet 0,2052 t de CO₂, et le rendement vaut 0,58 (cycles combinés français : 0,56 à 0,60) :</p>
+<p>(33,242 + 0,2052 × 97,47) / 0,58 + 1,6 = 53,243 / 0,58 + 1,6 = 91,80 + 1,6 = <strong>93,40 €/MWh</strong>.</p>
+<p>La turbine à combustion (TAC), moins efficace, coûte 53,243 / 0,42 + 1,6 = 128,37 €/MWh. Classées par coût variable croissant, les centrales forment l'ordre de mérite : chaque heure, on appelle les moins chères jusqu'à couvrir la demande, et le prix vaut le coût variable de la dernière appelée, le coût marginal du système. Un effacement est un consommateur payé pour réduire sa consommation ; le délestage coupe sans accord.</p>
+<table>
+<thead>
+<tr>
+<th>Filière</th>
+<th>Capacité (MW)</th>
+<th>Coût variable (€/MWh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nucléaire</td>
+<td>63 020</td>
+<td>15,63</td>
+</tr>
+<tr>
+<td>Éolien terrestre ; en mer</td>
+<td>30 500 ; 3 015</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Photovoltaïque (PV) au sol ; en toiture</td>
+<td>24 720 ; 22 269</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Hydraulique et autres</td>
+<td>28 102</td>
+<td>0</td>
+</tr>
+<tr>
+<td>CCGT ; TAC</td>
+<td>6 553 ; 636</td>
+<td>93,40 ; 128,37</td>
+</tr>
+<tr>
+<td>Fioul</td>
+<td>1 331</td>
+<td>267,06</td>
+</tr>
+<tr>
+<td>Effacements</td>
+<td>5 675</td>
+<td>350</td>
+</tr>
+<tr>
+<td>Délestage</td>
+<td>sans limite</td>
+<td>3 000</td>
+</tr>
+</tbody>
+</table>
+<p>Capacités, rendements, émissions et prix sont lus dans le TYNDP 2026 NT+ (version provisoire du 10/06/2026) ; les coûts variables en sont calculés ; le coût du délestage est une hypothèse des cas du dépôt. L'hydraulique (fil de l'eau, lacs) et les autres productions (biomasse, cogénération) reprennent la production horaire calculée par le TYNDP : le petit modèle ne pilote pas les lacs. Les stations de pompage et les électrolyseurs sont écartés.</p>
+<pre><code class="language-python">import sys
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
+from pommes_cases.systeme_fr import parc
+
+P = parc(2030)   # TYNDP 2026 NT+, France 2030 : capacités (MW), prix, rendements
+
+def cout_variable(t, gaz=P[&quot;prix_gaz&quot;], co2=P[&quot;prix_co2&quot;]):
+    combustible = {&quot;ccgt&quot;: gaz, &quot;ocgt&quot;: gaz, &quot;fioul&quot;: P[&quot;prix_fioul&quot;], &quot;nucleaire&quot;: P[&quot;prix_nucleaire&quot;]}[t]
+    return (combustible + P[f&quot;co2_{t}&quot;] * co2) / P[f&quot;rendement_{t}&quot;] + P[f&quot;variable_{t}&quot;]
+
+print({t: round(cout_variable(t), 2) for t in (&quot;nucleaire&quot;, &quot;ccgt&quot;, &quot;ocgt&quot;, &quot;fioul&quot;)})
+# {'nucleaire': 15.63, 'ccgt': 93.4, 'ocgt': 128.37, 'fioul': 267.06}
+</code></pre>
+<h2>2. Une année de demande et de météo</h2>
+<p>L'année météo WS003 est une année simulée par un modèle climatique ; le TYNDP lui donne le plus grand poids pour 2030 (0,63), et la série du premier modèle en vient. La demande est sa demande « native », sans voitures électriques, électrolyseurs ni pompes à chaleur hybrides (environ 39 TWh). Le vent et le soleil de la même année (base météo PECD 2026) plafonnent la production de chaque heure : c'est la disponibilité. Celle du nucléaire suit les arrêts pour maintenance : le dépôt l'estime d'après la production nucléaire du TYNDP, semaine par semaine.</p>
+<pre><code class="language-python">import logging
+import numpy as np
+import polars as pl
+from pommes_cases.meteo import load_meteo, availability
+from pommes_cases.systeme_fr import horaire, communs
+logging.getLogger().setLevel(logging.ERROR)   # moins de messages
+
+h = horaire(2030, &quot;WS003&quot;)       # sorties horaires du TYNDP 2026 NT+
+meteo = load_meteo(&quot;FR&quot;, 2030)   # facteurs de charge du PECD 2026, même année
+def serie(valeurs, colonne):
+    return pl.DataFrame({&quot;hour&quot;: range(8760), &quot;year_op&quot;: 2030, colonne: np.asarray(valeurs, float)})
+
+demande = serie(h[&quot;demande_native&quot;], &quot;demand&quot;)
+hydro = [&quot;fil_eau&quot;, &quot;lac&quot;, &quot;autres_enr&quot;, &quot;autres_non_enr&quot;]
+capacites = {t: P[f&quot;capacite_{t}&quot;] for t in (&quot;nucleaire&quot;, &quot;eolien_terrestre&quot;, &quot;eolien_mer&quot;, &quot;pv&quot;, &quot;pv_toiture&quot;,
+                                               &quot;ccgt&quot;, &quot;ocgt&quot;, &quot;fioul&quot;, &quot;effacement&quot;)}
+capacites[&quot;hydro_autres&quot;] = sum(P[f&quot;capacite_{c}&quot;] for c in hydro)
+dispo = {t: availability(meteo, t) for t in (&quot;eolien_terrestre&quot;, &quot;eolien_mer&quot;, &quot;pv&quot;, &quot;pv_toiture&quot;)}
+dispo[&quot;nucleaire&quot;] = serie(communs(2030)[&quot;nucleaire_dispo&quot;], &quot;availability&quot;)
+dispo[&quot;hydro_autres&quot;] = serie(sum(h[c].to_numpy() for c in hydro) / capacites[&quot;hydro_autres&quot;], &quot;availability&quot;)
+print(f&quot;{h['demande_native'].sum() / 1e6:.1f} TWh, pointe {h['demande_native'].max() / 1e3:.1f} GW&quot;)
+# 487.5 TWh, pointe 101.9 GW
+</code></pre>
+<h2>3. Résoudre et lire 8 760 prix</h2>
+<p>Sans délestage explicite, pommes en ajouterait un gratuit et tous les prix tomberaient à zéro (premier modèle, bloc 5). Aucune énergie n'est jetée (écrêtement à capacité nulle) : une centrale en surplus produit sous sa disponibilité. Le prix d'une heure est la duale de son équilibre offre-demande (<code>operation_adequacy_constraint</code>), divisée par le facteur d'échelle de pommes (<code>dual_scale</code>), qui vaut 1 ici.</p>
+<pre><code class="language-python">from pommes_craft import (EnergyModel, Area, Demand, EconomicHypothesis, TimeStepManager,
+                          LoadShedding, Spillage, ConversionTechnology)
+from pommes.utils import dual_scale
+
+def resoudre(gaz=P[&quot;prix_gaz&quot;], co2=P[&quot;prix_co2&quot;], defaillance=3000.0):
+    couts = {t: cout_variable(t, gaz, co2) for t in (&quot;nucleaire&quot;, &quot;ccgt&quot;, &quot;ocgt&quot;, &quot;fioul&quot;)}
+    couts[&quot;effacement&quot;] = P[&quot;prix_effacement&quot;]
+    m = EnergyModel(name=&quot;ordre_merite&quot;, hours=list(range(8760)), year_ops=[2030], year_invs=[2030],
+                    year_decs=[2055], modes=[], resources=[&quot;electricity&quot;])
+    with m.context():
+        EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=2030, planning_step=1)
+        TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=8760.0)
+        zone = Area(&quot;FR&quot;)
+        zone.add_component(Demand(name=&quot;demande&quot;, resource=&quot;electricity&quot;, demand=demande))
+        zone.add_component(LoadShedding(name=&quot;delestage&quot;, resource=&quot;electricity&quot;, cost=defaillance))
+        zone.add_component(Spillage(name=&quot;ecretement&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
+        for nom, mw in capacites.items():
+            zone.add_component(ConversionTechnology(
+                name=nom, factor={&quot;electricity&quot;: 1.0}, variable_cost=couts.get(nom, 0.0),
+                availability=dispo.get(nom, 1.0), life_span=25,
+                power_capacity_investment_min=mw, power_capacity_investment_max=mw))
+    m.run(store_linopy_model=True, store_pommes_parameters=True)
+    lp = m.linopy_model
+    prix = lp.dual[&quot;operation_adequacy_constraint&quot;].squeeze().values / dual_scale(m.pommes_parameters).item()
+    delestage = lp.solution[&quot;operation_load_shedding_power&quot;].squeeze().values
+    return prix + 0.0, couts, delestage   # + 0.0 efface le zéro négatif
+
+prix, couts, delestage = resoudre()
+print(np.sort(prix)[::-1][[0, 99, 499, 999, 8759]].round(2))   # 1re, 100e, 500e, 1 000e et dernière heure
+# [3000.    350.     93.4    15.63    0.  ]
+paliers = {&quot;zero&quot;: 0.0, **couts, &quot;delestage&quot;: 3000.0}
+heures = {nom: int(np.isclose(prix, c).sum()) for nom, c in paliers.items()}
+print(heures)
+# {'zero': 88, 'nucleaire': 7698, 'ccgt': 597, 'ocgt': 28, 'fioul': 82, 'effacement': 198, 'delestage': 69}
+print(f&quot;moyenne {prix.mean():.2f} €/MWh, dont délestage {3000 * heures['delestage'] / 8760:.2f} ; &quot;
+      f&quot;au plus {delestage.max() / 1e3:.1f} GW délestés&quot;)
+# moyenne 54.55 €/MWh, dont délestage 23.63 ; au plus 12.3 GW délestés
+</code></pre>
+<p>Les 8 760 prix ne prennent que sept valeurs : la monotone (les heures classées du prix le plus haut au plus bas) est un escalier. La filière de la dernière centrale appelée est dite marginale. Le nucléaire l'est 7 698 heures : sans voisins à qui vendre, il baisse sa production pour suivre la demande. Aux 88 heures à zéro, vent, soleil et hydraulique suffisent. Le gaz fixe le prix 625 heures (597 + 28). En hiver, il manque jusqu'à 12,3 GW : les 69 heures délestées font 23,63 €/MWh, 43 % de la moyenne, à un prix choisi par le modélisateur.</p>
+<h2>4. Les curseurs : gaz et CO₂</h2>
+<p>Le gaz passe à 15 puis 65 €/MWh PCI, bornes du balayage du cas 0 ; le CO₂ à 50 puis 150 €/t, choisis autour des 97,47 du TYNDP.</p>
+<pre><code class="language-python">for gaz, co2 in [(15.0, P[&quot;prix_co2&quot;]), (65.0, P[&quot;prix_co2&quot;]), (P[&quot;prix_gaz&quot;], 50.0), (P[&quot;prix_gaz&quot;], 150.0)]:
+    p, c, _ = resoudre(gaz, co2)
+    print(f&quot;{gaz:.2f} {co2:.2f}&quot;, [round(c[t], 2) for t in (&quot;ccgt&quot;, &quot;ocgt&quot;, &quot;fioul&quot;)], round(p.mean(), 2),
+          np.isclose(p, prix).sum())
+# gaz, CO2, coûts [CCGT, TAC, fioul], prix moyen, heures inchangées
+# 15.00 97.47 [61.95, 84.94, 267.06] 52.27 8135
+# 65.00 97.47 [148.15, 203.98, 267.06] 58.52 8135
+# 33.24 50.00 [76.6, 105.18, 228.98] 52.98 8053
+# 33.24 150.00 [111.98, 154.03, 309.2] 56.29 8053
+</code></pre>
+<p>Ce qui bouge : le prix des 625 heures où le gaz est marginal et, avec le CO₂, des 82 heures du fioul. Ce qui ne bouge pas : les 8 135 autres heures (8 053 avec le CO₂), celles du nucléaire, des renouvelables, des effacements et du délestage. L'ordre de mérite ne change pas, donc ni la production ni les heures marginales. Du gaz à 15 au gaz à 65 €/MWh, la moyenne ne gagne que 6,25 €/MWh : la France isolée a rarement le gaz à la marge.</p>
+<h2>5. D'une petite série à une série publiée</h2>
+<p>Une série publiée sort d'un modèle de ce genre, nourri d'un parc, d'une demande, d'une météo, d'un gaz et d'un CO₂. Ces réglages, et le modèle lui-même, font que les quatre jeux de prix du cas 0 (séries horaires publiées) s'accordent sur la moyenne en 2030 et divergent en 2040. Comparez à celle du TYNDP, même année, même météo :</p>
+<pre><code class="language-python">from pommes_cases.prices import load_prices
+tyndp = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2030)[&quot;import_price&quot;].to_numpy()
+for s in (prix, tyndp):
+    print(f&quot;moyenne {s.mean():.2f}, médiane {np.median(s):.2f}, max {s.max():.0f}, au nucléaire &quot;
+          f&quot;{np.isclose(s, couts['nucleaire'], atol=0.05).sum()}, valeurs {np.unique(s.round(2)).size}&quot;)
+# moyenne 54.55, médiane 15.63, max 3000, au nucléaire 7698, valeurs 7
+# moyenne 57.50, médiane 52.00, max 350, au nucléaire 1133, valeurs 1329
+</code></pre>
+<p>Les moyennes sont proches pour de mauvaises raisons : la vôtre doit 43 % de sa valeur au délestage, alors que la série du TYNDP ne dépasse pas 350 €/MWh, le prix des effacements. Sa médiane vaut 52 €/MWh, et elle n'a que 1 133 heures au coût du nucléaire, à 0,05 €/MWh près. Il manque au petit modèle :</p>
+<ul>
+<li><strong>les échanges</strong> : reliée à ses voisins, la France partage leur prix, souvent celui d'une centrale au gaz, tant que les lignes ne sont pas saturées ; saturées à l'export, elles laissent son nucléaire fixer le prix ; elle importe à la pointe ;</li>
+<li><strong>le stockage, les lacs et les électrolyseurs pilotés</strong>, qui consomment aux heures bon marché ou produisent aux heures chères ; la valeur de l'eau s'aligne sur le gaz qu'elle remplace.</li>
+</ul>
+<p>Une centrale par filière donne sept paliers. Le TYNDP compte 1 329 valeurs distinctes au centime, dont 517 ne durent qu'une heure : centrales de rendements variés dans toute l'Europe, stocks, et petits écarts aux frontières (frais de passage, pertes). Reste l'écart au marché réel : les rigidités (puissance minimale des centrales, coût des démarrages), absentes de ce modèle, y font les heures bon marché <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a>.</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous retrouvez à la main 93,40 €/MWh (cycle combiné) et 128,37 €/MWh (turbine à combustion).</li>
+<li>Vous lisez au bloc 3 les heures où chaque filière fixe le prix (7 698 au nucléaire, 625 au gaz) et dites pourquoi le bloc 4 ne les change pas.</li>
+<li>Avant de lancer, vous prédisez la moyenne à gaz 65 €/MWh : 54,55 + (54,75 × 597 + 75,61 × 28) / 8 760 = 58,52 €/MWh.</li>
+<li>Vous prédisez 109,69 €/MWh pour un délestage à 10 000 €/MWh (54,55 + 69 × 7 000 / 8 760), puis le vérifiez.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li><a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a></li>
+<li><a href="../textes/lire-un-prix.html">Lire une série de prix horaires : six choses à regarder et les chiffres du cas 0</a></li>
+<li><a href="../textes/txt-methode-graphique.html">Dimensionner un parc par la méthode graphique : monotone de charge, droites de coût, heures de bascule</a></li>
+<li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a></li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases/systeme_fr.py, pommes_cases/meteo.py, data/systeme/README.md, 00_prix/hypotheses.yaml)</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E et ENTSOG, scénarios du TYNDP 2026 (National Trends+), version provisoire du 10/06/2026 : sorties horaires, PEMMDB, prix des combustibles et du CO₂, PECD</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Documentation pommes, description du modèle (contrainte d'adéquation)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft sur PyPI (version 0.6.0)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

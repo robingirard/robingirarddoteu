@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte · Parcours ES 2026</title>
+<meta name="description" content="Comment un investissement de la transition devient un coût par mégawattheure : le facteur d'annuité, le coût actualisé, et pourquoi passer de 3 % à 9 % de coût du capital multiplie ce coût par 1,6 pour l'éolien et le solaire et par 2,7 pour le nucléaire neuf. Comment les contrats (tarif d'achat, contrat pour différence, contrat d'achat de long terme, prêt public) font baisser le taux, appliqué au montage de l'EPR2 ; le côté du consommateur (reste à charge, aides, taux) ; qui paie au bout du compte (facture, impôt, dette, épargne) et les ordres de grandeur en France et en Europe.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 25 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte</h1>
+    <p class="resume">Comment un investissement de la transition devient un coût par mégawattheure : le facteur d'annuité, le coût actualisé, et pourquoi passer de 3 % à 9 % de coût du capital multiplie ce coût par 1,6 pour l'éolien et le solaire et par 2,7 pour le nucléaire neuf. Comment les contrats (tarif d'achat, contrat pour différence, contrat d'achat de long terme, prêt public) font baisser le taux, appliqué au montage de l'EPR2 ; le côté du consommateur (reste à charge, aides, taux) ; qui paie au bout du compte (facture, impôt, dette, épargne) et les ordres de grandeur en France et en Europe.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-1">Mener le mini-projet du cas 1 : le contrat qui fait construire le solaire et l'éolien vaut-il ce qu'il coûte ?</a></li><li><a href="../index.html#mp-eco-role-economique">Porter la lecture économique d'un mini-projet technologique : taux, annuité, qui paie, qui gagne</a></li><li><a href="../index.html#cas-A">Mener le mini-projet du cas A : jusqu'où les batteries restent-elles rentables ?</a></li><li><a href="../index.html#cas-I">Mener le mini-projet du cas I (e-kérosène) ou du cas J (hydrogène ou fer réduit ailleurs)</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Une éolienne, une centrale nucléaire,
+une batterie ou une pompe à chaleur coûtent cher à l’achat et peu à
+l’usage. Qui avance l’argent, à quel prix, et qui le rembourse ?</p>
+<p><strong>La réponse, en trois phrases.</strong> Presque tout le coût
+d’une installation bas carbone se paie au départ, si bien que le prix de
+l’argent emprunté (le <strong>coût du capital</strong>) pèse autant que
+le devis : passer de 3 % à 9 % multiplie le coût du mégawattheure par
+1,6 pour l’éolien et le solaire, et par 2,7 pour le nucléaire neuf. Ce
+taux dépend moins de la technologie que du risque, donc des contrats qui
+garantissent le revenu (tarif d’achat, contrat pour différence, contrat
+d’achat de long terme) et des prêts ou garanties publics. Au bout du
+compte, ce sont toujours les mêmes qui paient, par des canaux différents
+: le consommateur par sa facture, le contribuable par l’impôt ou la
+dette, l’épargnant et l’actionnaire par le rendement qu’ils
+acceptent.</p>
+<p><strong>Le plan.</strong> Vocabulaire (section 2) ; de
+l’investissement au coût du mégawattheure, et pourquoi le taux y pèse si
+lourd (3 et 4) ; les contrats qui font baisser le taux, et leur
+application au nouveau nucléaire (5 et 6) ; le côté du consommateur (7)
+; qui paie au bout du compte (8) ; les ordres de grandeur (9) ; les
+instruments en un tableau (10) ; trois pièges (11) ; ce que cela change
+pour les mini-projets (12).</p>
+<h2 id="les-notions">2. Les notions</h2>
+<p><strong>Investissement, financement, soutien.</strong>
+L’<strong>investissement</strong> est la dépense d’équipement
+(construire le parc éolien). Le <strong>financement</strong> est la
+façon de réunir cet argent (épargne propre, prêt, obligation,
+subvention). Le <strong>soutien d’exploitation</strong> est versé
+ensuite, pendant que l’installation produit (un tarif garanti, par
+exemple). Ce sont trois flux différents, à ne pas additionner.</p>
+<p><strong>CAPEX et OPEX.</strong> Le <strong>CAPEX</strong>
+(<em>capital expenditure</em>) est le coût de construction, en euros par
+kilowatt installé. Les <strong>OPEX</strong> (<em>operating
+expenditure</em>) sont les coûts d’exploitation : fixes (entretien, en
+€/kW/an) ou variables (combustible, en €/MWh). Une éolienne ou un
+panneau solaire n’ont presque que du CAPEX. Une centrale au gaz a
+surtout des OPEX : le gaz qu’elle brûle.</p>
+<p><strong>Dette et fonds propres.</strong> Un projet se finance par de
+la <strong>dette</strong> (des prêteurs, remboursés en priorité, qui
+demandent un taux modeste) et par des <strong>fonds propres</strong>
+(des actionnaires, payés en dernier, qui demandent un rendement plus
+élevé parce qu’ils portent le risque).</p>
+<p><strong>Le coût du capital.</strong> Le <strong>coût moyen pondéré du
+capital</strong> (CMPC, en anglais <em>WACC</em>, <em>weighted average
+cost of capital</em>) est la moyenne des deux taux, pondérée par les
+parts de dette et de fonds propres. C’est le rendement qu’exigent
+ensemble prêteurs et actionnaires. Dans un calcul de coût, il joue le
+rôle du <strong>taux d’actualisation</strong> : il dit combien vaut
+aujourd’hui un euro reçu dans vingt ans.</p>
+<p><strong>Nominal ou réel.</strong> Un taux <strong>nominal</strong>
+inclut l’inflation, un taux <strong>réel</strong> la retire :</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mtext mathvariant="normal">réel</mtext></msub><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><msub><mi>r</mi><mtext mathvariant="normal">nominal</mtext></msub></mrow><mrow><mn>1</mn><mo>+</mo><mtext mathvariant="normal">inflation</mtext></mrow></mfrac><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">
+r_{\text{réel}} = \frac{1 + r_{\text{nominal}}}{1 + \text{inflation}} - 1
+</annotation></semantics></math></p>
+<p>Avec 2 % d’inflation, 5 % nominal font environ 3 % réel. Un taux se
+dit aussi avant ou après impôt sur les sociétés. Comparer deux taux qui
+n’ont pas la même convention est l’erreur la plus fréquente du
+sujet.</p>
+<h2 id="de-linvestissement-au-coût-du-mégawattheure-lannuité">3. De
+l’investissement au coût du mégawattheure : l’annuité</h2>
+<p>Une installation coûte tout de suite, et rapporte pendant 25 ou 60
+ans. Pour comparer, on transforme le CAPEX en une
+<strong>annuité</strong> : la somme constante qu’il faut payer chaque
+année de la durée de vie pour rembourser le capital et le rémunérer au
+taux
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.
+Le coefficient qui fait ce passage s’appelle le <strong>facteur
+d’annuité</strong> (en anglais <em>capital recovery factor</em>, CRF)
+:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">CRF</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>r</mi><mo>,</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mi>r</mi><mrow><mn>1</mn><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>−</mi><mi>n</mi></mrow></msup></mrow></mfrac><mspace width="2.0em"></mspace><mtext mathvariant="normal">annuité</mtext><mo>=</mo><mtext mathvariant="normal">CAPEX</mtext><mo>×</mo><mtext mathvariant="normal">CRF</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>r</mi><mo>,</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mtext mathvariant="normal">OPEX fixes</mtext></mrow><annotation encoding="application/x-tex">
+\text{CRF}(r, n) = \frac{r}{1 - (1 + r)^{-n}}
+\qquad
+\text{annuité} = \text{CAPEX} \times \text{CRF}(r, n) + \text{OPEX fixes}
+</annotation></semantics></math></p>
+<p>où
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+est la durée de vie en années. À taux nul, CRF vaut
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">1/n</annotation></semantics></math>
+: on rembourse simplement le capital par parts égales.</p>
+<p>On divise ensuite l’annuité par l’énergie produite chaque année, et
+l’on ajoute les coûts variables. On obtient le <strong>coût actualisé de
+l’électricité</strong> (en anglais <em>levelized cost of
+electricity</em>, LCOE), en €/MWh :</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">LCOE</mtext><mo>=</mo><mfrac><mtext mathvariant="normal">annuité</mtext><mrow><mn>8</mn><mo>,</mo><mn>76</mn><mo>×</mo><mtext mathvariant="normal">facteur de charge</mtext></mrow></mfrac><mo>+</mo><mtext mathvariant="normal">coûts variables</mtext></mrow><annotation encoding="application/x-tex">
+\text{LCOE} = \frac{\text{annuité}}{8{,}76 \times \text{facteur de charge}} + \text{coûts variables}
+</annotation></semantics></math></p>
+<p>Le facteur de charge est la part de l’année où l’installation produit
+à pleine puissance ; 8,76 convertit des kilowatts en mégawattheures par
+an (8 760 heures divisées par 1 000). Pour une centrale longue à
+construire, on ajoute au CAPEX les <strong>intérêts
+intercalaires</strong> : les intérêts payés pendant le chantier, avant
+le premier kilowattheure vendu.</p>
+<p><strong>Un exemple : une éolienne terrestre</strong>, avec les
+hypothèses de RTE (2026) : 1 673 €/kW de CAPEX, 40 €/kW/an d’entretien,
+25 ans de vie, 28 % de facteur de charge, soit 2,45 MWh par kW et par
+an.</p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">CMPC réel 4 %</th>
+<th style="text-align: right;">CMPC réel 8 %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Facteur d’annuité sur 25 ans</td>
+<td style="text-align: right;">0,064</td>
+<td style="text-align: right;">0,094</td>
+</tr>
+<tr class="even">
+<td>Annuité du capital (€/kW/an, intérêts intercalaires compris)</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">163</td>
+</tr>
+<tr class="odd">
+<td>Entretien (€/kW/an)</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">40</td>
+</tr>
+<tr class="even">
+<td>Coût total (€/kW/an)</td>
+<td style="text-align: right;">149</td>
+<td style="text-align: right;">203</td>
+</tr>
+<tr class="odd">
+<td><strong>LCOE (€/MWh)</strong></td>
+<td style="text-align: right;"><strong>61</strong></td>
+<td style="text-align: right;"><strong>83</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Même machine, même vent, même devis : doubler le taux renchérit le
+mégawattheure d’un tiers.</p>
+<p><strong>La durée de vie amplifie l’effet du taux.</strong> Le facteur
+d’annuité réagit d’autant plus au taux que l’installation vit longtemps
+:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Durée de vie</th>
+<th style="text-align: right;">CRF à 0 %</th>
+<th style="text-align: right;">CRF à 4 %</th>
+<th style="text-align: right;">CRF à 8 %</th>
+<th style="text-align: right;">Rapport 8 % / 4 %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10 ans</td>
+<td style="text-align: right;">0,100</td>
+<td style="text-align: right;">0,123</td>
+<td style="text-align: right;">0,149</td>
+<td style="text-align: right;">1,21</td>
+</tr>
+<tr class="even">
+<td>15 ans</td>
+<td style="text-align: right;">0,067</td>
+<td style="text-align: right;">0,090</td>
+<td style="text-align: right;">0,117</td>
+<td style="text-align: right;">1,30</td>
+</tr>
+<tr class="odd">
+<td>25 ans (éolien, solaire)</td>
+<td style="text-align: right;">0,040</td>
+<td style="text-align: right;">0,064</td>
+<td style="text-align: right;">0,094</td>
+<td style="text-align: right;">1,46</td>
+</tr>
+<tr class="even">
+<td>60 ans (nucléaire)</td>
+<td style="text-align: right;">0,017</td>
+<td style="text-align: right;">0,044</td>
+<td style="text-align: right;">0,081</td>
+<td style="text-align: right;">1,83</td>
+</tr>
+</tbody>
+</table>
+<p>Une batterie, qui vit moins longtemps, est un peu moins sensible au
+taux qu’un parc solaire. Mais son annuité reste dominée par le capital :
+la question du taux s’y pose de la même façon.</p>
+<h2 id="pourquoi-le-taux-pèse-si-lourd">4. Pourquoi le taux pèse si
+lourd</h2>
+<figure>
+<img
+src="img/note-financer-transition/Economie/Financement_transition/output/editorial/lcoe_vs_cost_of_capital.png"
+alt="Coût actualisé de cinq filières en fonction du coût du capital réel (à gauche), et rapport entre le coût à 9 % et le coût à 3 % (à droite). Hypothèses de coût de RTE (2026). La bande violette est le prix d’exercice du contrat de l’EPR2 (section 6)." />
+<figcaption aria-hidden="true">Coût actualisé de cinq filières en
+fonction du coût du capital réel (à gauche), et rapport entre le coût à
+9 % et le coût à 3 % (à droite). Hypothèses de coût de RTE (2026). La
+bande violette est le prix d’exercice du contrat de l’EPR2 (section
+6).</figcaption>
+</figure>
+<p>La figure garde la même installation et les mêmes coûts, et ne fait
+varier que le coût du capital. Le tableau en donne quelques points
+(€2025/MWh, hypothèses de RTE, raccordement exclu) :</p>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>CMPC réel</th>
+<th style="text-align: right;">Nucléaire neuf (EPR2)</th>
+<th style="text-align: right;">Éolien en mer</th>
+<th style="text-align: right;">Éolien terrestre</th>
+<th style="text-align: right;">Solaire au sol</th>
+<th style="text-align: right;">Cycle combiné gaz (50 % du temps)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2 %</td>
+<td style="text-align: right;">61</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">111</td>
+</tr>
+<tr class="even">
+<td>4 %</td>
+<td style="text-align: right;">89</td>
+<td style="text-align: right;">104</td>
+<td style="text-align: right;">61</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">115</td>
+</tr>
+<tr class="odd">
+<td>6 %</td>
+<td style="text-align: right;">127</td>
+<td style="text-align: right;">122</td>
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">119</td>
+</tr>
+<tr class="even">
+<td>8 %</td>
+<td style="text-align: right;">174</td>
+<td style="text-align: right;">142</td>
+<td style="text-align: right;">83</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">124</td>
+</tr>
+</tbody>
+</table>
+<p>Trois leçons :</p>
+<ul>
+<li><strong>Le capital fait les trois quarts du coût</strong> des
+filières bas carbone : à 6 %, 83 % pour le nucléaire, 76 à 77 % pour
+l’éolien et le solaire, contre 15 % pour le gaz, dont le coût est
+surtout le combustible.</li>
+<li><strong>Le taux départage le nucléaire et l’éolien en mer</strong>,
+pas le solaire et l’éolien terrestre face au gaz : ceux-là restent moins
+chers à tous les taux du tableau.</li>
+<li><strong>Le nucléaire est le plus sensible</strong> : 60 ans de vie
+et 10 ans de chantier. La Cour des comptes (2025) le dit aussi : avec le
+devis de 2022, l’EPR2 coûte environ 40, 60 ou 100 €2020/MWh selon que le
+capital coûte 1, 4 ou 7 %.</li>
+</ul>
+<p>RTE a relevé son taux de référence de 4 % (2021) à 6 % réel après
+impôt (2026), parce que les taux sans risque ont augmenté de 2 à 3
+points. Ce seul paramètre peut inverser la comparaison de deux mix
+électriques.</p>
+<p><strong>Les taux observés</strong>, avec leurs conventions :</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Qui emprunte</th>
+<th>Taux</th>
+<th>Convention</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>L’État (obligation à 10 ans, OAT)</td>
+<td>0,01 % (2021), 3,37 % (2025), 4,00 % (août 2026)</td>
+<td>nominal</td>
+<td>BCE</td>
+</tr>
+<tr class="even">
+<td>Épargne du livret A</td>
+<td>1,7 %</td>
+<td>nominal, réglementé</td>
+<td>service-public.fr</td>
+</tr>
+<tr class="odd">
+<td>Réseau de transport d’électricité (RTE)</td>
+<td>5,0 %</td>
+<td>nominal avant impôt</td>
+<td>CRE (2025)</td>
+</tr>
+<tr class="even">
+<td>Nucléaire existant vendu au prix de marché</td>
+<td>9,1 %</td>
+<td>nominal avant impôt</td>
+<td>CRE (2025)</td>
+</tr>
+<tr class="odd">
+<td>Éolien et solaire, Europe de l’Ouest, 2019-2021</td>
+<td>3,3 à 4,2 %</td>
+<td>nominal après impôt</td>
+<td>IRENA (2023)</td>
+</tr>
+<tr class="even">
+<td>Référence de RTE pour comparer les mix</td>
+<td>6 %</td>
+<td>réel après impôt</td>
+<td>RTE (2026)</td>
+</tr>
+</tbody>
+</table>
+<p>Les taux des renouvelables d’avant 2022 datent d’une époque de taux
+nuls : depuis, l’État emprunte 4 points plus cher.</p>
+<h2 id="le-risque-fait-le-taux-les-contrats">5. Le risque fait le taux :
+les contrats</h2>
+<p>Un actionnaire demande un rendement d’autant plus élevé que le revenu
+du projet est incertain. Or le revenu d’une centrale vendue au marché
+dépend du prix de l’électricité, et ce prix est fixé la plupart du temps
+par la centrale au gaz : en 2022, le gaz a fixé le prix européen 63 % du
+temps pour 20 % de la production (Draghi, 2024). Une centrale sans
+combustible porte donc le risque du prix du gaz, sans en avoir les
+coûts.</p>
+<p>La Commission de régulation de l’énergie (CRE) le mesure par le
+<strong>bêta</strong> : la sensibilité d’un actif aux aléas de
+l’économie, qui entre dans le rendement exigé. Elle l’estime à 0,37 pour
+un réseau, 0,50 pour un renouvelable ou un nucléaire
+<strong>régulés</strong>, 0,90 pour un nucléaire <strong>vendu au
+marché</strong> (CRE, 2025). Même technologie, risque presque double :
+<strong>le cadre fixe le risque, le risque fixe le taux, le taux fixe le
+coût</strong>.</p>
+<p>D’où les contrats qui garantissent le revenu :</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Contrat</th>
+<th>Comment il marche</th>
+<th>Qui porte le risque de prix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Tarif d’achat</strong> (obligation d’achat)</td>
+<td>un acheteur désigné achète toute la production à un prix fixé
+d’avance</td>
+<td>l’acheteur, donc in fine l’État</td>
+</tr>
+<tr class="even">
+<td><strong>Complément de rémunération</strong></td>
+<td>le producteur vend au marché ; l’État lui verse l’écart entre un
+prix de référence et le prix de marché</td>
+<td>l’État quand le prix est bas ; le producteur reverse quand le prix
+est haut</td>
+</tr>
+<tr class="odd">
+<td><strong>Contrat pour différence bidirectionnel</strong> (CfD)</td>
+<td>un <strong>prix d’exercice</strong> est fixé ; si le marché est plus
+bas, l’État verse la différence, s’il est plus haut, le producteur la
+rend</td>
+<td>partagé : le producteur a un revenu stable, l’État (et le
+consommateur) prend l’écart dans les deux sens</td>
+</tr>
+<tr class="even">
+<td><strong>Contrat d’achat de long terme</strong> (<em>power purchase
+agreement</em>, PPA)</td>
+<td>un industriel ou un fournisseur achète la production à prix fixe
+pendant plusieurs années, sans l’État</td>
+<td>l’acheteur, et le producteur s’il fait défaut</td>
+</tr>
+<tr class="odd">
+<td><strong>Base d’actifs régulée</strong> (<em>regulated asset
+base</em>, RAB)</td>
+<td>le régulateur rémunère le capital dès le chantier, payé par les
+consommateurs</td>
+<td>partagé avec les consommateurs, qui paient dès la construction</td>
+</tr>
+</tbody>
+</table>
+<p>L’effet est chiffré. Selon la Commission européenne (2025), un CfD
+bidirectionnel baisse de 3,7 à 5 points le coût du capital d’un parc
+éolien en mer. Pour le solaire, l’Agence internationale de l’énergie
+(AIE) donne 2,5 à 4 % avec un mécanisme de soutien, 6,5 à 9,5 % sans
+(citée par RTE, 2022). En France, les renouvelables se financent à
+environ 80 % par de la dette, parce qu’un contrat de l’État garantit le
+revenu (I4CE, 2025).</p>
+<p>L’Union européenne en a fait la règle : à partir du 17 juillet 2027,
+tout soutien public direct à une nouvelle centrale bas carbone
+(renouvelable ou nucléaire) prend la forme d’un CfD bidirectionnel
+(règlement (UE) 2024/1747).</p>
+<h2 id="un-cas-décole-le-financement-de-lepr2">6. Un cas d’école : le
+financement de l’EPR2</h2>
+<p>Le programme de six réacteurs EPR2 (9 990 MW) est estimé à 72,8
+Md€2020 par EDF (novembre 2024), hors intérêts intercalaires. Le devis
+était de 51,7 Md€2020 en 2022. Les mises en service sont prévues de 2038
+à 2044. Le montage notifié à la Commission européenne (2026) combine
+tous les leviers de la section 5 :</p>
+<ul>
+<li>un <strong>prêt public</strong> couvrant 60 % de la construction
+(environ 44 Md€2020), à <strong>0 % pendant le chantier puis 3
+%</strong>, sur 39 ans, financé par l’épargne du livret A (fonds
+d’épargne de la Caisse des dépôts) avec la garantie de l’État ;</li>
+<li>40 % apportés par EDF, qui vise une rentabilité de 6,5 à 8,5 %
+nominale après impôt ; <strong>sans aide, le projet ne rapporterait que
+1 à 3 %</strong> : c’est la défaillance de marché qui justifie l’aide
+;</li>
+<li>un <strong>CfD de 40 ans</strong>, au prix d’exercice de 85 à 115
+€2024/MWh ;</li>
+<li>un partage des dérives : EDF seule jusqu’à 15 Md€, puis l’État à 90
+% entre 15 et 30 Md€, rien de prévu au-delà.</li>
+</ul>
+<p>Que gagne-t-on ? Un calcul simple (hypothèses de RTE, 2 %
+d’inflation, sans impôt ni dérive) donne un coût du capital réel
+d’environ 1 % pendant le chantier et 2,75 % ensuite, soit
+<strong>environ 66 €/MWh</strong>, contre <strong>environ 148
+€/MWh</strong> si tout était financé au taux du nucléaire vendu au
+marché (9,1 % nominal). Le prix d’exercice du contrat est plus haut que
+66 : il couvre aussi l’impôt, les aléas, et un contrat plus court que la
+vie de la centrale.</p>
+<p>Deux contre-exemples. <strong>Flamanville 3</strong> a coûté 23,7
+Md€2023, dont environ 4 Md€ d’intérêts intercalaires : vendu sous 90
+€2023/MWh, il rapporte moins de 2 % (Cour des comptes, 2025).
+<strong>Hinkley Point C</strong>, au Royaume-Uni, est financé par des
+capitaux privés qui attendent 9 % : son prix d’exercice est de 92,50
+£2012/MWh sur 35 ans. Selon la Cour des comptes britannique (NAO, 2017),
+avec un financement public à 2 %, le coût de construction aurait pu
+dériver de 400 à 600 % avant d’égaler le coût du contrat.</p>
+<h2 id="côté-consommateur-rénovation-voiture-pompe-à-chaleur">7. Côté
+consommateur : rénovation, voiture, pompe à chaleur</h2>
+<p>Les ménages portent 38,4 Md€ d’investissements climat en France en
+2024, plus du tiers du total (I4CE, 2025). Ils achètent une rénovation,
+une voiture électrique ou une pompe à chaleur comme un producteur achète
+une éolienne : beaucoup d’argent au départ, des économies ensuite. La
+même logique d’annuité s’applique, avec trois différences.</p>
+<p><strong>Le reste à charge.</strong> C’est le coût des travaux moins
+les aides. Il se paie par l’épargne du ménage ou par un prêt. Les aides
+françaises passent par MaPrimeRénov’ (une subvention budgétaire), par
+les <strong>certificats d’économies d’énergie</strong> (CEE, des primes
+que les fournisseurs d’énergie sont obligés de financer) et par des
+prêts aidés, comme le prêt à taux zéro pour la rénovation.</p>
+<p><strong>Le taux d’un ménage est élevé, ou inaccessible.</strong> Un
+ménage modeste emprunte cher, ou pas du tout. Un prêt sur 10 ans coûte
+chaque année 10 % de la somme empruntée à taux nul, 12,3 % à 4 %, 14,9 %
+à 8 % (le facteur d’annuité de la section 3). Quand les taux montent, ce
+sont donc les travaux qui reculent en premier : en 2024, les
+investissements climat ont d’abord baissé dans la construction et la
+rénovation, parce que « les taux d’intérêts élevés ont freiné le crédit
+» (I4CE, 2025). Dans l’Union, l’investissement dans la performance
+énergétique des logements neufs a baissé de 23 % entre 2022 et 2024
+(I4CE, 2026).</p>
+<p><strong>Rentable pour la société, pas pour le propriétaire.</strong>
+Le Conseil d’analyse économique (CAE, 2024) estime qu’une rénovation
+énergétique est rentable pour la collectivité sur 55 % du parc de
+logements privés (en comptant le carbone et la santé), mais pour le
+propriétaire sur 5 % seulement. L’écart justifie la subvention : environ
+150 Md€ seraient nécessaires, soit 6 Md€ par an de 2025 à 2050.</p>
+<p>L’efficacité des aides se discute. MaPrimeRénov’ va à 81 % aux
+ménages modestes et très modestes, mais 73 % des dossiers ne financent
+qu’un seul geste (France Stratégie, 2024). Les CEE coûtent environ 6 Md€
+par an aux consommateurs, soit 164 € par ménage en 2023, avec des
+économies surestimées d’au moins 30 % et environ 20 % d’<strong>effet
+d’aubaine</strong> : des travaux que le ménage aurait faits sans aide
+(Cour des comptes, 2024).</p>
+<p>Pour la voiture, l’écart reste grand : 14,2 Md€ investis dans les
+véhicules bas carbone en 2024, plus de 40 Md€ dans les voitures
+thermiques et hybrides (I4CE, 2025).</p>
+<h2 id="qui-paie-au-bout-du-compte">8. Qui paie au bout du compte</h2>
+<p>Chaque euro investi est remboursé par quelqu’un. Il n’y a que quatre
+poches :</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Qui paie</th>
+<th>Par quel canal</th>
+<th>Exemple chiffré</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Le consommateur</strong></td>
+<td>sa facture : tarif de réseau, CEE, CfD ou RAB selon les pays</td>
+<td>réseaux : RTE 4,9 Md€ et Enedis 6,4 Md€ d’investissement par an
+prévus en 2025-2028, payés par le tarif de réseau (CRE, 2025) ; CEE ≈ 6
+Md€/an</td>
+</tr>
+<tr class="even">
+<td><strong>Le contribuable</strong></td>
+<td>le budget de l’État : subventions, soutien aux renouvelables,
+garanties</td>
+<td>soutien aux renouvelables et autres charges de service public : 14,2
+Md€ à compenser en 2027, dont 10,7 au budget de l’État (CRE, 2026)</td>
+</tr>
+<tr class="odd">
+<td><strong>Le contribuable de demain</strong></td>
+<td>la dette publique</td>
+<td>dette 115,7 % du PIB fin 2025, charge d’intérêts 64,7 Md€ en 2025
+(INSEE, 2026)</td>
+</tr>
+<tr class="even">
+<td><strong>L’épargnant et l’actionnaire</strong></td>
+<td>le rendement qu’ils acceptent</td>
+<td>livret A à 1,7 % prêté à l’EPR2 ; EDF actionnaire à 40 %</td>
+</tr>
+</tbody>
+</table>
+<p>Le tarif de réseau d’électricité s’appelle en France le
+<strong>TURPE</strong> (tarif d’utilisation des réseaux publics
+d’électricité) ; il est fixé par la CRE et payé par tous les
+consommateurs. Voir <a href="note-tarifs-reseau.html">la note sur les
+tarifs de réseau</a> et <a href="note-taxes-energie.html">la note sur les
+taxes de l’énergie</a>.</p>
+<p><strong>Un CfD ne coûte pas toujours.</strong> Pendant la crise de
+2022-2023, les prix de marché ont dépassé les prix garantis : les
+renouvelables sous contrat ont <strong>rapporté</strong> 5,5 Md€ à
+l’État au titre de ces deux années (CRE, 2026). Quand les prix ont
+baissé, le soutien est redevenu une dépense : 11,5 Md€ de charges de
+service public en 2025, 14,1 Md€ prévus pour 2027.</p>
+<p><strong>Choisir le canal, c’est choisir qui paie.</strong> I4CE
+(2025) chiffre le besoin de dépenses publiques supplémentaires pour le
+climat entre 18 et 52 Md€ en 2030. Le bas de la fourchette suppose plus
+de réglementation et plus de CEE : l’effort passe alors de l’impôt aux
+factures et aux ménages.</p>
+<h2 id="les-ordres-de-grandeur-en-france-et-en-europe">9. Les ordres de
+grandeur, en France et en Europe</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Montant</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Investissements climat en France, 2024</td>
+<td>102,2 Md€ (107,7 en 2023)</td>
+<td>I4CE 2025</td>
+</tr>
+<tr class="even">
+<td>… dont bâtiments, transports, énergie</td>
+<td>41,8 ; 34,5 ; 24,3 Md€</td>
+<td>I4CE 2025</td>
+</tr>
+<tr class="odd">
+<td>Investissements « fossiles » en France, 2024</td>
+<td>71,1 Md€</td>
+<td>I4CE 2025</td>
+</tr>
+<tr class="even">
+<td>Supplément nécessaire en 2030</td>
+<td>≈ +87 Md€ par an</td>
+<td>I4CE 2025</td>
+</tr>
+<tr class="odd">
+<td>Union européenne, 2025 : investi / nécessaire</td>
+<td>534 / 878 Md€ par an</td>
+<td>I4CE 2026</td>
+</tr>
+<tr class="even">
+<td>Investissement additionnel demandé pour l’Union (climat, numérique,
+défense)</td>
+<td>750 à 800 Md€ par an</td>
+<td>Draghi 2024</td>
+</tr>
+<tr class="odd">
+<td>Financements verts de la Banque européenne d’investissement,
+2025</td>
+<td>57 Md€</td>
+<td>BEI 2026</td>
+</tr>
+<tr class="even">
+<td>Recettes des enchères de quotas de CO₂, Union, 2024</td>
+<td>38,8 Md€ (France : 1,5 Md€)</td>
+<td>Commission 2025</td>
+</tr>
+</tbody>
+</table>
+<p><strong>C’est d’abord le privé qui investit.</strong> Sur les 102 Md€
+de 2024, les fonds propres des ménages et des entreprises apportent 39,7
+Md€, les banques commerciales et les marchés 41,5, le budget public 16,3
+et les banques publiques 4,7 (I4CE, 2025). Les soutiens versés pendant
+l’exploitation n’apparaissent pas dans cette photographie. Selon le
+rapport Draghi (2024), pour que le privé finance seul l’effort européen,
+il faudrait baisser son coût du capital d’environ 2,5 points : c’est
+l’argument des contrats, prêts et garanties publics. Pour les volumes
+mondiaux, voir <a href="note-investir-transition.html">la note sur
+l’investissement dans la transition</a>.</p>
+<h2 id="les-instruments-en-un-tableau">10. Les instruments en un
+tableau</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Instrument</th>
+<th>Ce qu’il fait</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CfD bidirectionnel</td>
+<td>garantit un prix, reprend le surplus, baisse le taux</td>
+<td>règle européenne dès le 17/07/2027 ; −3,7 à −5 points pour l’éolien
+en mer</td>
+</tr>
+<tr class="even">
+<td>Prêt public ou garantie</td>
+<td>transfère au public le risque et son taux</td>
+<td>EPR2 : 60 % à 0 % puis 3 %</td>
+</tr>
+<tr class="odd">
+<td>Épargne réglementée</td>
+<td>ressource longue et peu chère</td>
+<td>livret A à 1,7 %</td>
+</tr>
+<tr class="even">
+<td>Banque publique européenne</td>
+<td>emprunte presque au taux des États</td>
+<td>BEI : 57 Md€ verts en 2025</td>
+</tr>
+<tr class="odd">
+<td>Recettes du marché du carbone</td>
+<td>financent sans prélever le budget général</td>
+<td>Fonds social pour le climat : au plus 7,3 Md€ pour la France sur
+2026-2032</td>
+</tr>
+<tr class="even">
+<td>Prime par kilo d’hydrogène</td>
+<td>comble l’écart de coût</td>
+<td>Banque européenne de l’hydrogène : 0,20 à 3,49 €/kg ; France : 778
+M€ sur 15 ans pour 161 MW</td>
+</tr>
+<tr class="odd">
+<td>Subvention aux ménages</td>
+<td>réduit le reste à charge</td>
+<td>MaPrimeRénov’, CEE</td>
+</tr>
+</tbody>
+</table>
+<h2 id="trois-pièges">11. Trois pièges</h2>
+<ol type="1">
+<li><strong>Une part publique n’est pas un effet de levier.</strong>
+Qu’un projet reçoive de l’argent public ne prouve pas que cet argent a
+déclenché le reste : il faudrait savoir ce qui se serait passé sans aide
+(I4CE, 2025).</li>
+<li><strong>Une prévision n’est pas un réalisé.</strong> En novembre
+2022, la CRE attendait 30,9 Md€ de recettes des renouvelables sur
+2022-2023 ; elles ont rapporté 5,5 Md€.</li>
+<li><strong>Les chiffres de besoins ne s’additionnent pas.</strong>
+Besoin brut, besoin additionnel et écart à combler sont trois grandeurs
+différentes.</li>
+</ol>
+<h2 id="ce-que-ça-change-pour-les-mini-projets">12. Ce que ça change
+pour les mini-projets</h2>
+<ul>
+<li><strong>Refaire chaque verdict à deux taux, 4 % et 8 %.</strong> Un
+investissement rentable à 4 % peut ne plus l’être à 8 %. Calculer
+l’annuité avec le facteur d’annuité de la section 3, puis dire quelle
+filière le taux pénalise le plus (celle qui a le plus de capital et la
+plus longue vie).</li>
+<li><strong>Batteries (cas A).</strong> Presque tout le coût d’une
+batterie est du capital. Le verdict « rentable ou non » compare son
+revenu annuel par kW à son annuité : il dépend donc du taux autant que
+des prix.</li>
+<li><strong>Électrolyseur et hydrogène (cas D, I, J).</strong>
+L’électricité pèse environ 70 % du coût d’un kilo d’hydrogène produit en
+France, l’électrolyseur environ 10 % (RTE, 2022) : le coût du capital de
+l’électricité bas carbone se retrouve dans le prix de l’hydrogène. Un
+électrolyseur installé coûte 2 200 $/kW hors de Chine contre 820 $/kW en
+Chine, et le coût du capital du solaire y est environ moitié de celui
+des États-Unis ou de l’Espagne (AIE, 2025 et 2026). Ajouter une prime de
+risque propre au pays ou à l’hydrogène au taux de 8 % peut changer le
+classement des sites.</li>
+<li><strong>PPA et CfD (cas D et prix de marché).</strong> Dire qui
+porte le risque : dans un CfD comme celui de l’EPR2 (85 à 115 €/MWh), le
+producteur a un revenu stable et l’État prend l’écart au prix de marché
+dans les deux sens ; dans un PPA à prix fixe, c’est l’acheteur qui le
+prend. Comparer le revenu d’une éolienne payée au prix de marché et
+payée à prix fixe.</li>
+<li><strong>La planche « qui paie, qui gagne ».</strong> Pour le cas
+étudié, remplir le tableau de la section 8 : ce que paie le consommateur
+(facture, tarif de réseau), le contribuable (aides, garanties), et ce
+que le modèle ne voit pas (revenus hors énergie, aides, quotas
+gratuits).</li>
+</ul>
+<h2 id="ce-quil-faut-retenir">13. Ce qu’il faut retenir</h2>
+<p><strong>Le taux compte autant que le devis.</strong> Une installation
+bas carbone se paie presque entièrement au départ. Passer de 3 % à 9 %
+de coût du capital multiplie le coût du mégawattheure par 1,6 pour
+l’éolien et le solaire, par 2,7 pour le nucléaire, par 1,1 seulement
+pour le gaz.</p>
+<p><strong>Le contrat fait le taux.</strong> Un revenu garanti (CfD,
+tarif d’achat, PPA, prêt public) baisse le risque, donc le taux, de
+plusieurs points. C’est pourquoi le financement de l’EPR2 combine un
+prêt public à 0 % pendant le chantier et un CfD de 40 ans, et pourquoi
+l’Union impose les CfD bidirectionnels dès 2027.</p>
+<p><strong>Le consommateur bute sur le même mur.</strong> Une rénovation
+rentable pour la société l’est rarement pour le propriétaire, et la
+hausse des taux freine d’abord les travaux. D’où les aides, dont
+l’efficacité se mesure à ce qu’elles déclenchent, pas à ce qu’elles
+versent.</p>
+<p><strong>Quelqu’un paie toujours.</strong> La France investit environ
+100 Md€ par an pour le climat, d’abord avec de l’argent privé, et
+devrait investir près de 90 Md€ de plus en 2030. La question n’est pas
+de savoir si l’on paie, mais par quel canal : la facture, l’impôt, la
+dette, ou le rendement accepté par l’épargnant.</p>
+<h2 id="sources">14. Sources</h2>
+<ul>
+<li>AIE, <em>Global Hydrogen Review 2025</em>, <a href="https://iea.blob.core.windows.net/assets/a6c466dd-b6f0-44bd-a60a-6940eccfb1c3/GlobalHydrogenReview2025.pdf" target="_blank" rel="noopener"
+class="uri">https://iea.blob.core.windows.net/assets/a6c466dd-b6f0-44bd-a60a-6940eccfb1c3/GlobalHydrogenReview2025.pdf</a>,
+et <em>Global Hydrogen Review 2026</em>, <a href="https://iea.blob.core.windows.net/assets/af4b6218-0311-4963-91ab-903cb18ca0ca/GlobalHydrogenReview2026.pdf" target="_blank" rel="noopener"
+class="uri">https://iea.blob.core.windows.net/assets/af4b6218-0311-4963-91ab-903cb18ca0ca/GlobalHydrogenReview2026.pdf</a>.</li>
+<li>AIE-AEN, <em>Projected Costs of Generating Electricity</em>, 2020
+(durées de vie et de chantier), <a href="https://iea.blob.core.windows.net/assets/ae17da3d-e8a5-4163-a3ec-2e6fb0b5677d/Projected-Costs-of-Generating-Electricity-2020.pdf" target="_blank" rel="noopener"
+class="uri">https://iea.blob.core.windows.net/assets/ae17da3d-e8a5-4163-a3ec-2e6fb0b5677d/Projected-Costs-of-Generating-Electricity-2020.pdf</a>.</li>
+<li>BCE, rendement de l’OAT à 10 ans, série
+IRS.M.FR.L.L40.CI.0000.EUR.N.Z, <a href="https://data-api.ecb.europa.eu/service/data/IRS/M.FR.L.L40.CI.0000.EUR.N.Z" target="_blank" rel="noopener"
+class="uri">https://data-api.ecb.europa.eu/service/data/IRS/M.FR.L.L40.CI.0000.EUR.N.Z</a>.</li>
+<li>BEI, <em>Investment Report 2025/2026</em>, chapitre 6, <a href="https://www.eib.org/files/publications/20250379-030326-investment-report-2025-chapter6-en.pdf" target="_blank" rel="noopener"
+class="uri">https://www.eib.org/files/publications/20250379-030326-investment-report-2025-chapter6-en.pdf</a>.</li>
+<li>CAE, <em>Rénovation énergétique des logements</em>, note n° 81,
+2024, <a href="http://cae-eco.fr/static/pdf/cae081-renovation-230625.pdf" target="_blank" rel="noopener"
+class="uri">http://cae-eco.fr/static/pdf/cae081-renovation-230625.pdf</a>.</li>
+<li>Commission européenne, aide d’État SA.119469 (EPR2), JO C/2026/2619,
+<a href="http://data.europa.eu/eli/C/2026/2619/oj" target="_blank" rel="noopener"
+class="uri">http://data.europa.eu/eli/C/2026/2619/oj</a> ; orientations
+sur les CfD bidirectionnels, JO C/2025/6701, <a href="http://data.europa.eu/eli/C/2025/6701/oj" target="_blank" rel="noopener"
+class="uri">http://data.europa.eu/eli/C/2025/6701/oj</a> ; rapport sur
+le marché du carbone 2024, COM(2025) 735, <a href="http://publications.europa.eu/resource/celex/52025DC0735" target="_blank" rel="noopener"
+class="uri">http://publications.europa.eu/resource/celex/52025DC0735</a>
+; communiqué IP/24/2333 et IP/26/1004 (Banque européenne de
+l’hydrogène).</li>
+<li>Cour des comptes, <em>Les certificats d’économies d’énergie</em>,
+2024, <a href="https://www.ccomptes.fr/sites/default/files/2024-09/20240917-Certificats-economie-energie_0.pdf" target="_blank" rel="noopener"
+class="uri">https://www.ccomptes.fr/sites/default/files/2024-09/20240917-Certificats-economie-energie_0.pdf</a>,
+et <em>La filière EPR</em>, 2025, <a href="https://www.ccomptes.fr/sites/default/files/2025-01/20250114-La-filiere-EPR%20-une-dynamique-nouvelle-des-risques-persistants.pdf" target="_blank" rel="noopener"
+class="uri">https://www.ccomptes.fr/sites/default/files/2025-01/20250114-La-filiere-EPR%20-une-dynamique-nouvelle-des-risques-persistants.pdf</a>.</li>
+<li>CRE, <em>Évaluation des coûts complets du nucléaire historique
+2026-2028</em>, 2025, <a href="https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/2025/Rapport_CRE_Couts_du_nucleaire.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/2025/Rapport_CRE_Couts_du_nucleaire.pdf</a>
+; délibérations TURPE 7 n° 2025-77, <a href="https://www.cre.fr/fileadmin/Documents/Deliberations/2025/250313_2025-77_Post-CSE_TURPE_7_HTB.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Deliberations/2025/250313_2025-77_Post-CSE_TURPE_7_HTB.pdf</a>,
+et n° 2025-78, <a href="https://www.cre.fr/fileadmin/Documents/Deliberations/2025/250313_2025-78_Post-CSE_TURPE_7_HTA-BT.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Deliberations/2025/250313_2025-78_Post-CSE_TURPE_7_HTA-BT.pdf</a>
+; délibération n° 2026-149 (charges de service public 2026-2027), <a href="https://www.cre.fr/fileadmin/Documents/Deliberations/2026/260715_2026-149_CSPE_2026-2027.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Deliberations/2026/260715_2026-149_CSPE_2026-2027.pdf</a>.</li>
+<li>Draghi M., <em>The future of European competitiveness</em>, partie
+A, 2024, <a href="https://commission.europa.eu/document/download/97e481fd-2dc3-412d-be4c-f152a8232961_en?filename=The%20future%20of%20European%20competitiveness%20_%20A%20competitiveness%20strategy%20for%20Europe.pdf" target="_blank" rel="noopener"
+class="uri">https://commission.europa.eu/document/download/97e481fd-2dc3-412d-be4c-f152a8232961_en?filename=The%20future%20of%20European%20competitiveness%20_%20A%20competitiveness%20strategy%20for%20Europe.pdf</a>.</li>
+<li>France Stratégie, <em>Comité d’évaluation du plan France
+Relance</em>, vol. II, chap. 6 (MaPrimeRénov’), 2024, <a href="https://www.strategie-plan.gouv.fr/files/files/Publications/Rapport/fs-2024-rapport-france_relance_vol_ii_6_maprimerenov.pdf" target="_blank" rel="noopener"
+class="uri">https://www.strategie-plan.gouv.fr/files/files/Publications/Rapport/fs-2024-rapport-france_relance_vol_ii_6_maprimerenov.pdf</a>.</li>
+<li>I4CE, <em>Panorama des financements climat</em>, édition 2025, <a href="https://www.i4ce.org/wp-content/uploads/2025/07/Panorama-des-financements-climat-ed-2025_Synthese-et-resultats.pdf" target="_blank" rel="noopener"
+class="uri">https://www.i4ce.org/wp-content/uploads/2025/07/Panorama-des-financements-climat-ed-2025_Synthese-et-resultats.pdf</a>,
+et <em>The State of Europe’s Climate Investment</em>, 2026, <a href="https://www.i4ce.org/wp-content/uploads/2026/06/The_State_of_Europe_s_Climate_Investment_report_2026_V2.pdf" target="_blank" rel="noopener"
+class="uri">https://www.i4ce.org/wp-content/uploads/2026/06/The_State_of_Europe_s_Climate_Investment_report_2026_V2.pdf</a>.</li>
+<li>INSEE, <em>En 2025, le déficit public s’élève à 5,1 % du PIB</em>,
+Informations rapides n° 78, 2026, <a href="https://www.insee.fr/fr/statistiques/8956575" target="_blank" rel="noopener"
+class="uri">https://www.insee.fr/fr/statistiques/8956575</a>, et Insee
+Première n° 2106, 2026, <a href="https://www.insee.fr/fr/statistiques/8997691" target="_blank" rel="noopener"
+class="uri">https://www.insee.fr/fr/statistiques/8997691</a>.</li>
+<li>IRENA, <em>The cost of financing for renewable power</em>, 2023, <a href="https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2023/May/IRENA_The_cost_of_financing_renewable_power_2023.pdf" target="_blank" rel="noopener"
+class="uri">https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2023/May/IRENA_The_cost_of_financing_renewable_power_2023.pdf</a>.</li>
+<li>Ministère de l’Économie, communiqué n° 918 (lauréats du soutien à la
+production d’hydrogène), 22 juillet 2026, <a href="https://presse.economie.gouv.fr/?p=181795" target="_blank" rel="noopener"
+class="uri">https://presse.economie.gouv.fr/?p=181795</a>.</li>
+<li>NAO, <em>Hinkley Point C</em>, 2017, <a href="https://www.nao.org.uk/wp-content/uploads/2017/06/Hinkley-Point-C.pdf" target="_blank" rel="noopener"
+class="uri">https://www.nao.org.uk/wp-content/uploads/2017/06/Hinkley-Point-C.pdf</a>.</li>
+<li>Règlement (UE) 2024/1747 (organisation du marché de l’électricité),
+<a href="http://data.europa.eu/eli/reg/2024/1747/oj" target="_blank" rel="noopener"
+class="uri">http://data.europa.eu/eli/reg/2024/1747/oj</a> ; règlement
+(UE) 2023/955 (Fonds social pour le climat), <a href="http://data.europa.eu/eli/reg/2023/955/oj" target="_blank" rel="noopener"
+class="uri">http://data.europa.eu/eli/reg/2023/955/oj</a>.</li>
+<li>RTE, <em>Futurs énergétiques 2050</em>, chapitre 11, 2022, <a href="https://assets.rte-france.com/prod/public/2022-02/BP50_Principaux%20re%CC%81sultats_fev2022_Chap11_analyse%20economique.pdf" target="_blank" rel="noopener"
+class="uri">https://assets.rte-france.com/prod/public/2022-02/BP50_Principaux%20re%CC%81sultats_fev2022_Chap11_analyse%20economique.pdf</a>
+; actualisation, consultation publique et annexes, avril 2026, <a href="https://assets.rte-france.com/prod/public/2026-04/RTE-Reactualisation-FE-2050-consultation-publique-2026-propositions-detaillees.pdf" target="_blank" rel="noopener"
+class="uri">https://assets.rte-france.com/prod/public/2026-04/RTE-Reactualisation-FE-2050-consultation-publique-2026-propositions-detaillees.pdf</a>.</li>
+<li>Service-public.fr, livret A, fiche F2365, <a href="https://www.service-public.fr/particuliers/vosdroits/F2365" target="_blank" rel="noopener"
+class="uri">https://www.service-public.fr/particuliers/vosdroits/F2365</a>.</li>
+</ul>
+<p>Les coûts actualisés des sections 3 et 4 et le calcul du montage de
+l’EPR2 sont calculés avec les hypothèses de coût de RTE (2026) et les
+durées de l’AIE-AEN (2020), par la formule de la section 3.</p>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">15. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.energy-alternatives.eu/2020/08/20/decomposition-lcoe.html" target="_blank" rel="noopener">Évaluer
+le coût économique de la production d’électricité</a> (billet de blog) :
+le coût actualisé de l’électricité pas à pas, et le rôle du taux
+d’actualisation.</li>
+<li><a href="https://www.energy-alternatives.eu/2026/10/29/infrastructures-agilite.html" target="_blank" rel="noopener">Transition
+énergétique : construire les infrastructures sans perdre l’agilité</a>
+(billet de blog) : qui porte le risque des infrastructures de la
+transition (contrats de long terme, financement public du nucléaire), et
+comment avancer par options.</li>
+<li><a href="https://www.youtube.com/watch?v=xy-xgVXyizU" target="_blank" rel="noopener">La vie d’un
+projet 1/17 — Projet hydrogène : quand se font les dépenses et la
+production ?</a> (vidéo, 2 min ; <a href="https://www.youtube.com/playlist?list=PLN3M2xx0972o" target="_blank" rel="noopener">la série « La
+vie d’un projet »</a>) : le calendrier des dépenses et de la production
+d’un projet : pourquoi presque tout se paie avant de produire.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-10-02-charbon-inde-facteur-de-charge.html" target="_blank" rel="noopener">Photovoltaïque
+contre charbon</a> (post LinkedIn repris sur le blog, avec figures et
+sources ; <a href="https://www.linkedin.com/feed/update/urn:li:share:7511744256924102656/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : un cas où le facteur de charge baisse : le
+solaire retire des heures au charbon indien, et chaque heure perdue
+renchérit le MWh qui reste.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Financer_transition.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-marches-elec.html">Le prix de l'électricité : comment il se forme, à quoi il ressemble, ce qui s'y ajoute</a></li><li><a href="note-investir-transition.html">Investir dans la transition énergétique : combien, dans quoi, où, et combien il en faudrait</a></li><li><a href="note-taxes-energie.html">Les taxes sur l'énergie : qui paie quoi, et quel signal prix entre les énergies</a></li><li><a href="note-tarifs-reseau.html">Le tarif d'accès au réseau électrique : ce qu'il paie, comment il est construit, ce qu'il coûte en Europe</a></li><li><a href="note-batteries-stockage.html">Les batteries : ce qu'elles coûtent, pourquoi leur prix a tant baissé, ce qui vient</a></li><li><a href="note-hydrogene-usages.html">L'hydrogène : à quoi il sert, comment on le produit, ce qu'il coûte</a></li><li><a href="note-saf-filieres.html">Les carburants d'aviation durables : six filières et leurs ordres de grandeur</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#les-notions">2. Les notions</a></li><li><a href="#de-linvestissement-au-coût-du-mégawattheure-lannuité">3. De l’investissement au coût du mégawattheure : l’annuité</a></li><li><a href="#pourquoi-le-taux-pèse-si-lourd">4. Pourquoi le taux pèse si lourd</a></li><li><a href="#le-risque-fait-le-taux-les-contrats">5. Le risque fait le taux : les contrats</a></li><li><a href="#un-cas-décole-le-financement-de-lepr2">6. Un cas d’école : le financement de l’EPR2</a></li><li><a href="#côté-consommateur-rénovation-voiture-pompe-à-chaleur">7. Côté consommateur : rénovation, voiture, pompe à chaleur</a></li><li><a href="#qui-paie-au-bout-du-compte">8. Qui paie au bout du compte</a></li><li><a href="#les-ordres-de-grandeur-en-france-et-en-europe">9. Les ordres de grandeur, en France et en Europe</a></li><li><a href="#les-instruments-en-un-tableau">10. Les instruments en un tableau</a></li><li><a href="#trois-pièges">11. Trois pièges</a></li><li><a href="#ce-que-ça-change-pour-les-mini-projets">12. Ce que ça change pour les mini-projets</a></li><li><a href="#ce-quil-faut-retenir">13. Ce qu’il faut retenir</a></li><li><a href="#sources">14. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">15. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

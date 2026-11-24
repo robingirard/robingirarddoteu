@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le foisonnement, mesuré : il y a presque toujours du vent quelque part ? · Parcours ES 2026</title>
+<meta name="description" content="Sur les facteurs de charge horaires publiés du PECD 2026 (année 2040), mesurer ce que l'addition de sept pays lisse dans l'éolien (écart-type, heures sous 10 %, plus longue suite presque sans vent) et ce qu'elle ne lisse pas : la pire semaine d'hiver, parfois commune à plusieurs pays. La chercher ensuite sur 30 années météo et la comparer à la semaine que le cas G doit couvrir. pandas seulement, sans optimisation.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Interco et EnR, Flexibilité, Modélisation</span></div>
+    <h1>Le foisonnement, mesuré : il y a presque toujours du vent quelque part ?</h1>
+    <p class="resume">Sur les facteurs de charge horaires publiés du PECD 2026 (année 2040), mesurer ce que l'addition de sept pays lisse dans l'éolien (écart-type, heures sous 10 %, plus longue suite presque sans vent) et ce qu'elle ne lisse pas : la pire semaine d'hiver, parfois commune à plusieurs pays. La chercher ensuite sur 30 années météo et la comparer à la semaine que le cas G doit couvrir. pandas seulement, sans optimisation.</p>
+  </header>
+  <h2>Objectif</h2>
+<p>Le billet du N0 montre que l'Allemagne et la Belgique partagent la même semaine sans vent <a href="https://www.energy-alternatives.eu/linkedin/2026-11-07-capacite-allemagne-belgique.html" target="_blank" rel="noopener">Passer l'hiver : centrales de 10 heures ou batteries de 2 heures ? L'Allemagne et la Belgique</a>. On entend pourtant qu'« il y a presque toujours du vent quelque part ». Mesurons-le sur des profils publiés, jusqu'à la semaine que doit couvrir le cas G, un mix presque 100 % renouvelable de quatre pays rejoué sur 30 années météo <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/G_mix_100_enr" target="_blank" rel="noopener">Cas G — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>.</p>
+<p>Prérequis : le dépôt des cas installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>. Six blocs à la suite, quelques secondes. Valeurs du 23/11/2026 (commit <code>c9826de</code>, pandas 3.1.1). Un cas d'école, pas une prévision.</p>
+<h2>1. Les profils</h2>
+<p>Le facteur de charge d'une heure est la production divisée par la puissance installée : 0 à l'arrêt, 1 à pleine puissance. Le PECD, base climatique des gestionnaires de réseau européens (ENTSO-E), le donne heure par heure et par zone pour des années météo : des années simulées autour de l'année visée, pas des années du calendrier. Pour 2040, dix années de chacun de trois modèles de climat : 30 années, pas 30 climats indépendants. Le dépôt des cas les a toutes pour la France, l'Allemagne, l'Espagne et l'Italie, trois pour la Belgique, la Suisse et la Grande-Bretagne (<code>load_meteo</code>). On part de l'année par défaut, WS071. L'Italie du PECD est sa zone Nord, peu ventée.</p>
+<pre><code class="language-python">import sys
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
+import pandas as pd
+from pommes_cases.meteo import load_meteo, meteos
+from pommes_cases.europe import parc
+
+ZONES, AN = [&quot;FR&quot;, &quot;BE&quot;, &quot;DE&quot;, &quot;GB&quot;, &quot;CH&quot;, &quot;ES&quot;, &quot;IT&quot;], 2040
+terre, mer = {}, {}
+for z in ZONES:
+    m = load_meteo(z, AN, &quot;WS071&quot;).to_pandas()           # 8 760 heures
+    terre[z], mer[z] = m[&quot;eolien_terrestre&quot;], m[&quot;eolien_mer&quot;].fillna(0)   # pas d'éolien en mer en Suisse
+terre, mer = pd.DataFrame(terre), pd.DataFrame(mer)
+</code></pre>
+<h2>2. Ce que la somme lisse</h2>
+<p>Deux sommes : 1 GW d'éolien terrestre par pays, dont le facteur de charge est la moyenne des sept ; et le parc éolien terrestre et en mer raccordé au réseau de chaque zone en 2040 selon le plan décennal européen, le TYNDP (<code>parc</code>). Pour chaque série : moyenne, écart-type (l'écart typique d'une heure à la moyenne), part des heures sous 10 %, plus longue suite d'heures sous ce seuil.</p>
+<pre><code class="language-python">cap = pd.DataFrame({z: [parc(AN, z)[&quot;capacite_eolien_terrestre&quot;], parc(AN, z)[&quot;capacite_eolien_mer&quot;]]
+                    for z in ZONES}, index=[&quot;terre&quot;, &quot;mer&quot;]).T / 1000      # GW installés
+print(round(cap.values.sum()), round(cap.loc[&quot;DE&quot;].sum()))
+fc = terre.assign(somme=terre.mean(axis=1),                                # 1 GW dans chaque pays
+                  parc=(terre @ cap[&quot;terre&quot;] + mer @ cap[&quot;mer&quot;]) / cap.values.sum())
+
+def mesures(s):
+    sous = s &lt; 0.10
+    return pd.Series({&quot;moyenne&quot;: s.mean(), &quot;écart-type&quot;: s.std(), &quot;part &lt; 10 %&quot;: sous.mean(),
+                      &quot;suite max (h)&quot;: sous.groupby((~sous).cumsum()).sum().max()})
+print(fc.apply(mesures).T.round(3))
+# 541 231
+#        moyenne  écart-type  part &lt; 10 %  suite max (h)
+# FR       0.268       0.220        0.257           88.0
+# BE       0.361       0.303        0.250           77.0
+# DE       0.263       0.205        0.255          129.0
+# GB       0.335       0.250        0.192           99.0
+# CH       0.211       0.192        0.379          100.0
+# ES       0.316       0.200        0.131           57.0
+# IT       0.164       0.172        0.495          189.0
+# somme    0.274       0.143        0.074           56.0
+# parc     0.361       0.160        0.023           36.0
+</code></pre>
+<p>Seul, un pays passe de 13 % (Espagne) à 49 % (Italie du Nord) de ses heures sous 10 %, jusqu'à 189 heures d'affilée en Italie du Nord, 129 en Allemagne. La somme n'y passe que 7,4 % de ses heures, 56 au plus d'affilée ; son écart-type tombe à 0,143 contre 0,17 à 0,30. Le parc (541 GW, dont 231 en Allemagne), riche en éolien en mer, descend à 2,3 % et 36 heures. Le foisonnement raréfie et raccourcit les creux, sans ajouter d'énergie : 0,274 est la moyenne des sept.</p>
+<h2>3. Pourquoi : les corrélations</h2>
+<p>Une corrélation vaut 1 si deux séries varient ensemble, 0 si elles n'ont aucun lien linéaire.</p>
+<pre><code class="language-python">c = terre.corr().round(2)
+print(c.loc[&quot;FR&quot;, &quot;BE&quot;], c.loc[&quot;BE&quot;, &quot;DE&quot;], c.loc[&quot;DE&quot;, &quot;ES&quot;], c.loc[&quot;GB&quot;, &quot;IT&quot;], (terre &lt; 0.10).all(axis=1).sum())
+# 0.8 0.63 0.05 0.02 32
+</code></pre>
+<p>Voisins, France-Belgique (0,80) et Belgique-Allemagne (0,63) se ressemblent ; éloignés, Allemagne-Espagne (0,05) et Grande-Bretagne-Italie du Nord (0,02) n'ont presque plus de lien : le foisonnement vient d'eux. Restent 32 heures où les sept sont ensemble sous 10 % : des creux communs.</p>
+<h2>4. La pire semaine</h2>
+<p>Une batterie couvre quelques heures creuses, pas une semaine. On cherche les 168 heures consécutives d'hiver (novembre à février : chauffage fort, soleil faible) de plus faible facteur de charge. Les dates valent à une heure près : le PECD ne précise pas le fuseau.</p>
+<pre><code class="language-python">cal = pd.Series(pd.date_range(&quot;2001-01-01&quot;, periods=8760, freq=&quot;h&quot;))     # 365 jours, comme le PECD
+hiver = cal.dt.month.isin([11, 12, 1, 2])
+hiver = hiver &amp; hiver.shift(167, fill_value=False)       # semaines qui commencent et finissent en hiver
+
+def pire_semaine(s):
+    r = s.rolling(168).mean()[hiver]                     # moyenne glissante sur 168 heures
+    return r.idxmin() - 167, round(r.min(), 3)           # heure de début, facteur de charge moyen
+
+for col in fc:
+    h, v = pire_semaine(fc[col])
+    print(col, f&quot;{cal[h]:%d/%m}&quot;, v)
+h0 = pire_semaine(fc[&quot;somme&quot;])[0]
+print((terre.iloc[h0:h0 + 168].mean() / terre.mean()).round(2).to_dict())
+# FR 01/02 0.066
+# BE 04/02 0.084
+# DE 05/02 0.087
+# GB 17/01 0.085
+# CH 01/02 0.054
+# ES 04/02 0.107
+# IT 01/02 0.065
+# somme 04/02 0.125
+# parc 04/02 0.204
+# {'FR': 0.27, 'BE': 0.24, 'DE': 0.39, 'GB': 0.89, 'CH': 0.41, 'ES': 0.35, 'IT': 0.7}
+</code></pre>
+<p>Six pays sur sept ont leur pire semaine entre le 1er et le 5 février ; la somme y tombe à 0,125, moins de la moitié de sa moyenne, le parc à 0,204. Pendant la pire semaine de la somme (dernière ligne), cinq zones produisent au plus 41 % de leur moyenne, la Grande-Bretagne 89 % et l'Italie du Nord 70 % : le calme couvre la plupart des sept zones, pas toutes.</p>
+<h2>5. Trente années météo</h2>
+<p>Cette semaine commune est-elle rare ? Même mesure sur les 30 années, pour les quatre pays du cas G et leur parc éolien du TYNDP (le cas G, lui, recale ce parc). Pour les trois pires années : début et facteur de charge de la pire semaine d'hiver (<code>vent</code>), puis cette semaine rapportée à la moyenne de l'année, pour le solaire au sol à 1 GW par pays (<code>pv</code>) et l'éolien terrestre de chaque pays ; enfin, les débuts différents et les années où les quatre pays sont ensemble sous la moitié.</p>
+<pre><code class="language-python">lignes = []
+for ws in meteos(&quot;FR&quot;, AN):                              # WS061 à WS090
+    p = {z: load_meteo(z, AN, ws).to_pandas() for z in [&quot;FR&quot;, &quot;DE&quot;, &quot;ES&quot;, &quot;IT&quot;]}   # les pays du cas G
+    t = pd.DataFrame({z: p[z][&quot;eolien_terrestre&quot;] for z in p})
+    vent = sum(cap.loc[z, &quot;terre&quot;] * t[z] + cap.loc[z, &quot;mer&quot;] * p[z][&quot;eolien_mer&quot;] for z in p) \
+        / cap.loc[list(p)].values.sum()
+    pv = sum(p[z][&quot;pv&quot;] for z in p)
+    h, v = pire_semaine(vent)
+    sem = t.iloc[h:h + 168].mean() / t.mean()
+    lignes.append({&quot;ws&quot;: ws, &quot;h&quot;: h, &quot;début&quot;: f&quot;{cal[h]:%d/%m}&quot;, &quot;vent&quot;: v,
+                   &quot;pv&quot;: round(pv.iloc[h:h + 168].mean() / pv.mean(), 2), **sem.round(2)})
+tab = pd.DataFrame(lignes).set_index(&quot;ws&quot;).sort_values(&quot;vent&quot;)
+print(tab.drop(columns=&quot;h&quot;).head(3))
+print(tab[&quot;début&quot;].nunique(), (tab[list(p)] &lt; 0.5).all(axis=1).sum())
+#        début   vent    pv    FR    DE    ES    IT
+# ws
+# WS076  06/01  0.083  0.48  0.09  0.16  0.42  0.25
+# WS071  04/02  0.131  0.80  0.26  0.34  0.34  0.75
+# WS086  03/02  0.134  0.79  0.32  0.23  0.59  1.13
+# 26 1
+</code></pre>
+<p>26 débuts différents sur 30 : la pire semaine change d'une année à l'autre. Certaines sont communes : en WS076, à partir du 6 janvier, le parc tombe à 0,083 ; la France produit 9 % de son éolien terrestre moyen, l'Allemagne 16 %, l'Italie du Nord 25 %, l'Espagne 42 %. C'est la pire année, la seule où les quatre sont ensemble sous la moitié. Le solaire, à 48-80 % de sa moyenne, n'y supplée pas.</p>
+<h2>6. La semaine du cas G</h2>
+<p>Le cas G découpe l'année en semaines fixes (1er-7 janvier, 8-14 janvier…) et nomme celle de plus fort délestage, la demande coupée faute de production, sur ses 30 années (<code>results.json</code>).</p>
+<pre><code class="language-python">import json, pommes_cases
+from pathlib import Path
+res = json.loads((Path(pommes_cases.__file__).parents[1] / &quot;G_mix_100_enr&quot; / &quot;results.json&quot;).read_text())
+g, tb = res[&quot;meta&quot;], res[&quot;tables&quot;]
+k, h = g[&quot;semaine_pire&quot;], tab.loc[g[&quot;ws_pire&quot;], &quot;h&quot;]        # semaine k : heures 168 k à 168 k + 167
+ext = next(e for e in tb[&quot;extraits&quot;] if e[&quot;variante&quot;] == &quot;base&quot;)   # pire année résolue seule, depuis l'heure 168 k
+print(g[&quot;ws_pire&quot;], k, f&quot;{cal[168 * k]:%d/%m}&quot;, max(ext[&quot;defaillance_gw&quot;][:168]), &quot;GW&quot;)
+print(pd.DataFrame(tb[&quot;scan&quot;]).nlargest(3, &quot;semaine_pire_gwh&quot;)[&quot;ws&quot;].tolist(), &quot;| heures communes :&quot;,
+      len(set(range(h, h + 168)) &amp; set(range(168 * k, 168 * k + 168))))
+# WS076 1 08/01 251.04 GW
+# ['WS076', 'WS070', 'WS088'] | heures communes : 123
+</code></pre>
+<p>Sur le vent seul, votre mesure retrouve WS076 et 123 heures de sa semaine 1. Cette année résolue seule, le cas G y déleste 20,4 TWh (son README), jusqu'à 251 GW à la fois sur les quatre pays (le bloc), 141 GW dans un seul (README). Prudence : pour 27 des 30 années, le cas G garde la même demande, les mêmes échanges et les mêmes lacs ; seuls le vent et le soleil changent. Retrouver WS076 par le vent est donc en partie attendu ; les rangs 2 et 3 diffèrent (WS070 et WS088 contre WS071 et WS086).</p>
+<h2>Ce que cela dit pour la suite</h2>
+<p>Une interconnexion transporte ce qui est produit ailleurs à la même heure. Un parc réparti à parts égales entre les sept pays, relié par des lignes suffisantes, ne passe que 7,4 % de ses heures sous 10 %, contre 25,7 % en France seule. Mais une ligne ne crée pas le vent qui manque partout. Dans le cas G, quatre fois plus de batteries ou 2 GW de plus à chaque frontière française ne ramènent le délestage annuel que de 107,7 à 77 et 98 TWh ; doubler l'éolien et le solaire le ramène à 11,2. Son verdict : surdimensionner les renouvelables ou garder du pilotable.</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>En WS071, vous retrouvez la part des heures sous 10 % (25,7 % en France, 7,4 % pour la somme, 2,3 % pour le parc) et l'expliquez par les corrélations (France-Belgique 0,80, Allemagne-Espagne 0,05).</li>
+<li>Vous montrez que la pire semaine d'hiver de la somme (0,125 pour 0,274 en moyenne) laisse cinq zones sous 41 % de leur moyenne, pas la Grande-Bretagne (89 %).</li>
+<li>Sur 30 années, vous trouvez 26 débuts différents et WS076, seule année où les quatre pays sont ensemble sous la moitié de leur moyenne, qui recouvre 123 heures de la semaine 1 du cas G.</li>
+<li>Vous dites pourquoi une interconnexion de plus ne couvre pas cette semaine, et ce qui la couvre dans le cas G.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Même météo, pas la même défaillance <a href="https://www.energy-alternatives.eu/linkedin/2026-11-07-capacite-allemagne-belgique.html" target="_blank" rel="noopener">Passer l'hiver : centrales de 10 heures ou batteries de 2 heures ? L'Allemagne et la Belgique</a>.</li>
+<li>La même semaine dans un modèle <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/G_mix_100_enr" target="_blank" rel="noopener">Cas G — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>.</li>
+<li>Deux zones et un lien <a href="../textes/act-transport-deux-zones.html">Deux zones et un lien : flux, duale de la capacité d'échange et rente de congestion</a>.</li>
+<li>Plusieurs années météo dans une résolution <a href="../textes/act-annees-meteo-poids.html">Empiler trois années météo sur le modèle du tutoriel avec operation_year_weight</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">TYNDP 2026 Scenarios, ENTSO-E et ENTSOG : Pan European Climatic Database (PECD, facteurs de charge horaires par zone et par année météo) et sorties du modèle de marché du scénario National Trends + (onglet installed, capacités installées), version provisoire du 10/06/2026, CC BY 4.0</a></li><li><a href="https://cds.climate.copernicus.eu/datasets/sis-energy-pecd" target="_blank" rel="noopener">Copernicus C3S, Pan-European Climate Database v4.2, produite avec l'ENTSO-E (la base climatique d'où viennent les années météo)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (pommes_cases/meteo.py, pommes_cases/europe.py, data/meteo/README.md, data/europe/README.md, G_mix_100_enr/README.md et results.json)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

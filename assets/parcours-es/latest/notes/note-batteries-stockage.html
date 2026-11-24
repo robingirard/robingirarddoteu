@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les batteries : ce qu'elles coûtent, pourquoi leur prix a tant baissé, ce qui vient · Parcours ES 2026</title>
+<meta name="description" content="Une batterie de 2 h installée en France en 2030 est-elle rentable ? Cellule, pack, système clés en main et projet installé ; LFP et NMC ; puissance, énergie et durée ; maturité. Le prix d'un pack divisé par six depuis 2013 (108 $/kWh en 2025, 70 pour le stockage) et pourquoi : LFP, intégration, échelle, surcapacité chinoise. Sodium-ion, batterie solide, LMR, lithium-soufre, fer-air, batteries à circulation : ce qu'elles changent et où elles en sont. Pourquoi les coûts publiés vont de 70 à plus de 300 $/kWh, et ce que cela change pour les mini-projets A, B, G et N : une batterie de 2 h coûte de 6 à 52 €/kW/an selon la source du coût.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 25 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Les batteries : ce qu'elles coûtent, pourquoi leur prix a tant baissé, ce qui vient</h1>
+    <p class="resume">Une batterie de 2 h installée en France en 2030 est-elle rentable ? Cellule, pack, système clés en main et projet installé ; LFP et NMC ; puissance, énergie et durée ; maturité. Le prix d'un pack divisé par six depuis 2013 (108 $/kWh en 2025, 70 pour le stockage) et pourquoi : LFP, intégration, échelle, surcapacité chinoise. Sodium-ion, batterie solide, LMR, lithium-soufre, fer-air, batteries à circulation : ce qu'elles changent et où elles en sont. Pourquoi les coûts publiés vont de 70 à plus de 300 $/kWh, et ce que cela change pour les mini-projets A, B, G et N : une batterie de 2 h coûte de 6 à 52 €/kW/an selon la source du coût.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-A">Mener le mini-projet du cas A : jusqu'où les batteries restent-elles rentables ?</a></li><li><a href="../index.html#cas-B">Mener le mini-projet du cas B : que vaut la recharge pilotée des voitures électriques ?</a></li><li><a href="../index.html#cas-G">Mener le mini-projet du cas G : un mix presque 100 % EnR sur la pire semaine</a></li><li><a href="../index.html#cas-N">Mener le mini-projet du cas N : un data center sur le réseau, quelles flexibilités et quel raccordement ?</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Une batterie de 2 heures installée en
+France en 2030 sera-t-elle rentable ? Son coût a beaucoup baissé, on le
+lit partout ; mais quel chiffre mettre dans un modèle, et que peut-on
+attendre des nouvelles technologies, sodium-ion, batterie solide,
+fer-air ?</p>
+<p><strong>La réponse, en trois phrases.</strong> Le prix moyen d’un
+pack de batteries lithium-ion a été divisé par six depuis 2013, et le
+stockage stationnaire est devenu le segment le moins cher : en 2025, 70
+$ par kWh pour le pack, 117 $ par kWh pour un système complet en moyenne
+mondiale, 73 en Chine et 177 en Europe. Selon le coût qu’on retient, une
+batterie de 2 h coûte de 6 à 52 € par kW et par an, une fourchette qui
+recouvre presque entièrement celle de ce qu’elle peut gagner en achetant
+bon marché et en revendant cher : <strong>le choix de la source du coût
+décide du verdict autant que le taux d’actualisation ou la durée de
+vie</strong>. D’ici 2030, aucune nouvelle chimie ne fera baisser ce coût
+plus que ne le fait déjà la batterie lithium-fer-phosphate (LFP), et le
+fer-air ouvre une autre catégorie, le stockage de plusieurs jours,
+plutôt qu’une batterie moins chère.</p>
+<p><strong>Le plan.</strong> La section 2 pose les notions, la section 3
+raconte dix ans de baisse des prix et en donne les causes. La section 4
+passe en revue les technologies à venir et leur maturité. La section 5
+explique pourquoi les coûts publiés divergent tant. La section 6 dit ce
+que cela change pour les mini-projets A (batteries), B (voitures
+pilotées), G (semaine sans vent) et N (data center), la section 7
+corrige quelques idées reçues. L’empreinte carbone et l’énergie de
+fabrication des batteries sont traitées à part (dossier « ACV des
+batteries »).</p>
+<h2 id="les-notions">2. Les notions</h2>
+<p><strong>Cellule, pack, système, projet installé.</strong> La
+<em>cellule</em> est l’unité électrochimique : deux électrodes, un
+séparateur, un électrolyte, un boîtier. Le <em>pack</em> assemble des
+cellules avec leur électronique de gestion, leur refroidissement et leur
+coque : c’est ce qu’on met dans une voiture. Un <em>système de stockage
+stationnaire</em> ajoute au pack l’onduleur (le <em>système de
+conversion de puissance</em>, qui passe du courant continu de la
+batterie au courant alternatif du réseau), le conteneur, la gestion de
+l’énergie et l’intégration : on parle de système <em>clés en main</em>.
+Le <em>projet installé</em> compte en plus l’installation, l’ingénierie,
+le terrain, les marges et, selon les sources, le raccordement au réseau.
+En 2025, ces trois grandeurs valaient environ 70, 117 et plus de 250 $
+par kWh (section 5). « Le prix d’une batterie », sans dire lequel, ne
+veut rien dire.</p>
+<p><strong>Cathode, anode, électrolyte.</strong> La <em>cathode</em>
+(l’électrode positive) fixe l’essentiel du coût et de la densité. Deux
+familles dominent :</p>
+<ul>
+<li>les oxydes de nickel, manganèse et cobalt (<strong>NMC</strong>, ou
+NCA avec de l’aluminium), denses mais chers ;</li>
+<li>le <strong>lithium-fer-phosphate (LFP)</strong>, moins dense, moins
+cher, plus durable et plus sûr, sans nickel ni cobalt.</li>
+</ul>
+<p>L’<em>anode</em> (l’électrode négative) est presque toujours en
+graphite, parfois avec un peu de silicium. L’<em>électrolyte</em>,
+liquide aujourd’hui, transporte les ions lithium de l’une à l’autre.</p>
+<p><strong>Densité, cycles, rendement.</strong> La <em>densité
+d’énergie</em> se donne par masse (Wh/kg) ou par volume (Wh/L) : un pack
+est moins dense que ses cellules. Elle compte beaucoup pour une voiture
+ou un avion, peu pour un conteneur posé au sol. Un <em>cycle</em> est
+une charge suivie d’une décharge ; une cellule LFP de stockage tient
+plusieurs milliers de cycles avant de perdre 20 % de sa capacité. Le
+<em>rendement aller-retour</em> est la part de l’électricité stockée
+qu’on récupère : environ 90 % pour une batterie lithium-ion (0,91 dans
+le cas A).</p>
+<p><strong>Puissance, énergie, durée.</strong> Une batterie a deux
+tailles : sa puissance (MW), le débit auquel elle charge et décharge, et
+son énergie (MWh), ce qu’elle contient. Leur rapport est sa
+<em>durée</em> : une batterie de 100 MW et 400 MWh est une batterie de 4
+h. Le coût suit les deux : une part par kW (onduleur, raccordement) et
+une part par kWh (cellules). Dans le cas A, 192 € par kW plus 171 € par
+kWh : une batterie de 2 h coûte 534 € par kW, une de 4 h 876 € par kW.
+Doubler la durée ne double donc pas le coût.</p>
+<p><strong>Maturité (TRL).</strong> Le <em>niveau de maturité
+technologique</em> va de 1 (principe observé) à 9 (produit éprouvé en
+fonctionnement réel). TRL 5-6 : prototype et ligne pilote ; TRL 7 :
+démonstrateur en conditions réelles ; TRL 8-9 : premières ventes, puis
+produit courant. Un TRL ne dit rien du coût : le sodium-ion est à TRL
+8-9 et n’est pas moins cher que le LFP (section 4).</p>
+<h2 id="dix-ans-de-baisse-des-prix">3. Dix ans de baisse des prix</h2>
+<h3 id="ce-que-montre-la-courbe">3.1 Ce que montre la courbe</h3>
+<figure>
+<img
+src="img/note-batteries-stockage/Production/Batteries_technologies/output/editorial/es_pack_price.png"
+alt="Prix moyen d’un pack lithium-ion, tous usages, 2013-2025, en dollars réels de chaque année d’enquête (BloombergNEF)." />
+<figcaption aria-hidden="true">Prix moyen d’un pack lithium-ion, tous
+usages, 2013-2025, en dollars réels de chaque année d’enquête
+(BloombergNEF).</figcaption>
+</figure>
+<p>Chaque année, BloombergNEF (BNEF) publie le prix moyen d’un pack,
+pondéré par les volumes vendus, tous usages confondus. Il est passé
+d’environ 684 $/kWh en 2013 et 393 en 2015 à 108 en 2025 : divisé par
+plus de six en douze ans, par plus de trois et demi en dix ans, soit
+environ 12 % de baisse par an.</p>
+<p>La seule hausse date de <strong>2022</strong> (151 $/kWh) : le prix
+du lithium a été multiplié par neuf entre janvier 2021 et décembre 2022,
+avant de perdre près de 80 %. La baisse a repris dès 2023.</p>
+<p>Derrière la moyenne, les écarts sont grands. En 2025, un pack LFP
+coûtait 81 $/kWh, un pack NMC 128 ; un pack vendu en Chine 84 $/kWh, en
+Europe et en Amérique du Nord 40 à 60 % de plus. Le pack destiné au
+stockage stationnaire était le moins cher de tous, à <strong>70
+$/kWh</strong>, 45 % de moins qu’un an plus tôt.</p>
+<h3 id="pourquoi-les-prix-ont-baissé">3.2 Pourquoi les prix ont
+baissé</h3>
+<p>Il n’y a pas eu de rupture chimique : la batterie de 2025 ressemble à
+celle de 2015. Cinq causes se sont additionnées.</p>
+<ol type="1">
+<li><strong>Les matières.</strong> La matière de la cathode fait 40 à 50
+% du coût de fabrication d’une cellule NMC, 25 à 30 % d’une cellule LFP.
+Le prix du lithium a fait monter puis descendre les prix plus que
+n’importe quel progrès technique entre 2021 et 2023.</li>
+<li><strong>Le passage au LFP.</strong> Chimie des bus et des voitures
+chinoises bon marché il y a dix ans, le LFP équipe en 2025 plus de 55 %
+des batteries de véhicules électriques vendues dans le monde (81 % en
+Chine, environ 12 % dans l’Union européenne) et <strong>plus de 90 % du
+stockage stationnaire</strong>. Son pack est plus de 40 % moins cher par
+kWh que le NMC.</li>
+<li><strong>L’intégration.</strong> La <em>cellule dans le pack</em>
+supprime les modules intermédiaires (CATL dès 2019) ; la Blade de BYD
+(2020) fait de longues cellules LFP qui servent elles-mêmes de
+structure. Pour le stockage, les cellules prismatiques LFP sont passées
+de 280 Ah à 500-600 Ah, et un conteneur de 20 pieds de 3,7 à plus de 6
+MWh : moins de cellules, de câbles et de conteneurs par MWh. C’est
+pourquoi le prix des systèmes stationnaires a baissé plus vite que celui
+des packs de voiture.</li>
+<li><strong>L’échelle et l’apprentissage.</strong> Le <em>taux
+d’apprentissage</em> est la baisse du coût chaque fois que la production
+cumulée double. Pour les batteries lithium-ion, les études publiées le
+situent entre <strong>15 et 24 %</strong>. Une usine neuve perd aussi
+une part de sa production en rebut les premières années ; les usines
+chinoises, plus anciennes et plus grandes, sont plus bas sur cette
+courbe.</li>
+<li><strong>La surcapacité.</strong> Fin 2025, le monde pouvait
+fabriquer plus de <strong>4 TWh</strong> de cellules par an, dont plus
+de 80 % en Chine ; en 2024, la capacité valait 2,5 fois la demande. La
+concurrence fait baisser les prix plus vite que les coûts : beaucoup de
+fabricants de matériau de cathode vendent à perte. Une partie de la
+baisse récente peut donc s’inverser (section 5).</li>
+</ol>
+<p>À 15-24 % par doublement et avec une production qui double tous les
+deux ou trois ans, on attendrait une baisse de 6 à 11 % par an. Les 12 %
+observés de 2015 à 2025 viennent de ce que l’apprentissage, le passage
+au LFP et la surcapacité ont joué ensemble.</p>
+<h3 id="le-stockage-stationnaire-décolle">3.3 Le stockage stationnaire
+décolle</h3>
+<p>Le monde a installé environ 108 GW de batteries stationnaires en
+2025, environ 250 GWh, 40 % de plus qu’en 2024. Le système clés en main
+valait 165 $/kWh en 2024 et <strong>117 $/kWh en 2025</strong> en
+moyenne mondiale (124 pour une batterie de 2 h, 110 pour une de 4 h),
+avec un rapport de un à plus de deux entre la Chine (73) et l’Europe
+(177), et de trois avec les États-Unis (219). En Chine, les appels
+d’offres de 2025 sont descendus autour de 0,4 à 0,5 yuan par Wh pour des
+systèmes de 4 h.</p>
+<h2 id="les-technologies-à-venir-et-leur-maturité">4. Les technologies à
+venir et leur maturité</h2>
+<p>Les nouvelles technologies visent des choses différentes : le coût,
+la densité (pour les véhicules), la sécurité, l’indépendance vis-à-vis
+du lithium, du nickel et du cobalt, ou la durée de stockage. Pour le
+stockage stationnaire, seul le coût par kWh et par cycle compte
+vraiment. Les dates de production qui suivent sont celles annoncées par
+les industriels, et elles ont souvent glissé.</p>
+<figure>
+<img
+src="img/note-batteries-stockage/Production/Batteries_technologies/output/editorial/battery_technology_timeline_public.png"
+alt="Où en est chaque technologie de batterie en 2026 : lignes pilotes, premiers volumes industriels, production de masse ; en hachuré, ce qui n’est qu’annoncé par le fabricant." />
+<figcaption aria-hidden="true">Où en est chaque technologie de batterie
+en 2026 : lignes pilotes, premiers volumes industriels, production de
+masse ; en hachuré, ce qui n’est qu’annoncé par le
+fabricant.</figcaption>
+</figure>
+<p><strong>LFP amélioré et LMFP.</strong> Le LFP a encore de la marge :
+remplacer une partie du fer par du manganèse (le LMFP) donne de l’ordre
+de 15 à 20 % d’énergie en plus avec les mêmes matières bon marché ; un
+peu de silicium dans l’anode et des électrodes empilées plutôt
+qu’enroulées font le reste. Le Fraunhofer ISI estime qu’une cellule LFP
+pourrait ainsi atteindre d’ici 2030 la densité des cellules NMC
+d’aujourd’hui (plus de 200 Wh/kg). CATL annonce produire du LMFP en
+série depuis 2023. C’est de l’ingénierie sur une chimie mûre (TRL 8-9),
+et le principal moteur de baisse jusqu’en 2030.</p>
+<p><strong>Sodium-ion.</strong> Le sodium remplace le lithium : plus
+aucune matière critique (ni lithium, ni nickel, ni cobalt, ni graphite
+naturel, ni cuivre), une meilleure tenue au froid (90 % de la capacité à
+−20 °C, contre 60-70 % pour le lithium-ion), mais une densité plus
+faible, 140 à 175 Wh/kg contre 205 pour le meilleur LFP. La technologie
+est mûre (<strong>TRL 8-9</strong>) : première voiture en 2024, ligne de
+30 GWh chez BYD en 2025, grands contrats pour du stockage en 2026. Mais
+son avantage de coût dépend du prix du lithium : le carbonate de sodium
+vaut 100 à 500 $ la tonne, le carbonate de lithium de 6 000 à 83 000 $
+selon les années. Avec un lithium bon marché, comme en 2024-2026, le
+sodium-ion ne bat pas le LFP par kWh. Les fabricants de cellules
+sodium-ion n’ont encore qu’un peu plus de 1 % de la capacité du
+lithium-ion.</p>
+<p><strong>Anodes au silicium.</strong> Le silicium stocke plusieurs
+fois plus de lithium par gramme que le graphite, mais gonfle en se
+chargeant. Il entre déjà en petite proportion dans des cellules
+commerciales ; viser 10 à 20 % de silicium approche 300 Wh/kg. C’est un
+levier de densité et de recharge rapide, pas de coût.</p>
+<p><strong>Électrolyte semi-solide et solide.</strong> Remplacer
+l’électrolyte liquide par un solide (sulfures, oxydes ou polymères)
+permettrait une anode en lithium métal, donc beaucoup plus de densité,
+et une meilleure sécurité. Les premières batteries vendues comme «
+solides » sont des semi-solides, en petite série depuis 2024 sur des
+voitures haut de gamme. Le tout-solide est au <strong>TRL 6</strong>
+(grande ligne pilote) ; Toyota et BYD visent une production de masse en
+2027-2028, et Toyota a déjà repoussé ses dates plusieurs fois. Il
+coûtera d’abord plus cher : pas d’effet sur le prix du stockage avant
+2030.</p>
+<p><strong>Lithium métal et cellules « sans anode ».</strong> La densité
+maximale accessible (plus de 400 Wh/kg annoncés), au stade des
+échantillons. Pour l’aviation légère et les voitures haut de gamme, pas
+pour le stockage.</p>
+<p><strong>Cathodes riches en manganèse (LMR).</strong> Une cathode avec
+peu de nickel, presque pas de cobalt et beaucoup de manganèse. General
+Motors et LG l’annoncent un tiers plus dense en volume que le meilleur
+LFP, à coût comparable, et produite en 2028. C’est surtout la voie
+occidentale vers une batterie de voiture bon marché sans dépendre du LFP
+chinois.</p>
+<p><strong>Lithium-soufre.</strong> Très léger (plus de 300 Wh/kg, 550
+visés) avec une matière très bon marché, mais 50 à 300 cycles pour les
+prototypes (TRL 5-7). Pour les drones, l’aviation et les camions ; pas
+pour le stockage, où la masse ne compte pas.</p>
+<p><strong>Fer-air.</strong> Le fer rouille en se déchargeant et
+redevient du fer en se chargeant, l’oxygène venant de l’air. La matière
+ne coûte presque rien, ce qui permet de stocker <strong>100
+heures</strong> d’un coup, au prix d’un rendement faible (environ 40 à
+50 %). Form Energy livre ses premiers systèmes depuis 2025 et annonce
+des projets de plusieurs GWh. Le coût visé, 20 $/kWh, n’est pas encore
+atteint, et l’Agence internationale de l’énergie (AIE) jugeait encore en
+2024 le stockage de longue durée « dans l’enfance ». C’est une autre
+catégorie : stocker plusieurs jours, pas une batterie de 2 h moins
+chère.</p>
+<p><strong>Batteries à circulation.</strong> L’énergie est stockée dans
+deux électrolytes liquides en réservoirs, la puissance dans une pile à
+part : on dimensionne l’une et l’autre indépendamment. Durées de 5 à 10
+heures, des milliers de cycles, pas de risque d’emballement thermique,
+mais 75 à 85 % de rendement et un coût dominé par le vanadium. La
+version au vanadium est commerciale (TRL 9 ; 400 MWh à Dalian en Chine
+en 2022). Le LFP a baissé si vite que leur créneau se déplace vers 8
+heures et plus.</p>
+<p><strong>Procédés : électrode sèche, recyclage.</strong> Déposer la
+poudre d’électrode sans solvant évite de longs fours de séchage : selon
+une étude de 2023, la combinaison des meilleurs procédés réduirait de 42
+à 57 % l’énergie consommée par une usine de cellules. Le recyclage
+<em>direct</em> régénère la cathode sans la détruire ; il en est au
+pilote, et le gisement de batteries en fin de vie restera petit avant
+2030.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Technologie</th>
+<th>Ce qu’elle change d’abord</th>
+<th>Maturité en 2026</th>
+<th>Effet sur le coût d’un stockage d’ici 2030</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LFP grandes cellules, LMFP</td>
+<td>coût, intégration, un peu de densité</td>
+<td>production de masse</td>
+<td>le moteur principal</td>
+</tr>
+<tr class="even">
+<td>Sodium-ion</td>
+<td>matières critiques, froid</td>
+<td>premiers volumes (TRL 8-9)</td>
+<td>nul tant que le lithium reste bon marché</td>
+</tr>
+<tr class="odd">
+<td>Anodes au silicium</td>
+<td>densité</td>
+<td>démarrage industriel</td>
+<td>faible</td>
+</tr>
+<tr class="even">
+<td>Semi-solide, solide</td>
+<td>densité, sécurité</td>
+<td>petite série ; grand pilote (TRL 6)</td>
+<td>aucun, ou plus cher</td>
+</tr>
+<tr class="odd">
+<td>Lithium métal</td>
+<td>densité</td>
+<td>échantillons</td>
+<td>aucun</td>
+</tr>
+<tr class="even">
+<td>LMR</td>
+<td>voiture bon marché sans LFP</td>
+<td>production annoncée en 2028</td>
+<td>surtout hors Chine, après 2028</td>
+</tr>
+<tr class="odd">
+<td>Lithium-soufre</td>
+<td>masse</td>
+<td>pilote (TRL 5-7)</td>
+<td>aucun</td>
+</tr>
+<tr class="even">
+<td>Fer-air</td>
+<td>stockage de plusieurs jours</td>
+<td>premières livraisons</td>
+<td>une autre catégorie</td>
+</tr>
+<tr class="odd">
+<td>Circulation (vanadium)</td>
+<td>durée, cycles</td>
+<td>commercial (TRL 9)</td>
+<td>marginal</td>
+</tr>
+<tr class="even">
+<td>Électrode sèche, recyclage</td>
+<td>énergie et coût des usines</td>
+<td>début de série ; pilote</td>
+<td>positif, mal chiffré</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pourquoi-les-coûts-publiés-divergent">5. Pourquoi les coûts
+publiés divergent</h2>
+<p>Un étudiant qui cherche « le coût d’une batterie » trouve des
+chiffres qui vont de 40 à plus de 350 $/kWh. Ils ne se contredisent pas
+: ils ne mesurent pas la même chose.</p>
+<figure>
+<img
+src="img/note-batteries-stockage/Production/Batteries_technologies/output/editorial/es_cost_perimeters.png"
+alt="Le même « prix d’une batterie » selon le périmètre : pack, système clés en main, projet installé (2024-2026, en dollars par kWh)." />
+<figcaption aria-hidden="true">Le même « prix d’une batterie » selon le
+périmètre : pack, système clés en main, projet installé (2024-2026, en
+dollars par kWh).</figcaption>
+</figure>
+<p><strong>1. Le périmètre.</strong> Pack (70 $/kWh), système clés en
+main (73 à 177), projet installé (250 à 330 et plus) : du simple au
+quadruple pour la même année. Entre le pack chinois et le projet
+européen ou américain, il y a la conversion, l’ingénierie, le
+raccordement, la main-d’œuvre, les marges et les droits de douane, et ce
+sont ces postes qui baissent le moins.</p>
+<p><strong>2. La durée.</strong> Un coût « par kWh » dépend de la durée
+de la batterie : la part par kW (onduleur, raccordement) se répartit sur
+moins de kWh pour une batterie de 1 h que pour une de 4 h. Un coût par
+kWh sans la durée ne se compare pas.</p>
+<p><strong>3. Le pays et la politique commerciale.</strong> Aux
+États-Unis, les droits de douane sur les batteries chinoises (25 %
+depuis 2024 pour les véhicules, depuis le 1er janvier 2026 pour les
+autres) ont presque doublé en un an le bas de fourchette du coût d’un
+système de 4 h selon la banque Lazard, d’environ 140 à 270 $/kWh. La
+Chine a de son côté annoncé en 2025 des restrictions à l’exportation de
+ses procédés de fabrication de cathodes LFP.</p>
+<p><strong>4. L’année, la monnaie et le prix contre le coût.</strong>
+Une projection pour 2030 n’est pas un prix constaté en 2025 ; des
+dollars de 2022 ne sont pas des dollars de 2025 ; et un prix tiré par la
+surcapacité n’est pas un coût de production.</p>
+<p><strong>5. L’auteur.</strong> Les projections publiées pour un
+système de 4 h :</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Périmètre</th>
+<th>Point de départ</th>
+<th>2030</th>
+<th>2035</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>NREL (2025), États-Unis</td>
+<td>projet installé, $ de 2024/kWh</td>
+<td>334 (2024)</td>
+<td>207 / 279 / 354</td>
+<td>147 / 243 / 339</td>
+</tr>
+<tr class="even">
+<td>AIE (2024), monde</td>
+<td>coût d’investissement, $ de 2022/kWh</td>
+<td>290 (2022)</td>
+<td>175</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>BNEF (2025)</td>
+<td>système clés en main, $/kWh</td>
+<td>Chine 73, Europe 177 (2025)</td>
+<td>—</td>
+<td>Chine 41, Europe 101</td>
+</tr>
+<tr class="even">
+<td>RTE (2026), France</td>
+<td>projet hors raccordement, € de 2025/kWh</td>
+<td>224 (2024)</td>
+<td>pas de baisse centrale d’ici 2050, ± 50 %</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>(NREL : hypothèses basse, moyenne et haute.)</p>
+<p><strong>Les projections passées ont presque toujours été trop
+pessimistes pour les packs.</strong> En 2017, une étude de référence
+attendait un pack de voiture à 120 $/kWh en 2030 ; il valait 97 $/kWh
+dès 2024. En 2023, BNEF projetait un pack moyen à 80 $/kWh en 2030 ; le
+pack stationnaire est à 70 dès 2025. Le NREL a révisé de 25 % à la
+baisse en deux ans son propre coût de 2024. Mais les <strong>coûts de
+projets installés en Europe et aux États-Unis</strong>, eux, ne suivent
+pas : le NREL ne descend que de 334 à 279 $/kWh entre 2024 et 2030 dans
+son hypothèse moyenne, et RTE ne suppose aucune baisse centrale d’ici
+2050.</p>
+<h2 id="ce-que-ça-change-pour-les-mini-projets">6. Ce que ça change pour
+les mini-projets</h2>
+<figure>
+<img
+src="img/note-batteries-stockage/Production/Batteries_technologies/output/editorial/es_battery_2h_cost_vs_revenue.png"
+alt="Coût annualisé d’une batterie de 2 h selon la source du coût (barres), face au revenu d’arbitrage d’une batterie de 2 h en France en 2030 selon le jeu de prix (lignes et bande), en € par kW et par an." />
+<figcaption aria-hidden="true">Coût annualisé d’une batterie de 2 h
+selon la source du coût (barres), face au revenu d’arbitrage d’une
+batterie de 2 h en France en 2030 selon le jeu de prix (lignes et
+bande), en € par kW et par an.</figcaption>
+</figure>
+<h3 id="cas-a-jusquoù-les-batteries-restent-elles-rentables">6.1 Cas A :
+jusqu’où les batteries restent-elles rentables ?</h3>
+<p>Le cas A compare le revenu d’une batterie qui achète aux heures bon
+marché et revend aux heures chères à son <strong>coût annualisé</strong>
+: l’investissement transformé en annuité (4 % sur 25 ans) plus un coût
+fixe d’exploitation (voir <a href="note-financer-transition.html">Financer
+la transition</a> pour la formule de l’annuité). Pour passer d’un coût
+publié de système de 4 h à une batterie de 2 h, le cas met à l’échelle
+la décomposition du TYNDP 2024 (le plan décennal des réseaux européens)
+: 192 € par kW plus 171 € par kWh.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Coût de système retenu</th>
+<th>€ par kW et par an, batterie de 2 h, 4 %, 25 ans</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Chine 2025 (BNEF)</td>
+<td>10,7</td>
+</tr>
+<tr class="even">
+<td>Europe 2035, projection (BNEF)</td>
+<td>14,6</td>
+</tr>
+<tr class="odd">
+<td>Europe 2025 (BNEF)</td>
+<td>25,1</td>
+</tr>
+<tr class="even">
+<td>Monde 2030, projection (AIE)</td>
+<td>26,6</td>
+</tr>
+<tr class="odd">
+<td>Europe 2030 (TYNDP 2024, valeur par défaut du cas)</td>
+<td><strong>34,8</strong></td>
+</tr>
+<tr class="even">
+<td>France 2024 (RTE)</td>
+<td>35,6</td>
+</tr>
+<tr class="odd">
+<td>États-Unis 2030, hypothèse moyenne (NREL)</td>
+<td>40,9</td>
+</tr>
+</tbody>
+</table>
+<p>Face à cela, le revenu d’arbitrage d’une batterie de 2 h en 2030 vaut
+33,5 € par kW et par an avec les prix du TYNDP 2024, 25,7 avec ceux du
+TYNDP 2026, et 18,8 en médiane avec les 132 séries de prix calculées par
+POMMES (de 4,7 à 48,2 selon le prix du gaz et l’année météo). Trois
+choses à regarder :</p>
+<ul>
+<li><strong>Le verdict change avec la source du coût.</strong> Au coût
+du TYNDP (34,8), ni les séries centrales des deux jeux TYNDP ni la
+médiane POMMES ne couvrent le coût ; au prix européen constaté en 2025
+(25,1), les deux jeux TYNDP passent et un quart des séries POMMES aussi.
+Le coût que le TYNDP retient pour 2030 est <em>au-dessus</em> du prix
+européen de 2025 : il vaut la peine de le dire dans une
+restitution.</li>
+<li><strong>Le taux et la durée de vie comptent autant.</strong> À 7 %
+sur 25 ans, la même batterie coûte 46,5 € par kW et par an ; sur 15 ans
+à 4 %, 48,7.</li>
+<li><strong>Le n-ième GW gagne moins.</strong> Quand toutes les
+batteries font la même chose, elles écrasent l’écart de prix dont elles
+vivent : une flotte de 10 GW gagne 29 à 36 % de moins par kW qu’une
+batterie seule. Si le coût européen baisse comme le projette BNEF (14,6
+en 2035), la question n’est plus le coût d’une batterie mais la
+profondeur du marché.</li>
+</ul>
+<p>Deux réserves en restitution : on ne sait pas si le « clés en main »
+de BNEF comprend le raccordement, et le prix chinois n’est pas
+accessible tel quel à un projet européen. Une question de mini-projet :
+<em>combien de GW de batteries sont rentables si l’on remplace le coût
+du TYNDP par le prix européen de 2025, et que reste-t-il sans les
+quelques heures au plafond de prix ?</em></p>
+<h3 id="cas-b-les-voitures-pilotées">6.2 Cas B : les voitures
+pilotées</h3>
+<p>Le cas B ne compte pas l’usure des batteries. Pour une recharge
+pilotée, qui déplace seulement l’heure de charge, ce n’est pas grave :
+la batterie aurait été chargée de toute façon. Pour une voiture qui
+<em>rend</em> de l’électricité au réseau, c’est décisif. Un pack de
+voiture coûtait 99 $/kWh en 2025, environ 88 €/kWh ; s’il tient 2 400 à
+6 250 cycles à 80 % de profondeur de décharge avant de perdre 20 % de sa
+capacité, chaque MWh rendu use pour <strong>18 à 46 €</strong> de
+batterie. C’est l’ordre de grandeur de l’écart entre heures creuses et
+heures pleines. Une question de mini-projet : <em>que reste-t-il du gain
+de la décharge vers le réseau si l’on fait payer l’usure à chaque MWh
+rendu ?</em></p>
+<h3 id="cas-g-une-semaine-sans-vent">6.3 Cas G : une semaine sans
+vent</h3>
+<p>Le cas G cherche ce qui couvre une semaine d’hiver sans vent dans une
+Europe presque 100 % renouvelable. Sa réponse : pas les batteries.
+Multiplier par quatre les batteries prévues ne fait passer le délestage
+que de 107,7 à 77,3 TWh par an (moyenne de trois années météo), quand
+doubler l’éolien et le solaire le ramène à 11,2 TWh. La raison est le
+coût par kWh : dans le modèle, la pire semaine laisse environ 20 TWh de
+demande non servie. Les stocker au prix moyen mondial d’un système de
+2025 (117 $/kWh) coûterait plus de 2 000 milliards de dollars, pour une
+semaine par an. Même au coût visé par Form Energy pour le fer-air, 20
+$/kWh, ce serait encore 400 milliards. Une question de mini-projet :
+<em>à quel coût par kWh un stockage de 100 heures remplacerait-il une
+partie du surdimensionnement des renouvelables ?</em></p>
+<h3 id="cas-n-un-data-center-sur-le-réseau">6.4 Cas N : un data center
+sur le réseau</h3>
+<p>Le cas N chiffre à part une batterie dédiée de 25 MW et 50 MWh, à 8 %
+sur 25 ans : environ 1,25 M€ par an au coût du TYNDP, 0,9 M€ au prix
+européen de 2025, 0,4 M€ au prix chinois. L’arbitrage seul lui rapporte
+0,6 à 1,4 M€ par an selon la série de prix. Au coût du TYNDP, la
+batterie se paie rarement par l’arbitrage seul ; au prix européen
+constaté, dans une partie des séries. Pour la forme des prix qui fait
+ces revenus, voir <a href="note-marches-elec.html">Le prix de
+l’électricité</a>.</p>
+<h2 id="quelques-idées-reçues">7. Quelques idées reçues</h2>
+<ol type="1">
+<li><strong>« Une batterie coûte 100 $/kWh. »</strong> C’est l’ordre de
+grandeur d’un pack en
+<ol start="2025" type="1">
+<li>Un système clés en main européen coûte près du double, un projet
+installé plus du double encore.</li>
+</ol></li>
+<li><strong>« Une batterie de 4 h coûte deux fois plus qu’une batterie
+de 2 h. »</strong> Non : une partie du coût est par kW. Avec la
+décomposition du cas A, 876 € par kW pour 4 h contre 534 pour 2 h, soit
+1,6 fois plus.</li>
+<li><strong>« La batterie solide va faire baisser les prix. »</strong>
+Elle vise la densité et la sécurité, elle est au stade du grand pilote,
+et elle coûtera d’abord plus cher.</li>
+<li><strong>« Le sodium-ion sera moins cher que le lithium-ion.
+»</strong> Seulement si le lithium redevient cher. Son vrai atout est de
+ne dépendre d’aucune matière critique.</li>
+<li><strong>« Le prix du lithium fait le prix de la batterie. »</strong>
+Moins qu’on ne le croit : entre avril 2023 et avril 2024, le lithium a
+baissé de 36 % et les packs de 14 %, parce que les contrats de long
+terme amortissent les à-coups. Le pic de 2022 a tout de même suffi à
+faire monter les prix d’une année.</li>
+<li><strong>« Les projections de baisse sont trop optimistes. »</strong>
+Pour les packs, c’est l’inverse : elles ont presque toujours été
+battues. Pour les projets installés en Europe et aux États-Unis, la
+prudence se justifie.</li>
+</ol>
+<h2 id="ce-quil-faut-retenir">8. Ce qu’il faut retenir</h2>
+<p><strong>Le prix des packs a été divisé par six depuis 2013</strong>,
+sans rupture chimique : le LFP, l’intégration, l’échelle et une
+surcapacité chinoise qui fait baisser les prix plus vite que les
+coûts.</p>
+<p><strong>Le stockage stationnaire est devenu le segment le moins
+cher</strong> : 70 $/kWh le pack, 117 $/kWh le système clés en main en
+moyenne mondiale en 2025, du simple au double et demi entre la Chine et
+l’Europe.</p>
+<p><strong>Un coût de batterie se lit avec son périmètre, sa durée, son
+pays et son année.</strong> Ce sont les postes hors cellules
+(conversion, ingénierie, raccordement, douanes) qui baissent le
+moins.</p>
+<p><strong>D’ici 2030, la baisse viendra encore du LFP.</strong>
+Sodium-ion, solide, lithium métal ou soufre visent la densité, la
+sécurité ou l’indépendance en matières ; le fer-air ouvre le stockage de
+plusieurs jours.</p>
+<p><strong>Pour un mini-projet, la source du coût change le
+verdict</strong> autant que le taux et la durée de vie : faites varier
+les trois avant de conclure.</p>
+<h2 id="sources">9. Sources</h2>
+<ul>
+<li>BloombergNEF, <em>Lithium-Ion Battery Price Survey</em>, communiqués
+de 2022 à 2025, <a href="https://about.bnef.com/insights/clean-transport/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/" target="_blank" rel="noopener"
+class="uri">https://about.bnef.com/insights/clean-transport/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/</a>.</li>
+<li>BloombergNEF, <em>Energy Storage System Cost Survey</em> 2024 et
+2025, résumés par Energy-Storage.News, <a href="https://www.energy-storage.news/battery-storage-system-prices-continue-to-fall-sharply-bnef-and-ember-reports-find/" target="_blank" rel="noopener"
+class="uri">https://www.energy-storage.news/battery-storage-system-prices-continue-to-fall-sharply-bnef-and-ember-reports-find/</a>.</li>
+<li>AIE, <em>Batteries and Secure Energy Transitions</em>, 2024, <a href="https://iea.blob.core.windows.net/assets/cb39c1bf-d2b3-446d-8c35-aae6b1f3a4a0/BatteriesandSecureEnergyTransitions.pdf" target="_blank" rel="noopener"
+class="uri">https://iea.blob.core.windows.net/assets/cb39c1bf-d2b3-446d-8c35-aae6b1f3a4a0/BatteriesandSecureEnergyTransitions.pdf</a>.</li>
+<li>AIE, <em>Global EV Outlook 2025</em> et <em>2026</em>, chapitres sur
+les batteries, <a href="https://iea.blob.core.windows.net/assets/857aa690-2a43-453f-9f12-147cc8f0a1dd/GlobalEVOutlook2026.pdf" target="_blank" rel="noopener"
+class="uri">https://iea.blob.core.windows.net/assets/857aa690-2a43-453f-9f12-147cc8f0a1dd/GlobalEVOutlook2026.pdf</a>.</li>
+<li>Fraunhofer ISI, <em>Lithium-Ion Battery Roadmap</em> (2023),
+<em>Alternative Battery Technologies Roadmap 2030+</em> (2023) et
+<em>Solid-State Battery Roadmap 2035+</em> (2022), <a href="https://www.isi.fraunhofer.de/content/dam/isi/dokumente/cct/2023/abt-roadmap.pdf" target="_blank" rel="noopener"
+class="uri">https://www.isi.fraunhofer.de/content/dam/isi/dokumente/cct/2023/abt-roadmap.pdf</a>.</li>
+<li>IRENA, <em>Sodium-ion batteries</em>, Technology brief, 2025, <a href="https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2025/Nov/IRENA_TEC_Sodium-ion_batteries_2025.pdf" target="_blank" rel="noopener"
+class="uri">https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2025/Nov/IRENA_TEC_Sodium-ion_batteries_2025.pdf</a>.</li>
+<li>NREL (Cole, Ramasamy, Turan), <em>Cost Projections for Utility-Scale
+Battery Storage: 2025 Update</em>, NREL/TP-6A40-93281, <a href="https://www.nrel.gov/docs/fy25osti/93281.pdf" target="_blank" rel="noopener"
+class="uri">https://www.nrel.gov/docs/fy25osti/93281.pdf</a>.</li>
+<li>Lazard, <em>Levelized Cost of Energy+</em>, juin 2025 et juillet
+2026, <a href="https://www.lazard.com/research-insights/levelized-cost-of-energyplus/" target="_blank" rel="noopener"
+class="uri">https://www.lazard.com/research-insights/levelized-cost-of-energyplus/</a>.</li>
+<li>RTE, actualisation des <em>Futurs énergétiques 2050</em>, annexes de
+la consultation,
+<ol start="2026" type="1">
+<li></li>
+</ol></li>
+<li>Agence danoise de l’énergie, <em>Technology Data for Energy
+Storage</em>, 2025, <a href="https://ens.dk/media/6588" target="_blank" rel="noopener"
+class="uri">https://ens.dk/media/6588</a>.</li>
+<li>ENTSO-E et ENTSOG, <em>TYNDP 2024 Scenarios</em>, rapport de
+méthode, 2024.</li>
+<li>Degen F. et al., « Energy consumption of current and future
+production of lithium-ion and post lithium-ion battery cells »,
+<em>Nature Energy</em> 8 (2023), <a href="https://doi.org/10.1038/s41560-023-01355-z" target="_blank" rel="noopener"
+class="uri">https://doi.org/10.1038/s41560-023-01355-z</a>.</li>
+<li>Kittner N., Lill F., Kammen D., « Energy storage deployment and
+innovation for the clean energy transition », <em>Nature Energy</em> 2
+(2017) 17125, <a href="https://doi.org/10.1038/nenergy.2017.125" target="_blank" rel="noopener"
+class="uri">https://doi.org/10.1038/nenergy.2017.125</a>.</li>
+<li>Mauler L. et al., « Battery cost forecasting: a review of methods
+and results with an outlook to 2050 », <em>Energy Environ. Sci.</em> 14
+(2021), <a href="https://doi.org/10.1039/d1ee01530c" target="_blank" rel="noopener"
+class="uri">https://doi.org/10.1039/d1ee01530c</a>.</li>
+<li>Schmidt O. et al., « The future cost of electrical energy storage
+based on experience rates », <em>Nature Energy</em> 2 (2017) 17110, <a href="https://doi.org/10.1038/nenergy.2017.110" target="_blank" rel="noopener"
+class="uri">https://doi.org/10.1038/nenergy.2017.110</a>.</li>
+<li>Ziegler M., Trancik J., « Re-examining rates of lithium-ion battery
+technology improvement and cost decline », <em>Energy Environ. Sci.</em>
+14 (2021), <a href="https://doi.org/10.1039/d0ee02681f" target="_blank" rel="noopener"
+class="uri">https://doi.org/10.1039/d0ee02681f</a>.</li>
+<li>Mini-projets A, B, G et N du cours : dépôt
+<code>pommes-case-studies</code>, README de chaque cas (revenus,
+délestages et annuités cités en section 6).</li>
+<li>Industriels (CATL, BYD, Toyota, General Motors et LG Energy
+Solution, Form Energy, QuantumScape, Tesla) : communiqués et presse
+spécialisée, 2019 à 2026.</li>
+</ul>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">10. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des billets de blog et des posts LinkedIn de l’auteur reprennent des
+points de cette note.</p>
+<ul>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-11-07-capacite-allemagne-belgique.html" target="_blank" rel="noopener">Passer
+l’hiver : centrales de 10 heures ou batteries de 2 heures ? L’Allemagne
+et la Belgique</a> (post LinkedIn repris sur le blog, avec figures et
+sources ; <a href="https://www.linkedin.com/feed/update/urn:li:ugcPost:7524893381253111808/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : pourquoi une semaine d’hiver sans vent demande
+des moyens capables de tenir des jours, et ce que peuvent des batteries
+de 2 heures (cas A et G).</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-11-12-flexibilite-autriche.html" target="_blank" rel="noopener">L’Autriche,
+le solaire de midi et la flexibilité déjà payée</a> (post LinkedIn
+repris sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:share:7526518375687090176/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : des prix presque nuls à midi et élevés le soir,
+et ce que vaut la flexibilité des batteries et des voitures électriques
+(cas A et B).</li>
+<li><a href="https://www.energy-alternatives.eu/2026/11/02/petites-STEP-europe.html" target="_blank" rel="noopener">Des
+milliers de petites STEP possibles en Europe : où, combien, et ce que le
+karst change</a> (billet de blog, 35 min) : l’autre façon de stocker
+l’électricité, en pompant de l’eau, et ses ordres de grandeur (cas
+G).</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Batteries_stockage.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-marches-elec.html">Le prix de l'électricité : comment il se forme, à quoi il ressemble, ce qui s'y ajoute</a></li><li><a href="note-financer-transition.html">Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte</a></li><li><a href="note-mix-elec-pays.html">Comment cinq pays produisent leur électricité, aujourd'hui et en 2050</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#les-notions">2. Les notions</a></li><li><a href="#dix-ans-de-baisse-des-prix">3. Dix ans de baisse des prix</a></li><li><a href="#les-technologies-à-venir-et-leur-maturité">4. Les technologies à venir et leur maturité</a></li><li><a href="#pourquoi-les-coûts-publiés-divergent">5. Pourquoi les coûts publiés divergent</a></li><li><a href="#ce-que-ça-change-pour-les-mini-projets">6. Ce que ça change pour les mini-projets</a></li><li><a href="#quelques-idées-reçues">7. Quelques idées reçues</a></li><li><a href="#ce-quil-faut-retenir">8. Ce qu’il faut retenir</a></li><li><a href="#sources">9. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">10. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

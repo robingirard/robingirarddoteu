@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Une installation face au prix : un électrolyseur, deux chaudières · Parcours ES 2026</title>
+<meta name="description" content="Le squelette du premier modèle appliqué à deux installations qui achètent l'électricité au prix horaire français de 2030 : un électrolyseur avec une cavité saline, qui tourne 63 % du temps et paie son électricité 36,18 €/MWh au lieu de 57,50, puis une chaudière électrique à côté d'une chaudière à gaz, qui tourne exactement les 3 680 heures sous le prix de bascule de 44,54 €/MWh.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 60 min</span> · <span>Hydrogène, Industrie, Flexibilité</span></div>
+    <h1>Une installation face au prix : un électrolyseur, deux chaudières</h1>
+    <p class="resume">Le squelette du premier modèle appliqué à deux installations qui achètent l'électricité au prix horaire français de 2030 : un électrolyseur avec une cavité saline, qui tourne 63 % du temps et paie son électricité 36,18 €/MWh au lieu de 57,50, puis une chaudière électrique à côté d'une chaudière à gaz, qui tourne exactement les 3 680 heures sous le prix de bascule de 44,54 €/MWh.</p>
+  </header>
+  <p>Deux installations achètent l'électricité au prix horaire, pour fabriquer de l'hydrogène puis de la vapeur. Pommes choisit leur taille et leurs heures de marche ; vous retrouvez à la main ce qu'il décide. Première marche des cas D et E : un cas d'école, pas une prévision. Valeurs du 23/11/2026 (pommes 0.11.0, pommes_craft 0.6.0, HiGHS) ; blocs à exécuter à la suite, en ≈ 20 s puis ≈ 2 s.</p>
+<h2>1. Le squelette du premier modèle</h2>
+<p>On garde le squelette du premier modèle (<code>modele_de_base</code>) : série TYNDP 2026 NT+, France, 2030 (57,50 €/MWh en moyenne), une zone, une demande plate, un réseau qui vend à l'heure sans racheter, ni délestage ni écrêtement. Deux changements : la demande porte sur le produit, et chaque autre ressource reçoit son import, fermé (bornes à zéro) ou à prix fixe, sans quoi pommes l'ouvrirait gratuitement ; les années de sortie suivent les durées de vie (pièges 2 et 3 de <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>).</p>
+<pre><code class="language-python">import sys, logging
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
+import numpy as np
+import polars as pl
+from pommes_cases.prices import load_prices
+from pommes_craft import (EnergyModel, Area, Demand, EconomicHypothesis, TimeStepManager, LoadShedding,
+                          Spillage, NetImport, ConversionTechnology, StorageTechnology)
+logging.getLogger().setLevel(logging.ERROR)
+p = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2030)
+prix = p[&quot;import_price&quot;].to_numpy()
+
+def site(nom, produit, demande_mw, durees, achats={}):
+    ressources = [&quot;electricity&quot;, produit, *achats]
+    m = EnergyModel(name=nom, hours=list(range(8760)), year_ops=[2030], year_invs=[2030],
+                    year_decs=sorted({2030 + d for d in durees}), modes=[], resources=ressources,
+                    solver_name=&quot;highs&quot;, solver_options={&quot;output_flag&quot;: False})
+    with m.context():
+        EconomicHypothesis(&quot;eco&quot;, discount_rate=0.0, year_ref=2030, planning_step=1)
+        TimeStepManager(&quot;pas&quot;, time_step_duration=1.0, operation_year_duration=8760.0)
+        zone = Area(&quot;site&quot;)
+        zone.add_component(Demand(name=&quot;demande&quot;, resource=produit,
+                                  demand=pl.DataFrame({&quot;hour&quot;: range(8760), &quot;year_op&quot;: 2030, &quot;demand&quot;: demande_mw})))
+        for r in ressources:
+            zone.add_component(LoadShedding(name=f&quot;delestage_{r}&quot;, resource=r, max_capacity=0.0))
+            zone.add_component(Spillage(name=f&quot;ecretement_{r}&quot;, resource=r, max_capacity=0.0))
+        zone.add_component(NetImport(name=&quot;reseau&quot;, resource=&quot;electricity&quot;, max_yearly_energy_export=0.0,
+                                     import_price=p.select(&quot;hour&quot;, &quot;year_op&quot;, &quot;import_price&quot;)))
+        zone.add_component(NetImport(name=&quot;ferme&quot;, resource=produit,
+                                     max_yearly_energy_import=0.0, max_yearly_energy_export=0.0))
+        for r, prix_fixe in achats.items():
+            zone.add_component(NetImport(name=f&quot;achat_{r}&quot;, resource=r, import_price=prix_fixe,
+                                         max_yearly_energy_export=0.0))
+    return m, zone
+
+def marche(m, nom):
+    return m.linopy_model.solution[&quot;operation_conversion_power&quot;].sel(conversion_tech=nom).squeeze().values
+</code></pre>
+<h2>2. Un électrolyseur face au prix</h2>
+<p>Le site consomme 100 MW d'hydrogène en continu (3 000 kg/h), fabriqués par un électrolyseur dont pommes choisit la taille. Pour sauter des heures chères, il faut un tampon qui serve le site pendant ses arrêts.</p>
+<p>Un hydrogène de secours au coût variable d'un reformeur, qui le tire du gaz, coûte 69,29 € par MWh (2,31 €/kg), CO₂ compris au prix du scénario, 97,5 €/t : un grand site d'hydrogène relève du marché européen du carbone. Face à lui, un MW d'électrolyseur gagnerait au plus 91 697 €/an, pour 357 585 € d'annuité (remboursement annuel de l'investissement) et de coût fixe : pommes n'en construit aucun. Un réservoir sous pression, à 1 400 €/an par MWh de capacité, est trop cher : l'électrolyseur tourne alors 8 760 heures.</p>
+<p>Reste le tampon le plus simple qui montre le mécanisme : une cavité saline, un stockage souterrain à 9,54 €/an par MWh de capacité, là où le sous-sol s'y prête. Coûts de 2040, le TYNDP ne l'ouvrant pas en 2030 ; canalisation jusqu'au site non comptée. Arguments du stockage : <a href="../textes/fiche-composants-craft.html">Les composants de pommes_craft et leurs défauts</a>.</p>
+<table>
+<thead>
+<tr>
+<th>cas D (<code>hypotheses.yaml</code>)</th>
+<th>valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>électrolyseur : investissement 2030</td>
+<td>3 393 000 €/MW d'hydrogène</td>
+</tr>
+<tr>
+<td>électricité consommée</td>
+<td>1,73 MWh par MWh d'hydrogène</td>
+</tr>
+<tr>
+<td>coût fixe ; durée de vie</td>
+<td>12 000 €/MW/an ; 20 ans</td>
+</tr>
+<tr>
+<td>cavité : investissement ; coût fixe</td>
+<td>80 €/MWh + 152 000 €/MW ; 3 €/MWh/an + 5 400 €/MW/an</td>
+</tr>
+<tr>
+<td>cavité : pertes ; compression ; durée de vie</td>
+<td>2 % ; 0,0534 MWh électrique par MWh injecté ; 50 ans (100 dans le TYNDP)</td>
+</tr>
+</tbody>
+</table>
+<p>Statut : repris du TYNDP 2024, sauf la durée de vie de la cavité et le taux de 8 %, choix du cas.</p>
+<pre><code class="language-python">m, zone = site(&quot;electrolyseur&quot;, &quot;hydrogen&quot;, 100.0, durees=[20, 50])
+with m.context():
+    zone.add_component(ConversionTechnology(
+        name=&quot;electrolyseur&quot;, factor={&quot;hydrogen&quot;: 1.0, &quot;electricity&quot;: -1.73},
+        invest_cost=3_393_000.0, fixed_cost=12_000.0, life_span=20, finance_rate=0.08))
+    zone.add_component(StorageTechnology(
+        name=&quot;cavite&quot;, factor_in={&quot;hydrogen&quot;: -1.02, &quot;electricity&quot;: -0.0534}, factor_out={&quot;hydrogen&quot;: 1.0},
+        factor_keep={&quot;hydrogen&quot;: 0.0}, invest_cost_energy=80.0, invest_cost_power=152_000.0,
+        fixed_cost_energy=3.0, fixed_cost_power=5_400.0, life_span=50, finance_rate=0.08))
+m.run(store_linopy_model=True)
+sol, P, kg = m.linopy_model.solution, marche(m, &quot;electrolyseur&quot;), 100 * 8760 * 30
+print(f&quot;{P.max():.1f} MW, cavité {float(sol['planning_storage_energy_capacity'].sum()):.0f} MWh&quot;)
+# 160.0 MW, cavité 178530 MWh
+print(f&quot;{(P &gt; 1e-6).sum()} heures, facteur de charge {P.mean() / P.max():.3f}&quot;)   # 5528 heures, facteur de charge 0.630
+print(f&quot;{(prix * P).sum() / P.sum():.2f} €/MWh, {m.linopy_model.objective.value / kg:.3f} €/kg&quot;)   # 36.18 €/MWh, 4.435 €/kg
+</code></pre>
+<p>L'électrolyseur fait 160 MW pour 100 MW de demande et tourne 63 % du temps (son facteur de charge, production moyenne rapportée à la taille). La cavité garde 178 530 MWh, 74 jours de demande, d'une saison à l'autre. L'électricité lui coûte 36,18 €/MWh, contre 57,50 pour un consommateur plat. Le kilogramme revient à 4,435 €, la valeur du cas D (<code>results.json</code>, <code>electrolyseur_cavite</code>), contre 2,47 € au reformeur (2,31 € de coût variable, 0,16 € de coût fixe pour l'unité gardée).</p>
+<pre><code class="language-python">plein, arret, n = P &gt; P.max() - 1e-6, P &lt; 1e-6, (P &gt; 1e-6).sum()
+print(plein.sum(), round(prix[plein].max(), 2), round(prix[arret].min(), 2), round(np.sort(prix)[:n].mean(), 2))
+# 5494 76.11 76.7 36.26
+
+def crf(i, n): return i * (1 + i) ** n / ((1 + i) ** n - 1)
+def lcoh(capex_kwe, conso_mwh_t, duree, taux, fc, opex_frac, prix_elec):
+    capex_t_an = capex_kwe * conso_mwh_t / 8.76
+    return (capex_t_an * (crf(taux, duree) + opex_frac) / fc + conso_mwh_t * prix_elec) / 1000
+print(round(lcoh(3_393_000 / 1.73 / 1000, 1.73 * 1000 / 30, 20, 0.08, 0.630, 12_000 / 3_393_000, 36.18), 3))   # 4.246
+print(round(float(sol[&quot;planning_storage_costs&quot;].sum() + sol[&quot;operation_storage_costs&quot;].sum()) / kg, 3))  # 0.133
+</code></pre>
+<p>Le seuil est presque net : 5 494 heures à plein jusqu'à 76,11 €/MWh, arrêt dès 76,70 ; les 34 autres heures, entre 71,5 et 80 €/MWh, il produit tout juste les 100 MW de la demande, cavité au repos. Marchant presque toujours à plein ou à l'arrêt, sa part d'heures de marche (5 528 sur 8 760, 0,631) rejoint son facteur de charge (0,630). Tenu de fabriquer l'hydrogène de l'année, il prend les heures les moins chères qui suffisent : son prix payé approche la moyenne des 5 528 moins chères (36,26). C'est la monotone (les prix triés) de « Lire une série de prix » (3 000 heures à 22,4 €/MWh), quantité imposée en plus.</p>
+<p>Pourquoi 160 MW ? Un MW de plus fabriquerait davantage aux heures retenues, vers 36 €/MWh, et autant de moins aux heures les plus chères encore achetées, vers 76 €/MWh ; cavité, compression et pertes payées, cette économie égale tout juste son coût, 357 585 €/an. Imposer 161 MW coûte 14 525 € de plus.</p>
+<p>Avec ce facteur de charge et ce prix payé, la fonction <code>lcoh</code> du texte « deux chiffres » donne 4,246 €/kg pour l'électrolyseur seul ; les 0,19 €/kg manquants paient le tampon : 0,133 la cavité, 0,056 sa compression et ses 2 % de pertes.</p>
+<h2>3. Deux chaudières face au prix</h2>
+<p>Le site consomme 1 MW de vapeur en continu ; pommes choisit la taille de ses deux chaudières. L'électrique paie l'électricité à l'heure, l'autre le gaz à prix fixe et son CO₂. Une chaudière de 1 MW relève de l'ETS2, le marché du carbone des petits sites : on prend son seuil de 45 €/t (euros de 2020), au-delà duquel sa réserve libère des quotas, ni une cible, ni un plafond, ni une prévision.</p>
+<table>
+<thead>
+<tr>
+<th>cas E (<code>hypotheses.yaml</code>)</th>
+<th>chaudière au gaz</th>
+<th>chaudière électrique</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rendement</td>
+<td>0,94</td>
+<td>0,99</td>
+</tr>
+<tr>
+<td>investissement</td>
+<td>90 000 €/MW</td>
+<td>220 000 €/MW</td>
+</tr>
+<tr>
+<td>coût fixe ; durée de vie</td>
+<td>2 000 €/MW/an ; 25 ans</td>
+<td>1 375 €/MW/an ; 25 ans</td>
+</tr>
+<tr>
+<td>énergie</td>
+<td>33,2 €/MWh + 45 €/t × 0,202 t/MWh</td>
+<td>prix horaire</td>
+</tr>
+</tbody>
+</table>
+<p>Statut : vérifié (DEA, fiches 6.1 et 5.1a, 2030 ; gaz du TYNDP 2026 ; 0,202 t/MWh du GIEC), sauf 45 €/t et le taux de 8 %, choix du cas.</p>
+<p>À la main d'abord. Un MWh de vapeur coûte (33,2 + 0,202 × 45) / 0,94 = 44,99 € au gaz, prix / 0,99 à l'électricité. Les deux s'égalent au prix de bascule, 44,99 × 0,99 = 44,54 €/MWh : en dessous, l'électrique coûte moins cher à faire tourner.</p>
+<pre><code class="language-python">gaz = 33.2 + 0.202 * 45
+seuil = gaz / 0.94 * 0.99
+print(round(seuil, 2), (prix &lt; seuil).sum())   # 44.54 3680
+m, zone = site(&quot;chaudieres&quot;, &quot;vapeur&quot;, 1.0, durees=[25], achats={&quot;methane&quot;: gaz})
+with m.context():
+    zone.add_component(ConversionTechnology(name=&quot;chaudiere_gaz&quot;, factor={&quot;vapeur&quot;: 1.0, &quot;methane&quot;: -1 / 0.94},
+                                            invest_cost=90_000.0, fixed_cost=2_000.0, life_span=25, finance_rate=0.08))
+    zone.add_component(ConversionTechnology(name=&quot;chaudiere_elec&quot;, factor={&quot;vapeur&quot;: 1.0, &quot;electricity&quot;: -1 / 0.99},
+                                            invest_cost=220_000.0, fixed_cost=1_375.0, life_span=25, finance_rate=0.08))
+m.run(store_linopy_model=True)
+E, G = marche(m, &quot;chaudiere_elec&quot;), marche(m, &quot;chaudiere_gaz&quot;)
+on = E &gt; 1e-6
+print(E.max(), G.max(), on.sum(), (on == (prix &lt; seuil)).sum())   # 1.0 1.0 3680 8760
+print(round(prix[on].max(), 2), round(prix[~on].min(), 2), round(E.sum() / 8760, 3))   # 44.31 44.6 0.42
+print(round(m.linopy_model.objective.value / 8760, 2))   # 40.79
+</code></pre>
+<p>Pommes retrouve la bascule heure par heure : l'électrique tourne les 3 680 heures sous 44,54 €/MWh et aucune autre (accord sur 8 760 heures), soit 42,0 % de la vapeur. Chaque chaudière fait 1 MW : avec une demande plate, chaque MW électrique économise la même somme, pommes en prend tout ou rien, et le gaz couvre les 5 080 heures chères. La vapeur revient à 40,79 €/MWh.</p>
+<p>Le cas E ajoute deux postes de 8 h, un stockage de chaleur, plusieurs jeux de prix et de CO₂, et en variante le tarif de réseau (puissance souscrite comprise) et les taxes.</p>
+<h2>4. Une troisième installation</h2>
+<p>La fiche des composants (section « Activité ») ajoute au premier modèle une batterie de 1 MW / 2 h : elle achète aussi à l'heure, pour restituer plus tard à la zone, à la place d'un achat plus cher ou de la turbine.</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous retrouvez 160,0 MW, un facteur de charge de 0,630, 36,18 €/MWh payés contre 57,50 et 4,435 €/kg, et expliquez pourquoi ce prix approche la moyenne des 5 528 heures les moins chères (36,26).</li>
+<li>Vous remplacez la cavité par les réservoirs du cas D (10 700 €/MWh, 69 000 €/MW, 450 €/MWh/an, 2 930 €/MW/an, compression 0,0512, 30 ans ; <code>durees=[20, 30]</code>, sans quoi le réservoir ne peut exister) et prédisez : aucun réservoir, 100 MW, 8 760 heures, 4,677 €/kg.</li>
+<li>Vous recalculez la bascule (44,54 €/MWh) et retrouvez dans la solution ses 3 680 heures et la part de 42,0 %.</li>
+<li>Vous ajoutez les coûts variables d'entretien de la DEA, laissés de côté ici (<code>variable_cost=1.23</code> au gaz, <code>0.642</code> à l'électrique), et prédisez le seuil, (44,99 + 1,23 − 0,642) × 0,99 = 45,12 €/MWh : 3 724 heures électriques, 44 de plus, 42,5 % de la vapeur.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Le premier modèle <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a>.</li>
+<li>Les cas D <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a> et E <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/E_vapeur" target="_blank" rel="noopener">Cas E — Vapeur à 180 °C : tout électrifier, garder le gaz, ou les deux ?</a> ; 4,8 ou 7,1 €/kg pour le même hydrogène <a href="../textes/hydrogene-deux-chiffres.html">Pourquoi deux chiffres pour le même hydrogène : cas D (4,4 à 4,9 €/kg) et outil « routes » (7,1 €/kg)</a>.</li>
+<li>La monotone et les heures bon marché <a href="../textes/lire-un-prix.html">Lire une série de prix horaires : six choses à regarder et les chiffres du cas 0</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (D_electrolyseur/hypotheses.yaml et results.json, E_vapeur/hypotheses.yaml et results.json, pommes_cases/blocks.py)</a></li><li><a href="https://2024.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E et ENTSOG, TYNDP 2024 Scenarios, téléchargements (coûts de l'électrolyseur et des stockages d'hydrogène)</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E et ENTSOG, TYNDP 2026 Scenarios, téléchargements (prix horaires, gaz et CO₂ de 2030)</a></li><li><a href="https://ens.dk/en/analyses-and-statistics/technology-data-industrial-process-heat" target="_blank" rel="noopener">Danish Energy Agency, Technology Data for Industrial Process Heat (fiches 5.1a et 6.1)</a></li><li><a href="https://eur-lex.europa.eu/eli/dir/2023/959/oj" target="_blank" rel="noopener">Directive (UE) 2023/959, art. 30 nonies : le seuil de 45 €/t de l'ETS2</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/usage.html" target="_blank" rel="noopener">Usage de pommes_craft</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

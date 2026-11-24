@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La figure du verdict depuis results.json · Parcours ES 2026</title>
+<meta name="description" content="Lire la structure de results.json et results_rapide.json du cas A, tracer avec pandas et matplotlib le revenu par kW sous quatre jeux de prix, changer une hypothèse, relancer la grille rapide et voir quelle barre change de côté.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Atelier, Socle, Flexibilité</span></div>
+    <h1>La figure du verdict depuis results.json</h1>
+    <p class="resume">Lire la structure de results.json et results_rapide.json du cas A, tracer avec pandas et matplotlib le revenu par kW sous quatre jeux de prix, changer une hypothèse, relancer la grille rapide et voir quelle barre change de côté.</p>
+  </header>
+  <p><strong>Objectif.</strong> Tracer depuis le fichier de résultats d'un cas la figure « revenu par kW sous plusieurs jeux de prix » (planche 5 de la restitution <a href="../textes/restitution.html">La restitution du vendredi : dix minutes, cinq à dix planches, grille à cinq critères, quatre rôles</a>), la refaire après avoir changé une hypothèse et dire quelle barre a changé de côté.</p>
+<p><strong>Prérequis.</strong> Le dépôt cloné et vérifié <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a> : <code>python A_batteries/grid.py --rapide</code> a tourné une fois.</p>
+<h2>1. Ce qu'il y a dans results.json</h2>
+<p>Chaque cas écrit toutes ses résolutions dans <code>results.json</code> ; A, B, C et E aussi une version réduite, <code>results_rapide.json</code> (<code>grid.py --rapide</code>). Trois clés, selon le contrat du gabarit <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/_gabarit" target="_blank" rel="noopener">Le gabarit d'un cas (_gabarit/) : écrire son propre cas POMMES</a>.</p>
+<pre><code class="language-python">import json, pandas as pd
+res = json.load(open(&quot;A_batteries/results_rapide.json&quot;, encoding=&quot;utf-8&quot;))
+print(list(res))                       # ['meta', 'resolutions', 'tables']
+m = res[&quot;meta&quot;]
+print(m[&quot;date&quot;], m[&quot;solveur&quot;], m[&quot;n_resolutions&quot;], &quot;résolutions,&quot;, m[&quot;temps_total_s&quot;], &quot;s&quot;)
+print(m[&quot;rendement&quot;], m[&quot;plafond&quot;], list(m[&quot;jeux&quot;]))
+print(m[&quot;jeux&quot;][&quot;tyndp2024&quot;][&quot;attribution&quot;])
+print(list(res[&quot;tables&quot;]))             # ['verdict', 'nieme', 'couts']
+</code></pre>
+<p>Attendu : <code>2026-11-06 HiGHS 10 résolutions, 39.3 s</code>, puis <code>0.91 1000.0 ['tyndp2024', 'tyndp2026', 'etage1_tyndp2026', 'fos_sur_mer']</code> et <code>TYNDP 2024 Scenarios, ENTSO-E &amp; ENTSOG, CC BY 4.0</code>.</p>
+<ul>
+<li><code>meta</code> : date, commit, machine, solveur, temps total (construction et résolution cumulées), hypothèses clés (<code>rendement</code>, <code>plafond</code>) et, par jeu de prix, titre, licence, attribution et empreinte : de quoi sourcer la figure.</li>
+<li><code>resolutions</code> : une ligne par programme linéaire construit et résolu (un appel au solveur) ; ici jusqu'à 7 séries de prix empilées (une année d'exploitation pommes par série), près de 675 000 variables en 12 s.</li>
+<li><code>tables</code> : une liste de dictionnaires par table. <code>verdict</code> : revenu de la batterie par série de prix, année et durée (39 lignes en rapide, 1 050 en complet) ; <code>nieme</code> : revenu en marché de profondeur finie ; <code>couts</code> : coût annuel par kW.</li>
+</ul>
+<pre><code class="language-python">sol = pd.DataFrame(res[&quot;resolutions&quot;])
+print(sol[[&quot;id&quot;, &quot;series&quot;, &quot;resolution_s&quot;, &quot;variables&quot;]].head(3).round(2))
+v = pd.DataFrame(res[&quot;tables&quot;][&quot;verdict&quot;])
+print(v.columns.tolist())
+print(v[(v.duree_h == 2) &amp; ~v.sans_plafond][[&quot;jeu&quot;, &quot;annee&quot;, &quot;prix_moyen&quot;, &quot;revenu&quot;, &quot;h_plafond&quot;]].round(1))
+</code></pre>
+<p>Attendu : <code>verdict_01  7  12.00  674638</code>, les colonnes <code>jeu, scenario, annee, meteo, sans_plafond, central, prix_moyen, duree_h, revenu, revenu_heures_plafond, cycles, h_plafond</code>, et huit lignes : tyndp2024 2030 33,5 €/kW/an, 2040 44,7 ; tyndp2026 25,7 et 36,3 ; etage1_tyndp2026 18,8 et 16,6 ; fos_sur_mer 54,8 et 42,4. Le complet couvre 293 séries ; le rapide, la série centrale de chaque jeu.</p>
+<p><code>sans_plafond</code> est un drapeau : une série qui a des heures à 1 000 €/MWh ou plus apparaît deux fois, telle quelle puis réoptimisée sans ces heures. Filtrez-le, sinon vous doublez des barres.</p>
+<h2>2. La figure de référence</h2>
+<p>Écrivez <code>figure_verdict.py</code> à la racine du dépôt : quinze lignes de figure, le reste est légende et source.</p>
+<pre><code class="language-python">import json, sys, textwrap
+import pandas as pd
+import matplotlib.pyplot as plt
+
+NOMS = {&quot;tyndp2024&quot;: &quot;TYNDP 2024\nNT (ENTSO-E)&quot;, &quot;tyndp2026&quot;: &quot;TYNDP 2026\nNT+ (ENTSO-E)&quot;,
+        &quot;etage1_tyndp2026&quot;: &quot;POMMES sur\nle TYNDP 2026&quot;, &quot;fos_sur_mer&quot;: &quot;fos-sur-mer\n(Jodry et al.)&quot;}
+COULEURS = {2030: &quot;#2a78d6&quot;, 2040: &quot;#eb6834&quot;}
+
+def table_verdict(path, duree_h=2):
+    res = json.load(open(path, encoding=&quot;utf-8&quot;))
+    v = pd.DataFrame(res[&quot;tables&quot;][&quot;verdict&quot;])
+    v = v[(v.duree_h == duree_h) &amp; v.central &amp; ~v.sans_plafond]
+    return res, v.pivot(index=&quot;jeu&quot;, columns=&quot;annee&quot;, values=&quot;revenu&quot;).loc[list(NOMS)]
+
+def note_source(meta):                     # source et licence lues dans meta[&quot;jeux&quot;], pas recopiées
+    lignes = [f&quot;{NOMS[j].replace(chr(10), ' ')} : {d['attribution']} ({d['licence']})&quot; for j, d in meta[&quot;jeux&quot;].items()]
+    return textwrap.fill(&quot;Série centrale de chaque jeu, heures au plafond comprises. Énergie seule, prévision parfaite. &quot;
+                         &quot;Cas d'école, pas une prévision. Prix : &quot; + &quot; ; &quot;.join(lignes), width=150)
+
+def figure(path_ref, sortie, path_variante=None, etiquette_variante=&quot;variante&quot;):
+    res, rev = table_verdict(path_ref)
+    couts = pd.DataFrame(res[&quot;tables&quot;][&quot;couts&quot;])
+    cout_2h = couts[(couts.duree_h == 2) &amp; (couts.variante == &quot;tyndp2024&quot;)].cout.iloc[0]
+    fig, ax = plt.subplots(figsize=(8, 5.4))
+    x = range(len(rev)); larg = 0.38
+    for i, annee in enumerate(rev.columns):
+        pos = [k + (i - 0.5) * larg for k in x]
+        ax.bar(pos, rev[annee], width=larg - 0.03, color=COULEURS[annee],
+               label=f&quot;{annee}, rendement {res['meta']['rendement']}&quot;)
+        for p, val in zip(pos, rev[annee]):
+            ax.text(p, val + 0.8, f&quot;{val:.0f}&quot;, ha=&quot;center&quot;, fontsize=9)
+    if path_variante:                      # la relance : un trait noir par barre
+        res2, rev2 = table_verdict(path_variante)
+        for i, annee in enumerate(rev2.columns):
+            pos = [k + (i - 0.5) * larg for k in x]
+            ax.scatter(pos, rev2[annee], marker=&quot;_&quot;, s=400, color=&quot;black&quot;, zorder=3,
+                       label=f&quot;{etiquette_variante}, rendement {res2['meta']['rendement']}&quot; if i == 0 else None)
+    ax.axhline(cout_2h, ls=&quot;--&quot;, color=&quot;#444&quot;, lw=1.2)
+    ax.text(2, cout_2h + 0.8, f&quot;coût annuel {cout_2h:.1f} €/kW/an\n(TYNDP, millésime 2030)&quot;, ha=&quot;center&quot;, fontsize=9)
+    ax.set_xticks(list(x)); ax.set_xticklabels([NOMS[j] for j in rev.index])
+    ax.set_ylabel(&quot;revenu d'arbitrage (€/kW/an)&quot;)
+    ax.set_title(&quot;Batterie de 2 h en France, preneuse de prix : le verdict dépend du jeu de prix&quot;, fontsize=11)
+    ax.legend(frameon=False, title=&quot;année cible&quot;, fontsize=9)
+    ax.spines[[&quot;top&quot;, &quot;right&quot;]].set_visible(False)
+    fig.text(0.01, 0.01, note_source(res[&quot;meta&quot;]), fontsize=6.5, color=&quot;#555&quot;)
+    fig.tight_layout(rect=(0, 0.13, 1, 1)); fig.savefig(sortie, dpi=150)
+    print(rev.round(1))
+
+if __name__ == &quot;__main__&quot;:
+    figure(*sys.argv[1:])
+</code></pre>
+<pre><code class="language-bash">python figure_verdict.py A_batteries/results_rapide.json verdict_ref.png
+</code></pre>
+<p>Le pointillé est le coût annuel, 34,8 €/kW/an, lu dans <code>couts</code>. Seule fos-sur-mer passe en 2030. TYNDP 2024 et 2026 ne passent qu'en 2040, grâce aux heures au plafond (<code>revenu_heures_plafond</code>) : 15,2 des 44,7 €/kW/an de TYNDP 2024 viennent de 42 heures à 1 000 €/MWh, 5,1 des 36,3 de TYNDP 2026 de 3 heures. Sans elles, la ligne <code>sans_plafond</code> de la même série donne 33,0 €/kW/an, sous le coût. La barre TYNDP 2026 de 2040 ne tient qu'à 1,5 €/kW/an près.</p>
+<h2>3. Changer une hypothèse et relancer</h2>
+<p>Dans <code>hypotheses.yaml</code>, passez le rendement aller-retour de 0,91 (statut <code>repris</code>, TYNDP 2024) à 0,85 : ordre de grandeur d'un système complet avec onduleur, statut <code>mémoire</code> au sens de <a href="../textes/act-lire-hypotheses.html">Lire hypotheses.yaml et compter les statuts d'un cas</a>, à sourcer si vous le gardez. Travaillez dans votre clone, jamais dans un dossier partagé.</p>
+<pre><code class="language-bash">cp A_batteries/results_rapide.json A_batteries/results_rapide_ref.json
+sed -i '' 's/valeur: 0.91,/valeur: 0.85,/' A_batteries/hypotheses.yaml     # Linux : sed -i sans ''
+time python A_batteries/grid.py --rapide
+python figure_verdict.py A_batteries/results_rapide_ref.json verdict_compare.png A_batteries/results_rapide.json &quot;relance&quot;
+</code></pre>
+<p>Sur un MacBook Pro M3 Max : 40,5 s de mur, dont 37,6 s de construction et de résolution cumulées (<code>temps_total_s</code>) ; 2 à 3 minutes sur un portable ordinaire. Une relance se reconnaît à son fichier : <code>rendement: 0.85</code>, la date du jour et, dans <code>meta["empreintes"]</code>, le début du sha256 de <code>hypotheses.yaml</code> : ef3c61481208, contre 8e0bfd69feb4 dans le <code>results.json</code> et le <code>results_rapide.json</code> du dépôt (<code>shasum -a 256 A_batteries/hypotheses.yaml</code> sur la version git la retrouve).</p>
+<p>Valeurs attendues, batterie de 2 h, série centrale. 2030 : tyndp2024 33,5 → 29,9 €/kW/an (−11 %) ; tyndp2026 25,7 → 22,5 (−12 %) ; etage1_tyndp2026 18,8 → 15,9 (−15 %) ; fos_sur_mer 54,8 → 50,1 (−9 %). 2040 : 44,7 → 40,5 ; 36,3 → 32,4 ; 16,6 → 14,4 ; 42,4 → 38,7. Au n-ième GW (la grille rapide calcule σ = 15 et σ = 60 €/MWh), tyndp2024 à σ = 15 passe de 24,9 à 22,3 €/kW/an, et de 13,7 à 12,2 à σ = 60. La table <code>couts</code> ne bouge pas (le rendement n'entre pas dans le coût).</p>
+<p>Six points de rendement coûtent 8 à 15 % de revenu (2,3 à 4,7 €/kW/an), d'autant plus que les écarts horaires du jeu sont faibles (POMMES perd le plus, fos-sur-mer le moins). En 2030, aucune barre ne change de côté (les trois sous le coût l'étaient de 1 à 16 €/kW/an) ; en 2040, TYNDP 2026 passe sous les 34,8 : le verdict change là où la marge était plus petite que l'effet. Pour la planche : « en 2030 le verdict ne change pas, parce que la seule barre au-dessus du coût, fos-sur-mer, le dépasse de 20 €/kW/an et que le rendement lui retire 4,7 » ; « en 2040 le verdict TYNDP 2026 change, parce que sa marge (1,5 €/kW/an) tenait à 3 heures au plafond et que le rendement lui retire 4,0 ». Puis remettez 0,91, ou gardez 0,85 et dites-le dans votre tableau d'hypothèses.</p>
+<h2>4. Les règles d'une figure de verdict</h2>
+<ol>
+<li>Lisible par qui n'a pas vu le cas : le titre dit l'objet (batterie de 2 h en France), la grandeur (revenu d'arbitrage) et la conclusion.</li>
+<li>Les unités sur l'axe : €/kW/an, pas « revenu ».</li>
+<li>Le futur visible : jeu de prix en abscisse, année en couleur, ou l'inverse. Deux futurs au moins, sinon c'est un chiffre, pas un verdict.</li>
+<li>Sous la figure, la source et la licence de chaque jeu, construites depuis <code>meta["jeux"]</code> (<code>note_source</code>), et « cas d'école, pas une prévision ».</li>
+<li>Le seuil qui décide (ici le coût annuel) tracé depuis le fichier, et la marge dite quand elle est petite : 1,5 €/kW/an ne pèse pas comme 20.</li>
+<li>Dans la légende, les hypothèses lues dans <code>meta</code> (<code>rendement 0.91</code>, <code>rendement 0.85</code>), pour distinguer une relance de la référence.</li>
+</ol>
+<h2>Questions</h2>
+<ol>
+<li>Dans <code>results.json</code> complet, combien de lignes de <code>verdict</code> concernent le jeu <code>etage1_tyndp2026</code> en 2040 sans le drapeau <code>sans_plafond</code> ? (Attendu : 405, soit 135 séries × 3 durées.)</li>
+<li>Quelle part du revenu 2040 de la série tyndp2024 vient des heures au plafond, pour 2 h ? (Attendu : 15,2 / 44,7 = 34 %.)</li>
+<li>Avec un rendement de 0,85, de combien baisse le revenu tyndp2024 2030 d'une batterie de 4 h, contre 2 h ? Et de combien la barre TYNDP 2026 de 2040 passe-t-elle sous le coût ? (Attendu : −11,6 % contre −11,0 % ; 2,5 €/kW/an sous les 34,8.)</li>
+</ol>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous dites sans ouvrir le fichier ce que contiennent <code>meta</code>, <code>resolutions</code> et <code>tables</code>, et ce qu'est une résolution.</li>
+<li>Votre <code>verdict_ref.png</code> montre quatre jeux × deux années et suit les six règles ci-dessus.</li>
+<li>Votre <code>results_rapide.json</code> relancé porte <code>rendement: 0.85</code>, et la valeur tyndp2024 à σ = 10 €/MWh y vaut 24,4 et non 27,3 €/kW/an.</li>
+<li>Vous avez écrit, pour chaque année, « le verdict change / ne change pas parce que… », avec la marge au coût et l'effet du rendement en chiffres.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Le cas A en entier, dont la figure <code>verdict_fr.png</code> sur les 293 séries <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</li>
+<li>Le cas 0 : pourquoi les quatre jeux de prix divergent en 2040 <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (A_batteries/results.json, results_rapide.json, grid.py, hypotheses.yaml, README.md)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/_gabarit/README.md" target="_blank" rel="noopener">Le gabarit d'un cas et le contrat de grid.py et de results.json (_gabarit/README.md)</a></li><li><a href="https://2024.entsos-tyndp-scenarios.eu/" target="_blank" rel="noopener">ENTSO-E, TYNDP 2024 Scenarios</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E, TYNDP 2026 Scenarios</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sept activités guidées sur les outils web · Parcours ES 2026</title>
+<meta name="description" content="Sept manipulations courtes sur trois outils web publics, avec les valeurs à retrouver, pour arriver devant un cas POMMES en sachant déjà ce que l'outil ne vérifie pas.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>découverte</span> · <span>≈ 255 min</span> · <span>Socle, Demande, Hydrogène, Industrie, Modélisation, Économie</span></div>
+    <h1>Sept activités guidées sur les outils web</h1>
+    <p class="resume">Sept manipulations courtes sur trois outils web publics, avec les valeurs à retrouver, pour arriver devant un cas POMMES en sachant déjà ce que l'outil ne vérifie pas.</p>
+  </header>
+  <h2>Avant de commencer</h2>
+<p>Trois outils, trois liens épinglés par version, vérifiés le 16/11/2026. Toutes les valeurs attendues ont été relevées ce jour-là sur ces versions. Une version plus récente peut les déplacer un peu : notez la version.</p>
+<table>
+<thead>
+<tr>
+<th>Outil</th>
+<th>Version</th>
+<th>Langue</th>
+<th>Export</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The Net Zero Game, France 2050</td>
+<td>v0.38</td>
+<td>FR avec <code>?lang=fr</code></td>
+<td>JSON par « Télécharger le scénario »</td>
+</tr>
+<tr>
+<td>Décarbonation de l'industrie</td>
+<td>v2.1</td>
+<td>FR</td>
+<td>aucun : un rechargement perd tout, notez à la main</td>
+</tr>
+<tr>
+<td>World energy mix</td>
+<td>v1.0</td>
+<td>EN</td>
+<td>aucun</td>
+</tr>
+</tbody>
+</table>
+<p>Aucun compte, aucune sauvegarde en ligne. Pour chaque activité, le tableau rempli est votre preuve : chaque tableau a sa colonne « Votre valeur ».</p>
+<h2>1. Ramener la pointe d'hiver sous 45 GW (Net Zero Game, 45 min)</h2>
+<p>Objectif : expliquer d'où vient la pointe électrique d'hiver et hiérarchiser trois leviers.</p>
+<ol>
+<li>Bouton « Revenir à la référence ». Carte « Pic électrique hivernal » du tableau de bord : 50,6 GW, limite 45, cible 35.</li>
+<li>Onglet « Bâtiments ». La part du chauffage couverte par l'électricité (49 %) ne doit pas baisser.</li>
+<li>Un levier à la fois, noter la pointe, revenir en arrière : rénovation 65 %, sobriété 25 %, résistances 0 % avec hybrides 19 %, tout PAC air-eau.</li>
+<li>Combiner pour passer sous 45 puis sous 35 GW sans dégrader les émissions nettes. Télécharger le scénario JSON.</li>
+<li>Variante : part électrique à 80 % et pointe sous 35 GW.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Réglage</th>
+<th>Pointe attendue (v0.38)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>référence</td>
+<td>50,6 GW</td>
+<td></td>
+</tr>
+<tr>
+<td>rénovation 65 % seule</td>
+<td>25,3 GW</td>
+<td></td>
+</tr>
+<tr>
+<td>sobriété 25 % seule</td>
+<td>40,0 GW</td>
+<td></td>
+</tr>
+<tr>
+<td>résistance 0 % + hybride 19 %</td>
+<td>38,4 GW</td>
+<td></td>
+</tr>
+<tr>
+<td>tout PAC air-eau</td>
+<td>44,9 GW</td>
+<td></td>
+</tr>
+<tr>
+<td>part 80 % + les trois leviers</td>
+<td>24,8 GW</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Ce que le jeu ne vérifie pas : la pointe est un chiffre côté demande, chauffage électrique seul, calé sur 40 GW en 2020. Rien ne dit que le parc la couvre. Le cas C <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/C_thermosensibilite" target="_blank" rel="noopener">Cas C — Thermosensibilité : que coûte la pointe d'hiver, selon la météo ?</a> le dit : 3,0 à 10,6 Md€/an de plus pour le système électrique selon l'hiver quand tout le chauffage fossile passe en PAC.</p>
+<h2>2. D'où vient l'hydrogène du jeu (Net Zero Game, 40 min)</h2>
+<p>Objectif : chiffrer l'électricité de l'électrolyse à l'échelle d'un pays et voir qu'un reformeur déplace la contrainte vers le méthane.</p>
+<ol>
+<li>Onglet « Industrie », bloc « Comment l'hydrogène est produit ». Référence : 100 % électrolyse.</li>
+<li>Relever l'électricité de l'hydrogène (onglet « Système électrique »), la demande de biogaz (bande biogaz du tableau de bord) et les émissions nettes.</li>
+<li>Passer à 100 % SMR, puis 100 % ATR + captage. Mêmes relevés.</li>
+<li>Onglet « Controverses » : lire la ligne sur le captage du méthane biogénique. Écrire en deux phrases pourquoi ce chiffre est contesté.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Électricité H2 (v0.38)</th>
+<th>Biogaz demandé, offre 70 TWh</th>
+<th>Net MtCO2e</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>électrolyse 100 %</td>
+<td>81 TWh</td>
+<td>304 TWh</td>
+<td>35,8</td>
+<td></td>
+</tr>
+<tr>
+<td>SMR 100 %</td>
+<td>1 TWh</td>
+<td>366 TWh</td>
+<td>37,3</td>
+<td></td>
+</tr>
+<tr>
+<td>ATR + captage 100 %</td>
+<td></td>
+<td>369 TWh</td>
+<td>24,1</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Le jeu compte des TWh annuels. Le cas D <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a> ajoute l'heure par heure, le facteur de charge, le PPA et la règle RFNBO.</p>
+<h2>3. Changer de scénario RTE et nommer ce que le jeu ne calcule pas (Net Zero Game, 30 min)</h2>
+<p>Objectif : distinguer un mix en parts d'un équilibre offre-demande horaire.</p>
+<ol>
+<li>Onglet « Système électrique ». Faire défiler le scénario de M0 (1) à N03 (6).</li>
+<li>Pour M0, N1 et N03, relever capacité totale, GW construits par an, coût annuel, émissions nettes.</li>
+<li>Lire l'encadré « Ceci ne vérifie pas que le mix fonctionne ». Écrire en cinq lignes les trois absents : équilibre horaire, adéquation à la pointe, stockage.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Scénario</th>
+<th>Capacité (v0.38)</th>
+<th>Coût annuel</th>
+<th>Net</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M0</td>
+<td>431 GW</td>
+<td>48,5 Md€/an</td>
+<td>35,7 à 35,8</td>
+<td></td>
+</tr>
+<tr>
+<td>N1 (défaut)</td>
+<td>331 GW</td>
+<td>55,9 Md€/an</td>
+<td>idem</td>
+<td></td>
+</tr>
+<tr>
+<td>N03</td>
+<td>260 GW</td>
+<td>61,8 Md€/an</td>
+<td>idem</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Le coût ne couvre que les centrales : ni combustible, ni CO2, ni réseau, ni stockage. Les trois manques sont les cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/G_mix_100_enr" target="_blank" rel="noopener">Cas G — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>, A <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a> et C.</p>
+<h2>4. À quel prix de l'électricité l'électrolyse rattrape le vaporeformage (Industrie, 40 min)</h2>
+<p>Objectif : décomposer le coût de l'hydrogène électrolytique et chercher un point d'égalité par balayage.</p>
+<ol>
+<li>Onglet Hydrogène. Défauts : électricité 70 €/MWh, gaz 35, WACC 8 %, charge 50 %.</li>
+<li>Baisser « Prix de l'électricité » jusqu'à 10 €/MWh. Noter électrolyse et SMR : pas d'égalité.</li>
+<li>Carte de la route électrolyse, « Régler les hypothèses de cette route » : facteur de charge 0,90. Chercher le prix d'égalité avec le SMR, puis avec l'ATR + CCS.</li>
+<li>Revenir à 70 €/MWh et 50 %. Monter « Prix du gaz naturel » jusqu'à l'égalité SMR = électrolyse. Comparer à la note de l'outil sur ce curseur : 2022 a vu 120 €/MWh de gaz en moyenne annuelle, la borne haute n'est pas théorique.</li>
+<li>Passer « Taux d'actualisation (WACC) » de 8 à 4 %.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Attendu (v2.1)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>électrolyse à 10 €/MWh, 50 %</td>
+<td>3,88 €/kg contre SMR 3,25</td>
+<td></td>
+</tr>
+<tr>
+<td>égalité SMR à 90 %</td>
+<td>22,6 €/MWh</td>
+<td></td>
+</tr>
+<tr>
+<td>égalité ATR + CCS à 90 %</td>
+<td>16,6 €/MWh</td>
+<td></td>
+</tr>
+<tr>
+<td>prix du gaz d'égalité</td>
+<td>116,6 €/MWh</td>
+<td></td>
+</tr>
+<tr>
+<td>électrolyse à WACC 4 %</td>
+<td>6,36 €/kg au lieu de 7,06</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Pont : le cas D donne 2,1 à 2,5 €/kg pour le reformeur contre 4,4 à 4,9 pour l'électrolyse en 2030, l'outil 3,3 contre 7,1. Les deux électrolyseurs coûtent presque le même prix au kW (1 961 contre 1 950 €/kWe) : l'écart vient d'abord du facteur de charge (50 % imposé ici, 100 % en ruban dans le cas D, deux tiers de l'écart), puis de l'exploitation (OPEX fixe et stack) et du prix de l'électricité. Le détail, une hypothèse à la fois, est dans le texte « Pourquoi deux chiffres pour le même hydrogène » <a href="../textes/hydrogene-deux-chiffres.html">Pourquoi deux chiffres pour le même hydrogène : cas D (4,4 à 4,9 €/kg) et outil « routes » (7,1 €/kg)</a>.</p>
+<h2>5. « Vert » est une propriété de l'électricité (Industrie, 30 min)</h2>
+<p>Objectif : calculer le contenu carbone d'un hydrogène électrolytique et trouver le facteur réseau qui retourne le verdict.</p>
+<ol>
+<li>Onglet Hydrogène, figure des émissions. Sélecteur de réseau : France 56 g, UE-27 240 g, Monde 480 g. Noter électrolyse et SMR.</li>
+<li>Calculer à la main le facteur d'égalité avec 53 MWh par tonne, puis vérifier avec les options du sélecteur.</li>
+<li>Onglet Ammoniac : même verdict, seule la route d'hydrogène change.</li>
+<li>Écrire pourquoi le quota, qui ne compte que les émissions directes, récompense la route électrique même à 480 g.</li>
+</ol>
+<pre><code class="language-python">conso, smr = 53.0, 11.26          # MWh/t H2 ; kgCO2/kg du SMR, du berceau à la porte, réseau à 56 g/kWh
+for f in (56, 240, 480):
+    print(f, &quot;g/kWh -&gt;&quot;, round(conso * f / 1000, 2), &quot;kgCO2/kg&quot;)
+print(&quot;égalité :&quot;, round(smr / conso * 1000), &quot;g/kWh&quot;)
+# 56 -&gt; 2.97 ; 240 -&gt; 12.72 ; 480 -&gt; 25.44 ; égalité : 212 g/kWh
+</code></pre>
+<p>L'outil donne 214 g et 11,4 kg pour le SMR à 240 g : le reformeur consomme aussi 0,58 MWh d'électricité par tonne, hypothèse lisible dans « Régler les hypothèses » de la route SMR. Le 11,26 du calcul est donc la valeur à 56 g, et elle monte avec le réseau. Pont : cas D pour la règle RFNBO, cas J <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/J_h2_ailleurs/card.yaml" target="_blank" rel="noopener">Cas J (carte) — Produire l'hydrogène ou le fer réduit ailleurs dans le monde ?</a> pour produire là où l'électricité est propre.</p>
+<h2>6. Acier : le charbon et le CO2 qui font basculer le haut fourneau (Industrie, 40 min)</h2>
+<p>Objectif : repérer une hypothèse par défaut qui sous-estime un coût, et lire un coût d'abattement.</p>
+<ol>
+<li>Onglet Acier. Noter les coûts par tonne : BF-BOF, DRI gaz, DRI-H2, ferraille + four électrique, BF-BOF + CCS.</li>
+<li>Monter « Prix du charbon » de 80 €/t jusqu'à ce que le haut fourneau dépasse le DRI gaz. Puis mettre 220 €/t, prix proche du charbon à coke.</li>
+<li>Relever les coûts d'abattement du DRI-H2 et de la ferraille ; dire pourquoi le second est négatif mais plafonné (ferraille : environ 30 % de la demande).</li>
+<li>Relever le quota payé par le haut fourneau à 70 €/t et écrire ce que change l'allocation gratuite.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Grandeur</th>
+<th>Attendu (v2.1)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BF-BOF / DRI gaz / DRI-H2</td>
+<td>523 / 572 / 772 €/t</td>
+<td></td>
+</tr>
+<tr>
+<td>ferraille + FEA / BF-BOF + CCS</td>
+<td>360 / 504 €/t</td>
+<td></td>
+</tr>
+<tr>
+<td>abattement DRI-H2 / ferraille / CCS</td>
+<td>214 / −25 / 52 €/tCO2</td>
+<td></td>
+</tr>
+<tr>
+<td>charbon d'égalité BF-BOF = DRI gaz</td>
+<td>151 €/t</td>
+<td></td>
+</tr>
+<tr>
+<td>BF-BOF à 220 €/t de charbon</td>
+<td>621 €/t</td>
+<td></td>
+</tr>
+<tr>
+<td>quota du BF-BOF à 70 €/t</td>
+<td>≈ 123 €/t d'acier</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>L'outil répond pour une tonne, en statique. Le cas H <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/H_industrie_co2" target="_blank" rel="noopener">Cas H — À quel prix du CO₂ l'industrie française change-t-elle de procédé, et qu'est-ce qui se verrouille ?</a> cherche la trajectoire France.</p>
+<h2>7. La France est-elle à 55 % ou à 33 % de bas-carbone (World energy mix, 30 min)</h2>
+<p>Objectif : calculer la part bas-carbone d'un même pays sous quatre conventions sans qu'un seul joule bouge.</p>
+<ol>
+<li>« Perimeter » : France. « Scale » : « Shares ». Se placer sur la dernière année observée, qui dépend de la convention : 2025 en « primary_content » et « electricity », 2024 en « primary_substitution », 2023 en « final ».</li>
+<li>« Accounting convention » : « primary_content », « primary_substitution », « final », « electricity ». Additionner à chaque fois nucléaire, hydraulique, éolien, solaire, autres renouvelables et bioénergie.</li>
+<li>Refaire pour « World ».</li>
+<li>Écrire pourquoi la substitution gonfle l'éolien et pourquoi la finale le dégonfle.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Convention</th>
+<th>Année</th>
+<th>France (v1.0)</th>
+<th>Monde (v1.0)</th>
+<th>Votre valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>primaire, contenu physique</td>
+<td>2025</td>
+<td>≈ 55 %</td>
+<td>≈ 13 %</td>
+<td></td>
+</tr>
+<tr>
+<td>primaire, substitution</td>
+<td>2024</td>
+<td>≈ 54 %</td>
+<td>≈ 19 %</td>
+<td></td>
+</tr>
+<tr>
+<td>finale</td>
+<td>2023</td>
+<td>≈ 33 %</td>
+<td>≈ 18 %</td>
+<td></td>
+</tr>
+<tr>
+<td>électricité</td>
+<td>2025</td>
+<td>≈ 95 %</td>
+<td>≈ 43 %</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Les valeurs attendues sont recalculées depuis les données embarquées dans la page v1.0, avec le même périmètre que la consigne. Le README de l'outil annonce « 50 % en primaire et 23 % en finale » : c'est le primaire 2023, et la finale sans la bioénergie, qui pèse 154 TWh sur 1 584 en France. Si vous lisez 55 % et 33 %, vous avez bien lu : le périmètre fait dix points en finale. La page ne redistribue pas les données AIE : tout se note à la main. Les cas POMMES 0 <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a> et G se lisent en TWh électriques, convention « electricity ».</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous citez les trois GW de la carte pointe (50,6 ; 45 ; 35) et un levier qui passe seul sous 45.</li>
+<li>Vous retrouvez 212 g/kWh au calcul et expliquez l'écart avec les 214 g de l'outil.</li>
+<li>Vous nommez les trois choses que le jeu ne calcule pas et le cas POMMES qui comble chacune.</li>
+<li>Vos sept tableaux sont remplis et chaque ligne porte la version de l'outil.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Découvrir le jeu en vue simple avant l'activité 1 <a href="https://www.robingirard.eu/assets/netzerogame/latest/index.html?lang=fr" target="_blank" rel="noopener">The Net Zero Game — découvrir le modèle France 2050</a>.</li>
+<li>L'outil industrie onglet par onglet, statuts d'hypothèses compris <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a>.</li>
+<li>Les quatre conventions et le piège de la lecture en parts <a href="https://www.robingirard.eu/assets/worldenergymix/latest/index.html" target="_blank" rel="noopener">World energy mix — l'empilement des sources depuis 1800, sous quatre conventions</a>.</li>
+<li>L'électrolyse : quand l'hydrogène est-il vraiment vert, 3 min <a href="https://www.youtube.com/watch?v=r7WUx2ainUY" target="_blank" rel="noopener">L'électrolyse : quand l'hydrogène est-il vraiment vert ? (Hydrogène 4b/5)</a>.</li>
+<li>Après l'activité 3, chiffrer ce que le jeu ne calcule pas : le coût du mégawattheure du système, stockage, secours et réseau compris <a href="../textes/act-cout-systeme.html">Ce que coûte un mégawattheure du système, et pas seulement de chaque centrale</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.robingirard.eu/assets/netzerogame/v0.38/index.html?lang=fr" target="_blank" rel="noopener">The Net Zero Game v0.38</a></li><li><a href="https://www.robingirard.eu/assets/industrydecarbo/v2.1/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie v2.1</a></li><li><a href="https://www.robingirard.eu/assets/worldenergymix/v1.0/index.html" target="_blank" rel="noopener">World energy mix v1.0</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

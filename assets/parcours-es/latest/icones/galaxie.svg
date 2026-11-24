@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- galaxie spirale : deux bras, un noyau, quatre étoiles. Grille 24, trait 2, bouts ronds.
+       Attributs portés par chaque élément (pas par un groupe) : ImageMagick ne les hérite pas. -->
+  <path d="M12 12 C 12 8.5, 15.5 7.5, 17.5 9.5 C 20 12, 19 16.5, 15 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 12 C 12 15.5, 8.5 16.5, 6.5 14.5 C 4 12, 5 7.5, 9 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="12" cy="12" r="2.2" fill="#F8B740"/>
+  <circle cx="20.5" cy="5.5" r="1" fill="#2BA9FF"/>
+  <circle cx="3.5" cy="19" r="1" fill="#2BA9FF"/>
+  <circle cx="19" cy="20" r="0.8" fill="#2BA9FF"/>
+  <circle cx="5" cy="4.5" r="0.8" fill="#2BA9FF"/>
+</svg>

@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L'hydrogène : à quoi il sert, comment on le produit, ce qu'il coûte · Parcours ES 2026</title>
+<meta name="description" content="À quoi sert l'hydrogène aujourd'hui (103 Mt dans le monde : raffinage, ammoniac, méthanol), comment on le produit au gaz (≈ 10 kg de CO₂ par kg) ou par électrolyse (≈ 53 kWh par kg), et ce que coûte un kilogramme d'électrolyseur selon le prix de l'électricité, les heures de fonctionnement et le prix de la machine (5 à 8 €/kg contre 2 à 3 pour le gaz). La note chiffre l'électricité que demanderaient l'acier, l'e-kérosène et la chaleur, donne quatre questions pour séparer un usage pertinent d'un usage douteux, et dit ce que cela change pour les mini-projets hydrogène et acier du cours.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>L'hydrogène : à quoi il sert, comment on le produit, ce qu'il coûte</h1>
+    <p class="resume">À quoi sert l'hydrogène aujourd'hui (103 Mt dans le monde : raffinage, ammoniac, méthanol), comment on le produit au gaz (≈ 10 kg de CO₂ par kg) ou par électrolyse (≈ 53 kWh par kg), et ce que coûte un kilogramme d'électrolyseur selon le prix de l'électricité, les heures de fonctionnement et le prix de la machine (5 à 8 €/kg contre 2 à 3 pour le gaz). La note chiffre l'électricité que demanderaient l'acier, l'e-kérosène et la chaleur, donne quatre questions pour séparer un usage pertinent d'un usage douteux, et dit ce que cela change pour les mini-projets hydrogène et acier du cours.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-D">Mener le mini-projet du cas D : que coûte l'hydrogène d'un électrolyseur ?</a></li><li><a href="../index.html#cas-I">Mener le mini-projet du cas I (e-kérosène) ou du cas J (hydrogène ou fer réduit ailleurs)</a></li><li><a href="../index.html#cas-K">Mener le mini-projet du cas K : que vaut la flexibilité d'une aciérie DRI, et que lui retire une rampe ?</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> On entend que l’hydrogène va décarboner
+l’industrie. À quoi sert-il aujourd’hui, que coûte-t-il quand on le
+fabrique avec de l’électricité, et pour quels usages cela vaut-il la
+peine ?</p>
+<p><strong>La réponse, en trois phrases.</strong> L’hydrogène est déjà
+un grand produit industriel, environ 100 millions de tonnes par an dans
+le monde, qui sert à raffiner le pétrole et à fabriquer de l’ammoniac et
+du méthanol, et il est presque entièrement tiré du gaz et du charbon,
+avec environ 10 kg de CO₂ par kilogramme. Le produire par électrolyse
+demande environ 53 kWh d’électricité par kilogramme, et son coût dépend
+de trois curseurs liés entre eux : le prix de l’électricité, le nombre
+d’heures où l’électrolyseur tourne et le prix de l’électrolyseur, ce qui
+donne aujourd’hui 5 à 8 €/kg contre 2 à 3 €/kg pour l’hydrogène fossile.
+Les usages pertinents sont d’abord ceux qui consomment déjà de
+l’hydrogène fossile, les usages nouveaux (acier, carburants de synthèse,
+chaleur) demandent beaucoup d’électricité et ne sont pas tous
+justifiés.</p>
+<p><strong>Le plan.</strong> La section 2 dit à quoi sert l’hydrogène,
+les sections 3 et 4 comment on le produit, au gaz puis à l’électricité.
+La section 5 calcule le coût de l’hydrogène d’un électrolyseur, la
+section 6 l’électricité des usages futurs. La section 7 sépare les
+usages pertinents des usages douteux, la section 8 dit ce que cela
+change pour les mini-projets du cours.</p>
+<h2 id="à-quoi-sert-lhydrogène-aujourdhui">2. À quoi sert l’hydrogène
+aujourd’hui</h2>
+<p>L’hydrogène (H₂) n’est presque jamais un carburant. C’est un
+<strong>intrant chimique</strong> : une matière première qu’on fait
+réagir avec autre chose.</p>
+<ul>
+<li><strong>Raffinage.</strong> On retire le soufre des carburants (la
+désulfuration) et on casse les molécules lourdes du pétrole en molécules
+plus légères (l’hydrocraquage).</li>
+<li><strong>Ammoniac.</strong> Le procédé Haber-Bosch combine l’azote de
+l’air et l’hydrogène (N₂ + 3 H₂ → 2 NH₃). L’ammoniac sert surtout à
+fabriquer des engrais azotés.</li>
+<li><strong>Méthanol.</strong> On combine de l’hydrogène avec du
+monoxyde ou du dioxyde de carbone. Le méthanol est une base de la chimie
+(plastiques, colles, solvants).</li>
+<li><strong>Fer préréduit.</strong> Dans une <strong>réduction
+directe</strong> (en anglais <em>direct reduced iron</em>, DRI), un gaz
+riche en hydrogène retire l’oxygène du minerai de fer.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Monde, 2025 (AIE)</th>
+<th>France (RTE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Consommation</td>
+<td>103 Mt/an</td>
+<td>≈ 1 Mt/an</td>
+</tr>
+<tr class="even">
+<td>Raffinage</td>
+<td>44 Mt</td>
+<td>60 %</td>
+</tr>
+<tr class="odd">
+<td>Ammoniac et engrais</td>
+<td>≈ 34 Mt</td>
+<td>25 %</td>
+</tr>
+<tr class="even">
+<td>Méthanol, chimie</td>
+<td>≈ 17 Mt</td>
+<td>10 %</td>
+</tr>
+<tr class="odd">
+<td>Fer préréduit (acier)</td>
+<td>≈ 6 Mt</td>
+<td>1 %</td>
+</tr>
+</tbody>
+</table>
+<p>L’Europe consomme environ 7 % de l’hydrogène mondial (AIE, 2026). Les
+chiffres français datent de 2018-2019 (RTE, 2020).</p>
+<p><strong>En France, trois chiffres qui ne se contredisent
+pas.</strong> La statistique publique compte 237 kt d’<strong>hydrogène
+pur</strong> produit en 2024 (SDES, 2025). RTE compte environ 1 Mt en
+incluant l’hydrogène en mélange et celui qui sort comme
+<strong>coproduit</strong> d’autres procédés (RTE, 2020). La stratégie
+nationale retient environ 400 kt produites par des vaporeformeurs, la
+seule part qu’un électrolyseur peut remplacer directement (Gouvernement,
+2025). Il faut toujours dire lequel on cite.</p>
+<p><strong>Décarboner l’existant suppose que l’existant
+survive.</strong> L’usine d’ammoniac de Grandpuits, environ 30 % des
+engrais français, s’est arrêtée en janvier 2025, et environ 66 % des
+engrais azotés consommés en France sont importés (France Hydrogène,
+2026).</p>
+<h2 id="comment-on-le-produit-aujourdhui-le-gaz">3. Comment on le
+produit aujourd’hui : le gaz</h2>
+<p>La production mondiale vient à 61 % du gaz naturel sans captage du
+CO₂, à 22 % du charbon et à 15 % de coproduits. L’hydrogène dit
+<strong>bas-émissions</strong> ne fait qu’environ 1 Mt, moins de 1 % du
+total. L’ensemble émet environ 1 000 Mt de CO₂ par an (AIE, 2026).</p>
+<p><strong>Le vaporeformage du méthane</strong> (en anglais <em>steam
+methane reforming</em>, SMR) fait réagir le méthane du gaz naturel avec
+de la vapeur d’eau, à haute température. Le bilan s’écrit CH₄ + 2 H₂O →
+CO₂ + 4 H₂. Le CO₂ est produit <strong>par la chimie elle-même</strong>
+: même un four parfait en rejetterait environ 5,5 kg par kg d’hydrogène
+(44 g de CO₂ pour 8 g d’hydrogène). Il faut y ajouter le gaz brûlé pour
+chauffer les tubes du réacteur.</p>
+<ul>
+<li><strong>À la cheminée</strong> : environ 9 kg de CO₂ par kg
+d’hydrogène.</li>
+<li><strong>En comptant l’extraction et le transport du gaz</strong> :
+environ 11 kg, avec des fuites de méthane de l’ordre de 0,5 % (Bauer et
+al., 2022).</li>
+<li><strong>Recoupement français</strong> : les vaporeformeurs
+produisent environ 400 kt par an et émettent plus de 4 Mt de CO₂, soit
+environ 10 kg par kg (Gouvernement, 2025).</li>
+</ul>
+<p><strong>Le coût</strong> est bas parce que le gaz est bon marché : un
+peu plus de 2 €/kg en Europe en 2025 (ACER, 2025), 2,86 €/kg en France
+en 2024 (Observatoire européen de l’hydrogène, 2025).</p>
+<p><strong>Capter le CO₂.</strong> On peut capter le CO₂ du
+vaporeformage, et l’on parle alors d’hydrogène « bleu ». Capter le seul
+CO₂ de procédé est commercial ; un taux de captage supérieur à 90 % ne
+l’est pas : le reformage autotherme avec captage (ATR + CCS) n’est qu’au
+niveau de maturité technologique (TRL) 5 sur 9 selon l’AIE (2026). Coût
+: 2,8 €/kg hors transport et stockage du CO₂ en Europe (ACER, 2025), 3,6
+€/kg en France (Observatoire européen, 2025). Voir la note <a
+href="note-capter-co2.html">Capter le CO₂</a>.</p>
+<h2 id="comment-on-le-produit-avec-de-lélectricité-lélectrolyse">4.
+Comment on le produit avec de l’électricité : l’électrolyse</h2>
+<p>L’<strong>électrolyse</strong> sépare l’eau en hydrogène et en
+oxygène avec un courant électrique. Un électrolyseur industriel consomme
+environ <strong>53 kWh d’électricité par kilogramme
+d’hydrogène</strong>, en comptant toute l’installation (AIE, 2026).</p>
+<p><strong>Le rendement.</strong> Un kilogramme d’hydrogène contient
+33,3 kWh au <strong>pouvoir calorifique inférieur</strong> (PCI, la
+chaleur de combustion quand l’eau produite reste en vapeur). Le
+rendement est donc de 63 % sur le PCI. Sur le pouvoir calorifique
+supérieur (PCS, eau condensée), il est de 74 %. Toujours dire sur quelle
+base on parle.</p>
+<p><strong>Les technologies.</strong> Les électrolyseurs alcalins et à
+membrane échangeuse de protons (PEM) sont commerciaux (TRL 9) ;
+l’électrolyse haute température (SOEC) est au TRL 8 (AIE, 2026). Plus de
+4 GW étaient installés dans le monde fin 2025, aux deux tiers en Chine
+(AIE, 2026).</p>
+<p><strong>Des mégawatts aux tonnes.</strong> La production annuelle
+s’écrit :</p>
+<blockquote>
+<p>tonnes par an = puissance (MW) × heures de fonctionnement ÷
+consommation (kWh/kg)</p>
+</blockquote>
+<p>Un électrolyseur de 200 MW qui tourne 7 000 h et consomme 53 kWh/kg
+produit environ 26 kt par an. Normand’Hy, le plus grand projet français
+(Air Liquide, Port-Jérôme), annonce 200 MW pour 28 kt par an.</p>
+<p><strong>Le prix de l’électrolyseur.</strong> Un électrolyseur
+occidental installé coûte 1 920 à 2 500 $/kW en 2025 (≈ 1 700 à 2 200
+€/kW), un électrolyseur chinois installé en Chine 550 à 1 100 $/kW (AIE,
+2026). L’empilement de cellules (le <strong>stack</strong>) ne fait que
+5 à 20 % du coût installé ; l’ingénierie, la construction et les aléas
+en font plus de la moitié (ACER, 2025). Un prix de stack n’est donc pas
+un prix d’usine.</p>
+<p><strong>« Vert » est une propriété de l’électricité, pas de la
+machine.</strong> À 53 kWh/kg, l’électrolyse n’émet moins que le
+vaporeformage (environ 11 kg de CO₂ par kg) que si l’électricité émet
+moins de <strong>210 g de CO₂ par kWh</strong> environ (11 ÷ 53). Sur le
+réseau français (environ 56 g/kWh), l’hydrogène émet environ 3 kg de CO₂
+par kg ; sur la moyenne européenne (environ 240 g/kWh), environ 12,7 kg,
+plus que le vaporeformage qu’il remplace. L’Union européenne définit
+deux labels : un hydrogène <strong>bas carbone</strong> émet au plus
+3,38 kg de CO₂ équivalent par kg (−70 %), un hydrogène
+<strong>renouvelable</strong> (en anglais <em>renewable fuel of
+non-biological origin</em>, RFNBO) doit en plus provenir d’électricité
+renouvelable, avec des règles de temps et de lieu (règlement délégué
+(UE) 2023/1184 ; acte délégué (UE) 2025/2359).</p>
+<p><strong>Ce que l’Europe impose, et à qui.</strong> RED III fixe aux
+États 42 % d’hydrogène renouvelable dans l’hydrogène de l’industrie en
+2030, 60 % en 2035, sans celui qui sert à fabriquer des carburants
+(directive (UE) 2023/2413, art. 22 bis) : l’hydrogène d’une raffinerie
+n’y entre pas. Renouvelable, il compte double pour l’objectif transport
+(art. 25 et 27), et rapporte en France des certificats aux vendeurs de
+carburants (TIRUERT, puis IRICC en 2027). L’hydrogène du gaz paie déjà
+ses quotas de CO₂.</p>
+<h2 id="ce-que-coûte-lhydrogène-dun-électrolyseur">5. Ce que coûte
+l’hydrogène d’un électrolyseur</h2>
+<h3 id="trois-postes-et-une-formule">5.1 Trois postes et une
+formule</h3>
+<p>Le coût d’un kilogramme (en anglais <em>levelised cost of
+hydrogen</em>, LCOH) additionne trois postes.</p>
+<ul>
+<li><strong>L’électricité</strong> : 53 kWh × le prix payé. À 70 €/MWh,
+3,7 €/kg.</li>
+<li><strong>Le capital</strong> : le prix de l’électrolyseur, transformé
+en une <strong>annuité</strong> (un paiement annuel constant qui
+rembourse l’investissement et le rémunère), puis divisé par les
+kilogrammes produits dans l’année. Plus l’électrolyseur tourne d’heures,
+plus ce poste baisse.</li>
+<li><strong>L’exploitation</strong> : l’entretien (environ 3 % du prix
+par an) et le remplacement du stack, usé après environ 50 000 heures
+(AIE, 2026).</li>
+</ul>
+<p>Un kilowatt d’électrolyseur produit chaque année (heures ÷ 53)
+kilogrammes. Le <strong>facteur de charge</strong> est la part des 8 760
+heures de l’année où il tourne.</p>
+<p><strong>Un calcul d’illustration.</strong> Avec 1 950 €/kW, 25 ans,
+un taux de 8 %, 3 % d’entretien et le stack remplacé pour 30 % du prix
+tous les 50 000 h :</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Prix de l’électricité</th>
+<th>Facteur de charge</th>
+<th>Capital</th>
+<th>Exploitation</th>
+<th>Électricité</th>
+<th><strong>Total</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>70 €/MWh</td>
+<td>50 %</td>
+<td>2,2 €/kg</td>
+<td>1,1 €/kg</td>
+<td>3,7 €/kg</td>
+<td><strong>7,0 €/kg</strong></td>
+</tr>
+<tr class="even">
+<td>70 €/MWh</td>
+<td>90 %</td>
+<td>1,2 €/kg</td>
+<td>0,8 €/kg</td>
+<td>3,7 €/kg</td>
+<td><strong>5,8 €/kg</strong></td>
+</tr>
+<tr class="odd">
+<td>30 €/MWh</td>
+<td>50 %</td>
+<td>2,2 €/kg</td>
+<td>1,1 €/kg</td>
+<td>1,6 €/kg</td>
+<td><strong>4,9 €/kg</strong></td>
+</tr>
+<tr class="even">
+<td>30 €/MWh</td>
+<td>90 %</td>
+<td>1,2 €/kg</td>
+<td>0,8 €/kg</td>
+<td>1,6 €/kg</td>
+<td><strong>3,7 €/kg</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Ce sont les hypothèses de l’outil web de décarbonation de l’industrie
+du cours, alignées sur l’AIE (2026). Avec un électrolyseur chinois
+installé en Chine (≈ 490 à 970 €/kW), la première ligne tombe à 4,8 à
+5,7 €/kg.</p>
+<h3 id="le-prix-et-les-heures-vont-ensemble">5.2 Le prix et les heures
+vont ensemble</h3>
+<p>Le tableau traite le prix et le facteur de charge comme deux curseurs
+indépendants. Ils ne le sont pas. Un électrolyseur qui tourne en
+permanence (en <strong>ruban</strong>) paie le prix moyen de l’année ;
+s’il choisit de ne tourner qu’aux heures les moins chères, il paie moins
+cher son électricité, mais amortit son capital sur moins de kilogrammes.
+Un prix de 70 €/MWh est un prix de ruban : il va avec un facteur de
+charge d’environ 90 %, pas de 50 %.</p>
+<figure>
+<img
+src="img/note-hydrogene-usages/Industry/Hydrogene_industrie/output/editorial/electrolyser_flexibility_capex.png"
+alt="Coût de l’hydrogène d’un électrolyseur qui n’achète que ses heures les moins chères, prix day-ahead France 2025, pour trois prix d’électrolyseur." />
+<figcaption aria-hidden="true">Coût de l’hydrogène d’un électrolyseur
+qui n’achète que ses heures les moins chères, prix day-ahead France
+2025, pour trois prix d’électrolyseur.</figcaption>
+</figure>
+<p>La figure range les 8 760 prix horaires français de 2025 (61 €/MWh en
+moyenne, plus de 500 heures à prix négatif) du moins cher au plus cher,
+et calcule le coût de l’hydrogène quand l’électrolyseur n’achète que les
+N premières heures (taux de 6 %, 20 ans, réseau et taxes 8 €/MWh).</p>
+<ul>
+<li>À <strong>500 €/kW</strong>, l’optimum est vers 2 800 h : 2,1 €/kg,
+contre 4,0 €/kg en ruban.</li>
+<li>À <strong>1 350 €/kW</strong>, vers 4 300 h : 3,5 €/kg, contre 4,6
+€/kg.</li>
+<li>À <strong>2 200 €/kW</strong>, vers 5 500 h : 4,6 €/kg, contre 5,2
+€/kg.</li>
+</ul>
+<p><strong>Plus l’électrolyseur est cher, plus il doit tourner, et moins
+la flexibilité rapporte.</strong> Le gain dépend aussi de l’année : à 1
+350 €/kW, choisir ses heures faisait gagner 1,5 % en 2019, quand les
+prix variaient peu, et 24 % en 2025, avec les heures solaires à prix nul
+ou négatif.</p>
+<p><strong>La limite du calcul.</strong> L’usine qui achète l’hydrogène
+veut un débit régulier. Tourner 4 000 h par an, c’est stocker
+l’hydrogène ou arrêter l’usine. RTE estime la valeur de la flexibilité à
+environ 10 €/MWh en moyenne, et jusqu’à 2 €/kg avec un stockage de 1 000
+heures en cavité saline (RTE, 2024).</p>
+<h3 id="le-réseau-les-taxes-et-la-règle-horaire">5.3 Le réseau, les
+taxes et la règle horaire</h3>
+<p>Un électrolyseur raccordé au réseau paie aussi l’acheminement de son
+électricité. Pour l’électrolyse sur réseau en France à 4 000 h,
+l’Observatoire européen de l’hydrogène (2025) trouve 5,30 €/kg : capital
+2,76, électricité 1,18, tarif de réseau (TURPE) 0,85, taxes 0,32, divers
+0,19. Voir la note <a href="note-tarifs-reseau.html">Tarifs de
+réseau</a>.</p>
+<p>L’hydrogène <strong>renouvelable</strong> ajoute une contrainte :
+jusqu’à fin 2029, l’électricité renouvelable achetée doit correspondre à
+la production d’hydrogène <strong>dans le même mois</strong> ; à partir
+de 2030, <strong>dans la même heure</strong> (les heures à moins de 20
+€/MWh restent admises). Avec des contrats éoliens et solaires, cette
+règle plafonne le facteur de charge vers 70 % (RTE, 2024).</p>
+<h3 id="les-coûts-constatés">5.4 Les coûts constatés</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Hydrogène</th>
+<th>Coût</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vaporeformage</td>
+<td>2,1 (UE, 2025) à 2,9 €/kg (France, 2024)</td>
+<td>ACER ; Observatoire européen</td>
+</tr>
+<tr class="even">
+<td>Vaporeformage avec captage</td>
+<td>2,8 à 3,6 €/kg</td>
+<td>ACER ; Observatoire européen</td>
+</tr>
+<tr class="odd">
+<td>Électrolyse sur réseau, France, 4 000 h</td>
+<td>5,3 €/kg</td>
+<td>Observatoire européen</td>
+</tr>
+<tr class="even">
+<td>Offres à la Banque européenne de l’hydrogène, 2026</td>
+<td>6,9 €/kg en médiane (France 6,7)</td>
+<td>Commission européenne</td>
+</tr>
+<tr class="odd">
+<td>Hydrogène renouvelable (RFNBO), UE 2025</td>
+<td>≈ 8 €/kg (7 à 10 selon le pays)</td>
+<td>ACER</td>
+</tr>
+</tbody>
+</table>
+<p>L’hydrogène électrolytique coûte donc <strong>2,5 à 4 fois</strong>
+l’hydrogène fossile.</p>
+<h2 id="lélectricité-que-demanderaient-les-usages-futurs">6.
+L’électricité que demanderaient les usages futurs</h2>
+<p>Chaque kilogramme demande 53 kWh. Une tonne demande donc 53 MWh, et
+un million de tonnes 53 TWh.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Usage</th>
+<th>Hydrogène</th>
+<th>Électricité</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Remplacer l’hydrogène des vaporeformeurs français</td>
+<td>≈ 400 kt/an</td>
+<td>≈ 21 TWh/an, ≈ 5 % des 438 TWh consommés en France en 2024</td>
+</tr>
+<tr class="even">
+<td>Remplacer tout l’hydrogène mondial</td>
+<td>103 Mt/an</td>
+<td>≈ 5 500 TWh/an, ≈ 18 % des 31 200 TWh produits dans le monde en
+2024</td>
+</tr>
+<tr class="odd">
+<td>Acier par réduction directe à l’hydrogène</td>
+<td>≈ 55 kg par tonne de fer préréduit</td>
+<td>≈ 3,5 MWh par tonne d’acier, four électrique compris</td>
+</tr>
+<tr class="even">
+<td>e-kérosène</td>
+<td>≈ 0,6 t par tonne de kérosène</td>
+<td>32 à 38 MWh par tonne de kérosène</td>
+</tr>
+<tr class="odd">
+<td>Chaleur par chaudière à hydrogène</td>
+<td>≈ 0,6 kWh de chaleur par kWh d’électricité</td>
+<td>une pompe à chaleur en donne plus de 1</td>
+</tr>
+</tbody>
+</table>
+<p>Sources : AIE (2026, 2025) ; SNBC 3 (2026) ; Vogl et al. (2018) ; The
+Shift Project (2026).</p>
+<p><strong>L’acier.</strong> La réduction seule demande environ 55 kg
+d’hydrogène par tonne de fer préréduit. Si le gaz réducteur est
+réchauffé en brûlant de l’hydrogène, on monte à environ 80 kg par tonne
+d’acier ; les usines en construction le réchauffent à l’électricité. Le
+projet GravitHy à Fos-sur-Mer vise 2 Mt de fer préréduit par an avec
+environ 750 MW d’électrolyse et 120 kt d’hydrogène, soit environ 6 TWh
+par an. Voir les notes <a href="note-procedes-usines.html">Procédés des
+usines</a> et <a href="note-routes-decarbonation.html">Routes de
+décarbonation</a>.</p>
+<p><strong>Les carburants de synthèse.</strong> Remplacer les 7,3 Mt de
+kérosène consommées chaque année en France demanderait environ 280 TWh,
+environ la moitié de la production électrique française. Le règlement
+européen ReFuelEU impose 1,2 % de carburant de synthèse en 2030 et 5 %
+en 2035 ; ces 5 % demanderaient environ 665 kt d’hydrogène par an en
+Europe (AIE, 2026), environ 35 TWh. Voir la note <a
+href="note-saf-filieres.html">Carburants d’aviation durables</a>.</p>
+<p><strong>La chaleur.</strong> Pour la chaleur à basse et moyenne
+température, brûler de l’hydrogène fait perdre près de la moitié de
+l’électricité, quand une pompe à chaleur en multiplie l’effet. Voir la
+note <a href="note-chaleur-usines.html">Chaleur des usines</a>.</p>
+<p><strong>Ce que prévoit la France.</strong> La stratégie nationale
+vise jusqu’à 8 GW d’électrolyse en 2035 (Gouvernement, 2025), soit 40 à
+60 TWh (France Hydrogène, 2026). RTE n’attend que 5 à 16 TWh
+d’électrolyse en 2030 (RTE, 2025).</p>
+<h2 id="usage-pertinent-usage-douteux">7. Usage pertinent, usage
+douteux</h2>
+<p>Quatre questions séparent un usage pertinent d’un usage douteux.</p>
+<ol type="1">
+<li><strong>L’hydrogène est-il déjà là ?</strong> Remplacer l’hydrogène
+fossile d’une raffinerie ou d’une usine d’ammoniac ne change pas le
+procédé : seule la source change.</li>
+<li><strong>Existe-t-il une solution électrique directe ?</strong> Une
+batterie pour une voiture, une pompe à chaleur pour la chaleur basse
+température : l’une et l’autre utilisent l’électricité bien mieux que
+l’hydrogène, qui en perd déjà plus d’un tiers à l’électrolyse.</li>
+<li><strong>L’utilisateur peut-il payer ?</strong> Selon l’AIE (2026),
+sans politique publique, la plupart des secteurs ne pourraient payer que
+moins de 2 $/kg en
+<ol start="2035" type="1">
+<li>Un prix du CO₂ de 150 $/t vaut 1,5 $/kg d’hydrogène dans l’ammoniac
+et 1,4 $/kg dans le raffinage, mais 0,38 $/kg dans le méthanol. Dans
+l’acier, le fer préréduit à l’hydrogène coûte plus que le haut fourneau
+même avec un hydrogène gratuit, faute d’un prix du CO₂ suffisant.</li>
+</ol></li>
+<li><strong>L’électricité est-elle bas carbone ?</strong> Au-dessus de
+210 g/kWh environ, l’électrolyse émet plus que le gaz (section 4).</li>
+</ol>
+<p><strong>L’échelle de Liebreich</strong> (2023) classe les usages. En
+haut, les usages sans alternative : engrais, méthanol, raffinage. Puis
+le transport maritime (sous forme d’ammoniac ou de méthanol), l’aviation
+(carburants de synthèse), la chimie, l’acier et le stockage de longue
+durée. Plus bas, la chaleur industrielle haute température. Tout en bas,
+la chaleur basse température, le chauffage et les voitures.</p>
+<p><strong>Ce que montrent les projets.</strong> Les usages existants
+signent : 60 % de la production bas-émissions engagée pour 2030 ira en
+raffinerie et dans l’industrie (AIE, 2026). L’acier recule :
+ArcelorMittal dit qu’il lui faudrait un hydrogène à 2 €/kg et reçoit des
+offres à environ 7 €/kg (Assemblée nationale, 2025) ; il a renoncé à sa
+réduction directe à Dunkerque et construit un four électrique sans
+hydrogène pour 2029 (ArcelorMittal France, 2026).</p>
+<figure>
+<img
+src="img/note-hydrogene-usages/Industry/Hydrogene_industrie/output/editorial/france_electrolysis_pipeline.png"
+alt="Électrolyse en France : demandé, annoncé, visé, décidé, construit (MW, échelle logarithmique)." />
+<figcaption aria-hidden="true">Électrolyse en France : demandé, annoncé,
+visé, décidé, construit (MW, échelle logarithmique).</figcaption>
+</figure>
+<p><strong>Annoncé n’est pas construit.</strong> En France, 6,7 GW de
+projets sont annoncés, 4 % ont une décision finale d’investissement (en
+anglais <em>final investment decision</em>, FID) et 50 MW tournaient fin
+2025, environ 1 % de la cible de 2030 (France Hydrogène, 2026). Dans le
+monde, 16 % de la production bas-émissions annoncée pour 2030 est
+décidée (AIE, 2026).</p>
+<p><strong>Idées reçues.</strong></p>
+<ul>
+<li><em>« L’électrolyse a besoin de percées technologiques. »</em> Les
+usines du monde peuvent fabriquer 58 GW d’électrolyseurs par an, pour
+moins de 5 GW produits en 2025 (AIE, 2026). Ce qui manque, ce sont des
+acheteurs.</li>
+<li><em>« Un électrolyseur doit tourner tout le temps. »</em> Ou
+seulement aux heures à prix négatif ? Ni l’un ni l’autre : l’optimum
+dépend de son prix (section 5.2).</li>
+<li><em>« L’hydrogène est une énergie. »</em> C’est un vecteur : il faut
+53 kWh d’électricité pour en obtenir 33 kWh.</li>
+</ul>
+<p><strong>Tableau de synthèse.</strong> Volumes mondiaux de 2025 (AIE,
+2026).</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Usage</th>
+<th>Hydrogène aujourd’hui</th>
+<th>Ce qui décide</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Raffinage</td>
+<td>44 Mt (monde)</td>
+<td>prix du CO₂, obligation sur les carburants du transport</td>
+<td>pertinent</td>
+</tr>
+<tr class="even">
+<td>Ammoniac, engrais</td>
+<td>≈ 34 Mt</td>
+<td>coût face à l’import</td>
+<td>pertinent</td>
+</tr>
+<tr class="odd">
+<td>Méthanol</td>
+<td>≈ 17 Mt</td>
+<td>coût, contrats d’achat</td>
+<td>pertinent</td>
+</tr>
+<tr class="even">
+<td>Acier (réduction directe)</td>
+<td>≈ 6 Mt, au gaz</td>
+<td>prix du CO₂, prime verte</td>
+<td>possible, coûteux</td>
+</tr>
+<tr class="odd">
+<td>e-kérosène, transport maritime</td>
+<td>presque rien</td>
+<td>obligations, ≈ 32-38 MWh/t</td>
+<td>possible, très gourmand</td>
+</tr>
+<tr class="even">
+<td>Chaleur haute température</td>
+<td>presque rien</td>
+<td>concurrence électrique</td>
+<td>au cas par cas</td>
+</tr>
+<tr class="odd">
+<td>Chaleur basse température, voitures</td>
+<td>presque rien</td>
+<td>pompe à chaleur, batterie</td>
+<td>douteux</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ce-que-ça-change-pour-les-mini-projets">8. Ce que ça change pour
+les mini-projets</h2>
+<p><strong>Le coût de l’hydrogène d’un électrolyseur.</strong> Le
+mini-projet compare un reformeur au gaz et un électrolyseur, avec ou
+sans stockage. Retenir que la réponse se donne avec trois hypothèses
+ensemble : le prix payé, les heures de fonctionnement et le prix de
+l’électrolyseur. Un chiffre calculé en ruban et un chiffre calculé à 50
+% de charge ne mesurent pas la même chose : c’est la première raison
+pour laquelle deux outils donnent deux coûts pour le même hydrogène.
+Comparer ensuite à la référence fossile (2 à 3 €/kg), ajouter le tarif
+de réseau et l’aide publique, et chiffrer ce que coûte la règle horaire
+de 2030.</p>
+<p><strong>L’e-kérosène.</strong> Une usine de 100 kt par an consomme
+environ 60 kt d’hydrogène et 3,2 à 3,8 TWh d’électricité, de l’ordre de
+400 MW toute l’année. Le coût de l’hydrogène fait l’essentiel du coût du
+kérosène : les leviers du coût de l’hydrogène (prix, heures, règle
+horaire) sont ceux du litre.</p>
+<p><strong>L’hydrogène ou le fer produit ailleurs.</strong> Une usine
+isolée alimentée par ses propres éoliennes et panneaux solaires tourne
+aux heures où ils produisent. Son facteur de charge, ses réservoirs et
+son coût du capital décident du coût. Un ensoleillement meilleur ne
+suffit pas si le capital coûte plus cher dans le pays.</p>
+<p><strong>L’aciérie à réduction directe.</strong> Elle peut choisir
+chaque heure entre hydrogène et gaz. Retenir les deux chiffres de
+consommation (55 kg par tonne de fer préréduit pour la réduction seule,
+environ 80 kg par tonne d’acier si le réchauffage brûle de l’hydrogène),
+et que la valeur de la flexibilité dépend d’abord de la volatilité des
+prix supposée : faible avant 2021, forte depuis.</p>
+<h2 id="ce-quil-faut-retenir">9. Ce qu’il faut retenir</h2>
+<p><strong>L’hydrogène est d’abord un produit chimique fossile.</strong>
+Environ 100 Mt par an dans le monde, pour le raffinage, l’ammoniac et le
+méthanol, avec environ 10 kg de CO₂ par kilogramme. Le décarboner
+commence par ces usages-là.</p>
+<p><strong>Son coût électrolytique se lit avec trois curseurs
+liés.</strong> Environ 53 kWh par kilogramme, un capital qui s’amortit
+sur les heures de fonctionnement, et un prix de l’électricité qui dépend
+des heures choisies. Aujourd’hui, 5 à 8 €/kg contre 2 à 3 €/kg pour le
+gaz.</p>
+<p><strong>Les usages nouveaux se jugent à l’électricité qu’ils
+demandent.</strong> Un million de tonnes d’hydrogène demande 53 TWh. Un
+usage est pertinent s’il n’a pas d’alternative électrique directe, si
+son électricité est bas carbone et si quelqu’un peut en payer le
+prix.</p>
+<h2 id="sources">10. Sources</h2>
+<ul>
+<li>ACER, <em>European hydrogen markets, 2025 monitoring report</em>,
+2025, p. 5, 26, 40-44, <a href="https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER-2025-European-hydrogen-markets.pdf" target="_blank" rel="noopener"
+class="uri">https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER-2025-European-hydrogen-markets.pdf</a>.</li>
+<li>AIE, <em>Global Hydrogen Review 2026</em> et son annexe
+d’hypothèses, 2026, <a href="https://www.iea.org/reports/global-hydrogen-review-2026" target="_blank" rel="noopener"
+class="uri">https://www.iea.org/reports/global-hydrogen-review-2026</a>.</li>
+<li>AIE, <em>World Energy Outlook 2025</em>, tableau A.3a (production
+mondiale d’électricité).</li>
+<li>ArcelorMittal France, communiqué du 10 février 2026 (four électrique
+de Dunkerque).</li>
+<li>Assemblée nationale, rapport d’information n° 1581 sur l’aide à la
+décarbonation d’ArcelorMittal Dunkerque, 2025, p. 22, <a href="https://www.assemblee-nationale.fr/dyn/17/rapports/cion_fin/l17b1581_rapport-information.pdf" target="_blank" rel="noopener"
+class="uri">https://www.assemblee-nationale.fr/dyn/17/rapports/cion_fin/l17b1581_rapport-information.pdf</a>.</li>
+<li>Bauer C. et al., <em>On the climate impacts of blue hydrogen
+production</em>, Sustainable Energy &amp; Fuels 6 (2022),
+doi:10.1039/D1SE01508G.</li>
+<li>Commission européenne, résultats de l’enchère IF25 de la Banque
+européenne de l’hydrogène, 2026, <a href="https://climate.ec.europa.eu/areas-action/eu-funding-climate-action/innovation-fund/calls-proposals/if25-hydrogen-auction_en" target="_blank" rel="noopener"
+class="uri">https://climate.ec.europa.eu/areas-action/eu-funding-climate-action/innovation-fund/calls-proposals/if25-hydrogen-auction_en</a>.</li>
+<li>Energy-Charts (Fraunhofer ISE), prix day-ahead France 2019-2025, <a href="https://www.energy-charts.info" target="_blank" rel="noopener"
+class="uri">https://www.energy-charts.info</a>.</li>
+<li>France Hydrogène, <em>Rapport annuel de la filière 2025</em>, 2026,
+<a href="https://www.france-hydrogene.org/app/uploads/sites/4/2026/02/France-Hydrogene_Rapport-filiere-2025-VIntegrale.pdf" target="_blank" rel="noopener"
+class="uri">https://www.france-hydrogene.org/app/uploads/sites/4/2026/02/France-Hydrogene_Rapport-filiere-2025-VIntegrale.pdf</a>.</li>
+<li>Gouvernement, <em>Stratégie nationale pour le développement de
+l’hydrogène décarboné</em>, avril 2025, <a href="https://www.economie.gouv.fr/files/2025-04/strategie_nationale_hydrogene_decarbone_2025.pdf" target="_blank" rel="noopener"
+class="uri">https://www.economie.gouv.fr/files/2025-04/strategie_nationale_hydrogene_decarbone_2025.pdf</a>.</li>
+<li>Liebreich M., <em>Clean Hydrogen Ladder</em>, version 5.0, 2023, <a href="https://liebreich.com/hydrogen-ladder-version-5-0/" target="_blank" rel="noopener"
+class="uri">https://liebreich.com/hydrogen-ladder-version-5-0/</a>.</li>
+<li>Observatoire européen de l’hydrogène, <em>Hydrogen production costs
+2024</em>, 2025, <a href="https://observatory.clean-hydrogen.europa.eu/sites/default/files/2025-09/Hydrogen%20production%20costs%202024.xlsx" target="_blank" rel="noopener"
+class="uri">https://observatory.clean-hydrogen.europa.eu/sites/default/files/2025-09/Hydrogen%20production%20costs%202024.xlsx</a>.</li>
+<li>Règlement délégué (UE) 2023/1184 (hydrogène renouvelable) ;
+règlement délégué (UE) 2025/2359 (hydrogène bas carbone) ; règlement
+(UE) 2023/2405 (ReFuelEU Aviation).</li>
+<li>RTE, <em>La transition vers un hydrogène bas carbone</em>, 2020,
+p. 14-15, <a href="https://assets.rte-france.com/prod/public/2020-07/rapport%20hydrogene.pdf" target="_blank" rel="noopener"
+class="uri">https://assets.rte-france.com/prod/public/2020-07/rapport%20hydrogene.pdf</a>.</li>
+<li>RTE, <em>Bilan prévisionnel 2023-2035</em>, chapitre 11 (hydrogène),
+2024, <a href="https://assets.rte-france.com/prod/public/2024-07/2024-07-12-chap11-hydrogene.pdf" target="_blank" rel="noopener"
+class="uri">https://assets.rte-france.com/prod/public/2024-07/2024-07-12-chap11-hydrogene.pdf</a>.</li>
+<li>RTE, <em>Bilan prévisionnel 2025-2035</em>, consommation, 2025,
+p. 23-25, <a href="https://assets.rte-france.com/prod/public/2025-12/2025-12-23-bilan-previsionnel-2025-consommation.pdf" target="_blank" rel="noopener"
+class="uri">https://assets.rte-france.com/prod/public/2025-12/2025-12-23-bilan-previsionnel-2025-consommation.pdf</a>.</li>
+<li>SDES, <em>L’hydrogène pur : ressources et usages en France en
+2024</em>, 2025, <a href="https://www.statistiques.developpement-durable.gouv.fr/lhydrogene-pur-evaluation-des-ressources-et-des-usages-en-france-en-2024" target="_blank" rel="noopener"
+class="uri">https://www.statistiques.developpement-durable.gouv.fr/lhydrogene-pur-evaluation-des-ressources-et-des-usages-en-france-en-2024</a>.</li>
+<li>SNBC 3, décret n° 2026-636 du 16 juillet 2026 (consommation
+d’électricité de la France en 2024).</li>
+<li>The Shift Project et Aéro Décarbo, <em>Pouvoir voler sans
+pétrole</em>, synthèse,
+<ol start="2026" type="1">
+<li></li>
+</ol></li>
+<li>Vogl V., Åhman M., Nilsson L. J., <em>Assessment of hydrogen direct
+reduction for fossil-free steelmaking</em>, Journal of Cleaner
+Production 203 (2018) 736-745.</li>
+</ul>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">11. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.youtube.com/playlist?list=PLWcSWOR-7exo" target="_blank" rel="noopener">Décarbonation
+de la fabrication de l’hydrogène</a> (série de 7 vidéos sur YouTube) :
+toute la série, des usages d’aujourd’hui aux procédés bas carbone et aux
+infrastructures.</li>
+<li><a href="https://www.youtube.com/watch?v=n7LYfnHcmns" target="_blank" rel="noopener">Hydrogène 1/5
+— à quoi il sert vraiment, et comment on le fabrique</a> (vidéo, 2 min)
+: à quoi sert l’hydrogène aujourd’hui (raffinage, engrais, méthanol) et
+comment on le fabrique.</li>
+<li><a href="https://www.youtube.com/watch?v=FzJchU2H_P0" target="_blank" rel="noopener">Hydrogène 2/5
+— d’où sortent les 11 kilos de CO2 d’un kilo d’hydrogène</a> (vidéo, 2
+min) : d’où viennent les quelque 10 kg de CO₂ d’un kilo d’hydrogène fait
+au gaz.</li>
+<li><a href="https://www.youtube.com/watch?v=r7WUx2ainUY" target="_blank" rel="noopener">Hydrogène 4b/5
+— l’électrolyse : quand l’hydrogène est-il vraiment vert ? Le seuil des
+210 g</a> (vidéo, 3 min) : l’électrolyse, ses 53 kWh par kilo, et le
+seuil de 210 g de CO₂ par kWh.</li>
+<li><a href="https://www.youtube.com/watch?v=SFcvU6Cj6UA" target="_blank" rel="noopener">Hydrogène 5b/5
+— à quoi servira l’hydrogène ? D’abord à remplacer celui
+d’aujourd’hui</a> (vidéo, 2 min) : les usages de l’hydrogène bas
+carbone, à commencer par le remplacement de l’hydrogène fossile.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-17-hydrogene-dri-en-question.html" target="_blank" rel="noopener">L’hydrogène
+dans le fer préréduit européen, et ce qui avance à sa place</a> (post
+LinkedIn repris sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/posts/activity-7506236956503232512-juYk" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : pourquoi l’acier à l’hydrogène recule en Europe
+: un prix du CO₂ trop bas et un hydrogène trop cher.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Hydrogene_usages.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-tarifs-reseau.html">Le tarif d'accès au réseau électrique : ce qu'il paie, comment il est construit, ce qu'il coûte en Europe</a></li><li><a href="note-financer-transition.html">Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte</a></li><li><a href="note-saf-filieres.html">Les carburants d'aviation durables : six filières et leurs ordres de grandeur</a></li><li><a href="note-procedes-usines.html">Acier, ciment, ammoniac, hydrogène, plastiques, aluminium : comment on les fabrique, et d'où sort le CO₂</a></li><li><a href="note-cout-routes.html">Ce que coûte la décarbonation de l'industrie : coût par tonne, surcoût et prix du CO₂</a></li><li><a href="note-capter-co2.html">Capter le CO₂ d'une usine : d'où il vient, comment on l'attrape, ce qu'on en fait, ce que ça coûte</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#à-quoi-sert-lhydrogène-aujourdhui">2. À quoi sert l’hydrogène aujourd’hui</a></li><li><a href="#comment-on-le-produit-aujourdhui-le-gaz">3. Comment on le produit aujourd’hui : le gaz</a></li><li><a href="#comment-on-le-produit-avec-de-lélectricité-lélectrolyse">4. Comment on le produit avec de l’électricité : l’électrolyse</a></li><li><a href="#ce-que-coûte-lhydrogène-dun-électrolyseur">5. Ce que coûte l’hydrogène d’un électrolyseur</a></li><li><a href="#lélectricité-que-demanderaient-les-usages-futurs">6. L’électricité que demanderaient les usages futurs</a></li><li><a href="#usage-pertinent-usage-douteux">7. Usage pertinent, usage douteux</a></li><li><a href="#ce-que-ça-change-pour-les-mini-projets">8. Ce que ça change pour les mini-projets</a></li><li><a href="#ce-quil-faut-retenir">9. Ce qu’il faut retenir</a></li><li><a href="#sources">10. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">11. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Comment cinq pays produisent leur électricité, aujourd'hui et en 2050 · Parcours ES 2026</title>
+<meta name="description" content="Ce qu'est un mix électrique, et pourquoi il faut trois chiffres pour comparer des pays : la part bas-carbone, la production en TWh et la production par habitant. Les mix 2025 de la France, de l'Allemagne, de la Chine, de l'Inde et des États-Unis, puis leurs scénarios de neutralité : tous arrivent à 62 à 90 % d'éolien et de solaire, avec une production qui double presque partout, mais ce sont des cibles, pas des prévisions. La note finit sur ce que cela change pour une interconnexion et pour un mix presque 100 % renouvelable face à la pire semaine.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 15 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Comment cinq pays produisent leur électricité, aujourd'hui et en 2050</h1>
+    <p class="resume">Ce qu'est un mix électrique, et pourquoi il faut trois chiffres pour comparer des pays : la part bas-carbone, la production en TWh et la production par habitant. Les mix 2025 de la France, de l'Allemagne, de la Chine, de l'Inde et des États-Unis, puis leurs scénarios de neutralité : tous arrivent à 62 à 90 % d'éolien et de solaire, avec une production qui double presque partout, mais ce sont des cibles, pas des prévisions. La note finit sur ce que cela change pour une interconnexion et pour un mix presque 100 % renouvelable face à la pire semaine.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-F">Mener le mini-projet du cas F : la valeur d'une interconnexion</a></li><li><a href="../index.html#cas-G">Mener le mini-projet du cas G : un mix presque 100 % EnR sur la pire semaine</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Comment l’électricité est-elle produite
+en France, en Allemagne, en Chine, en Inde et aux États-Unis, et comment
+le sera-t-elle en 2050 ?</p>
+<p><strong>La réponse, en trois phrases.</strong> Aujourd’hui, les cinq
+pays partent de situations opposées : la France produit 95 % de son
+électricité sans fossile, surtout grâce au nucléaire, quand l’Inde en
+tire encore 71 % du charbon. Leurs scénarios de neutralité carbone
+arrivent pourtant tous au même endroit : 62 à 90 % de la production
+viendrait de l’éolien et du solaire, et la production totale doublerait
+presque partout. Ces scénarios sont des cibles, construites par des
+organismes différents avec des hypothèses différentes : ils disent ce
+que chaque pays vise, pas ce qui arrivera.</p>
+<p><strong>Le plan.</strong> La section 2 définit les notions. La
+section 3 explique pourquoi il faut trois graphiques, et pas un, pour
+comparer des pays. La section 4 décrit les cinq pays en 2025, la section
+5 leurs scénarios pour 2050 et les conditions de lecture. La section 6
+passe en revue les idées reçues les plus courantes. La section 7 dit ce
+que tout cela change pour les mini-projets sur les interconnexions et
+sur un mix presque 100 % renouvelable.</p>
+<h2 id="les-notions">2. Les notions</h2>
+<p>Le <strong>mix électrique</strong> d’un pays est la répartition de sa
+production d’électricité entre les sources : charbon, gaz, pétrole,
+nucléaire, hydraulique, bioénergie, éolien, solaire. On le donne en
+général en <strong>parts du total</strong>, sur une année.</p>
+<p>La <strong>production</strong> se compte en énergie, sur l’année.
+L’unité est le <strong>térawattheure</strong> (TWh), un milliard de
+kilowattheures. On parle ici de production <strong>brute injectée sur le
+réseau</strong> : ce que les centrales livrent, pas ce que le pays
+consomme. La différence, ce sont les échanges avec les voisins. Un pays
+qui produit plus qu’il ne consomme est <strong>exportateur net</strong>
+; l’inverse, <strong>importateur net</strong>.</p>
+<p>La <strong>part bas-carbone</strong> est la part de la production qui
+ne vient pas d’un combustible fossile : nucléaire, hydraulique,
+bioénergie, éolien, solaire, et plus tard l’hydrogène produit sans
+fossile. Elle répond à la question « ce pays a-t-il décarboné son
+électricité ? ». Elle ne dit pas comment : par le nucléaire, par les
+renouvelables, ou par les deux.</p>
+<p>La <strong>production par habitant</strong> divise la production
+annuelle par la population. Elle se compte en <strong>mégawattheures par
+habitant</strong> (MWh/hab, un millier de kWh). Elle dit combien un pays
+utilise d’électricité, rapporté à sa taille.</p>
+<p>Un <strong>scénario</strong> est une trajectoire construite par un
+modèle à partir d’hypothèses : demande, coûts, politiques. Ce n’est pas
+une prévision. Un <strong>scénario de neutralité carbone</strong>
+suppose que le pays atteint ses émissions nettes nulles à une date
+donnée, et cherche un système électrique qui le permet. Un scénario
+<strong>tendanciel</strong> prolonge les politiques en vigueur.</p>
+<h2 id="pourquoi-un-seul-graphique-ne-suffit-pas">3. Pourquoi un seul
+graphique ne suffit pas</h2>
+<p>La Chine produit environ <strong>10 600 TWh</strong> d’électricité
+par an, la France <strong>570 TWh</strong> : dix-huit fois moins. Sur un
+axe en TWh, la barre française est un trait, et le seul mix presque
+décarboné des cinq devient illisible. Sur un axe en pourcentage, c’est
+l’inverse : la France et l’Inde ont des barres de même hauteur, alors
+que l’une produit 8,6 MWh par habitant et l’autre 1,4.</p>
+<p>Il faut donc trois graphiques, qui répondent à trois questions :</p>
+<ol type="1">
+<li>le <strong>mix en parts du total</strong> répond à « qui est
+décarboné ? » ;</li>
+<li>la <strong>production totale en TWh</strong> répond à « qui pèse ? »
+;</li>
+<li>la <strong>production par habitant</strong> répond à « qui utilise
+beaucoup d’électricité ? ».</li>
+</ol>
+<figure>
+<img
+src="img/note-mix-elec-pays/Mix_et_flux/Mix_electrique_pays/output/editorial/electricity_mix_mix_share.png"
+alt="Mix de production électrique des cinq pays, en parts du total : à gauche en 2025, à droite dans un scénario de neutralité carbone par pays. Le chiffre au-dessus de chaque barre est la part bas-carbone." />
+<figcaption aria-hidden="true">Mix de production électrique des cinq
+pays, en parts du total : à gauche en 2025, à droite dans un scénario de
+neutralité carbone par pays. Le chiffre au-dessus de chaque barre est la
+part bas-carbone.</figcaption>
+</figure>
+<figure>
+<img
+src="img/note-mix-elec-pays/Mix_et_flux/Mix_electrique_pays/output/editorial/electricity_mix_volumes.png"
+alt="Ce que les pourcentages effacent : la production totale en TWh (à gauche) et la production par habitant en MWh (à droite), aujourd’hui et dans le scénario." />
+<figcaption aria-hidden="true">Ce que les pourcentages effacent : la
+production totale en TWh (à gauche) et la production par habitant en MWh
+(à droite), aujourd’hui et dans le scénario.</figcaption>
+</figure>
+<h2 id="les-cinq-pays-en-2025">4. Les cinq pays en 2025</h2>
+<p>Les chiffres viennent d’une source unique pour les cinq pays, avec
+les mêmes définitions : la base de données annuelle d’Ember, année 2025
+complète. La population vient des Nations unies.</p>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">Bas-carbone</th>
+<th style="text-align: right;">dont nucléaire</th>
+<th style="text-align: right;">dont éolien et solaire</th>
+<th style="text-align: right;">Charbon</th>
+<th style="text-align: right;">Gaz</th>
+<th style="text-align: right;">Production</th>
+<th style="text-align: right;">Par habitant</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>France</td>
+<td style="text-align: right;"><strong>95 %</strong></td>
+<td style="text-align: right;">69 %</td>
+<td style="text-align: right;">14 %</td>
+<td style="text-align: right;">0,3 %</td>
+<td style="text-align: right;">3 %</td>
+<td style="text-align: right;">570 TWh</td>
+<td style="text-align: right;">8,6 MWh</td>
+</tr>
+<tr class="even">
+<td>Allemagne</td>
+<td style="text-align: right;"><strong>59 %</strong></td>
+<td style="text-align: right;">0 %</td>
+<td style="text-align: right;">45 %</td>
+<td style="text-align: right;">21 %</td>
+<td style="text-align: right;">17 %</td>
+<td style="text-align: right;">500 TWh</td>
+<td style="text-align: right;">6,0 MWh</td>
+</tr>
+<tr class="odd">
+<td>Chine</td>
+<td style="text-align: right;"><strong>42 %</strong></td>
+<td style="text-align: right;">5 %</td>
+<td style="text-align: right;">22 %</td>
+<td style="text-align: right;">55 %</td>
+<td style="text-align: right;">3 %</td>
+<td style="text-align: right;">10 578 TWh</td>
+<td style="text-align: right;">7,5 MWh</td>
+</tr>
+<tr class="even">
+<td>Inde</td>
+<td style="text-align: right;"><strong>27 %</strong></td>
+<td style="text-align: right;">3 %</td>
+<td style="text-align: right;">14 %</td>
+<td style="text-align: right;">71 %</td>
+<td style="text-align: right;">2 %</td>
+<td style="text-align: right;">2 082 TWh</td>
+<td style="text-align: right;">1,4 MWh</td>
+</tr>
+<tr class="odd">
+<td>États-Unis</td>
+<td style="text-align: right;"><strong>43 %</strong></td>
+<td style="text-align: right;">17 %</td>
+<td style="text-align: right;">19 %</td>
+<td style="text-align: right;">16 %</td>
+<td style="text-align: right;">40 %</td>
+<td style="text-align: right;">4 520 TWh</td>
+<td style="text-align: right;">13,0 MWh</td>
+</tr>
+</tbody>
+</table>
+<p>Quatre lectures se dégagent.</p>
+<p><strong>La France est une exception mondiale, et elle la doit au
+nucléaire.</strong> 95 % de sa production est bas-carbone, dont 69
+points de nucléaire. Aucun autre grand pays n’approche ce niveau par une
+autre voie.</p>
+<p><strong>L’Allemagne et les États-Unis décarbonent par des chemins
+différents.</strong> L’Allemagne atteint 59 % avec 45 points d’éolien et
+de solaire, sans aucun nucléaire. Les États-Unis atteignent 43 % en
+combinant le nucléaire (17 points), l’éolien et le solaire (19 points)
+et l’hydraulique. Surtout, ils ont remplacé du charbon par du gaz, qui
+fait 40 % de leur production : il émet moins que le charbon, mais reste
+fossile. Décarboner et développer les renouvelables ne sont pas la même
+chose.</p>
+<p><strong>La Chine est à la fois le premier producteur d’électricité au
+charbon et le premier producteur solaire.</strong> Elle produit 5 772
+TWh au charbon, plus que toute la production électrique des États-Unis.
+Elle produit aussi 1 175 TWh de solaire, trois fois le solaire
+américain. Les deux faits sont vrais ensemble.</p>
+<p><strong>L’Inde pose la question dans d’autres termes.</strong> Elle
+produit 1,4 MWh par habitant, neuf fois moins que les États-Unis. Son
+enjeu n’est pas de transformer un système existant, mais d’en construire
+un.</p>
+<h2 id="les-cinq-pays-en-2050-des-cibles-pas-des-prévisions">5. Les cinq
+pays en 2050 : des cibles, pas des prévisions</h2>
+<h3 id="doù-viennent-les-scénarios">5.1 D’où viennent les scénarios</h3>
+<p>Aucun exercice public ne donne la production électrique par source en
+2050 pour ces cinq pays dans un cadre commun. Chaque colonne de droite
+de la figure vient donc d’un exercice différent.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pays</th>
+<th>Scénario</th>
+<th>Organisme</th>
+<th>Horizon</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>France</td>
+<td>Futurs énergétiques 2050, scénario <strong>N1</strong></td>
+<td>RTE, le gestionnaire du réseau de transport</td>
+<td>2050</td>
+</tr>
+<tr class="even">
+<td>Allemagne</td>
+<td><strong>KN2045</strong> (Allemagne neutre en carbone en 2045)</td>
+<td>Agora Energiewende, Prognos, Öko-Institut</td>
+<td><strong>2045</strong></td>
+</tr>
+<tr class="odd">
+<td>Chine, Inde, États-Unis</td>
+<td><strong>Announced Pledges</strong> (APS)</td>
+<td>Agence internationale de l’énergie (AIE), <em>World Energy Outlook
+2024</em></td>
+<td>2050</td>
+</tr>
+</tbody>
+</table>
+<p>Le scénario N1 de RTE est le scénario médian de la famille où la
+France relance le nucléaire. L’Allemagne s’arrête en 2045, parce que
+c’est la date de neutralité qu’elle s’est fixée. Le scénario APS de
+l’AIE suppose que <strong>tous les engagements annoncés par les
+gouvernements sont tenus</strong>, à temps et en entier.</p>
+<p>Trois règles de lecture en découlent.</p>
+<p><strong>Les cinq colonnes ne se comparent pas au sens
+strict.</strong> Elles ne partagent ni le modèle, ni les coûts, ni la
+demande. La figure dit « voilà ce que chaque pays vise », pas « voilà
+qui fera le mieux ».</p>
+<p><strong>Ce sont tous des scénarios de neutralité.</strong> On compare
+donc des ambitions entre elles. Mettre la France et l’Allemagne face à
+un scénario tendanciel pour la Chine ou l’Inde ferait croire à un retard
+qui viendrait seulement de la question posée.</p>
+<p><strong>Le scénario APS est optimiste.</strong> Dans le scénario
+tendanciel de l’AIE (<em>Stated Policies</em>, <em>World Energy Outlook
+2025</em>), la part bas-carbone en 2050 n’est plus que de 87 % en Chine,
+79 % en Inde et 80 % aux États-Unis, contre 95, 92 et 98 % en APS.
+L’écart mesure la distance entre les politiques en place et les
+promesses.</p>
+<h3 id="ce-que-les-scénarios-ont-en-commun">5.2 Ce que les scénarios ont
+en commun</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">Bas-carbone 2025 → 2050</th>
+<th style="text-align: right;">Éolien et solaire 2025 → 2050</th>
+<th style="text-align: right;">Production 2025 → 2050</th>
+<th style="text-align: right;">Par habitant 2025 → 2050</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>France (RTE N1)</td>
+<td style="text-align: right;">95 → <strong>100 %</strong></td>
+<td style="text-align: right;">14 → <strong>62 %</strong></td>
+<td style="text-align: right;">570 → 678 TWh (× 1,2)</td>
+<td style="text-align: right;">8,6 → 9,9 MWh</td>
+</tr>
+<tr class="even">
+<td>Allemagne (KN2045, en 2045)</td>
+<td style="text-align: right;">59 → <strong>100 %</strong></td>
+<td style="text-align: right;">45 → <strong>90 %</strong></td>
+<td style="text-align: right;">500 → 961 TWh (× 1,9)</td>
+<td style="text-align: right;">6,0 → 12,3 MWh</td>
+</tr>
+<tr class="odd">
+<td>Chine (AIE APS)</td>
+<td style="text-align: right;">42 → <strong>95 %</strong></td>
+<td style="text-align: right;">22 → <strong>73 %</strong></td>
+<td style="text-align: right;">10 578 → 19 713 TWh (× 1,9)</td>
+<td style="text-align: right;">7,5 → 15,6 MWh</td>
+</tr>
+<tr class="even">
+<td>Inde (AIE APS)</td>
+<td style="text-align: right;">27 → <strong>92 %</strong></td>
+<td style="text-align: right;">14 → <strong>70 %</strong></td>
+<td style="text-align: right;">2 082 → 6 704 TWh (× 3,2)</td>
+<td style="text-align: right;">1,4 → 4,0 MWh</td>
+</tr>
+<tr class="odd">
+<td>États-Unis (AIE APS)</td>
+<td style="text-align: right;">43 → <strong>98 %</strong></td>
+<td style="text-align: right;">19 → <strong>77 %</strong></td>
+<td style="text-align: right;">4 520 → 9 384 TWh (× 2,1)</td>
+<td style="text-align: right;">13,0 → 24,6 MWh</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tous convergent vers l’éolien et le solaire.</strong> De 62 %
+en France à 90 % en Allemagne. Les cinq pays partent de mix radicalement
+différents et arrivent au même endroit. C’est le résultat le plus solide
+de la figure, justement parce qu’il ne dépend pas d’un modèle unique. En
+Chine, le solaire seul atteindrait 10 688 TWh en 2050, plus que toute la
+production chinoise d’aujourd’hui.</p>
+<p><strong>La production double presque partout.</strong> Pour
+décarboner l’économie, on électrifie les transports, le chauffage et
+l’industrie, et il faut donc plus d’électricité. La France fait
+exception (× 1,2) parce que son électricité est déjà décarbonée : son
+effort porte sur les usages, pas sur le mix. Le nucléaire y garde 27 %
+de la production en 2050.</p>
+<p><strong>L’écart par habitant se réduit peu.</strong> L’Inde passe de
+1,4 à 4,0 MWh par habitant : elle triple, et reste à un sixième des
+États-Unis (24,6). Un scénario de neutralité n’est pas un scénario de
+rattrapage.</p>
+<h2 id="idées-reçues">6. Idées reçues</h2>
+<p><strong>« Un pourcentage suffit pour comparer deux pays. »</strong>
+Non. La France et l’Inde ont des barres de même hauteur en pourcentage,
+mais l’une produit six fois plus d’électricité par habitant que l’autre.
+Il faut toujours regarder aussi les TWh et les MWh par habitant.</p>
+<p><strong>« Décarboner, c’est développer les renouvelables. »</strong>
+Pas seulement. La France est décarbonée surtout par le nucléaire. Les
+États-Unis ont baissé leurs émissions en remplaçant du charbon par du
+gaz, qui émet moins mais reste fossile.</p>
+<p><strong>« La Chine, c’est le charbon. »</strong> C’est vrai, et c’est
+aussi le premier pays solaire du monde. Retenir l’un sans l’autre donne
+deux discours faux.</p>
+<p><strong>« L’Allemagne a remplacé son nucléaire par du charbon.
+»</strong> Les données disent autre chose. En 2015, l’Allemagne
+produisait 92 TWh de nucléaire et 272 TWh au charbon. En 2025, le
+nucléaire est à zéro et le charbon à 103 TWh : il a été divisé par 2,6
+pendant que les réacteurs fermaient. Ce qui est vrai, c’est le coût de
+l’occasion manquée : si ces 92 TWh nucléaires avaient remplacé du
+fossile au lieu de disparaître, l’Allemagne serait aujourd’hui à 77 % de
+bas-carbone au lieu de 59 %.</p>
+<p><strong>« Le mix d’un pays, c’est ce qu’il consomme. »</strong> Non,
+c’est ce qu’il produit. La France produit 8,6 MWh par habitant et en
+consomme 7,1 : l’écart part à l’export. L’Allemagne est importatrice
+nette depuis 2023.</p>
+<p><strong>« L’Allemagne sera 100 % renouvelable en 2045. »</strong> Sa
+production, oui, dans le scénario KN2045. Mais ce scénario prévoit
+encore 22 TWh d’importations nettes, qui ne sont pas dans la barre. Il
+faut dire les deux.</p>
+<p><strong>« Les scénarios disent ce qui va se passer. »</strong> Non.
+Ils disent ce qu’il faudrait construire pour atteindre une cible. Le
+scénario APS suppose que toutes les promesses sont tenues ; avec les
+politiques actuelles, la part bas-carbone en 2050 perd 8 à 18 points
+selon le pays (section 5.1).</p>
+<h2 id="ce-que-ça-change-pour-les-mini-projets">7. Ce que ça change pour
+les mini-projets</h2>
+<p>Deux mini-projets du cours partent de ces constats : la valeur d’une
+interconnexion, et un mix presque 100 % renouvelable face à la pire
+semaine météo. Les deux modélisent plusieurs pays européens reliés par
+des lignes.</p>
+<p><strong>Une interconnexion vaut par la différence entre les
+mix.</strong> Une ligne entre deux pays sert quand l’électricité est
+moins chère d’un côté que de l’autre. Aujourd’hui, cette différence
+vient surtout des centrales. La France a 69 % de nucléaire et 3 % de gaz
+; l’Allemagne a 21 % de charbon et 17 % de gaz. Le prix allemand dépend
+donc beaucoup plus du prix du gaz et du charbon que le prix français :
+c’est pourquoi il faut tester la valeur d’une interconnexion sous
+plusieurs prix du gaz. La note <a href="note-marches-elec.html">Comment se
+forme le prix de l’électricité</a> explique le mécanisme. Le sens des
+flux découle de la même différence : la France est exportatrice nette
+(1,5 MWh par habitant d’écart entre production et consommation),
+l’Allemagne importatrice nette. Une <strong>rente de congestion</strong>
+apparaît quand la ligne est saturée et que les prix restent différents
+de part et d’autre : elle vaut l’écart de prix multiplié par le
+flux.</p>
+<p><strong>En 2050, la différence entre pays change de nature.</strong>
+Si tous les mix convergent vers l’éolien et le solaire, les pays se
+ressemblent par leurs centrales. Ce qui les distingue alors, c’est leur
+météo à un instant donné : une ligne sert à faire passer le vent d’un
+pays vers un pays sans vent. Elle sert beaucoup moins quand le calme et
+le ciel couvert touchent tout le continent en même temps.</p>
+<p><strong>Un mix annuel ne dit rien de la pire semaine.</strong> Tous
+les chiffres de cette note sont des énergies sur une année. Un pays à 90
+% d’éolien et de solaire sur l’année peut connaître une semaine où ni
+l’un ni l’autre ne produit. Le scénario allemand KN2045 montre les trois
+réponses qu’un modèle doit arbitrer, et leur ordre de grandeur sur
+l’année 2045 :</p>
+<table>
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Levier, dans le scénario KN2045 (2045)</th>
+<th style="text-align: right;">Énergie sur l’année</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Centrales à hydrogène (le combustible de secours)</td>
+<td style="text-align: right;">60 TWh, 6 % de la production</td>
+</tr>
+<tr class="even">
+<td>Électricité restituée par les stockages (batteries, stations de
+pompage)</td>
+<td style="text-align: right;">31 TWh</td>
+</tr>
+<tr class="odd">
+<td>Importations nettes (les interconnexions)</td>
+<td style="text-align: right;">22 TWh</td>
+</tr>
+<tr class="even">
+<td>Production éolienne et solaire écrêtée, faute d’usage</td>
+<td style="text-align: right;">48 TWh, 5 % de l’éolien et du
+solaire</td>
+</tr>
+</tbody>
+</table>
+<p>L’<strong>écrêtement</strong> est la production que l’on jette parce
+que personne ne peut l’utiliser au moment où elle est produite. Il est
+le prix à payer pour avoir assez de capacité les jours sans vent. Le
+scénario français N1 garde 27 % de nucléaire, une source pilotable qui
+ne dépend pas de la météo, et prévoit aussi 11 GW de nouvelles centrales
+thermiques décarbonées comme moyen de flexibilité.</p>
+<p>Pour le mini-projet, ces chiffres donnent un point de repère : un
+modèle qui couvre la pire semaine sans combustible de secours, sans
+stockage et sans importation, ou qui n’écrête jamais, doit être
+vérifié.</p>
+<h2 id="ce-quil-faut-retenir">8. Ce qu’il faut retenir</h2>
+<p><strong>Pour comparer des pays, il faut trois chiffres.</strong> La
+part bas-carbone dit qui est décarboné, les TWh disent qui pèse, les MWh
+par habitant disent qui utilise beaucoup d’électricité. La Chine produit
+dix-huit fois plus que la France, et un Indien utilise neuf fois moins
+d’électricité qu’un Américain.</p>
+<p><strong>Les pays partent de très loin les uns des autres.</strong> La
+France est à 95 % de bas-carbone grâce au nucléaire, l’Allemagne à 59 %
+grâce aux renouvelables, les États-Unis à 43 % avec 40 % de gaz, la
+Chine et l’Inde encore dominées par le charbon.</p>
+<p><strong>Leurs cibles se ressemblent.</strong> Tous les scénarios de
+neutralité donnent 62 à 90 % d’éolien et de solaire en 2050, et presque
+tous doublent la production d’électricité. Ce sont des cibles,
+construites par des organismes différents, et le scénario de l’AIE
+suppose que toutes les promesses sont tenues.</p>
+<p><strong>Un mix annuel cache les heures difficiles.</strong> Un
+système dominé par l’éolien et le solaire a besoin de combustible de
+secours, de stockage et d’interconnexions pour passer les semaines sans
+vent, et il jette une partie de sa production les autres jours.</p>
+<h2 id="sources">9. Sources</h2>
+<ul>
+<li>Agora Energiewende, Prognos, Öko-Institut, Wuppertal Institut,
+<em>Klimaneutrales Deutschland 2045</em>, juin 2021, figures 17 et 18,
+p. 37-38, <a href="https://www.agora-energiewende.de/fileadmin/Projekte/2021/2021_04_KNDE45/A-EW_231_KNDE2045_Langfassung_DE_WEB.pdf" target="_blank" rel="noopener"
+class="uri">https://www.agora-energiewende.de/fileadmin/Projekte/2021/2021_04_KNDE45/A-EW_231_KNDE2045_Langfassung_DE_WEB.pdf</a>.</li>
+<li>AIE, <em>World Energy Outlook 2024</em>, annexe A, tables A.16 à
+A.22, scénario <em>Announced Pledges</em> 2050, <a href="https://www.iea.org/reports/world-energy-outlook-2024" target="_blank" rel="noopener"
+class="uri">https://www.iea.org/reports/world-energy-outlook-2024</a>.</li>
+<li>AIE, <em>World Energy Outlook 2025</em>, annexe A, tables A.17 à
+A.23, scénario <em>Stated Policies</em> 2050, <a href="https://www.iea.org/reports/world-energy-outlook-2025" target="_blank" rel="noopener"
+class="uri">https://www.iea.org/reports/world-energy-outlook-2025</a>.</li>
+<li>Ember, <em>Yearly Electricity Data</em>, édition 2026 (données
+2000-2025), licence CC-BY-4.0, <a href="https://ember-energy.org/data/yearly-electricity-data/" target="_blank" rel="noopener"
+class="uri">https://ember-energy.org/data/yearly-electricity-data/</a>.</li>
+<li>Nations unies, <em>World Population Prospects 2024</em>, variante
+médiane, <a href="https://population.un.org/wpp/" target="_blank" rel="noopener"
+class="uri">https://population.un.org/wpp/</a>.</li>
+<li>RTE, <em>Futurs énergétiques 2050</em>, rapport complet, février
+2022, chapitre 5, fiche du scénario N1, p. 177, <a href="https://assets.rte-france.com/prod/public/2022-02/BP50_Principaux%20re%CC%81sultats_fev2022_Chap5_scenarios%20mix%20production%20consommation.pdf" target="_blank" rel="noopener"
+class="uri">https://assets.rte-france.com/prod/public/2022-02/BP50_Principaux%20re%CC%81sultats_fev2022_Chap5_scenarios%20mix%20production%20consommation.pdf</a>.</li>
+</ul>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">10. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.energy-alternatives.eu/2020/05/07/mix-de-production-delectricite-energie-et-puissance.html" target="_blank" rel="noopener">Mix
+de production d’électricité : énergie et puissance</a> (billet de blog)
+: comment décrire le mix d’un pays, en distinguant l’énergie produite et
+la puissance installée (France et Allemagne).</li>
+<li><a href="https://www.energy-alternatives.eu/2021/04/10/france-allemagne.html" target="_blank" rel="noopener">France-Allemagne,
+deux visions européennes de l’énergie</a> (billet de blog) : les deux
+transitions comparées : nucléaire, renouvelables, réseau, biomasse.</li>
+<li><a href="https://www.energy-alternatives.eu/2021/10/01/32-ou-40.html" target="_blank" rel="noopener">32 %
+ou 40 % ? Ce qui se cache derrière nos engagements à l’horizon 2030 dans
+le système électrique</a> (billet de blog) : pourquoi la France doit
+développer les renouvelables d’ici 2030, même en relançant le
+nucléaire.</li>
+<li><a href="https://www.energy-alternatives.eu/2021/10/25/rapport-RTE.html" target="_blank" rel="noopener">Les
+scénarios RTE, un développement ambitieux du nucléaire et des
+renouvelables est nécessaire</a> (billet de blog) : une lecture des
+scénarios Futurs énergétiques 2050 de RTE, d’où vient le scénario
+français de la note.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-10-02-charbon-inde-facteur-de-charge.html" target="_blank" rel="noopener">Photovoltaïque
+contre charbon</a> (post LinkedIn repris sur le blog, avec figures et
+sources ; <a href="https://www.linkedin.com/feed/update/urn:li:share:7511744256924102656/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : le mix indien en mouvement : le solaire
+progresse vite, mais la production au charbon ne baisse pas encore.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Mix_elec_pays.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-marches-elec.html">Le prix de l'électricité : comment il se forme, à quoi il ressemble, ce qui s'y ajoute</a></li><li><a href="note-batteries-stockage.html">Les batteries : ce qu'elles coûtent, pourquoi leur prix a tant baissé, ce qui vient</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#les-notions">2. Les notions</a></li><li><a href="#pourquoi-un-seul-graphique-ne-suffit-pas">3. Pourquoi un seul graphique ne suffit pas</a></li><li><a href="#les-cinq-pays-en-2025">4. Les cinq pays en 2025</a></li><li><a href="#les-cinq-pays-en-2050-des-cibles-pas-des-prévisions">5. Les cinq pays en 2050 : des cibles, pas des prévisions</a></li><li><a href="#idées-reçues">6. Idées reçues</a></li><li><a href="#ce-que-ça-change-pour-les-mini-projets">7. Ce que ça change pour les mini-projets</a></li><li><a href="#ce-quil-faut-retenir">8. Ce qu’il faut retenir</a></li><li><a href="#sources">9. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">10. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

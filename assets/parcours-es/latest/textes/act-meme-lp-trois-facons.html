@@ -100,7 +100,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <h2>Ce que vous allez faire</h2>
 <p>Objectif : vérifier qu'un LP a un seul optimum, quel que soit l'algorithme, puis mesurer ce que l'agrégation du temps lui fait. Support : le cas E (cinq configurations de chaudières), série centrale TYNDP 2026 NT+ 2030, CO2 de l'ETS2 à 45 €/t (README du cas : gaz 48,0 €/MWh, hybride 41,4).</p>
-<p>Prérequis : <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a>, <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. Mesures : Mac M3 Max, pommes 0.11.0, linopy 0.10.1, HiGHS 1.15.1.</p>
+<p>Prérequis : <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a>, <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. Mesures : Mac M3 Max, pommes 0.11.0, linopy 0.10.1, HiGHS 1.15.1.</p>
 <h2>Étape 1 : HiGHS simplexe, puis HiGHS point intérieur</h2>
 <p><code>solve_with_extra_constraints</code> passe ses mots-clés tels quels au solveur, comme <code>EnergyModel(solver_options={...})</code> puis <code>run()</code>.</p>
 <pre><code class="language-python">import sys, logging

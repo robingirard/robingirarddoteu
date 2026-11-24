@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le prix observé 2019-2025 en six figures · Parcours ES 2026</title>
+<meta name="description" content="Avec les seules statistiques publiées du dépôt des cas, reconstruire en pandas la moyenne, l'écart-type, les heures négatives et les monotones du prix day-ahead observé de 2019 à 2025, et les poser à côté d'une série de modèle 2030.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Prix et marchés, Socle, Modélisation, Flexibilité</span></div>
+    <h1>Le prix observé 2019-2025 en six figures</h1>
+    <p class="resume">Avec les seules statistiques publiées du dépôt des cas, reconstruire en pandas la moyenne, l'écart-type, les heures négatives et les monotones du prix day-ahead observé de 2019 à 2025, et les poser à côté d'une série de modèle 2030.</p>
+  </header>
+  <h2>Ce que vous allez faire</h2>
+<p>Lire sept ans de prix observés avec les indicateurs de <a href="../textes/lire-un-prix.html">Lire une série de prix horaires : six choses à regarder et les chiffres du cas 0</a>, et dire ce qu'un modèle n'en reproduit pas. Prérequis : <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, pandas, matplotlib. Un CSV de 42 lignes.</p>
+<h2>Ce qui est publié, et ce qui ne l'est pas</h2>
+<p>Pas de séries horaires (réutilisation non vérifiée, <code>data/prix/README.md</code>), mais <code>data/prix/historique_stats.csv</code> : six zones (FR, DE-LU, BE, ES, IT Nord, CH), 2019 à 2025, statistiques annuelles, heures sous 5 €/MWh (<code>h_bas</code>), négatives (<code>h_negatif</code>), à 1 000 €/MWh ou plus (<code>h_plafond</code>), monotone en 101 points (<code>m000</code> maximum à <code>m100</code> minimum). Source : ENTSO-E, trous comblés par Energy-Charts.</p>
+<h2>Étape 1 : moyenne et écart-type par an</h2>
+<pre><code class="language-python">import sys, numpy as np, pandas as pd
+sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)      # votre clone du dépôt des cas
+from pommes_cases.prices import PRICE_DIRS, load_prices
+st = pd.read_csv(PRICE_DIRS[0] / &quot;historique_stats.csv&quot;)   # 42 lignes, 110 colonnes
+fr = st[st.zone == &quot;FR&quot;].set_index(&quot;annee&quot;)
+cols = [&quot;moyenne&quot;, &quot;ecart_type&quot;, &quot;h_bas&quot;, &quot;h_negatif&quot;, &quot;h_plafond&quot;, &quot;min&quot;, &quot;max&quot;]
+print(fr[cols].astype({&quot;h_bas&quot;: int, &quot;h_negatif&quot;: int, &quot;h_plafond&quot;: int}).round(1))
+print(st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=&quot;moyenne&quot;).round(0))
+</code></pre>
+<p>France :</p>
+<pre><code class="language-text">       moyenne  ecart_type   h_bas  h_negatif  h_plafond    min     max
+2019      39.4        14.0      80         27          0  -24.9   121.5
+2020      32.2        16.1     265        102          0  -75.8   200.0
+2021     109.2        84.3     154         64          0  -66.2   620.0
+2022     275.9       145.8      44          4          3   -1.4  2987.8
+2023      96.9        45.5     388        147          0 -134.9   276.1
+2024      58.0        40.7    1019        352          0  -87.3   284.2
+2025      61.1        46.4    1072        513          0 -118.0   473.3
+</code></pre>
+<p>À noter : la moyenne 2024-2025 revient à 58-61 €/MWh, pas l'écart-type : 0,70 fois la moyenne en 2024, 0,76 en 2025, contre 0,36 en 2019. Les trois heures françaises de 2022 au-delà de 1 000 €/MWh (maximum 2 988) sont uniques dans la table.</p>
+<h2>Étape 2 : les monotones 2019, 2022, 2024</h2>
+<p><code>m010</code> est le prix dépassé 10 % des heures, <code>m090</code> 90 %.</p>
+<pre><code class="language-python">q = [f&quot;m{i:03d}&quot; for i in range(101)]
+pct = np.linspace(0, 100, 101)
+for a in (2019, 2022, 2024, 2025):
+    m = fr.loc[a, q].to_numpy(float)
+    print(a, &quot;P10&quot;, m[10], &quot;médiane&quot;, m[50], &quot;P90&quot;, m[90], &quot;aire&quot;, round(np.trapezoid(m, dx=0.01), 1))
+m22 = fr.loc[2022, q].to_numpy(float)
+print(&quot;segment m000-m001 :&quot;, round(0.5 * (m22[0] + m22[1]) * 0.01, 1), &quot;€/MWh d'aire&quot;)
+m19, m24 = fr.loc[2019, q].to_numpy(float), fr.loc[2024, q].to_numpy(float)
+print(&quot;2024 passe sous 2019 à partir de&quot;, np.argmax(m24 &lt; m19), &quot;% des heures&quot;)
+</code></pre>
+<pre><code class="language-text">2019 P10 56.42 médiane 38.65 P90 24.0 aire 39.5
+2022 P10 472.39 médiane 239.34 P90 128.27 aire 286.2
+2024 P10 109.91 médiane 58.76 P90 3.25 aire 58.2
+2025 P10 121.32 médiane 60.0 P90 1.5 aire 62.0
+segment m000-m001 : 18.5 €/MWh d'aire
+2024 passe sous 2019 à partir de 71 % des heures
+</code></pre>
+<p>À noter : l'aire sous la monotone est la moyenne (facture du consommateur plat), retrouvée à 0,5 €/MWh près en 2019 et 2024, mais surestimée de 10 €/MWh en 2022 : le trapèze de <code>m000</code> (2 988) à <code>m001</code> (704 €/MWh) sur 1 % des heures pèse 18,5 €/MWh, alors que trois heures seulement dépassent 1 000. Avec <code>m001</code> pour <code>m000</code>, l'aire tombe à 274,8 : 101 points ne résolvent pas la queue. 2024 est plus cher que 2019 sur 70 % des heures, moins cher sur 30 % (P90 de 24 à 3 €/MWh) : là vit un électrolyseur.</p>
+<h2>Étape 3 : heures négatives et heures sous 5 €/MWh</h2>
+<pre><code class="language-python">print(st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=&quot;h_negatif&quot;).astype(int))
+print(st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=&quot;h_bas&quot;).astype(int))
+print(st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=&quot;min&quot;).round(1))
+</code></pre>
+<pre><code class="language-text">h_negatif    BE   CH   DE   ES   FR  IT        h_bas     BE   CH   DE    ES    FR  IT
+2019         71   17  211    0   27   0        2019      96   45  335    68    80   9
+2022        112    1   69    0    4   0        2022     159   12  159   113    44   0
+2023        222   76  301    0  147   0        2023     424  130  526   527   388   6
+2024        404  292  457  247  352   0        2024     739  400  756  1632  1019  11
+2025        519  303  576  556  513   0        2025     810  437  895  1464  1072  23
+
+min          BE      CH      DE     ES      FR    IT
+2019     -500.0   -39.4   -90.0    0.0   -24.9   1.0
+2023     -120.0  -142.9  -500.0    0.0  -134.9   3.1
+2024     -140.0  -427.5  -135.4   -2.0   -87.3   0.1
+2025     -462.3  -262.2  -250.3  -15.0  -118.0   0.0
+</code></pre>
+<p>À noter : en France, 27 heures négatives en 2019, 352 en 2024, 513 en 2025. L'Espagne, aucune avant 2024 (puis 247 et 556) malgré 527 heures sous 5 €/MWh en 2023, 1 632 en 2024 : minimum à 0,0 €/MWh exactement en 2019, 2021, 2022 et 2023, premier prix négatif le 1er avril 2024 (-0,01 €/MWh, AleaSoft). Pas un plancher de bourse : le couplage admet -500 €/MWh depuis la décision ACER 04/2017, touché par BE (2019) et DE (2023). Ce zéro vient de l'ordre de mérite : offres à 0, demande jamais sous l'offre à prix nul. Italie du Nord : aucune ; premier prix négatif italien le 14 octobre 2026 (Sicile, Calabre, Sud, hors table).</p>
+<p>Le zéro d'un modèle est dans l'équation : écrêter une énergie fatale ne coûte rien, le dual s'arrête à 0 ; sous 0, il faut une offre à prix négatif.</p>
+<h2>Étape 4 : comparer au modèle 2030</h2>
+<pre><code class="language-python">p = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2030)[&quot;import_price&quot;].to_numpy()   # météo par défaut WS003
+mm = np.quantile(p, np.linspace(1, 0, 101))
+print(&quot;modèle 2030 : moyenne&quot;, round(p.mean(), 1), &quot;écart-type&quot;, round(p.std(ddof=1), 1),
+      &quot;h&lt;5&quot;, (p &lt; 5).sum(), &quot;h&lt;0&quot;, (p &lt; 0).sum(), &quot;h&gt;=1000&quot;, (p &gt;= 1000).sum())
+for i in (10, 50, 90, 95, 99, 100):
+    print(f&quot;P{i:3d}  modèle 2030 {mm[i]:7.1f}  observé 2024 {m24[i]:7.1f}  observé 2025 {fr.loc[2025, q].iloc[i]:7.1f}&quot;)
+</code></pre>
+<pre><code class="language-text">modèle 2030 : moyenne 57.5 écart-type 32.3 h&lt;5 208 h&lt;0 0 h&gt;=1000 0
+P 10  modèle 2030    94.1  observé 2024   109.9  observé 2025   121.3
+P 50  modèle 2030    52.0  observé 2024    58.8  observé 2025    60.0
+P 90  modèle 2030    15.6  observé 2024     3.2  observé 2025     1.5
+P 95  modèle 2030    13.3  observé 2024     0.0  observé 2025    -0.0
+P 99  modèle 2030     0.0  observé 2024   -14.5  observé 2025    -7.4
+P100  modèle 2030     0.0  observé 2024   -87.3  observé 2025  -118.0
+</code></pre>
+<p>À noter : même moyenne à 1 €/MWh près (57,5 contre 58,0), médiane à 7 près ; l'écart est aux bouts. Marché 2024 contre modèle : 110 contre 94 au P10, 3 contre 16 au P90, puis négatif. Écart-type sur moyenne : 0,70 contre 0,56. Pourquoi : <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a> (minimums techniques, démarrages, modulation du nucléaire).</p>
+<h2>Les six figures</h2>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+fig, ax = plt.subplots(2, 3, figsize=(15, 8), constrained_layout=True)
+for a, k, t in zip(ax[0], [&quot;moyenne&quot;, &quot;ecart_type&quot;, &quot;h_negatif&quot;], [&quot;1. Prix moyen&quot;, &quot;2. Écart-type&quot;, &quot;3. Heures négatives&quot;]):
+    st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=k).plot(ax=a, marker=&quot;o&quot;, legend=(k == &quot;moyenne&quot;)); a.set_title(t, loc=&quot;left&quot;)
+st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=&quot;h_bas&quot;).plot(ax=ax[1, 0], marker=&quot;o&quot;, legend=False); ax[1, 0].set_title(&quot;4. Heures sous 5 €/MWh&quot;, loc=&quot;left&quot;)
+for a in (2019, 2022, 2024):
+    ax[1, 1].plot(pct, fr.loc[a, q].to_numpy(float), label=str(a))
+ax[1, 1].set_ylim(-150, 700); ax[1, 1].legend(); ax[1, 1].set_title(&quot;5. Monotones FR observées&quot;, loc=&quot;left&quot;)
+for a in (2024, 2025):
+    ax[1, 2].plot(pct, fr.loc[a, q].to_numpy(float), label=f&quot;observé {a}&quot;)
+ax[1, 2].plot(pct, mm, &quot;k--&quot;, label=&quot;TYNDP 2026 NT+ 2030&quot;); ax[1, 2].set_ylim(-150, 350); ax[1, 2].legend()
+ax[1, 2].set_title(&quot;6. Observé 2024-2025 et modèle 2030&quot;, loc=&quot;left&quot;)
+fig.savefig(&quot;six_figures.png&quot;, dpi=110)
+</code></pre>
+<p>Figure 6 : le modèle fait des marches (paliers de coût marginal) arrêtées à 0 ; l'observé, lisse, plonge sous 0 dans ses 5 derniers pour cent.</p>
+<h2>Ce qu'on ne peut pas faire ici, et où le trouver</h2>
+<p>Sans séries horaires : ni profil horaire (creux de midi, pointes), ni prix capté (prix moyen pondéré par la production), ni arbitrage journalier. Sources : ENTSO-E (<code>transparency.entsoe.eu</code>, Day-ahead Prices, source primaire du fichier ; inscription gratuite ou jeton API) ; Energy-Charts (Fraunhofer ISE), API sans inscription, à tester :</p>
+<pre><code class="language-bash">curl -s &quot;https://api.energy-charts.info/price?bzn=FR&amp;start=2024-01-01&amp;end=2024-01-02&quot; | head -c 300
+</code></pre>
+<p>Réponse : <code>{"license_info":"CC BY 4.0 (creativecommons.org/licenses/by/4.0) from Bundesnetzagentur | SMARD.de", "unix_seconds":[1704063600, ...</code>, puis <code>price</code> en EUR/MWh, 48 valeurs. Licence CC BY 4.0 (zones listées dans sa doc), à citer. HEAD (<code>curl -I</code>) renvoie 405 : testez en GET. En un appel (<code>start=2024-01-01&amp;end=2024-12-31</code>), France 2024 : 8 784 valeurs (bissextile), dont 352 négatives. Prix capté : production par filière en plus (<code>public_power</code>).</p>
+<h2>Questions</h2>
+<ol>
+<li>Heures négatives FR 2019 et 2025, part de 2025 ? (27 ; 513 / 8 760 = 5,9 %.)</li>
+<li>Médiane FR 2022 sur 2019 ? (239,3 / 38,7 = 6,2.)</li>
+<li>Modèle TYNDP 2026 (2030) contre marché 2024 : P10 ? P90 ? (94 contre 110 ; 16 contre 3 : modèle plus plat.)</li>
+<li>Espagne 2024 : heures entre 0 et 5 €/MWh ? Son minimum de 0,0 avant 2024, plancher de bourse ? (1 632 moins 247 = 1 385 ; non.)</li>
+<li>Appel Energy-Charts FR 2024 : valeurs, négatives ? (8 784 ; 352, comme <code>h_negatif</code>.)</li>
+</ol>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>352 et 513 heures négatives (France, 2024, 2025) ; aucune dans les jeux de modèle du dépôt.</li>
+<li>Moyennes égales (57,5 et 58,0), P90 à 16 contre 3 €/MWh : vous l'expliquez.</li>
+<li>L'aire 2022 : 286 et non 276 €/MWh, et pourquoi.</li>
+<li>Zéro de modèle (écrêtement gratuit) contre zéro espagnol (offres à 0, plancher -500 €/MWh).</li>
+<li>Séries horaires : où, quelle licence, pour quoi.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a> Quatre jeux de modèle, l'observé 2019-2025 en référence.</li>
+<li><a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a> Niveau gardé, forme perdue.</li>
+<li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a> Forme des prix et revenu d'une batterie.</li>
+<li><span title="note-marches-electricite">Les marchés de l'électricité : qui achète, où, combien, et à quel prix (note, 29/09/2026) (remis en cours)</span> Prix captés, négoce, livraison.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/data/prix/historique_stats.csv" target="_blank" rel="noopener">pommes-case-studies : data/prix/historique_stats.csv (statistiques annuelles et monotone en 101 points, 6 zones, 2019-2025)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/data/prix/README.md" target="_blank" rel="noopener">pommes-case-studies : data/prix/README.md et datapackage.json (sources, licences, ce qui est publié)</a></li><li><a href="https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show" target="_blank" rel="noopener">ENTSO-E Transparency Platform, prix day-ahead (données A44)</a></li><li><a href="https://www.energy-charts.info/charts/price_spot_market/chart.htm?l=fr&c=FR" target="_blank" rel="noopener">Energy-Charts (Fraunhofer ISE), prix spot par zone</a></li><li><a href="https://api.energy-charts.info/" target="_blank" rel="noopener">API Energy-Charts, point d'entrée /price</a></li><li><a href="https://2026.entsos-tyndp-scenarios.eu/download/" target="_blank" rel="noopener">ENTSO-E et ENTSOG, TYNDP 2026 Scenarios, téléchargements</a></li><li><a href="https://www.bundesnetzagentur.de/DE/Beschlusskammern/1_GZ/BK6-GZ/2017/BK6-17-024/BK6-17-024_acer_entscheidung_annex_i_eng.pdf?__blob=publicationFile&v=1" target="_blank" rel="noopener">ACER, décision 04/2017, annexe I : prix d'équilibre minimum et maximum harmonisés du couplage day-ahead (+3 000 / -500 €/MWh)</a></li><li><a href="https://www.acer.europa.eu/sites/default/files/documents/Individual%20Decisions_annex/ACER-Decision-02-2026-AnnexI.pdf" target="_blank" rel="noopener">ACER, décision 02/2026, annexe I : prix de référence du couplage day-ahead (+4 000 / -500 €/MWh), article 3</a></li><li><a href="https://aleasoft.com/negative-prices-spanish-electricity-market/" target="_blank" rel="noopener">AleaSoft, premier prix négatif du marché espagnol, 1er avril 2024</a></li><li><a href="https://andreagiusepperagno.substack.com/p/italys-first-negative-prices" target="_blank" rel="noopener">A. G. Ragno, Italy's first negative prices (14 octobre 2026, Sicile, Calabre, Sud)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

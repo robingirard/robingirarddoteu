@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ce que coûte la décarbonation de l'industrie : coût par tonne, surcoût et prix du CO₂ · Parcours ES 2026</title>
+<meta name="description" content="Comment on ramène une usine à un coût par tonne (annuité du capital, coûts fixes, énergie, matières, CO₂), puis ce que coûtent les routes de décarbonation de huit produits (hydrogène, acier, ciment, ammoniac, méthanol, oléfines, aluminium, kérosène) face au procédé d'aujourd'hui. On y apprend à calculer un coût d'abattement et un prix de bascule, à lire un ordre de mérite face au quota et à la valeur de l'action pour le climat, et à voir ce que changent les prix de l'électricité et du gaz, le taux d'actualisation et le stockage du CO₂. La note renvoie à l'outil web de décarbonation de l'industrie et aux mini-projets industrie (cas H et K).">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 25 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Ce que coûte la décarbonation de l'industrie : coût par tonne, surcoût et prix du CO₂</h1>
+    <p class="resume">Comment on ramène une usine à un coût par tonne (annuité du capital, coûts fixes, énergie, matières, CO₂), puis ce que coûtent les routes de décarbonation de huit produits (hydrogène, acier, ciment, ammoniac, méthanol, oléfines, aluminium, kérosène) face au procédé d'aujourd'hui. On y apprend à calculer un coût d'abattement et un prix de bascule, à lire un ordre de mérite face au quota et à la valeur de l'action pour le climat, et à voir ce que changent les prix de l'électricité et du gaz, le taux d'actualisation et le stockage du CO₂. La note renvoie à l'outil web de décarbonation de l'industrie et aux mini-projets industrie (cas H et K).</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-H">Mener le mini-projet du cas H : à quel prix du CO₂ l'industrie change-t-elle de procédé ?</a></li><li><a href="../index.html#cas-K">Mener le mini-projet du cas K : que vaut la flexibilité d'une aciérie DRI, et que lui retire une rampe ?</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Fabriquer de l’acier, du ciment ou de
+l’hydrogène sans émettre de CO₂, combien cela coûte-t-il de plus, et à
+quel prix du CO₂ un industriel a-t-il intérêt à changer de procédé ?</p>
+<p><strong>La réponse, en trois phrases.</strong> Une
+<strong>route</strong> de décarbonation (une autre façon de fabriquer le
+même produit) se compare au procédé d’aujourd’hui par son coût complet
+par tonne : capital annualisé, coûts fixes, énergie, matières et CO₂.
+Les meilleures routes qui gardent le gaz ou le charbon et captent leur
+CO₂ coûtent aujourd’hui de 39 à 52 € par tonne de CO₂ évitée, alors que
+celles qui passent par l’hydrogène fait avec de l’électricité en coûtent
+de 200 à plus de 500. Le prix de l’électricité, celui du gaz et le coût
+du capital décident de l’ordre entre les deux familles, bien plus que le
+coût des machines.</p>
+<p><strong>Le plan.</strong> Coût par tonne (section 2), coûts des
+routes pour huit produits (3), part de l’énergie (4), coût d’abattement
+et prix de bascule (5), ce qui fait bouger les chiffres (6), l’outil web
+pour les explorer (7), ce que ça change pour les mini-projets (8).</p>
+<p>Tous les coûts sont en euros de 2024, pour une usine neuve en France
+à l’horizon 2030. Ils viennent de la base technico-économique du centre
+PERSEE (modèle pommes-industry), sauf l’électrolyseur, aux coûts 2025 de
+l’Agence internationale de l’énergie (AIE, 2026). Hypothèses par défaut
+: électricité 70 €/MWh, gaz 35 €/MWh, charbon 80 €/t, quota de CO₂ 70
+€/t, transport et stockage du CO₂ 20 €/t, taux d’actualisation 8 %.</p>
+<h2 id="ramener-une-usine-à-un-coût-par-tonne">2. Ramener une usine à un
+coût par tonne</h2>
+<p>Une usine coûte de trois façons : on la construit une fois, on la
+fait tourner chaque année, on lui achète de l’énergie et des matières à
+chaque tonne. On ramène tout à <strong>une tonne de
+produit</strong>.</p>
+<p><strong>L’investissement</strong> (en anglais <em>CAPEX</em>,
+<em>capital expenditure</em>) se paie au départ. On le transforme en une
+<strong>annuité</strong> : la somme constante qu’il faudrait payer
+chaque année pendant la durée de vie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+pour rembourser l’investissement et rémunérer le capital au taux
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>.
+Le <strong>facteur de récupération du capital</strong> (<em>capital
+recovery factor</em>, CRF) donne cette annuité :</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">annuité</mtext><mo>=</mo><mtext mathvariant="normal">CAPEX</mtext><mo>×</mo><mtext mathvariant="normal">CRF</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>i</mi><mo>,</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><mtext mathvariant="normal">CRF</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>i</mi><mo>,</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>i</mi><mspace width="0.167em"></mspace><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>i</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>n</mi></msup></mrow><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>i</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>n</mi></msup><mo>−</mo><mn>1</mn></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\text{annuité} = \text{CAPEX} \times \text{CRF}(i, n), \qquad
+\text{CRF}(i,n) = \frac{i\,(1+i)^n}{(1+i)^n - 1}
+</annotation></semantics></math></p>
+<p>À 8 % sur 25 ans, le CRF vaut 0,094 : chaque année, on paie 9,4 % de
+l’investissement. Le taux et l’annuité sont expliqués dans la note <a
+href="note-financer-transition.html">Financer la transition</a>.</p>
+<p><strong>Les coûts fixes</strong> (personnel, entretien, assurance) se
+paient chaque année, que l’usine tourne ou non. Annuité et coûts fixes
+sont divisés par la production de l’année. Une usine qui tourne la
+moitié du temps (un <strong>facteur de charge</strong> de 50 %) porte
+donc deux fois plus de capital par tonne qu’une usine qui tourne tout le
+temps.</p>
+<p><strong>Les coûts variables</strong> (électricité, gaz, charbon,
+minerai, ferraille) sont chaque consommation par tonne multipliée par
+son prix, moins la valeur des <strong>coproduits</strong> vendus.
+<strong>Le CO₂</strong> s’y ajoute : un <strong>quota</strong> par tonne
+émise directement, dans le marché européen du carbone (EU ETS,
+<em>emission trading system</em>), plus le transport et le stockage du
+CO₂ capté.</p>
+<p><strong>Un exemple : l’hydrogène par électrolyse.</strong>
+L’<strong>électrolyse</strong> sépare l’eau en hydrogène et en oxygène
+grâce à un courant électrique. Un électrolyseur installé hors de Chine
+coûte environ 1 950 € par kW, dure 25 ans, et consomme 53 kWh
+d’électricité par kilogramme d’hydrogène (AIE, 2026). À 70 €/MWh et 50 %
+de charge, un kilogramme coûte :</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Poste</th>
+<th>Calcul</th>
+<th>€/kg</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Capital</td>
+<td>1 950 €/kW, CRF 0,094, divisé par le facteur de charge de 50 %</td>
+<td>2,2</td>
+</tr>
+<tr class="even">
+<td>Coûts fixes</td>
+<td>3 % de l’investissement par an, même facteur de charge</td>
+<td>0,7</td>
+</tr>
+<tr class="odd">
+<td>Remplacement des cellules</td>
+<td>deux fois en 25 ans, toutes les 50 000 heures de marche</td>
+<td>0,4</td>
+</tr>
+<tr class="even">
+<td>Électricité</td>
+<td>53 kWh × 0,07 €/kWh</td>
+<td>3,7</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td>eau comprise</td>
+<td><strong>7,1</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Le vaporeformage du gaz naturel (en anglais <em>steam methane
+reforming</em>, SMR), le procédé d’aujourd’hui, fait le même kilogramme
+pour 3,3 €, dont 1,6 € de gaz.</p>
+<h2 id="ce-que-coûtent-les-routes-produit-par-produit">3. Ce que coûtent
+les routes, produit par produit</h2>
+<p>Le tableau donne, pour huit produits, le procédé d’aujourd’hui (la
+<strong>route de référence</strong>) et les principales routes bas
+carbone. Les procédés eux-mêmes et l’origine de leur CO₂ sont décrits
+dans les notes <a href="note-procedes-usines.html">Les procédés des
+usines</a> et <a href="note-routes-decarbonation.html">Les routes de
+décarbonation</a>.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Produit (unité)</th>
+<th>Route de référence</th>
+<th>Route par captage du CO₂</th>
+<th>Route électrique, par hydrogène ou nouveau procédé</th>
+<th>Recyclage ou moins de matière</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hydrogène (€/kg)</td>
+<td>SMR 3,3</td>
+<td>reformage autothermique + captage 3,1</td>
+<td>électrolyse 7,1</td>
+<td>n.a.</td>
+</tr>
+<tr class="even">
+<td>Acier (€/t)</td>
+<td>haut fourneau 523</td>
+<td>haut fourneau + captage 504</td>
+<td>fer réduit à l’hydrogène 772 ; électrolyse du minerai 600</td>
+<td>ferraille au four électrique 360</td>
+</tr>
+<tr class="odd">
+<td>Ciment (€/t)</td>
+<td>four actuel 117</td>
+<td>oxycombustion + captage 98 ; captage aux amines 149</td>
+<td>four électrifié 146</td>
+<td>moins de clinker 93</td>
+</tr>
+<tr class="even">
+<td>Ammoniac (€/t)</td>
+<td>SMR 828</td>
+<td>reformage autothermique + captage 800</td>
+<td>électrolyse 1 508</td>
+<td>n.a.</td>
+</tr>
+<tr class="odd">
+<td>Méthanol (€/t)</td>
+<td>gaz 499</td>
+<td>n.a.</td>
+<td>e-méthanol 1 624</td>
+<td>n.a.</td>
+</tr>
+<tr class="even">
+<td>Oléfines (€/t)</td>
+<td>vapocraqueur 1 067</td>
+<td>vapocraqueur + captage 1 106</td>
+<td>craqueur électrique 1 238</td>
+<td>recyclage mécanique 582</td>
+</tr>
+<tr class="odd">
+<td>Aluminium (€/t)</td>
+<td>électrolyse Hall-Héroult 3 223</td>
+<td>n.a.</td>
+<td>anode inerte 3 112</td>
+<td>recyclage 2 099</td>
+</tr>
+<tr class="even">
+<td>Kérosène (€/t)</td>
+<td>kérosène fossile 617</td>
+<td>n.a.</td>
+<td>e-kérosène 5 154</td>
+<td>huiles usagées (HEFA) 2 262</td>
+</tr>
+</tbody>
+</table>
+<p>Quatre lectures.</p>
+<p><strong>Le captage du CO₂ est la route la moins chère pour la
+production primaire.</strong> Le <strong>reformage autothermique avec
+captage</strong> (en anglais <em>autothermal reforming</em>, ATR, avec
+<em>carbon capture and storage</em>, CCS) fait l’hydrogène pour 3,1
+€/kg, moins cher que le SMR au quota de 70 €/t : les nouveaux projets
+d’ammoniac bas carbone sont des ATR. Ces routes gardent le gaz et le
+charbon, mais ne retirent que 50 à 90 % des émissions, et pas celles de
+l’extraction du gaz (voir <a href="note-capter-co2.html">Capter le
+CO₂</a>).</p>
+<p><strong>L’hydrogène électrolytique coûte deux fois le gaz, et tout ce
+qui en dérive suit.</strong> L’ammoniac par électrolyse coûte 1 508 €/t
+contre 828 : sa boucle de synthèse est la même, seul change l’hydrogène.
+Le coût de l’e-méthanol vient à 90 % de son hydrogène. L’acier par
+<strong>réduction directe à l’hydrogène</strong> (DRI-H₂, <em>direct
+reduced iron</em>) consomme environ 50 kg d’hydrogène par tonne et coûte
+772 €/t. Les usages de l’hydrogène sont détaillés dans la note <a
+href="note-hydrogene-usages.html">Les usages de l’hydrogène</a>.</p>
+<p><strong>Ne pas refaire la matière est presque gratuit.</strong>
+Refondre de la ferraille coûte 360 €/t, contre 523 pour le haut
+fourneau. Mettre moins de <strong>clinker</strong> (le composant cuit du
+ciment, d’où vient le CO₂) dans le ciment fait baisser à la fois le coût
+et les émissions. Ces leviers ont une limite de gisement : la ferraille
+ne couvre qu’environ 30 % de la demande d’acier, et la norme du ciment
+(EN 197) borne le taux de clinker.</p>
+<p><strong>Le kérosène de synthèse est le plus cher de tous</strong> :
+huit fois le fossile (voir <a href="note-saf-filieres.html">Les carburants
+d’aviation durables</a>).</p>
+<figure>
+<img
+src="img/note-cout-routes/Industry/Economie_routes/output/editorial/cost_stack_steel.png"
+alt="Coût de production de l’acier par route et par poste (électricité 70 €/MWh, gaz 35 €/MWh, CO₂ 70 €/t, taux 8 %)" />
+<figcaption aria-hidden="true">Coût de production de l’acier par route
+et par poste (électricité 70 €/MWh, gaz 35 €/MWh, CO₂ 70 €/t, taux 8
+%)</figcaption>
+</figure>
+<p>Le haut fourneau paie 123 €/t de quota sur ses 1,76 t de CO₂
+directes. Aujourd’hui, l’<strong>allocation gratuite</strong> de quotas
+en couvre l’essentiel. Elle s’éteint entre 2026 et 2034, avec l’entrée
+en vigueur du <strong>mécanisme d’ajustement carbone aux
+frontières</strong> (MACF), qui fait payer le CO₂ des importations : ces
+coûts montrent l’après 2034. Pour le DRI-H₂, l’électricité (275 €/t,
+électrolyseur compris) devient le premier poste. Enfin, le charbon à 80
+€/t est un charbon vapeur ; à 220 €/t, prix du charbon à coke, le haut
+fourneau monte à 621 €/t et passe au-dessus du DRI au gaz (572 €/t).</p>
+<h2 id="quelle-part-du-coût-est-de-lénergie">4. Quelle part du coût est
+de l’énergie ?</h2>
+<p>On sépare souvent « investissement » et « exploitation ». Ce
+découpage cache l’essentiel : quelle part du coût est de l’énergie, et
+laquelle ?</p>
+<figure>
+<img
+src="img/note-cout-routes/Industry/Economie_routes/output/editorial/cost_distribution.png"
+alt="Répartition du coût complet : capital et coûts fixes, énergie, autres matières, CO₂. Route de référence et route la moins chère qui coupe plus de 50 % des émissions, pour chaque produit" />
+<figcaption aria-hidden="true">Répartition du coût complet : capital et
+coûts fixes, énergie, autres matières, CO₂. Route de référence et route
+la moins chère qui coupe plus de 50 % des émissions, pour chaque
+produit</figcaption>
+</figure>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Produit</th>
+<th>Route de référence</th>
+<th>Part de l’énergie</th>
+<th>dont électricité</th>
+<th>Route bas carbone la moins chère</th>
+<th>Part de l’énergie</th>
+<th>dont électricité</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hydrogène</td>
+<td>SMR</td>
+<td>51 %</td>
+<td>1 %</td>
+<td>ATR + captage</td>
+<td>58 %</td>
+<td>8 %</td>
+</tr>
+<tr class="even">
+<td>Acier</td>
+<td>haut fourneau</td>
+<td>13 %</td>
+<td>3 %</td>
+<td>DRI au gaz + captage</td>
+<td>36 %</td>
+<td>17 %</td>
+</tr>
+<tr class="odd">
+<td>Ciment</td>
+<td>four actuel</td>
+<td>14 %</td>
+<td>9 %</td>
+<td>oxycombustion + captage</td>
+<td>28 %</td>
+<td>19 %</td>
+</tr>
+<tr class="even">
+<td>Ammoniac</td>
+<td>SMR</td>
+<td>44 %</td>
+<td>9 %</td>
+<td>ATR + captage</td>
+<td>49 %</td>
+<td>14 %</td>
+</tr>
+<tr class="odd">
+<td>Méthanol</td>
+<td>gaz</td>
+<td>71 %</td>
+<td>5 %</td>
+<td>bio-méthanol</td>
+<td>27 %</td>
+<td>2 %</td>
+</tr>
+<tr class="even">
+<td>Oléfines</td>
+<td>vapocraqueur</td>
+<td>79 %</td>
+<td>1 %</td>
+<td>recyclage mécanique</td>
+<td>13 %</td>
+<td>13 %</td>
+</tr>
+<tr class="odd">
+<td>Aluminium</td>
+<td>Hall-Héroult</td>
+<td>33 %</td>
+<td>33 %</td>
+<td>anode inerte + raffinage de l’alumine décarboné</td>
+<td>40 %</td>
+<td>40 %</td>
+</tr>
+<tr class="even">
+<td>Kérosène</td>
+<td>fossile</td>
+<td>87 %</td>
+<td>1 %</td>
+<td>HEFA</td>
+<td>91 %</td>
+<td>5 %</td>
+</tr>
+</tbody>
+</table>
+<p><strong>L’énergie pèse de 13 % à près de 90 % du coût.</strong> Peu
+pour l’acier et le ciment, où minerai, ferraille et calcaire dominent.
+70 à 90 % pour les molécules faites d’une autre molécule (méthanol,
+oléfines, kérosène) : l’énergie y est la matière première.</p>
+<p><strong>L’électricité n’est presque rien aujourd’hui, et devient
+l’énergie demain.</strong> Elle fait 1 à 9 % du coût des routes
+actuelles, sauf l’aluminium (33 %). Elle monte à 34 à 53 % sur les
+routes électrifiées : 36 % pour le DRI-H₂, 42 % pour l’électrolyse du
+minerai, 45 % pour l’e-kérosène, 53 % pour l’électrolyse de l’eau. La
+décarbonation change <strong>quelle</strong> énergie paie l’industrie :
+du gaz et du charbon, à prix mondial, vers l’électricité, à prix
+national (voir <a href="note-marches-elec.html">Les marchés de
+l’électricité</a>).</p>
+<p><strong>Le capital compte surtout quand l’usine tourne peu.</strong>
+Pour les procédés actuels, qui tournent presque toute l’année, capital
+et coûts fixes pèsent moins que l’énergie et les matières. Un
+électrolyseur à 50 % de charge porte en revanche 2,9 €/kg de capital et
+de coûts fixes sur 7,1 (section 2).</p>
+<h2 id="le-coût-dabattement-et-le-prix-de-bascule">5. Le coût
+d’abattement et le prix de bascule</h2>
+<p>Une route bas carbone coûte plus cher et émet moins. Pour comparer
+des routes de produits différents, on divise le surcoût par les
+émissions évitées. C’est le <strong>coût d’abattement</strong>, en euros
+par tonne de CO₂ évitée :</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mtext mathvariant="normal">ab</mtext></msub><mo>=</mo><mfrac><mrow><mi>c</mi><mo>−</mo><msub><mi>c</mi><mtext mathvariant="normal">réf</mtext></msub></mrow><mrow><msub><mi>e</mi><mtext mathvariant="normal">réf</mtext></msub><mo>−</mo><mi>e</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+C_{\text{ab}} = \frac{c - c_{\text{réf}}}{e_{\text{réf}} - e}
+</annotation></semantics></math></p>
+<p>où
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
+est le coût par tonne de produit <strong>hors prix du CO₂</strong> et
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+les émissions par tonne de produit, du puits de mine à la sortie de
+l’usine. On retire le prix du CO₂ du coût, sinon le coût d’abattement
+dépendrait du quota qu’il sert à juger.</p>
+<p><strong>Un exemple : l’acier à l’hydrogène.</strong> Hors quota, le
+haut fourneau coûte 400 €/t et le DRI-H₂ 768 €/t. Le premier émet 2,02 t
+de CO₂ par tonne d’acier, le second 0,30 t (surtout l’électricité de
+l’électrolyseur). Le coût d’abattement vaut (768 − 400) / (2,02 − 0,30)
+≈ 214 €/tCO₂.</p>
+<figure>
+<img
+src="img/note-cout-routes/Industry/Economie_routes/output/editorial/abatement_merit_order.png"
+alt="Ordre de mérite des coûts d’abattement, routes qui coupent au moins 30 % des émissions de leur produit (ligne violette : quota à 70 €/t ; ligne pointillée : valeur de l’action pour le climat 2030, 295 €/t)" />
+<figcaption aria-hidden="true">Ordre de mérite des coûts d’abattement,
+routes qui coupent au moins 30 % des émissions de leur produit (ligne
+violette : quota à 70 €/t ; ligne pointillée : valeur de l’action pour
+le climat 2030, 295 €/t)</figcaption>
+</figure>
+<p>Rangées par coût d’abattement croissant, les routes forment
+l’<strong>ordre de mérite</strong>, à comparer à deux repères :</p>
+<ul>
+<li>le <strong>prix du quota</strong> européen, autour de 70 €/t en 2025
+;</li>
+<li>la <strong>valeur de l’action pour le climat</strong>, la valeur
+publique d’une tonne de CO₂ évitée, fixée par la commission Quinet à 295
+€/t en 2030 (en euros de 2024).</li>
+</ul>
+<p>Sous le quota : les recyclages, à coût négatif (oléfines −410,
+aluminium −239, ferraille −25 €/tCO₂), le clinker réduit (−13), puis le
+captage : oxycombustion du ciment (39, baisse du clinker comprise), ATR
+pour l’hydrogène et l’ammoniac (52), haut fourneau (52, pour −49 %
+seulement). Sous la valeur publique : notamment le DRI au gaz et le
+DRI-H₂ (214). Au-dessus : l’hydrogène électrolytique (534), les routes
+biosourcées et le kérosène.</p>
+<p><strong>Le prix de bascule est la lecture de l’industriel.</strong>
+C’est le prix du quota à partir duquel la route devient moins chère pour
+l’usine. Le calcul est le même, mais avec les seules émissions
+<strong>directes</strong>, celles que le quota fait payer :</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mtext mathvariant="normal">bascule</mtext></msub><mo>=</mo><mfrac><mrow><mi>c</mi><mo>−</mo><msub><mi>c</mi><mtext mathvariant="normal">réf</mtext></msub></mrow><mrow><msubsup><mi>e</mi><mtext mathvariant="normal">réf</mtext><mtext mathvariant="normal">dir</mtext></msubsup><mo>−</mo><msup><mi>e</mi><mtext mathvariant="normal">dir</mtext></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+p_{\text{bascule}} = \frac{c - c_{\text{réf}}}{e^{\text{dir}}_{\text{réf}} - e^{\text{dir}}}
+</annotation></semantics></math></p>
+<p>Pour le DRI-H₂, (768 − 400) / (1,76 − 0,06) ≈ 217 €/t. Les deux
+chiffres sont proches ici parce que l’électricité française est peu
+carbonée (56 g de CO₂ par kWh).</p>
+<p><strong>Le quota ne voit pas les émissions de l’électricité.</strong>
+Sur le réseau européen moyen (240 g/kWh), un kilogramme d’hydrogène
+électrolytique émet environ 12,7 kg de CO₂ par son électricité, plus que
+les 11,2 kg du SMR. Le quota la récompense quand même, parce que ces
+émissions sont celles des centrales, pas de l’usine. Sur ce réseau, le
+coût d’abattement du DRI-H₂ monte à 357 €/t, et son prix de bascule
+reste à 217 €/t.</p>
+<p><strong>Le périmètre fabrique le chiffre.</strong> Le kérosène
+fossile émet 0,73 t de CO₂ par tonne en sortie de raffinerie, 3,15 t
+quand il brûle. Le carburant d’huiles usagées coûte plus de 4 000 €/tCO₂
+évitée sans la combustion, environ 470 € avec. Un coût d’abattement se
+cite toujours avec son périmètre.</p>
+<p><strong>Idée reçue : « un coût d’abattement de 200 à 300 €/t, c’est
+un quota de 200 à 300 €/t ».</strong> Le coût d’abattement compte toutes
+les émissions, le prix de bascule les seules directes. Et l’usine
+compare sa route nouvelle à son usine existante, amortie et protégée par
+l’allocation gratuite, pas à une usine neuve.</p>
+<h2 id="ce-qui-fait-bouger-ces-chiffres">6. Ce qui fait bouger ces
+chiffres</h2>
+<p>Quatre curseurs déplacent fortement les coûts de la section 3.</p>
+<figure>
+<img
+src="img/note-cout-routes/Industry/Economie_routes/output/editorial/electricity_dependence.png"
+alt="Coût de chaque route en fonction du prix de l’électricité, de 10 à 200 €/MWh (gaz 35 €/MWh, CO₂ 70 €/t, taux 8 %, hydrogène par électrolyse à 50 % de charge)" />
+<figcaption aria-hidden="true">Coût de chaque route en fonction du prix
+de l’électricité, de 10 à 200 €/MWh (gaz 35 €/MWh, CO₂ 70 €/t, taux 8 %,
+hydrogène par électrolyse à 50 % de charge)</figcaption>
+</figure>
+<p><strong>Le prix de l’électricité.</strong> Pour 10 €/MWh de plus,
+l’hydrogène électrolytique prend 0,53 €/kg, l’acier DRI-H₂ 39 €/t,
+l’ammoniac électrolytique 105 €/t, l’aluminium 150 €/t, l’e-kérosène 330
+€/t, et l’acier du haut fourneau 2 €/t seulement. À 30 €/MWh,
+l’hydrogène électrolytique descend à 4,9 €/kg, et à 3,6 €/kg si
+l’électrolyseur tourne 90 % du temps. Il reste au-dessus des 2,6 €/kg
+que France Stratégie (2024) donne comme seuil pour que l’acier à
+l’hydrogène rattrape l’acier au gaz avec captage.</p>
+<p><strong>Le prix du gaz.</strong> Il fait la moitié du coût du SMR. À
+120 €/MWh, la moyenne de 2022, le SMR coûte 7,2 €/kg, autant que
+l’électrolyse, et l’ammoniac au gaz (1 536 €/t) dépasse l’ammoniac
+électrolytique (1 508 €/t).</p>
+<p><strong>Le taux d’actualisation.</strong> 8 % est le coût du capital
+d’un industriel. 4,5 % est le taux public retenu pour évaluer les
+projets de l’État (France Stratégie). Le passage de l’un à l’autre
+réduit l’annuité d’un actif de 25 ans d’environ 30 %. Il profite surtout
+aux routes riches en capital : l’électrolyse passe de 7,1 à 6,4 €/kg, le
+DRI-H₂ de 772 à 729 €/t, le SMR de 3,3 à 3,2 €/kg seulement.</p>
+<p><strong>Le transport et le stockage du CO₂.</strong> 20 €/t suppose
+un site côtier près d’un stockage en mer du Nord. Une cimenterie de
+l’intérieur peut payer 120 €/t. À ce prix, l’oxycombustion du ciment
+passe de 39 à 98 €/tCO₂ évitée, le captage aux amines de 127 à 230, et
+le haut fourneau avec captage de 52 à 153.</p>
+<p>Pour l’acier, route la moins chère selon l’électricité et le quota
+(transport et stockage du CO₂ à 20 €/t) :</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Électricité ↓, quota de CO₂ →</th>
+<th>70 €/t</th>
+<th>150 €/t</th>
+<th>300 €/t</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>70 €/MWh</td>
+<td>haut fourneau + captage, 504 €/t</td>
+<td>haut fourneau + captage, 565 €/t</td>
+<td>DRI au gaz + captage, 620 €/t</td>
+</tr>
+<tr class="even">
+<td>30 €/MWh</td>
+<td>haut fourneau + captage, 493 €/t</td>
+<td>DRI au gaz + captage, 537 €/t</td>
+<td>DRI au gaz + captage, 563 €/t</td>
+</tr>
+</tbody>
+</table>
+<p>L’acier à l’hydrogène n’y passe jamais en tête (629 €/t à 30 €/MWh et
+300 €/t) : le captage gagne tant que son transport et son stockage sont
+bon marché.</p>
+<h2 id="explorer-soi-même-avec-loutil-web">7. Explorer soi-même avec
+l’outil web</h2>
+<p>L’outil web du cours, <strong>Décarbonation de l’industrie : ce que
+coûte chaque route</strong>, refait ces calculs dans le navigateur pour
+46 routes et 8 produits :</p>
+<ul>
+<li>adresse publique : <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener"
+class="uri">https://www.robingirard.eu/assets/industrydecarbo/latest/index.html</a>
+;</li>
+<li>version figée 2.1, celle des valeurs de cette note et des activités
+du cours : <a href="https://www.robingirard.eu/assets/industrydecarbo/v2.1/index.html" target="_blank" rel="noopener"
+class="uri">https://www.robingirard.eu/assets/industrydecarbo/v2.1/index.html</a>.</li>
+</ul>
+<p><strong>Ce qu’on y fait.</strong> Un onglet par produit donne, pour
+chaque route, le coût poste par poste, les émissions par origine, le
+coût d’abattement et le prix de bascule. Le panneau de gauche porte tous
+les curseurs (prix, taux, investissement, facteur de charge,
+consommations, contenu carbone du réseau) ; un « i » dit d’où vient
+chaque valeur. L’onglet <strong>Comparer</strong> donne l’ordre de
+mérite, l’onglet <strong>Sources</strong> chaque hypothèse. Chaque
+onglet propose trois manipulations « À essayer ». Par exemple :
+l’hydrogène à 30 €/MWh puis à 30 % de charge ; l’acier avec le charbon à
+220 €/t puis le réseau européen ; le ciment avec un stockage du CO₂ à
+120 €/t ; le taux de 8 % à 4,5 %.</p>
+<p><strong>Ce que l’outil ne fait pas.</strong> Aucun lien ne garde les
+réglages : on relève les chiffres à la main. Le calcul est
+<strong>statique et marginal</strong> : le coût d’une tonne à des prix
+donnés, pas celui de convertir toute une industrie. Ni allocation
+gratuite, ni baisse des coûts avec l’expérience, ni limites de gisement
+(ferraille, biomasse, huiles usagées, stockage).</p>
+<h2 id="ce-que-ça-change-pour-les-mini-projets">8. Ce que ça change pour
+les mini-projets</h2>
+<p><strong>Le mini-projet « à quel prix du CO₂ l’industrie change-t-elle
+de procédé ? ».</strong> Il rejoue un modèle de l’industrie française,
+année par année de 2015 à 2050, pour un CO₂ de 0 à 300 €/t. Les repères
+pour lire ses résultats :</p>
+<ul>
+<li>un procédé bascule quand le quota dépasse son <strong>prix de
+bascule</strong>, calculé sur les émissions directes, pas sur le coût
+d’abattement ;</li>
+<li>aux prix par défaut, le captage arrive avant l’hydrogène ; le prix
+de l’électricité, le transport et stockage du CO₂ et le plafond de
+biomasse décident de l’ordre ;</li>
+<li>un taux d’actualisation plus bas favorise les routes riches en
+capital ;</li>
+<li>si le modèle choisit l’hydrogène, la demande d’électricité suit : 53
+MWh par tonne d’hydrogène, environ 4 MWh par tonne d’acier DRI-H₂.</li>
+</ul>
+<p>L’outil web sert à vérifier un ordre de grandeur et à expliquer un
+résultat surprenant.</p>
+<p><strong>Le mini-projet de l’aciérie à réduction directe.</strong>
+L’usine choisit chaque heure entre hydrogène, gaz et gaz avec captage.
+Trois repères :</p>
+<ul>
+<li>l’électricité fait 36 % du coût de l’acier DRI-H₂, et 10 €/MWh
+coûtent 39 €/t : la flexibilité vaut par l’électricité achetée aux
+heures bon marché ;</li>
+<li>un électrolyseur qui tourne peu porte plus de capital par tonne :
+surdimensionner pour suivre les prix se paie dans l’annuité ;</li>
+<li>au prix moyen de 70 €/MWh et au quota de 70 €/t, le gaz avec captage
+(581 €/t) bat l’hydrogène (772 €/t) ; même à 10 €/MWh, l’hydrogène (536
+€/t) reste derrière (495 €/t) si le CO₂ capté ne coûte que 20 €/t à
+stocker. Le coût donné au captage change la réponse.</li>
+</ul>
+<p>L’outil compte environ 50 kg d’hydrogène par tonne d’acier, le
+mini-projet 80 kg : l’écart est l’une des hypothèses à discuter.</p>
+<p><strong>L’activité « ordre de mérite des abattements ».</strong> On
+construit son ordre de mérite dans l’onglet Comparer et on le confronte
+au quota et à la valeur de l’action pour le climat, avec la grammaire de
+la section 5 : coût hors CO₂, périmètre, prix de bascule, plafond des
+routes à coût négatif.</p>
+<h2 id="ce-quil-faut-retenir">9. Ce qu’il faut retenir</h2>
+<p><strong>Un coût par tonne se construit en quatre postes</strong> :
+l’annuité du capital et les coûts fixes, divisés par la production ;
+l’énergie et les matières ; le CO₂ payé et le CO₂ stocké. Le facteur de
+charge et le taux d’actualisation pèsent sur le premier, les prix de
+l’énergie sur le second.</p>
+<p><strong>Les routes se rangent en trois familles.</strong> Ne pas
+refaire la matière (ferraille, clinker, recyclage) coûte peu ou rien,
+dans la limite d’un gisement. Capter le CO₂ en gardant le gaz et le
+charbon coûte 39 à 52 €/tCO₂ pour les meilleures routes, aux prix
+d’aujourd’hui, pour 50 à 90 % de réduction. Passer par l’hydrogène
+électrolytique coûte 200 à plus de 500 €/tCO₂.</p>
+<p><strong>L’électricité entre dans le coût en changeant de
+route.</strong> Elle pèse 1 à 9 % des procédés actuels, 34 à 53 % des
+routes électrifiées. Son prix décide de tout ce qui est nouveau.</p>
+<p><strong>Un coût d’abattement n’est pas un prix de bascule.</strong>
+Le premier compte toutes les émissions, le second celles que le quota
+fait payer. Sur un réseau carboné, l’écart entre les deux peut
+récompenser une route qui n’abat rien.</p>
+<h2 id="sources">10. Sources</h2>
+<ul>
+<li>AIE (Agence internationale de l’énergie), <em>Global Hydrogen Review
+2026</em>, annexe des hypothèses, p. 6, et rapport, p. 111 (coût, durée
+de vie, rendement et remplacement des cellules de l’électrolyseur, coûts
+2025).</li>
+<li>Centre PERSEE, Mines Paris PSL, modèle pommes-industry, zone France,
+année 2030 (investissements, coûts fixes, consommations et prix des
+routes).</li>
+<li>Commission Quinet, <em>La valeur de l’action pour le climat</em>,
+France Stratégie, 2019 (250 €₂₀₁₈/t en 2030, soit 295 €₂₀₂₄/t).</li>
+<li>France Stratégie, <em>Les coûts d’abattement</em>, partie 7 « Acier
+», 2024, tableau 1 et p. 10 et 65 (seuil de 2,6 €/kg d’hydrogène).</li>
+<li>Règlement (UE) 2023/956 établissant un mécanisme d’ajustement
+carbone aux frontières.</li>
+<li>Outil web <em>Décarbonation de l’industrie : ce que coûte chaque
+route</em>, version 2.1, <a href="https://www.robingirard.eu/assets/industrydecarbo/v2.1/index.html" target="_blank" rel="noopener"
+class="uri">https://www.robingirard.eu/assets/industrydecarbo/v2.1/index.html</a>.</li>
+</ul>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">11. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=xy-xgVXyizU" target="_blank" rel="noopener">La vie d’un
+projet 1/17 — Projet hydrogène : quand se font les dépenses et la
+production ?</a> (vidéo, 2 min ; <a href="https://www.youtube.com/playlist?list=PLN3M2xx0972o" target="_blank" rel="noopener">la série « La
+vie d’un projet »</a>) : quelles dépenses fait un projet industriel, et
+quand, avant de parler de coût de production (l’électrolyseur
+Normand’Hy).</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-17-hydrogene-dri-en-question.html" target="_blank" rel="noopener">L’hydrogène
+dans le fer préréduit européen, et ce qui avance à sa place</a> (post
+LinkedIn repris sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/posts/activity-7506236956503232512-juYk" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : un cas réel de prix de bascule : ArcelorMittal
+renonce à l’acier à l’hydrogène en Allemagne, faute d’un prix du CO₂
+assez haut et d’un hydrogène assez bon marché.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-22-macf-le-signal-et-la-regle.html" target="_blank" rel="noopener">Juin
+prend, septembre rend : la semaine où l’Europe s’est corrigée
+elle-même</a> (post LinkedIn repris sur le blog, avec figures et sources
+; <a href="https://www.linkedin.com/feed/update/urn:li:share:7508079373724450816/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : comment l’allocation gratuite de quotas et le
+mécanisme d’ajustement carbone aux frontières changent le prix du CO₂
+que paie vraiment l’industrie.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Cout_routes.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-routes-decarbonation.html">Décarboner l'acier, le ciment, l'hydrogène, l'ammoniac, les oléfines et l'aluminium : les routes et leurs émissions</a></li><li><a href="note-procedes-usines.html">Acier, ciment, ammoniac, hydrogène, plastiques, aluminium : comment on les fabrique, et d'où sort le CO₂</a></li><li><a href="note-capter-co2.html">Capter le CO₂ d'une usine : d'où il vient, comment on l'attrape, ce qu'on en fait, ce que ça coûte</a></li><li><a href="note-hydrogene-usages.html">L'hydrogène : à quoi il sert, comment on le produit, ce qu'il coûte</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#ramener-une-usine-à-un-coût-par-tonne">2. Ramener une usine à un coût par tonne</a></li><li><a href="#ce-que-coûtent-les-routes-produit-par-produit">3. Ce que coûtent les routes, produit par produit</a></li><li><a href="#quelle-part-du-coût-est-de-lénergie">4. Quelle part du coût est de l’énergie ?</a></li><li><a href="#le-coût-dabattement-et-le-prix-de-bascule">5. Le coût d’abattement et le prix de bascule</a></li><li><a href="#ce-qui-fait-bouger-ces-chiffres">6. Ce qui fait bouger ces chiffres</a></li><li><a href="#explorer-soi-même-avec-loutil-web">7. Explorer soi-même avec l’outil web</a></li><li><a href="#ce-que-ça-change-pour-les-mini-projets">8. Ce que ça change pour les mini-projets</a></li><li><a href="#ce-quil-faut-retenir">9. Ce qu’il faut retenir</a></li><li><a href="#sources">10. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">11. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

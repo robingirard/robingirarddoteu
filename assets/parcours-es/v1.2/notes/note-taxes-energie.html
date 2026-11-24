@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les taxes sur l'énergie : qui paie quoi, et quel signal prix entre les énergies · Parcours ES 2026</title>
+<meta name="description" content="Ce qu'on paie en plus de l'énergie (accise, TVA, CTA, quotas du marché carbone européen et ETS2) et comment se décompose une facture d'électricité, de gaz ou de carburant entre énergie, réseau et taxes : 57 % de taxes sur l'essence, environ 30 % sur l'électricité et le gaz d'un ménage, 1 % pour un très gros site industriel. Qui paie (tarifs réduits, exonérations, TVA récupérée par les entreprises), ce que ça rapporte (20 à 60 Md€ selon ce qu'on compte), la France face à ses voisins, et le signal prix par tonne de CO₂ : environ 300 €/t sur l'essence, 90 sur le gaz, et une électricité plus taxée au MWh que le gaz.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Les taxes sur l'énergie : qui paie quoi, et quel signal prix entre les énergies</h1>
+    <p class="resume">Ce qu'on paie en plus de l'énergie (accise, TVA, CTA, quotas du marché carbone européen et ETS2) et comment se décompose une facture d'électricité, de gaz ou de carburant entre énergie, réseau et taxes : 57 % de taxes sur l'essence, environ 30 % sur l'électricité et le gaz d'un ménage, 1 % pour un très gros site industriel. Qui paie (tarifs réduits, exonérations, TVA récupérée par les entreprises), ce que ça rapporte (20 à 60 Md€ selon ce qu'on compte), la France face à ses voisins, et le signal prix par tonne de CO₂ : environ 300 €/t sur l'essence, 90 sur le gaz, et une électricité plus taxée au MWh que le gaz.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#mp-eco-role-economique">Porter la lecture économique d'un mini-projet technologique : taux, annuité, qui paie, qui gagne</a></li><li><a href="../index.html#cas-E">Mener le mini-projet du cas E : la vapeur d'une usine, électrique, au gaz, ou les deux ?</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Quand on paie un plein d’essence, une
+facture d’électricité ou une facture de gaz, quelle part va à l’État ?
+Et cette fiscalité pousse-t-elle vers les énergies qui émettent le moins
+de CO₂ ?</p>
+<p><strong>La réponse, en trois phrases.</strong> En France en 2025, les
+taxes font 57 % du prix de l’essence, environ 30 % des factures
+d’électricité et de gaz d’un ménage, mais à peine 1 % du prix de
+l’électricité d’un très gros site industriel : d’un produit et d’un
+client à l’autre, c’est l’impôt qui varie le plus, pas le coût de
+l’énergie. Ces taxes rapportent entre 20 et 60 milliards d’euros par an
+selon ce qu’on compte, du même ordre que ce que la France paie pour
+importer son énergie. Rapportées à la tonne de CO₂, elles sont très
+inégales : environ 300 € par tonne sur l’essence, 90 € sur le gaz,
+presque rien pour un site industriel soumis au marché du carbone, et
+l’électricité, peu carbonée en France, est plus taxée au MWh que le
+gaz.</p>
+<p><strong>Le plan.</strong> La section 2 présente les familles de
+prélèvements. La section 3 décompose la facture de chaque énergie entre
+énergie, réseau et taxes. La section 4 dit qui paie quoi, des ménages
+aux industriels exonérés. La section 5 donne les recettes, la section 6
+compare la France à ses voisins. La section 7 regarde le signal prix
+entre énergies, par MWh et par tonne de CO₂. La section 8 dit ce que
+cela change pour les mini-projets du cours.</p>
+<h2 id="ce-quon-paie-en-plus-de-lénergie-cinq-familles">2. Ce qu’on paie
+en plus de l’énergie : cinq familles</h2>
+<p>Une facture d’énergie additionne quatre postes :
+l’<strong>énergie</strong> elle-même (avec la fourniture, c’est-à-dire
+la marge et les frais du vendeur), le <strong>réseau</strong>, les
+<strong>accises et contributions</strong>, et la <strong>TVA</strong>. À
+côté, un cinquième prélèvement ne figure sur aucune facture : le
+<strong>prix du carbone</strong> payé par les grandes installations.</p>
+<p><strong>L’accise</strong> est un impôt fixé par unité physique : par
+litre, par MWh. Elle ne dépend pas du prix de l’énergie. En France, elle
+regroupe depuis 2022 les anciennes taxes intérieures de consommation :
+la TICPE sur les produits pétroliers, la TICGN sur le gaz naturel, la
+TICFE sur l’électricité. Une directive européenne (2003/96/CE) fixe des
+<strong>minima</strong> : par exemple 0,5 €/MWh pour l’électricité à
+usage professionnel. Chaque pays taxe au-dessus.</p>
+<p><strong>La composante carbone.</strong> De 2014 à 2018, la France a
+augmenté ses accises sur les énergies fossiles en fonction de leur
+contenu en CO₂ : 7 €/t en 2014, puis 14,5, 22, 30,5 et enfin 44,6 €/t en
+2018. La loi visait 100 €/t en 2030. Après le mouvement social de
+l’automne 2018, les tarifs ont été gelés au niveau de 2018 (DGEC, 2026).
+Cette composante n’est qu’une part de chaque tarif : elle s’est ajoutée
+à des accises qui existaient déjà.</p>
+<p><strong>La TVA</strong> est de 20 % sur l’énergie. Depuis le 1er août
+2025, le taux normal s’applique à toute la facture d’électricité et de
+gaz, abonnement compris. La TVA se calcule aussi sur les accises : on
+paie une taxe sur la taxe. Point essentiel : une <strong>entreprise
+récupère la TVA</strong> qu’elle paie. Pour elle, la TVA n’est pas un
+coût, et il faut raisonner hors TVA.</p>
+<p><strong>Les contributions.</strong> La CTA (contribution tarifaire
+d’acheminement) finance les retraites des industries électriques et
+gazières. Elle se calcule en pourcentage du tarif de réseau et rapporte
+1,5 Md€ en 2024 (SDES).</p>
+<p><strong>Le réseau n’est pas un impôt.</strong> Le TURPE (tarif
+d’utilisation des réseaux publics d’électricité) et son équivalent pour
+le gaz paient le transport et la distribution. C’est un prix régulé, pas
+une taxe. Le ranger dans les taxes ferait passer la part des
+prélèvements sur l’électricité d’un ménage de 29,5 % à 58 %. La <a
+href="note-tarifs-reseau.html">note sur les tarifs de réseau</a> le
+détaille.</p>
+<p><strong>Le marché du carbone.</strong> Le SEQE (système d’échange de
+quotas d’émission de l’Union européenne, en anglais EU ETS) oblige les
+centrales électriques et les installations industrielles de plus de 20
+MW thermiques à rendre un quota par tonne de CO₂ émise. Le quota
+s’achète aux enchères : 73,43 €/t en moyenne en 2025 (Commission
+européenne, 2026). Ce coût n’apparaît pas comme une ligne de facture :
+il entre dans le prix de l’électricité ou dans le coût de production de
+l’usine. Un second marché, l’<strong>ETS2</strong>, couvrira les
+combustibles du bâtiment et du transport routier. Son démarrage a été
+reporté de 2027 à 2028 (règlement (UE) 2026/667).</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Prélèvement</th>
+<th>Assiette</th>
+<th>Qui le paie</th>
+<th>Ordre de grandeur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Accise</td>
+<td>MWh ou litre</td>
+<td>tous, avec des tarifs réduits</td>
+<td>de 0 à 77 €/MWh selon le produit</td>
+</tr>
+<tr class="even">
+<td>TVA</td>
+<td>prix, taxes comprises</td>
+<td>ménages (récupérée par les entreprises)</td>
+<td>20 %</td>
+</tr>
+<tr class="odd">
+<td>CTA</td>
+<td>tarif de réseau</td>
+<td>électricité et gaz</td>
+<td>1,5 Md€ par an</td>
+</tr>
+<tr class="even">
+<td>Quota SEQE</td>
+<td>tonne de CO₂</td>
+<td>centrales, sites de plus de 20 MW</td>
+<td>73 €/t en 2025</td>
+</tr>
+<tr class="odd">
+<td>Réseau (TURPE)</td>
+<td>puissance et MWh</td>
+<td>tous les clients raccordés</td>
+<td>prix régulé, pas un impôt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="la-facture-énergie-par-énergie">3. La facture, énergie par
+énergie</h2>
+<figure>
+<img
+src="img/note-taxes-energie/Economie/Energy_Taxes/output/editorial/facture_fr_mwh_2025.png"
+alt="Composition du prix payé en France en 2025, par énergie, en euros par MWh livré" />
+<figcaption aria-hidden="true">Composition du prix payé en France en
+2025, par énergie, en euros par MWh livré</figcaption>
+</figure>
+<p>La figure compare toutes les énergies dans la même unité, l’euro par
+MWh. Le tableau donne les mêmes chiffres, et le prix dans l’unité de
+tous les jours.</p>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>France 2025</th>
+<th style="text-align: right;">Essence</th>
+<th style="text-align: right;">Gazole</th>
+<th style="text-align: right;">Fioul</th>
+<th style="text-align: right;">Élec. ménage</th>
+<th style="text-align: right;">Gaz ménage</th>
+<th style="text-align: right;">Bois ménage</th>
+<th style="text-align: right;">Élec. industrie</th>
+<th style="text-align: right;">Gaz industrie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Part des taxes</td>
+<td style="text-align: right;">57 %</td>
+<td style="text-align: right;">54 %</td>
+<td style="text-align: right;">30 %</td>
+<td style="text-align: right;">29,5 %</td>
+<td style="text-align: right;">30 %</td>
+<td style="text-align: right;">7,5 %</td>
+<td style="text-align: right;">14 %</td>
+<td style="text-align: right;">17 %</td>
+</tr>
+<tr class="even">
+<td>Prix TTC (€/MWh)</td>
+<td style="text-align: right;">199</td>
+<td style="text-align: right;">164</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">262</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">189 (160 HT)</td>
+<td style="text-align: right;">78 (66 HT)</td>
+</tr>
+<tr class="odd">
+<td>Dans l’unité d’usage</td>
+<td style="text-align: right;">1,73 €/L</td>
+<td style="text-align: right;">1,62 €/L</td>
+<td style="text-align: right;">1,13 €/L</td>
+<td style="text-align: right;">0,26 €/kWh</td>
+<td style="text-align: right;">0,136 €/kWh</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">0,19 €/kWh</td>
+<td style="text-align: right;">0,078 €/kWh</td>
+</tr>
+</tbody>
+</table>
+<p>Sources : Eurostat pour l’électricité et le gaz, Weekly Oil Bulletin
+de la Commission européenne pour les carburants (moyenne des 52
+semaines), SDES pour le bois. Pour l’industrie (un site de 0,5 à 2 GWh
+par an en électricité, de 10 à 100 TJ en gaz), la part est calculée hors
+TVA, sur le prix hors TVA, puisque la TVA est récupérée.</p>
+<p><strong>L’électricité d’un ménage</strong> (2,5 à 5 MWh par an) coûte
+262 €/MWh. Elle se décompose en 108,8 € d’énergie, 75,9 € de réseau,
+37,2 € d’accise et de contributions (dont 30,4 € d’accise, le reste
+étant surtout la CTA) et 40,1 € de TVA (Eurostat). L’énergie fait donc à
+peine plus de 40 % du prix.</p>
+<p><strong>Le gaz d’un ménage</strong> coûte 136 €/MWh : 64,5 €
+d’énergie, 30,8 € de réseau, 19,9 € d’accise et de contributions, 20,6 €
+de TVA.</p>
+<p><strong>Les carburants</strong> n’ont pas de poste réseau, mais une
+accise lourde. Sur un MWh d’essence, l’énergie et la distribution font
+environ 86 €, l’accise environ 80 €, la TVA environ 33 €. L’accise pèse
+donc presque autant que le produit.</p>
+<p><strong>Le bois</strong> fait le contraste. Il n’est pas soumis à
+l’accise, c’est écrit dans la loi (article L. 312-9 du code des
+impositions). Ses 7,5 % sont de la TVA, à un taux réduit de 10 %, et une
+partie du bois brûlé ne passe par aucune vente.</p>
+<p><strong>Le kérosène des vols internationaux</strong> et le fioul des
+navires sont à 0 % : ni accise, ni TVA. En 2024, ces « soutes
+internationales » représentent 80 TWh, environ 12 % des produits
+pétroliers comptés en France (SDES). C’est le plus gros trou de
+l’assiette fiscale de l’énergie.</p>
+<h2 id="qui-paie-ménages-industrie-exonérations">4. Qui paie : ménages,
+industrie, exonérations</h2>
+<h3 id="plus-on-consomme-moins-on-paie-de-taxes-par-mwh">4.1 Plus on
+consomme, moins on paie de taxes par MWh</h3>
+<figure>
+<img
+src="img/note-taxes-energie/Economie/Energy_Taxes/output/editorial/gradient_elec_fr_2025.png"
+alt="Électricité en France en 2025 : composition du prix selon la consommation annuelle du client" />
+<figcaption aria-hidden="true">Électricité en France en 2025 :
+composition du prix selon la consommation annuelle du
+client</figcaption>
+</figure>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Électricité, France 2025, €/MWh</th>
+<th style="text-align: right;">Ménage 1 à 2,5 MWh/an</th>
+<th style="text-align: right;">Ménage 2,5 à 5 MWh/an</th>
+<th style="text-align: right;">Site de plus de 150 GWh/an</th>
+<th style="text-align: right;">Rapport</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Énergie et fourniture</td>
+<td style="text-align: right;">117,9</td>
+<td style="text-align: right;">108,8</td>
+<td style="text-align: right;">59,1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td>Accises et taxes, hors TVA</td>
+<td style="text-align: right;">42,3</td>
+<td style="text-align: right;">37,1</td>
+<td style="text-align: right;">0,7</td>
+<td style="text-align: right;"><strong>60</strong></td>
+</tr>
+<tr class="odd">
+<td>TVA</td>
+<td style="text-align: right;">45,0</td>
+<td style="text-align: right;">40,1</td>
+<td style="text-align: right;">8,7 (récupérée)</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>Part des prélèvements</td>
+<td style="text-align: right;">29 % du TTC</td>
+<td style="text-align: right;">29,5 % du TTC</td>
+<td style="text-align: right;">1 % du prix HT</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>L’énergie coûte deux fois moins cher au très gros industriel.
+L’accise, elle, lui coûte soixante fois moins. Son plancher, 0,5 €/MWh,
+est le minimum de la directive européenne. Le réseau baisse aussi avec
+la taille : un gros site est raccordé en haute tension.</p>
+<figure>
+<img
+src="img/note-taxes-energie/Economie/Energy_Taxes/output/editorial/gradient_gaz_fr_2025.png"
+alt="Gaz naturel en France en 2025 : composition du prix selon la consommation annuelle du client" />
+<figcaption aria-hidden="true">Gaz naturel en France en 2025 :
+composition du prix selon la consommation annuelle du
+client</figcaption>
+</figure>
+<p>Le gaz suit la même pente. La part des taxes passe de 30 % pour un
+ménage à 4 % pour les plus gros sites (plus de 1 PJ par an, soit plus de
+280 GWh).</p>
+<h3 id="les-tarifs-réduits-et-les-exonérations">4.2 Les tarifs réduits
+et les exonérations</h3>
+<p>Le gradient n’est pas un effet de volume. Il vient de <strong>tarifs
+réduits</strong> inscrits dans la loi pour protéger la compétitivité de
+l’industrie (DGEC, 2026) :</p>
+<ul>
+<li><strong>électricité des sites électro-intensifs</strong> : de 5,5
+€/MWh à 0,5 €/MWh selon l’intensité électrique (la consommation
+d’électricité rapportée à la valeur ajoutée) et l’exposition à la
+concurrence internationale, contre 26,58 €/MWh au tarif normal des
+entreprises en 2026 ;</li>
+<li><strong>gaz des sites soumis au SEQE</strong> : 1,52 €/MWh, contre
+16,39 €/MWh au tarif normal. Ces sites paient déjà leurs quotas ;</li>
+<li><strong>tarif nul</strong> pour les « doubles usages » :
+l’électrolyse, la réduction chimique, les procédés métallurgiques, où
+l’énergie sert aussi de matière ;</li>
+<li><strong>exonération</strong> du gaz brûlé pour produire de
+l’électricité : la production électrique fossile est taxée par le SEQE,
+pas par l’accise ;</li>
+<li><strong>hors champ</strong> : l’hydrogène, dont l’usage énergétique
+n’est pas taxé, et le bois.</li>
+</ul>
+<h3 id="les-ménages-paient-la-plus-grosse-part">4.3 Les ménages paient
+la plus grosse part</h3>
+<p>En France, les ménages acquittent <strong>59,6 %</strong> des taxes
+sur l’énergie, contre 47,4 % en Allemagne (Eurostat, compte ventilé par
+payeur). Cette fiscalité est <strong>régressive</strong> : elle pèse
+plus lourd, en proportion, pour les ménages modestes. Le budget vert du
+projet de loi de finances 2026 chiffre l’accise à 580 € par ménage et
+par an, soit 2,1 % du revenu des 20 % les plus modestes, contre 0,7 %
+pour les 20 % les plus aisés.</p>
+<h2 id="combien-ça-rapporte">5. Combien ça rapporte</h2>
+<p>« Les taxes sur l’énergie rapportent X milliards » a plusieurs
+réponses justes. Tout dépend de ce qu’on compte.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 30%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>France 2024</th>
+<th style="text-align: right;">Md€</th>
+<th>Ce qu’on compte</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Toutes taxes, TVA comprise</td>
+<td style="text-align: right;"><strong>59,7</strong></td>
+<td>toutes administrations</td>
+<td>SDES</td>
+</tr>
+<tr class="even">
+<td>… nettes des subventions à l’énergie</td>
+<td style="text-align: right;">52,5</td>
+<td>idem</td>
+<td>SDES</td>
+</tr>
+<tr class="odd">
+<td>Hors TVA</td>
+<td style="text-align: right;"><strong>43,6</strong></td>
+<td>toutes administrations</td>
+<td>Eurostat</td>
+</tr>
+<tr class="even">
+<td>Accises, part du budget de l’État</td>
+<td style="text-align: right;"><strong>20,2</strong></td>
+<td>État seul</td>
+<td>PLF 2026</td>
+</tr>
+</tbody>
+</table>
+<p>De 59,7 à 43,6 Md€, l’écart est la TVA. De 43,6 à 20,2 Md€, c’est la
+part reversée aux régions, aux départements et à l’agence de financement
+des infrastructures de transport (AFITF) : la moitié de l’ancienne TICPE
+n’arrive jamais au budget de l’État. « Ce que l’État encaisse » : 20
+Md€. « Ce que la puissance publique prélève sur l’énergie » : 44 Md€
+hors TVA, 60 avec.</p>
+<p>Hors TVA, ces taxes font <strong>1,49 % du PIB</strong> et 3,3 % des
+prélèvements obligatoires, comme en Allemagne (1,48 % du PIB, 64,2 Md€)
+(Eurostat).</p>
+<figure>
+<img
+src="img/note-taxes-energie/Economie/Energy_Taxes/output/editorial/facture_taxes_fr_2024.png"
+alt="Facture énergétique extérieure et taxes sur l’énergie en France, 2011 à 2024" />
+<figcaption aria-hidden="true">Facture énergétique extérieure et taxes
+sur l’énergie en France, 2011 à 2024</figcaption>
+</figure>
+<p><strong>Face à la facture énergétique.</strong> En 2024, la France a
+dépensé 57,8 Md€ nets pour importer son énergie : du même ordre que les
+59,7 Md€ de taxes. Mais les deux courbes ne se ressemblent pas. Les
+taxes suivent les <strong>volumes</strong> consommés et bougent de 10 %
+en dix ans. La facture suit les <strong>prix</strong> mondiaux : 25 Md€
+en 2020, 118 Md€ en 2022.</p>
+<p><strong>2022, le bouclier tarifaire.</strong> Pendant la crise,
+l’État a baissé ses taxes au lieu d’encaisser le choc : remise à la
+pompe, accise sur l’électricité ramenée au minimum européen. Les taxes
+sur l’électricité sont passées de 15,8 Md€ en 2021 à 8,9 en 2022 et 6,8
+en 2023, avant de remonter à 13,4 en 2024 (SDES).</p>
+<h2 id="et-ailleurs-en-europe">6. Et ailleurs en Europe</h2>
+<p>Électricité d’un ménage de référence (2,5 à 5 MWh par an), 2025, en
+€/MWh (Eurostat) :</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">Énergie</th>
+<th style="text-align: right;">Réseau</th>
+<th style="text-align: right;">Taxes, TVA comprise</th>
+<th style="text-align: right;">Prix TTC</th>
+<th style="text-align: right;">Part des taxes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>France</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">262</td>
+<td style="text-align: right;">29,5 %</td>
+</tr>
+<tr class="even">
+<td>Allemagne</td>
+<td style="text-align: right;">148</td>
+<td style="text-align: right;">113</td>
+<td style="text-align: right;">124</td>
+<td style="text-align: right;">385</td>
+<td style="text-align: right;">32 %</td>
+</tr>
+<tr class="odd">
+<td>Italie</td>
+<td style="text-align: right;">180</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">89</td>
+<td style="text-align: right;">313</td>
+<td style="text-align: right;">28 %</td>
+</tr>
+<tr class="even">
+<td>Espagne</td>
+<td style="text-align: right;">111</td>
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">264</td>
+<td style="text-align: right;">31 %</td>
+</tr>
+<tr class="odd">
+<td>Danemark</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">166</td>
+<td style="text-align: right;">341</td>
+<td style="text-align: right;">49 %</td>
+</tr>
+<tr class="even">
+<td>Suède</td>
+<td style="text-align: right;">69</td>
+<td style="text-align: right;">107</td>
+<td style="text-align: right;">94</td>
+<td style="text-align: right;">269</td>
+<td style="text-align: right;">35 %</td>
+</tr>
+<tr class="odd">
+<td>Moyenne UE</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">83</td>
+<td style="text-align: right;">289</td>
+<td style="text-align: right;">29 %</td>
+</tr>
+</tbody>
+</table>
+<p>Trois enseignements :</p>
+<ul>
+<li>la part des taxes est proche de 30 % dans la plupart des pays. Le
+Danemark fait exception, avec près de la moitié du prix ;</li>
+<li>l’électricité française est sous la moyenne européenne (262 contre
+289 €/MWh), et elle l’est sur les trois postes : énergie, réseau et
+taxes ;</li>
+<li>chaque pays range des choses différentes dans ses taxes. L’Italie
+finance le soutien aux renouvelables par un prélèvement sur la facture
+(32 €/MWh).</li>
+</ul>
+<p>Pour le gaz d’un ménage, la part des taxes est aussi d’environ 30 %
+en France, en Allemagne et en moyenne européenne.</p>
+<h2 id="le-signal-prix-entre-énergies">7. Le signal prix entre
+énergies</h2>
+<h3 id="par-mwh-chaque-énergie-a-son-taux">7.1 Par MWh : chaque énergie
+a son taux</h3>
+<p>Rapporter les recettes aux volumes donne un <strong>taux
+implicite</strong>, taxes comprises (France 2024, SDES) :</p>
+<table>
+<thead>
+<tr class="header">
+<th>France 2024</th>
+<th style="text-align: right;">Volume (TWh)</th>
+<th style="text-align: right;">Taxes (Md€)</th>
+<th style="text-align: right;">Taux implicite (€/MWh)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Biocarburants</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">4,0</td>
+<td style="text-align: right;">105</td>
+</tr>
+<tr class="even">
+<td>Pétrole (soutes comprises)</td>
+<td style="text-align: right;">666</td>
+<td style="text-align: right;">36,4</td>
+<td style="text-align: right;">55 (62 sans les soutes)</td>
+</tr>
+<tr class="odd">
+<td>Électricité</td>
+<td style="text-align: right;">398</td>
+<td style="text-align: right;">13,4</td>
+<td style="text-align: right;">34</td>
+</tr>
+<tr class="even">
+<td>Gaz naturel</td>
+<td style="text-align: right;">263</td>
+<td style="text-align: right;">5,6</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="odd">
+<td>Biomasse, chaleur, autres</td>
+<td style="text-align: right;">208</td>
+<td style="text-align: right;">0,2</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p>Le pétrole rapporte 6,5 fois plus que le gaz : il est consommé 2,5
+fois plus, et taxé 2,6 fois plus par MWh.</p>
+<h3 id="par-tonne-de-co₂-un-gradient-très-inégal">7.2 Par tonne de CO₂ :
+un gradient très inégal</h3>
+<p>Un signal prix « climat » taxerait chaque tonne de CO₂ au même prix.
+On peut le vérifier en divisant le tarif d’accise (DGEC, 2026) par le
+CO₂ émis à la combustion (facteurs par défaut du GIEC, 2006 : 0,202 t
+par MWh de gaz, 0,267 t pour le gazole et le fioul, 0,249 t pour
+l’essence).</p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Produit, tarif de février 2026</th>
+<th style="text-align: right;">Accise (€/MWh)</th>
+<th style="text-align: right;">Accise par tonne de CO₂</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Essence SP95-E10</td>
+<td style="text-align: right;">75,4</td>
+<td style="text-align: right;">≈ 300 €/t</td>
+</tr>
+<tr class="even">
+<td>Gazole routier</td>
+<td style="text-align: right;">60,75</td>
+<td style="text-align: right;">≈ 230 €/t</td>
+</tr>
+<tr class="odd">
+<td>Gaz naturel, tarif normal</td>
+<td style="text-align: right;">16,39</td>
+<td style="text-align: right;">≈ 90 €/t</td>
+</tr>
+<tr class="even">
+<td>Fioul domestique</td>
+<td style="text-align: right;">16,39</td>
+<td style="text-align: right;">≈ 60 €/t</td>
+</tr>
+<tr class="odd">
+<td>Gaz d’un site soumis au SEQE</td>
+<td style="text-align: right;">1,52</td>
+<td style="text-align: right;">≈ 8 €/t, plus le quota (73 €/t en
+2025)</td>
+</tr>
+<tr class="even">
+<td>Kérosène des vols internationaux</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>Le gaz est taxé au MWh de PCS (pouvoir calorifique supérieur, qui
+compte la chaleur de condensation de l’eau), environ 11 % de plus que le
+PCI utilisé pour les autres produits : le calcul en tient compte.</p>
+<p>La tonne de CO₂ coûte donc cinq fois plus cher dans un réservoir
+d’essence que dans une chaudière au fioul. Le système ne suit pas le CO₂
+: il suit l’histoire de chaque produit et la compétitivité des
+secteurs.</p>
+<h3 id="lélectricité-est-taxée-plus-que-le-gaz">7.3 L’électricité est
+taxée plus que le gaz</h3>
+<p>En 2026, l’accise sur l’électricité d’un ménage est de 30,85 €/MWh,
+près du double de celle du gaz (16,39 €/MWh). Pourtant, le kWh
+électrique français émet plusieurs fois moins de CO₂ que le kWh de gaz.
+L’accise ne pousse donc pas vers l’électrification.</p>
+<p>La comparaison doit se faire <strong>par MWh de chaleur
+utile</strong>. Prenons une chaudière au gaz de rendement 90 % et une
+pompe à chaleur qui fournit 3 kWh de chaleur par kWh d’électricité
+(hypothèses de calcul) :</p>
+<ul>
+<li>chaudière au gaz : 16,39 / 0,9 ≈ 18 € d’accise par MWh de chaleur
+;</li>
+<li>pompe à chaleur : 30,85 / 3 ≈ 10 € ;</li>
+<li>radiateur électrique : 30,85 €, le plus taxé des trois.</li>
+</ul>
+<p>Avec une pompe à chaleur, l’électricité redevient la moins taxée.
+Avec un radiateur, elle reste la plus taxée.</p>
+<h3 id="les-substituts-bas-carbone-paient-plus-au-mwh">7.4 Les
+substituts bas carbone paient plus au MWh</h3>
+<p>Le même éthanol est taxé 75,4 €/MWh quand il est mélangé à l’essence
+SP95-E10, et 17,9 €/MWh quand il est vendu en superéthanol E85 : un
+facteur 4 selon la pompe. Les biocarburants incorporés supportent la
+même accise que le gazole, mais une TVA sur un produit plus cher : 105,8
+€ de taxes par MWh en 2024, contre 90,5 € pour le gazole fossile. Le
+biométhane injecté dans le réseau paie 48,0 €/MWh, contre 37,1 € pour le
+gaz fossile (SDES, Eurostat).</p>
+<p><strong>Idée reçue.</strong> « Les biocarburants sont moins taxés que
+le gazole. » En part du prix, oui (45 % contre 53 %). En euros par MWh,
+non : la part est plus faible parce que le produit est plus cher.</p>
+<p><strong>Autre idée reçue.</strong> « L’accise sur l’électricité a
+augmenté de 19 % en août 2025. » Elle est passée de 25,09 à 29,98 €/MWh
+pour les ménages, mais une partie de la hausse est un changement de case
+: la péréquation des tarifs outre-mer, jusque-là payée par le tarif de
+réseau, est passée dans l’accise.</p>
+<h2 id="ce-que-ça-change-pour-les-mini-projets">8. Ce que ça change pour
+les mini-projets</h2>
+<p><strong>La chaudière d’une usine : électrique ou au gaz ?</strong> Le
+mini-projet sur la vapeur industrielle compare une chaudière au gaz et
+une chaudière électrique. Le modèle du cas compte le prix de l’énergie
+et le prix du CO₂. Les taxes et le réseau changent le verdict :</p>
+<ul>
+<li>raisonner <strong>hors TVA</strong> : l’usine la récupère ;</li>
+<li>pour un site moyen, l’électricité porte beaucoup plus de réseau et
+de taxes que le gaz. Électricité, site de 2 à 20 GWh par an : 88,2 €/MWh
+d’énergie, 23,4 € de réseau, 13,8 € de taxes hors TVA. Gaz, site de 10 à
+100 TJ par an (2,8 à 28 GWh) : 45,3 € d’énergie, 9,7 € de réseau, 11,5 €
+de taxes (Eurostat, France 2025). Réseau et taxes réunis : 37 €/MWh pour
+l’électricité, 21 €/MWh pour le gaz ;</li>
+<li>le <strong>prix du CO₂</strong> s’ajoute au gaz : 0,202 t de CO₂ par
+MWh. À 45 €/t, la valeur de l’ETS2 que le cas prend par défaut, cela
+fait 9 €/MWh de gaz. Au prix moyen du quota SEQE en 2025 (73 €/t), 15
+€/MWh ;</li>
+<li>le <strong>régime dépend de la taille</strong> : une chaudière de
+1,3 MW relève de l’ETS2 (à partir de 2028), pas du SEQE, réservé aux
+sites de plus de 20 MW thermiques. Un site soumis au SEQE paie en
+échange une accise sur le gaz réduite à 1,52 €/MWh ;</li>
+<li>un site électro-intensif peut obtenir une accise sur l’électricité
+de 0,5 à 5,5 €/MWh, au lieu de 26,58 €/MWh.</li>
+</ul>
+<p>La <a href="note-chaleur-usines.html">note sur la chaleur
+industrielle</a> et la <a href="note-stocker-chaleur.html">note sur le
+stockage de chaleur</a> donnent le reste du contexte.</p>
+<p><strong>Le rôle « qui paie, qui gagne ».</strong> Dans tout
+mini-projet, le modèle optimise un coût du système, sans les taxes. La
+planche « qui paie, qui gagne » doit dire ce qu’il ne voit pas :</p>
+<ul>
+<li>l’accise et la TVA, très différentes selon le client et l’énergie
+(un ménage paie 30 % de taxes, un très gros site 1 %) ;</li>
+<li>le tarif de réseau, qui n’est pas une taxe mais pèse autant qu’elle
+sur la facture d’un ménage ;</li>
+<li>les exonérations : l’électricité consommée par un électrolyseur est
+à accise nulle (double usage), et l’hydrogène n’est pas taxé ;</li>
+<li>le prix du carbone, payé par les centrales et les grands sites, et
+intégré au prix de l’électricité.</li>
+</ul>
+<p>Une ligne chiffrée suffit souvent : « au tarif normal, l’accise
+ajoute 26,58 € par MWh d’électricité à ce site ; avec le tarif
+électro-intensif, 0,5 € ». Pour un électrolyseur ou une batterie, le
+poste qui reste est le réseau : voir la <a
+href="note-tarifs-reseau.html">note sur les tarifs de réseau</a>. Pour le
+financement et le coût du capital, voir la <a
+href="note-financer-transition.html">note sur le financement de la
+transition</a>.</p>
+<h2 id="ce-quil-faut-retenir">9. Ce qu’il faut retenir</h2>
+<p><strong>Le prix d’une énergie, c’est surtout l’impôt et le
+réseau.</strong> Pour un ménage, l’énergie fait à peine plus de 40 % du
+prix de l’électricité et un peu moins de la moitié du prix de l’essence.
+Les taxes font 57 % de l’essence, environ 30 % de l’électricité et du
+gaz, 7,5 % du bois.</p>
+<p><strong>Le gradient selon le client est énorme.</strong> Un ménage
+paie 37 €/MWh d’accises et de taxes hors TVA sur son électricité, un
+site de plus de 150 GWh 0,7 €/MWh. Une entreprise récupère la TVA : on
+raisonne hors TVA.</p>
+<p><strong>Il n’y a pas « un » montant des recettes.</strong> 20 Md€
+pour le budget de l’État, 44 Md€ hors TVA pour toutes les
+administrations, 60 Md€ avec la TVA (2024).</p>
+<p><strong>Le signal prix ne suit pas le CO₂.</strong> Environ 300 €/t
+sur l’essence, 90 €/t sur le gaz, 60 €/t sur le fioul, presque rien pour
+l’industrie soumise au SEQE (qui paie ses quotas), zéro pour le kérosène
+international. L’électricité, peu carbonée en France, est plus taxée au
+MWh que le gaz : seule une pompe à chaleur renverse l’écart.</p>
+<h2 id="sources">10. Sources</h2>
+<ul>
+<li>Code des impositions sur les biens et services, articles L. 312-9,
+L. 312-35, L. 312-55, L. 312-58, L. 312-66, L. 312-76, L. 312-83, L.
+312-84, <a href="https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000044595989/" target="_blank" rel="noopener"
+class="uri">https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000044595989/</a>.</li>
+<li>Commission européenne, <em>Weekly Oil Bulletin</em>, prix des
+carburants avec et sans taxes, 2025, <a href="https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en" target="_blank" rel="noopener"
+class="uri">https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en</a>.</li>
+<li>Commission européenne, avis C/2026/2992 sur les prix des carburants
+d’aviation de 2025 (prix moyen des enchères de quotas en 2025, 73,43
+€/t).</li>
+<li>DGEC et DLF, <em>Guide 2026 sur la fiscalité des énergies</em>, 2026
+(TVA, CTA, composante carbone, tarifs réduits, annexe 3 en €/MWh), <a href="https://www.ecologie.gouv.fr/politiques-publiques/fiscalite-energies" target="_blank" rel="noopener"
+class="uri">https://www.ecologie.gouv.fr/politiques-publiques/fiscalite-energies</a>.</li>
+<li>Directive 2003/96/CE sur la taxation de l’énergie ; directive (UE)
+2023/959 (révision du SEQE et création de l’ETS2) ; règlement (UE)
+2026/667 (report de l’ETS2 à 2028).</li>
+<li>Eurostat, composantes du prix de l’électricité et du gaz, ménages
+(<code>nrg_pc_204_c</code>) et non-ménages (<code>nrg_pc_205_c</code>),
+2025 ; recettes des taxes environnementales (<code>env_ac_tax</code>,
+<code>env_ac_taxind2</code>), 2024, <a href="https://ec.europa.eu/eurostat/web/energy/database" target="_blank" rel="noopener"
+class="uri">https://ec.europa.eu/eurostat/web/energy/database</a>.</li>
+<li>GIEC, <em>Lignes directrices 2006 pour les inventaires nationaux de
+gaz à effet de serre</em>, volume 2, chapitre 1, tableau 1.4 (facteurs
+d’émission par défaut).</li>
+<li>PLF 2026, <em>Évaluation des voies et moyens</em>, tome I (part de
+l’État dans les accises), et <em>Rapport sur l’impact environnemental du
+budget de l’État</em>, partie II (régressivité de l’accise), <a href="https://www.budget.gouv.fr/documentation/plf-2026-budget-vert-spafte/plf-2026-rapport-sur-limpact" target="_blank" rel="noopener"
+class="uri">https://www.budget.gouv.fr/documentation/plf-2026-budget-vert-spafte/plf-2026-rapport-sur-limpact</a>.</li>
+<li>SDES, <em>Bilan énergétique de la France</em> (facture énergétique
+et taxes par énergie, TVA comprise), 2025, <a href="https://www.statistiques.developpement-durable.gouv.fr/bilan-energetique-de-la-france-en-2025-donnees-provisoires" target="_blank" rel="noopener"
+class="uri">https://www.statistiques.developpement-durable.gouv.fr/bilan-energetique-de-la-france-en-2025-donnees-provisoires</a>.</li>
+</ul>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">11. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-10-taxes-energie.html" target="_blank" rel="noopener">Taxes
+sur l’énergie en France : une vision d’ensemble</a> (post LinkedIn
+repris sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:activity:7503706312531410944/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : ce qu’un consommateur paie par MWh
+d’électricité, de gaz, de bois ou de carburant, et la part de
+l’État.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-11-facture-et-taxes-par-vecteur.html" target="_blank" rel="noopener">Pétrole,
+gaz, électricité : ce que chacun coûte au pays, ce qu’on en consomme, ce
+qu’il rapporte en taxes</a> (post LinkedIn repris sur le blog, avec
+figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:activity:7504058324271734784/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : la facture énergétique de la France, la
+consommation et les recettes fiscales, vecteur par vecteur, de 2012 à
+2024.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-12-taxes-a-l-usage.html" target="_blank" rel="noopener">Les
+taxes sur l’énergie, par usage et par vecteur</a> (post LinkedIn repris
+sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:activity:7504436929250246656/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : les taxes ramenées au service rendu (100 km,
+chaleur utile) plutôt qu’au MWh : le classement change.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-14-charge-energetique-menages.html" target="_blank" rel="noopener">Inégalité
+énergétique et transition</a> (post LinkedIn repris sur le blog, avec
+figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:share:7505166973262098432/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : la part du revenu que les ménages consacrent à
+l’énergie, et la précarité énergétique.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-16-efuels-prix-du-billet.html" target="_blank" rel="noopener">Les
+e-carburants, le prix du billet, et l’accise que l’avion ne paie pas</a>
+(post LinkedIn repris sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:activity:7505879344637140992/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : l’aviation, qui ne paie pas d’accise sur le
+kérosène.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Taxes_energie.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-financer-transition.html">Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte</a></li><li><a href="note-investir-transition.html">Investir dans la transition énergétique : combien, dans quoi, où, et combien il en faudrait</a></li><li><a href="note-tarifs-reseau.html">Le tarif d'accès au réseau électrique : ce qu'il paie, comment il est construit, ce qu'il coûte en Europe</a></li><li><a href="note-chaleur-usines.html">La chaleur des usines : combien, à quelle température, et ce que l'électricité peut en faire</a></li><li><a href="note-stocker-chaleur.html">Stocker la chaleur dans l'industrie : comment ça marche, ce que ça coûte, où on en est</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#ce-quon-paie-en-plus-de-lénergie-cinq-familles">2. Ce qu’on paie en plus de l’énergie : cinq familles</a></li><li><a href="#la-facture-énergie-par-énergie">3. La facture, énergie par énergie</a></li><li><a href="#qui-paie-ménages-industrie-exonérations">4. Qui paie : ménages, industrie, exonérations</a></li><li><a href="#combien-ça-rapporte">5. Combien ça rapporte</a></li><li><a href="#et-ailleurs-en-europe">6. Et ailleurs en Europe</a></li><li><a href="#le-signal-prix-entre-énergies">7. Le signal prix entre énergies</a></li><li><a href="#ce-que-ça-change-pour-les-mini-projets">8. Ce que ça change pour les mini-projets</a></li><li><a href="#ce-quil-faut-retenir">9. Ce qu’il faut retenir</a></li><li><a href="#sources">10. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">11. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

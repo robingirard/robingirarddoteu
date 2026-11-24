@@ -104,13 +104,13 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <p>Un mini-projet <strong>technologique</strong> part d'une installation ou d'une filière : une batterie, une flotte de voitures, un électrolyseur, une usine. Un mini-projet <strong>méthodologique</strong> part d'une méthode, et la met à l'épreuve sur un ou plusieurs cas :</p>
 <ul>
 <li><strong>prix et marchés</strong> : pourquoi les jeux de prix publiés divergent-ils ? (cas 0, sans optimisation) ;</li>
-<li><strong>économie</strong> : juger un investissement à deux taux, et dire qui paie et qui gagne (sur les cas A, D, E ou F) ;</li>
-<li><strong>optimisation</strong> : résoudre le gros modèle du cas G d'un bloc puis par décomposition (Benders) ;</li>
-<li><strong>modélisation</strong> : combien d'années météo faut-il pour que le dimensionnement ne bouge plus ? (cas C, et la même question dans le cas G).</li>
+<li><strong>économie</strong> : le contrat qui fait construire le solaire et l'éolien vaut-il ce qu'il coûte ? (cas 1, sans optimisation, un tableur suffit à qui ne code pas). Dans un mini-projet technologique (A, D, E ou F), la filière fournit aussi un rôle : juger l'investissement à deux taux, et dire qui paie et qui gagne ;</li>
+<li><strong>optimisation</strong> : résoudre plus vite sans changer la décision, en regroupant les heures ou en découpant le problème par année météo (la décomposition de Benders) (cas 2) ;</li>
+<li><strong>modélisation</strong> : ce que le modèle ne voit pas, et quelle simplification change la réponse (cas 3).</li>
 </ul>
 <p>L'onglet « Mini-projets » du site les montre en deux listes. Un groupe qui avance vite peut relier son mini-projet à un second, de la même sorte ou de l'autre : chaque carte du site propose ces liens, tirés des pistes des cartes.</p>
 <h2>Les cas technologiques</h2>
-<p>Le dépôt public des cas rassemble les cartes dans <code>docs/cartes.json</code> ; le tableau en est tiré. Les cas de <strong>vague 1</strong> (0, A à F) sont construits avant le cours : notebook exécuté, et pour 0 et A à E une page « jouer » et des hypothèses sourcées. Les cas de <strong>vague 2</strong> (G à M) demandent plus de travail ; un cas marqué « prévu » dans le tableau a sa carte mais son modèle reste à construire par le groupe, à partir d'un notebook de 2025 ou d'un modèle public.</p>
+<p>Le dépôt public des cas rassemble les cartes dans <code>docs/cartes.json</code> ; le tableau en est tiré. Tous les cas sont construits : notebook exécuté, page « jouer » et hypothèses sourcées, et un modèle pommes pour chacun sauf le cas 0, qui se passe d'optimisation. Les cas de <strong>vague 1</strong> (0, A à F) se prennent en main plus vite ; les cas de <strong>vague 2</strong> (G à N) demandent plus de travail.</p>
 <!-- TABLEAU_CAS:DEBUT -->
 <table>
 <thead>
@@ -214,16 +214,23 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <td>avancé</td>
 <td>prêt</td>
 </tr>
+<tr>
+<td>N</td>
+<td>Un data center sur le réseau : quelles flexibilités, quel raccordement, et que fait le n-ième GW au système ?</td>
+<td>2</td>
+<td>intermédiaire</td>
+<td>prêt</td>
+</tr>
 </tbody>
 </table>
 <!-- TABLEAU_CAS:FIN -->
 
 <p>Le tableau est régénéré au build depuis <code>pommes-case-studies/docs/cartes.json</code> (fonction <code>tableau_cas_markdown</code>
-de <code>build_parcours.py</code>) : il reflète toujours l'état à jour des cartes, le cas « 0 » excepté (ce n'est pas un
-mini-projet au choix). Le site n'annonce pas de durée : chaque groupe avance à son rythme, et un groupe rapide
+de <code>build_parcours.py</code>) : il reflète toujours l'état à jour des cartes, sauf les cas 0 à 3, qui sont les
+mini-projets méthodologiques décrits plus haut. Le site n'annonce pas de durée : chaque groupe avance à son rythme, et un groupe rapide
 relie son mini-projet à un second plutôt que de finir plus tôt.</p>
 <h2>Lire une carte</h2>
-<p>Chaque cas a une carte FR/EN : <code>card.yaml</code> dans le dossier du cas (A à E), <code>docs/cartes/&lt;lettre&gt;.yaml</code> sinon. Les planches remises en cours en montrent une par cas <span title="planches-pommes-cas-2026">POMMES et les cas d'étude 2026 : fil rouge « même installation, plusieurs futurs », les onze cas en deux vagues, jeux de prix publiés (remis en cours)</span>. Les rubriques, toujours les mêmes, se lisent dans cet ordre :</p>
+<p>Chaque cas a une carte FR/EN : <code>card.yaml</code> dans le dossier du cas (pour le cas 0, <code>docs/cartes/0.yaml</code>). Les planches remises en cours en montrent une par cas <span title="planches-pommes-cas-2026">POMMES et les cas d'étude 2026 : fil rouge « même installation, plusieurs futurs », les onze cas en deux vagues, jeux de prix publiés (remis en cours)</span>. Les rubriques, toujours les mêmes, se lisent dans cet ordre :</p>
 <ol>
 <li><strong>question</strong> : ce à quoi le groupe répond vendredi. Si elle ne vous parle pas, passez au cas suivant.</li>
 <li><strong>resume</strong> : le modèle en quelques phrases, ce qui est fixé, ce que le solveur choisit. Cas A : un nœud, une flotte de batteries face au prix horaire français.</li>
@@ -276,7 +283,7 @@ relie son mini-projet à un second plutôt que de finir plus tôt.</p>
 <p>À deux, une personne tient deux rôles ; chacun a un nom vendredi.</p>
 <h2>Deux conseils</h2>
 <p><strong>Premier contact avec pommes : un cas de vague 1.</strong> Les cas 0, A et E sont de niveau découverte. Les cartes A et E disent qu'« aucune connaissance de pommes n'est supposée » ; le cas 0 est sans optimisation, Python et pandas suffisent. Le notebook tourne en quelques minutes au plus sur un portable ; pour A et E, la page « jouer » montre le verdict sans écrire une ligne. Le temps restant va à une variante, qui vaut plus qu'un modèle inachevé.</p>
-<p><strong>Un cas de vague 2 seulement si le groupe a déjà un N3.</strong> Les cas G à L demandent bien plus de travail qu'un cas de vague 1, et les cas prévus un modèle à construire. La carte G demande d'être « à l'aise avec les modèles pommes (cas A ou F déjà faits) ». La carte I dit qu'avoir fait le cas D « aide beaucoup ». Si personne dans le groupe n'a construit sa propre variante d'un modèle (palier N3), la semaine passera à faire tourner le modèle, sans verdict vendredi. Prenez alors le cas de vague 1 voisin : D avant I, A ou F avant G.</p>
+<p><strong>Un cas de vague 2 seulement si le groupe a déjà un N3.</strong> Les cas G à N demandent bien plus de travail qu'un cas de vague 1. La carte G demande d'être « à l'aise avec les modèles pommes (cas A ou F déjà faits) ». La carte I dit qu'avoir fait le cas D « aide beaucoup ». Si personne dans le groupe n'a construit sa propre variante d'un modèle (palier N3), la semaine passera à faire tourner le modèle, sans verdict vendredi. Prenez alors le cas de vague 1 voisin : D avant I, A ou F avant G.</p>
 <h2>Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous avez rempli le tableau question / modèle / jeux de prix / niveau / une piste pour deux cartes, l'une de vague 1, l'autre de vague 2.</li>

@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stocker la chaleur dans l'industrie : comment ça marche, ce que ça coûte, où on en est · Parcours ES 2026</title>
+<meta name="description" content="Comment une batterie de chaleur charge une masse (briques, roche, sable, sel fondu) aux heures d'électricité bon marché et rend de la vapeur, avec 90 à 98 % de rendement ; les neuf familles de techniques et leurs températures ; pourquoi la capacité coûte peu (50 à 200 €/kWh installé, 5 à 10 fois moins qu'une batterie) alors que la chaleur livrée reste chère (électricité et tarif de réseau) ; des TRL à lire avec leur auteur et leur date ; et ce que ça change pour le cas E : chaudière surdimensionnée, puissance souscrite, concurrence de l'hybride gaz-électricité.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Stocker la chaleur dans l'industrie : comment ça marche, ce que ça coûte, où on en est</h1>
+    <p class="resume">Comment une batterie de chaleur charge une masse (briques, roche, sable, sel fondu) aux heures d'électricité bon marché et rend de la vapeur, avec 90 à 98 % de rendement ; les neuf familles de techniques et leurs températures ; pourquoi la capacité coûte peu (50 à 200 €/kWh installé, 5 à 10 fois moins qu'une batterie) alors que la chaleur livrée reste chère (électricité et tarif de réseau) ; des TRL à lire avec leur auteur et leur date ; et ce que ça change pour le cas E : chaudière surdimensionnée, puissance souscrite, concurrence de l'hybride gaz-électricité.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-E">Mener le mini-projet du cas E : la vapeur d'une usine, électrique, au gaz, ou les deux ?</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Une usine a besoin de vapeur jour et
+nuit. L’électricité, elle, est très bon marché certaines heures et très
+chère d’autres. Peut-on faire de la chaleur avec l’électricité des
+heures creuses et la rendre au procédé plus tard, et à quel prix ?</p>
+<p><strong>La réponse, en trois phrases.</strong> Oui : un
+<strong>stockage de chaleur</strong> chauffe une masse (briques, roche,
+sable, sel fondu) avec des résistances électriques quand le courant est
+bon marché, puis rend de la vapeur ou de l’air chaud à la demande, et 90
+à 98 % de l’électricité ressort en chaleur. La capacité de stockage
+coûte peu, de 50 à 200 € ou $ par kWh pour un système installé, cinq à
+dix fois moins qu’une batterie électrique. Mais le coût de la chaleur
+livrée dépend surtout du prix de l’électricité et du tarif de réseau, si
+bien que le gaz reste souvent moins cher, et les premières installations
+industrielles n’ont que deux ou trois ans.</p>
+<p><strong>Le plan.</strong> La section 2 définit les notions, la
+section 3 dit à quoi sert un stockage de chaleur. Les sections 4 à 7
+présentent les techniques, leurs rendements, leurs coûts et leur
+maturité. La section 8 corrige des idées reçues, la section 9 dit ce que
+cela change pour le mini-projet sur la vapeur d’une usine. Combien de
+chaleur consomme l’industrie, et à quelle température : voir <a
+href="note-chaleur-usines.html">La chaleur des usines</a>.</p>
+<h2 id="les-notions">2. Les notions</h2>
+<p><strong>Batterie de chaleur.</strong> Un réservoir isolé qui garde de
+la chaleur pour la rendre plus tard. Chargé avec de l’électricité, on
+l’appelle aussi <strong>stockage électrothermique</strong> (en anglais
+<em>electrothermal energy storage</em>, ETES) : il entre de
+l’électricité, il sort de la chaleur.</p>
+<p><strong>Trois façons de stocker.</strong></p>
+<ul>
+<li><strong>Chaleur sensible</strong> : on chauffe une matière sans la
+faire changer d’état. L’énergie stockée vaut Q = m · c · ΔT : la masse,
+fois la capacité thermique de la matière, fois l’écart de température
+entre l’état chargé et l’état déchargé.</li>
+<li><strong>Chaleur latente</strong> : la matière fond à la charge et se
+solidifie à la décharge.</li>
+<li><strong>Thermochimique</strong> : une réaction réversible absorbe la
+chaleur dans un sens et la rend dans l’autre.</li>
+</ul>
+<p><strong>Capacité et puissance.</strong> La <strong>capacité</strong>
+est l’énergie stockée, en MWh de chaleur (MWh_th). La
+<strong>puissance</strong> est le débit de charge ou de décharge, en MW.
+Leur rapport est la <strong>durée</strong>. La batterie d’Epyr à Troyes
+livre 1,3 MW pendant 5 heures, soit environ 6,5 MWh ; celle de Polar
+Night Energy à Pornainen (Finlande) stocke 100 MWh pour 1 MW, soit 100
+heures.</p>
+<p><strong>Rendement.</strong> Le rendement <strong>électricité →
+chaleur</strong> dit quelle part de l’électricité ressort en chaleur
+utile. Le rendement <strong>aller-retour</strong> dit quelle part
+ressort en électricité, si l’on refait du courant avec la chaleur. Un
+kWh de chaleur (kWh_th) n’est pas un kWh d’électricité (kWh_e).</p>
+<p><strong>Coût de capacité et coût de la chaleur.</strong> Le
+<strong>coût de capacité</strong> est l’investissement par kWh stockable
+(€/kWh). Le <strong>coût actualisé de la chaleur</strong> (<em>levelized
+cost of heat</em>, LCOH) est le coût complet d’un MWh de chaleur livré
+(€/MWh) : investissement réparti sur la durée de vie, électricité, tarif
+de réseau, entretien.</p>
+<p><strong>TRL.</strong> Le niveau de maturité technologique
+(<em>technology readiness level</em>) va de 1 (l’idée) à 9 (l’usine
+commerciale qui tourne).</p>
+<h2 id="à-quoi-sert-un-stockage-de-chaleur">3. À quoi sert un stockage
+de chaleur</h2>
+<p><strong>Profiter des heures bon marché.</strong> En France en 2025,
+le prix de gros de l’électricité a été négatif pendant 513 heures (RTE,
+2026) et a dépassé 150 €/MWh pendant 278 heures (calcul sur les prix
+horaires publiés par ENTSO-E), pour une moyenne de 61 €/MWh (CRE, 2026).
+Un stockage de chaleur charge aux heures basses et décharge le reste du
+temps : c’est l’<strong>arbitrage</strong> (voir <a
+href="note-marches-elec.html">Les marchés de l’électricité</a>).</p>
+<p>L’écart entre heures basses et heures hautes n’est pas une donnée
+fixe. Il dépend du mix électrique futur et de toutes les autres
+flexibilités (batteries, électrolyseurs, effacements) qui chercheront
+les mêmes heures. Plus il y a de stockages, plus l’écart se
+resserre.</p>
+<p><strong>Se brancher sur un renouvelable dédié.</strong> Un parc
+solaire relié directement à l’usine évite une partie du tarif de réseau.
+Rondo charge ainsi 100 MWh de briques avec un champ solaire de 20 MW en
+Californie, depuis octobre 2025, à la place d’une chaudière à gaz.
+Limite : ce stockage est <strong>journalier</strong>, pas saisonnier. Le
+solaire produit bien plus l’été que l’hiver ; il faut alors une
+chaudière d’appoint.</p>
+<p><strong>Rendre des services au réseau.</strong> Effacement, mécanisme
+de capacité, réserves : ces revenus baissent le coût de la chaleur de 20
+à 40 €/MWh (Systemiq, 2024).</p>
+<p><strong>Récupérer la chaleur perdue.</strong> Un stockage peut aussi
+garder la <strong>chaleur fatale</strong> d’un procédé pour la rendre à
+un autre, sans électricité. Eco-Tech Ceram stocke à 600 °C la chaleur
+des fours de tuileries pour leurs séchoirs.</p>
+<p><strong>Ce que ce n’est pas.</strong> Refaire de l’électricité avec
+la chaleur stockée ne rend que 44 à 47 % de l’électricité (Systemiq,
+2024 ; DOE, 2023 ; RTC/Brattle, 2023). C’est un autre métier, qui se
+compare à une batterie, pas à une chaudière.</p>
+<h2 id="les-familles-de-techniques">4. Les familles de techniques</h2>
+<p>Toutes suivent le même schéma. L’électricité entre, en général par
+des résistances. Une masse garde la chaleur dans une enceinte isolée. Un
+fluide (air, eau-vapeur, huile) la traverse et emporte la chaleur vers
+le procédé.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Famille</th>
+<th>Principe</th>
+<th>Température de la masse</th>
+<th>Chaleur livrée</th>
+<th>Exemple en service</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Briques + air</td>
+<td>résistances dans un empilement de briques, air soufflé dans les
+canaux</td>
+<td>plus de 1 000 °C</td>
+<td>air chaud, vapeur jusqu’à 100 bar</td>
+<td>Rondo (États-Unis), 100 MWh, 2025 ; Epyr (France), 6,5 MWh,
+2026</td>
+</tr>
+<tr class="even">
+<td>Briques conductrices</td>
+<td>le courant traverse la brique elle-même</td>
+<td>jusqu’à 1 800 °C</td>
+<td>air de 200 à 1 500 °C</td>
+<td>Electrified Thermal Solutions (États-Unis), 20 MWh, 2026</td>
+</tr>
+<tr class="odd">
+<td>Roche ou béton + tubes</td>
+<td>la vapeur naît dans un tube noyé dans la masse</td>
+<td>390 à 750 °C</td>
+<td>vapeur, huile</td>
+<td>EnergyNest (Norvège), 4 MWh chez Yara, 2023</td>
+</tr>
+<tr class="even">
+<td>Sable</td>
+<td>sable fluidisé par de l’air, ou silo</td>
+<td>400 à 600 °C</td>
+<td>vapeur de 120 à 400 °C</td>
+<td>Magaldi (Italie), 7,5 MWh, 2025</td>
+</tr>
+<tr class="odd">
+<td>Sels fondus</td>
+<td>le sel passe d’une cuve froide à une cuve chaude</td>
+<td>290 à 565 °C ; 700 °C</td>
+<td>vapeur</td>
+<td>Kyoto Group (Norvège), 56 MWh en Hongrie, 2025</td>
+</tr>
+<tr class="even">
+<td>Très haute température</td>
+<td>du carbone incandescent rend sa chaleur en rayonnement</td>
+<td>jusqu’à 2 400 °C</td>
+<td>chaleur, ou électricité</td>
+<td>Antora (États-Unis), 5 GWh, 2026</td>
+</tr>
+<tr class="odd">
+<td>Changement de phase</td>
+<td>un alliage d’aluminium fond et se solidifie</td>
+<td>577 °C</td>
+<td>vapeur</td>
+<td>MGA Thermal (Australie), démonstrateur de 5 MWh</td>
+</tr>
+<tr class="even">
+<td>Vapeur et eau</td>
+<td>vapeur sous pression ; cuves et fosses d’eau chaude</td>
+<td>255 °C ; moins de 100 °C</td>
+<td>vapeur ; eau chaude</td>
+<td>technique centenaire ; réseaux de chaleur danois</td>
+</tr>
+<tr class="odd">
+<td>Thermochimique</td>
+<td>réaction réversible d’oxydes ou de sels</td>
+<td>500 à 900 °C</td>
+<td>—</td>
+<td>pilotes seulement</td>
+</tr>
+</tbody>
+</table>
+<p><em>Températures annoncées par les fournisseurs. Sources :
+RTC/Brattle (2023), IRENA (2020), DLR (2021), ARENA (2025), communiqués
+des industriels.</em></p>
+<p>Les familles les plus avancées pour l’industrie sont les solides
+chauffés par résistance et les sels fondus, hérités des centrales
+solaires à concentration.</p>
+<figure>
+<img
+src="img/note-stocker-chaleur/Industry/Chaleur_industrielle/output/editorial/technologies_temperature.png"
+alt="Plages de température des techniques électriques de chaleur à l’horizon 2035 : le stockage thermique monte jusqu’à 1 500 °C (d’après Fraunhofer ISI pour Agora Industry, 2024)" />
+<figcaption aria-hidden="true">Plages de température des techniques
+électriques de chaleur à l’horizon 2035 : le stockage thermique monte
+jusqu’à 1 500 °C (d’après Fraunhofer ISI pour Agora Industry,
+2024)</figcaption>
+</figure>
+<p><strong>La température de la masse n’est pas celle de la chaleur
+livrée.</strong> Magaldi chauffe son sable jusqu’à 620 °C et livre de la
+vapeur à 195 °C. Systemiq écrit que le stockage électrothermique est
+commercial « jusqu’à 400 °C » de chaleur livrée ; RTC/Brattle, « jusqu’à
+750 °C » de stockage. Les deux sont justes.</p>
+<p><strong>Stocker plus chaud, c’est stocker plus dans moins de
+matière.</strong> D’après Q = m · c · ΔT, monter la masse à 1 000 °C
+pour un procédé qui veut de la vapeur à 150 °C agrandit l’écart utile,
+donc réduit la matière à acheter. En échange, l’isolation et les
+matériaux sont plus exigeants. Pour fixer les idées, un sel fondu stocke
+environ 200 kWh par m³ pour 250 °C d’écart (DLR, 2021), un accumulateur
+de vapeur environ 40 kWh par m³ à 30 bar (SINTEF/AIT, 2019).</p>
+<h2 id="rendement-et-pertes">5. Rendement et pertes</h2>
+<p><strong>Électricité → chaleur : 90 à 98 %</strong> (Systemiq, 2024 ;
+LDES Council, 2022 ; RTC/Brattle, 2023). Une résistance convertit
+presque toute l’électricité en chaleur ; les pertes viennent du stockage
+et de l’échangeur.</p>
+<p><strong>Pertes à l’arrêt : environ 1 % par jour</strong> pour une
+grande unité (Agora, 2024) ; une étude du NREL prend 3 % sur 24 heures
+(Wikoff et al., 2025). Le démonstrateur australien de MGA Thermal (5
+MWh) a mesuré une perte d’environ 70 kW, 14 % de sa puissance de charge
+de 500 kW (ARENA, 2025). Une petite unité perd beaucoup plus qu’une
+grande, parce que sa surface est grande devant son volume.</p>
+<h2 id="ce-que-ça-coûte">6. Ce que ça coûte</h2>
+<h3 id="la-capacité-linvestissement-par-kwh-stockable">6.1 La capacité :
+l’investissement par kWh stockable</h3>
+<p>Les chiffres publiés s’étalent sur deux ordres de grandeur, sans que
+personne se trompe : ils ne chiffrent pas le même périmètre. Le
+<strong>bloc de stockage seul</strong> (la matière et son isolation)
+coûte quelques dollars par kWh. Le <strong>système installé</strong>
+ajoute les résistances, le générateur de vapeur, l’ingénierie et la
+pose.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Ce qu’on chiffre</th>
+<th>Valeur</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bloc de briques seul (modèle)</td>
+<td>4,55 $/kWh_th, plus 20,67 $/kW de charge et 6,47 $/kW de
+décharge</td>
+<td>Wikoff et al. (NREL), 2025</td>
+</tr>
+<tr class="even">
+<td>Sable en silo (potentiel)</td>
+<td>environ 2 $/kWh_th</td>
+<td>DOE, 2023</td>
+</tr>
+<tr class="odd">
+<td>Stockage latent pour la vapeur, stockage seul</td>
+<td>24,4 €/kWh</td>
+<td>SINTEF/AIT, 2019</td>
+</tr>
+<tr class="even">
+<td>Grand stockage à sels fondus</td>
+<td>15 à 80 €/kWh_th</td>
+<td>DLR, 2021</td>
+</tr>
+<tr class="odd">
+<td>Systèmes français air/solide, huile/solide, cuve d’eau</td>
+<td>61 à 67,5 ; 49 ; 60 €/kWh (2030)</td>
+<td>ATEE/ADEME, PEPS5, 2023</td>
+</tr>
+<tr class="even">
+<td>Système complet avec chaudière électrique (0,5 GWh, 30 MW)</td>
+<td>environ 60 $/kWh_th</td>
+<td>LDES Council/McKinsey, 2022</td>
+</tr>
+<tr class="odd">
+<td>Coût installé annoncé par les fournisseurs américains</td>
+<td>85 à 210 $/kWh (2025), 40 à 110 (2030), 20 à 55 (2035)</td>
+<td>RTC/Brattle, 2023</td>
+</tr>
+</tbody>
+</table>
+<p><strong>L’ordre de grandeur à retenir.</strong> Un système installé
+coûte aujourd’hui de 50 à 200 € ou $ par kWh, et les fournisseurs
+attendent une baisse d’un facteur 2 à 4 d’ici 2035. C’est 5 à 10 fois
+moins qu’une batterie électrochimique au kWh (Agora, 2024). La facture
+n’est pas dans la matière, mais dans l’enceinte, la charge électrique,
+le générateur de vapeur et l’intégration à l’usine.</p>
+<h3 id="la-chaleur-livrée-le-coût-actualisé-lcoh">6.2 La chaleur livrée
+: le coût actualisé (LCOH)</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Cas</th>
+<th>Stockage électrothermique</th>
+<th>Chaudière à gaz</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>France, 2023, charge 6 h par jour</td>
+<td><strong>212 €/MWh</strong> (électricité 159, investissement 21,
+réseau 31)</td>
+<td>120 (moyenne UE)</td>
+<td>Systemiq, 2024</td>
+</tr>
+<tr class="even">
+<td>France, 2030, même cas</td>
+<td><strong>120 €/MWh</strong> (67 + 17 + 34)</td>
+<td>72 (UE)</td>
+<td>Systemiq, 2024</td>
+</tr>
+<tr class="odd">
+<td>Renouvelable dédié, UE, 2030</td>
+<td>52 €/MWh</td>
+<td>72</td>
+<td>Systemiq, 2024</td>
+</tr>
+<tr class="even">
+<td>Texas, 2030</td>
+<td>42 €/MWh</td>
+<td>19</td>
+<td>Systemiq, 2024</td>
+</tr>
+<tr class="odd">
+<td>Renouvelable sur site, CO₂ à 100 $/t, 2022</td>
+<td>30 à 60 $/MWh</td>
+<td>40 à 65</td>
+<td>LDES Council/McKinsey, 2022</td>
+</tr>
+<tr class="even">
+<td>Sud-ouest des États-Unis, 2030, chargé au réseau</td>
+<td>14,7 $/MWh au prix de gros ; <strong>94,8</strong> avec un tarif de
+distribution ancien ; 22,5 avec un tarif « moderne »</td>
+<td>34,6</td>
+<td>RTC/Brattle, 2023</td>
+</tr>
+</tbody>
+</table>
+<p>Trois leçons.</p>
+<ol type="1">
+<li><strong>L’électricité fait le coût.</strong> En France en 2023, 159
+des 212 €/MWh sont de l’électricité, l’investissement n’en fait que 21.
+L’année 2023 suit la crise des prix de 2022 : le même auteur donne 120
+€/MWh en 2030.</li>
+<li><strong>Le tarif de réseau peut tout décider.</strong> RTC/Brattle
+passe de 22,5 à 94,8 $/MWh de chaleur, pour le même stockage, en
+changeant seulement la structure du tarif. Un tarif qui fait payer la
+puissance maximale appelée punit l’usage flexible, qui appelle une forte
+puissance quelques heures (voir <a href="note-tarifs-reseau.html">Les
+tarifs d’accès au réseau</a>).</li>
+<li><strong>Le gaz reste moins cher dans le cas générique</strong>, en
+Europe comme au Texas, sans prix du carbone élevé. Les cas favorables
+cumulent un renouvelable dédié ou des prix très bas, des services au
+réseau et un bon dimensionnement : Systemiq trouve jusqu’à 50 % de
+baisse sur des cas réels optimisés.</li>
+</ol>
+<h2 id="maturité">7. Maturité</h2>
+<p>Un TRL n’a de sens qu’avec son auteur et sa date.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Famille</th>
+<th>Un expert (2024)</th>
+<th>PEPS5 (2023)</th>
+<th>Agora (2024)</th>
+<th>JRC (2024)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Briques et roches + air</td>
+<td>3 à 6 selon le fournisseur</td>
+<td>6 à 9</td>
+<td>7 à 9</td>
+<td>8 à 9</td>
+</tr>
+<tr class="even">
+<td>Béton + tubes</td>
+<td>6</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Sable</td>
+<td>5</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Sels fondus</td>
+<td>5</td>
+<td>—</td>
+<td>7 à 9</td>
+<td>8 à 9</td>
+</tr>
+<tr class="odd">
+<td>Changement de phase</td>
+<td>« trop cher pour l’instant »</td>
+<td>—</td>
+<td>—</td>
+<td>5 à 9</td>
+</tr>
+<tr class="even">
+<td>Thermochimique</td>
+<td>« trop cher pour l’instant »</td>
+<td>—</td>
+<td>—</td>
+<td>2 à 5, jusqu’à 7</td>
+</tr>
+<tr class="odd">
+<td>Eau (cuves, fosses)</td>
+<td>—</td>
+<td>7 à 9</td>
+<td>—</td>
+<td>8 à 9</td>
+</tr>
+</tbody>
+</table>
+<p><em>Systemiq (février 2024) place l’ensemble en début de phase
+commerciale (TRL 7), avec plus de 40 fournisseurs.</em></p>
+<ul>
+<li><strong>Les notes de l’expert sont celles d’un acheteur
+potentiel</strong> et datent de juin
+<ol start="2024" type="1">
+<li>Depuis, Magaldi, Rondo, Electrified Thermal Solutions, Epyr et
+Antora ont mis en service des installations industrielles (septembre
+2025 à mai 2026). Le TRL 3 donné à Electrified Thermal Solutions est
+donc dépassé.</li>
+</ol></li>
+<li><strong>Les TRL élevés des synthèses</strong> (Agora, JRC) mélangent
+des techniques mûres (eau chaude, sels fondus du solaire) et des
+batteries de chaleur récentes.</li>
+<li><strong>Les abandons comptent.</strong> Siemens Gamesa arrête en
+2022 son démonstrateur de 130 MWh de roche à Hambourg, faute de marché ;
+Stiesdal abandonne GridScale en 2023 ; Azelio fait faillite en 2023 ;
+Lumenion est en procédure d’insolvabilité depuis 2025. Les trois
+premiers visaient à refaire de l’électricité.</li>
+<li><strong>Ce qui reste à prouver</strong>, selon un expert en 2024 :
+la continuité de la vapeur au moment des bascules (un procédé chimique
+ne tolère pas deux ou trois minutes sans chaleur), la tenue des
+matériaux à un cycle par jour pendant des années, et la confiance des
+exploitants.</li>
+</ul>
+<h2 id="quelques-idées-reçues">8. Quelques idées reçues</h2>
+<ol type="1">
+<li><strong>« La batterie d’Epyr produit de la chaleur à 40-50 €/MWh.
+»</strong> Non : c’est le prix de l’électricité sous lequel elle devient
+compétitive face à un gaz à 20-25 €/MWh (Révolution Énergétique,
+2026).</li>
+<li><strong>« Rondo livre la chaleur à 30 $/MWh. »</strong> C’est un
+objectif de coût du <em>service de stockage</em>, pas de la chaleur
+livrée, et le client actuel n’en est pas près selon le dirigeant (Canary
+Media, 2025).</li>
+<li><strong>« Un stockage à 50 €/kWh fait de la chaleur à 50 €/MWh.
+»</strong> Un coût de capacité et un coût de chaleur ne se comparent
+pas. Un kWh électrique et un kWh de chaleur non plus : le DOE chiffre
+les sels fondus à 88 $ par kWh <em>électrique</em> restitué par turbine
+(DOE, 2023).</li>
+<li><strong>« Le stockage de chaleur existe déjà en masse. »</strong> Le
+monde en comptait environ 234 GWh fin 2019, surtout de l’eau chaude pour
+les réseaux de chaleur et les sels fondus des centrales solaires. Le
+stockage haute température pour l’industrie était alors proche de zéro
+(IRENA, 2020).</li>
+<li><strong>« Le marché est de 3 100 TWh d’ici 2030. »</strong> C’est un
+potentiel calculé par Systemiq (2024) pour la chaleur sous 400 °C, pas
+une prévision de ventes.</li>
+</ol>
+<h2
+id="ce-que-ça-change-pour-le-mini-projet-sur-la-vapeur-dune-usine">9. Ce
+que ça change pour le mini-projet sur la vapeur d’une usine</h2>
+<p>Le cas du cours part d’une usine dont la chaudière à gaz arrive en
+fin de vie. Il compare le gaz, la chaudière électrique seule, la
+chaudière électrique avec un stockage de chaleur, et
+l’<strong>hybride</strong> : les deux chaudières, choisies heure par
+heure selon le prix. Cinq clés pour lire ses résultats.</p>
+<ol type="1">
+<li><strong>Avec un stockage, la chaudière électrique dépasse le
+besoin.</strong> Pour remplir le stock pendant les quelques heures bon
+marché, il faut charger plus vite que l’usine ne consomme. Regardez
+toujours la puissance (MW) à côté de la capacité (MWh).</li>
+<li><strong>Cette puissance se paie au réseau.</strong> Un coût de
+puissance souscrite (la puissance réservée auprès du gestionnaire de
+réseau) pénalise précisément la chaudière surdimensionnée et fait
+redescendre la taille du stock.</li>
+<li><strong>Le coût de capacité compte moins que le prix de
+l’électricité.</strong> Le cas prend un stockage bon marché, 24,4 €/kWh
+(stockage seul, SINTEF/AIT, 2019) ; un système installé coûte plutôt 50
+à 200 €/kWh. Faites varier ce chiffre et comparez son effet à celui des
+séries de prix.</li>
+<li><strong>L’hybride est un concurrent direct du stockage.</strong>
+Garder la chaudière à gaz à côté de la chaudière électrique donne déjà
+une grande part de la flexibilité, sans rien stocker. Un stockage ne
+gagne que s’il apporte plus que cela.</li>
+<li><strong>Le gain dépend d’un écart de prix qui peut se
+refermer.</strong> Le stockage déplace la chaleur de quelques heures,
+pas d’une saison, et plus il y aura de flexibilités, plus l’écart entre
+heures basses et hautes risque de se resserrer. Relisez un résultat sous
+plusieurs futurs de prix.</li>
+</ol>
+<p>Pour la pompe à chaleur haute température, autre option du cas, voir
+<a href="note-chaleur-usines.html">La chaleur des usines</a> ; pour les
+taxes sur l’électricité et le gaz, <a href="note-taxes-energie.html">Les
+taxes sur l’énergie</a>.</p>
+<h2 id="ce-quil-faut-retenir">10. Ce qu’il faut retenir</h2>
+<p><strong>La technique n’est plus le premier verrou.</strong> Solides
+chauffés par résistance et sels fondus ont des installations
+industrielles depuis 2023-2026, du mégawattheure au gigawattheure. Ils
+rendent 90 à 98 % de l’électricité en chaleur et perdent environ 1 % par
+jour à grande échelle.</p>
+<p><strong>La capacité est bon marché, la chaleur ne l’est pas.</strong>
+Un système installé coûte 50 à 200 € ou $ par kWh, 5 à 10 fois moins
+qu’une batterie. Mais la chaleur livrée coûte surtout son électricité et
+son réseau ; le tarif d’acheminement peut quadrupler ce coût, et le gaz
+reste moins cher dans les cas génériques européens.</p>
+<p><strong>Une maturité se lit avec une date et un auteur</strong>, et
+la liste des abandons est aussi longue que celle des succès.</p>
+<p><strong>Pour une usine, le stockage ne se juge pas seul.</strong> Il
+se compare à l’hybride gaz-électricité, se dimensionne en puissance
+autant qu’en énergie, et sa valeur dépend d’un écart de prix que les
+autres flexibilités viendront réduire.</p>
+<h2 id="sources">11. Sources</h2>
+<ul>
+<li>Agora Industry et Fraunhofer ISI, <em>Direct electrification of
+industrial process heat</em>, 2024, § 3.1.8 et tableau 9, <a href="https://www.agora-industry.org" target="_blank" rel="noopener"
+class="uri">https://www.agora-industry.org</a>.</li>
+<li>ARENA et MGA Thermal, <em>Thermal Energy Storage Project, Final
+Project Knowledge Sharing Report</em>, 2025, <a href="https://arena.gov.au/assets/2025/10/MGA-Thermal-Thermal-Energy-Storage-Project-Final-Project-Knowledge-Sharing-Report.pdf" target="_blank" rel="noopener"
+class="uri">https://arena.gov.au/assets/2025/10/MGA-Thermal-Thermal-Energy-Storage-Project-Final-Project-Knowledge-Sharing-Report.pdf</a>.</li>
+<li>ATEE, ADEME et DGEC, <em>Étude PEPS5 sur l’intérêt du stockage
+d’énergie et du power-to-X</em>, 2023, tableaux 18 à 35.</li>
+<li>Bauer T., Odenthal C., Bonk A. (DLR), « Molten Salt Storage for
+Power Generation », <em>Chemie Ingenieur Technik</em> 93 (2021), <a href="https://elib.dlr.de/141650/" target="_blank" rel="noopener"
+class="uri">https://elib.dlr.de/141650/</a>.</li>
+<li>Canary Media, article sur Rondo, 22 octobre 2025, <a href="https://www.canarymedia.com" target="_blank" rel="noopener"
+class="uri">https://www.canarymedia.com</a>.</li>
+<li>CRE, <em>Rapport de surveillance des marchés de gros 2025</em>,
+2026.</li>
+<li>ENTSO-E, plateforme de transparence, prix day-ahead horaires de la
+France, 2025, <a href="https://transparency.entsoe.eu" target="_blank" rel="noopener"
+class="uri">https://transparency.entsoe.eu</a>.</li>
+<li>IRENA, <em>Innovation Outlook: Thermal Energy Storage</em>, 2020, <a href="https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2020/Nov/IRENA_Innovation_Outlook_TES_2020.pdf" target="_blank" rel="noopener"
+class="uri">https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2020/Nov/IRENA_Innovation_Outlook_TES_2020.pdf</a>.</li>
+<li>JRC, <em>Clean Energy Technology Observatory: Novel Energy Storage
+Technologies in the EU</em>, EUR 40077, 2024, <a href="https://publications.jrc.ec.europa.eu/repository/bitstream/JRC139267/JRC139267_01.pdf" target="_blank" rel="noopener"
+class="uri">https://publications.jrc.ec.europa.eu/repository/bitstream/JRC139267/JRC139267_01.pdf</a>.</li>
+<li>LDES Council et McKinsey, <em>Net-zero heat: Long Duration Energy
+Storage to accelerate energy system decarbonization</em>, 2022, <a href="https://ldescouncil.com/wp-content/uploads/2025/05/221108_NZH_LDES-brochure.pdf" target="_blank" rel="noopener"
+class="uri">https://ldescouncil.com/wp-content/uploads/2025/05/221108_NZH_LDES-brochure.pdf</a>.</li>
+<li>Révolution Énergétique, article sur Epyr, 2 juin 2026, <a href="https://www.revolution-energetique.com" target="_blank" rel="noopener"
+class="uri">https://www.revolution-energetique.com</a>.</li>
+<li>RTC et The Brattle Group, <em>Thermal Batteries: Opportunities to
+Accelerate Decarbonization of Industrial Heat</em>, 2023, tableaux 1, 3
+et 4, <a href="https://www.brattle.com/wp-content/uploads/2023/10/Thermal-Batteries-Opportunities-to-Accelerate-Decarbonization-of-Industrial-Heat.pdf" target="_blank" rel="noopener"
+class="uri">https://www.brattle.com/wp-content/uploads/2023/10/Thermal-Batteries-Opportunities-to-Accelerate-Decarbonization-of-Industrial-Heat.pdf</a>.</li>
+<li>RTE, <em>Bilan électrique 2025</em>, 2026, p. 68.</li>
+<li>SINTEF et AIT (Kauko H., Drexler-Schmid G.), <em>Thermal storage for
+improved utilization of renewable energy in steam production</em>,
+HighEFF, 2019, <a href="https://www.sintef.no/globalassets/project/higheff/2019-05-08_higheff-acm_kauko_tes-for-re.pdf" target="_blank" rel="noopener"
+class="uri">https://www.sintef.no/globalassets/project/higheff/2019-05-08_higheff-acm_kauko_tes-for-re.pdf</a>.</li>
+<li>Systemiq, <em>Catalysing the global opportunity for electrothermal
+energy storage</em>, avec Breakthrough Energy, 2024, fig. 7 et 8.</li>
+<li>US DOE, <em>Thermal Energy Storage Technology Strategy
+Assessment</em> (DOE/OE-0038), 2023, <a href="https://www.energy.gov/sites/default/files/2023-09/9_Technology%20Strategy%20Assessment%20-%20%239%20Thermal%20Energy%20Storage_508.pdf" target="_blank" rel="noopener"
+class="uri">https://www.energy.gov/sites/default/files/2023-09/9_Technology%20Strategy%20Assessment%20-%20%239%20Thermal%20Energy%20Storage_508.pdf</a>.</li>
+<li>Wikoff H.M. et al. (NREL), « Benchmarking thermal energy storage
+cost for industrial process heat », <em>Applied Energy</em> 402 (2025)
+126873, <a href="https://www.osti.gov/pages/servlets/purl/3013276" target="_blank" rel="noopener"
+class="uri">https://www.osti.gov/pages/servlets/purl/3013276</a>.</li>
+<li>Projets industriels (Rondo, Epyr, Electrified Thermal Solutions,
+EnergyNest, Magaldi, Kyoto Group, Antora, Polar Night Energy, Eco-Tech
+Ceram) : communiqués des entreprises et de leurs clients, 2023 à
+2026.</li>
+</ul>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">12. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=ffsYnyO5gI8" target="_blank" rel="noopener">Chaleur dans
+l’industrie 5/6 — stocker la chaleur : briques, sable, sel, carbone</a>
+(vidéo, 2 min ; <a href="https://www.youtube.com/playlist?list=PLO-KsgcJFJI0" target="_blank" rel="noopener">la série «
+Décarbonation de la chaleur dans l’industrie »</a>) : les techniques de
+stockage de chaleur : briques, sable, sel fondu, carbone.</li>
+<li><a href="https://www.youtube.com/watch?v=Ay30-EKRk7U" target="_blank" rel="noopener">Chaleur dans
+l’industrie 6/6 — brancher l’usine au réseau, et garder le gaz à côté de
+l’électricité</a> (vidéo, 2 min) : le raccordement de l’usine au réseau
+et l’intérêt de garder le gaz à côté de l’électricité, deux questions
+qui décident aussi d’un stockage.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Stocker_chaleur.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-chaleur-usines.html">La chaleur des usines : combien, à quelle température, et ce que l'électricité peut en faire</a></li><li><a href="note-taxes-energie.html">Les taxes sur l'énergie : qui paie quoi, et quel signal prix entre les énergies</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#les-notions">2. Les notions</a></li><li><a href="#à-quoi-sert-un-stockage-de-chaleur">3. À quoi sert un stockage de chaleur</a></li><li><a href="#les-familles-de-techniques">4. Les familles de techniques</a></li><li><a href="#rendement-et-pertes">5. Rendement et pertes</a></li><li><a href="#ce-que-ça-coûte">6. Ce que ça coûte</a></li><li><a href="#maturité">7. Maturité</a></li><li><a href="#quelques-idées-reçues">8. Quelques idées reçues</a></li><li><a href="#ce-que-ça-change-pour-le-mini-projet-sur-la-vapeur-dune-usine">9. Ce que ça change pour le mini-projet sur la vapeur d’une usine</a></li><li><a href="#ce-quil-faut-retenir">10. Ce qu’il faut retenir</a></li><li><a href="#sources">11. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">12. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

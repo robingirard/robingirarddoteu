@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jouer avec les pages des cas A à E · Parcours ES 2026</title>
+<meta name="description" content="Où ouvrir les cinq pages des cas prêts, quels boutons bouger, quelles valeurs relever, et ce que vous devez trouver pour les cas E et A.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Socle, Flexibilité, Demande, Hydrogène, Industrie</span></div>
+    <h1>Jouer avec les pages des cas A à E</h1>
+    <p class="resume">Où ouvrir les cinq pages des cas prêts, quels boutons bouger, quelles valeurs relever, et ce que vous devez trouver pour les cas E et A.</p>
+  </header>
+  <h2>Objectif</h2>
+<p>En vingt minutes et sans code, lire le verdict d'un cas POMMES et le voir changer avec le jeu de prix, l'année ou le prix du CO₂. C'est le fil rouge du cours : même installation, plusieurs futurs. Vous l'avez déjà construit vous-même à l'étape 8 du notebook du socle, en relançant votre premier modèle sous plusieurs jeux de prix : chaque curseur de ces pages correspond à un geste que vous savez faire dans le code.</p>
+<p>Prérequis : avoir relancé son premier modèle sous plusieurs jeux de prix (bloc 8 de <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a>) et savoir ce qui les fait diverger : gaz, CO₂, parc, demande, météo <a href="https://www.energy-alternatives.eu/cas/etage1-tyndp2026.html" target="_blank" rel="noopener">Prix de l'électricité et de l'hydrogène en Europe en 2030, 2035 et 2040 : POMMES sur les scénarios du TYNDP 2026</a>.</p>
+<h2>Où ouvrir les pages</h2>
+<p>Chaque cas prêt a sa page « jouer », servie par le site du parcours (onglet Outils, ou lien « Page « jouer » » sur la carte du cas dans l'onglet Mini-projets). Elle s'ouvre dans le navigateur, sans installation ni compte, en français ou en anglais (bouton en haut à droite). Cette activité s'en tient aux cas A à E. Notez le commit et la date du pied de page : ils datent vos relevés.</p>
+<table>
+<thead>
+<tr>
+<th>Cas</th>
+<th>Dossier du dépôt</th>
+<th>Page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A, batteries</td>
+<td><code>A_batteries</code></td>
+<td><a href="../jouer/A.html">ouvrir la page</a></td>
+</tr>
+<tr>
+<td>B, VE pilotés</td>
+<td><code>B_ve_pilotes</code></td>
+<td><a href="../jouer/B.html">ouvrir la page</a></td>
+</tr>
+<tr>
+<td>C, pointe d'hiver</td>
+<td><code>C_thermosensibilite</code></td>
+<td><a href="../jouer/C.html">ouvrir la page</a></td>
+</tr>
+<tr>
+<td>D, électrolyseur</td>
+<td><code>D_electrolyseur</code></td>
+<td><a href="../jouer/D.html">ouvrir la page</a></td>
+</tr>
+<tr>
+<td>E, vapeur à 180 °C</td>
+<td><code>E_vapeur</code></td>
+<td><a href="../jouer/E.html">ouvrir la page</a></td>
+</tr>
+</tbody>
+</table>
+<p>Le cas 0 a aussi sa page (<a href="../jouer/0.html">ouvrir</a>) ; sa figure <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/00_prix/figures/divergence_fr.png?inline=false" target="_blank" rel="noopener">divergence_fr.png</a> met côte à côte les quatre jeux de prix que les autres pages consomment, en entier (A, D, E) ou en partie (B, C) : accordés en 2030, divergents en 2040 <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a>.</p>
+<p>Chaque page porte le badge « Cas d'école, pas une prévision ». Prenez-le au mot : usine archétype, batterie sans services système, prix sortis d'un modèle. Les pages montrent comment un verdict dépend de ses hypothèses.</p>
+<h2>Quoi relever sur chaque page</h2>
+<p>Même structure partout : des boutons, un graphique, un encadré qui écrit le verdict en une phrase, et en bas le tableau des hypothèses avec source et statut. Relevez l'encadré, pas le graphique.</p>
+<table>
+<thead>
+<tr>
+<th>Cas</th>
+<th>Boutons</th>
+<th>Ce que l'encadré écrit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E</td>
+<td>année, CO₂ payé (ETS2 45 €/t, SEQE du scénario, aucun), coût du stockage</td>
+<td>le moins cher par jeu en €/MWh de vapeur, électrique ou gaz ; bloc 2 : sur combien de séries</td>
+</tr>
+<tr>
+<td>A</td>
+<td>année, durée, coût de la batterie, heures au plafond ; bloc 2 : curseur de pente s</td>
+<td>séries qui couvrent le coût ; bloc 2 : jusqu'à combien de GW chaque jeu reste rentable</td>
+</tr>
+<tr>
+<td>B</td>
+<td>année ; bloc 2 : profondeur des échanges</td>
+<td>gain du pilotage par voiture et par an ; bloc 2 : heures sous 10 €/MWh à 0, 16,6 et 33 millions de voitures</td>
+</tr>
+<tr>
+<td>C</td>
+<td>part du chauffage fossile en PAC, voisins ; bloc 2 : hiver</td>
+<td>surcoût pour le système électrique (énergie, puissance) du moins cher au plus cher des 30 hivers, médiane, puissance manquante, combustible évité</td>
+</tr>
+<tr>
+<td>D</td>
+<td>année, coût de l'électrolyseur ; bloc 2 : part renouvelable exigée</td>
+<td>le moins cher par jeu en €/kg ; bloc 2 : surcoût de la corrélation horaire</td>
+</tr>
+</tbody>
+</table>
+<p>À remplir, une ligne par réglage :</p>
+<table>
+<thead>
+<tr>
+<th>Cas</th>
+<th>Réglage (année, CO₂, pente…)</th>
+<th>Valeur relevée (avec l'unité)</th>
+<th>Qui gagne, en une phrase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E</td>
+<td>2030, ETS2, 61 €/kWh</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>E</td>
+<td>2040, ETS2, 61 €/kWh</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>E</td>
+<td>2040, CO₂ du scénario</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A</td>
+<td>s = 0, coût TYNDP 2030</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A</td>
+<td>s = 1, coût Europe 2025</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>Étapes avec le cas E</h2>
+<ol>
+<li>Réglages par défaut : 2030, ETS2, stockage à 61 €/kWh. Attendu dans l'encadré : hybride gaz-électrique sous TYNDP 2026 NT+ (41 €/MWh), POMMES sur le TYNDP 2026 (43) et fos-sur-mer (30) ; sous TYNDP 2024, gaz seul et hybride à égalité (37). Le gaz bat le tout électrique sous les quatre jeux.</li>
+<li>Passez en 2040. L'hybride gagne partout, de 24 à 35 €/MWh. Un seul jeu voit le tout électrique battre le gaz : POMMES sur le TYNDP 2026, de 6 €/MWh (47 contre 52).</li>
+<li>Bloc 2 : l'électrique bat le gaz dans 2 séries sur 22 en 2030, 13 sur 28 en 2040. Le verdict dépend de la série météo.</li>
+<li>Bloc 1, CO₂ « SEQE : celui du scénario », 2040 : l'électrique gagne sous trois jeux sur quatre, de 45 à 60 €/MWh sous les deux jeux TYNDP 2026 (le gaz y paie 297,5 €/t). Le prix du CO₂ payé par le site décide avant celui de l'électricité.</li>
+</ol>
+<p>Sur les huit couples jeu × année à l'ETS2, l'hybride va de 24,2 à 43,0 €/MWh (results.json et README du dossier <code>E_vapeur</code>).</p>
+<h2>Étapes avec le cas A</h2>
+<ol>
+<li>Bloc 2, « Le n-ième GW », curseur de pente à 0 : la batterie est preneuse de prix. Au coût TYNDP 2030 (34,8 €/kW/an), seul fos-sur-mer est « rentable sans limite » ; les trois autres jeux ne sont « pas rentables dès le premier GW » (TYNDP 2024 34, TYNDP 2026 26, POMMES 19 €/kW/an).</li>
+<li>Coût « Europe 2025 » (25,1 €/kW/an), pente 0 : TYNDP 2024, TYNDP 2026 et fos-sur-mer deviennent rentables sans limite, POMMES non.</li>
+<li>Pente à 1 €/MWh par GW, coût Europe 2025 : TYNDP 2024 rentable jusqu'à 15,1 GW, TYNDP 2026 jusqu'à 0,9 GW, fos-sur-mer au-delà de la grille calculée (40 GW), POMMES toujours pas. Suivez la courbe TYNDP 2026 à l'œil : 25,7 €/kW/an à flotte nulle (le losange du bloc 1), environ 20 au dixième GW, un cinquième de moins. Sans survol, les valeurs exactes (25,0 au premier GW, 19,9 au dixième) viennent de results.json.</li>
+<li>La pente s — de combien le prix baisse par GW de batteries qui déchargent — est calibrée depuis le 17/11 (README du dossier <code>A_batteries</code>) : 1,8 €/MWh par GW par défaut sur la page, fourchette 1,3 à 2,7 (0,3 à 0,8 si les voisins gardent leur prix). Au coût Europe 2025 (25,1 €/kW/an), le TYNDP 2024 rend rentable environ 8 GW de flotte (5 à 11 GW selon la pente dans la fourchette). Doubler s divise toujours par deux les tailles rentables : elles sont inversement proportionnelles à s. Piste de mini-projet : non plus calibrer s, mais refaire la calibration autrement.</li>
+</ol>
+<h2>Et les trois autres pages</h2>
+<p>Cas B, séries centrales : le pilotage gagne 61, 54, 45 et 82 € par voiture et par an selon le jeu en 2030 ; 96, 67, 40 et 79 € en 2040. Bloc 2 : 591 heures sous 10 €/MWh sans voitures, 275 avec les 16,6 millions de voitures pilotées du TYNDP, 64 avec 33 millions. Cas C, 100 % du fossile en PAC, voisins au prix moyen : surcoût de 3,0 Md€/an (WS045) à 10,6 (WS042), médiane 5,8, aux trois quarts de l'énergie, contre 12,0 Md€/an de gaz et de fioul évités ; l'hiver le plus cher n'est pas le plus froid en moyenne (WS060, 9,4). Levier S : chaque GW/°C de thermosensibilité nationale en plus coûte environ 2 Md€/an en médiane autour de 2,2 GW/°C, 4,8 entre 3,85 et 5 GW/°C. Cas D, 2030 : le reformeur gagne partout (2,14 à 2,46 €/kg) ; la corrélation horaire coûte 0,16 à 0,30 €/kg de plus que la mensuelle (results.json des trois dossiers).</p>
+<h2>Questions</h2>
+<ol>
+<li>Cas E, 2040, ETS2 : de combien d'€/MWh le tout électrique bat-il le gaz sous le jeu POMMES ?</li>
+<li>Cas A, coût Europe 2025, pente 1 : quelle taille de flotte reste rentable sous le TYNDP 2024 ? Et à pente 2 ?</li>
+<li>Cas E : sous combien de jeux l'électrique bat-il le gaz en 2040 au CO₂ du scénario, contre combien à l'ETS2 ?</li>
+</ol>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Votre tableau a au moins cinq lignes, chacune avec l'unité et le réglage qui l'a produite.</li>
+<li>Pour le cas E, vous nommez la configuration qui gagne sous tous les jeux (hybride, 24 à 43 €/MWh). Vous nommez aussi le seul couple jeu × année où le tout électrique bat le gaz à l'ETS2 (POMMES sur le TYNDP 2026, 2040).</li>
+<li>Pour le cas A, vous donnez la taille de flotte rentable sous le TYNDP 2024 à pente 0 (sans limite au coût Europe 2025) et à la pente calibrée de la page, 1,8 €/MWh par GW (environ 8 GW, 5 à 11 sur la fourchette 1,3 – 2,7).</li>
+<li>Vous écrivez en une phrase pourquoi ces pages ne sont pas des prévisions.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Cas E, le notebook et le README derrière chaque chiffre <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/E_vapeur" target="_blank" rel="noopener">Cas E — Vapeur à 180 °C : tout électrifier, garder le gaz, ou les deux ?</a> : https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies</li>
+<li>Cas A, batteries au n-ième GW <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a> : dossier <code>A_batteries</code> du même dépôt</li>
+<li>Cas 0, pourquoi les jeux de prix divergent <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a> : dossier <code>00_prix</code></li>
+<li>Les planches du cours, une par cas, remises en séance <span title="planches-pommes-cas-2026">POMMES et les cas d'étude 2026 : fil rouge « même installation, plusieurs futurs », les onze cas en deux vagues, jeux de prix publiés (remis en cours)</span></li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt public pommes-case-studies (README et results.json de chaque cas, commit du 12/11/2026)</a></li><li><a href="../jouer/A.html" target="_blank" rel="noopener">Page « jouer » du cas A</a></li><li><a href="../jouer/B.html" target="_blank" rel="noopener">Page « jouer » du cas B</a></li><li><a href="../jouer/C.html" target="_blank" rel="noopener">Page « jouer » du cas C</a></li><li><a href="../jouer/D.html" target="_blank" rel="noopener">Page « jouer » du cas D</a></li><li><a href="../jouer/E.html" target="_blank" rel="noopener">Page « jouer » du cas E</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/00_prix/figures/divergence_fr.png?inline=false" target="_blank" rel="noopener">Figure du cas 0 : les jeux de prix divergent</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

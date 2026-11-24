@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La règle RFNBO en une page · Parcours ES 2026</title>
+<meta name="description" content="Ce que le règlement délégué (UE) 2023/1184 exige pour qu'un hydrogène produit avec l'électricité du réseau compte comme renouvelable (articles 4 à 7), comment le cas D l'écrit en contraintes avant le solve, et ce que coûte le passage du mois à l'heure en 2030 : 0,24 à 0,31 €/kg (5,0 à 6,8 %).">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 15 min</span> · <span>Hydrogène, Industrie, Optimisation, Modélisation</span></div>
+    <h1>La règle RFNBO en une page</h1>
+    <p class="resume">Ce que le règlement délégué (UE) 2023/1184 exige pour qu'un hydrogène produit avec l'électricité du réseau compte comme renouvelable (articles 4 à 7), comment le cas D l'écrit en contraintes avant le solve, et ce que coûte le passage du mois à l'heure en 2030 : 0,24 à 0,31 €/kg (5,0 à 6,8 %).</p>
+  </header>
+  <p>Un électrolyseur branché au réseau consomme l'électricité qui passe. Pour vendre son hydrogène comme renouvelable, il faut prouver que cette électricité l'était. Le règlement délégué (UE) 2023/1184 complète la directive 2018/2001 (article 27, paragraphe 3). Il dit à quelles conditions « l'électricité prélevée sur le réseau » est « comptabilisée comme entièrement renouvelable ». RFNBO veut dire « carburant renouvelable d'origine non biologique » : hydrogène d'électrolyse et ses dérivés. Le cas D <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a> les traduit en contraintes linéaires et mesure ce que la preuve coûte. Cette page met en face de chaque article la ligne de code qui l'écrit.</p>
+<h2>Article 4 : quatre portes</h2>
+<ol>
+<li>Zone de dépôt des offres à plus de 90 % d'électricité renouvelable l'année précédente : l'électricité compte, dans la limite de 8 760 heures fois cette part.</li>
+<li>Zone sous 18 gCO₂eq/MJ (65 gCO₂eq/kWh) : il faut un contrat d'achat d'électricité renouvelable (PPA) « pour une quantité au moins équivalente à la quantité d'électricité déclarée », et les corrélations temporelle et géographique des articles 6 et 7.</li>
+<li>Heures de redispatching à la baisse de parcs renouvelables, prouvées par des éléments du « gestionnaire de réseau de transport national ».</li>
+<li>Sinon, les trois conditions des articles 5, 6 et 7 : additionnalité, corrélation temporelle, corrélation géographique.</li>
+</ol>
+<p>Le cas D se place à la porte 2 : la France est présumée sous 18 gCO₂eq/MJ (<code>hypotheses.yaml</code>, entrée <code>simplification</code>, statut « choix du cas »).</p>
+<h2>Article 5 : l'additionnalité</h2>
+<p>Pour la porte 4, le PPA ne suffit pas. Les installations renouvelables « ont été mises en service au plus tôt 36 mois avant » l'électrolyseur et n'ont « pas bénéficié d'une aide ». L'électrolyseur doit appeler des capacités neuves, pas capter des parcs existants. Le cas D ne l'écrit pas (porte 2) ; son PPA, dimensionné par pommes, serait neuf par construction.</p>
+<h2>Article 6 : la corrélation temporelle, du mois à l'heure</h2>
+<p>C'est l'article qui coûte. Trois alinéas.</p>
+<ul>
+<li>« Jusqu'au 31 décembre 2029 », l'hydrogène doit être produit « au cours du même mois civil » que l'électricité du PPA.</li>
+<li>« À partir du 1er janvier 2030 », « au cours de la même période d'une heure ». Un État membre peut imposer l'heure dès le 1er juillet 2027.</li>
+<li>Clause de prix bas : la corrélation est « toujours réputée respectée » pendant une heure où le prix du couplage journalier est « inférieur ou égal à 20 EUR par MWh ou inférieur à 0,36 fois le prix d'un quota » de CO₂.</li>
+</ul>
+<p>Le seuil suit le prix du carbone : 0,36 × 97,5 €/t = 35,1 €/MWh dans le TYNDP 2026 pour 2030 ; 40,8 €/MWh à 113,4 €/t (TYNDP 2024) ; 107,1 €/MWh à 297,5 €/t en 2040. Les heures concernées se comptent sur une série de prix du dépôt :</p>
+<pre><code class="language-python">import sys; sys.path.insert(0, &quot;.&quot;)          # racine du dépôt pommes-case-studies
+from pommes_cases import prices
+for jeu, sc, an, meteo, co2 in [(&quot;tyndp2026&quot;, &quot;NT+&quot;, 2030, &quot;WS003&quot;, 97.5),
+                                (&quot;tyndp2024&quot;, &quot;NT&quot;, 2030, &quot;CY2009&quot;, 113.4),
+                                (&quot;tyndp2026&quot;, &quot;NT+&quot;, 2040, &quot;WS071&quot;, 297.5)]:
+    p = prices.load_prices(jeu, sc, &quot;FR&quot;, an, meteo)[&quot;import_price&quot;].to_numpy()
+    bas = (p &lt;= 20) | (p &lt; 0.36 * co2)
+    print(jeu, an, f&quot;seuil {max(20, 0.36 * co2):.1f} €/MWh&quot;, int(bas.sum()), &quot;heures&quot;)
+# tyndp2026 2030 seuil 35.1 €/MWh 2171 heures
+# tyndp2024 2030 seuil 40.8 €/MWh 2520 heures
+# tyndp2026 2040 seuil 107.1 €/MWh 7160 heures
+</code></pre>
+<p>Un quart des heures en 2030, plus de 80 % en 2040 : à CO₂ cher, la clause vide presque la règle horaire.</p>
+<h2>Article 7 : la corrélation géographique</h2>
+<p>Le parc du PPA est dans « la même zone de dépôt des offres que l'électrolyseur » (a). Ou bien il est dans une zone interconnectée dont les prix « sont égaux ou supérieurs » à ceux de la zone de l'électrolyseur pendant l'heure considérée (b), ou dans une zone en mer interconnectée (c). Le cas D prend (a) : PPA en France, rien à écrire.</p>
+<h2>Comment le cas D écrit la règle</h2>
+<p>pommes ne connaît pas la règle. <code>crochet_regle</code> dans <code>model.py</code> l'ajoute au modèle linopy avant la résolution <a href="../textes/txt-crochet-avant-solve.html">Ajouter une contrainte avant le solve : le contrat d'un crochet (solve_with_extra_constraints)</a>. Par site, une variable <code>q_t</code> : l'électricité de l'électrolyseur comptée comme renouvelable à l'heure <code>t</code>. <code>P_t</code> est la production d'hydrogène, <code>R_t</code> celle du PPA (PV et éolien), <code>B</code> les heures de prix bas. <code>i</code> est l'indice du site (0 pour le premier) : c'est le nom complet qu'affiche <code>lp.constraints</code>.</p>
+<table>
+<thead>
+<tr>
+<th>article</th>
+<th>contrainte</th>
+<th>nom dans <code>lp.constraints</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>l'électricité comptée est consommée</td>
+<td><code>q_t ≤ conso × P_t</code></td>
+<td><code>rfnbo_conso_{i}</code></td>
+</tr>
+<tr>
+<td>art. 4(2) a : PPA au moins égal au déclaré</td>
+<td><code>Σ_t q_t ≤ Σ_t R_t</code></td>
+<td><code>rfnbo_volume_{i}</code></td>
+</tr>
+<tr>
+<td>art. 6, 1er alinéa : même mois civil</td>
+<td><code>Σ_{t∈m, t∉B} q_t ≤ Σ_{t∈m} R_t</code> pour chaque mois <code>m</code></td>
+<td><code>rfnbo_mois_{i}</code></td>
+</tr>
+<tr>
+<td>art. 6, 2e alinéa : même heure</td>
+<td><code>q_t ≤ R_t</code> pour chaque <code>t ∉ B</code></td>
+<td><code>rfnbo_heure_{i}</code></td>
+</tr>
+<tr>
+<td>art. 6, 3e alinéa : clause de prix bas</td>
+<td>les heures de <code>B</code> sortent des deux lignes ci-dessus</td>
+<td>(masque)</td>
+</tr>
+<tr>
+<td>part exigée, 100 % ou la part de RED III (42 % en 2030, 60 % en 2040)</td>
+<td><code>Σ_t q_t ≥ conso × part × demande</code></td>
+<td><code>rfnbo_part_{i}</code></td>
+</tr>
+<tr>
+<td>convention du cas : PPA plafonné (production imposée : le plafond porte sur l'énergie disponible)</td>
+<td><code>Σ_t R_t ≤ 2 × conso × Σ_t P_t</code></td>
+<td><code>ppa_plafond_{i}</code></td>
+</tr>
+</tbody>
+</table>
+<p>En linopy, la ligne horaire porte un masque sur les heures hors clause, la ligne mensuelle un <code>groupby</code> sur le mois civil :</p>
+<pre><code class="language-python">lp.add_constraints(q - R &lt;= 0, name=f&quot;rfnbo_heure_{i}&quot;, mask=(garde &gt; 0).broadcast_like(P.lower))
+lp.add_constraints((q * garde).groupby(mois).sum() - R.groupby(mois).sum() &lt;= 0, name=f&quot;rfnbo_mois_{i}&quot;)
+</code></pre>
+<p><code>rfnbo_horaire_sans_clause</code> garde toutes les heures : elle mesure la clause de prix bas. <code>rfnbo_horaire_cavite</code> remplace les réservoirs par une cavité saline. Les configurations <code>rfnbo_red3_mensuelle</code> et <code>rfnbo_red3_horaire</code> ajoutent le reformeur et fixent la part à celle de RED III : 42 % en 2030, 60 % en 2040.</p>
+<h2>Ce que ça coûte</h2>
+<p>Coût de l'hydrogène en €/kg, 2030, série centrale de chaque jeu (<code>results.json</code>, famille <code>verdict</code>, champ <code>cout_kg</code> ; écarts calculés sur les valeurs non arrondies) :</p>
+<table>
+<thead>
+<tr>
+<th>jeu de prix</th>
+<th>mensuel</th>
+<th>horaire</th>
+<th>horaire − mensuel</th>
+<th>horaire avec cavité</th>
+<th>RED III 42 % : mensuel → horaire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TYNDP 2024</td>
+<td>4,83</td>
+<td>5,08</td>
+<td>+0,25 (5,3 %)</td>
+<td>4,89</td>
+<td>3,24 → 3,30</td>
+</tr>
+<tr>
+<td>TYNDP 2026 NT+</td>
+<td>4,68</td>
+<td>4,94</td>
+<td>+0,26 (5,5 %)</td>
+<td>4,60</td>
+<td>3,28 → 3,36</td>
+</tr>
+<tr>
+<td>POMMES sur TYNDP 2026</td>
+<td>4,59</td>
+<td>4,90</td>
+<td>+0,31 (6,8 %)</td>
+<td>4,63</td>
+<td>3,30 → 3,37</td>
+</tr>
+<tr>
+<td>fos-sur-mer</td>
+<td>4,70</td>
+<td>4,93</td>
+<td>+0,24 (5,0 %)</td>
+<td>4,72</td>
+<td>3,21 → 3,23</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>La règle mensuelle ne coûte rien : le PPA, payé à sa valeur de marché, et le surplus revendu au prix horaire s'annulent.</li>
+<li>La règle horaire coûte 0,24 à 0,31 €/kg, 5,0 à 6,8 %. L'électrolyseur suit le PV et l'éolien : 214 à 231 MWe au lieu de 173 à 183, 2,6 à 2,9 GWh de réservoirs. La clause de prix bas vaut 0,00 à 0,13 €/kg.</li>
+<li>Avec une cavité saline, l'horaire ne coûte plus que 0,07 à 0,17 €/kg de plus que l'électrolyseur avec cavité au réseau : la cavité réduit le surcoût de 35 à 71 %.</li>
+<li>L'année météo pèse autant que le jeu de prix : sous le TYNDP 2026 NT+, l'heure coûte 0,26 €/kg de plus que le mois dans l'année WS003, 0,54 dans WS021, 0,28 dans WS029 (famille <code>meteo</code>).</li>
+<li>À 42 % (part de RED III en 2030), le reformeur fait le reste et l'heure n'ajoute que 0,03 à 0,08 €/kg ; mais le site passe de 2,1 à 2,5 €/kg (reformeur seul) à 3,2 à 3,4 €/kg.</li>
+<li>En 2040 au CO₂ du TYNDP 2026 (297,5 €/t), le reformeur passe à 4,4 €/kg ; sous la règle horaire avec une cavité, l'hydrogène coûte 2,6 à 2,9 €/kg, toujours sous le reformeur, avec 7 200 à 7 900 heures de clause de prix bas (seuil 107 €/MWh).</li>
+<li>Le plafond du PPA décide du coût de l'horaire : 0,43 à 0,60 €/kg à 1,5 fois la consommation de l'électrolyseur, 0,24 à 0,31 à 2 fois (le défaut), 0,10 à 0,16 à 3 fois (famille <code>ppa_max</code>).</li>
+<li>Une part de la valeur du stockage vient des heures de défaillance : prix écrêtés à 300 €/MWh, la cavité ne vaut plus rien en 2030 sous fos-sur-mer et moitié moins sous le TYNDP 2024 ; en 2040 elle en garde 0,84 à 1,41 €/kg (famille <code>prix_plafonnes</code>).</li>
+</ul>
+<p>Un site horaire se résout en direct, depuis la racine du dépôt :</p>
+<pre><code class="language-python">import sys; sys.path.insert(0, &quot;D_electrolyseur&quot;)
+import model as D
+df, t = D.resoudre(D.sites_configs(D.central(&quot;tyndp2026&quot;, 2030), configs=(&quot;rfnbo_horaire&quot;,)))
+print(df.cout_kg.round(3).item(), t)
+# 4.936 €/kg ; un site à règle horaire : 50 à 75 s de HiGHS, ≈ 0,11 M variables
+</code></pre>
+<p>Un site à règle horaire se résout en 50 à 75 s pour ≈ 0,11 M variables ; le temps dépend de la machine, pas le coût. Avec <code>rfnbo_mensuelle</code>, le même appel donne 4,68 €/kg. Les sites sans règle se résolvent ensemble en une minute ; trois sites à règle horaire dans une même résolution prennent 2 à 10 minutes, les plus longs avec cavité (<code>results.json</code>, champ <code>resolutions</code>). Le simplexe ralentit plus vite que le programme ne grossit. Le lien avec les 4,8 et 7,1 €/kg du parcours est dans <a href="../textes/hydrogene-deux-chiffres.html">Pourquoi deux chiffres pour le même hydrogène : cas D (4,4 à 4,9 €/kg) et outil « routes » (7,1 €/kg)</a>.</p>
+<h2>Ce que le modèle simplifie, et un statut à connaître</h2>
+<p><code>hypotheses.yaml</code> le dit : hydrogène stocké compté comme produit ; pas d'additionnalité ; clause de prix bas appliquée aussi à la règle mensuelle ; PPA plafonné à deux fois la consommation de l'électrolyseur sur l'énergie disponible, la production du contrat étant imposée. Ce plafond est atteint sous la règle horaire, dont le surcoût en dépend donc. Une seule entrée porte le statut « mémoire ». La part de RED III (<code>part_rfnbo_2030</code>, <code>part_rfnbo_2040</code>) : le texte officiel la confirme. Directive (UE) 2023/2413, article 22 bis, paragraphe 1 : « au moins 42 % de l'hydrogène [...] dans l'industrie d'ici à 2030, et 60 % d'ici à 2035 » ; le cas retient 42 % en 2030 et 60 % en 2040. L'appliquer à un seul site reste un choix du cas. Ce site est une usine d'ammoniac ou de méthanol, pas une raffinerie : le même alinéa sort du calcul l'hydrogène « utilisé comme produit intermédiaire pour la production de carburants conventionnels destinés au transport ». Celui d'une raffinerie, s'il est renouvelable, compte pour l'objectif transport (article 25, paragraphe 2, a) i)), compté double, en France par la TIRUERT puis l'IRICC. Le coût fixe du reformeur existant (<code>smr_fixe</code>, 40 000 €/MW/an) : « source primaire non retrouvée ». Toute restitution des configurations <code>rfnbo_red3_*</code> l'annonce comme limite.</p>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Vous citez les trois alinéas de l'article 6 et nommez, pour chacun, la contrainte de <code>crochet_regle</code> qui le traduit.</li>
+<li>Vous retrouvez le seuil de 35,1 €/MWh et les 2 171 heures de la clause sur la série TYNDP 2026 NT+ 2030 avec le premier bloc de code.</li>
+<li>Vous retrouvez dans <code>results.json</code> un surcoût horaire − mensuel de 0,24 à 0,31 €/kg, et 0,26 contre 0,54 €/kg entre WS003 et WS021, puis 4,94 €/kg en relançant le site horaire.</li>
+<li>Vous expliquez pourquoi la règle mensuelle ne coûte rien ici, et pourquoi le cas D n'écrit ni l'article 5 ni l'article 7.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Le cas D, paliers 4 à 6, et <code>inspect.getsource(crochet_regle)</code> <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a>.</li>
+<li>Le contrat d'un crochet avant le solve, nommer et lire une duale <a href="../textes/txt-crochet-avant-solve.html">Ajouter une contrainte avant le solve : le contrat d'un crochet (solve_with_extra_constraints)</a>.</li>
+<li>Pourquoi deux chiffres pour le même hydrogène : 4,8 et 7,1 €/kg <a href="../textes/hydrogene-deux-chiffres.html">Pourquoi deux chiffres pour le même hydrogène : cas D (4,4 à 4,9 €/kg) et outil « routes » (7,1 €/kg)</a>.</li>
+<li>La vidéo « quand l'hydrogène est-il vraiment vert ? », la question d'émissions que la règle traduit en droit <a href="https://www.youtube.com/watch?v=r7WUx2ainUY" target="_blank" rel="noopener">L'électrolyse : quand l'hydrogène est-il vraiment vert ? (Hydrogène 4b/5)</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://eur-lex.europa.eu/eli/reg_del/2023/1184/oj" target="_blank" rel="noopener">Règlement délégué (UE) 2023/1184 de la Commission du 10 février 2023 (JO L 157 du 20.6.2023, p. 11)</a></li><li><a href="https://publications.europa.eu/resource/celex/32023R1184" target="_blank" rel="noopener">Le même texte au format XHTML (Office des publications, CELEX 32023R1184)</a></li><li><a href="https://eur-lex.europa.eu/eli/dir/2023/2413/oj" target="_blank" rel="noopener">Directive (UE) 2023/2413 (RED III), article 22 bis, paragraphe 1, 5e alinéa : 42 % d'hydrogène RFNBO dans l'industrie en 2030, hors hydrogène des carburants ; article 25, paragraphe 2 : l'hydrogène renouvelable des raffineries compte pour le transport</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D du dépôt pommes-case-studies : README, hypotheses.yaml, model.py, results.json</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les carburants d'aviation durables : six filières et leurs ordres de grandeur · Parcours ES 2026</title>
+<meta name="description" content="Les six façons de fabriquer un kérosène d'aviation sans pétrole : à partir d'huiles usagées (HEFA), d'alcool tiré de la biomasse (ATJ), de biomasse gazéifiée (BtL, et PBtL avec de l'hydrogène), ou d'électricité et de CO₂ (e-kérosène par Fischer-Tropsch ou par le méthanol). Chaque filière a son schéma et ses chiffres par tonne de kérosène : intrant, rendement, électricité, réduction d'émissions, coût, maturité, gisement. Le tableau final montre que chaque filière bute sur une ressource : huiles, biomasse (8 à 10 t par tonne) ou électricité (32 à 38 MWh par tonne).">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Les carburants d'aviation durables : six filières et leurs ordres de grandeur</h1>
+    <p class="resume">Les six façons de fabriquer un kérosène d'aviation sans pétrole : à partir d'huiles usagées (HEFA), d'alcool tiré de la biomasse (ATJ), de biomasse gazéifiée (BtL, et PBtL avec de l'hydrogène), ou d'électricité et de CO₂ (e-kérosène par Fischer-Tropsch ou par le méthanol). Chaque filière a son schéma et ses chiffres par tonne de kérosène : intrant, rendement, électricité, réduction d'émissions, coût, maturité, gisement. Le tableau final montre que chaque filière bute sur une ressource : huiles, biomasse (8 à 10 t par tonne) ou électricité (32 à 38 MWh par tonne).</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-I">Mener le mini-projet du cas I (e-kérosène) ou du cas J (hydrogène ou fer réduit ailleurs)</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Peut-on faire voler les avions
+d’aujourd’hui avec un carburant qui émet beaucoup moins de CO₂ que le
+kérosène fossile, et avec quoi le fabrique-t-on ?</p>
+<p><strong>La réponse, en trois phrases.</strong> On sait fabriquer un
+kérosène de synthèse de six façons, à partir d’huiles usagées, de
+biomasse ou d’électricité et de CO₂, et ce carburant se mélange au
+kérosène fossile dans les avions actuels. Chaque filière bute sur une
+ressource : les huiles usagées sont rares, les filières de biomasse
+demandent 8 à 10 tonnes de biomasse sèche par tonne de kérosène, et les
+filières électriques 32 à 38 MWh d’électricité par tonne. C’est pourquoi
+ces carburants coûtent de 3 à 12 fois le prix du kérosène fossile, et
+pourquoi aucune filière ne suffit seule.</p>
+<p><strong>Deux voies écartées d’emblée.</strong> L’électrification
+directe (batterie et moteur électrique) ne mène pas loin dans les airs :
+une cellule Li-ion embarque ≈ 0,8 MJ/kg contre ≈ 43 MJ/kg pour le
+kérosène, un facteur 50 — de quoi ne transporter qu’une vingtaine de
+passagers sur quelques centaines de kilomètres (le démonstrateur chinois
+CE-25A de COMAC, 19 places et 400 km d’autonomie, a effectué son premier
+vol avec équipage le 14/11/2026 : <a href="https://simpleflying.com/comac-ce-25a-electric-plane-first-piloted-flight/" target="_blank" rel="noopener">Simple
+Flying, 16/11/2026</a>, d’après l’AFP). L’hydrogène comme carburant est
+écarté lui aussi : stocker du H₂ à haute pression (ou cryogénique) dans
+un avion et l’employer dans une turbine ou une pile à combustible reste
+à bas niveau de maturité (TRL bas). D’où cette note sur le kérosène de
+synthèse.</p>
+<p><strong>Le plan.</strong> La section 2 donne le vocabulaire. Les
+sections 3 et 4 présentent les six filières, chacune avec son schéma et
+ses chiffres : trois qui partent de la biomasse, puis trois qui
+utilisent de l’hydrogène fabriqué avec de l’électricité. La section 5
+compare émissions et coûts, la section 6 résume tout dans un tableau, la
+section 7 dit ce qu’il faut retenir.</p>
+<h2 id="ce-quon-compare-et-comment">2. Ce qu’on compare, et comment</h2>
+<p>Un <strong>carburant d’aviation durable</strong> (en anglais
+<em>sustainable aviation fuel</em>, SAF) est un kérosène qui n’est pas
+tiré du pétrole. Le kérosène est le carburant des avions à réaction, un
+mélange d’hydrocarbures (des molécules de carbone et d’hydrogène). Un
+SAF a presque la même composition : on le mélange au kérosène fossile,
+aujourd’hui jusqu’à 50 %, sans modifier les avions (Boigontier et
+Girard, 2024).</p>
+<p>Un SAF émet autant de CO₂ qu’un kérosène fossile quand il brûle. Mais
+son carbone a été retiré de l’atmosphère peu avant, par une plante ou
+par un captage de CO₂. On mesure donc ses émissions <strong>en cycle de
+vie</strong> : on additionne ce qu’émettent la production de la matière
+première, son transport, l’usine et l’énergie qu’elle consomme. Le
+référentiel international, celui de l’Organisation de l’aviation civile
+internationale (OACI, programme CORSIA), compare chaque filière à un
+kérosène fossile qui émet 89 g de CO₂ équivalent par mégajoule (OACI,
+2025).</p>
+<p>Tous les chiffres sont donnés <strong>par tonne de kérosène
+produite</strong>. Une tonne de kérosène contient 43 GJ, soit 11,9 MWh,
+au pouvoir calorifique inférieur (la chaleur de combustion quand l’eau
+produite reste en vapeur). Une usine produit aussi du gazole et du
+naphta (une essence légère) : la <strong>part de kérosène</strong> dit
+quelle fraction des liquides produits est du kérosène.</p>
+<p>En Europe, le règlement ReFuelEU Aviation impose une part minimale de
+SAF dans le kérosène vendu aux aéroports : 2 % en 2025, 6 % en 2030, 20
+% en 2035, 70 % en 2050. Une partie doit être un carburant de synthèse
+fait avec de l’hydrogène électrolytique : 1,2 % en moyenne sur
+2030-2031, 5 % en 2035, 35 % en 2050. Les biocarburants tirés de
+cultures alimentaires n’y comptent pas (règlement (UE) 2023/2405).</p>
+<h2 id="les-trois-filières-qui-partent-de-la-biomasse">3. Les trois
+filières qui partent de la biomasse</h2>
+<h3 id="hefa-hydrotraiter-des-huiles-et-des-graisses">3.1 HEFA :
+hydrotraiter des huiles et des graisses</h3>
+<p>La filière HEFA (<em>hydroprocessed esters and fatty acids</em>)
+traite des huiles de cuisson usagées, des graisses animales ou des
+huiles végétales à l’hydrogène, pour en retirer l’oxygène. On coupe et
+on réarrange ensuite les chaînes de carbone pour obtenir un kérosène qui
+reste liquide à très basse température. C’est la seule filière produite
+aujourd’hui à l’échelle industrielle.</p>
+<figure>
+<img
+src="img/note-saf-filieres/Production/SAF/output/editorial/saf_chain_hefa.png"
+alt="Chaîne HEFA, par tonne de kérosène" />
+<figcaption aria-hidden="true">Chaîne HEFA, par tonne de
+kérosène</figcaption>
+</figure>
+<ul>
+<li><strong>Intrant</strong> : environ 1,9 t d’huile par tonne de
+kérosène. Une tonne d’huile donne 0,9 t de carburant, dont 59 % de
+kérosène quand l’usine maximise le kérosène (ICCT, 2021, tableau
+1).</li>
+<li><strong>Rendement énergétique</strong> : environ 90 % (Boigontier et
+Girard, 2024).</li>
+<li><strong>Réduction d’émissions</strong> : −84 % sur huiles de cuisson
+usagées, −75 % sur suif, −47 % seulement sur huile de colza (OACI,
+2025).</li>
+<li><strong>Coût</strong> : 1 925 €/t en 2025, prix de marché, contre
+640 €/t pour le kérosène fossile (EASA, 2026).</li>
+<li><strong>Maturité</strong> : industrielle.</li>
+<li><strong>Gisement</strong> : c’est la limite. L’Union européenne
+dispose d’environ 2,4 Mt par an de graisses et d’huiles usagées, de quoi
+produire 1,2 Mt de SAF, soit 1,9 % de sa consommation de kérosène prévue
+en 2030. Ces huiles servent déjà au transport routier, et 62 % des
+huiles de cuisson usagées utilisées en Europe sont importées (ICCT,
+2021).</li>
+</ul>
+<h3
+id="atj-fermenter-la-biomasse-en-alcool-puis-lalcool-en-kérosène">3.2
+ATJ : fermenter la biomasse en alcool, puis l’alcool en kérosène</h3>
+<p>La filière ATJ (<em>alcohol-to-jet</em>) part de biomasse
+<strong>lignocellulosique</strong>, la matière des tiges, du bois et des
+herbes : pailles, résidus forestiers, miscanthus. On en libère les
+sucres, que des levures fermentent en éthanol. L’éthanol est déshydraté
+en éthylène, dont on assemble les petites molécules en chaînes longues
+(l’oligomérisation), puis on les sature d’hydrogène.</p>
+<figure>
+<img
+src="img/note-saf-filieres/Production/SAF/output/editorial/saf_chain_atj.png"
+alt="Chaîne ATJ, par tonne de kérosène" />
+<figcaption aria-hidden="true">Chaîne ATJ, par tonne de
+kérosène</figcaption>
+</figure>
+<ul>
+<li><strong>Intrant</strong> : environ 8 t de biomasse sèche par tonne
+de kérosène (8,4 t de <em>switchgrass</em> selon Yao et al., 2017 ; 8,1
+t de tiges de maïs selon Voß et al., 2023), qui passent par environ 2 t
+d’éthanol (Yao et al., 2017).</li>
+<li><strong>Rendement énergétique</strong> : 34 % de l’énergie de la
+biomasse finit dans le kérosène, en brûlant les résidus de fermentation
+pour chauffer l’usine (Voß et al., 2023).</li>
+<li><strong>Part de kérosène</strong> : élevée, 84 % (Yao et al.,
+2017).</li>
+<li><strong>Réduction d’émissions</strong> : −72 à −73 % sur résidus
+agricoles ou forestiers, −51 % sur miscanthus, −39 % sur maïs grain
+(OACI, 2025).</li>
+<li><strong>Coût</strong> : environ 2 760 €/t (fourchette 1 790 à 3
+130), coût de production estimé des biocarburants avancés (EASA,
+2026).</li>
+<li><strong>Maturité</strong> : TRL 7 à 8 (Boigontier et Girard, 2024).
+Le TRL, ou niveau de maturité technologique, va de 1 (l’idée) à 9
+(l’usine commerciale).</li>
+<li><strong>Gisement</strong> : la biomasse lignocellulosique, partagée
+avec le BtL (3.3).</li>
+</ul>
+<p>La même chaîne fonctionne avec de l’éthanol obtenu en fermentant les
+gaz des hauts fourneaux : 0,8 Mt de SAF par an en Europe en 2030 (ICCT,
+2021).</p>
+<h3 id="btl-gazéifier-la-biomasse-puis-synthèse-fischer-tropsch">3.3 BtL
+: gazéifier la biomasse, puis synthèse Fischer-Tropsch</h3>
+<p>La filière BtL (<em>biomass-to-liquid</em>) chauffe la biomasse
+au-delà de 1 000 °C avec peu d’oxygène : elle se décompose en un
+<strong>gaz de synthèse</strong>, mélange de monoxyde de carbone (CO) et
+d’hydrogène (H₂). La réaction de <strong>Fischer-Tropsch</strong>
+assemble ce gaz en longues chaînes d’hydrocarbures, que l’on coupe
+ensuite à la longueur du kérosène (l’hydrocraquage). La biomasse manque
+d’hydrogène pour cette synthèse : on en fabrique en faisant réagir une
+partie du CO avec de la vapeur d’eau (le <em>water-gas shift</em>), ce
+qui rejette du carbone sous forme de CO₂.</p>
+<figure>
+<img
+src="img/note-saf-filieres/Production/SAF/output/editorial/saf_chain_btl.png"
+alt="Chaîne BtL, par tonne de kérosène" />
+<figcaption aria-hidden="true">Chaîne BtL, par tonne de
+kérosène</figcaption>
+</figure>
+<ul>
+<li><strong>Intrant</strong> : 9 à 10 t de résidus secs par tonne de
+kérosène. Une tonne de résidus donne 0,20 à 0,22 t de carburant, dont la
+moitié de kérosène (ICCT, 2021, tableau 1).</li>
+<li><strong>Rendement énergétique</strong> : environ 55 %, tous
+carburants produits (Boigontier et Girard, 2024).</li>
+<li><strong>Réduction d’émissions</strong> : la meilleure des filières
+biologiques : −91 % sur résidus agricoles ou forestiers, −94 % sur
+déchets municipaux (OACI, 2025).</li>
+<li><strong>Coût</strong> : celui des biocarburants avancés, environ 2
+760 €/t (EASA, 2026).</li>
+<li><strong>Maturité</strong> : démonstration (TRL 6 à 7).</li>
+<li><strong>Gisement</strong> : les ressources lignocellulosiques
+européennes suffiraient à près de 10 Mt de SAF, mais la construction des
+usines limite : l’ICCT n’attend que 1,4 Mt de SAF tiré des résidus et
+des déchets en 2030 (ICCT, 2021). En France, environ 10 Mt de matière
+sèche sont mobilisables. Les valoriser demanderait une trentaine
+d’usines, alors que le seul projet annoncé mobilise déjà un bassin
+d’approvisionnement couvrant le quart sud-ouest du pays (The Shift
+Project, 2026).</li>
+</ul>
+<h2
+id="les-trois-filières-qui-utilisent-de-lhydrogène-électrolytique">4.
+Les trois filières qui utilisent de l’hydrogène électrolytique</h2>
+<p>L’<strong>électrolyse</strong> sépare l’eau en hydrogène et en
+oxygène grâce à un courant électrique. Un électrolyseur industriel
+consomme environ 53 kWh d’électricité par kilogramme d’hydrogène (AIE,
+2026).</p>
+<h3 id="pbtl-la-biomasse-complétée-par-de-lhydrogène">4.1 PBtL : la
+biomasse complétée par de l’hydrogène</h3>
+<p>La filière PBtL (<em>power-and-biomass-to-liquid</em>) reprend la
+gazéification du BtL, mais apporte l’hydrogène manquant par électrolyse
+au lieu de le tirer du CO. Aucun carbone n’est rejeté pendant
+l’ajustement du gaz : presque tout le carbone de la biomasse finit dans
+le carburant.</p>
+<figure>
+<img
+src="img/note-saf-filieres/Production/SAF/output/editorial/saf_chain_pbtl.png"
+alt="Chaîne PBtL, par tonne de kérosène" />
+<figcaption aria-hidden="true">Chaîne PBtL, par tonne de
+kérosène</figcaption>
+</figure>
+<ul>
+<li><strong>Intrant</strong> : environ deux fois moins de biomasse que
+le BtL : 45 % de la masse de biomasse finit en carburant, contre 22 % en
+BtL (Boigontier et Girard, 2024). En échange, l’usine consomme beaucoup
+d’électricité.</li>
+<li><strong>Rendement énergétique</strong> : environ 75 %, biomasse et
+électricité comptées ensemble (Boigontier et Girard, 2024).</li>
+<li><strong>Réduction d’émissions</strong> : jusqu’à −95 % avec une
+électricité très peu carbonée (Boigontier et Girard, 2024).</li>
+<li><strong>Maturité</strong> : démonstration (TRL 6 à 7).</li>
+<li><strong>Gisement</strong> : la filière économise la biomasse,
+ressource rare, en la remplaçant en partie par de l’électricité.</li>
+</ul>
+<h3 id="ptl-fischer-tropsch-le-kérosène">4.2 PtL Fischer-Tropsch :
+l’e-kérosène</h3>
+<p>La filière PtL (<em>power-to-liquid</em>) ne part plus de biomasse.
+Le carbone vient de CO₂ capté dans les fumées d’une usine (une
+cimenterie, par exemple) ou directement dans l’air. La <em>reverse
+water-gas shift</em> (RWGS) transforme le CO₂ et l’hydrogène en CO et en
+eau ; le gaz de synthèse obtenu passe ensuite par la réaction de
+Fischer-Tropsch, comme dans le BtL. Le produit s’appelle un
+<strong>e-kérosène</strong>.</p>
+<figure>
+<img
+src="img/note-saf-filieres/Production/SAF/output/editorial/saf_chain_ptl_ft.png"
+alt="Chaîne PtL Fischer-Tropsch, par tonne de kérosène" />
+<figcaption aria-hidden="true">Chaîne PtL Fischer-Tropsch, par tonne de
+kérosène</figcaption>
+</figure>
+<ul>
+<li><strong>Intrants</strong> : environ 38 MWh d’électricité, 0,6 t
+d’hydrogène et 4 t de CO₂ par tonne de kérosène. La chimie impose au
+moins 0,43 t d’hydrogène et 3,1 t de CO₂ par tonne d’hydrocarbure
+(réaction CO₂ + 3 H₂ → CH₂ + 2 H₂O, où CH₂ est le maillon d’une chaîne
+d’hydrocarbure) ; pertes et coproduits font le reste.</li>
+<li><strong>Rendement</strong> : 3,2 kWh d’électricité par kWh de
+kérosène, soit 31 % pour le kérosène seul. Sur tous les liquides
+produits, 44 % avec du CO₂ industriel et 38 % avec du CO₂ capté dans
+l’air (Boigontier et Girard, 2024). Le captage dans l’air ajoute environ
+20 % d’électricité. Recoupement : The Shift Project
+<ol start="2026" type="1">
+<li>transforme 110 TWh en 3,0 Mt de SAF, soit 37 MWh par tonne.</li>
+</ol></li>
+<li><strong>Réduction d’émissions</strong> : elle dépend de
+l’électricité (section 5).</li>
+<li><strong>Coût</strong> : environ 7 520 €/t (fourchette 6 710 à 9
+525), 8 625 €/t avec du CO₂ capté dans l’air (EASA, 2026). Pour un
+projet français mis en service en 2030, la mission IGF-IGEDD (2026)
+estime le coût complet entre 5 400 et 7 700 €/t.</li>
+<li><strong>Maturité</strong> : TRL 5 à 6 en 2024 (Boigontier et Girard,
+2024).</li>
+<li><strong>Gisement</strong> : l’électricité. Remplacer les 7,3 Mt de
+kérosène consommées chaque année en France demanderait environ 280 TWh
+(7,3 Mt × 38 MWh/t), 2,5 fois les 110 TWh de la feuille de route la plus
+haute pour l’aérien, qui font déjà plus de 20 % de la production
+électrique française actuelle. Pour le monde, il faudrait environ 10 000
+TWh, un tiers de la production mondiale d’électricité (The Shift
+Project, 2026).</li>
+</ul>
+<h3 id="mtj-le-kérosène-par-le-méthanol">4.3 MtJ : l’e-kérosène par le
+méthanol</h3>
+<p>La filière MtJ (<em>methanol-to-jet</em>) combine le CO₂ et
+l’hydrogène en méthanol, puis transforme le méthanol en kérosène par une
+chaîne proche de l’ATJ : déshydratation, oligomérisation, hydrogénation.
+Elle se passe de la RWGS et de l’hydrocraquage, et produit surtout du
+kérosène.</p>
+<figure>
+<img
+src="img/note-saf-filieres/Production/SAF/output/editorial/saf_chain_mtj.png"
+alt="Chaîne MtJ, par tonne de kérosène" />
+<figcaption aria-hidden="true">Chaîne MtJ, par tonne de
+kérosène</figcaption>
+</figure>
+<ul>
+<li><strong>Intrants</strong> : environ 32 MWh d’électricité, 0,6 t
+d’hydrogène et 4 t de CO₂ par tonne de kérosène, en passant par environ
+3 t de méthanol.</li>
+<li><strong>Rendement</strong> : 2,7 kWh d’électricité par kWh de
+kérosène, soit 37 %.</li>
+<li><strong>Réduction d’émissions</strong> et <strong>coût</strong> :
+comme le PtL.</li>
+<li><strong>Maturité</strong> : la plus récente. La norme des carburants
+d’aviation (ASTM D7566) admet le méthanol depuis juillet 2026 (ASTM,
+2026), avec les limites de l’annexe qui couvre déjà l’ATJ, dont un
+mélange d’au plus 50 %. Les installations sont encore au stade pilote
+(Methanol Institute, 2026).</li>
+<li><strong>Atout</strong> : le méthanol, liquide, se transporte. On
+peut le produire dans un lieu et le convertir en kérosène dans un autre,
+ce que la voie Fischer-Tropsch ne permet pas (Methanol Institute,
+2026).</li>
+</ul>
+<h2 id="émissions-et-coûts">5. Émissions et coûts</h2>
+<figure>
+<img
+src="img/note-saf-filieres/Production/SAF/output/editorial/saf_emissions_reduction.png"
+alt="À gauche, réductions d’émissions des filières biologiques selon la matière première ; à droite, émissions de l’e-kérosène selon l’électricité" />
+<figcaption aria-hidden="true">À gauche, réductions d’émissions des
+filières biologiques selon la matière première ; à droite, émissions de
+l’e-kérosène selon l’électricité</figcaption>
+</figure>
+<p><strong>Pour les filières biologiques, la matière première
+décide</strong> (à gauche). Sous la même étiquette « SAF », on va de −94
+% (déchets municipaux gazéifiés) à −39 % (éthanol de maïs grain). Il
+faut toujours dire de quoi le carburant est fait.</p>
+<p><strong>Pour l’e-kérosène, l’électricité décide</strong> (à droite).
+À 38 MWh par tonne, atteindre −70 % demande une électricité à moins de
+30 g de CO₂ par kWh environ ; au-delà de 100 g par kWh, l’e-kérosène
+émet plus que le kérosène fossile (calcul sur la seule électricité).
+Seule une électricité renouvelable ou nucléaire convient.</p>
+<figure>
+<img
+src="img/note-saf-filieres/Production/SAF/output/editorial/saf_reference_prices.png"
+alt="Prix et coûts de référence en Europe" />
+<figcaption aria-hidden="true">Prix et coûts de référence en
+Europe</figcaption>
+</figure>
+<p><strong>Les coûts suivent la difficulté technique.</strong> Le SAF
+HEFA coûte 3 fois le kérosène fossile, les biocarburants avancés environ
+4 fois, les carburants de synthèse environ 12 fois (EASA, 2026).</p>
+<h2 id="tableau-de-synthèse">6. Tableau de synthèse</h2>
+<p>Par tonne de kérosène. Réductions : valeurs CORSIA (OACI, 2025).
+Coûts : EASA (2026).</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Filière</th>
+<th>Intrant principal</th>
+<th>Électricité</th>
+<th>Réduction d’émissions</th>
+<th>Coût (€/t)</th>
+<th>Maturité</th>
+<th>Ce qui limite</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HEFA</td>
+<td>1,9 t d’huiles usagées</td>
+<td>faible</td>
+<td>−75 à −84 % (−47 % sur colza)</td>
+<td>1 925</td>
+<td>industrielle</td>
+<td>le gisement d’huiles</td>
+</tr>
+<tr class="even">
+<td>ATJ</td>
+<td>8 t de biomasse sèche (2 t d’éthanol)</td>
+<td>faible</td>
+<td>−72 à −73 % sur résidus</td>
+<td>≈ 2 760</td>
+<td>TRL 7-8</td>
+<td>biomasse, usines</td>
+</tr>
+<tr class="odd">
+<td>BtL</td>
+<td>9 à 10 t de biomasse sèche</td>
+<td>faible</td>
+<td>−91 à −94 %</td>
+<td>≈ 2 760</td>
+<td>TRL 6-7</td>
+<td>biomasse, usines</td>
+</tr>
+<tr class="even">
+<td>PBtL</td>
+<td>≈ moitié de la biomasse du BtL</td>
+<td>élevée</td>
+<td>jusqu’à −95 %</td>
+<td>non publié</td>
+<td>TRL 6-7</td>
+<td>biomasse et électricité</td>
+</tr>
+<tr class="odd">
+<td>PtL Fischer-Tropsch</td>
+<td>4 t de CO₂, 0,6 t de H₂</td>
+<td>≈ 38 MWh</td>
+<td>selon l’électricité</td>
+<td>≈ 7 520</td>
+<td>TRL 5-6</td>
+<td>l’électricité</td>
+</tr>
+<tr class="even">
+<td>MtJ</td>
+<td>4 t de CO₂, 0,6 t de H₂ (3 t de méthanol)</td>
+<td>≈ 32 MWh</td>
+<td>selon l’électricité</td>
+<td>≈ 7 520</td>
+<td>pilote, certifiée en 2026</td>
+<td>l’électricité</td>
+</tr>
+<tr class="odd">
+<td><em>Kérosène fossile</em></td>
+<td><em>pétrole</em></td>
+<td>—</td>
+<td><em>référence : 89 g CO₂e/MJ</em></td>
+<td><em>640</em></td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ce-quil-faut-retenir">7. Ce qu’il faut retenir</h2>
+<p><strong>Les filières se rangent par leur ressource, pas par leur
+chimie.</strong> Le HEFA, la plus simple et la moins chère, est la
+première à manquer de matière. Les filières de biomasse
+lignocellulosique demandent 8 à 10 tonnes de biomasse sèche par tonne de
+kérosène, et des dizaines d’usines encore à construire. Les filières
+électriques n’ont pas de limite de matière, mais consomment environ
+trois fois plus d’électricité que le kérosène ne contient d’énergie.</p>
+<p><strong>Même ensemble, elles ne suffisent pas en France.</strong> The
+Shift Project (2026) croise les deux ressources : avec 110 TWh
+d’électricité et 60 % de la biomasse lignocellulosique mobilisable, la
+France produirait au plus 5,6 Mt de SAF en 2050, 77 % des 7,3 Mt de
+kérosène consommées aujourd’hui, à trafic constant.</p>
+<p><strong>Un SAF ne traite qu’une partie du réchauffement dû à
+l’aviation.</strong> Les effets autres que le CO₂ (traînées de
+condensation, oxydes d’azote) font environ deux tiers du réchauffement
+causé par l’aviation (Lee et al., 2021), et les réductions de cette note
+portent sur le seul CO₂. Le volume de trafic reste donc une variable de
+la décarbonation, à côté du choix des carburants.</p>
+<h2 id="sources">8. Sources</h2>
+<ul>
+<li>AIE, <em>Global Hydrogen Review 2026</em> (électrolyseur, 53 kWh/kg
+en 2025).</li>
+<li>ASTM International, <em>Aviation Turbine Fuel Standard Revised</em>,
+22 juillet 2026, <a href="https://www.astm.org/news/aviation-turbine-fuel-standard-revised" target="_blank" rel="noopener"
+class="uri">https://www.astm.org/news/aviation-turbine-fuel-standard-revised</a>.</li>
+<li>Boigontier T., Girard R., <em>Sustainable Aviation Fuels
+(SAFs)</em>, Mines Paris PSL, 2024, <a href="https://hal.science/hal-05078674" target="_blank" rel="noopener"
+class="uri">https://hal.science/hal-05078674</a>.</li>
+<li>EASA, <em>2025 Aviation Fuels Reference Prices for ReFuelEU
+Aviation</em>, 2026, tableau 1, <a href="https://www.easa.europa.eu/en/downloads/143282/en" target="_blank" rel="noopener"
+class="uri">https://www.easa.europa.eu/en/downloads/143282/en</a>.</li>
+<li>ICCT, <em>Estimating sustainable aviation fuel feedstock
+availability to meet growing European Union demand</em>, 2021, tableaux
+1 et 3, <a href="https://theicct.org/sites/default/files/publications/Sustainable-aviation-fuel-feedstock-eu-mar2021.pdf" target="_blank" rel="noopener"
+class="uri">https://theicct.org/sites/default/files/publications/Sustainable-aviation-fuel-feedstock-eu-mar2021.pdf</a>.</li>
+<li>IGF-IGEDD, rapport n° 2025-E-061-03, 2026, annexe II, tableau 3, <a href="https://www.vie-publique.fr/files/rapport/pdf/304822.pdf" target="_blank" rel="noopener"
+class="uri">https://www.vie-publique.fr/files/rapport/pdf/304822.pdf</a>.</li>
+<li>Lee D.S. et al., Atmospheric Environment 244 (2021) 117834.</li>
+<li>Methanol Institute, <em>Methanol-to-Jet SAF Outlook</em>, 2026,
+tableau 4.2, <a href="https://methanol.org/uploads/publications/methanol-to-jet-saf-outlook-2026.pdf" target="_blank" rel="noopener"
+class="uri">https://methanol.org/uploads/publications/methanol-to-jet-saf-outlook-2026.pdf</a>.</li>
+<li>OACI, <em>CORSIA Default Life Cycle Emissions Values</em>, 8ᵉ
+édition, 2025, tableaux 1 à 4.</li>
+<li>Règlement (UE) 2023/2405 (ReFuelEU Aviation), annexe I.</li>
+<li>The Shift Project et Aéro Décarbo, <em>Pouvoir voler sans
+pétrole</em>, synthèse, 2026, p. 12 à 15.</li>
+<li>Voß S., Bube S., Kaltschmitt M., Fuel Communications 17 (2023)
+100093.</li>
+<li>Yao G. et al., Biotechnology for Biofuels 10:18 (2017), tableaux 1
+et 3.</li>
+</ul>
+<p>Les figures sont produites par <code>plot_saf_filieres.py</code>,
+dans le dossier <code>Production/SAF/</code>. Les électricités des voies
+de synthèse (38 et 32 MWh par tonne) sont des calculs de chaîne,
+recoupés par The Shift Project (2026).</p>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">9. Vidéos, billets et
+posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-16-efuels-prix-du-billet.html" target="_blank" rel="noopener">Les
+e-carburants, le prix du billet, et l’accise que l’avion ne paie pas</a>
+(post LinkedIn repris sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:activity:7505879344637140992/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : ce que le prix des e-carburants ferait au prix
+du billet d’avion, et le kérosène qui ne paie pas d’accise.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_SAF_filieres.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-hydrogene-usages.html">L'hydrogène : à quoi il sert, comment on le produit, ce qu'il coûte</a></li><li><a href="note-tarifs-reseau.html">Le tarif d'accès au réseau électrique : ce qu'il paie, comment il est construit, ce qu'il coûte en Europe</a></li><li><a href="note-financer-transition.html">Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#ce-quon-compare-et-comment">2. Ce qu’on compare, et comment</a></li><li><a href="#les-trois-filières-qui-partent-de-la-biomasse">3. Les trois filières qui partent de la biomasse</a></li><li><a href="#les-trois-filières-qui-utilisent-de-lhydrogène-électrolytique">4. Les trois filières qui utilisent de l’hydrogène électrolytique</a></li><li><a href="#émissions-et-coûts">5. Émissions et coûts</a></li><li><a href="#tableau-de-synthèse">6. Tableau de synthèse</a></li><li><a href="#ce-quil-faut-retenir">7. Ce qu’il faut retenir</a></li><li><a href="#sources">8. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">9. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

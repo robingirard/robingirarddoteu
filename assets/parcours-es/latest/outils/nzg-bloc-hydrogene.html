@@ -160,7 +160,9 @@
   }
   .tip b { display: block; margin-bottom: 2px; }
   .case-grid { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: end; margin: 8px 0; }
-  .case-grid label { display: flex; flex-direction: column; gap: 3px; font-size: 14px; color: var(--ink-2); }
+  .case-grid label { display: flex; flex-direction: column; gap: 3px; font-size: 14px; color: var(--ink-2);
+    min-width: 0; max-width: 100%; }
+  .case-grid select { max-width: 100%; }  /* une option longue ne fait pas déborder la page sur un téléphone */
   .factors { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 10px 0; }
   .factor { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
   .factor .v { font-size: 24px; font-weight: 650; font-variant-numeric: tabular-nums; }
@@ -203,6 +205,7 @@
 </style>
 </head>
 <body>
+<nav aria-label="Dans le parcours" class="parcours-encadre" style="font:14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:8px 16px;margin:0;background:rgba(0,94,158,.10);border-bottom:2px solid #F8B740;color:inherit"><strong>Dans le parcours ES</strong> · <a style="color:inherit;text-decoration:underline" href="../index.html#outils">tous les outils</a> · les mini-projets qui s'en servent : <a style="color:inherit;text-decoration:underline" href="../jouer/D.html">cas D</a>, <a style="color:inherit;text-decoration:underline" href="../jouer/H.html">cas H</a>, <a style="color:inherit;text-decoration:underline" href="../jouer/I.html">cas I</a>, <a style="color:inherit;text-decoration:underline" href="../jouer/J.html">cas J</a>, <a style="color:inherit;text-decoration:underline" href="../jouer/K.html">cas K</a></nav>
 <header class="top">
   <div class="wrap">
     <div class="titles">

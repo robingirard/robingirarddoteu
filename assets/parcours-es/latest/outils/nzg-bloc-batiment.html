@@ -160,7 +160,9 @@
   }
   .tip b { display: block; margin-bottom: 2px; }
   .case-grid { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: end; margin: 8px 0; }
-  .case-grid label { display: flex; flex-direction: column; gap: 3px; font-size: 14px; color: var(--ink-2); }
+  .case-grid label { display: flex; flex-direction: column; gap: 3px; font-size: 14px; color: var(--ink-2);
+    min-width: 0; max-width: 100%; }
+  .case-grid select { max-width: 100%; }  /* une option longue ne fait pas déborder la page sur un téléphone */
   .factors { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 10px 0; }
   .factor { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
   .factor .v { font-size: 24px; font-weight: 650; font-variant-numeric: tabular-nums; }
@@ -203,6 +205,7 @@
 </style>
 </head>
 <body>
+<nav aria-label="Dans le parcours" class="parcours-encadre" style="font:14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:8px 16px;margin:0;background:rgba(0,94,158,.10);border-bottom:2px solid #F8B740;color:inherit"><strong>Dans le parcours ES</strong> · <a style="color:inherit;text-decoration:underline" href="../index.html#outils">tous les outils</a> · les mini-projets qui s'en servent : <a style="color:inherit;text-decoration:underline" href="../jouer/C.html">cas C</a></nav>
 <header class="top">
   <div class="wrap">
     <div class="titles">
@@ -359,10 +362,15 @@ température dans le PECD téléchargé : la page ne répartit pas les volumes d
 <section class="onglet" data-tab="cas-c">
 <h2>Reporter le résultat dans le cas C</h2>
 <div class="card">
-  <p>Le cas C du cours (« Thermosensibilité : que coûte la pointe d'hiver, selon la météo ? ») ne prend pas de pente en entrée. Il tire sa thermosensibilité
-  d'une régression sur la demande du TYNDP 2026, l'exercice de prospective des gestionnaires de réseau européens.
-  Pour y reporter une hypothèse de cette page, multipliez les coefficients de la régression par le rapport entre deux
-  années de la page : l'année de la demande du cas, et l'année dont vous voulez l'hypothèse.</p>
+  <p>Le cas C du cours (« Thermosensibilité : que coûte la pointe d'hiver, selon la météo ? ») prend la pente d'hiver
+  en entrée : son levier « thermosensibilité nationale » S met à l'échelle la part chauffage de sa demande pour que la
+  pente, mesurée comme ici (jours sous 15 °C, sans correction du calendrier), vaille S en médiane de ses années météo.
+  Le plus simple est donc de lui donner la pente d'hiver que vous lisez sur cette page, sans pompes à chaleur
+  ajoutées par le cas : <code>M.resoudre(["WS037"], 0, s_cible=S)</code>, où S est votre pente en GW/°C.</p>
+  <p>Pour aller plus fin (reporter un rapport entre deux années, une autre année météo, la pente d'été), le cas tire sa
+  thermosensibilité d'une régression sur la demande du TYNDP 2026, l'exercice de prospective des gestionnaires de
+  réseau européens. Multipliez alors les coefficients de la régression par le rapport entre deux années de la page :
+  l'année de la demande du cas, et l'année dont vous voulez l'hypothèse.</p>
   <div class="case-grid">
     <label>Année de la demande du cas
       <select data-case-year></select>
@@ -427,11 +435,12 @@ b, info, _ = M.resoudre(["<span data-meteo-ws-nom></span>", "<span data-meteo-ws
   <li><strong>La rénovation par niveau</strong> n'existe pas dans le modèle : un seul curseur y confond le nombre de
   rénovations et leur profondeur. La page l'exprime comme une part de rénovations profondes, avec le gain que le
   modèle prête à une rénovation profonde (<span data-v="deep_retrofit_saving" data-pct></span> % du besoin).
-  Pour aller plus loin : le cas C du cours confronte la rénovation aux pompes à chaleur, levier par levier.</li>
+  Pour aller plus loin : le cas C du cours prend en entrée la pente d'hiver de cette page (son levier
+  « thermosensibilité nationale ») et en chiffre le coût pour le système électrique.</li>
   <li><strong>L'été et l'isolation.</strong> Le modèle ne relie pas l'isolation au besoin de froid. La pente d'été ne
   suit donc que la croissance de la climatisation, alors qu'une maison bien conçue (protections solaires,
-  ventilation de nuit) a beaucoup moins besoin d'être rafraîchie. Pour aller plus loin : le cas C du cours creuse
-  la pente d'été de la climatisation.</li>
+  ventilation de nuit) a beaucoup moins besoin d'être rafraîchie. Pour aller plus loin : la variante d'été du cas C
+  du cours creuse la pente d'été de la climatisation.</li>
   <li><strong>Le parc ne grandit pas.</strong> Les surfaces chauffées restent celles de 2020 dans le modèle ; les
   constructions neuves n'y chauffent rien.</li>
   <li><strong>Les années intermédiaires</strong> sont une interpolation en ligne droite des gestes. Un parc réel

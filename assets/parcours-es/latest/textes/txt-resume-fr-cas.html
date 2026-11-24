@@ -98,7 +98,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Les cas 0 et A à E en français, palier par palier</h1>
     <p class="resume">Pour chaque cas prêt du dépôt, les paliers de son notebook (en anglais) résumés en français, avec la sortie à regarder, la valeur attendue, le temps d'exécution et le chiffre à retenir, puis un glossaire FR/EN des termes de pommes et pommes_craft.</p>
   </header>
-  <p>Les six notebooks prêts sont en anglais. Cette page les résume en français, palier par palier : la sortie à lire et la valeur à y voir (sorties enregistrées des notebooks, README). Les temps sont ceux du README (MacBook Pro M3 Max) ; comptez le double sur un portable. Chaque notebook relit le <code>results.json</code> de sa grille. Écrire un modèle : <a href="../textes/premier-modele.html">Un premier modèle pommes_craft en une heure, sept blocs exécutés avec valeurs attendues</a> ; choisir son cas : <a href="../textes/txt-choisir-son-cas.html">Choisir son mini-projet le lundi soir : deux sortes de mini-projets, les cartes, les quatre rôles</a>.</p>
+  <p>Les six notebooks prêts sont en anglais. Cette page les résume en français, palier par palier : la sortie à lire et la valeur à y voir (sorties enregistrées des notebooks, README). Les temps sont ceux du README (MacBook Pro M3 Max) ; comptez le double sur un portable. Chaque notebook relit le <code>results.json</code> de sa grille. Écrire un modèle : <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a> ; choisir son cas : <a href="../textes/txt-choisir-son-cas.html">Choisir son mini-projet le lundi soir : deux sortes de mini-projets, les cartes, les quatre rôles</a>.</p>
 <h2>Cas 0 : les jeux de prix divergent (2 h, aucun calcul lourd)</h2>
 <table>
 <thead>
@@ -208,7 +208,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>À retenir : de 8 à 33 millions de voitures pilotées, gain de 49 à 42 €/an, heures sous 10 €/MWh de 452 à 64.</p>
-<h2>Cas C : thermosensibilité, la pointe d'hiver (3 h ; notebook ≈ 30 s, grille ≈ 15 min, 27 résolutions)</h2>
+<h2>Cas C : thermosensibilité, la pointe d'hiver (3 h ; notebook ≈ 30 s, grille ≈ 30 min, 63 résolutions)</h2>
 <table>
 <thead>
 <tr>
@@ -226,22 +226,27 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <tr>
 <td>2. Heat pumps</td>
 <td>COP par température, chaleur à fournir ; profil en degrés-heures seuls</td>
-<td>2,3 à −12 °C, 3,4 à 18 °C ; 158 TWh ; pointe des PAC de WS060 : 60,5 GW avec les pentes de grand froid, 49,2 sans</td>
+<td>2,5 à −12 °C, 3,4 à 18 °C ; 158 TWh ; pointe des PAC de WS060 : 56,7 GW avec les pentes de grand froid, 46,1 sans</td>
 </tr>
 <tr>
 <td>3. Two winters, solved live</td>
 <td><code>M.resoudre(["WS037", "WS060"], part, dec=dec, norm=norm)</code> ; <code>defaillance_max_gw</code></td>
-<td>0,7 M variables, 5 à 9 s ; WS060, 100 % PAC : 53,5 GW manquants (unique : variable de pointe pénalisée de 0,01 €/MW)</td>
+<td>0,7 M variables, 4 à 9 s ; WS060, 100 % PAC : 52,2 GW manquants (unique : variable de pointe pénalisée de 0,01 €/MW)</td>
 </tr>
 <tr>
 <td>4. The extra cost for the power system</td>
 <td><code>results.json</code>, 30 hivers ; <code>surcout_systeme_meur</code> = <code>surcout_energie_meur</code> + <code>surcout_puissance_meur</code></td>
-<td>100 % : 2 970 à 10 888 M€/an, médiane 5 894, 76 % d'énergie ; combustible évité 12 010 M€/an</td>
+<td>100 % : 2 976 à 10 650 M€/an, médiane 5 848, 76 % d'énergie ; combustible évité 12 010 M€/an</td>
 </tr>
 <tr>
 <td>Sensitivities</td>
 <td>table <code>sensibilites</code></td>
-<td>surcoût médian 5,2 (chaudières 0,85) à 6,4 Md€/an (COP 1,9 à −10 °C ; TAC +30 %)</td>
+<td>surcoût médian 5,2 (chaudières 0,85) à 6,5 Md€/an (COP 1,9 à −10 °C)</td>
+</tr>
+<tr>
+<td>National temperature sensitivity</td>
+<td><code>M.facteur_chauffage(dec, s)</code> ; table <code>synthese_s</code></td>
+<td>S = 1,5 / 3,85 / 5,0 GW/°C : facteur 0,59 / 1,98 / 2,65 ; surcoût médian, voisins moyens, ≈ 2 Md€/an par GW/°C autour de 2,2, 4,8 entre 3,85 et 5</td>
 </tr>
 <tr>
 <td>5. Checks against prices</td>

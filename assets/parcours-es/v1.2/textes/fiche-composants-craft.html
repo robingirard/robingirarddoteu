@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les composants de pommes_craft et leurs défauts · Parcours ES 2026</title>
+<meta name="description" content="Pour chaque composant de pommes_craft 0.6.0, ce qu'il représente, ses principaux arguments avec leurs unités et leurs défauts lus dans le code, le paramètre pommes qu'il alimente et son piège ; cinq hypothèses traduites en composant ; une batterie de 1 MW / 2 h ajoutée au modèle du tutoriel.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 45 min</span> · <span>Atelier, Flexibilité, Hydrogène, Industrie, Interco et EnR</span></div>
+    <h1>Les composants de pommes_craft et leurs défauts</h1>
+    <p class="resume">Pour chaque composant de pommes_craft 0.6.0, ce qu'il représente, ses principaux arguments avec leurs unités et leurs défauts lus dans le code, le paramètre pommes qu'il alimente et son piège ; cinq hypothèses traduites en composant ; une batterie de 1 MW / 2 h ajoutée au modèle du tutoriel.</p>
+  </header>
+  <p>Un modèle pommes_craft est une liste de composants déclarés dans <code>with model.context():</code>. Chaque composant devient un ou plusieurs paramètres pommes, préfixés par son module (<code>conversion_</code>, <code>storage_</code>, <code>net_import_</code>...). Deux jeux de défauts se superposent, qui ne coïncident pas toujours : ceux de la signature pommes_craft, dès que le composant existe, et ceux de pommes, quand il n'existe pas. Défauts lus dans le code installé de pommes_craft 0.6.0 (<code>inspect.signature</code>) et dans <code>dataset_description.yaml</code> de pommes 0.11.0 ; tableaux non exhaustifs (annuité, déclassement anticipé et quelques bornes omis). Unités : nomenclature pommes, MW, MWh, €, kg de CO₂. Pièges : <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>.</p>
+<h2>Le cadre : EnergyModel et trois composants sans zone</h2>
+<p><code>EnergyModel</code> porte les indices ; ses arguments s'écrivent nommés, jamais en positionnel. Une capacité investie en <code>year_inv</code> n'existe que si <code>year_inv + life_span</code> est une étiquette de <code>year_decs</code> (piège 3).</p>
+<table>
+<thead>
+<tr>
+<th>Composant</th>
+<th>Ce qu'il représente</th>
+<th>Arguments et défauts</th>
+<th>Paramètre pommes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EconomicHypothesis</code></td>
+<td>Le temps et l'argent</td>
+<td><code>discount_rate=0.0</code> (fraction), <code>year_ref=2020</code>, <code>planning_step=nan</code>, <code>operation_year_weight=1.0</code></td>
+<td><code>discount_rate</code>, <code>year_ref</code>, <code>planning_step</code>, <code>operation_year_weight</code></td>
+</tr>
+<tr>
+<td><code>TimeStepManager</code></td>
+<td>Le pas et l'année</td>
+<td><code>time_step_duration=nan</code> (h par pas), <code>operation_year_duration=nan</code> (h par an ; docstring « days » trompeuse : écrire 8760.0)</td>
+<td><code>time_step_duration</code>, <code>operation_year_duration</code></td>
+</tr>
+<tr>
+<td><code>Carbon</code></td>
+<td>Taxe ou plafond CO₂</td>
+<td><code>tax=nan</code> (€/kg), <code>goal=nan</code> (kg/an) ; déclaré hors zone, il s'applique à toutes les zones (<code>carbon_tax</code> est pourtant indexé <code>area, year_op</code> dans pommes)</td>
+<td><code>carbon_tax</code>, <code>carbon_goal</code></td>
+</tr>
+</tbody>
+</table>
+<p>Piège 6 : une taxe de 45 €/t s'écrit <code>tax=0.045</code>. Vérifié sur deux zones de 24 h : 24 MWh de gaz à 202 kg/MWh et 0,045 €/kg ajoutent 24 × 202 × 0,045 = 218,16 € (<code>operation_carbon_costs</code>).</p>
+<h2>Les composants d'une zone</h2>
+<p><code>Area(name)</code> est la zone ; <code>area.add_component(...)</code> y range tout ce qui suit.</p>
+<table>
+<thead>
+<tr>
+<th>Composant</th>
+<th>Ce qu'il représente</th>
+<th>Principaux arguments et défauts</th>
+<th>Paramètre pommes</th>
+<th>Piège</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Demand</code></td>
+<td>Une consommation rigide</td>
+<td><code>resource</code>, <code>demand=0.0</code> (MW ; float, dict par heure ou DataFrame <code>hour, year_op, demand</code>)</td>
+<td><code>demand</code></td>
+<td>Un dict est lu par heure : <code>demand={2030: 1.0}</code> lève <code>ValueError: Invalid hour values</code>. Le DataFrame doit couvrir toutes les heures</td>
+</tr>
+<tr>
+<td><code>LoadShedding</code></td>
+<td>Le délestage, par ressource</td>
+<td><code>cost=1000.0</code> (€/MWh), <code>max_capacity=nan</code> (MW)</td>
+<td><code>load_shedding_cost</code>, <code>load_shedding_max_capacity</code></td>
+<td>Sans composant, pommes met coût 0 et capacité illimitée (piège 1)</td>
+</tr>
+<tr>
+<td><code>Spillage</code></td>
+<td>L'écrêtement, par ressource</td>
+<td><code>cost=1000.0</code>, <code>max_capacity=0.0</code> : interdit par défaut</td>
+<td><code>spillage_cost</code>, <code>spillage_max_capacity</code></td>
+<td>Sans composant, pommes le rend gratuit et illimité</td>
+</tr>
+<tr>
+<td><code>NetImport</code></td>
+<td>Le marché ou un fournisseur extérieur</td>
+<td><code>resource</code>, <code>import_price=0.0</code>, <code>export_price=0.0</code> (€/MWh, float ou DataFrame horaire), <code>max_yearly_energy_import=nan</code>, <code>max_yearly_energy_export=nan</code> (MWh/an), <code>emission_factor=0.0</code> (kg/MWh)</td>
+<td><code>net_import_import_price</code>, <code>net_import_export_price</code>, <code>net_import_max_yearly_energy_*</code></td>
+<td>Un seul par zone et ressource ; prix 0 ; ouvre toutes les ressources ; aucune borne horaire (piège 2)</td>
+</tr>
+<tr>
+<td><code>ConversionTechnology</code></td>
+<td>Une centrale ou un convertisseur</td>
+<td><code>factor</code> (requis, sans dimension : MWh de ressource par MWh d'activité de la technologie ; la ressource consommée est négative), <code>availability=nan</code> (fraction horaire), <code>invest_cost=0.0</code> (€/MW), <code>fixed_cost=0.0</code> (€/MW/an), <code>variable_cost=0.0</code> (€/MWh), <code>finance_rate=0.0</code>, <code>life_span=5</code> (ans), <code>emission_factor=0.0</code> (kg/MWh), <code>power_capacity_investment_min/max=nan</code>, <code>must_run</code>, <code>ramp_up</code>, <code>ramp_down</code>, <code>max_yearly_production=nan</code></td>
+<td><code>conversion_*</code></td>
+<td><code>life_span=5</code> par défaut : avec <code>year_decs=[2055]</code> la capacité disparaît sans message (piège 3) ; si <code>power_capacity_investment_min</code> l'impose, pommes 0.11.0 lève une <code>ValueError</code></td>
+</tr>
+<tr>
+<td><code>StorageTechnology</code></td>
+<td>Batterie, STEP, réservoir</td>
+<td><code>factor_in</code>, <code>factor_keep</code>, <code>factor_out</code> (requis, par ressource), <code>dissipation=0.0</code>, <code>invest_cost_power=0.0</code> (€/MW), <code>invest_cost_energy=0.0</code> (€/MWh), <code>fixed_cost_power/energy=0.0</code>, <code>finance_rate=0.0</code>, <code>life_span=5</code>, <code>power_capacity_investment_min/max=nan</code>, <code>energy_capacity_investment_min/max=nan</code>, <code>energy_to_power_ratio=nan</code> (h)</td>
+<td><code>storage_*</code></td>
+<td>Le même <code>life_span=5</code> ; <code>factor_out</code> à 0 dans un exemple de la doc</td>
+</tr>
+<tr>
+<td><code>FlexibleDemand</code></td>
+<td>Une demande déplaçable</td>
+<td><code>resource</code>, <code>demand=nan</code> (MW), <code>conservation_hrs=0</code> (h), <code>min_demand</code>, <code>max_demand=nan</code> (MW), <code>ramp_up</code>, <code>ramp_down</code>, <code>variable_cost=nan</code> (€/MWh déplacé)</td>
+<td><code>flexibility_*</code></td>
+<td><code>conservation_hrs=0</code> : conservation sur tout l'horizon, la demande peut se déplacer d'un bout de l'année à l'autre. Pommes impose toujours la somme annuelle ; les fenêtres ne s'ajoutent que si <code>conservation_hrs &gt; 0</code></td>
+</tr>
+<tr>
+<td><code>CombinedTechnology</code></td>
+<td>Une unité à plusieurs modes (cogénération)</td>
+<td>comme <code>ConversionTechnology</code>, sans <code>availability</code> ; <code>factor</code> et <code>variable_cost</code> par mode ; <code>modes</code> déclarés dans <code>EnergyModel</code></td>
+<td><code>combined_*</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Turpe</code></td>
+<td>Le tarif de réseau français</td>
+<td><code>calendar=nan</code> (type d'heure par heure), <code>fixed_cost=0.0</code>, <code>variable_cost=0.0</code> par <code>hour_type</code></td>
+<td><code>turpe_*</code></td>
+<td><code>hour_types</code> à déclarer dans <code>EnergyModel</code> ; hors zone, il s'applique à toutes</td>
+</tr>
+</tbody>
+</table>
+<p>Vérifié pour <code>FlexibleDemand</code> sur 48 h, prix 100 €/MWh puis 10 €/MWh, demande 1 MW, <code>max_demand=2.0</code> : <code>conservation_hrs=0</code> donne 480 €, les 48 MWh consommés dans les 24 heures à 10 € ; <code>conservation_hrs=24</code> ou <code>1</code> donne 2 640 €, comme une <code>Demand</code> rigide.</p>
+<p>Trois composants de plus existent : <code>ProductionGroup</code> (plafond annuel partagé), <code>RetrofitConversion</code> et <code>RetrofitCombined</code> (conversion d'une technologie en une autre).</p>
+<h2>Entre deux zones : Link et TransportTechnology</h2>
+<p><code>Link(name, area_from, area_to)</code> relie deux <code>Area</code> ; <code>link.add_transport_technology(TransportTechnology(...))</code> y pose une ligne. Arguments : <code>resource</code> (requis), <code>invest_cost=0.0</code> (€/MW), <code>life_span=5</code>, <code>power_capacity_investment_min/max=nan</code> (MW), <code>hurdle_costs=nan</code> (€/MWh transporté), <code>finance_rate=nan</code>, <code>fixed_cost=nan</code>. Les <code>nan</code> restent <code>nan</code> dans les paramètres pommes (<code>transport_hurdle_costs</code>, lu après <code>store_pommes_parameters=True</code>) et comptent pour 0 dans l'objectif. Vérifié sur deux zones de 24 h : une ligne de 1 MW transporte 24 MWh pour 1 200 € de gaz à 50 €/MWh ; <code>hurdle_costs=2.0</code> ajoute 48 €, rangés dans <code>operation_transport_costs</code> depuis pommes 0.11. L'activité <a href="../textes/act-transport-deux-zones.html">Deux zones et un lien : flux, duale de la capacité d'échange et rente de congestion</a> va plus loin.</p>
+<h2>Cinq phrases d'hypothèse</h2>
+<table>
+<thead>
+<tr>
+<th>Phrase</th>
+<th>Composant et argument</th>
+<th>Paramètre pommes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>« 20 % de la demande est déplaçable dans la journée »</td>
+<td><code>FlexibleDemand(demand=0.2 × profil, conservation_hrs=24, max_demand=..., variable_cost=...)</code> ; le reste en <code>Demand</code></td>
+<td><code>flexibility_demand</code>, <code>flexibility_conservation_hrs</code></td>
+</tr>
+<tr>
+<td>« Le gaz est acheté à 35 €/MWh »</td>
+<td><code>NetImport(resource="methane", import_price=35.0, max_yearly_energy_export=0.0)</code> et une <code>ConversionTechnology</code> dont <code>factor["methane"]</code> est négatif</td>
+<td><code>net_import_import_price</code></td>
+</tr>
+<tr>
+<td>« La capacité d'échange avec le voisin est de 3 GW »</td>
+<td><code>TransportTechnology(power_capacity_investment_min=3000.0, power_capacity_investment_max=3000.0)</code> sur un <code>Link</code> ; face à un prix exogène, <code>NetImport</code> ne borne que l'énergie annuelle, pas la puissance</td>
+<td><code>transport_power_capacity_investment_*</code></td>
+</tr>
+<tr>
+<td>« Le délestage est interdit »</td>
+<td><code>LoadShedding(resource, max_capacity=0.0)</code></td>
+<td><code>load_shedding_max_capacity</code></td>
+</tr>
+<tr>
+<td>« Une taxe CO₂ de 80 €/t »</td>
+<td><code>Carbon(tax=0.080)</code> et <code>emission_factor</code> en kg/MWh sur chaque technologie et chaque <code>NetImport</code></td>
+<td><code>carbon_tax</code>, <code>conversion_emission_factor</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Activité : une batterie de 1 MW / 2 h dans le modèle du tutoriel</h2>
+<p>Objectif : ajouter un stockage au modèle du bloc 4 de <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a> et lire son effet. Prérequis : ce tutoriel exécuté (497 405,29 €). Chaque résolution prend 2 à 3 secondes.</p>
+<ol>
+<li>Reprendre <code>modele_de_base</code>, <code>pv()</code> et <code>turbine()</code> du tutoriel. Ajouter la batterie : rendement 0,9 à la décharge, taille imposée, investissement nul. <code>life_span=25</code> accorde la batterie à <code>year_decs=[2055]</code>.</li>
+</ol>
+<pre><code class="language-python">from pommes_craft import StorageTechnology
+def batterie(**kw):
+    base = dict(name=&quot;batterie&quot;, factor_in={&quot;electricity&quot;: -1.0}, factor_out={&quot;electricity&quot;: 0.9},
+                factor_keep={&quot;electricity&quot;: 0.0}, dissipation=0.0, life_span=25,
+                power_capacity_investment_min=1.0, power_capacity_investment_max=1.0,
+                energy_to_power_ratio=2.0)
+    base.update(kw)
+    return StorageTechnology(**base)
+
+m, zone = modele_de_base(&quot;tuto_batterie&quot;)
+with m.context():
+    zone.add_component(pv()); zone.add_component(turbine()); zone.add_component(batterie())
+m.run(store_linopy_model=True)
+print(f&quot;coût total {m.linopy_model.objective.value:,.2f} €&quot;)   # 472,144.28 €
+print(m.get_results(&quot;planning&quot;, &quot;power_capacity&quot;).select(&quot;name&quot;, &quot;value&quot;))   # pv 2.150538, turbine_gaz 1.0, batterie 1.0
+</code></pre>
+<ol start="2">
+<li>Lire les cycles dans <code>operation_storage_net_generation</code> : positif quand la batterie injecte, négatif quand elle charge.</li>
+</ol>
+<pre><code class="language-python">sol = m.linopy_model.solution
+ng = sol[&quot;operation_storage_net_generation&quot;].sel(area=&quot;FR&quot;, resource=&quot;electricity&quot;).squeeze()
+e_cap = float(sol[&quot;planning_storage_energy_capacity&quot;].sum())                 # 2.0 MWh
+injecte = float(ng.where(ng &gt; 0, 0).sum()); charge = float(-ng.where(ng &lt; 0, 0).sum())
+print(f&quot;injecté {injecte:.0f} MWh, chargé {charge:.0f} MWh, cycles {injecte / e_cap:.0f}&quot;)
+# injecté 672 MWh, chargé 747 MWh, cycles 336
+print(int((ng &gt; 1e-6).sum()), int((ng &lt; -1e-6).sum()))   # environ 839 heures d'injection, 1309 heures de charge
+</code></pre>
+<p>Le coût est unique, pas le détail horaire : 8 heures ont un prix nul et 196 sont sous 1 €/MWh, donc plusieurs plannings de la batterie coûtent exactement pareil. D'une exécution ou d'une version à l'autre, les heures d'injection et de charge peuvent varier de quelques unités, une douzaine au plus, et l'énergie de moins d'un MWh, au même coût de 472 144,28 €. Les cycles arrondis (336) et la perte (75 MWh) tiennent.</p>
+<ol start="3">
+<li>Le piège : remettre <code>life_span</code> au défaut, 5 ans, et retirer le plancher de puissance. La batterie peut encore aller jusqu'à 1 MW.</li>
+</ol>
+<pre><code class="language-python">m5, zone = modele_de_base(&quot;tuto_batterie_lifespan5&quot;)
+with m5.context():
+    zone.add_component(pv()); zone.add_component(turbine())
+    zone.add_component(batterie(life_span=5, power_capacity_investment_min=float(&quot;nan&quot;)))
+m5.run(store_linopy_model=True)
+print(f&quot;{m5.linopy_model.objective.value:,.2f} €&quot;, float(m5.linopy_model.solution[&quot;planning_storage_power_capacity&quot;].sum()))
+# 497,405.29 € 0.0 : la batterie a disparu, le modèle est celui du tutoriel
+</code></pre>
+<p>Avec le plancher, <code>batterie(life_span=5)</code> ne tourne plus : pommes 0.11.0 lève <code>ValueError: storage_power_capacity_investment_min = 1 at area=FR, storage_tech=batterie, year_inv=2030 is imposed on a vintage without planning variable</code> (contrôle ajouté en 0.10). Une capacité imposée est protégée ; une capacité laissée au choix de pommes disparaît toujours sans message.</p>
+<p>À noter : le coût passe de 497 405,29 à 472 144,28 €, soit 25 261 € de moins pour 1 MW ; le PV monte de 1,647 à 2,151 MW, la turbine tombe de 181,6 à 144,8 MWh, l'import de 6 619 à 6 118 MWh. La batterie vaut en partie par le PV qu'elle rend possible. Si pommes choisit la taille (<code>invest_cost_power=100_000</code>, <code>invest_cost_energy=150_000</code>, <code>finance_rate=0.04</code>, bornes retirées), il prend 0,186 MW et le coût vaut 497 347,97 €.</p>
+<p>Questions. Quelle énergie se perd entre charge et injection, et quel argument la porte ? (747 − 672 = 75 MWh, <code>factor_out=0.9</code>.) Combien de cycles par jour en moyenne ? (336 / 365 = 0,92.) Que vaut <code>planning_storage_energy_capacity</code> si l'on remplace <code>energy_to_power_ratio=2.0</code> par <code>energy_capacity_investment_min=2.0, energy_capacity_investment_max=2.0</code> ? (2,0 MWh, même coût.)</p>
+<h2>Vous l'avez acquise quand…</h2>
+<ul>
+<li>Pour les cinq phrases du tableau, vous nommez le composant, l'argument et son unité sans ouvrir la fiche.</li>
+<li>Vous retrouvez 472 144,28 € et 336 cycles, et vous expliquez les 25 261 € de gain par les trois mouvements du bilan.</li>
+<li>Vous dites, avant de lancer, ce que fait un <code>StorageTechnology</code> laissé à <code>life_span=5</code> avec <code>year_decs=[2055]</code>, avec et sans plancher de puissance, et ce que fait une <code>FlexibleDemand</code> laissée à <code>conservation_hrs=0</code>.</li>
+<li>Vous écrivez un gaz à prix fixe avec deux composants et un <code>factor</code> négatif.</li>
+</ul>
+<h2>Pour aller plus loin</h2>
+<ul>
+<li>Les valeurs par défaut de chaque paramètre pommes, avec ses dimensions <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/dataset_description.html" target="_blank" rel="noopener">Dataset description : la table de tous les paramètres (défaut, dimensions, type)</a>.</li>
+<li>Les trois exemples de la doc pommes_craft : PV + gaz, deux zones reliées, batterie (site en 0.3.7 ; <code>factor_out</code> à 0 dans l'exemple batterie) <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/examples.html" target="_blank" rel="noopener">Examples de pommes_craft : PV + gaz, deux zones reliées, batterie</a>.</li>
+<li>Le cas A : la même batterie face au marché, revenu par kW et n-ième GW <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</li>
+<li>Une demande déplaçable en trente lignes <a href="../textes/act-demande-flexible-craft.html">Une FlexibleDemand de 30 lignes sur le modèle du tutoriel</a>.</li>
+</ul>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">pommes_craft 0.6.0 sur PyPI (code lu : pommes_craft/components/*.py, core/model.py)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_craft" target="_blank" rel="noopener">Dépôt pommes_craft (RELEASE_NOTES, examples)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/dataset_description.html" target="_blank" rel="noopener">Doc pommes, Dataset description (défauts de pommes 0.11.0, lus dans model/data_validation/dataset_description.yaml)</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Doc pommes, Model description (stockage, carbone, transport, demande flexible)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (A_batteries/model.py, pommes_cases/systeme_fr.py, pommes_cases/blocks.py)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

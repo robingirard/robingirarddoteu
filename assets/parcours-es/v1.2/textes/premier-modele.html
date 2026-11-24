@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Un premier modèle pommes_craft en une heure · Parcours ES 2026</title>
+<meta name="description" content="Les huit étapes du notebook du premier modèle et la valeur attendue de chacune — une zone face au prix horaire 2030, un PV, une turbine, le piège du délestage, la solution, les prix duaux, puis quatre futurs de prix. Le code est dans le notebook.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#parcours">← Retour au parcours</a><span>Parcours ES 2026 · texte pédagogique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>intermédiaire</span> · <span>≈ 60 min</span> · <span>Socle, Modélisation, Optimisation, Prix et marchés</span></div>
+    <h1>Un premier modèle pommes_craft en une heure</h1>
+    <p class="resume">Les huit étapes du notebook du premier modèle et la valeur attendue de chacune — une zone face au prix horaire 2030, un PV, une turbine, le piège du délestage, la solution, les prix duaux, puis quatre futurs de prix. Le code est dans le notebook.</p>
+  </header>
+  <p>Le code est dans le notebook <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/premier_modele" target="_blank" rel="noopener">Un premier modèle pommes_craft, pas à pas (notebook)</a> : un modèle d'une zone qui consomme 1 MW et achète son électricité au prix horaire français de 2030, enrichi étape par étape. Cette page n'en garde que les étapes et leurs valeurs attendues, pour vérifier votre résultat ou suivre sans ordinateur. Comptez une heure ; le notebook entier tourne en 16 secondes sur un MacBook Pro M3 Max, avec l'environnement épinglé du dépôt des cas (pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, highspy 1.15.1). Valeurs du 24/11/2026 : un écart au centime près est normal, au pour cent ne l'est pas.</p>
+<p>Sur Colab, la première cellule du notebook clone le dépôt et installe les paquets, puis vous demande de redémarrer la session une fois : voir le repli Colab de la page <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>.</p>
+<h2>Étape 1 — Lire un prix horaire 2030</h2>
+<p>La série TYNDP 2026, scénario NT+, France, 2030, année météo WS003 : 8 760 prix.</p>
+<p><strong>Valeur attendue</strong> : moyenne 57,50 €/MWh, somme 503 710 € ; 8 heures à 0 €/MWh, 196 sous 0,5 €/MWh ; le plafond de 350 €/MWh atteint une heure, aucune heure à 1 000 €/MWh ou plus.</p>
+<h2>Étape 2 — Une zone, une demande, le réseau</h2>
+<p>Une zone, une demande plate de 1 MW, un réseau qui vend au prix horaire et ne rachète rien ; ni délestage ni écrêtement.</p>
+<p><strong>Valeur attendue</strong> : coût total 503 709,84 €. C'est la somme des prix : 1 MW pendant une heure, c'est 1 MWh payé au prix de l'heure.</p>
+<h2>Étape 3 — Un PV dont pommes choisit la taille</h2>
+<p>Un PV à 600 000 €/MW, 25 ans, 4 % : son annuité vaut 600 000 × 0,04 / (1 − 1,04⁻²⁵). Le modèle choisit la capacité qui minimise annuité plus achats.</p>
+<p><strong>Valeur attendue</strong> : annuité 38 407 €/MW/an ; 1,647 MW de PV ; coût total 500 124,82 €. À vous : à 300 000 €/MW, la capacité monte (3,155 MW) et le coût baisse (453 140 €).</p>
+<h2>Étape 4 — Une turbine à gaz existante</h2>
+<p>Une turbine déjà là, sans investissement, à 110 €/MWh de coût variable. Une turbine neuve ne se paierait pas : les écarts de prix au-dessus de 110 €/MWh rapportent 2 843 €/MW/an, contre 32 006 € d'annuité.</p>
+<p><strong>Valeur attendue</strong> : coût total 497 405,29 € ; 199 heures où le prix dépasse 110 €/MWh.</p>
+<h2>Étape 5 — Le piège du délestage gratuit</h2>
+<p>Sans composant de délestage, pommes en ajoute un gratuit et illimité : le modèle coupe toute la demande et ne coûte rien.</p>
+<p><strong>Valeur attendue</strong> : sans délestage explicite, 0,00 € et 8 760 MWh délestés ; avec un coût de défaillance de 3 000 €/MWh, 497 405,29 € et 0 MWh délesté.</p>
+<h2>Étape 6 — Lire la solution</h2>
+<p><strong>Valeur attendue</strong> : PV 1 959,40 MWh, turbine 181,58 MWh, import 6 619 MWh : 1 959 + 182 + 6 619 = 8 760 MWh, le bilan est fermé. Coûts : 63 274 € d'annuité du PV, 19 974 € de gaz, 414 158 € d'achats.</p>
+<h2>Étape 7 — La duale de l'équilibre offre-demande : un prix</h2>
+<p>La duale de la contrainte qui équilibre offre et demande, divisée par le facteur d'échelle de pommes (<code>dual_scale</code>, ici 1), se lit comme un prix en €/MWh <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>.</p>
+<p><strong>Valeur attendue</strong> : la duale égale le prix d'import sur les 8 304 heures où la zone importe. Sur les 199 heures où la turbine couvre la demande sans import, elle vaut 110 €/MWh sur 76 heures (turbine marginale) ; sur les 123 heures où la turbine tourne à plein, elle n'est pas unique et HiGHS rend le prix de marché. Sur les 257 heures où le PV suffit, elle vaut 0,55 €/MWh en moyenne. Somme des duales : 499 345,72 €, soit 1 940,43 € de plus que le coût total : la rente de la turbine, reprise par la duale de sa capacité (−1 940,43 €).</p>
+<h2>Étape 8 — Le même modèle sous les quatre jeux de prix</h2>
+<p>On garde l'installation et on ne change que le prix : la série centrale française de chacun des quatre jeux du dépôt, en 2030 puis en 2040.</p>
+<table>
+<thead>
+<tr>
+<th>jeu</th>
+<th>année</th>
+<th>prix moyen (€/MWh)</th>
+<th>PV (MW)</th>
+<th>turbine (h)</th>
+<th>coût (€)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tyndp2024</td>
+<td>2030</td>
+<td>60,2</td>
+<td>1,818</td>
+<td>49</td>
+<td>503 442</td>
+</tr>
+<tr>
+<td>tyndp2026</td>
+<td>2030</td>
+<td>57,5</td>
+<td>1,647</td>
+<td>199</td>
+<td>497 405</td>
+</tr>
+<tr>
+<td>etage1_tyndp2026</td>
+<td>2030</td>
+<td>55,9</td>
+<td>1,757</td>
+<td>123</td>
+<td>479 758</td>
+</tr>
+<tr>
+<td>fos_sur_mer</td>
+<td>2030</td>
+<td>61,5</td>
+<td>0</td>
+<td>57</td>
+<td>495 864</td>
+</tr>
+<tr>
+<td>tyndp2024</td>
+<td>2040</td>
+<td>73,3</td>
+<td>1,653</td>
+<td>438</td>
+<td>507 005</td>
+</tr>
+<tr>
+<td>tyndp2026</td>
+<td>2040</td>
+<td>65,3</td>
+<td>0</td>
+<td>1 540</td>
+<td>407 776</td>
+</tr>
+<tr>
+<td>etage1_tyndp2026</td>
+<td>2040</td>
+<td>44,0</td>
+<td>0</td>
+<td>859</td>
+<td>324 964</td>
+</tr>
+<tr>
+<td>fos_sur_mer</td>
+<td>2040</td>
+<td>56,9</td>
+<td>0</td>
+<td>516</td>
+<td>432 382</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Valeur attendue</strong> : le PV se construit exactement quand le prix capté aux heures de soleil dépasse 31,8 €/MWh (38 407 € d'annuité sur 1 208 heures à pleine puissance). Prix captés : 39,2, 33,7, 36,0 et 28,2 €/MWh en 2030 ; 35,4, 26,2, 22,6 et 24,8 en 2040, dans l'ordre du tableau. La décision ne suit pas le prix moyen : fos_sur_mer a le plus haut de 2030 et pas de PV.</p>
+<h2>Vous l'avez compris quand…</h2>
+<ul>
+<li>Vous retrouvez 503 709,84 € à l'étape 2 et savez dire pourquoi c'est la somme des prix.</li>
+<li>Vous changez le coût d'investissement du PV à 300 000 €/MW et prédisez, avant de lancer, le sens de variation de la capacité (elle monte) et du coût (il baisse).</li>
+<li>Vous expliquez en une phrase pourquoi l'étape 5 coûte 0 € sans délestage explicite.</li>
+<li>Vous retrouvez 110 €/MWh de duale sur les 76 heures où la turbine tourne en partie, et dites pourquoi ses 123 heures à plein peuvent porter un autre prix.</li>
+<li>Vous dites pourquoi fos_sur_mer 2030, au prix moyen le plus haut (61,5 €/MWh), ne fait construire aucun PV : son prix capté (28,2 €/MWh) est sous le seuil de 31,8 €/MWh.</li>
+</ul>
+<p>Ensuite : votre mini-projet. Le modèle d'un cas du dépôt, c'est ce modèle avec d'autres composants ; ouvrez le dossier de votre cas, son README, puis son <code>model.py</code>.</p>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/premier_modele" target="_blank" rel="noopener">Dépôt pommes-case-studies, dossier premier_modele (notebook exécuté le 24/11/2026)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft sur PyPI</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/usage.html" target="_blank" rel="noopener">Usage de pommes_craft</a></li><li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/nomenclature.html" target="_blank" rel="noopener">Nomenclature de pommes (indices, paramètres, variables)</a></li></ol></section>
+</article>
+
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

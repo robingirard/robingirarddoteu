@@ -181,7 +181,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tr>
 </tbody>
 </table>
-<p>Ce que le jeu ne vérifie pas : la pointe est un chiffre côté demande, chauffage électrique seul, calé sur 40 GW en 2020. Rien ne dit que le parc la couvre. Le cas C <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/C_thermosensibilite" target="_blank" rel="noopener">Cas C — Thermosensibilité : que coûte la pointe d'hiver, selon la météo ?</a> le dit : 3,0 à 10,9 Md€/an de plus pour le système électrique selon l'hiver quand tout le chauffage fossile passe en PAC.</p>
+<p>Ce que le jeu ne vérifie pas : la pointe est un chiffre côté demande, chauffage électrique seul, calé sur 40 GW en 2020. Rien ne dit que le parc la couvre. Le cas C <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/C_thermosensibilite" target="_blank" rel="noopener">Cas C — Thermosensibilité : que coûte la pointe d'hiver, selon la météo ?</a> le dit : 3,0 à 10,6 Md€/an de plus pour le système électrique selon l'hiver quand tout le chauffage fossile passe en PAC.</p>
 <h2>2. D'où vient l'hydrogène du jeu (Net Zero Game, 40 min)</h2>
 <p>Objectif : chiffrer l'électricité de l'électrolyse à l'échelle d'un pays et voir qu'un reformeur déplace la contrainte vers le méthane.</p>
 <ol>
@@ -266,7 +266,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tr>
 </tbody>
 </table>
-<p>Le coût ne couvre que les centrales : ni combustible, ni CO2, ni réseau, ni stockage. Les trois manques sont les cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/cartes/G.yaml" target="_blank" rel="noopener">Cas G (carte, vague 2) — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>, A <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a> et C.</p>
+<p>Le coût ne couvre que les centrales : ni combustible, ni CO2, ni réseau, ni stockage. Les trois manques sont les cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/G_mix_100_enr" target="_blank" rel="noopener">Cas G — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>, A <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a> et C.</p>
 <h2>4. À quel prix de l'électricité l'électrolyse rattrape le vaporeformage (Industrie, 40 min)</h2>
 <p>Objectif : décomposer le coût de l'hydrogène électrolytique et chercher un point d'égalité par balayage.</p>
 <ol>
@@ -327,7 +327,7 @@ for f in (56, 240, 480):
 print(&quot;égalité :&quot;, round(smr / conso * 1000), &quot;g/kWh&quot;)
 # 56 -&gt; 2.97 ; 240 -&gt; 12.72 ; 480 -&gt; 25.44 ; égalité : 212 g/kWh
 </code></pre>
-<p>L'outil donne 214 g et 11,4 kg pour le SMR à 240 g : le reformeur consomme aussi 0,58 MWh d'électricité par tonne, hypothèse lisible dans « Régler les hypothèses » de la route SMR. Le 11,26 du calcul est donc la valeur à 56 g, et elle monte avec le réseau. Pont : cas D pour la règle RFNBO, cas J <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/J_h2_ailleurs/card.yaml" target="_blank" rel="noopener">Cas J (carte, vague 2) — Produire l'hydrogène ou le fer réduit ailleurs dans le monde ?</a> pour produire là où l'électricité est propre.</p>
+<p>L'outil donne 214 g et 11,4 kg pour le SMR à 240 g : le reformeur consomme aussi 0,58 MWh d'électricité par tonne, hypothèse lisible dans « Régler les hypothèses » de la route SMR. Le 11,26 du calcul est donc la valeur à 56 g, et elle monte avec le réseau. Pont : cas D pour la règle RFNBO, cas J <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/J_h2_ailleurs/card.yaml" target="_blank" rel="noopener">Cas J (carte) — Produire l'hydrogène ou le fer réduit ailleurs dans le monde ?</a> pour produire là où l'électricité est propre.</p>
 <h2>6. Acier : le charbon et le CO2 qui font basculer le haut fourneau (Industrie, 40 min)</h2>
 <p>Objectif : repérer une hypothèse par défaut qui sous-estime un coût, et lire un coût d'abattement.</p>
 <ol>

@@ -112,7 +112,7 @@ for lever, val in [(&quot;bldgElectricShare&quot;, 40.0), (&quot;bldgRetrofit&qu
 </code></pre>
 <p>Part électrique du chauffage de 49 à 40 % : 41,3 GW. Rénovation de 65 % du parc : 25,3 GW. Sobriété à 25 % : 40,0 GW. Côté hydrogène, la référence produit déjà tout l'hydrogène par électrolyse : 80,9 TWh d'électricité. Passer au vaporeformage, électrolyse ramenée à 0 et vaporeformage à 100, ajoute 62 TWh de demande de biogaz, pour une offre de 70 TWh. Le curseur vaporeformage seul à 100 renormalise les parts et n'ajoute que 31 TWh.</p>
 <p><strong>La question qu'il ne peut pas traiter.</strong> L'onglet Système électrique le dit : il « ne vérifie pas que le mix fonctionne ». Pas d'équilibre horaire, pas d'adéquation, pas de stockage. Le jeu dit combien de GW fait la pointe, pas ce qu'il en coûte de la tenir, ni si l'hiver change la réponse.</p>
-<p><strong>Les cas POMMES qui la traitent.</strong> Le cas C rejoue le dispatch horaire de la France de 2035, parc du TYNDP 2026 fixé, sur 30 années météo. Tout le chauffage fossile en pompes à chaleur : la capacité ferme qui manque va de 0 à 52 GW, et le système électrique paie de 3,0 à 10,9 milliards d'euros par an de plus selon l'hiver, aux trois quarts en énergie. Pour l'hydrogène, le cas D ajoute l'heure, le facteur de charge, le stockage et la règle européenne de corrélation horaire. En 2030, série centrale de chaque jeu de prix, le reformeur coûte 2,1 à 2,5 euros par kilogramme contre 4,4 à 4,9 pour l'électrolyseur.</p>
+<p><strong>Les cas POMMES qui la traitent.</strong> Le cas C rejoue le dispatch horaire de la France de 2035, parc du TYNDP 2026 fixé, sur 30 années météo. Tout le chauffage fossile en pompes à chaleur : la capacité ferme qui manque va de 0 à 49 GW, et le système électrique paie de 3,0 à 10,6 milliards d'euros par an de plus selon l'hiver, aux trois quarts en énergie. Son second levier, la thermosensibilité nationale (GW/°C), reçoit celle que donne l'outil « parc bâti » pour un scénario de rénovation ou d'équipement. Pour l'hydrogène, le cas D ajoute l'heure, le facteur de charge, le stockage et la règle européenne de corrélation horaire. En 2030, série centrale de chaque jeu de prix, le reformeur coûte 2,1 à 2,5 euros par kilogramme contre 4,4 à 4,9 pour l'électrolyseur.</p>
 <h2>World energy mix : l'empilement depuis 1800, sous quatre conventions</h2>
 <p><strong>Ce qu'il montre bien.</strong> Aucune source d'énergie n'a jamais été remplacée à l'échelle mondiale : chacune s'est ajoutée aux précédentes. Et « énergie primaire » est une convention : le nucléaire compte 3,07 fois son électricité dans une méthode et 2,47 dans l'autre, l'éolien 1,00 ou 2,45. La France est à environ 50 % de bas-carbone en primaire et 23 % en finale.</p>
 <p><strong>La question qu'il ne peut pas traiter.</strong> Des TWh par an ne disent rien d'une semaine d'hiver froide, sombre et sans vent. Un mix peut être excellent en bilan annuel et infaisable pendant cent heures.</p>
@@ -131,16 +131,16 @@ from pommes_cases.prices import load_prices
 p = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2035)
 print(p.height, p.columns)   # 8760 ['hour', 'year_op', 'import_price', 'export_price']
 ws = json.load(open(&quot;pommes-case-studies/C_thermosensibilite/results.json&quot;))[&quot;tables&quot;][&quot;ws&quot;]
-rows = [r for r in ws if r[&quot;part&quot;] == 1.0 and r[&quot;voisins&quot;] == &quot;moyens&quot;]
+rows = [r for r in ws if r[&quot;part&quot;] == 1.0 and r[&quot;voisins&quot;] == &quot;moyens&quot; and r[&quot;s_cible&quot;] is None]
 print(len(rows))                                                                        # 30
-print(min(r[&quot;pointe_manquante_gw&quot;] for r in rows), max(r[&quot;pointe_manquante_gw&quot;] for r in rows))  # 0.0  72.98
-print(min(r[&quot;cout_pointe_meur&quot;] for r in rows), max(r[&quot;cout_pointe_meur&quot;] for r in rows))        # 2859  13146
+print(min(r[&quot;pointe_manquante_gw&quot;] for r in rows), max(r[&quot;pointe_manquante_gw&quot;] for r in rows))  # 0.0  49.45
+print(min(r[&quot;surcout_systeme_meur&quot;] for r in rows), max(r[&quot;surcout_systeme_meur&quot;] for r in rows))  # 2975.7  10649.8
 </code></pre>
 <ul>
 <li><strong>L'heure.</strong> 8 760 lignes par année : la pointe, les heures à prix nul et les heures de défaillance sont visibles.</li>
 <li><strong>L'optimisation.</strong> Le modèle choisit capacités et dispatch au moindre coût annualisé ; dans le cas E, il décide quelle chaudière tourne à chaque heure et combien de MW installer.</li>
 <li><strong>Les prix duaux.</strong> Dans les cas C et G, aucun prix français n'est donné : le coût marginal horaire sort du modèle.</li>
-<li><strong>Plusieurs années météo.</strong> Le cas C rejoue 30 hivers ; la même décision coûte jusqu'à près de cinq fois plus cher selon l'hiver.</li>
+<li><strong>Plusieurs années météo.</strong> Le cas C rejoue 30 hivers ; la même décision coûte du simple au triple et demi selon l'hiver.</li>
 <li><strong>Plusieurs zones.</strong> Les cas F et G modélisent la France et ses voisins avec leurs capacités d'échange.</li>
 </ul>
 <h2>Question posée, outil ou cas qui y répond</h2>
@@ -214,7 +214,7 @@ print(min(r[&quot;cout_pointe_meur&quot;] for r in rows), max(r[&quot;cout_point
 <ul>
 <li>Vous ouvrez le Net Zero Game v0.38, onglet Bâtiments, mettez la part électrique du chauffage à 40 % et lisez 41,3 GW sur la carte « Pic électrique hivernal ».</li>
 <li>Vous écrivez en une phrase pourquoi le jeu ne peut pas dire si cette pointe est couverte, et vous nommez le cas qui le dit.</li>
-<li>Vous relancez le second bloc de code dans le venv du dépôt des cas et retrouvez 8 760 lignes, 30 années météo, 0 à 52 GW manquants.</li>
+<li>Vous relancez le second bloc de code dans le venv du dépôt des cas et retrouvez 8 760 lignes, 30 années météo, 0 à 49 GW manquants.</li>
 <li>Vous classez chaque ligne du tableau en « bilan annuel » ou « équilibre horaire » sans regarder les colonnes de droite.</li>
 </ul>
 <h2>Pour aller plus loin</h2>

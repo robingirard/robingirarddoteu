@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Installer et vérifier en dix minutes · Parcours ES 2026</title>
-<meta name="description" content="Installer l'environnement épinglé des cas POMMES dans un venv (pommes 0.11.0, pommes-craft 0.6.0, pommes-assistant 0.5.2), lancer un test de contrôle d'une minute, savoir quoi faire si ça casse, et le repli sur Colab.">
+<meta name="description" content="Installer l'environnement épinglé des cas POMMES dans un venv (pommes 0.11.0, pommes-craft 0.6.0, pommes-assistant 0.5.3), lancer un test de contrôle d'une minute, savoir quoi faire si ça casse, et le repli sur Colab.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -96,7 +96,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   <header>
     <div class="sur"><span>découverte</span> · <span>≈ 20 min</span> · <span>Socle</span></div>
     <h1>Installer et vérifier en dix minutes</h1>
-    <p class="resume">Installer l'environnement épinglé des cas POMMES dans un venv (pommes 0.11.0, pommes-craft 0.6.0, pommes-assistant 0.5.2), lancer un test de contrôle d'une minute, savoir quoi faire si ça casse, et le repli sur Colab.</p>
+    <p class="resume">Installer l'environnement épinglé des cas POMMES dans un venv (pommes 0.11.0, pommes-craft 0.6.0, pommes-assistant 0.5.3), lancer un test de contrôle d'une minute, savoir quoi faire si ça casse, et le repli sur Colab.</p>
   </header>
   <p>Lundi après-midi, chacun doit pouvoir lancer un cas sur son portable. Cette page installe l'environnement du cours, le vérifie par une commande et dit quoi faire quand ça casse.</p>
 <h2>1. Ce qu'il faut avant de commencer</h2>
@@ -135,7 +135,7 @@ pip install -r requirements.txt
 </tr>
 <tr>
 <td>pommes-assistant</td>
-<td>0.5.2</td>
+<td>0.5.3</td>
 <td>l'assistant en langage naturel pour écrire une étude pommes, avec ses options (<code>[all]</code>)</td>
 </tr>
 <tr>
@@ -286,23 +286,24 @@ results_rapide.json : 10 résolutions, 37 s      (le temps varie, le reste non)
 </ol>
 <p>Une quatrième situation n'est pas une panne : pas de Python installable sur la machine (poste verrouillé). Passez au repli, section 8.</p>
 <h2>8. Le repli : Google Colab</h2>
-<p>Si l'installation échoue et que la section 7 n'y fait rien, les cas tournent sur Google Colab, avec un compte Google. Le repli n'a pas encore été essayé de bout en bout : un essai est prévu avant le cours, et cette section sera corrigée d'après lui.</p>
+<p>Si l'installation échoue et que la section 7 n'y fait rien, les cas tournent sur Google Colab, avec un compte Google. Essayé de bout en bout le 23 novembre 2026 : le notebook du cas A y tourne.</p>
 <ol>
-<li>Ouvrez un notebook du dépôt dans Colab : téléchargez-le depuis la page GitLab du dépôt (par exemple <code>A_batteries/notebook.ipynb</code>), puis Fichier › Importer un notebook.</li>
+<li>Ouvrez un notebook du dépôt dans Colab : téléchargez-le depuis la page GitLab du dépôt (par exemple <code>A_batteries/notebook.ipynb</code>), puis Fichier › Importer un notebook. Un notebook importé s'ouvre dans une session neuve, sans dépôt ni paquets : les étapes 2 et 3 sont à refaire dans chaque notebook importé, environ 3 minutes.</li>
 <li>Insérez une cellule en tête et exécutez-la :</li>
 </ol>
-<pre><code class="language-python">!git clone -q https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies
+<pre><code class="language-python">!git clone https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies
 %cd pommes-case-studies
-!python --version                      # 3.12 ou plus, sinon pommes-assistant refuse de s'installer
+!python --version                      # Python 3.13 sur Colab le 23/11 ; il faut 3.12 ou plus
 !pip install -q -r requirements.txt
 </code></pre>
+<p>Le clone affiche sa progression ; avec <code>-q</code>, rien ne s'affiche et on croit la cellule bloquée.</p>
 <ol start="3">
 <li>Colab a déjà importé ses propres numpy et pandas : redémarrez la session (Exécution › Redémarrer la session), puis relancez seulement <code>%cd pommes-case-studies</code> avant les cellules du notebook.</li>
-<li>pip peut se plaindre de conflits avec des paquets de Colab (<code>google-colab requires pandas==…</code>) : ils ne servent pas aux cas.</li>
+<li>pip se plaint de conflits avec des paquets de Colab (pandas, requests, numpy : <code>google-colab requires pandas==…</code>) : sans effet visible sur les cas.</li>
 </ol>
-<p>Les fichiers de la session disparaissent quand elle se ferme : téléchargez ce que vous voulez garder. Le contrôle <code>python A_batteries/grid.py --rapide</code> y tourne aussi (<code>!python A_batteries/grid.py --rapide</code>), plus lentement que sur un portable.</p>
+<p>Le contrôle <code>!python A_batteries/grid.py --rapide</code> y prend environ 3 minutes (178 s à l'essai), cinq fois plus que sur le MacBook Pro M3 Max de la section 3. Fermer l'onglet ne coupe pas la session : arrêtez-la par Exécution › Supprimer l'environnement d'exécution. Ce faisant, le dépôt, les paquets et vos fichiers sont effacés : téléchargez d'abord ce que vous voulez garder.</p>
 <h2>9. Un seul environnement, avec l'assistant</h2>
-<p>pommes-assistant 0.5.2, l'assistant en langage naturel pour écrire une étude pommes, est installé par <code>requirements.txt</code> dans le même venv que les cas, avec ses options (serveur MCP, vues, client Anthropic) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant : ce que c'est, installer, trois façons de s'en servir, commandes</a>. Pendant la semaine, tout tourne dans <code>.venv</code> : n'y lancez ni <code>pip install --upgrade</code> ni un <code>pip install</code> d'une autre version de pommes, qui remplacerait les versions épinglées. Le mode d'emploi détaillé de l'assistant pour la semaine est <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/cours_decembre.md" target="_blank" rel="noopener">docs/cours_decembre.md</a>.</p>
+<p>pommes-assistant 0.5.3, l'assistant en langage naturel pour écrire une étude pommes, est installé par <code>requirements.txt</code> dans le même venv que les cas, avec ses options (serveur MCP, vues, client Anthropic) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant : ce que c'est, installer, trois façons de s'en servir, commandes</a>. Pendant la semaine, tout tourne dans <code>.venv</code> : n'y lancez ni <code>pip install --upgrade</code> ni un <code>pip install</code> d'une autre version de pommes, qui remplacerait les versions épinglées. Le mode d'emploi détaillé de l'assistant pour la semaine est <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/cours_decembre.md" target="_blank" rel="noopener">docs/cours_decembre.md</a>.</p>
 <h2>Vous l'avez compris quand…</h2>
 <ul>
 <li><code>python A_batteries/grid.py --rapide</code> finit par <code>results_rapide.json : 10 résolutions</code> et affiche 24.9 €/kW/an pour tyndp2024 à σ = 15 €/MWh.</li>

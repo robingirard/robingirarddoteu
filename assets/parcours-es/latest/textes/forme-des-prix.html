@@ -141,7 +141,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <h2>Le budget nucléaire : 15,6 + 74 = 90</h2>
 <p>Pour le faire moduler comme en réalité, on impose au nucléaire sa production réelle, mois par mois. Il module bien ses 44 TWh, mais le combustible devient un stock. Le dual du budget, valeur d'un MWh gardé pour plus tard, vaut 74 €/MWh ; ajouté au coût variable de 15,6, il redonne 90 €/MWh, le coût du cycle combiné au gaz. Le nucléaire devient un lac de plus ; l'écart-type des prix tombe à 1,4 €/MWh.</p>
 <p>C'est la logique de la valeur de l'eau : en prévision parfaite, avec un fossile toujours disponible, chaque stock vaut le fossile qu'il remplace. Une contrainte d'énergie déplace la production ; les heures bon marché viennent d'unités qui doivent produire quel que soit le prix.</p>
-<h2>Exercice N3 : lire le dual d'un budget dans pommes_craft</h2>
+<h2>Exercice : lire le dual d'un budget dans pommes_craft</h2>
 <p><code>ConversionTechnology</code> de pommes_craft 0.6.0 porte un paramètre <code>max_yearly_production</code>, plafond d'énergie annuel qui devient la contrainte <code>operation_conversion_yearly_production_max_constraint</code> de pommes 0.11.0. Le « lac » : technologie sans coût variable, capacité fixée, budget. Face à lui, un cycle combiné au gaz à 90 €/MWh et une demande sinusoïdale de 26 à 54 GW. Environnement épinglé du dépôt des cas ; environ une seconde en tout.</p>
 <pre><code class="language-python">import sys, numpy as np, polars as pl
 sys.path.insert(0, &quot;chemin/vers/pommes-case-studies&quot;)

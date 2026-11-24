@@ -1,0 +1,928 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le tarif d'accès au réseau électrique : ce qu'il paie, comment il est construit, ce qu'il coûte en Europe · Parcours ES 2026</title>
+<meta name="description" content="Ce que paie un tarif d'accès au réseau (infrastructure, pertes, services système) et comment il est construit : part puissance et part énergie, durée d'utilisation, niveau de tension, avec le TURPE français en exemple. Pourquoi le tarif de transport de référence d'ENTSO-E va de 1,7 €/MWh en Suède à 40,9 €/MWh en Allemagne en 2025, et ce que la fin d'un rabais a fait au tarif néerlandais. Ce que paie un électrolyseur dans douze pays, exonérations et taxes comprises : réseau et taxes font 0 à 16 % du coût de l'hydrogène, et le prix de gros reste le premier facteur de localisation.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Le tarif d'accès au réseau électrique : ce qu'il paie, comment il est construit, ce qu'il coûte en Europe</h1>
+    <p class="resume">Ce que paie un tarif d'accès au réseau (infrastructure, pertes, services système) et comment il est construit : part puissance et part énergie, durée d'utilisation, niveau de tension, avec le TURPE français en exemple. Pourquoi le tarif de transport de référence d'ENTSO-E va de 1,7 €/MWh en Suède à 40,9 €/MWh en Allemagne en 2025, et ce que la fin d'un rabais a fait au tarif néerlandais. Ce que paie un électrolyseur dans douze pays, exonérations et taxes comprises : réseau et taxes font 0 à 16 % du coût de l'hydrogène, et le prix de gros reste le premier facteur de localisation.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#mp-eco-role-economique">Porter la lecture économique d'un mini-projet technologique : taux, annuité, qui paie, qui gagne</a></li><li><a href="../index.html#cas-D">Mener le mini-projet du cas D : que coûte l'hydrogène d'un électrolyseur ?</a></li><li><a href="../index.html#cas-I">Mener le mini-projet du cas I (e-kérosène) ou du cas J (hydrogène ou fer réduit ailleurs)</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Une usine qui s’électrifie, ou un
+électrolyseur, achète son électricité sur le marché. Que paie-t-il en
+plus pour la recevoir par le réseau, et pourquoi cette somme
+change-t-elle autant d’un pays européen à l’autre ?</p>
+<p><strong>La réponse, en trois phrases.</strong> Le tarif d’accès au
+réseau paie les lignes et les postes, l’énergie perdue en chemin et les
+services qui tiennent le système en équilibre ; il se facture sur la
+puissance et sur l’énergie, et baisse quand on se raccorde plus haut en
+tension ou qu’on consomme plus d’heures dans l’année. Pour un même
+client de référence en très haute tension, il va en 2025 de 1,7 €/MWh en
+Suède à 40,9 €/MWh en Allemagne, parce que les pays n’y mettent pas les
+mêmes coûts, ne le construisent pas de la même façon et n’accordent pas
+les mêmes rabais. Pour un électrolyseur, les exonérations ramènent
+souvent réseau et taxes à quelques €/MWh : c’est le prix de gros de
+l’électricité qui décide d’abord où produire.</p>
+<p><strong>Le plan.</strong> La section 2 dit ce que paie un tarif de
+réseau, la section 3 comment il est construit (le TURPE français en
+exemple), la section 4 pourquoi il diffère d’un pays à l’autre (le cas
+des Pays-Bas). La section 5 chiffre ce que paient un gros industriel et
+un électrolyseur, taxes comprises. La section 6 résume, la section 7 dit
+ce que cela change pour les mini-projets.</p>
+<h2 id="ce-que-paie-un-tarif-de-réseau">2. Ce que paie un tarif de
+réseau</h2>
+<p>La facture d’électricité d’un industriel a trois parts :
+<strong>l’énergie</strong>, achetée sur le marché (voir <a
+href="note-marches-elec.html">Les marchés de l’électricité</a>),
+<strong>l’acheminement</strong>, payé au gestionnaire du réseau par le
+<strong>tarif d’accès au réseau</strong>, et <strong>les taxes et
+prélèvements</strong> (voir <a href="note-taxes-energie.html">Les taxes
+sur l’énergie</a>).</p>
+<p>Le tarif de réseau n’est pas un impôt : c’est le prix d’un service.
+Mais ce service est un <strong>monopole naturel</strong>, car on ne
+construit pas deux réseaux côte à côte. Un régulateur, en France la
+Commission de régulation de l’énergie (CRE), fixe donc le <strong>revenu
+autorisé</strong> du gestionnaire, puis la grille tarifaire qui le
+collecte. Celui de RTE passe de 4,8 Md€ en 2025 à 5,3 Md€ en 2028 (CRE,
+délibération 2025-77).</p>
+<p>Deux réseaux se succèdent. Le <strong>réseau de transport</strong>
+(63 à 400 kV en France) est tenu par un <strong>gestionnaire de réseau
+de transport</strong> (GRT) : RTE, TenneT aux Pays-Bas. Le
+<strong>réseau de distribution</strong>, en moyenne et basse tension,
+est tenu par un <strong>gestionnaire de réseau de distribution</strong>
+(GRD) : Enedis en France, plusieurs centaines de GRD en Allemagne.</p>
+<p>Le tarif finance trois choses :</p>
+<ul>
+<li><strong>l’infrastructure</strong> : construire, entretenir et
+renouveler lignes et postes, rémunérer le capital investi ;</li>
+<li><strong>les pertes</strong> : l’électricité dissipée en chaleur dans
+les câbles et les transformateurs (effet Joule), que le gestionnaire
+rachète ;</li>
+<li><strong>les services système</strong> : les réserves qui rattrapent
+un écart entre production et consommation, le réglage de la fréquence et
+de la tension, et selon les pays la gestion des congestions.</li>
+</ul>
+<p>Leur poids varie beaucoup. Pour le client de référence d’ENTSO-E,
+l’association des GRT européens (section 4) :</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Transport 2025, client de référence (€/MWh)</th>
+<th>Infrastructure</th>
+<th>Pertes</th>
+<th>Services système</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Allemagne</td>
+<td>19,4</td>
+<td>3,3</td>
+<td>16,1</td>
+<td>38,9</td>
+</tr>
+<tr class="even">
+<td>Espagne</td>
+<td>3,2</td>
+<td>1,4</td>
+<td>16,1</td>
+<td>20,7</td>
+</tr>
+</tbody>
+</table>
+<p>Source : ENTSO-E, <em>Synthesis 2025</em>, Chart 7.6 (coûts du
+gestionnaire seuls ; l’Allemagne passe à 40,9 avec les prélèvements
+facturés avec le tarif).</p>
+<p>En Espagne, les services système sont payés dans le prix de
+l’énergie, pas dans le tarif : ENTSO-E les ajoute pour comparer des pays
+qui rangent leurs coûts à des endroits différents.</p>
+<p><strong>Le raccordement est une dépense à part</strong>, payée une
+fois. En <strong>raccordement superficiel</strong>, le client paie ses
+propres ouvrages et le renforcement du réseau en amont passe dans le
+tarif de tous : Allemagne, Belgique, France (le consommateur paie 70 %
+de son raccordement), Italie, Pays-Bas, Pologne, Portugal, Suède. En
+<strong>raccordement profond</strong>, il paie aussi le renforcement :
+Espagne, Autriche, Norvège (plafonné à 50 %) (ENTSO-E, <em>Synthesis
+2025</em>, annexe 7). En Allemagne, la contribution aux coûts de
+construction vaut 96,91 €/kW en très haute tension en 2026, soit 29 M€
+pour 300 MW, environ 2,3 €/MWh une fois annualisée sur 20 ans à 7 % pour
+un site à 4 000 heures.</p>
+<h2 id="comment-un-tarif-est-construit">3. Comment un tarif est
+construit</h2>
+<h3 id="puissance-énergie-durée-dutilisation">3.1 Puissance, énergie,
+durée d’utilisation</h3>
+<p>Un tarif de réseau a presque toujours trois termes : un <strong>terme
+fixe</strong> (€/an), un <strong>terme de puissance</strong> (€/kW/an),
+appliqué à la puissance souscrite ou à la pointe appelée, et un
+<strong>terme d’énergie</strong> (€/MWh), souvent différent selon
+l’heure et la saison.</p>
+<p>La raison est physique. Un réseau se dimensionne pour la
+<strong>pointe</strong> : une ligne doit passer la puissance maximale,
+même si elle ne dure que quelques heures. Le coût de l’infrastructure
+suit donc la puissance ; celui des pertes suit l’énergie.</p>
+<p>La <strong>durée d’utilisation</strong> d’un site est son énergie
+annuelle divisée par sa puissance maximale : 100 MW et 400 GWh par an
+font 4 000 heures. Ramené au MWh, le terme de puissance se divise par
+cette durée : 40 €/kW/an valent 10 €/MWh à 4 000 heures et 5 €/MWh à 8
+000 heures. <strong>Plus un tarif repose sur la puissance, plus il
+pénalise un site qui tourne peu d’heures</strong>, comme un
+électrolyseur qui ne marche qu’aux heures bon marché.</p>
+<h3 id="le-niveau-de-tension">3.2 Le niveau de tension</h3>
+<p>Un site raccordé en 400 kV n’utilise pas les lignes et
+transformateurs de plus basse tension qui desservent les autres clients.
+Le tarif baisse donc quand la tension monte, et un grand site, raccordé
+plus haut, paie moins par MWh. Un électrolyseur français, plein tarif
+2025, calculé sur les grilles du TURPE 7 :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Électrolyseur, France, 2025</th>
+<th>Raccordement</th>
+<th>Plein tarif (€/MWh)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10 MW</td>
+<td>HTB 1 (63-90 kV)</td>
+<td>11,0 à 15,0</td>
+</tr>
+<tr class="even">
+<td>100 MW</td>
+<td>HTB 2 (150-225 kV)</td>
+<td>6,7 à 7,9</td>
+</tr>
+<tr class="odd">
+<td>300 MW</td>
+<td>HTB 3 (400 kV)</td>
+<td>4,1</td>
+</tr>
+</tbody>
+</table>
+<p>La fourchette va de 8 000 heures choisies aux heures bon marché à 4
+000 heures réparties sur l’année.</p>
+<h3 id="un-exemple-le-turpe">3.3 Un exemple : le TURPE</h3>
+<p>En France, le <strong>TURPE</strong> (tarif d’utilisation des réseaux
+publics d’électricité) est fixé par la CRE pour environ quatre ans. Le
+TURPE 7 s’applique depuis le 1er août 2025, avec une grille pour le
+transport (HTB, RTE) et une pour la distribution (HTA et basse tension,
+Enedis). Trois traits :</p>
+<ul>
+<li><strong>cinq plages</strong> : pointe, heures pleines et creuses
+d’hiver, heures pleines et creuses d’été. Le MWh de pointe d’hiver coûte
+le plus cher ;</li>
+<li><strong>trois versions au choix</strong> : courte, moyenne et longue
+utilisation. La courte a un terme de puissance faible et un terme
+d’énergie élevé, la longue l’inverse ;</li>
+<li><strong>un 400 kV tout en énergie</strong> : en HTB 3, un seul terme
+d’énergie de 0,41 c€/kWh, soit 4,1 €/MWh.</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>TURPE 7, HTB 1, 2025</th>
+<th>Puissance, pointe (€/kW/an)</th>
+<th>Énergie, pointe (c€/kWh)</th>
+<th>Puissance, creuses d’été (€/kW/an)</th>
+<th>Énergie, creuses d’été (c€/kWh)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Courte utilisation</td>
+<td>11,76</td>
+<td>2,55</td>
+<td>11,76</td>
+<td>0,67</td>
+</tr>
+<tr class="even">
+<td>Longue utilisation</td>
+<td>41,64</td>
+<td>0,73</td>
+<td>13,92</td>
+<td>0,52</td>
+</tr>
+</tbody>
+</table>
+<p>Source : CRE, délibération 2025-77, tableaux 63 et 65.</p>
+<p><strong>L’abattement des gros consommateurs.</strong> Le code de
+l’énergie (art. L. 341-4-2) réduit le tarif de transport de 81 % pour un
+profil stable (au moins 7 000 heures, plus de 10 GWh par an), de 76 %
+pour un très gros consommateur (plus de 500 GWh, 40 à 44 % en heures
+creuses) et de 74 % pour un profil anticyclique (au moins 44 % en heures
+creuses). Un électrolyseur de 100 MW passe ainsi de 6,7-7,9 à 1,3-1,9
+€/MWh en HTB 2, et de 4,1 à 0,8-1,1 €/MWh en HTB 3. Rien n’est propre à
+l’électrolyse : c’est le profil qui ouvre le droit.</p>
+<h2 id="pourquoi-le-tarif-diffère-tant-dun-pays-à-lautre">4. Pourquoi le
+tarif diffère tant d’un pays à l’autre</h2>
+<h3 id="le-tarif-de-référence-dentso-e">4.1 Le tarif de référence
+d’ENTSO-E</h3>
+<p>ENTSO-E calcule chaque année un <strong>tarif unitaire de
+transport</strong> pour un client fictif de 40 MW raccordé en 400-330
+kV, 5 000 heures par an. Il compte infrastructure, pertes et services
+système, même quand le pays les recouvre hors du tarif. C’est une
+grandeur de comparaison, pas une facture.</p>
+<figure>
+<img
+src="img/note-tarifs-reseau/Economie/Tarifs_reseau_Europe/output/editorial/entsoe_utt_2017_2025.png"
+alt="Tarif unitaire de transport d’ENTSO-E au plus haut niveau de tension, 2017 et 2025" />
+<figcaption aria-hidden="true">Tarif unitaire de transport d’ENTSO-E au
+plus haut niveau de tension, 2017 et 2025</figcaption>
+</figure>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>€/MWh, 40 MW, très haute tension, 5 000 h</th>
+<th>2017</th>
+<th>2023</th>
+<th>2024</th>
+<th>2025</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Suède</td>
+<td>2,8</td>
+<td>2,5</td>
+<td>1,7</td>
+<td>1,7</td>
+</tr>
+<tr class="even">
+<td>Norvège</td>
+<td>5,2</td>
+<td>n.d.</td>
+<td>4,0</td>
+<td>3,8</td>
+</tr>
+<tr class="odd">
+<td>France</td>
+<td>3,5</td>
+<td>3,4</td>
+<td>3,8</td>
+<td>4,4</td>
+</tr>
+<tr class="even">
+<td>Italie</td>
+<td>17,5</td>
+<td>6,6</td>
+<td>6,1</td>
+<td>9,5</td>
+</tr>
+<tr class="odd">
+<td>Belgique</td>
+<td>13,9</td>
+<td>5,2</td>
+<td>6,8</td>
+<td>11,3</td>
+</tr>
+<tr class="even">
+<td>Portugal</td>
+<td>11,2</td>
+<td>1,4</td>
+<td>19,0</td>
+<td>12,5</td>
+</tr>
+<tr class="odd">
+<td>Autriche</td>
+<td>7,8</td>
+<td>14,4</td>
+<td>13,8</td>
+<td>14,1</td>
+</tr>
+<tr class="even">
+<td>Danemark</td>
+<td>32,7</td>
+<td>15,0</td>
+<td>16,8</td>
+<td>17,6</td>
+</tr>
+<tr class="odd">
+<td>Pologne</td>
+<td>9,7</td>
+<td>17,3</td>
+<td>18,6</td>
+<td>19,6</td>
+</tr>
+<tr class="even">
+<td>Espagne</td>
+<td>9,1</td>
+<td>17,3</td>
+<td>17,4</td>
+<td>20,7</td>
+</tr>
+<tr class="odd">
+<td>Pays-Bas</td>
+<td>2,75</td>
+<td>12,9</td>
+<td>28,8</td>
+<td>26,5</td>
+</tr>
+<tr class="even">
+<td>Allemagne</td>
+<td>23,0</td>
+<td>21,3</td>
+<td>44,7</td>
+<td>40,9</td>
+</tr>
+</tbody>
+</table>
+<p>Source : ENTSO-E, <em>Overview of Transmission Tariffs in Europe:
+Synthesis</em>, éditions 2017 à 2025, Chart 6.1.</p>
+<p>En 2025, un facteur 24 sépare la Suède de l’Allemagne. Depuis 2017,
+le tarif a été multiplié par 9,6 aux Pays-Bas et plus que doublé en
+Espagne.</p>
+<h3 id="quatre-raisons">4.2 Quatre raisons</h3>
+<ul>
+<li><strong>Ce que le tarif contient.</strong> L’Espagne paie ses
+services système dans le prix de l’énergie (section 2). À l’inverse,
+l’Allemagne, la Pologne, le Portugal et l’Autriche facturent avec le
+tarif des prélèvements qui ne paient pas le réseau (rouge foncé sur la
+figure).</li>
+<li><strong>Ce que coûte le réseau.</strong> Un pays qui renforce
+beaucoup son réseau, ou qui achète beaucoup de services système, a un
+tarif élevé : en Allemagne, chacun des deux postes pèse 16 à 19
+€/MWh.</li>
+<li><strong>La structure.</strong> Un tarif tout énergie coûte le même
+prix par MWh quelle que soit la durée d’utilisation ; un tarif tout
+puissance coûte très cher à un site qui tourne peu (tableau
+ci-dessous).</li>
+<li><strong>Les choix politiques.</strong> Qui paie le réseau est une
+décision publique. En 2026, l’Allemagne verse 6,5 Md€ de subvention
+fédérale à ses GRT, ce qui baisse le terme de puissance du transport de
+58 %, de 127,74 à 53,06 €/kW/an (Netztransparenz, Preisblätter 2025 et
+2026).</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Transport 2025 (€/MWh), selon la durée d’utilisation</th>
+<th>2 000 h</th>
+<th>5 000 h</th>
+<th>8 760 h</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Danemark (tout énergie)</td>
+<td>17,5</td>
+<td>17,5</td>
+<td>17,5</td>
+</tr>
+<tr class="even">
+<td>Espagne</td>
+<td>23,6</td>
+<td>20,7</td>
+<td>20,6</td>
+</tr>
+<tr class="odd">
+<td>Allemagne</td>
+<td>66,8</td>
+<td>38,9</td>
+<td>27,9</td>
+</tr>
+<tr class="even">
+<td>Pays-Bas (tout puissance)</td>
+<td>77</td>
+<td>31</td>
+<td>18</td>
+</tr>
+</tbody>
+</table>
+<p>Source : ENTSO-E, <em>Synthesis 2025</em>, Chart 7.4.</p>
+<h3 id="les-pays-bas-un-tarif-tout-puissance-et-la-fin-dun-rabais">4.3
+Les Pays-Bas : un tarif tout puissance, et la fin d’un rabais</h3>
+<p>Le tarif de TenneT, le GRT néerlandais, ne facture presque que de la
+puissance : en 2025, 54,99 €/kW/an sur la puissance contractée et 7,14
+€/kW par mois sur la pointe mensuelle (ACM, Tarievenbesluit TenneT
+2025). Jusqu’en 2023, un rabais, la <em>volumecorrectieregeling</em>, le
+réduisait jusqu’à 90 % pour les gros consommateurs stables. Le
+régulateur, l’ACM, l’a supprimé au 1er janvier 2024 (ACER, 2025). Le
+tarif de référence d’ENTSO-E passe de 2,75 €/MWh en 2017 à 12,9 en 2023,
+puis 28,8 en 2024 : le saut date de la suppression.</p>
+<p>Deux leçons. Un tarif tout puissance se lit en heures : à 2 000
+heures, le MWh néerlandais coûte quatre fois plus qu’à 8 760 heures. Et
+la flexibilité du raccordement peut être rémunérée : un <strong>contrat
+non ferme</strong>, où TenneT peut limiter le soutirage quand le réseau
+sature, dispense de la part « puissance contractée » et ramène un
+électrolyseur de 100 MW de 16-33 à 9-19 €/MWh.</p>
+<p><strong>Deux idées reçues.</strong> Un pourcentage de hausse sur une
+base minuscule ne dit rien : en 2017, les Pays-Bas déclaraient à
+Eurostat la part réseau de leurs plus gros industriels arrondie à l’euro
+(2 €/MWh), et la hausse en pourcentage dépend surtout de cet arrondi.
+Comparez des €/MWh. Et une statistique d’Eurostat est un <strong>prix
+moyen payé</strong> par une tranche de clients, transport et
+distribution mêlés : ce n’est pas le tarif d’un site.</p>
+<h2 id="ce-que-paie-un-gros-industriel-et-un-électrolyseur">5. Ce que
+paie un gros industriel et un électrolyseur</h2>
+<h3 id="plein-tarif-et-régimes-de-lélectrolyse">5.1 Plein tarif et
+régimes de l’électrolyse</h3>
+<p>On facture ici un électrolyseur de 100 MW en très haute tension avec
+la grille 2025 de chaque gestionnaire, heure par heure, pour deux
+profils : <strong>non piloté</strong> (heures réparties sur l’année) et
+<strong>flexible</strong> (heures les moins chères du marché).</p>
+<figure>
+<img
+src="img/note-tarifs-reseau/Economie/Tarifs_reseau_Europe/output/editorial/tarif_reseau_profils_100mw.png"
+alt="Tarif de transport d’un électrolyseur de 100 MW, plein tarif (contour) et régime électrolyseur (aplat), 2025" />
+<figcaption aria-hidden="true">Tarif de transport d’un électrolyseur de
+100 MW, plein tarif (contour) et régime électrolyseur (aplat),
+2025</figcaption>
+</figure>
+<p>Au plein tarif, on va de 0 à 3 €/MWh en Norvège et en Suède à 29-45
+€/MWh en Allemagne. Mais plusieurs pays ont un régime qui renverse ce
+classement :</p>
+<ul>
+<li><strong>Allemagne</strong> : réseau nul pendant 20 ans si
+l’électrolyseur est mis en service avant le 4 août 2029 (loi sur
+l’énergie, EnWG, § 118), prélèvements et taxe sur l’électricité nuls
+;</li>
+<li><strong>Autriche</strong> : réseau nul pendant 15 ans dès 1 MW, pour
+les installations antérieures à décembre 2025 ;</li>
+<li><strong>France</strong> : abattement de 74 à 81 % (section 3.3)
+;</li>
+<li><strong>Pays-Bas</strong> : contrat non ferme ;
+<strong>Danemark</strong> : accès limité et tarif système réduit de 90 %
+au-delà de 100 GWh ; <strong>Norvège</strong> : moitié prix pour les
+gros industriels ; <strong>Espagne</strong> : statut d’électro-intensif,
+qui rembourse jusqu’à 85 % des charges de soutien facturées avec le
+tarif ;</li>
+<li><strong>Belgique, Italie, Portugal, Suède</strong> : rien de propre
+à l’électrolyse.</li>
+</ul>
+<p>À 10 MW, raccordé plus bas, un électrolyseur paie plus au plein tarif
+: 11 à 15 €/MWh en France, 20 à 41 aux Pays-Bas, 33 à 62 en Allemagne
+chez un gestionnaire de distribution (Netze BW).</p>
+<h3 id="les-taxes-sur-lélectricité">5.2 Les taxes sur l’électricité</h3>
+<p>La directive européenne sur la taxation de l’énergie (2003/96/CE)
+laisse les procédés électrolytiques hors de son champ. Huit pays sur
+douze exonèrent donc l’électrolyse (France, Allemagne, Pays-Bas,
+Norvège, Italie, Belgique, Suède, Pologne).</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Taxe sur l’électricité, 2025 (€/MWh)</th>
+<th>Taux plein</th>
+<th>Industriel</th>
+<th>Électrolyse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>France, accise</td>
+<td>25,79</td>
+<td>0,5</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Allemagne, Stromsteuer</td>
+<td>20,50</td>
+<td>0,50</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>Suède, energiskatt</td>
+<td>39,7</td>
+<td>0,54</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Danemark, elafgift</td>
+<td>96,5</td>
+<td>0,54</td>
+<td>0,54</td>
+</tr>
+<tr class="odd">
+<td>Autriche, Elektrizitätsabgabe</td>
+<td>15,0</td>
+<td>0,5</td>
+<td>0,5</td>
+</tr>
+<tr class="even">
+<td>Portugal, IEC</td>
+<td>n.d.</td>
+<td>1,00</td>
+<td>1,00</td>
+</tr>
+</tbody>
+</table>
+<p>Sources : lois fiscales nationales (en France, code des impositions
+sur les biens et services, art. L. 312-66).</p>
+<p>Le vrai poids est souvent ailleurs, dans les
+<strong>prélèvements</strong> qui financent le soutien aux renouvelables
+ou les mécanismes de capacité. En Italie, ils ajoutent près de 19 €/MWh
+à un électrolyseur flexible.</p>
+<h3 id="ce-que-cela-pèse-dans-le-coût-de-lhydrogène">5.3 Ce que cela
+pèse dans le coût de l’hydrogène</h3>
+<p>Un électrolyseur consomme environ 53 kWh par kilogramme d’hydrogène :
+<strong>1 €/MWh d’électricité ajoute environ 0,053 €/kg</strong>. Le
+calcul retient 100 MW à 1 700 €/kW, financés à 7 % sur 20 ans,
+exploitation à 3 % par an, 4 000 heures aux heures les moins chères de
+2025 : le capital coûte 2,80 €/kg.</p>
+<figure>
+<img
+src="img/note-tarifs-reseau/Economie/Tarifs_reseau_Europe/output/editorial/lcoh_part_reseau_taxes.png"
+alt="Coût de l’hydrogène électrolytique décomposé, 100 MW, régime électrolyseur ; pourcentage : part réseau et taxes" />
+<figcaption aria-hidden="true">Coût de l’hydrogène électrolytique
+décomposé, 100 MW, régime électrolyseur ; pourcentage : part réseau et
+taxes</figcaption>
+</figure>
+<ul>
+<li>Sous les régimes actuels, réseau et taxes font <strong>0 à 16
+%</strong> du coût de l’hydrogène dans les douze pays.</li>
+<li>Entre pays, réseau et taxes font un écart de <strong>27
+€/MWh</strong> (de l’Allemagne exonérée à l’Italie) ; le prix de gros
+payé, un écart de <strong>79 €/MWh</strong> (de la Suède, 15 €/MWh, à
+l’Italie, 93 €/MWh ; marché du lendemain 2025, Energy-Charts). L’ordre
+des coûts suit celui des prix de gros : <strong>le prix de gros reste le
+premier facteur de localisation</strong>.</li>
+<li>Mais la fin d’une exonération peut renverser un classement. Un
+électrolyseur allemand neuf après 2029 paierait 22 à 47 €/MWh de plus,
+soit 1,2 à 2,5 €/kg : réseau et taxes feraient 31 % de son coût (17 %
+avec la grille subventionnée de 2026).</li>
+</ul>
+<p>Pour les usages de l’hydrogène, voir <a
+href="note-hydrogene-usages.html">L’hydrogène et ses usages
+industriels</a>.</p>
+<h2 id="tableau-de-synthèse">6. Tableau de synthèse</h2>
+<p>Électrolyseur de 100 MW en très haute tension, grilles 2025. Plein
+tarif : fourchette des quatre profils (4 000 ou 8 000 heures, non piloté
+ou flexible). Les trois dernières colonnes : profil flexible, 4 000
+heures, régime électrolyseur.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pays</th>
+<th>Référence ENTSO-E (€/MWh)</th>
+<th>Plein tarif (€/MWh)</th>
+<th>Régime électrolyseur</th>
+<th>Prix de gros payé (€/MWh)</th>
+<th>Réseau + taxes (€/MWh)</th>
+<th>Hydrogène (€/kg)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Suède</td>
+<td>1,7</td>
+<td>1,3-2,1</td>
+<td>aucun</td>
+<td>15</td>
+<td>1,5</td>
+<td>3,66</td>
+</tr>
+<tr class="even">
+<td>France</td>
+<td>4,4</td>
+<td>6,7-7,9</td>
+<td>abattement 74-81 %</td>
+<td>19</td>
+<td>2,1</td>
+<td>3,94</td>
+</tr>
+<tr class="odd">
+<td>Espagne</td>
+<td>20,7</td>
+<td>2,9-5,9</td>
+<td>électro-intensif</td>
+<td>22</td>
+<td>2,3</td>
+<td>4,07</td>
+</tr>
+<tr class="even">
+<td>Portugal</td>
+<td>12,5</td>
+<td>8,4-11,1</td>
+<td>aucun</td>
+<td>28</td>
+<td>9,4</td>
+<td>4,80</td>
+</tr>
+<tr class="odd">
+<td>Norvège</td>
+<td>3,8</td>
+<td>0-2,9</td>
+<td>moitié prix</td>
+<td>42</td>
+<td>0</td>
+<td>5,03</td>
+</tr>
+<tr class="even">
+<td>Danemark</td>
+<td>17,6</td>
+<td>17,4</td>
+<td>accès limité</td>
+<td>41</td>
+<td>7,3</td>
+<td>5,34</td>
+</tr>
+<tr class="odd">
+<td>Allemagne</td>
+<td>40,9</td>
+<td>29-45</td>
+<td>exonéré avant août 2029</td>
+<td>53</td>
+<td>0</td>
+<td>5,62</td>
+</tr>
+<tr class="even">
+<td>Belgique</td>
+<td>11,3</td>
+<td>6,8-10,8</td>
+<td>aucun</td>
+<td>45</td>
+<td>11,5</td>
+<td>5,81</td>
+</tr>
+<tr class="odd">
+<td>Autriche</td>
+<td>14,1</td>
+<td>8,2-9,9</td>
+<td>exonéré 15 ans</td>
+<td>62</td>
+<td>1,5</td>
+<td>6,19</td>
+</tr>
+<tr class="even">
+<td>Pays-Bas</td>
+<td>26,5</td>
+<td>16-33</td>
+<td>contrat non ferme</td>
+<td>50</td>
+<td>18,2</td>
+<td>6,41</td>
+</tr>
+<tr class="odd">
+<td>Pologne</td>
+<td>19,6</td>
+<td>13,7-16,9</td>
+<td>à 8 000 h seulement</td>
+<td>84</td>
+<td>17,3</td>
+<td>8,18</td>
+</tr>
+<tr class="even">
+<td>Italie</td>
+<td>9,5</td>
+<td>4,5-8,3</td>
+<td>aucun</td>
+<td>93</td>
+<td>27,1</td>
+<td>9,19</td>
+</tr>
+<tr class="odd">
+<td><em>Allemagne, neuf après 2029</em></td>
+<td></td>
+<td></td>
+<td><em>aucun</em></td>
+<td><em>53</em></td>
+<td><em>46,9</em></td>
+<td><em>8,10</em></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ce-que-ça-change-pour-les-mini-projets">7. Ce que ça change pour
+les mini-projets</h2>
+<p><strong>L’électrolyseur français (cas D).</strong> Prenez le bon
+niveau de tension, la bonne version du TURPE, puis l’abattement. En HTB
+2, à 100 MW, le réseau coûte 0,36 à 0,42 €/kg au plein tarif et 0,07 à
+0,10 €/kg abattu : bien moins que l’écart entre deux jeux de prix de
+l’électricité. Vérifiez que le profil choisi par le modèle ouvre
+l’abattement : 81 % exige 7 000 heures, 74 % exige 44 % de la
+consommation en heures creuses. Et l’accise est nulle pour
+l’électrolyse.</p>
+<p><strong>L’usine d’e-kérosène (cas I).</strong> Elle se raccorde en
+400 kV, où le TURPE ne facture que l’énergie : 4,1 €/MWh au plein tarif,
+0,8 à 1,1 abattu. À 38 MWh par tonne, cela fait environ 160 €/t au plein
+tarif et 30 à 40 €/t abattu, quelques pour cent d’un coût d’environ 7
+500 €/t (voir <a href="note-saf-filieres.html">Les carburants d’aviation
+durables</a>). Le nombre d’heures de marche ne change pas ce tarif ; il
+changerait beaucoup un tarif tout puissance.</p>
+<p><strong>Le site raccordé à un réseau local (cas J).</strong> Il paie
+deux fois : le raccordement, superficiel ou profond, et le tarif
+d’utilisation. Si le réseau ne sert que d’appoint, la durée
+d’utilisation est faible et un terme de puissance devient lourd par MWh
+(77 €/MWh à 2 000 heures aux Pays-Bas). Cette note couvre l’Europe : au
+Chili, au Maroc ou en Australie, cherchez la grille du gestionnaire
+local et citez-la.</p>
+<p><strong>Dans tout modèle d’optimisation</strong>, un tarif de réseau
+n’est pas un €/MWh fixe dès que le modèle choisit ses heures : le terme
+de puissance est un coût sur la puissance maximale soutirée (€/MW/an),
+le terme d’énergie un coût par MWh selon la plage horaire. Dites aussi
+si vous comptez le plein tarif ou le régime réduit, et jusqu’à quand ce
+régime court.</p>
+<h2 id="ce-quil-faut-retenir">8. Ce qu’il faut retenir</h2>
+<p><strong>Le tarif de réseau paie un service, pas un impôt</strong> :
+infrastructure, pertes et services système, pour un gestionnaire en
+monopole dont un régulateur fixe le revenu.</p>
+<p><strong>Il se lit en puissance, en tension et en heures.</strong> Le
+réseau se dimensionne pour la pointe ; la part puissance se divise par
+la durée d’utilisation. En France, un électrolyseur paie 11 à 15 €/MWh à
+10 MW en 63-90 kV, et 4,1 €/MWh à 300 MW en 400 kV, avant
+abattement.</p>
+<p><strong>Les écarts entre pays tiennent à des choix</strong> :
+périmètre, structure, coût du réseau, rabais. Pour le même client de
+référence, 1,7 €/MWh en Suède, 40,9 en Allemagne. La fin d’un rabais a
+multiplié le tarif néerlandais par 9,6.</p>
+<p><strong>Pour l’hydrogène, le prix de gros passe d’abord, mais les
+exonérations ont une date de fin.</strong> Réseau et taxes font
+aujourd’hui 0 à 16 % du coût de l’hydrogène ; l’écart de prix de gros
+entre pays est trois fois plus grand. Un électrolyseur allemand neuf
+après 2029 verrait ce poste monter à 31 %.</p>
+<h2 id="sources">9. Sources</h2>
+<ul>
+<li>ACER, <em>Electricity network tariff practices</em>, 2025, p. 63, <a href="https://www.acer.europa.eu/sites/default/files/documents/Reports/2025-ACER-Electricity-Network-Tariff-Practices.pdf" target="_blank" rel="noopener"
+class="uri">https://www.acer.europa.eu/sites/default/files/documents/Reports/2025-ACER-Electricity-Network-Tariff-Practices.pdf</a>.</li>
+<li>ACM, <em>Tarievenbesluit TenneT 2025</em>, tabel 2, <a href="https://www.acm.nl/system/files/documents/tarievenbesluit-tennet-2025.pdf" target="_blank" rel="noopener"
+class="uri">https://www.acm.nl/system/files/documents/tarievenbesluit-tennet-2025.pdf</a>.</li>
+<li>CRE, délibération n° 2025-77 du 13 mars 2025 (TURPE 7 HTB), tableaux
+49, 51, 63 et 65, <a href="https://www.cre.fr/fileadmin/Documents/Deliberations/2025/250313_2025-77_Post-CSE_TURPE_7_HTB.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Deliberations/2025/250313_2025-77_Post-CSE_TURPE_7_HTB.pdf</a>,
+et délibération n° 2025-78 (TURPE 7 HTA-BT).</li>
+<li>Code de l’énergie, art. L. 341-4-2 (décret n° 2021-420) ; code des
+impositions sur les biens et services, art. L. 312-66.</li>
+<li>Directive 2003/96/CE du Conseil (taxation de l’énergie).</li>
+<li>Energy-Charts (Fraunhofer ISE), prix du marché du lendemain 2025, <a href="https://www.energy-charts.info" target="_blank" rel="noopener"
+class="uri">https://www.energy-charts.info</a>.</li>
+<li>ENTSO-E, <em>Overview of Transmission Tariffs in Europe: Synthesis
+2025</em>, Charts 6.1, 7.4 et 7.6, annexe 7, <a href="https://eepublicdownloads.blob.core.windows.net/public-cdn-container/clean-documents/mc-documents/transmission-tariffs/l_260405_entso-e_TTO_2025_03.pdf" target="_blank" rel="noopener"
+class="uri">https://eepublicdownloads.blob.core.windows.net/public-cdn-container/clean-documents/mc-documents/transmission-tariffs/l_260405_entso-e_TTO_2025_03.pdf</a>,
+et éditions 2017, 2023 et 2024.</li>
+<li>EnWG, § 24c et § 118 (6), <a href="https://www.gesetze-im-internet.de/enwg_2005/__118.html" target="_blank" rel="noopener"
+class="uri">https://www.gesetze-im-internet.de/enwg_2005/__118.html</a>
+; ElWOG 2010, § 111 (3), et ElWG (BGBl. I Nr. 91/2025), Autriche.</li>
+<li>Grilles 2025 des gestionnaires : RTE (TURPE 7), Netztransparenz et
+Netze BW (Allemagne), TenneT (Pays-Bas), Elia (Belgique), CNMC
+(Espagne), Terna et ARERA (Italie), APG (Autriche), PSE (Pologne), ERSE
+(Portugal), Svenska kraftnät (Suède), Statnett (Norvège), Energinet
+(Danemark).</li>
+<li>Netztransparenz, Preisblätter des ÜNB 2025 et 2026, <a href="https://www.netztransparenz.de/xspproxy/api/staticfiles/ntp-relaunch/dokumente/netzentgelte/251205_preisblatt_ben_2026.pdf" target="_blank" rel="noopener"
+class="uri">https://www.netztransparenz.de/xspproxy/api/staticfiles/ntp-relaunch/dokumente/netzentgelte/251205_preisblatt_ben_2026.pdf</a>.</li>
+<li>Real Decreto 1106/2020 (électro-intensifs), Espagne, <a href="https://www.boe.es/buscar/pdf/2020/BOE-A-2020-16350-consolidado.pdf" target="_blank" rel="noopener"
+class="uri">https://www.boe.es/buscar/pdf/2020/BOE-A-2020-16350-consolidado.pdf</a>.</li>
+<li>Lois nationales sur la taxe sur l’électricité : Stromsteuergesetz
+(Allemagne), lag (1994:1776) om skatt på energi (Suède), elafgiftsloven
+(Danemark), Elektrizitätsabgabegesetz (Autriche), Código dos IEC
+(Portugal).</li>
+</ul>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">10. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-11-12-flexibilite-autriche.html" target="_blank" rel="noopener">L’Autriche,
+le solaire de midi et la flexibilité déjà payée</a> (post LinkedIn
+repris sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:share:7526518375687090176/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : un tarif de réseau qui baisse aux heures de
+midi, en Autriche, et pourquoi son signal reste cinq fois plus faible
+que celui du prix de gros.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-09-24-sortie-du-gaz-28-territoires.html" target="_blank" rel="noopener">28
+territoires pour sortir du gaz : la bonne décision, sans la méthode</a>
+(post LinkedIn repris sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:activity:7508888410032484352/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : le même mécanisme sur le réseau de gaz : quand
+les volumes baissent, les coûts fixes du réseau retombent sur les
+abonnés restants.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Tarifs_reseau.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-financer-transition.html">Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte</a></li><li><a href="note-investir-transition.html">Investir dans la transition énergétique : combien, dans quoi, où, et combien il en faudrait</a></li><li><a href="note-taxes-energie.html">Les taxes sur l'énergie : qui paie quoi, et quel signal prix entre les énergies</a></li><li><a href="note-hydrogene-usages.html">L'hydrogène : à quoi il sert, comment on le produit, ce qu'il coûte</a></li><li><a href="note-saf-filieres.html">Les carburants d'aviation durables : six filières et leurs ordres de grandeur</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#ce-que-paie-un-tarif-de-réseau">2. Ce que paie un tarif de réseau</a></li><li><a href="#comment-un-tarif-est-construit">3. Comment un tarif est construit</a></li><li><a href="#pourquoi-le-tarif-diffère-tant-dun-pays-à-lautre">4. Pourquoi le tarif diffère tant d’un pays à l’autre</a></li><li><a href="#ce-que-paie-un-gros-industriel-et-un-électrolyseur">5. Ce que paie un gros industriel et un électrolyseur</a></li><li><a href="#tableau-de-synthèse">6. Tableau de synthèse</a></li><li><a href="#ce-que-ça-change-pour-les-mini-projets">7. Ce que ça change pour les mini-projets</a></li><li><a href="#ce-quil-faut-retenir">8. Ce qu’il faut retenir</a></li><li><a href="#sources">9. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">10. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

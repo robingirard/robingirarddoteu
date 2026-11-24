@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La chaleur des usines : combien, à quelle température, et ce que l'électricité peut en faire · Parcours ES 2026</title>
+<meta name="description" content="La chaleur est le premier usage de l'énergie dans l'industrie : 1 861 TWh en Europe, aux trois quarts fossile, 4 % seulement électrique. La note explique pourquoi tout se joue sur la température (la moitié au-dessus de 500 °C, 40 % sous 200 °C) et quelle machine électrique convient à chaque plage : pompe à chaleur (COP ≈ 3), chaudière électrique, résistance, induction, arc. Elle montre que le frein est économique (prix horaire de l'électricité face au gaz et au CO₂, raccordement, chaudière hybride) et ce que cela change pour les cas E, H et L.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>La chaleur des usines : combien, à quelle température, et ce que l'électricité peut en faire</h1>
+    <p class="resume">La chaleur est le premier usage de l'énergie dans l'industrie : 1 861 TWh en Europe, aux trois quarts fossile, 4 % seulement électrique. La note explique pourquoi tout se joue sur la température (la moitié au-dessus de 500 °C, 40 % sous 200 °C) et quelle machine électrique convient à chaque plage : pompe à chaleur (COP ≈ 3), chaudière électrique, résistance, induction, arc. Elle montre que le frein est économique (prix horaire de l'électricité face au gaz et au CO₂, raccordement, chaudière hybride) et ce que cela change pour les cas E, H et L.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-E">Mener le mini-projet du cas E : la vapeur d'une usine, électrique, au gaz, ou les deux ?</a></li><li><a href="../index.html#cas-H">Mener la boucle H ↔ L : la demande de l'industrie fait le prix, le prix fait la demande</a></li><li><a href="../index.html#cas-L">Mener le mini-projet du cas L : quand l'industrie électrifiée module, que vaut le n-ième GW flexible ?</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Une usine qui chauffe au gaz peut-elle
+passer à l’électricité, et qu’est-ce qui décide si elle le fait ?</p>
+<p><strong>La réponse, en trois phrases.</strong> La chaleur est le
+premier usage de l’énergie dans l’industrie, et elle vient encore aux
+trois quarts de combustibles fossiles : l’électricité n’en fournit que 4
+% en Europe. Ce n’est pas faute de machines : sous 200 °C, la pompe à
+chaleur rend environ trois fois plus de chaleur qu’elle ne consomme
+d’électricité, et au-dessus, la résistance, l’induction, l’arc et le
+plasma couvrent presque toutes les températures. Ce qui décide, c’est
+donc l’économie : le prix de l’électricité heure par heure face au gaz
+et au CO₂, le raccordement au réseau, et la possibilité de garder deux
+chaudières pour choisir la moins chère à chaque heure.</p>
+<p><strong>Le plan.</strong> La section 2 donne le vocabulaire. Les
+sections 3 et 4 disent combien de chaleur l’industrie consomme, d’où
+elle vient et ce qu’elle émet. La section 5 montre que tout se joue sur
+la température. La section 6 associe à chaque température sa machine
+électrique. Les sections 7 et 8 traitent du solaire thermique et du
+stockage. La section 9 explique ce qui décide en pratique, la section 10
+corrige quelques idées reçues, et la section 11 dit ce que tout cela
+change pour les mini-projets du cours.</p>
+<h2 id="les-notions">2. Les notions</h2>
+<p><strong>La chaleur de procédé</strong> est la chaleur qui sert à
+fabriquer : fondre du verre, cuire du ciment, sécher du papier,
+stériliser du lait, craquer du pétrole. On la distingue du
+<strong>chauffage des locaux</strong> (les bureaux, les ateliers), des
+<strong>matières premières</strong> (le gaz ou le pétrole qui finissent
+dans le produit, comme le plastique) et de la <strong>force
+motrice</strong> (les moteurs, les pompes, les compresseurs).</p>
+<p>Elle arrive sous deux formes. La <strong>vapeur</strong> et l’eau
+chaude, produites par une chaudière, transportent la chaleur dans
+l’usine, en général entre 100 et 200 °C. Le <strong>four</strong>
+chauffe directement la matière, souvent au-delà de 500 °C.</p>
+<p>Un <strong>vecteur</strong> est la forme d’énergie achetée : gaz,
+charbon, fioul, biomasse, électricité, chaleur d’un réseau.</p>
+<p>Il faut distinguer l’<strong>énergie finale</strong> (le combustible
+ou l’électricité qui entrent dans le four) de la <strong>chaleur
+utile</strong> (ce qui chauffe vraiment le produit). Dans un four à
+combustible, seuls 20 à 40 % de l’énergie du combustible deviennent
+chaleur utile ; le reste part surtout avec les fumées, et aussi par les
+parois et les ouvertures (ADEME, 2015).</p>
+<p>La <strong>chaleur fatale</strong> est cette chaleur perdue : fumées,
+eaux tièdes, air chaud d’un séchoir. En France, elle représente environ
+110 TWh par an, dont 53 TWh perdus à plus de 100 °C (ADEME, 2017).</p>
+<p>La <strong>pompe à chaleur</strong> (PAC) ne fabrique pas de chaleur,
+elle la déplace : elle prend une chaleur à basse température (souvent de
+la chaleur fatale) et la remonte à une température plus haute, en
+consommant de l’électricité. Son <strong>coefficient de
+performance</strong> (COP) est le rapport entre la chaleur livrée et
+l’électricité consommée. Un COP de 3 veut dire 3 MWh de chaleur pour 1
+MWh d’électricité. Le COP baisse quand l’écart de température à franchir
+grandit.</p>
+<p>Un <strong>potentiel technique</strong> dit ce que les machines
+permettent de faire. Il ne dit rien du coût : c’est le <strong>potentiel
+économique</strong> qui décide de ce qui se fait.</p>
+<p><strong>Les unités.</strong> Un térawattheure (TWh) vaut un milliard
+de kilowattheures. Un exajoule (EJ) vaut 277,8 TWh, un pétajoule (PJ)
+0,28 TWh.</p>
+<h2 id="combien-de-chaleur">3. Combien de chaleur</h2>
+<p><strong>En Europe.</strong> En 2019, l’industrie de l’Union
+européenne à 27 (UE-27) a consommé environ 4 000 TWh, matières premières
+comprises. La chaleur de procédé en prend 1 861 TWh, près de la moitié
+(47 %). Viennent ensuite les matières premières (1 011 TWh), les moteurs
+et l’éclairage (872 TWh) et le chauffage des locaux (224 TWh)
+(Fraunhofer ISI pour Agora Industry, 2024).</p>
+<figure>
+<img
+src="img/note-chaleur-usines/Industry/Chaleur_industrielle/output/editorial/usages_vecteurs_ue27_fr.png"
+alt="L’énergie de l’industrie européenne par usage (en haut), et la chaleur de procédé par vecteur (en bas), en TWh, 2019" />
+<figcaption aria-hidden="true">L’énergie de l’industrie européenne par
+usage (en haut), et la chaleur de procédé par vecteur (en bas), en TWh,
+2019</figcaption>
+</figure>
+<p><strong>Dans le monde.</strong> L’Agence internationale de l’énergie
+(AIE) prévoit que la demande de chaleur industrielle augmente de 16 %,
+soit 17,6 EJ, entre 2023 et 2028. La demande de départ est donc
+d’environ 110 EJ, soit près de 31 000 TWh (AIE, 2024). Le monde chauffe
+ses usines avec environ seize fois la chaleur de l’Europe.</p>
+<p><strong>En France.</strong> Il n’existe pas de statistique publique
+récente de la chaleur de procédé. Deux ordres de grandeur se recoupent.
+L’ADEME comptait 271 TWh de combustibles brûlés par l’industrie en 2012,
+dont 70 % (190 TWh) dans les fours et les séchoirs, plus 21 TWh
+d’électricité servant à chauffer (ADEME, 2015). La base ouverte
+IndustryEU estime à 165 TWh la chaleur utile des grandes usines en 2023.
+Pour situer, toute l’industrie française a consommé 284 TWh d’énergie en
+2023 (hors matières premières), dont 102 TWh d’électricité, soit 36 %
+(Eurostat).</p>
+<figure>
+<img
+src="img/note-chaleur-usines/Industry/Chaleur_industrielle/output/editorial/carres_monde_ue_france_fr.png"
+alt="Monde, Europe, France : trois ordres de grandeur, avec des périmètres et des années différents" />
+<figcaption aria-hidden="true">Monde, Europe, France : trois ordres de
+grandeur, avec des périmètres et des années différents</figcaption>
+</figure>
+<h2 id="doù-elle-vient-et-ce-quelle-émet">4. D’où elle vient, et ce
+qu’elle émet</h2>
+<p>En Europe, la chaleur de procédé vient du gaz (657 TWh), du charbon
+(348 TWh), de la biomasse (278 TWh), d’autres combustibles fossiles
+comme les gaz de sidérurgie et les déchets (265 TWh), du fioul (120
+TWh), des réseaux de chaleur (117 TWh) et, en dernier, de l’électricité
+(77 TWh, soit 4 %). Les fossiles en fournissent environ les trois quarts
+(Fraunhofer ISI pour Agora Industry, 2024).</p>
+<p>On retrouve ces trois quarts dans les émissions. Les fours font 51 %
+des gaz à effet de serre de l’industrie européenne, la vapeur et l’eau
+chaude 24 %. Les <strong>émissions de procédé</strong>, qui viennent de
+la chimie et non de la combustion (le calcaire qui libère son CO₂ en
+cuisant, par exemple), font 20 %, et le chauffage des locaux 5 % (même
+source, données 2018).</p>
+<p>Dans le monde, l’électricité fournit aussi 4 % de la chaleur
+industrielle en 2022 ; l’AIE en attend près de 11 % en 2028 (AIE,
+2024).</p>
+<h2 id="tout-est-affaire-de-température">5. Tout est affaire de
+température</h2>
+<p>La température décide de la machine. Or la chaleur industrielle n’est
+pas toute à la même température. En Europe, la moitié de la chaleur de
+procédé dépasse 500 °C, et près de 40 % (environ 720 TWh) reste sous 200
+°C (Fraunhofer ISI pour Agora Industry, 2024).</p>
+<p>Le partage suit les industries. La sidérurgie (460 TWh, dont 390
+au-dessus de 500 °C), la chimie et les minéraux (ciment, chaux, verre,
+céramique) chauffent haut, dans des fours. Le papier (221 TWh sur 237
+sous 200 °C) et l’agroalimentaire (137 TWh sur 163) chauffent bas, le
+plus souvent avec de la vapeur.</p>
+<figure>
+<img
+src="img/note-chaleur-usines/Industry/Chaleur_industrielle/output/editorial/secteurs_temperature_ue27_fr.png"
+alt="Chaleur de procédé de l’UE-27 par secteur et par température, 2019" />
+<figcaption aria-hidden="true">Chaleur de procédé de l’UE-27 par secteur
+et par température, 2019</figcaption>
+</figure>
+<p>À l’échelle du monde, la part de haute température est encore plus
+forte. Une projection du cabinet Systemiq pour 2030 estime la combustion
+de sept grandes industries à 25 400 TWh, dont 67 % au-dessus de 400 °C ;
+la sidérurgie en pèse à elle seule 11 000 TWh (Systemiq, 2024). Ce
+chiffre ne compte que la combustion : il ne s’additionne pas aux
+chiffres européens ci-dessus.</p>
+<h2 id="quelle-machine-électrique-pour-quelle-température">6. Quelle
+machine électrique pour quelle température</h2>
+<figure>
+<img
+src="img/note-chaleur-usines/Industry/Chaleur_industrielle/output/editorial/technologies_temperature_fr.png"
+alt="Plages de température où chaque technique électrique est adaptée, horizon 2035" />
+<figcaption aria-hidden="true">Plages de température où chaque technique
+électrique est adaptée, horizon 2035</figcaption>
+</figure>
+<p><strong>Sous 200 °C, la pompe à chaleur.</strong> Elle reprend la
+chaleur perdue d’une étape pour la remonter à la température d’une
+autre. Une étude a recensé, procédé par procédé, ce que des PAC
+pourraient reprendre sur la chaleur fatale de quatre industries
+européennes (papier, chimie, agroalimentaire, raffinage) : 23 GW en 4
+174 machines, qui livreraient 178 TWh de chaleur par an pour 54 TWh
+d’électricité. Le COP de l’ensemble vaut 3,28, celui de la machine
+médiane 2,77. Les auteurs tiennent ce potentiel pour une borne basse
+(Marina et al., 2021).</p>
+<figure>
+<img
+src="img/note-chaleur-usines/Industry/Chaleur_industrielle/output/editorial/pompes_a_chaleur_ue28_fr.png"
+alt="Potentiel des pompes à chaleur sur chaleur fatale dans quatre industries européennes" />
+<figcaption aria-hidden="true">Potentiel des pompes à chaleur sur
+chaleur fatale dans quatre industries européennes</figcaption>
+</figure>
+<p>En France, la levurerie Lesaffre de Marcq-en-Barœul (Nord) a inauguré
+le 14 octobre 2025 deux PAC de 19 MW thermiques au total. Elles
+reprennent la chaleur de la fermentation pour sécher la levure, et
+couvrent 70 % des besoins de chaleur du site.</p>
+<p><strong>Jusqu’à 500 °C, la chaudière électrique.</strong> Elle
+produit de la vapeur comme une chaudière à gaz, avec une résistance ou
+des électrodes à la place du brûleur. Presque toute l’électricité
+devient chaleur, mais sans le gain d’une PAC.</p>
+<p><strong>Au-dessus, la résistance, l’induction, l’arc et le
+plasma.</strong> La résistance va jusqu’à 2 000 °C, l’induction, l’arc
+et la torche à plasma au-delà. Deux réalisations récentes le montrent.
+Verallia a mis en service à Châteaubernard (Charente) un four de verre
+100 % électrique de 180 tonnes par jour, inauguré en septembre 2024.
+BASF, SABIC et Linde ont démarré à Ludwigshafen (Allemagne), le 17 avril
+2024, un démonstrateur de vapocraqueur chauffé à l’électricité, de 6
+MW.</p>
+<p><strong>Ce que tout cela permettrait.</strong> Avec les techniques
+existantes ou attendues d’ici 2035, 90 % des 2 068 TWh que l’industrie
+européenne consomme encore sous une autre forme que l’électricité
+pourraient être électrifiés : 62 % dès 2025, 20 % de plus dès 2030 et 8
+% dès 2035. Il reste 208 TWh, dont 202 dans la sidérurgie. Là, le
+carbone ne sert pas qu’à chauffer : il retire l’oxygène du minerai de
+fer. Ce n’est plus de la chaleur, c’est de la chimie, et il faut une
+autre route, comme l’hydrogène (Fraunhofer ISI pour Agora Industry, 2024
+; voir <a href="note-routes-decarbonation.html">la note sur les routes de
+décarbonation</a>).</p>
+<figure>
+<img
+src="img/note-chaleur-usines/Industry/Chaleur_industrielle/output/editorial/potentiel_electrification_ue27_fr.png"
+alt="Industrie de l’UE-27 : ce que l’électrification directe peut atteindre, par secteur" />
+<figcaption aria-hidden="true">Industrie de l’UE-27 : ce que
+l’électrification directe peut atteindre, par secteur</figcaption>
+</figure>
+<p>En France, l’ADEME estime qu’avec les seules techniques matures, 41,6
+TWh de combustibles pourraient être remplacés, soit 18 % de ceux des
+procédés thermiques ; il faudrait pour cela 23,9 TWh d’électricité en
+plus (ADEME et CEREN, 2020).</p>
+<p>Le tableau résume.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Température</th>
+<th>Usages typiques</th>
+<th>Machine électrique</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&lt; 200 °C</td>
+<td>vapeur, eau chaude, séchage (papier, agroalimentaire, chimie)</td>
+<td>pompe à chaleur (COP ≈ 3) si une chaleur fatale est disponible,
+sinon chaudière électrique</td>
+<td>Lesaffre, 2 PAC, 19 MW</td>
+</tr>
+<tr class="even">
+<td>200 à 500 °C</td>
+<td>vapeur haute pression, chimie</td>
+<td>chaudière électrique, résistance</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>&gt; 500 °C</td>
+<td>fours : verre, ciment, acier, vapocraquage</td>
+<td>résistance (jusqu’à 2 000 °C), induction, arc, plasma</td>
+<td>Verallia, BASF</td>
+</tr>
+<tr class="even">
+<td>réduction du minerai de fer</td>
+<td>sidérurgie</td>
+<td>aucune : c’est de la chimie (hydrogène, captage)</td>
+<td>202 TWh restent en Europe</td>
+</tr>
+</tbody>
+</table>
+<p>Ce potentiel est <strong>technique</strong>. Il ne dit pas si
+l’électricité coûtera moins cher que le gaz : c’est l’objet de la
+section 9.</p>
+<h3 id="le-cop-dépend-de-lécart-de-température">Le COP dépend de l’écart
+de température</h3>
+<p>Une pompe à chaleur monte la chaleur d’une température basse, la
+<strong>source</strong> (une eau tiède, des buées, une chaleur fatale),
+à une température haute, le <strong>puits</strong> (ici la vapeur livrée
+à l’usine). Plus la marche à monter est haute, plus il faut
+d’électricité pour la franchir, et plus le COP baisse.</p>
+<p>La physique fixe un plafond. Une machine parfaite atteindrait le
+<strong>COP de Carnot</strong> :</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="normal">COP</mtext><mtext mathvariant="normal">Carnot</mtext></msub><mo>=</mo><mfrac><msub><mi>T</mi><mtext mathvariant="normal">puits</mtext></msub><mrow><msub><mi>T</mi><mtext mathvariant="normal">puits</mtext></msub><mo>−</mo><msub><mi>T</mi><mtext mathvariant="normal">source</mtext></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{COP}_{\text{Carnot}} = \frac{T_{\text{puits}}}{T_{\text{puits}} - T_{\text{source}}}</annotation></semantics></math></p>
+<p>où les températures sont en kelvins (la température en °C plus 273).
+Le dénominateur est l’écart de température : quand il double, le plafond
+est presque divisé par deux. Les machines réelles perdent de l’énergie
+dans le compresseur et dans les échangeurs. Elles atteignent environ
+<strong>la moitié</strong> de ce plafond, entre 40 et 60 % selon la
+machine (Arpagaus, 2026 ; Jesper et al., 2021 ; AIE, 2023). Le
+recensement européen cité plus haut a d’ailleurs calculé le COP de
+chacune de ses 4 174 machines avec cette règle de la moitié (Marina et
+al., 2021).</p>
+<figure>
+<img
+src="img/note-chaleur-usines/Industry/Chaleur_industrielle/output/editorial/cop_pac_temperature_fr.png"
+alt="Le COP d’une pompe à chaleur selon la température de la chaleur livrée, pour trois températures de source : la moitié du COP de Carnot (trait), la plage de 40 à 60 % (bande) et des machines réelles" />
+<figcaption aria-hidden="true">Le COP d’une pompe à chaleur selon la
+température de la chaleur livrée, pour trois températures de source : la
+moitié du COP de Carnot (trait), la plage de 40 à 60 % (bande) et des
+machines réelles</figcaption>
+</figure>
+<p>Deux exemples.</p>
+<ul>
+<li><strong>Une chaleur fatale à 80 °C, de la vapeur à 150 °C.</strong>
+L’écart est de 70 °C. Le COP de Carnot vaut 423 / 70, soit environ 6. La
+machine réelle atteint environ 3 (de 2,4 à 3,6) : 1 MWh d’électricité
+donne 3 MWh de vapeur.</li>
+<li><strong>Une source à 40 °C, de la vapeur à 180 °C.</strong> L’écart
+est de 140 °C. Le COP de Carnot tombe à 453 / 140, soit environ 3,2, et
+la machine réelle à environ 1,6 (de 1,3 à 1,9). La pompe à chaleur ne
+rend plus qu’une fois et demie l’électricité qu’elle consomme.</li>
+</ul>
+<p>La règle tient sur les machines en service. Sur cinq pompes à chaleur
+industrielles qui livrent de 115 à 183 °C, recensées par l’AIE, elle
+retrouve le COP mesuré à 7 % près en moyenne : 3,5 pour une machine qui
+monte de 65 à 115 °C, 1,7 pour une autre qui produit de la vapeur à 183
+°C à partir d’une chaleur à 36 °C. Les catalogues des fabricants sont un
+peu plus prudents : la règle les dépasse d’environ 14 % en moyenne. Un
+repère simple : pour garder un COP au-dessus de 2, l’écart doit rester
+sous 100 °C environ (Arpagaus, 2026).</p>
+<p><strong>Ce que ça change pour le mini-projet sur la vapeur à 180
+°C.</strong> Le cas exclut la pompe à chaleur, et sa carte propose la
+piste « à partir de quel COP bat-elle l’hybride ? ». La courbe dit quels
+COP sont réalistes à 180 °C : environ 1,6 avec une source à 40 °C, 1,9
+avec une source à 60 °C, 2,3 avec une source à 80 °C. Un COP de 2
+demande donc une chaleur fatale d’au moins 65 °C environ (de 45 à 90 °C
+selon la machine). Comparez le COP qui fait gagner la pompe à chaleur à
+ces valeurs, et demandez-vous si l’usine a une chaleur fatale assez
+chaude, et en quantité suffisante. Les travaux en cours du centre PERSEE
+sur la même usine à 180 °C (Knibiehly) testent une pompe à chaleur de
+COP imposé, 1,3 ou 2 : la courbe situe ces deux hypothèses, la première
+avec une source tiède et une machine peu performante, la seconde avec
+une chaleur fatale vers 65 °C. Leurs résultats ne sont pas encore
+publiés.</p>
+<p><em>Sources de ce passage :</em> C. Arpagaus, « High-temperature heat
+pumps: market overview, state of the art, and application potential »,
+<em>Clean Technologies and Environmental Policy</em> 28 (2026) 148,
+figure 2 ; M. Jesper et al., « Large-scale heat pumps: Uptake and
+performance modelling of market-available devices », <em>Renewable and
+Sustainable Energy Reviews</em> 137 (2021) 110646 ; AIE, programme Heat
+Pumping Technologies, Annexe 58, <em>High-Temperature Heat Pumps. Task 1
+– Technologies</em>, 2023, tableau 3-1 et p. 64-67 ; Marina et
+al. (2021), p. 3 et 6.</p>
+<h2 id="le-solaire-thermique-un-appoint">7. Le solaire thermique, un
+appoint</h2>
+<p>On peut aussi produire de la chaleur à basse température sans
+combustion, avec le soleil. La plus grande centrale solaire thermique de
+France, LACTOSOL, chez Lactalis Ingredients à Verdun (Meuse), est en
+service depuis juin 2023. Elle aligne 15 000 m² de capteurs, 12,4 MW
+thermiques en crête et 3 000 m³ de stockage d’eau chaude, pour environ 8
+000 MWh par an : 6 % de la chaleur de l’usine (Newheat). Dans le monde,
+l’AIE compte un peu plus de 850 MW de solaire thermique industriel fin
+2022, qui fournissent environ 6 TWh par an : de l’ordre de 0,02 % de la
+chaleur industrielle (AIE, 2024).</p>
+<h2 id="stocker-la-chaleur-en-bref">8. Stocker la chaleur, en bref</h2>
+<p>Une usine chauffe souvent jour et nuit, alors que l’électricité bon
+marché n’arrive qu’à certaines heures. Une <strong>batterie de
+chaleur</strong> (briques, sable, sel fondu, eau sous pression) se
+charge quand le courant est bon marché et rend la chaleur à toute heure.
+La première de l’industrie française qui transforme de l’électricité en
+vapeur, selon son constructeur Epyr, a été inaugurée le 29 mai 2026 dans
+la papeterie WEPA de Troyes : un démonstrateur de 1,3 MW et cinq heures
+de stockage, qui fournit un quart de la vapeur du site.</p>
+<p>Les techniques, leurs températures, leurs coûts et leur maturité sont
+expliqués dans <a href="note-stocker-chaleur.html">la note sur le stockage
+de chaleur</a>.</p>
+<h2 id="ce-qui-décide-en-pratique-le-prix-le-réseau-lhybride">9. Ce qui
+décide en pratique : le prix, le réseau, l’hybride</h2>
+<p><strong>La règle de bascule.</strong> Pour une heure donnée, la
+chaudière électrique est moins chère que la chaudière à gaz si</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>p</mi><mtext mathvariant="normal">élec</mtext></msub><msub><mi>η</mi><mtext mathvariant="normal">élec</mtext></msub></mfrac><mo>&lt;</mo><mfrac><mrow><msub><mi>p</mi><mtext mathvariant="normal">gaz</mtext></msub><mo>+</mo><mi>τ</mi><mo>×</mo><msub><mi>e</mi><mtext mathvariant="normal">gaz</mtext></msub></mrow><msub><mi>η</mi><mtext mathvariant="normal">gaz</mtext></msub></mfrac></mrow><annotation encoding="application/x-tex">\frac{p_{\text{élec}}}{\eta_{\text{élec}}} &lt; \frac{p_{\text{gaz}} + \tau \times e_{\text{gaz}}}{\eta_{\text{gaz}}}</annotation></semantics></math></p>
+<p>où
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+est le prix de l’énergie achetée (€/MWh),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math>
+le rendement de chaque chaudière,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
+le prix du CO₂ (€/t) et
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>e</mi><mtext mathvariant="normal">gaz</mtext></msub><annotation encoding="application/x-tex">e_{\text{gaz}}</annotation></semantics></math>
+le CO₂ émis par MWh de gaz brûlé. Le prix du CO₂ ne pèse que sur le côté
+gaz : plus il monte, plus l’électricité gagne d’heures (voir <a
+href="note-taxes-energie.html">la note sur les taxes de l’énergie</a>). Le
+prix du gaz est presque constant sur l’année ; le prix de l’électricité
+change d’heure en heure (voir <a href="note-marches-elec.html">la note sur
+les marchés de l’électricité</a>). La chaudière électrique gagne donc
+aux heures bon marché, et le gaz aux heures chères. Avec une PAC, le
+côté gauche est divisé par le COP : à COP 3, un MWh de chaleur ne coûte
+que le tiers d’un MWh d’électricité. En échange, la PAC coûte plus cher
+à construire et demande une source de chaleur.</p>
+<p><strong>L’hybride.</strong> Garder les deux chaudières permet
+d’appliquer cette règle à chaque heure. Une étude du centre PERSEE sur
+une usine chimique type, qui demande de la chaleur à 180 °C avec les
+prix de l’électricité prévus pour 2030-2040, donne un ordre d’idée. Si
+la chaleur au gaz coûte 100, la chaleur tout électrique coûte 137,
+l’électrique avec stockage de chaleur 129, et l’hybride 88. Dans
+l’hybride, l’électricité fournit la moitié de la chaleur. Mais l’hybride
+n’émet que 28 % de moins que le gaz, quand le tout électrique émet 98 %
+de moins. Garder une chaudière à gaz neuve risque aussi de
+<strong>verrouiller</strong> ces émissions pour sa durée de vie
+(Knibiehly et al., 2026).</p>
+<p><strong>Le réseau.</strong> Électrifier une usine, c’est aussi lui
+trouver la puissance. En France, environ 450 sites industriels sont
+raccordés au réseau de transport de RTE, pour environ 10 GW, soit 20 MW
+en moyenne (RTE, 2025). À Châteaubernard, le four électrique de Verallia
+demande 8 MW, et le site a dû plus que doubler son raccordement pour
+atteindre 20 MW. Selon le directeur général France de Verallia, le
+raccordement d’un four représente 10 % de son prix, et jusqu’à 50 % pour
+certaines usines. Les délais de raccordement se comptent en années.
+Payer une puissance réservée au réseau coûte aussi, chaque année (voir
+<a href="note-tarifs-reseau.html">la note sur les tarifs de
+réseau</a>).</p>
+<h2 id="idées-reçues">10. Idées reçues</h2>
+<p><strong>« 90 % de la chaleur industrielle est électrifiable.
+»</strong> Non. Le chiffre de 90 % porte sur toute l’énergie de
+l’industrie européenne qui n’est pas encore électrique (environ 2 070
+TWh), chaleur, moteurs et locaux confondus. Et c’est un potentiel
+technique, pas une prévision.</p>
+<p><strong>« Une pompe à chaleur industrielle rend 3,5 fois
+l’électricité qu’elle consomme. »</strong> C’est optimiste. Sur le
+recensement européen, le COP moyen vaut 3,28 et le COP médian 2,77. Pour
+de la vapeur au-dessus de 150 °C, attendez-vous à moins, parce que
+l’écart de température à franchir est plus grand.</p>
+<p><strong>« Le COP est une caractéristique de la pompe à chaleur.
+»</strong> Non : il dépend d’abord des températures. Pour la même vapeur
+à 180 °C, il passe d’environ 1,6 avec une source à 40 °C à 2,3 avec une
+source à 80 °C. Un COP annoncé ne vaut que pour ses températures de
+source et de puits : demandez-les avant de le reprendre.</p>
+<p><strong>« Cette batterie stocke à 1 800 °C, elle livre donc de la
+chaleur à 1 800 °C. »</strong> Non. Les températures annoncées sont
+souvent celles des briques, pas celles de la chaleur livrée à
+l’usine.</p>
+<p><strong>« Un four hybride choisit son énergie heure par heure.
+»</strong> Pas celui de Verallia. Ses fours hybrides de Saragosse (70 %
+d’électricité, 30 % de gaz ou de biocombustible, inauguré en avril 2026)
+et de Saint-Romain-le-Puy (80 % d’électricité) sont conçus pour tourner
+surtout à l’électricité, avec un complément de gaz. L’arbitrage heure
+par heure est celui des chaudières de la section 9.</p>
+<p><strong>« Les projets industriels demandent trois fois la
+consommation de l’industrie française. »</strong> RTE compte plus de 30
+GW réservés par plus de 170 projets fin 2025. C’est une capacité
+réservée, pas une consommation : RTE lui-même dit que beaucoup de ces
+projets ne se feront pas.</p>
+<h2 id="ce-que-ça-change-pour-les-mini-projets">11. Ce que ça change
+pour les mini-projets</h2>
+<p><strong>La vapeur d’une usine : électrique, gaz ou les deux
+?</strong> La vapeur, entre 100 et 200 °C, est la chaleur la plus facile
+à électrifier : une chaudière électrique suffit, et aucune barrière
+technique ne s’oppose au tout électrique. La question est donc
+économique, et elle se lit avec la règle de bascule de la section 9 :
+repérez les heures où le prix de l’électricité passe sous le coût du gaz
+et de son CO₂, et vous saurez quand chaque chaudière tourne.
+Attendez-vous à ce que l’hybride gagne souvent, et demandez-vous ce
+qu’il émet encore. Un stockage de chaleur pousse à surdimensionner la
+chaudière électrique pour charger aux heures bon marché ; une puissance
+souscrite payante freine ce surdimensionnement. Si vous testez une pompe
+à chaleur haute température, cherchez le COP qui la rend gagnante, et
+comparez-le aux COP du recensement européen : 2,8 pour la machine
+médiane, 3,3 pour l’ensemble.</p>
+<p><strong>La demande d’électricité de l’industrie quand le CO₂
+monte.</strong> Le potentiel technique est très large, mais ce qui
+bascule dépend du prix du CO₂ et de l’électricité. En Europe,
+l’industrie consommait 933 TWh d’électricité en 2019, et 2 068 TWh sous
+d’autres formes : chaque point de chaleur électrifiée compte pour le
+réseau. La sidérurgie ne bascule pas par la chaleur, mais par
+l’hydrogène : voir <a href="note-hydrogene-usages.html">la note sur les
+usages de l’hydrogène</a> et <a href="note-procedes-usines.html">la note
+sur les procédés des usines</a>.</p>
+<p><strong>L’industrie électrifiée et flexible.</strong> Une chaudière
+électrique peut consommer surtout aux heures bon marché, ce qui en fait
+une demande flexible pour le système électrique. Mais une chaudière
+hybride ne déplace pas sa consommation aux heures chères : elle passe au
+gaz, et cette flexibilité émet du CO₂. Un stockage de chaleur, lui,
+déplace vraiment la consommation dans le temps.</p>
+<p><strong>La boucle entre la demande et le prix.</strong> Plus les
+usines électrifient leur chaleur, plus elles consomment aux heures
+aujourd’hui bon marché, et plus ces heures se raréfient. La demande de
+l’industrie fait le prix, et le prix fait la demande.</p>
+<h2 id="ce-quil-faut-retenir">12. Ce qu’il faut retenir</h2>
+<p><strong>La chaleur est le premier usage de l’énergie dans
+l’industrie.</strong> En Europe, elle pèse près de la moitié de
+l’énergie de l’industrie, vient aux trois quarts des fossiles et fait
+les trois quarts de ses émissions. L’électricité n’en fournit que 4
+%.</p>
+<p><strong>La température décide de la machine.</strong> Sous 200 °C (40
+% de la chaleur européenne), la pompe à chaleur rend environ trois fois
+l’électricité qu’elle consomme, si une chaleur perdue est disponible.
+Au-dessus, la chaudière électrique, la résistance, l’induction, l’arc et
+le plasma couvrent presque tout. Seule la réduction du minerai de fer
+échappe à l’électricité directe, parce que c’est de la chimie.</p>
+<p><strong>Le frein n’est pas technique, il est économique.</strong> Le
+prix de l’électricité heure par heure face au gaz et au CO₂, le coût du
+raccordement et de la puissance réservée décident de ce qui se fait.
+L’hybride, qui garde le gaz pour les heures chères, est souvent le moins
+cher, mais il émet encore et peut verrouiller ces émissions.</p>
+<h2 id="sources">13. Sources</h2>
+<ul>
+<li>ADEME, <em>La chaleur fatale industrielle</em>, collection «
+Connaître pour agir », 2015 (données 2012), p. 6-7, <a href="https://www.actu-environnement.com/media/pdf/dossiers/710-chaleur-fatale-industrielle.pdf" target="_blank" rel="noopener"
+class="uri">https://www.actu-environnement.com/media/pdf/dossiers/710-chaleur-fatale-industrielle.pdf</a>.</li>
+<li>ADEME, <em>La chaleur fatale</em>, réf. 8821, 2017, p. 24
+(librairie.ademe.fr).</li>
+<li>ADEME, CEREN, <em>Première analyse du potentiel technique
+d’électrification des procédés industriels thermiques par des
+technologies matures</em>, 2020, p. 15 et 17 (librairie.ademe.fr).</li>
+<li>AIE, <em>Renewables 2023. Analysis and forecasts to 2028</em>, 2024,
+chapitre 3, p. 116-117, <a href="https://iea.blob.core.windows.net/assets/96d66a8b-d502-476b-ba94-54ffda84cf72/Renewables_2023.pdf" target="_blank" rel="noopener"
+class="uri">https://iea.blob.core.windows.net/assets/96d66a8b-d502-476b-ba94-54ffda84cf72/Renewables_2023.pdf</a>.</li>
+<li>BASF, communiqué du 17 avril 2024, <a href="https://www.basf.com/global/en/media/news-releases/2024/04/p-24-177" target="_blank" rel="noopener"
+class="uri">https://www.basf.com/global/en/media/news-releases/2024/04/p-24-177</a>.</li>
+<li>Epyr, <em>Inauguration WEPA</em>, 2026, <a href="https://www.epyr.co/fr/inauguration-wepa" target="_blank" rel="noopener"
+class="uri">https://www.epyr.co/fr/inauguration-wepa</a>.</li>
+<li>Eurostat, bilans énergétiques <code>nrg_bal_c</code>, consommation
+finale de l’industrie, France, 2023.</li>
+<li>Fraunhofer ISI pour Agora Industry, <em>Direct electrification of
+industrial process heat</em>, v1.1, juin 2024, figures 1 à 5
+(redessinées), agora-industry.org.</li>
+<li>IndustryEU, base ouverte des sites industriels européens, centre
+PERSEE, 2026, doi:10.5281/zenodo.21979416.</li>
+<li>Knibiehly, Heggarty, Affonso Nobrega, Girard, présentation de
+conférence, Copenhague, 20-21 avril 2026.</li>
+<li>Lesaffre, inauguration de l’unité de valorisation de chaleur fatale,
+Agro-Media, 14 octobre 2025, <a href="https://www.agro-media.fr/actualite/lesaffre-inaugure-sa-nouvelle-unite-de-valorisation-de-chaleur-fatale-au-sein-de-son-usine-historique-a-marcq-en-baroeul-64010.html" target="_blank" rel="noopener"
+class="uri">https://www.agro-media.fr/actualite/lesaffre-inaugure-sa-nouvelle-unite-de-valorisation-de-chaleur-fatale-au-sein-de-son-usine-historique-a-marcq-en-baroeul-64010.html</a>.</li>
+<li>Marina A., Spoelstra S., Zondag H.A., Wemmers A.K., « An estimation
+of the European industrial heat pump market potential », <em>Renewable
+and Sustainable Energy Reviews</em> 139 (2021) 110545, tableau 4, <a href="https://publications.tno.nl/publication/34637767/MueE3v/marina-2021-estimation.pdf" target="_blank" rel="noopener"
+class="uri">https://publications.tno.nl/publication/34637767/MueE3v/marina-2021-estimation.pdf</a>.</li>
+<li>Newheat, projet LACTOSOL, <a href="https://newheat.com/en/projects/dairy-industry/" target="_blank" rel="noopener"
+class="uri">https://newheat.com/en/projects/dairy-industry/</a>.</li>
+<li>RTE, <em>Schéma décennal de développement du réseau</em> (SDDR)
+2025, fiche 5 « Raccordement de l’industrie », p. 56.</li>
+<li>RTE, <em>Consultation publique sur la refonte du raccordement des
+clients consommateurs</em>, 26 janvier 2026, p. 4.</li>
+<li>Systemiq, <em>Catalysing the global opportunity for electrothermal
+energy storage</em>, février 2024, figure 5.</li>
+<li>Verallia, Châteaubernard : L’Usine Nouvelle, « A Châteaubernard,
+Verallia fait entrer le verre dans une nouvelle ère », 2024, <a href="https://www.usinenouvelle.com/article/a-chateaubernard-verallia-fait-entrer-le-verre-dans-une-nouvelle-ere.N2218705" target="_blank" rel="noopener"
+class="uri">https://www.usinenouvelle.com/article/a-chateaubernard-verallia-fait-entrer-le-verre-dans-une-nouvelle-ere.N2218705</a>,
+et Vitisphere, 11 septembre 2024, <a href="https://www.vitisphere.com/actualite-102696-verallia-electrifie-ses-fours-et-bouteilles-de-cognac.html" target="_blank" rel="noopener"
+class="uri">https://www.vitisphere.com/actualite-102696-verallia-electrifie-ses-fours-et-bouteilles-de-cognac.html</a>.</li>
+<li>Verallia, fours hybrides : communiqué du 16 avril 2026 (Saragosse) ;
+Process Alimentaire, <a href="https://www.processalimentaire.com/emballage/verallia-un-premier-four-hybride-en-france-prevu-pour-2026" target="_blank" rel="noopener"
+class="uri">https://www.processalimentaire.com/emballage/verallia-un-premier-four-hybride-en-france-prevu-pour-2026</a>
+(Saint-Romain-le-Puy) ; ici (France Bleu), 13 novembre 2024 (coût du
+raccordement).</li>
+</ul>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">14. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.youtube.com/playlist?list=PLO-KsgcJFJI0" target="_blank" rel="noopener">Décarbonation
+de la chaleur dans l’industrie</a> (série de 6 vidéos sur YouTube) :
+toute la série, de la quantité de chaleur consommée par l’industrie au
+stockage et au raccordement.</li>
+<li><a href="https://www.youtube.com/watch?v=rz29IEcqVU0" target="_blank" rel="noopener">Chaleur dans
+l’industrie 2/6 — tout est affaire de température</a> (vidéo, 2 min) :
+pourquoi la température du procédé décide de tout.</li>
+<li><a href="https://www.youtube.com/watch?v=1g4XwliX1pk" target="_blank" rel="noopener">Chaleur dans
+l’industrie 3/6 — sous 200 °C, la pompe à chaleur</a> (vidéo, 2 min) :
+la pompe à chaleur industrielle, sous 200 °C.</li>
+<li><a href="https://www.youtube.com/watch?v=Xw5hm5v-lD4" target="_blank" rel="noopener">Chaleur dans
+l’industrie 4/6 — au-dessus de 200 °C, d’autres machines électriques</a>
+(vidéo, 2 min) : les machines électriques des hautes températures :
+résistance, induction, arc, plasma.</li>
+<li><a href="https://www.youtube.com/watch?v=Ay30-EKRk7U" target="_blank" rel="noopener">Chaleur dans
+l’industrie 6/6 — brancher l’usine au réseau, et garder le gaz à côté de
+l’électricité</a> (vidéo, 2 min) : deux freins concrets : le
+raccordement de l’usine au réseau, et l’intérêt de garder le gaz à côté
+de l’électricité (four hybride de Verallia).</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Chaleur_usines.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-stocker-chaleur.html">Stocker la chaleur dans l'industrie : comment ça marche, ce que ça coûte, où on en est</a></li><li><a href="note-taxes-energie.html">Les taxes sur l'énergie : qui paie quoi, et quel signal prix entre les énergies</a></li><li><a href="note-procedes-usines.html">Acier, ciment, ammoniac, hydrogène, plastiques, aluminium : comment on les fabrique, et d'où sort le CO₂</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#les-notions">2. Les notions</a></li><li><a href="#combien-de-chaleur">3. Combien de chaleur</a></li><li><a href="#doù-elle-vient-et-ce-quelle-émet">4. D’où elle vient, et ce qu’elle émet</a></li><li><a href="#tout-est-affaire-de-température">5. Tout est affaire de température</a></li><li><a href="#quelle-machine-électrique-pour-quelle-température">6. Quelle machine électrique pour quelle température</a></li><li><a href="#le-solaire-thermique-un-appoint">7. Le solaire thermique, un appoint</a></li><li><a href="#stocker-la-chaleur-en-bref">8. Stocker la chaleur, en bref</a></li><li><a href="#ce-qui-décide-en-pratique-le-prix-le-réseau-lhybride">9. Ce qui décide en pratique : le prix, le réseau, l’hybride</a></li><li><a href="#idées-reçues">10. Idées reçues</a></li><li><a href="#ce-que-ça-change-pour-les-mini-projets">11. Ce que ça change pour les mini-projets</a></li><li><a href="#ce-quil-faut-retenir">12. Ce qu’il faut retenir</a></li><li><a href="#sources">13. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">14. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

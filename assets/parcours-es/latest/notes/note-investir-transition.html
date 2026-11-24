@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Investir dans la transition énergétique : combien, dans quoi, où, et combien il en faudrait · Parcours ES 2026</title>
+<meta name="description" content="Combien le monde investit chaque année dans la transition énergétique (environ 2 300 milliards de dollars en 2025, 2 % du PIB mondial, près de 300 dollars par habitant), dans quoi (véhicules électriques, renouvelables et réseaux font près de 90 % ; hydrogène et captage du CO₂ moins de 1 %) et où (la Chine un tiers, l'Europe l'essentiel de la hausse). Comparaison avec les investissements fossiles et avec les besoins des trajectoires de neutralité (à peu près doubler), pour la France aussi, et ce que ces ordres de grandeur changent pour la lecture économique d'un mini-projet : taux, dette, qui paie.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 20 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Investir dans la transition énergétique : combien, dans quoi, où, et combien il en faudrait</h1>
+    <p class="resume">Combien le monde investit chaque année dans la transition énergétique (environ 2 300 milliards de dollars en 2025, 2 % du PIB mondial, près de 300 dollars par habitant), dans quoi (véhicules électriques, renouvelables et réseaux font près de 90 % ; hydrogène et captage du CO₂ moins de 1 %) et où (la Chine un tiers, l'Europe l'essentiel de la hausse). Comparaison avec les investissements fossiles et avec les besoins des trajectoires de neutralité (à peu près doubler), pour la France aussi, et ce que ces ordres de grandeur changent pour la lecture économique d'un mini-projet : taux, dette, qui paie.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#mp-eco-role-economique">Porter la lecture économique d'un mini-projet technologique : taux, annuité, qui paie, qui gagne</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> Combien d’argent le monde met-il chaque
+année dans la transition énergétique, à quoi sert cet argent, et est-ce
+assez ?</p>
+<p><strong>La réponse, en trois phrases.</strong> En 2025, le monde a
+investi environ <strong>2 300 milliards de dollars</strong> dans la
+transition énergétique, soit à peu près 2 % du produit intérieur brut
+(PIB) mondial, 2,4 fois plus qu’en 2020. Près de 90 % vont aux véhicules
+électriques, aux renouvelables et aux réseaux électriques, et la Chine
+pèse à elle seule un tiers du total. Pour une trajectoire de neutralité
+carbone, il faudrait à peu près <strong>doubler</strong> ce montant dès
+la fin des années 2020.</p>
+<p><strong>Le plan.</strong> La section 2 donne le vocabulaire. La
+section 3 suit l’évolution depuis 2005, la section 4 dit dans quoi on
+investit, la section 5 où. La section 6 compare avec les investissements
+fossiles, la section 7 avec les besoins des trajectoires climatiques. La
+section 8 ramène ces montants à un pays et à une personne, la section 9
+corrige quelques idées reçues, la section 10 dit ce que ça change pour
+les mini-projets du cours.</p>
+<h2 id="ce-quon-compte-et-comment">2. Ce qu’on compte, et comment</h2>
+<p>Un <strong>investissement</strong> est une dépense faite une fois
+pour construire un équipement qui servira des années : un parc éolien,
+une ligne électrique, une voiture électrique. Ce n’est pas une dépense
+de fonctionnement, comme le combustible ou l’entretien. Pour comparer un
+investissement à un revenu annuel, on l’étale sur la durée de vie de
+l’équipement : c’est l’<strong>annuité</strong>, expliquée dans la note
+<a href="note-financer-transition.html">Financer la transition</a>.</p>
+<p>La <strong>transition énergétique</strong> n’a pas de définition
+unique. Chaque organisme choisit son <strong>périmètre</strong>, la
+liste de ce qu’il compte. Deux sources font référence :</p>
+<ul>
+<li><strong>BloombergNEF</strong> (BNEF), le bureau d’études énergie de
+Bloomberg, publie chaque année l’<em>Energy Transition Investment
+Trends</em>. Il compte les renouvelables, les réseaux, le stockage, le
+nucléaire, l’hydrogène, le captage du CO₂, la chaleur électrifiée, et
+aussi l’achat des véhicules électriques.</li>
+<li>L’<strong>Agence internationale de l’énergie</strong> (AIE) publie
+chaque année le <em>World Energy Investment</em>. Elle compte toute
+l’énergie, fossile comprise, et range dans l’« énergie propre » les
+renouvelables, le nucléaire, les réseaux, le stockage, les carburants
+bas-carbone, l’efficacité énergétique et l’électrification des
+usages.</li>
+</ul>
+<p>Deux conventions de lecture :</p>
+<ul>
+<li>BNEF compte en <strong>dollars courants</strong> (la valeur de
+chaque année), l’AIE en <strong>dollars constants</strong> de 2025
+(corrigés de l’inflation).</li>
+<li>En anglais, un <strong><em>billion</em></strong> vaut un milliard
+(10⁹), et un <strong><em>trillion</em></strong> vaut mille milliards
+(10¹²). On note ici <strong>Md$</strong> le milliard de dollars et
+<strong>T$</strong> les mille milliards. Les figures, en anglais, sont
+en <em>billion $</em>.</li>
+</ul>
+<h2 id="combien-et-comment-ça-a-évolué">3. Combien, et comment ça a
+évolué</h2>
+<figure>
+<img
+src="img/note-investir-transition/Economie/Investissement_transition/output/investissement_historique.png"
+alt="Investissement mondial dans la transition énergétique, 2005-2025, en milliards de dollars courants. Les réseaux électriques entrent dans le périmètre en 2020. Données : BloombergNEF, Energy Transition Investment Trends 2026" />
+<figcaption aria-hidden="true">Investissement mondial dans la transition
+énergétique, 2005-2025, en milliards de dollars courants. Les réseaux
+électriques entrent dans le périmètre en 2020. Données : BloombergNEF,
+<em>Energy Transition Investment Trends 2026</em></figcaption>
+</figure>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">2005</th>
+<th style="text-align: right;">2010</th>
+<th style="text-align: right;">2015</th>
+<th style="text-align: right;">2019</th>
+<th style="text-align: right;">2020</th>
+<th style="text-align: right;">2021</th>
+<th style="text-align: right;">2022</th>
+<th style="text-align: right;">2023</th>
+<th style="text-align: right;">2024</th>
+<th style="text-align: right;">2025</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">212</td>
+<td style="text-align: right;">389</td>
+<td style="text-align: right;">581</td>
+<td style="text-align: right;">973</td>
+<td style="text-align: right;">1 225</td>
+<td style="text-align: right;">1 557</td>
+<td style="text-align: right;">1 906</td>
+<td style="text-align: right;">2 136</td>
+<td style="text-align: right;">2 309</td>
+</tr>
+</tbody>
+</table>
+<p><em>Md$ courants (BNEF, 2026).</em></p>
+<p><strong>Trois périodes se lisent sur la figure.</strong></p>
+<ul>
+<li><strong>2005 à 2011 : le démarrage.</strong> L’investissement passe
+de 60 à 258 Md$. Il recule ensuite jusqu’en 2013 (184 Md$).</li>
+<li><strong>2014 à 2019 : la croissance régulière.</strong> De 296 à 581
+Md$. Le nucléaire entre dans le périmètre en 2015.</li>
+<li><strong>2020 à 2025 : le changement d’échelle.</strong> Les
+<strong>réseaux électriques</strong> entrent dans le périmètre en 2020.
+Le saut de 581 à 973 Md$ vient surtout de cet ajout, pas d’un monde qui
+aurait investi deux fois plus en un an. À périmètre constant, de 2020 à
+2025, le montant est multiplié par 2,4.</li>
+</ul>
+<p><strong>La croissance ralentit.</strong> Elle dépassait 25 % en 2021.
+Elle tombe à +8,1 % en 2025, première hausse à un seul chiffre depuis
+2019 (BNEF, 2026).</p>
+<h2 id="dans-quoi-on-investit">4. Dans quoi on investit</h2>
+<figure>
+<img
+src="img/note-investir-transition/Economie/Investissement_transition/output/investissement_secteurs_2025.png"
+alt="Investissement dans la transition par secteur en 2025, en milliards de dollars. Données : BloombergNEF, Energy Transition Investment Trends 2026" />
+<figcaption aria-hidden="true">Investissement dans la transition par
+secteur en 2025, en milliards de dollars. Données : BloombergNEF,
+<em>Energy Transition Investment Trends 2026</em></figcaption>
+</figure>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Secteur (BNEF)</th>
+<th style="text-align: right;">Md$ en 2025</th>
+<th>Évolution sur un an</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Transport électrifié</strong> (véhicules et bornes de
+recharge)</td>
+<td style="text-align: right;">893</td>
+<td>+21 %</td>
+</tr>
+<tr class="even">
+<td><strong>Énergies renouvelables</strong></td>
+<td style="text-align: right;">690</td>
+<td>−9,5 %</td>
+</tr>
+<tr class="odd">
+<td><strong>Réseaux électriques</strong></td>
+<td style="text-align: right;">483</td>
+<td>+17 %</td>
+</tr>
+<tr class="even">
+<td>Chaleur électrifiée</td>
+<td style="text-align: right;">84</td>
+<td>en hausse</td>
+</tr>
+<tr class="odd">
+<td>Stockage d’électricité</td>
+<td style="text-align: right;">71</td>
+<td>en hausse</td>
+</tr>
+<tr class="even">
+<td>Nucléaire</td>
+<td style="text-align: right;">36</td>
+<td>en baisse</td>
+</tr>
+<tr class="odd">
+<td>Industrie propre</td>
+<td style="text-align: right;">34</td>
+<td>en hausse</td>
+</tr>
+<tr class="even">
+<td>Hydrogène</td>
+<td style="text-align: right;">7,3</td>
+<td>en baisse</td>
+</tr>
+<tr class="odd">
+<td>Captage et stockage du CO₂</td>
+<td style="text-align: right;">6,6</td>
+<td>en hausse</td>
+</tr>
+<tr class="even">
+<td>Transport maritime propre</td>
+<td style="text-align: right;">4,1</td>
+<td>en hausse</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>2 309</strong></td>
+<td><strong>+8,1 %</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Quatre lectures.</p>
+<ul>
+<li><strong>Trois postes font presque tout.</strong> Transport
+électrifié, renouvelables et réseaux totalisent 2 066 Md$, près de 90 %
+du total.</li>
+<li><strong>Le transport électrifié est devenu le premier
+poste.</strong> C’est surtout l’achat des véhicules électriques, avec
+les bornes de recharge.</li>
+<li><strong>Les renouvelables reculent en 2025</strong>, de 9,5 %. BNEF
+l’attribue à la réforme du marché électrique chinois. Selon l’AIE, le
+solaire seul attire encore 365 Md$ en 2026, <strong>un milliard de
+dollars par jour</strong>, devant l’éolien (200 Md$) et l’hydraulique
+(75 Md$).</li>
+<li><strong>L’hydrogène et le captage du CO₂ restent marginaux.</strong>
+Ensemble, moins de 1 % du total, alors qu’ils occupent une large place
+dans le débat public. Voir les notes <a
+href="note-hydrogene-usages.html">Les usages de l’hydrogène</a> et <a
+href="note-capter-co2.html">Capter le CO₂</a>.</li>
+</ul>
+<p><strong>Un point de comparaison.</strong> BNEF estime
+l’investissement dans les centres de données à environ 500 Md$ en 2025 :
+plus que le solaire, moins que le transport électrifié. Il n’entre pas
+dans le total de la transition.</p>
+<h2 id="où-lon-investit">5. Où l’on investit</h2>
+<figure>
+<img
+src="img/note-investir-transition/Economie/Investissement_transition/output/investissement_pays_2025.png"
+alt="Investissement dans la transition par économie en 2025 : les dix premiers pays, l’Union européenne et le reste du monde, en milliards de dollars. Données : BloombergNEF, Energy Transition Investment Trends 2026" />
+<figcaption aria-hidden="true">Investissement dans la transition par
+économie en 2025 : les dix premiers pays, l’Union européenne et le reste
+du monde, en milliards de dollars. Données : BloombergNEF, <em>Energy
+Transition Investment Trends 2026</em></figcaption>
+</figure>
+<table>
+<thead>
+<tr class="header">
+<th>Économie</th>
+<th style="text-align: right;">Md$ en 2025</th>
+<th>Évolution sur un an</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Chine</strong></td>
+<td style="text-align: right;">800</td>
+<td>−4 %</td>
+</tr>
+<tr class="even">
+<td><strong>Union européenne</strong> (27 pays)</td>
+<td style="text-align: right;">455</td>
+<td>+18 %</td>
+</tr>
+<tr class="odd">
+<td>dont Allemagne</td>
+<td style="text-align: right;">148</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>dont France</td>
+<td style="text-align: right;">55</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>dont Italie</td>
+<td style="text-align: right;">40</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>États-Unis</strong></td>
+<td style="text-align: right;">378</td>
+<td>+3,5 %</td>
+</tr>
+<tr class="odd">
+<td>Royaume-Uni</td>
+<td style="text-align: right;">85</td>
+<td>+36 %</td>
+</tr>
+<tr class="even">
+<td>Inde</td>
+<td style="text-align: right;">68</td>
+<td>+15 %</td>
+</tr>
+<tr class="odd">
+<td>Japon</td>
+<td style="text-align: right;">39</td>
+<td>+44 %</td>
+</tr>
+<tr class="even">
+<td>Brésil</td>
+<td style="text-align: right;">38</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Arabie saoudite</td>
+<td style="text-align: right;">34</td>
+<td>+70 %</td>
+</tr>
+<tr class="even">
+<td>Reste du monde</td>
+<td style="text-align: right;">412</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>BNEF (2026).</em></p>
+<ul>
+<li><strong>La Chine reste de loin le premier investisseur</strong>,
+avec un tiers du total mondial. Elle investit 4 % de son PIB dans la
+transition, deux fois la moyenne mondiale. Mais elle recule en 2025,
+pour la première fois depuis
+<ol start="2013" type="1">
+<li></li>
+</ol></li>
+<li><strong>L’Europe fait l’essentiel de la hausse mondiale.</strong>
+L’Union européenne progresse de 18 %. États-Unis, Union européenne et
+Royaume-Uni réunis (918 Md$) dépassent la Chine.</li>
+<li><strong>De nouveaux pays montent.</strong> L’Arabie saoudite entre
+dans les dix premiers en 2025, avec une hausse de 70 %.</li>
+</ul>
+<h2 id="face-aux-investissements-fossiles">6. Face aux investissements
+fossiles</h2>
+<p>Pour comparer avec le pétrole, le gaz et le charbon, il faut l’AIE :
+BNEF ne compte pas les fossiles.</p>
+<table>
+<thead>
+<tr class="header">
+<th>AIE, Md$ constants 2025</th>
+<th style="text-align: right;">2025</th>
+<th style="text-align: right;">2026 (estimation)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Toute l’énergie</strong></td>
+<td style="text-align: right;">3 300</td>
+<td style="text-align: right;">3 400</td>
+</tr>
+<tr class="even">
+<td>dont énergie propre</td>
+<td style="text-align: right;">≈ 2 200</td>
+<td style="text-align: right;">≈ 2 200</td>
+</tr>
+<tr class="odd">
+<td>dont fossiles</td>
+<td style="text-align: right;">≈ 1 100</td>
+<td style="text-align: right;">≈ 1 200</td>
+</tr>
+<tr class="even">
+<td>Réseaux électriques</td>
+<td style="text-align: right;">≈ 450</td>
+<td style="text-align: right;">≈ 550</td>
+</tr>
+<tr class="odd">
+<td>Stockage par batteries</td>
+<td style="text-align: right;">≈ 80</td>
+<td style="text-align: right;">&gt; 100</td>
+</tr>
+<tr class="even">
+<td>Nucléaire</td>
+<td style="text-align: right;">&gt; 80</td>
+<td style="text-align: right;">&gt; 80</td>
+</tr>
+</tbody>
+</table>
+<p><em>AIE, World Energy Investment 2026.</em></p>
+<ul>
+<li><strong>Deux dollars sur trois</strong> investis dans l’énergie vont
+à l’énergie propre : 2 200 sur 3 400 Md$. En 2015, tout l’investissement
+énergétique mondial valait 2 600 Md$.</li>
+<li><strong>Le fossile n’a pas disparu.</strong> En 2026, l’AIE estime à
+546 Md$ l’investissement dans l’exploration et la production de pétrole
+et de gaz, et à 330 Md$ celui dans l’offre de gaz, un record sur dix
+ans.</li>
+<li><strong>Le charbon remonte.</strong> L’investissement dans l’offre
+de charbon atteint 180 Md$ en 2026, son plus haut niveau depuis 2012,
+dont plus de 65 % en Chine.</li>
+<li><strong>L’efficacité énergétique</strong> (isolation, équipements
+plus sobres) pèse environ 350 Md$ dans l’énergie propre de l’AIE.</li>
+</ul>
+<p><strong>Attention au périmètre.</strong> Les 2 200 Md$ d’énergie
+propre de l’AIE et les 2 309 Md$ de transition de BNEF sont du même
+ordre, mais ce ne sont pas les mêmes choses. L’AIE compte l’efficacité
+énergétique ; BNEF compte l’achat des véhicules électriques. On ne les
+additionne pas et on ne les soustrait pas. Exemple frappant : le
+nucléaire vaut 36 Md$ chez BNEF et plus de 80 Md$ chez l’AIE.</p>
+<h2 id="ce-quil-faudrait-investir">7. Ce qu’il faudrait investir</h2>
+<figure>
+<img
+src="img/note-investir-transition/Economie/Investissement_transition/output/investissement_ecart.png"
+alt="Investissement réalisé et investissement nécessaire pour la neutralité carbone, en milliards de dollars par an (axe du bas) et en pourcentage du PIB mondial de 2025 (axe du haut). Données : BloombergNEF, AIE, Banque mondiale" />
+<figcaption aria-hidden="true">Investissement réalisé et investissement
+nécessaire pour la neutralité carbone, en milliards de dollars par an
+(axe du bas) et en pourcentage du PIB mondial de 2025 (axe du haut).
+Données : BloombergNEF, AIE, Banque mondiale</figcaption>
+</figure>
+<p>Les <strong>trajectoires climatiques</strong> sont des scénarios : on
+suppose un objectif (une température, une date de neutralité carbone) et
+on calcule les équipements à construire chaque année pour l’atteindre.
+On en déduit un besoin d’investissement annuel.</p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scénario</th>
+<th style="text-align: right;">Md$ par an</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Prolongement des tendances (≈ 2,4 °C en 2100)</td>
+<td style="text-align: right;">2 900</td>
+<td>BNEF, moyenne 2026-2030</td>
+</tr>
+<tr class="even">
+<td>Neutralité carbone (pic à 1,81 °C)</td>
+<td style="text-align: right;">4 800, puis 7 700</td>
+<td>BNEF, 2026-2030, puis 2031-2035</td>
+</tr>
+<tr class="odd">
+<td>Neutralité carbone</td>
+<td style="text-align: right;">≈ 4 500</td>
+<td>AIE, début des années 2030</td>
+</tr>
+<tr class="even">
+<td>Limiter le réchauffement à 1,5 °C</td>
+<td style="text-align: right;">≈ 6 700</td>
+<td>IRENA, périmètre plus large</td>
+</tr>
+</tbody>
+</table>
+<p><em>IRENA : Agence internationale pour les énergies
+renouvelables.</em></p>
+<p>Trois lectures.</p>
+<ul>
+<li><strong>Il faudrait à peu près doubler.</strong> Les besoins d’une
+trajectoire de neutralité vont de 4 500 à 4 800 Md$ par an, contre 2 309
+réalisés en 2025.</li>
+<li><strong>Même la tendance actuelle demande de croître encore</strong>
+: 2 900 Md$ par an en moyenne sur 2026-2030, et elle mène à un
+réchauffement d’environ 2,4 °C.</li>
+<li><strong>Le besoin augmente avec le temps.</strong> Chez BNEF, il
+passe de 4 800 à 7 700 Md$ par an entre la fin des années 2020 et le
+début des années 2030.</li>
+</ul>
+<p><strong>Pour BNEF, 1,5 °C n’est plus atteignable.</strong> Son
+scénario de neutralité plafonne à 1,81 °C. Un chiffre qui parle encore
+de 1,5 °C chez BNEF vient d’une édition ancienne.</p>
+<h2 id="ramené-à-un-pays-ramené-à-une-personne">8. Ramené à un pays,
+ramené à une personne</h2>
+<p>Un montant en milliers de milliards ne parle à personne. Trois façons
+de le ramener à une échelle lisible.</p>
+<p><strong>En part du PIB mondial.</strong> Le PIB mondial vaut environ
+118 000 Md$ en 2025 (Banque mondiale). Toute l’énergie en représente
+environ <strong>2,9 %</strong>, la transition au sens de BNEF environ
+<strong>2 %</strong>. Le besoin d’une trajectoire de neutralité (4 800
+Md$) en représente environ <strong>4 %</strong> : il faudrait y
+consacrer deux points de PIB de plus. La Chine est déjà à 4 %.</p>
+<p><strong>Par habitant de la planète.</strong> Le monde compte environ
+8,1 milliards d’habitants (Our World in Data, 2023). La transition
+représente donc près de <strong>300 dollars par habitant et par
+an</strong>. Le besoin de neutralité de BNEF en représente environ
+<strong>600</strong>. C’est une moyenne mondiale, très inégale d’un pays
+à l’autre : la Chine, on l’a vu, investit deux fois la moyenne mondiale
+en part de PIB.</p>
+<p><strong>Pour la France.</strong> L’Institut de l’économie pour le
+climat (I4CE) compte <strong>102 milliards d’euros</strong>
+d’investissements climat en France en 2024, en baisse de 5 %, et environ
+103 en 2025. Pour tenir la stratégie nationale bas-carbone (SNBC), la
+feuille de route climat de la France, il faudrait y ajouter <strong>87
+Md€ par an</strong> d’ici 2030 : là aussi, presque doubler. Dans le même
+temps, la France investit encore environ 67,5 Md€ par an dans les
+fossiles, que la SNBC demande de diviser par deux d’ici 2030 (I4CE,
+2025).</p>
+<p>Le chiffre de BNEF pour la France (55 Md$) est plus bas que celui
+d’I4CE : les deux organismes ne comptent pas la même chose, et pas dans
+la même monnaie.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Échelle</th>
+<th style="text-align: right;">Réalisé</th>
+<th style="text-align: right;">Besoin</th>
+<th style="text-align: right;">Rapport</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Monde, BNEF</td>
+<td style="text-align: right;">2 309 Md$ (2025)</td>
+<td style="text-align: right;">4 800 Md$/an (2026-2030)</td>
+<td style="text-align: right;">× 2,1</td>
+</tr>
+<tr class="even">
+<td>Monde, en part du PIB</td>
+<td style="text-align: right;">≈ 2 %</td>
+<td style="text-align: right;">≈ 4 %</td>
+<td style="text-align: right;">× 2</td>
+</tr>
+<tr class="odd">
+<td>Par habitant de la planète</td>
+<td style="text-align: right;">≈ 300 $/an</td>
+<td style="text-align: right;">≈ 600 $/an</td>
+<td style="text-align: right;">× 2</td>
+</tr>
+<tr class="even">
+<td>France, I4CE</td>
+<td style="text-align: right;">102 Md€ (2024)</td>
+<td style="text-align: right;">+ 87 Md€/an (2030)</td>
+<td style="text-align: right;">≈ × 1,9</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quelques-idées-reçues">9. Quelques idées reçues</h2>
+<ul>
+<li><strong>« L’investissement dans la transition a bondi de 67 % en
+2020. »</strong> Non : les réseaux électriques sont entrés dans le
+décompte cette année-là. Avant de lire une accélération dans une série,
+on vérifie que son périmètre n’a pas changé.</li>
+<li><strong>« De 2024 à 2025, l’investissement a progressé de 11 %.
+»</strong> C’est ce qu’on obtient en comparant le 2024 de l’édition 2025
+de BNEF (2 083 Md$) au 2025 de l’édition 2026 (2 309 Md$). Or BNEF a
+révisé son 2024 à 2 136 Md$ : la vraie hausse est de 8,1 %. Une série se
+lit dans une seule édition.</li>
+<li><strong>« Il faut 1 700 milliards par an pour 1,5 °C. »</strong>
+Chiffre périmé. Les estimations à jour vont de 4 500 à 6 700 Md$ par an
+selon le scénario.</li>
+<li><strong>« La transition, c’est d’abord l’hydrogène et le captage du
+CO₂. »</strong> Pas en argent : ensemble, moins de 1 % de
+l’investissement de 2025.</li>
+<li><strong>Additionner les sources.</strong> BNEF et AIE mesurent à peu
+près le même argent, avec des périmètres différents. BNEF publie aussi
+des flux financiers, comme les 1 226 Md$ de dette levée pour la
+transition en 2025 : c’est le même argent vu du côté de ceux qui le
+prêtent, pas un supplément.</li>
+</ul>
+<h2 id="ce-que-ça-change-pour-les-mini-projets">10. Ce que ça change
+pour les mini-projets</h2>
+<p>Les mini-projets du cours étudient chacun un équipement : batteries,
+électrolyseur, électrification de la vapeur industrielle, interconnexion
+entre pays. Celui ou celle qui porte la lecture économique du groupe
+refait le verdict à deux taux d’actualisation, 4 et 8 %, et dit qui paie
+et qui gagne. Cette note donne trois repères pour ce travail.</p>
+<p><strong>Situer l’équipement dans le mouvement mondial.</strong>
+Chaque cas correspond à une ligne du tableau de la section 4 :</p>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 30%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mini-projet</th>
+<th>Secteur BNEF</th>
+<th style="text-align: right;">Md$ en 2025</th>
+<th>Tendance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Batteries</td>
+<td>Stockage</td>
+<td style="text-align: right;">71</td>
+<td>en hausse ; &gt; 100 en 2026 selon l’AIE</td>
+</tr>
+<tr class="even">
+<td>Électrolyseur</td>
+<td>Hydrogène</td>
+<td style="text-align: right;">7,3</td>
+<td>en baisse, moins de 0,5 % du total</td>
+</tr>
+<tr class="odd">
+<td>Vapeur industrielle</td>
+<td>Chaleur électrifiée, industrie propre</td>
+<td style="text-align: right;">84 et 34</td>
+<td>en hausse</td>
+</tr>
+<tr class="even">
+<td>Interconnexion</td>
+<td>Réseaux électriques</td>
+<td style="text-align: right;">483</td>
+<td>+17 % ; ≈ 550 en 2026 selon l’AIE</td>
+</tr>
+</tbody>
+</table>
+<p>Un secteur qui croît vite, comme le stockage, installe chaque année
+beaucoup de capacité nouvelle. C’est la question du cas des batteries :
+ce que rapporte le n-ième gigawatt quand les autres ont déjà été
+construits. Un secteur encore petit, comme l’hydrogène, repose sur peu
+de projets réalisés : les coûts du cas se lisent comme des projections,
+à discuter.</p>
+<p><strong>Comprendre pourquoi le taux compte autant.</strong>
+Renouvelables, réseaux et stockage coûtent surtout à la construction,
+presque pas en combustible. Leur coût annuel dépend donc beaucoup du
+taux auquel on emprunte. Une large part de cet argent est d’ailleurs
+empruntée : BNEF recense 1 226 Md$ de dette levée pour la transition en
+2025. Passer de 4 à 8 % peut renverser un verdict ; la note <a
+href="note-financer-transition.html">Financer la transition</a> montre
+comment.</p>
+<p><strong>Garder les ordres de grandeur pour la planche « qui paie, qui
+gagne ».</strong> Un projet d’un milliard de dollars, c’est environ 2 %
+de ce que la France a investi dans la transition en 2025 au sens de BNEF
+(55 Md$). En France, I4CE estime que l’effort public supplémentaire
+atteindrait 52 Md€ en 2030 pour la SNBC, ramené à 18 Md€ avec des
+mesures réglementaires et fiscales. Qui paie, le contribuable, le
+consommateur par son tarif ou l’industriel, change donc beaucoup la
+réponse : voir les notes <a href="note-tarifs-reseau.html">Les tarifs de
+réseau</a> et <a href="note-taxes-energie.html">Les taxes sur
+l’énergie</a>.</p>
+<h2 id="ce-quil-faut-retenir">11. Ce qu’il faut retenir</h2>
+<p><strong>Le monde investit environ 2 300 milliards de dollars par an
+dans la transition, environ 2 % de son PIB, près de 300 dollars par
+habitant.</strong> Ce montant a été multiplié par 2,4 de 2020 à 2025,
+mais sa croissance ralentit (+8,1 % en 2025).</p>
+<p><strong>L’argent va surtout aux véhicules électriques, aux
+renouvelables et aux réseaux</strong>, près de 90 % du total.
+L’hydrogène et le captage du CO₂ font moins de 1 %. La Chine investit un
+tiers du total mondial, l’Europe fait l’essentiel de la hausse de
+2025.</p>
+<p><strong>Il faudrait à peu près doubler</strong> pour une trajectoire
+de neutralité carbone : 4 500 à 4 800 Md$ par an au début des années
+2030, environ 4 % du PIB mondial. En France aussi, I4CE estime qu’il
+faudrait presque doubler.</p>
+<p><strong>Un chiffre d’investissement ne se lit qu’avec son
+périmètre.</strong> BNEF et l’AIE ne comptent pas la même chose : on ne
+les additionne pas, on ne compare pas deux éditions d’une même série, et
+on vérifie qu’un saut n’est pas un changement de décompte.</p>
+<h2 id="sources">12. Sources</h2>
+<ul>
+<li>AIE, <em>World Energy Investment 2026</em>, mai 2026, résumé
+exécutif p. 6, <a href="https://www.iea.org/reports/world-energy-investment-2026" target="_blank" rel="noopener"
+class="uri">https://www.iea.org/reports/world-energy-investment-2026</a>.</li>
+<li>AIE, <em>Net Zero Roadmap</em>, mise à jour de septembre 2023
+(besoin d’environ 4 500 Md$ par an au début des années 2030).</li>
+<li>Banque mondiale, PIB mondial 2025 (environ 118 000 Md$).</li>
+<li>BloombergNEF, <em>Energy Transition Investment Trends 2026</em>,
+résumé public, 27 janvier 2026, p. 3 et 10 à 12, <a href="https://assets.bbhub.io/professional/sites/44/1017746-ETIT2026.pdf" target="_blank" rel="noopener"
+class="uri">https://assets.bbhub.io/professional/sites/44/1017746-ETIT2026.pdf</a>.</li>
+<li>BloombergNEF, <em>New Energy Outlook 2026</em>, résumé, mai 2026,
+p. 4 (4,8 T$ par an en 2026-2030, 7,7 T$ en 2031-2035, pic à 1,81
+°C).</li>
+<li>I4CE, <em>Panorama des financements climat</em>, édition 2025, p. 4,
+<a href="https://www.i4ce.org/wp-content/uploads/2025/07/Panorama-des-financements-climat-ed-2025_Synthese-et-resultats.pdf" target="_blank" rel="noopener"
+class="uri">https://www.i4ce.org/wp-content/uploads/2025/07/Panorama-des-financements-climat-ed-2025_Synthese-et-resultats.pdf</a>.</li>
+<li>IRENA, <em>World Energy Transitions Outlook 2024</em> (besoin
+d’environ 6 700 Md$ par an pour 1,5 °C).</li>
+<li>Our World in Data, population mondiale 2023 (8,1 milliards
+d’habitants).</li>
+</ul>
+<p>Les figures sont refaites à partir des chiffres publiés par
+BloombergNEF, l’AIE et la Banque mondiale.</p>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">13. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.energy-alternatives.eu/2026/10/29/infrastructures-agilite.html" target="_blank" rel="noopener">Transition
+énergétique : construire les infrastructures sans perdre l’agilité</a>
+(billet de blog) : les investissements climat de la France (102 Md€ en
+2024, à presque doubler d’ici 2030), et la difficulté de coordonner
+l’offre et la demande.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Investir_transition.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-financer-transition.html">Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte</a></li><li><a href="note-taxes-energie.html">Les taxes sur l'énergie : qui paie quoi, et quel signal prix entre les énergies</a></li><li><a href="note-tarifs-reseau.html">Le tarif d'accès au réseau électrique : ce qu'il paie, comment il est construit, ce qu'il coûte en Europe</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#ce-quon-compte-et-comment">2. Ce qu’on compte, et comment</a></li><li><a href="#combien-et-comment-ça-a-évolué">3. Combien, et comment ça a évolué</a></li><li><a href="#dans-quoi-on-investit">4. Dans quoi on investit</a></li><li><a href="#où-lon-investit">5. Où l’on investit</a></li><li><a href="#face-aux-investissements-fossiles">6. Face aux investissements fossiles</a></li><li><a href="#ce-quil-faudrait-investir">7. Ce qu’il faudrait investir</a></li><li><a href="#ramené-à-un-pays-ramené-à-une-personne">8. Ramené à un pays, ramené à une personne</a></li><li><a href="#quelques-idées-reçues">9. Quelques idées reçues</a></li><li><a href="#ce-que-ça-change-pour-les-mini-projets">10. Ce que ça change pour les mini-projets</a></li><li><a href="#ce-quil-faut-retenir">11. Ce qu’il faut retenir</a></li><li><a href="#sources">12. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">13. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>

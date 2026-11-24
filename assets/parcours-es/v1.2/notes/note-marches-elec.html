@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le prix de l'électricité : comment il se forme, à quoi il ressemble, ce qui s'y ajoute · Parcours ES 2026</title>
+<meta name="description" content="Comment se forme le prix horaire de l'électricité : l'ordre de mérite et la dernière centrale appelée, l'eau des barrages offerte à sa valeur d'usage, la suite des marchés (à terme, veille pour le lendemain couplée en Europe, infrajournalier, équilibrage). À quoi ressemblent les prix français de 2019 à 2025 : niveau, creux de midi et pointe du soir, heures négatives, prix capté, crise de 2022. Ce qui s'y ajoute (capacité, garanties d'origine, PPA, CfD, fin de l'ARENH), ce que paient ménages et industriels, ce que vaut la flexibilité, et pourquoi deux jeux de prix divergent.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --fond: #F4F8FB; --surface: #FFFFFF; --surface-2: #EAF2F8; --encre: #14222E; --encre-2: #4B5A66; --encre-3: #7A8792;
+  --trait: #D3DDE6; --trait-fort: #AFC0CE; --bleu: #005E9E; --bleu-fonce: #0E3658; --bleu-clair: #B8E2FF;
+  --ambre: #F8B740; --ambre-encre: #8A5300; --ambre-fond: #FCEBCB; --vert: #2E7D32; --vert-fond: #E3F1E4;
+  --bandeau: #0E3658;
+  --police: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --police-titre: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --police-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+    --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+    --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+    --bandeau: #0A1F33;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fond: #0E1A24; --surface: #16262F; --surface-2: #1D3140; --encre: #E8EFF5; --encre-2: #B1BFCA; --encre-3: #7F8F9C;
+  --trait: #2A3D4C; --trait-fort: #3F576A; --bleu: #7CC4F0; --bleu-fonce: #B8E2FF; --bleu-clair: #1E3A50;
+  --ambre: #F8B740; --ambre-encre: #FFD27A; --ambre-fond: #3A2E14; --vert: #7BC67E; --vert-fond: #1C3A22;
+  --bandeau: #0A1F33;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--fond); color: var(--encre); font: 16px/1.6 var(--police); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.bandeau { background: var(--bandeau); color: #fff; }
+.bandeau .enveloppe { padding-block: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bandeau a { color: var(--bleu-clair); text-decoration: none; }
+.bandeau a:hover { text-decoration: underline; }
+.enveloppe { max-width: 760px; margin: 0 auto; padding-inline: 16px; }
+main.enveloppe:has(.disposition > nav.sommaire) { max-width: 1100px; }
+.disposition:has(> nav.sommaire) { display: grid; grid-template-columns: minmax(0, 760px) 250px; gap: 36px; justify-content: center; align-items: start; }
+nav.sommaire { position: sticky; top: 18px; font-size: .88rem; }
+nav.sommaire h2 { font-family: var(--police-mono); font-size: .76rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); margin: 0 0 8px; }
+nav.sommaire ol { list-style: none; margin: 0; padding: 0; }
+nav.sommaire a { display: block; padding: 3px 0 3px 10px; border-left: 2px solid var(--trait); color: var(--encre-2); text-decoration: none; }
+nav.sommaire a:hover { color: var(--bleu); border-left-color: var(--bleu); }
+@media (max-width: 1020px) {
+  main.enveloppe:has(.disposition > nav.sommaire) { max-width: 760px; }
+  .disposition:has(> nav.sommaire) { display: block; }
+  nav.sommaire { position: static; margin: 0 0 24px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--trait); border-radius: 10px; }
+  nav.sommaire a { border-left: 0; padding-left: 0; }
+}
+article.texte { padding-block: 28px 56px; }
+article.texte > header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--trait); }
+article.texte > header .sur { font-family: var(--police-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-3); display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+h1, h2, h3, h4 { font-family: var(--police-titre); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 10px; }
+h2 { font-size: 1.4rem; margin: 2em 0 .6em; }
+h3 { font-size: 1.12rem; margin: 1.6em 0 .5em; }
+.resume { color: var(--encre-2); font-size: 1.05rem; margin: 0; max-width: 62ch; }
+aside.mp-note { background: var(--surface-2); border: 1px solid var(--trait); border-left: 4px solid var(--ambre); border-radius: 10px; padding: 10px 16px; margin: 0 0 24px; font-size: .94rem; }
+aside.mp-note p { margin: 0 0 4px; }
+aside.mp-note ul { margin: 0; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: .25em; }
+code { font-family: var(--police-mono); font-size: .88em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--trait); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .84rem; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+blockquote { margin: 1.2em 0; padding: 10px 14px; border-left: 3px solid var(--ambre); background: var(--ambre-fond); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--trait); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-family: var(--police-mono); font-weight: 500; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--encre-3); }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+hr { border: 0; border-top: 1px solid var(--trait); margin: 2em 0; }
+.sources { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--trait); font-size: .9rem; color: var(--encre-2); }
+.sources h2 { font-size: 1rem; margin: 0 0 8px; }
+.sources ol { padding-left: 1.2em; }
+footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: .82rem; border-top: 1px solid var(--trait); }
+@media print { .bandeau, footer { display: none; } body { font-size: 12px; } pre { white-space: pre-wrap; } }
+</style>
+</head>
+<body>
+<div class="bandeau"><div class="enveloppe"><a href="../index.html#notes">← Retour au parcours</a><span>Parcours ES 2026 · note thématique</span></div></div>
+<main class="enveloppe">
+<div class="disposition">
+<article class="texte">
+  <header>
+    <div class="sur"><span>≈ 25 min</span> · <span>note thématique, R. Girard</span></div>
+    <h1>Le prix de l'électricité : comment il se forme, à quoi il ressemble, ce qui s'y ajoute</h1>
+    <p class="resume">Comment se forme le prix horaire de l'électricité : l'ordre de mérite et la dernière centrale appelée, l'eau des barrages offerte à sa valeur d'usage, la suite des marchés (à terme, veille pour le lendemain couplée en Europe, infrajournalier, équilibrage). À quoi ressemblent les prix français de 2019 à 2025 : niveau, creux de midi et pointe du soir, heures négatives, prix capté, crise de 2022. Ce qui s'y ajoute (capacité, garanties d'origine, PPA, CfD, fin de l'ARENH), ce que paient ménages et industriels, ce que vaut la flexibilité, et pourquoi deux jeux de prix divergent.</p>
+  </header>
+  <aside class="mp-note"><p><strong>Cette note sert aux mini-projets :</strong></p><ul><li><a href="../index.html#cas-1">Mener le mini-projet du cas 1 : le contrat qui fait construire le solaire et l'éolien vaut-il ce qu'il coûte ?</a></li><li><a href="../index.html#cas-A">Mener le mini-projet du cas A : jusqu'où les batteries restent-elles rentables ?</a></li><li><a href="../index.html#cas-B">Mener le mini-projet du cas B : que vaut la recharge pilotée des voitures électriques ?</a></li><li><a href="../index.html#cas-F">Mener le mini-projet du cas F : la valeur d'une interconnexion</a></li><li><a href="../index.html#cas-3">Mener le mini-projet du cas 3 : ce que le modèle ne voit pas, et quelle simplification change la réponse</a></li><li><a href="../index.html#cas-0">Mener le mini-projet du cas 0 : pourquoi les jeux de prix divergent-ils ?</a></li></ul></aside>
+<h2 id="la-question-et-la-réponse">1. La question et la réponse</h2>
+<p><strong>La question.</strong> D’où vient le prix horaire de
+l’électricité qu’on lit dans un jeu de données, pourquoi change-t-il
+autant d’une heure à l’autre, et pourquoi deux jeux de prix pour la même
+année peuvent-ils être si différents ?</p>
+<p><strong>La réponse, en trois phrases.</strong> Chaque heure, les
+offres des producteurs sont rangées de la moins chère à la plus chère,
+et la dernière offre nécessaire pour couvrir la demande fixe le prix
+payé à tous : c’est l’<strong>ordre de mérite</strong>. Ce prix suit
+donc la centrale qui ferme la marche : presque nul à midi au printemps
+quand le solaire et le nucléaire suffisent, élevé un soir d’hiver quand
+il faut une centrale à gaz, ce qui donne des prix négatifs comme des
+pointes au-dessus de 100 €/MWh dans la même journée. Deux jeux de prix
+divergent quand ils diffèrent par ce qui décide de la dernière centrale
+appelée : prix du gaz et du CO₂, demande et météo, parc installé,
+voisins, et la façon dont l’eau des barrages et les stockages sont
+valorisés.</p>
+<p><strong>Le plan.</strong> La section 2 pose le vocabulaire. La
+section 3 explique l’ordre de mérite, la section 4 la suite de marchés
+du long terme au temps réel. La section 5 montre à quoi ressemblent les
+prix observés, la section 6 raconte la crise de 2022. La section 7
+présente ce qui s’ajoute au marché de l’énergie (capacité, garanties
+d’origine, contrats longs), la section 8 ce que paie un consommateur et
+ce que vaut la flexibilité, la section 9 les réformes en cours. La
+section 10 dit pourquoi deux jeux de prix divergent et ce que cela
+change pour les mini-projets du cours.</p>
+<h2 id="le-vocabulaire">2. Le vocabulaire</h2>
+<p>L’électricité se vend en <strong>mégawattheures</strong> (MWh). Un
+MWh, c’est une puissance de 1 MW pendant une heure. La France a consommé
+446 TWh en 2025 (1 TWh = un million de MWh) et produit 547,5 TWh, dont
+373 TWh de nucléaire ; la pointe de consommation a atteint 88 GW (RTE,
+2026).</p>
+<p>Le <strong>marché de gros</strong> est celui où producteurs,
+fournisseurs, grands industriels et négociants s’échangent
+l’électricité, en €/MWh. Le <strong>marché de détail</strong> est celui
+où un fournisseur vend à un ménage ou à une entreprise. Le prix de
+détail contient le prix de gros, mais aussi le réseau et les taxes
+(section 8).</p>
+<p><strong>RTE</strong>, le gestionnaire du réseau de transport (GRT),
+tient l’équilibre entre production et consommation à chaque instant. Les
+<strong>fournisseurs</strong> achètent en gros et revendent à leurs
+clients. Chacun est <strong>responsable d’équilibre</strong> : il paie à
+RTE l’écart entre ce qu’il a injecté et ce que ses clients ont soutiré.
+Les <strong>bourses</strong> (EPEX SPOT, Nord Pool) organisent les
+enchères.</p>
+<p>Deux produits reviennent partout. Le <strong>ruban base</strong>
+livre la même puissance toutes les heures de l’année. Le <strong>ruban
+pointe</strong> ne livre qu’aux heures ouvrées de jour, les plus
+chères.</p>
+<h2 id="comment-se-forme-le-prix-lordre-de-mérite">3. Comment se forme
+le prix : l’ordre de mérite</h2>
+<p>Chaque producteur propose sa production à un prix proche de son
+<strong>coût variable</strong>, ce que lui coûte un MWh de plus :
+combustible, CO₂, usure. Le solaire et l’éolien n’ont pas de
+combustible, leur coût variable est presque nul. Le nucléaire a un
+combustible bon marché. Une centrale à gaz paie son gaz et son CO₂ : son
+coût variable a varié de 80 à 230 €/MWh selon les mois de 2025 (RTE,
+2026).</p>
+<p>On range les offres par prix croissant. La demande de l’heure coupe
+cette courbe. La dernière offre retenue est l’offre
+<strong>marginale</strong>, et son prix devient le prix payé à tous les
+producteurs retenus. C’est la <strong>tarification marginale</strong>
+(en anglais <em>pay-as-clear</em>).</p>
+<figure>
+<img
+src="img/note-marches-elec/Economie/Marches_electricite/output/editorial/merit_order_schematic.png"
+alt="L’ordre de mérite, illustratif : la demande d’un après-midi de printemps est couverte par le solaire et le nucléaire, celle d’un soir d’hiver demande une centrale à gaz." />
+<figcaption aria-hidden="true">L’ordre de mérite, illustratif : la
+demande d’un après-midi de printemps est couverte par le solaire et le
+nucléaire, celle d’un soir d’hiver demande une centrale à
+gaz.</figcaption>
+</figure>
+<p>Ce prix unique pousse chaque producteur à offrir son vrai coût
+variable : il est sûr d’être appelé dès que le prix le dépasse. Les
+producteurs bon marché touchent la différence entre le prix et leur coût
+variable. Cette <strong>rente inframarginale</strong> rembourse leur
+investissement : une centrale solaire ou nucléaire ne vit que de ces
+écarts.</p>
+<p><strong>L’eau des barrages ne coûte rien, mais elle n’est pas offerte
+à zéro.</strong> Un lac contient un stock limité. Turbiner aujourd’hui,
+c’est ne pas turbiner demain. L’exploitant offre donc son eau à sa
+<strong>valeur d’usage</strong> : le prix qu’il espère obtenir plus
+tard, souvent proche du coût de la centrale à gaz qu’elle remplacera
+(CRE, 2026). En France, en 2025, l’hydraulique fixe ainsi le prix 40 %
+des heures pour 11 % de la production, le nucléaire 31 % et le gaz 9 %
+(CRE, 2026, lu sur figure).</p>
+<figure>
+<img
+src="img/note-marches-elec/Economie/Marches_electricite/output/editorial/who_sets_the_price_fr_2025.png"
+alt="A. Part des heures où chaque filière fixe le prix en France en 2025, face à sa part de la production ; B. valeur d’un MWh solaire, éolien et nucléaire rapportée au prix moyen." />
+<figcaption aria-hidden="true">A. Part des heures où chaque filière fixe
+le prix en France en 2025, face à sa part de la production ; B. valeur
+d’un MWh solaire, éolien et nucléaire rapportée au prix
+moyen.</figcaption>
+</figure>
+<p><strong>Idée reçue : « le prix de l’électricité est fixé par le gaz
+».</strong> C’est faux pour la France en 2025, où le gaz n’est marginal
+que 9 % des heures. Mais c’est vrai en partie, parce que l’eau et les
+imports sont offerts à des prix qui suivent le gaz. Le prix français
+dépasse le coût variable d’une centrale à gaz environ 31 % des heures en
+2025, 18 % en 2024 et 54 % en 2023 (CRE, 2026). À l’échelle de l’Union,
+en 2022, le gaz a fixé le prix 63 % du temps pour environ 20 % de la
+production (rapport Draghi, 2024, citant le Centre commun de recherche
+de la Commission).</p>
+<h2 id="une-suite-de-marchés-du-long-terme-au-temps-réel">4. Une suite
+de marchés, du long terme au temps réel</h2>
+<p>L’électricité d’une heure donnée s’achète par morceaux, à des dates
+de plus en plus proches de la livraison.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Marché</th>
+<th>Quand</th>
+<th>À quoi il sert</th>
+<th>Volume France 2025</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Contrats longs (PPA, CfD, contrats nucléaires)</td>
+<td>10 à 40 ans</td>
+<td>stabiliser un prix, financer une centrale</td>
+<td>non publics</td>
+</tr>
+<tr class="even">
+<td>Marchés à terme (EEX, courtiers)</td>
+<td>de la semaine à 3 ans</td>
+<td>couvrir à l’avance ses ventes ou ses achats</td>
+<td>1 727 TWh échangés</td>
+</tr>
+<tr class="odd">
+<td><strong>Day-ahead</strong> (veille pour le lendemain)</td>
+<td>la veille à midi</td>
+<td>fixer le programme et le prix de chaque quart d’heure</td>
+<td>139 TWh achetés</td>
+</tr>
+<tr class="even">
+<td>Infrajournalier</td>
+<td>jusqu’à la livraison</td>
+<td>corriger après une nouvelle prévision météo</td>
+<td>28 TWh</td>
+</tr>
+<tr class="odd">
+<td>Équilibrage</td>
+<td>temps réel</td>
+<td>RTE active des réserves pour combler l’écart</td>
+<td>3,7 TWh à la hausse, 5,6 à la baisse</td>
+</tr>
+</tbody>
+</table>
+<p>Sources : CRE, rapport de surveillance 2025 (2026).</p>
+<p>Le <strong>day-ahead</strong> est l’enchère de référence. Chaque
+jour, les offres d’achat et de vente pour le lendemain sont confrontées
+en une seule enchère pour presque toute l’Europe : c’est le
+<strong>couplage européen</strong> des marchés. Un algorithme calcule à
+la fois les prix de chaque zone (la France, l’Allemagne-Luxembourg,
+l’Italie du Nord…) et les échanges entre elles, dans la limite des
+capacités d’interconnexion. Quand une ligne n’est pas saturée, les prix
+des deux côtés sont égaux. Quand elle l’est, ils divergent. Depuis le
+1ᵉʳ octobre 2025, l’enchère fixe un prix par quart d’heure et non plus
+par heure (CRE, 2026).</p>
+<p><strong>Un MWh échangé n’est pas un MWh livré.</strong> Les 1 727 TWh
+échangés à terme en 2025 représentent 3,9 fois la consommation : un même
+MWh est acheté et revendu plusieurs fois avant sa livraison. Jusqu’en
+2025, une grande partie de l’électricité ne passait même pas par le
+marché : EDF vendait 52 % de sa production à ses propres clients, et 125
+TWh partaient aux fournisseurs concurrents au prix régulé de l’ARENH
+(section 7).</p>
+<figure>
+<img
+src="img/note-marches-elec/Economie/Marches_electricite/output/editorial/traded_vs_delivered_fr_2025.png"
+alt="Volumes échangés sur les marchés de gros et volumes livrés hors marché, France 2025." />
+<figcaption aria-hidden="true">Volumes échangés sur les marchés de gros
+et volumes livrés hors marché, France 2025.</figcaption>
+</figure>
+<h2 id="à-quoi-ressemblent-les-prix">5. À quoi ressemblent les prix</h2>
+<h3 id="le-niveau-année-par-année">5.1 Le niveau, année par année</h3>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Année</th>
+<th style="text-align: right;">2019</th>
+<th style="text-align: right;">2020</th>
+<th style="text-align: right;">2021</th>
+<th style="text-align: right;">2022</th>
+<th style="text-align: right;">2023</th>
+<th style="text-align: right;">2024</th>
+<th style="text-align: right;">2025</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Prix day-ahead moyen France (€/MWh)</td>
+<td style="text-align: right;">39,5</td>
+<td style="text-align: right;">32,2</td>
+<td style="text-align: right;">109,2</td>
+<td style="text-align: right;">275,8</td>
+<td style="text-align: right;">96,9</td>
+<td style="text-align: right;">57,8</td>
+<td style="text-align: right;">61,1</td>
+</tr>
+<tr class="even">
+<td>Heures à prix négatif</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">102</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">147</td>
+<td style="text-align: right;">352</td>
+<td style="text-align: right;">513</td>
+</tr>
+</tbody>
+</table>
+<p>Sources : CRE, rapports de surveillance (prix) ; RTE et calcul sur
+les prix day-ahead publiés par ENTSO-E (heures négatives).</p>
+<p>Depuis 2024, la France est moins chère que ses voisins : 61 €/MWh en
+2025 contre 89 en Allemagne et 116 en Italie du Nord. Les prix français
+et allemand ne sont égaux que 10 % du temps (CRE, 2026) : les
+interconnexions sont souvent saturées.</p>
+<h3 id="la-forme-la-journée-et-la-saison">5.2 La forme : la journée et
+la saison</h3>
+<p>Le prix moyen cache une forme très marquée. Le tableau donne le prix
+moyen à quelques heures de la journée en 2025, en été (avril à
+septembre) et en hiver (janvier à mars et octobre à décembre).</p>
+<table>
+<thead>
+<tr class="header">
+<th>Heure (heure de Paris)</th>
+<th style="text-align: right;">4 h</th>
+<th style="text-align: right;">8 h</th>
+<th style="text-align: right;">14 h</th>
+<th style="text-align: right;">19 h</th>
+<th style="text-align: right;">22 h</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Été 2025 (€/MWh)</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">59</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">84</td>
+</tr>
+<tr class="even">
+<td>Hiver 2025 (€/MWh)</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">107</td>
+<td style="text-align: right;">61</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">89</td>
+</tr>
+</tbody>
+</table>
+<p>Source : calcul sur les prix day-ahead horaires de la France publiés
+par ENTSO-E.</p>
+<p>Trois choses se lisent dans ce tableau :</p>
+<ul>
+<li><strong>l’été, le creux est à midi</strong>, quand le solaire
+produit le plus : à 14 h, le prix est négatif près d’une heure sur deux
+;</li>
+<li><strong>la pointe est le soir</strong>, quand le solaire s’éteint et
+que la consommation reste haute ; l’hiver s’y ajoute une pointe du matin
+;</li>
+<li><strong>l’hiver est plus cher que l’été</strong> : 123 €/MWh en
+moyenne en février 2025, 19 €/MWh en mai.</li>
+</ul>
+<p>Pour lire un jeu de prix horaires : la <strong>moyenne</strong> dit
+le niveau ; la <strong>monotone</strong>, qui range les 8 760 heures de
+la plus chère à la moins chère, compte les heures très bon marché ou
+très chères ; l’<strong>écart</strong> entre heures chères et heures
+creuses d’une journée dit ce que vaut la flexibilité.</p>
+<h3 id="heures-négatives-et-pointes">5.3 Heures négatives et
+pointes</h3>
+<p>Un prix <strong>négatif</strong> veut dire que le producteur paie
+pour produire. Cela arrive quand des centrales produisent malgré un prix
+nul : une éolienne sous tarif d’achat garanti, un réacteur qui ne peut
+pas moduler vite. La France a compté 513 heures négatives en 2025,
+contre 147 en 2023 (RTE, 2026). Elles restent peu profondes : −6,5 €/MWh
+en moyenne, et plus de la moitié entre 0 et −0,1 €/MWh. Elles tombent
+surtout d’avril à juin. Le plancher de l’enchère européenne a été
+abaissé de −500 à −600 €/MWh en 2026 (CRE, 2026).</p>
+<p>Les heures chères augmentent aussi : 1 807 heures au-dessus de 100
+€/MWh en 2025, contre 1 382 en 2024 (RTE, 2026).</p>
+<h3 id="le-prix-capté-ce-que-vaut-le-mwh-dune-filière">5.4 Le prix capté
+: ce que vaut le MWh d’une filière</h3>
+<p>Une filière ne produit pas toutes les heures. Son <strong>prix
+capté</strong> est la moyenne des prix pondérée par sa production.
+Rapporté au prix moyen, il donne le <strong>taux de capture</strong>
+(panneau B de la figure de la section 3). En 2025, le solaire capte 59 %
+du prix moyen, contre 86 % en 2023 ; l’éolien terrestre 90 %, le
+nucléaire 108 %, l’hydraulique 122 %, parce qu’elle produit aux heures
+chères (calcul sur les prix day-ahead d’ENTSO-E et la production publiée
+par RTE et Energy-Charts).</p>
+<p>C’est la <strong>cannibalisation</strong> : plus une filière variable
+est présente, moins chaque MWh qu’elle produit vaut (Hirth, 2013).</p>
+<h2 id="la-crise-de-2022">6. La crise de 2022</h2>
+<p>En 2022, le prix day-ahead français a atteint 276 €/MWh en moyenne,
+sept fois celui de 2019. Deux causes se sont superposées : le
+<strong>prix du gaz</strong>, avec la guerre en Ukraine, qui a renchéri
+la centrale marginale dans toute l’Europe ; l’<strong>effondrement du
+nucléaire français</strong> (279 TWh, plus bas historique, à cause de la
+corrosion sous contrainte), qui a rendu la France importatrice nette de
+16 TWh. Le contrat à terme pour livraison en 2023 a atteint 1 130 €/MWh
+le 26 août 2022 (CRE, 2023). L’État a dépensé 71,7 Md€ bruts de 2021 à
+2024 pour amortir la hausse des prix de l’énergie, dont 44,2 Md€ pour
+l’électricité, environ 36 Md€ nets (Cour des comptes, 2024). Selon la
+Cour, la facture d’électricité a dépassé de 37 Md€ les coûts de
+production nationaux sur 2022-2023.</p>
+<p>L’industrie ne s’en est pas remise : en 2025, les grands
+consommateurs raccordés au réseau de transport consomment encore 13 % de
+moins qu’en 2014-2019 (RTE, 2026).</p>
+<h2 id="ce-qui-sajoute-au-marché-de-lénergie">7. Ce qui s’ajoute au
+marché de l’énergie</h2>
+<p>Le prix horaire rémunère l’énergie livrée. Il ne suffit pas à tout
+financer. Plusieurs mécanismes s’y ajoutent.</p>
+<p><strong>Le mécanisme de capacité.</strong> Une centrale de pointe ne
+tourne que quelques heures par an. Les rentes de ces heures ne couvrent
+pas toujours son coût fixe : c’est le problème du <strong>revenu
+manquant</strong> (<em>missing money</em>). Le mécanisme de capacité
+paie donc la disponibilité aux heures de pointe, en €/MW et par an. Le
+prix de la capacité est tombé à 4 401 €/MW pour 2026, contre 27 094 €/MW
+pour 2024, signe d’un système qui a assez de moyens. À partir de l’hiver
+2026-2027, RTE devient acheteur unique de cette capacité (CRE,
+2026).</p>
+<p><strong>Les garanties d’origine.</strong> Un MWh injecté ne se
+distingue pas d’un autre. La garantie d’origine est un certificat
+attestant qu’un MWh a été produit par une source renouvelable. Elle se
+vend à part de l’énergie et permet à un fournisseur de vendre une offre
+« verte ».</p>
+<p><strong>Les contrats de long terme.</strong> Le marché à terme ne
+couvre pas un investissement : au premier semestre 2026, seulement 0,28
+TWh ont été échangés pour une livraison dans cinq ans (CRE, 2026), et
+l’ACER juge la couverture « limitée au-delà de deux ans » (ACER, 2025).
+Les contrats longs comblent ce vide :</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Contrat</th>
+<th>Principe</th>
+<th>Ordre de grandeur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>PPA</strong> (<em>power purchase agreement</em>)</td>
+<td>un consommateur achète la production d’une centrale à prix fixé</td>
+<td>12 ans en moyenne ; 12,9 GW signés dans l’UE en 2024 (ACER,
+2025)</td>
+</tr>
+<tr class="even">
+<td><strong>CfD bidirectionnel</strong> (contrat pour différence)</td>
+<td>l’État garantit un prix de référence : il verse la différence quand
+le marché est en dessous, la reprend quand il est au-dessus</td>
+<td>obligatoire pour toute aide publique aux nouvelles centrales dès le
+17/07/2027 (règlement (UE) 2024/1747)</td>
+</tr>
+<tr class="odd">
+<td><strong>ARENH</strong> (accès régulé à l’électricité nucléaire
+historique)</td>
+<td>les fournisseurs achetaient à EDF une part du nucléaire à prix
+fixe</td>
+<td>42 €/MWh, 125 TWh en 2025 ; fin le 31/12/2025</td>
+</tr>
+<tr class="even">
+<td><strong>CAPN</strong> (contrats d’allocation de production
+nucléaire)</td>
+<td>un industriel achète une quote-part de la production réelle du parc
+nucléaire d’EDF</td>
+<td>10 ou 15 ans, 1 800 MW ouverts dès 2027, pour les sites de plus de 7
+GWh/an ; prix non publics (EDF, 2025)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>L’après-ARENH.</strong> Depuis le 1ᵉʳ janvier 2026, toute la
+production d’EDF est valorisée au prix de marché. Le <strong>versement
+nucléaire universel</strong> (VNU) prélève 50 % des revenus nucléaires
+d’EDF au-delà de 78 €/MWh et 90 % au-delà de 110 €/MWh, et reverse le
+produit aux consommateurs. Il n’est pas activé : ces revenus sont
+estimés à 66 €/MWh en 2026, pour un coût complet du parc historique de
+60,3 €/MWh (CRE, 2025). Voir aussi la note <a
+href="note-financer-transition.html">Financer la transition</a>.</p>
+<h2 id="ce-que-paie-un-consommateur-ce-que-vaut-la-flexibilité">8. Ce
+que paie un consommateur, ce que vaut la flexibilité</h2>
+<h3 id="du-prix-de-gros-à-la-facture">8.1 Du prix de gros à la
+facture</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>€/MWh, France 2025</th>
+<th style="text-align: right;">Ménages (TTC)</th>
+<th style="text-align: right;">Entreprises (hors TVA)</th>
+<th style="text-align: right;">Sites de plus de 150 GWh/an</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Total</td>
+<td style="text-align: right;">254,6</td>
+<td style="text-align: right;">148,8</td>
+<td style="text-align: right;">65,3</td>
+</tr>
+<tr class="even">
+<td>dont énergie (fourniture)</td>
+<td style="text-align: right;">107,5</td>
+<td style="text-align: right;">96,0</td>
+<td style="text-align: right;">non détaillé</td>
+</tr>
+<tr class="odd">
+<td>dont réseaux</td>
+<td style="text-align: right;">71,7</td>
+<td style="text-align: right;">34,8</td>
+<td style="text-align: right;">non détaillé</td>
+</tr>
+<tr class="even">
+<td>dont taxes</td>
+<td style="text-align: right;">36,2 + TVA 39,2</td>
+<td style="text-align: right;">18,1</td>
+<td style="text-align: right;">non détaillé</td>
+</tr>
+</tbody>
+</table>
+<p>Source : SDES, <em>Prix de l’électricité en France et dans l’UE en
+2025</em> (2026).</p>
+<p>Plus un site consomme, moins il paie : 126,9 €/MWh entre 2 et 20
+GWh/an, 65,3 €/MWh au-delà de 150 GWh/an, avec une accise plafonnée à
+0,5 €/MWh pour les électro-intensifs (SDES, 2026). L’industrie
+européenne paie toutefois deux fois plus que l’américaine : 151 €/MWh
+contre 74 €/MWh au premier semestre 2025, pour des sites de 70 à 150
+GWh/an (ACER, 2026). Les réseaux et les taxes ont leurs propres notes :
+<a href="note-tarifs-reseau.html">Tarifs d’accès au réseau</a> et <a
+href="note-taxes-energie.html">Taxes sur l’énergie</a>.</p>
+<p><strong>Le prix de gros arrive en retard sur les factures</strong>,
+parce qu’un fournisseur achète à l’avance. Le tarif réglementé lisse ses
+achats sur les 24 mois qui précèdent l’année de livraison : 63,9 €/MWh
+d’énergie pour 2026, contre 103,0 pour 2025 (CRE, 2026).</p>
+<h3 id="ce-que-vaut-la-flexibilité">8.2 Ce que vaut la flexibilité</h3>
+<p>Être <strong>flexible</strong>, c’est déplacer sa consommation ou sa
+production dans le temps : batterie, recharge pilotée, électrolyseur,
+industriel qui s’efface. Trois revenus existent :</p>
+<ul>
+<li><strong>l’arbitrage</strong> : acheter aux heures creuses, revendre
+ou consommer aux heures chères. En été 2025, l’écart moyen entre 14 h (2
+€/MWh) et 22 h (84 €/MWh) dépasse 80 €/MWh, avant pertes ;</li>
+<li><strong>les services système</strong> : RTE paie des réserves pour
+régler la fréquence. En 2025, il a dépensé 462 M€ pour les réserver et
+668 M€ pour les activer ; les batteries certifiées pour la réserve
+secondaire sont passées de 100 à 340 MW dans l’année (CRE, 2026) ;</li>
+<li><strong>la capacité</strong> : être disponible aux heures de pointe
+(section 7).</li>
+</ul>
+<p>Ces revenus baissent quand la flexibilité se multiplie : chaque
+batterie qui se décharge le soir fait baisser le prix du soir. Assez
+grosse pour changer le prix, une flexibilité devient <strong>faiseuse de
+prix</strong> et non plus <strong>preneuse de prix</strong>.</p>
+<h2 id="les-réformes-en-cours">9. Les réformes en cours</h2>
+<p><strong>La réforme européenne</strong> (règlement (UE) 2024/1747 et
+directive (UE) 2024/1711) garde la tarification marginale pour le court
+terme. Elle ajoute des contrats longs par-dessus : CfD bidirectionnels
+obligatoires pour toute aide publique aux nouvelles centrales, PPA
+encouragés. Elle permet de déclarer une « crise des prix » quand le prix
+de gros atteint 2,5 fois la moyenne des cinq années précédentes et au
+moins 180 €/MWh. Le rapport Draghi (2024) va dans le même sens :
+découpler du prix du gaz la rémunération du renouvelable et du
+nucléaire, et garder le prix marginal pour l’exploitation.</p>
+<p><strong>En France</strong>, 2025-2026 a vu la fin de l’ARENH, le VNU,
+le mécanisme de capacité centralisé et le passage au quart d’heure ;
+depuis mai 2025, les éoliennes en mer sous tarif d’achat s’arrêtent
+quand le prix devient négatif (CRE, 2026).</p>
+<p><strong>Idée reçue : « la France brade son électricité à l’export
+».</strong> En 2025, la France a exporté 92,3 TWh de plus qu’elle n’a
+importé, 17 % de sa production. Valorisés au prix français, ces exports
+valent 5,4 Md€ ; au prix des pays de destination, environ 9 Md€ (RTE,
+2026). L’écart va surtout aux gestionnaires des interconnexions saturées
+: c’est la <strong>rente de congestion</strong>, égale à l’écart de prix
+multiplié par le flux.</p>
+<h2
+id="pourquoi-deux-jeux-de-prix-divergent-et-ce-que-ça-change-pour-les-mini-projets">10.
+Pourquoi deux jeux de prix divergent, et ce que ça change pour les
+mini-projets</h2>
+<p>Les mini-projets prennent des <strong>jeux de prix horaires</strong>
+: prix observés de 2019 à 2025, ou prix calculés par un modèle pour 2030
+à 2050. Ces jeux peuvent différer du simple au double, et la cause se
+cherche dans l’ordre de mérite :</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Ce qui change</th>
+<th>Effet sur le prix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>prix du gaz et du CO₂</td>
+<td>monte ou baisse les heures où le gaz ou l’eau fixe le prix</td>
+</tr>
+<tr class="even">
+<td>demande, météo de l’année</td>
+<td>déplace la demande sur la courbe ; une année froide ou sans vent est
+chère</td>
+</tr>
+<tr class="odd">
+<td>parc installé</td>
+<td>plus de solaire creuse le midi ; moins de moyens pilotables fait
+monter les pointes</td>
+</tr>
+<tr class="even">
+<td>voisins et interconnexions</td>
+<td>importe le prix d’un voisin quand les lignes ne sont pas
+saturées</td>
+</tr>
+<tr class="odd">
+<td>valeur de l’eau et des stockages</td>
+<td>un modèle qui connaît l’avenir donne à tout stock la valeur du
+fossile qu’il remplace, et aplatit les prix</td>
+</tr>
+<tr class="even">
+<td>plancher et plafond</td>
+<td>un modèle à plancher nul n’a aucune heure négative ; un plafond de
+défaillance fait les pointes</td>
+</tr>
+</tbody>
+</table>
+<p>Concrètement, pour les mini-projets :</p>
+<ul>
+<li><strong>Comparer deux jeux de prix</strong> : attribuez l’écart à
+des facteurs de ce tableau, combinés dans un ordre dit, car les leviers
+ne s’additionnent pas. Rapprochez chaque jeu d’une année observée : 2022
+(gaz cher, nucléaire absent) ou 2024-2025 (prix bas, heures
+négatives).</li>
+<li><strong>Une batterie ou une recharge pilotée</strong> vit de l’écart
+entre heures chères et heures creuses, pas du prix moyen : lisez le
+profil journalier et la monotone, et dites si la flotte est assez grosse
+pour changer le prix.</li>
+<li><strong>Une interconnexion</strong> rapporte la rente de congestion
+tant que les prix divergent ; sa construction même les rapproche.</li>
+<li><strong>Un verdict de rentabilité</strong> ne vaut que sous
+plusieurs jeux de prix, en ajoutant ce que l’énergie seule ne paie pas
+(capacité, services système).</li>
+</ul>
+<h2 id="ce-quil-faut-retenir">11. Ce qu’il faut retenir</h2>
+<p><strong>Le prix est celui de la dernière centrale appelée</strong>,
+payé à tous. Les producteurs bon marché vivent de l’écart avec leur coût
+variable.</p>
+<p><strong>Le gaz influence le prix plus souvent qu’il ne le
+fixe.</strong> En 2025, l’eau des barrages, offerte près du coût du gaz,
+fixe le prix 40 % des heures ; le gaz, 9 %.</p>
+<p><strong>Le prix a une forme, et la forme compte plus que la
+moyenne.</strong> Été 2025 : 2 €/MWh à 14 h, 84 €/MWh à 22 h ; 513
+heures négatives et 1 807 heures au-dessus de 100 €/MWh dans l’année. Le
+solaire ne capte plus que 59 % du prix moyen.</p>
+<p><strong>Le marché de l’énergie ne suffit pas à investir.</strong>
+Capacité, garanties d’origine et contrats longs (PPA, CfD, CAPN) s’y
+ajoutent, parce qu’on ne peut pas se couvrir à plus de trois ans sur les
+marchés à terme.</p>
+<p><strong>Deux jeux de prix divergent par l’ordre de mérite.</strong>
+Gaz et CO₂, météo, parc, voisins, valeur de l’eau, plancher : nommer le
+facteur, c’est expliquer l’écart.</p>
+<h2 id="sources">12. Sources</h2>
+<ul>
+<li>ACER, <em>Progress of EU electricity wholesale market
+integration</em>, 2025, <a href="https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER-2025-Electricity-market-integration.pdf" target="_blank" rel="noopener"
+class="uri">https://www.acer.europa.eu/sites/default/files/documents/Publications/ACER-2025-Electricity-market-integration.pdf</a>.</li>
+<li>ACER, <em>Key developments in EU electricity and gas markets</em>,
+2026, <a href="https://www.acer.europa.eu/sites/default/files/documents/Publications/2026-ACER-Gas-Electricity-Key-Developments.pdf" target="_blank" rel="noopener"
+class="uri">https://www.acer.europa.eu/sites/default/files/documents/Publications/2026-ACER-Gas-Electricity-Key-Developments.pdf</a>.</li>
+<li>Cour des comptes, <em>Les mesures exceptionnelles de lutte contre la
+hausse des prix de l’énergie</em>, mars 2024, <a href="https://www.ccomptes.fr/sites/default/files/2024-03/20240315_Mesures-exceptionnelles-lutte-contre-hausse-prix-energie.pdf" target="_blank" rel="noopener"
+class="uri">https://www.ccomptes.fr/sites/default/files/2024-03/20240315_Mesures-exceptionnelles-lutte-contre-hausse-prix-energie.pdf</a>.</li>
+<li>CRE, <em>La surveillance et le fonctionnement des marchés de gros de
+l’électricité et du gaz naturel en 2022</em>, 2023, <a href="https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/import/Rapport_de_surveillance_2022.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/import/Rapport_de_surveillance_2022.pdf</a>.</li>
+<li>CRE, <em>La surveillance et le fonctionnement des marchés de gros de
+l’électricité et du gaz naturel en 2025</em>, juin 2026, <a href="https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/2026/Rapport_de_surveillance_2025.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/2026/Rapport_de_surveillance_2025.pdf</a>.</li>
+<li>CRE, bulletin des marchés de gros de l’électricité, T2 2026, <a href="https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/2026/Bulletin_marches_de_gros_electricite_T2_2026.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/2026/Bulletin_marches_de_gros_electricite_T2_2026.pdf</a>.</li>
+<li>CRE, délibération n° 2026-06 sur les tarifs réglementés de vente
+d’électricité, janvier 2026, <a href="https://www.cre.fr/fileadmin/Documents/Deliberations/2026/260114_2026-06_TRVE_2026.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Deliberations/2026/260114_2026-06_TRVE_2026.pdf</a>.</li>
+<li>CRE, <em>Coûts complets du nucléaire historique</em>, septembre
+2025, <a href="https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/2025/Rapport_CRE_Couts_du_nucleaire.pdf" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/fileadmin/Documents/Rapports_et_etudes/2025/Rapport_CRE_Couts_du_nucleaire.pdf</a>,
+et page « VNU : estimation des revenus nucléaires d’EDF », <a href="https://www.cre.fr/electricite/marche-de-detail-de-lelectricite/vnu-estimation-des-revenus-nucleaires-dedf.html" target="_blank" rel="noopener"
+class="uri">https://www.cre.fr/electricite/marche-de-detail-de-lelectricite/vnu-estimation-des-revenus-nucleaires-dedf.html</a>.</li>
+<li>Draghi M., <em>The future of European competitiveness</em>, partie
+B, chapitre Énergie, Commission européenne, 2024, <a href="https://commission.europa.eu/document/download/ec1409c1-d4b4-4882-8bdd-3519f86bbb92_en?filename=The%20future%20of%20European%20competitiveness_%20In-depth%20analysis%20and%20recommendations_0.pdf" target="_blank" rel="noopener"
+class="uri">https://commission.europa.eu/document/download/ec1409c1-d4b4-4882-8bdd-3519f86bbb92_en?filename=The%20future%20of%20European%20competitiveness_%20In-depth%20analysis%20and%20recommendations_0.pdf</a>.</li>
+<li>EDF, présentation de souscription aux CAPN, novembre 2025, <a href="https://www.edf.fr/sites/groupe/files/2025-11/edfgroup_doaat_2025_souscription_presentation.pdf" target="_blank" rel="noopener"
+class="uri">https://www.edf.fr/sites/groupe/files/2025-11/edfgroup_doaat_2025_souscription_presentation.pdf</a>.</li>
+<li>ENTSO-E, plateforme de transparence (prix day-ahead horaires), <a href="https://transparency.entsoe.eu" target="_blank" rel="noopener"
+class="uri">https://transparency.entsoe.eu</a>, via Energy-Charts
+(Fraunhofer ISE), <a href="https://www.energy-charts.info" target="_blank" rel="noopener"
+class="uri">https://www.energy-charts.info</a>.</li>
+<li>Hirth L., <em>The market value of variable renewables</em>, Energy
+Economics 38
+<ol start="2013" type="1">
+<li>218-236, <a href="https://doi.org/10.1016/j.eneco.2013.02.004" target="_blank" rel="noopener"
+class="uri">https://doi.org/10.1016/j.eneco.2013.02.004</a>.</li>
+</ol></li>
+<li>Règlement (UE) 2024/1747 et directive (UE) 2024/1711 sur
+l’organisation du marché de l’électricité, <a href="http://data.europa.eu/eli/reg/2024/1747/oj" target="_blank" rel="noopener"
+class="uri">http://data.europa.eu/eli/reg/2024/1747/oj</a>, <a href="http://data.europa.eu/eli/dir/2024/1711/oj" target="_blank" rel="noopener"
+class="uri">http://data.europa.eu/eli/dir/2024/1711/oj</a>.</li>
+<li>RTE, <em>Bilan électrique 2025</em>, mars 2026, principaux résultats
+(<a href="https://assets.rte-france.com/prod/public/2026-03/Bilan-electrique-2025-principaux-resultats.pdf" target="_blank" rel="noopener"
+class="uri">https://assets.rte-france.com/prod/public/2026-03/Bilan-electrique-2025-principaux-resultats.pdf</a>)
+et rapport complet (<a href="https://assets.rte-france.com/prod/public/2026-03/Bilan-electrique-2025-rapport-complet_0.pdf" target="_blank" rel="noopener"
+class="uri">https://assets.rte-france.com/prod/public/2026-03/Bilan-electrique-2025-rapport-complet_0.pdf</a>).</li>
+<li>SDES, <em>Prix de l’électricité en France et dans l’UE en 2025</em>,
+juillet 2026.</li>
+</ul>
+<h2 id="vidéos-billets-et-posts-sur-le-même-sujet">13. Vidéos, billets
+et posts sur le même sujet</h2>
+<p>Des vidéos courtes, des billets de blog et des posts LinkedIn de
+l’auteur reprennent des points de cette note.</p>
+<ul>
+<li><a href="https://www.energy-alternatives.eu/cas/etage1-tyndp2026.html" target="_blank" rel="noopener">Prix
+de l’électricité et de l’hydrogène en Europe en 2030, 2035 et 2040 : le
+modèle POMMES sur les scénarios du TYNDP 2026</a> (page du blog,
+annoncée par un post LinkedIn) : deux jeux de prix horaires pour les
+mêmes scénarios, ceux de l’ENTSO-E et ceux de notre modèle, et d’où
+viennent leurs écarts (page interactive).</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-11-07-capacite-allemagne-belgique.html" target="_blank" rel="noopener">Passer
+l’hiver : centrales de 10 heures ou batteries de 2 heures ? L’Allemagne
+et la Belgique</a> (post LinkedIn repris sur le blog, avec figures et
+sources ; <a href="https://www.linkedin.com/feed/update/urn:li:ugcPost:7524893381253111808/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : le mécanisme de capacité en pratique : pourquoi
+l’Allemagne achète des centrales capables de tenir 10 heures et la
+Belgique surtout des batteries.</li>
+<li><a href="https://www.energy-alternatives.eu/linkedin/2026-11-12-flexibilite-autriche.html" target="_blank" rel="noopener">L’Autriche,
+le solaire de midi et la flexibilité déjà payée</a> (post LinkedIn
+repris sur le blog, avec figures et sources ; <a href="https://www.linkedin.com/feed/update/urn:li:share:7526518375687090176/" target="_blank" rel="noopener">le
+post sur LinkedIn</a>) : des prix presque nuls à midi et élevés le soir
+en Autriche, et ce que vaut la flexibilité des batteries et des voitures
+électriques.</li>
+</ul>
+
+  <section class="sources"><p><a href="Note_Marches_elec.pdf" download>Télécharger la version PDF</a> (les liens y restent actifs).</p><h2>Notes voisines</h2><ul><li><a href="note-financer-transition.html">Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte</a></li><li><a href="note-batteries-stockage.html">Les batteries : ce qu'elles coûtent, pourquoi leur prix a tant baissé, ce qui vient</a></li><li><a href="note-mix-elec-pays.html">Comment cinq pays produisent leur électricité, aujourd'hui et en 2050</a></li></ul></section>
+</article>
+<nav class="sommaire" aria-label="Plan de la note"><h2>Plan</h2><ol><li><a href="#la-question-et-la-réponse">1. La question et la réponse</a></li><li><a href="#le-vocabulaire">2. Le vocabulaire</a></li><li><a href="#comment-se-forme-le-prix-lordre-de-mérite">3. Comment se forme le prix : l’ordre de mérite</a></li><li><a href="#une-suite-de-marchés-du-long-terme-au-temps-réel">4. Une suite de marchés, du long terme au temps réel</a></li><li><a href="#à-quoi-ressemblent-les-prix">5. À quoi ressemblent les prix</a></li><li><a href="#la-crise-de-2022">6. La crise de 2022</a></li><li><a href="#ce-qui-sajoute-au-marché-de-lénergie">7. Ce qui s’ajoute au marché de l’énergie</a></li><li><a href="#ce-que-paie-un-consommateur-ce-que-vaut-la-flexibilité">8. Ce que paie un consommateur, ce que vaut la flexibilité</a></li><li><a href="#les-réformes-en-cours">9. Les réformes en cours</a></li><li><a href="#pourquoi-deux-jeux-de-prix-divergent-et-ce-que-ça-change-pour-les-mini-projets">10. Pourquoi deux jeux de prix divergent, et ce que ça change pour les mini-projets</a></li><li><a href="#ce-quil-faut-retenir">11. Ce qu’il faut retenir</a></li><li><a href="#sources">12. Sources</a></li><li><a href="#vidéos-billets-et-posts-sur-le-même-sujet">13. Vidéos, billets et posts sur le même sujet</a></li></ol></nav>
+</div>
+</main>
+<footer><div class="enveloppe">Parcours ES 2026 · Robin Girard, MINES Paris – PSL (PERSEE) · texte rédigé avec l'aide de Claude et relu, mais il y a toujours des choses à améliorer : me signaler une erreur, suggérer un cas d'étude ou une amélioration d'ergonomie est une contribution utile (robin.girard@minesparis.psl.eu). Contenu CC BY 4.0.</div></footer>
+</body>
+</html>
