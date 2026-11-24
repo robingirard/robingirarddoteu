@@ -102,7 +102,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <p>Objectif : laisser pommes dimensionner l'éolien et la batterie d'une zone isolée, puis lire ce que change le droit d'écrêter et ce que vaut un gigawatt pilotable. C'est l'exercice des planches « dimensionner éolien + stockage » <span title="planches-dimensionner-enr-stockage">Exercice : dimensionner éolien + stockage pour couvrir une demande, écrêtement, pertes, hydraulique, asservissement tarifaire (remis en cours)</span>, fait à la main heure par heure avec un sondage sur la puissance du stockage (240, 210 ou 65 GW). Ici l'optimiseur répond, énergie comprise.</p>
 <p>Prérequis : le dépôt des cas installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, une batterie déjà écrite dans craft <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>, l'annuité comprise <a href="../textes/cout-annualise.html">Du coût d'investissement à l'annuité : CRF, €/kW/an, LCOE et ses limites</a>. Résolution en 3 à 4 s (pommes 0.11.0, pommes_craft 0.6.0, HiGHS), moins de 30 s en tout. Valeurs du 16/11/2026, revérifiées le 17/11/2026.</p>
-<h2>1. Le modèle</h2>
+<h2 id="1-le-modele">1. Le modèle</h2>
 <p>Une zone sans <code>NetImport</code>. Une demande de 30 à 70 GW (les bornes des planches), 50 GW en moyenne, 438 TWh sur l'année, qui suit la journée et la saison. L'éolien terrestre français de 2030 vient du PECD du TYNDP 2026 (météo par défaut WS003, facteur de charge moyen 0,279), à 1 029 600 €/MW, 12 474 €/MW/an, 30 ans, 4 %. Une batterie aux coûts du cas A (192 €/kW, 171 €/kWh, 650 €/MW/an, 25 ans, 4 %, rendement 0,91), puissance et énergie choisies séparément. Pas de délestage. Actualisation nulle : l'objectif est le coût d'une année.</p>
 <pre><code class="language-python">import sys, logging
 sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
@@ -152,7 +152,7 @@ def lire(m):
     return s
 </code></pre>
 <p>Deux conventions. <code>year_decs</code> contient <code>Y + durée de vie</code> de chaque composant, sinon pommes_craft refuse le modèle (<code>ValueError: Max life span: 30.0, Max year_inv: 2030, Max year_dec: 2055</code>). <code>must_run=1.0</code> rend l'éolien fatal : <code>production == capacité × availability</code> à chaque heure, et seul le <code>Spillage</code> peut jeter le surplus ; sans lui, la conversion peut produire moins que le vent et le <code>Spillage</code> ne sert à rien, comme pour le PV du tutoriel <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a>.</p>
-<h2>2. Étape 1 : écrêtement libre</h2>
+<h2 id="2-etape-1-ecretement-libre">2. Étape 1 : écrêtement libre</h2>
 <pre><code class="language-python">s = lire(modele(&quot;libre&quot;, ecretement=True))
 # éolien 537.7 GW ; batterie 73.4 GW, 2328 GWh ; chargé 45.0 TWh ; écrêté 872.6 TWh ; coût 65.16 Mrd€/an
 </code></pre>
@@ -166,7 +166,7 @@ sem = np.convolve(net, np.ones(7), &quot;valid&quot;); j = sem.argmax()
 print(j, round(sem[j]))                                                      # 13  2144 : jours 13 à 19 (du 14 au 20 janvier), 2 144 GWh déstockés net
 </code></pre>
 <p>Une seule semaine fixe l'énergie de la batterie. Du 14 au 20 janvier, le facteur de charge tombe à 0,092 : les 538 GW ne donnent que 49 GW contre 60 GW de demande. Le stock, plein le 14 (2 328 GWh), vide le 16, remonte un peu et finit le 20 janvier à 183 GWh ; la semaine déstocke 2 144 GWh net. C'est la « semaine sans vent » du cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/G_mix_100_enr" target="_blank" rel="noopener">Cas G — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>, sur une seule année météo ; une autre WS déplacerait cette semaine et la taille du stockage <a href="../textes/act-annees-meteo-poids.html">Empiler trois années météo sur le modèle du tutoriel avec operation_year_weight</a>.</p>
-<h2>3. Étape 2 : écrêtement interdit</h2>
+<h2 id="3-etape-2-ecretement-interdit">3. Étape 2 : écrêtement interdit</h2>
 <pre><code class="language-python">lire(modele(&quot;sans_ecretement&quot;))
 # éolien 471.7 GW ; batterie 3240.6 GW, 3592 GWh ; chargé 7947.6 TWh ; écrêté 0.0 TWh ; coût 115.22 Mrd€/an
 lire(modele(&quot;sans_pertes&quot;, rendement=1.0))
@@ -174,7 +174,7 @@ lire(modele(&quot;sans_pertes&quot;, rendement=1.0))
 </code></pre>
 <p>Sans soupape, chaque MWh de vent doit être consommé ou stocké. Le seul puits est le rendement : la batterie, qui joue le rôle de l'écrêtement, absorbe 7 948 TWh dans l'année et en perd 9 %, 715 TWh. Il lui faut 3 241 GW et 3 592 GWh, et la facture monte à 115 Mrd€/an, 1,8 fois plus. Autoriser l'écrêtement ramène l'énergie de 3 592 à 2 328 GWh et la puissance de 3 241 à 73 GW.</p>
 <p>Sans pertes (<code>rendement=1.0</code>), le puits disparaît et le modèle reste faisable : le stock est cyclique sur l'année, il suffit que la production annuelle égale la demande. L'éolien est calé à 179,1 GW, soit 438 TWh / (0,279 × 8 760), avec un stock saisonnier de 42 985 GWh, à 485 Mrd€/an : 7,4 fois le coût avec écrêtement. Résultat des planches : la puissance du stockage descend de l'option 240 GW du sondage à 65 GW une fois l'écrêtement autorisé.</p>
-<h2>4. Étape 3 : 7 GW de turbine à gaz</h2>
+<h2 id="4-etape-3-7-gw-de-turbine-a-gaz">4. Étape 3 : 7 GW de turbine à gaz</h2>
 <p>Une turbine à combustion imposée à 10 % de la pointe : 600 000 €/MW, 20 000 €/MW/an, 30 ans (TYNDP 2024 via le cas C), gaz à 33,2 €/MWh PCI (TYNDP 2026 NT+ 2030, cas D), rendement 40 % (choix de l'activité), soit 83 €/MWh.</p>
 <pre><code class="language-python">for gw in (7, 14, 35):
     lire(modele(f&quot;tac{gw}&quot;, ecretement=True, tac_mw=gw * 1e3))
@@ -183,25 +183,25 @@ lire(modele(&quot;sans_pertes&quot;, rendement=1.0))
 # tac35 : éolien 229.7 GW ; batterie 37.7 GW,  961 GWh ; écrêté 190.5 TWh ; coût 35.39 Mrd€/an  (TAC 71.3 TWh, 2 954 h)
 </code></pre>
 <p>Sept gigawatts qui tournent 209 heures et produisent 1,4 TWh, 0,3 % de la demande, enlèvent 64 GW d'éolien, 270 GWh de batterie et 7,1 Mrd€/an : chaque GW pilotable vaut ici environ 1 Mrd€/an. La turbine ne remplace pas de l'énergie mais la pointe de la semaine sans vent, que batterie et éolien surdimensionné couvraient à grands frais. À 35 GW, l'éolien retombe à 230 GW, proche des 300 GW du sondage, et le gaz fournit 16 % de l'énergie.</p>
-<h2>Ce qu'il faut noter</h2>
+<h2 id="ce-quil-faut-noter">Ce qu'il faut noter</h2>
 <ul>
 <li>Pour les trois étapes : capacités (GW, GWh), énergie écrêtée et stockée, coût.</li>
 <li>La durée en heures de la batterie (31,7 h ici) et pourquoi elle dit que le modèle manque d'un stockage de long terme.</li>
 </ul>
-<h2>Trois questions à réponse chiffrée</h2>
+<h2 id="trois-questions-a-reponse-chiffree">Trois questions à réponse chiffrée</h2>
 <ol>
 <li>Quelle part de la production éolienne est écrêtée à l'étape 1, et combien coûte-t-elle au prix de production du MWh éolien ? (66 %, 25,7 Mrd€/an.)</li>
 <li>Écrêtement interdit : combien d'énergie la batterie fait-elle transiter, et combien en perd-elle ? (7 948 TWh, 715 TWh.)</li>
 <li>De combien la capacité d'énergie du stockage baisse-t-elle entre 0 et 14 GW de turbine à gaz ? (2 328 à 1 792 GWh, 23 %.)</li>
 </ol>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous retrouvez 2 328 GWh avec écrêtement, 3 592 GWh sans, et 65,16 et 115,22 Mrd€/an.</li>
 <li>Vous expliquez en une phrase pourquoi l'écrêtement est une flexibilité : jeter un MWh à 29 € coûte moins cher que le stocker à 171 €/kWh, et la soupape dispense la batterie d'absorber le surplus.</li>
 <li>Vous situez la semaine qui fixe l'énergie du stockage et dites ce qu'une autre année météo y changerait.</li>
 <li>Avant de lancer le calcul, vous prédisez dans quel sens varie le stockage avec 7 GW pilotables.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le cas G, construit : quatre pays presque 100 % renouvelables en 2040, 30 années météo, la pire semaine de chacune et ce qui la couvre <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/G_mix_100_enr" target="_blank" rel="noopener">Cas G — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>.</li>
 <li>Le notebook 2025 « 100 % renouvelable », point de départ historique du cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/legacy_tp2025/notebooks/100_renewable_energy.ipynb" target="_blank" rel="noopener">Notebook 2025 — Une Europe à 100 % renouvelable : minimiser le recours aux combustibles verts</a>.</li>

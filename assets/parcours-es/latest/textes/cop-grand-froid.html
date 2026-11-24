@@ -100,10 +100,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Le COP par grand froid : pourquoi la pointe monte plus vite que la chaleur</h1>
     <p class="resume">Un petit modèle en pandas : la chaleur du chauffage fossile passée aux pompes à chaleur, divisée heure par heure par un COP qui baisse avec la température, sur l'hiver central et l'hiver le plus froid de 2035. Avec un COP constant, l'énergie change peu ; la pointe, nettement.</p>
   </header>
-  <h2>Ce que vous allez faire</h2>
+  <h2 id="ce-que-vous-allez-faire">Ce que vous allez faire</h2>
 <p>Une pompe à chaleur (PAC) qui remplace une chaudière au gaz fournit la même chaleur avec de l'électricité, en la puisant dans l'air extérieur. Son COP, ou coefficient de performance, est le nombre de kilowattheures de chaleur qu'elle fournit pour un kilowattheure d'électricité. Plus l'air est froid, plus il est difficile d'y puiser de la chaleur : le COP baisse au moment où le besoin est le plus fort.</p>
 <p>Ce texte isole ce mécanisme avant le cas C, qui le place dans le système complet. C'est un cas d'école, pas une prévision. Valeurs relevées le 23/11/2026, dépôt des cas installé selon son README ; les blocs s'exécutent à la suite.</p>
-<h2>1. La température de deux hivers</h2>
+<h2 id="1-la-temperature-de-deux-hivers">1. La température de deux hivers</h2>
 <p>Le dépôt contient la température horaire de la France, pondérée par la population (colonne <code>temperature</code>, base PECD de Copernicus), pour les 30 années météo que le TYNDP 2026, la prospective des gestionnaires de réseaux européens, associe à 2035. Comme le cas C, on retient WS037, l'hiver central (l'année météo de plus grand poids pour le TYNDP), et WS060, l'hiver le plus froid (moyenne d'hiver la plus basse des 30).</p>
 <pre><code class="language-python">import sys, numpy as np, pandas as pd
 sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)       # le clone du dépôt des cas
@@ -120,7 +120,7 @@ for ws in (&quot;WS037&quot;, &quot;WS060&quot;):
 # WS060 -9.2 2035-02-02 07:00:00 2.1 652
 </code></pre>
 <p>Chaque ligne donne le minimum, son heure, la moyenne d'hiver et les heures sous 0 °C : l'hiver le plus froid en a 3,6 fois plus que l'hiver central.</p>
-<h2>2. La chaleur à fournir</h2>
+<h2 id="2-la-chaleur-a-fournir">2. La chaleur à fournir</h2>
 <p>Sous le seuil de chauffage, 15 °C pour RTE comme pour le cas C, le besoin de chaleur croît avec chaque degré qui manque ; au-dessus, le soleil et les occupants suffisent. On compte donc les degrés-heures : heure par heure, l'écart entre 15 °C et la température, ou zéro. Un bâtiment met des heures à se refroidir : on prend, comme le cas C, une température lissée sur 12 heures (chaque heure, elle fait un douzième du chemin vers la température du moment).</p>
 <p>Le volume vient du cas C, où tout le chauffage fossile de 2023 passe aux PAC : 113,6 TWh de combustible dans les logements (service statistique du ministère chargé de l'énergie, valeur vérifiée) et 56 TWh dans le tertiaire (repris d'un notebook de 2025, source primaire non relue), multipliés par le rendement des chaudières, 0,93 (TYNDP 2026 ; l'appliquer au parc existant est un choix du cas). Cela fait 157,7 TWh de chaleur pour une année météo moyenne des 30.</p>
 <pre><code class="language-python">def degres(t, tau=12):                               # degrés sous 15 °C, température lissée sur 12 h
@@ -140,7 +140,7 @@ for ws in (&quot;WS037&quot;, &quot;WS060&quot;):
 # WS060 179.7 99.7
 </code></pre>
 <p>Chaque degré sous le seuil appelle 4,42 GW de chaleur. Viennent ensuite la chaleur annuelle (TWh) et sa pointe (GW) : l'hiver le plus froid demande 20 % de chaleur de plus.</p>
-<h2>3. Le COP heure par heure</h2>
+<h2 id="3-le-cop-heure-par-heure">3. Le COP heure par heure</h2>
 <p>Le TYNDP 2026 donne le COP horaire des PAC françaises pour chaque année météo. Une courbe de degré 3 de la température, ajustée sur ces 30 années, le reproduit à 0,005 près entre −11 et 20 °C. Le COP dépend de l'air à l'heure même : il prend la température brute.</p>
 <pre><code class="language-python">def cop(t):                                          # valable de -11 à 20 °C
     return np.polyval([-1.64e-8, 1.0005e-3, 2.4698e-2, 2.6519], t)
@@ -148,7 +148,7 @@ print({x: round(float(cop(x)), 2) for x in (-10, -5, 0, 7, 15)})
 # {-10: 2.5, -5: 2.55, 0: 2.65, 7: 2.87, 15: 3.25}
 </code></pre>
 <p>L'électricité vaut la chaleur divisée par le COP, et c'est là que la pointe prend de l'avance. À 5 °C stables, il manque 10 degrés : 44,2 GW de chaleur, divisés par un COP de 2,80, font 15,8 GW. À −5 °C, la chaleur double, 88,5 GW, mais le COP tombe à 2,55 : l'électricité est multipliée par 2,2, à 34,7 GW.</p>
-<h2>4. À COP horaire, puis à COP constant</h2>
+<h2 id="4-a-cop-horaire-puis-a-cop-constant">4. À COP horaire, puis à COP constant</h2>
 <p>Le notebook de 2025 et l'outil « parc bâti » prennent un COP constant. Celui qui conserve l'énergie est le COP saisonnier, chaleur de l'année sur électricité de l'année, calculé ici sur l'hiver central et appliqué aux deux hivers.</p>
 <pre><code class="language-python">t = temperature(&quot;WS037&quot;); q = k * degres(t)
 cop_fixe = q.sum() / (q / cop(t)).sum()              # COP saisonnier : chaleur / électricité
@@ -167,7 +167,7 @@ for ws in (&quot;WS037&quot;, &quot;WS060&quot;):
 </code></pre>
 <p>Chaque ligne donne l'énergie (TWh), la pointe (GW), puis la température, le COP et l'heure de la pointe. Pour l'hiver central, le COP saisonnier de 2,85 redonne exactement l'énergie, 52,5 TWh, mais la pointe tombe de 33,1 à 29,7 GW : il oublie 3,4 GW, 10 % de la pointe. L'essentiel de la chaleur passe par temps doux, au COP proche de 2,9 ; la pointe tombe par grand froid, au COP de 2,55. Elle arrive le 6 février à 22 h en temps universel, et non à l'heure la plus froide (7 h, −8,2 °C) : le matin, les bâtiments ne sont pas encore refroidis, et le COP, qui varie peu par grand froid, ne compense pas.</p>
 <p>Pour l'hiver le plus froid, le même COP constant sous-estime l'énergie de 3 % et la pointe de 4,7 GW, 12 %. Aucun COP constant ne donne à la fois l'énergie et la pointe, ni la pointe de tous les hivers.</p>
-<h2>5. Trente hivers</h2>
+<h2 id="5-trente-hivers">5. Trente hivers</h2>
 <pre><code class="language-python">r = {}
 for ws in meteos(&quot;FR&quot;, 2035):
     t = temperature(ws); q = k * degres(t); e = q / cop(t)
@@ -187,11 +187,11 @@ print(set(r.idxmax()), round(CHALEUR / 1e6 / s.loc[&quot;élec TWh&quot;, &quot;
 <p>Entre le plus bas et le plus haut des 30 hivers, la chaleur annuelle varie de 1 à 1,57 et sa pointe déjà de 1 à 1,71 : un hiver froid a des heures plus froides encore. Le COP ajoute à l'écart : 1,66 pour l'électricité annuelle, 1,81 pour sa pointe. Le plus haut est partout WS042. De l'hiver central au plus froid, en revanche, l'énergie monte de 24 % et la pointe de 20 % : WS037 a déjà son coup de froid.</p>
 <p>Le cas C répartit la même chaleur selon sa régression (l'ajustement de la demande sur la température vu dans l'activité précédente) : énergies voisines (52,5 et 64,9 TWh), mais chauffage plus fort le matin et en début de soirée ; RTE observe lui aussi une sensibilité au froid variable dans la journée. Avec son profil plat, ce petit modèle sous-estime donc la pointe.</p>
 <p>Le notebook de 2025 annonçait un COP de 3 et 68 TWh d'électricité pour 169 TWh de chauffage fossile ; son code donnait 56 TWh (169 / 3) ; 68 suppose un COP de 2,5. Tous deux divisaient du combustible, non de la chaleur. Le code tombe près des 55,6 TWh moyens d'ici par compensation : diviser du combustible ajoute 7,5 %, diviser par 3 au lieu du COP moyen d'ici, 2,837, retire 5,4 %.</p>
-<h2>6. Ce que la pointe coûte, et la suite</h2>
+<h2 id="6-ce-que-la-pointe-coute-et-la-suite">6. Ce que la pointe coûte, et la suite</h2>
 <p>Un système se dimensionne sur son heure la plus difficile : chaque GW de pointe demande une capacité ferme ou des importations, au moment où les voisins ont souvent froid aussi. Rapportées à la demande française de 2035 de l'activité précédente (497,8 TWh, 108,8 GW de pointe), les PAC de l'hiver central ajoutent 10,5 % d'énergie, et leur pointe vaut 30 % de la sienne. Le cas C chiffre ce coût sur 30 hivers, avec le parc et les voisins.</p>
 <p>L'outil « parc bâti » prend deux COP constants par appareil, pour une PAC air-eau 3,0 sur l'année et 2,0 au plus froid. Le COP du TYNDP, moyenne d'un parc de 2035, est plus optimiste : 2,52 à 2,55 à la pointe. Avec 2,0, les 84,7 GW de chaleur de pointe de l'hiver central appelleraient 42 GW au lieu de 33,1. L'outil montre aussi l'effet de la rénovation sur la pente d'hiver.</p>
 <p>Ce que ce petit modèle ne fait pas : l'appoint résistif, au COP de 1, qui relaie les PAC par très grand froid ; l'inertie des bâtiments au-delà du lissage ; le pilotage, qui décale la chauffe ; la rénovation, qui réduirait les 4,42 GW par degré ; la diversité des PAC.</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>vous retrouvez, pour WS037, 52,5 TWh et 33,1 GW de pointe (6 février, 22 h, −5,5 °C, COP 2,55) et vous dites pourquoi ce n'est pas l'heure la plus froide ;</li>
 <li>vous expliquez pourquoi le COP saisonnier de 2,85 redonne l'énergie mais oublie 3,4 GW de pointe, et 4,7 GW pour WS060 ;</li>
@@ -199,7 +199,7 @@ print(set(r.idxmax()), round(CHALEUR / 1e6 / s.loc[&quot;élec TWh&quot;, &quot;
 <li>vous dites pourquoi la forme horaire du cas C donne une pointe plus haute que ce profil plat ;</li>
 <li>vous tranchez en une phrase les 56 et 68 TWh du notebook de 2025.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le cas C, dans le système complet. <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/C_thermosensibilite" target="_blank" rel="noopener">Cas C — Thermosensibilité : que coûte la pointe d'hiver, selon la météo ?</a></li>
 <li>L'outil « parc bâti ». <a href="../outils/nzg-bloc-batiment.html">Le parc bâti et sa thermosensibilité : une page tirée du Net Zero Game</a></li>

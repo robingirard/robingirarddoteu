@@ -101,10 +101,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Deux zones reliées par une ligne de 1 600 MW, du PV abondant au sud et une turbine à gaz chère au nord. Lire les flux, le prix de chaque zone et la duale de la capacité du lien, puis vérifier qu'elle vaut l'écart de prix moins le hurdle cost aux heures saturées et l'économie d'un MW de plus. Élargir ensuite la ligne et voir l'écart de prix fondre.</p>
   </header>
   <p class="telecharger-nb"><a href="../notebooks/act-transport-deux-zones.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
-<h2>Objectif</h2>
+<h2 id="objectif">Objectif</h2>
 <p>Relier deux zones par une ligne bornée, lire leurs prix et la duale de la capacité du lien, puis vérifier par deux résolutions qu'elle vaut un MW de plus.</p>
 <p>Prérequis : le dépôt des cas installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a> ; le tutoriel d'une zone <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a> ; les duales de l'équilibre offre-demande et d'une capacité (interconnexion saturée), § 5 de <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. Neuf résolutions de deux à trois secondes, construction comprise. Valeurs du 16/11/2026, revérifiées le 17/11/2026 avec pommes 0.11.0, pommes_craft 0.6.0 et linopy 0.10.1.</p>
-<h2>1. Le modèle</h2>
+<h2 id="1-le-modele">1. Le modèle</h2>
 <p>Sud : demande plate de 1 500 MW, 5 000 MW de PV au facteur de charge horaire de l'Espagne (jeu <code>pecd2026</code>, 2030, météo par défaut, moyenne 0,181), 5 000 MW de cycle combiné à 60 €/MWh. Nord : demande de 1 000 MW à 3 h à 3 000 MW à 15 h, 3 000 MW de turbine à gaz à 120 €/MWh. Délestage à 3 000 €/MWh des deux côtés. Capacités imposées (<code>power_capacity_investment_min = max</code>), sans coût d'investissement, comme dans <code>pommes_cases/systeme_fr.py</code>.</p>
 <p>Le lien : un <code>Link</code> de Sud vers Nord et une <code>TransportTechnology</code> qui porte la capacité, imposée de même, avec un <code>hurdle_costs</code> de 1 €/MWh transporté. Un <code>Link</code> est orienté (<code>operation_transport_power</code> positive ou nulle, de <code>area_from</code> vers <code>area_to</code>) ; le Nord étant toujours plus cher, un seul suffit.</p>
 <pre><code class="language-python">import sys, logging, tempfile
@@ -147,7 +147,7 @@ def modele(capacite_lien, hurdle=1.0):
             power_capacity_investment_min=capacite_lien, power_capacity_investment_max=capacite_lien))
     return m
 </code></pre>
-<h2>2. Résoudre et lire flux et prix</h2>
+<h2 id="2-resoudre-et-lire-flux-et-prix">2. Résoudre et lire flux et prix</h2>
 <p>Le flux, en MW : la variable <code>operation_transport_power</code> (dimensions <code>link</code>, <code>transport_tech</code>, <code>resource</code>, <code>hour</code>, <code>year_op</code>). Le prix de chaque zone : la duale de <code>operation_adequacy_constraint</code> (dimensions <code>area</code>, <code>hour</code>, <code>resource</code>, <code>year_op</code> ; 8 760 valeurs par zone), divisée par <code>dual_scale(params)</code>, qui vaut 1 ici (actualisation nulle, 8 760 heures). La duale de la capacité : celle de <code>operation_transport_power_max_constraint</code>, contrainte ≤ que linopy rend négative en minimisation, d'où le signe moins. On lit <code>lp.solution</code> : avant pommes 0.11.0, <code>get_capacities</code> et les résumés de pommes_craft comptaient un lien comme import de la zone exportatrice (CHANGELOG, #157).</p>
 <pre><code class="language-python">def lire(capacite_lien, hurdle=1.0):
     m = modele(capacite_lien, hurdle)
@@ -171,7 +171,7 @@ print(f&quot;prix moyen Sud {r['p_sud'].mean():.2f}, Nord {r['p_nord'].mean():.2
 # prix moyen Sud 55.93, Nord 97.88 €/MWh ; rente 586.61 M€
 </code></pre>
 <p>Flux du Sud au Nord toutes les heures. Prix du Sud : 0 quand le PV est écrêté, 60 quand le cycle combiné est marginal. Prix du Nord : 120 quand la turbine tourne, 61 sinon, soit le prix du Sud plus le hurdle cost : lien non saturé, le MWh de plus au Nord vient du Sud. La rente de congestion, Σ flux × (prix Nord − prix Sud), vaut 586,6 M€ pour 1 600 MW.</p>
-<h2>3. La duale de la capacité</h2>
+<h2 id="3-la-duale-de-la-capacite">3. La duale de la capacité</h2>
 <pre><code class="language-python">sat = r[&quot;sature&quot;]
 print(f&quot;Σ mu {r['mu'].sum():,.0f} €/MW ; Σ (Nord - Sud - hurdle) aux heures saturées {(r['p_nord'] - r['p_sud'] - 1.0)[sat].sum():,.0f}&quot;)
 print(f&quot;mu max hors saturation {r['mu'][~sat].max():.3f} ; écart Nord - Sud hors saturation {np.unique((r['p_nord'] - r['p_sud'])[~sat].round(2))}&quot;)
@@ -179,13 +179,13 @@ print(f&quot;mu max hors saturation {r['mu'][~sat].max():.3f} ; écart Nord - Su
 # mu max hors saturation 0.000 ; écart Nord - Sud hors saturation [1.]
 </code></pre>
 <p>Aux 5 475 heures saturées, la duale vaut l'écart de prix moins le hurdle cost : 4 881 heures à 60 − 1, 594 à 120 − 1. Hors saturation, elle est nulle. Sur l'année, 358 665 €/MW : ce que rapporterait un MW de ligne en plus. La rente s'en déduit : 1 600 × (358 665 + 1 × 5 475) plus le hurdle sur le flux hors saturation, soit 586,6 M€.</p>
-<h2>4. Vérifier par une seconde résolution</h2>
+<h2 id="4-verifier-par-une-seconde-resolution">4. Vérifier par une seconde résolution</h2>
 <pre><code class="language-python">r1 = lire(1601.0)
 print(f&quot;baisse du coût pour 1 MW de plus {r['cout'] - r1['cout']:,.0f} € ; Σ mu {r['mu'].sum():,.0f} €&quot;)
 # baisse du coût pour 1 MW de plus 358,485 € ; Σ mu 358,665 €
 </code></pre>
 <p>Écart de 0,05 %, parce que le MW ajouté change les heures saturées à la marge : la duale est bien la dérivée du coût total par rapport à la capacité.</p>
-<h2>5. Élargir le lien</h2>
+<h2 id="5-elargir-le-lien">5. Élargir le lien</h2>
 <pre><code class="language-python">for cap in [800.0, 1200.0, 1600.0, 2400.0, 2800.0, 3200.0]:
     x = lire(cap)
     print(f&quot;{cap:5.0f} MW  h_sat {x['sature'].sum():4d}  Sud {x['p_sud'].mean():5.1f}  Nord {x['p_nord'].mean():5.1f}&quot;
@@ -201,20 +201,20 @@ print(f&quot;baisse du coût pour 1 MW de plus {r['cout'] - r1['cout']:,.0f} €
 </code></pre>
 <p>À chaque élargissement, écart de prix et Σ mu baissent ; le Nord devient moins cher, le Sud plus cher : exporter le PV de midi fait disparaître ses heures à prix nul. À 3 200 MW, plus aucune heure saturée, les prix ne diffèrent que du hurdle cost : une seule zone de prix. La rente monte d'abord, de 498 à 587 M€, puis fond : produit d'une capacité qui grandit par un écart qui rétrécit. Le gestionnaire de réseau vit de la rente, le planificateur regarde Σ mu : pas le même nombre.</p>
 <p>En Europe, les gestionnaires de réseau de transport des deux côtés de la frontière se partagent cette rente. L'article 19 du règlement (UE) 2019/943 leur impose d'abord de l'employer à garantir la disponibilité réelle de la capacité allouée et à maintenir ou accroître les capacités d'échange entre zones ; le reste peut venir en déduction des tarifs de réseau. En zonal, comme ici, un prix par zone et la rente concentrée sur le lien ; en nodal, un prix par nœud et la rente répartie sur toutes les lignes saturées.</p>
-<h2>Trois questions à réponse chiffrée</h2>
+<h2 id="trois-questions-a-reponse-chiffree">Trois questions à réponse chiffrée</h2>
 <ol>
 <li>À 1 600 MW, combien d'heures saturées ont un écart de prix de 120 €/MWh ? (594.)</li>
 <li>Parmi les six capacités, laquelle maximise la rente, et que vaut alors un MW de plus ? (1 600 MW ; 358,7 k€/MW/an.)</li>
 <li>Mettez le hurdle cost à 0 : que devient le prix du Nord hors saturation, et Σ mu à 1 600 MW ? (Prévoyez, puis vérifiez : 60 €/MWh au lieu de 61 ; Σ mu passe de 358 665 à 364 140 €/MW, 5 475 € de plus, le hurdle une fois par heure saturée ; les heures saturées ne bougent pas.)</li>
 </ol>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous retrouvez 5 475 heures saturées, les prix 0 et 60 au Sud, 61 et 120 au Nord, à quelles heures ils tombent, et la rente de 586,6 M€.</li>
 <li>Vous expliquez sans calcul pourquoi la duale vaut l'écart de prix moins le hurdle cost, zéro hors saturation.</li>
 <li>Par deux résolutions, vous obtenez une baisse du coût pour 1 MW proche de Σ mu (écart inférieur à 1 %).</li>
 <li>Vous dites en une phrase pourquoi la rente peut monter à l'élargissement alors que Σ mu baisse toujours.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>« Two Areas with Link », doc de pommes_craft figée en 0.3.7 : même structure, capacité du lien à investir <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/examples.html" target="_blank" rel="noopener">Examples de pommes_craft : PV + gaz, deux zones reliées, batterie</a>.</li>
 <li>Le cas F, construit : que vaut un GW d'interconnexion France-Espagne ou France-Allemagne, dans un modèle à sept zones (multi-nœuds) et pour la France seule face aux prix de ses voisins <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/F_interconnexion" target="_blank" rel="noopener">Cas F — Que vaut une interconnexion France-Espagne ou France-Allemagne ?</a>.</li>

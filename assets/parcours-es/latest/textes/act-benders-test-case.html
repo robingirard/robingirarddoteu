@@ -102,10 +102,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <p>Objectif : résoudre le même problème de planification en un bloc puis par Benders, et lire dans la table d'itérations comment les deux bornes se rejoignent.</p>
 <p>Prérequis : l'environnement épinglé du dépôt des cas (pommes 0.11.0, linopy 0.10.1, HiGHS), test_case déjà résolu <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/notebooks/example_notebook.html" target="_blank" rel="noopener">Notebook d'exemple de pommes : résoudre test_case et lire solution et duales</a>, la lecture d'une duale <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. Valeurs obtenues le 17/11/2026 sur un portable : les temps varient d'une machine à l'autre, pas les objectifs ni le nombre d'itérations.</p>
-<h2>Ce que Benders décompose, en dix lignes</h2>
+<h2 id="ce-que-benders-decompose-en-dix-lignes">Ce que Benders décompose, en dix lignes</h2>
 <p>Le problème couple les variables de planification <code>planning_*</code> (capacités investies, indexées par année d'investissement et de déclassement) et d'exploitation <code>operation_*</code> (dispatch horaire, indexé par heure et année d'exploitation). Seul lien : les capacités disponibles chaque année, <code>operation_*_capacity_def</code>. Capacités fixées, les années d'exploitation ne se parlent plus : stockage, plafond carbone et quotas d'import sont annuels.</p>
 <p>Le maître garde la planification, son coût annualisé, et une variable <code>benders_theta</code> par année qui minore le coût d'exploitation de l'année. Un sous-problème par année d'exploitation reçoit les capacités du maître, fixées par des égalités <code>benders_fix_*</code>, et optimise le dispatch. La duale de ces égalités est la pente du coût d'exploitation par rapport aux capacités (<a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>, appliqué à la capacité au lieu de la demande). Elle donne une coupe d'optimalité <code>theta_y &gt;= v_y + lambda (x - x_barre)</code>, ajoutée au maître. Un sous-problème qui ne sert pas la demande sans délestage de secours renvoie une coupe de faisabilité qui exclut ce plan. Le maître, relaxation, donne une borne inférieure ; le coût du plan évalué (planification plus dispatch), une borne supérieure. La boucle s'arrête quand l'écart relatif passe sous <code>tol</code>.</p>
-<h2>1. Charger test_case et résoudre le monolithe</h2>
+<h2 id="1-charger-test_case-et-resoudre-le-monolithe">1. Charger test_case et résoudre le monolithe</h2>
 <pre><code class="language-python">import time, warnings
 import pandas as pd
 from linopy import LinopySemanticsWarning
@@ -128,7 +128,7 @@ print(f&quot;{model.nvars} variables, {model.ncons} contraintes, objectif {obj_m
 # 3790 variables, 4172 contraintes, objectif 383,960.16, 2.8 s
 </code></pre>
 <p>Deux zones, dix heures, quatre années d'exploitation (2020, 2030, 2040, 2050). <code>solve</code> prend 0,6 s (écriture du LP, HiGHS, relecture) ; le reste des 2,8 s est la construction linopy. Le filtre en tête tait les centaines de <code>LinopySemanticsWarning</code> que linopy 0.10 émet sur le code de pommes, resté à l'ancienne sémantique.</p>
-<h2>2. Résoudre par Benders</h2>
+<h2 id="2-resoudre-par-benders">2. Résoudre par Benders</h2>
 <p>En 0.11.0 : <code>pommes.solver.benders.solve_benders(model_parameters, solver, tol, max_iter, ...)</code>, même jeu de données que <code>build_model</code>, plus une trentaine d'options nommées (<code>multi_cut</code>, <code>stabilization</code>, <code>n_jobs</code>…). Défauts : <code>tol=1e-4</code>, <code>max_iter=100</code>. Gardez la tolérance, montez <code>max_iter</code> : sur test_case, 100 itérations ne suffisent pas (étape 3).</p>
 <pre><code class="language-python">from pommes.solver.benders import solve_benders
 
@@ -144,7 +144,7 @@ print(f&quot;écart relatif au monolithe : {abs(res.objective - obj_mono) / obj_
 </code></pre>
 <p>L'objectif Benders dépasse le monolithe de 37 € sur 384 000, soit 9,5e-5 : la tolérance demandée, pas une erreur. La borne inférieure (383 960,15) touche l'optimum du monolithe (383 960,16) à 1 centime. Benders met 18 s, le monolithe 2,8 s : sur dix heures, la décomposition ne paie pas (voir la fin).</p>
 <p>Pour suivre les itérations en direct, appelez <code>pommes.configure_logging()</code> avant <code>solve_benders</code> <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/logging.html" target="_blank" rel="noopener">Logging : suivre un run pommes et lire le rapport d'un solveur</a>. Le journal, sur la sortie d'erreur, donne le temps de construction du maître et des quatre sous-problèmes (11 s ici), une ligne par itération (<code>iter</code>, <code>lower</code>, <code>upper</code>, <code>gap</code>, <code>infeas</code>, temps du maître, du niveau, des sous-problèmes et des coupes) et un bilan.</p>
-<h2>3. Lire la table d'itérations</h2>
+<h2 id="3-lire-la-table-diterations">3. Lire la table d'itérations</h2>
 <p><code>res.history</code> : une ligne par itération ; outre les colonnes affichées, <code>best_upper_bound</code>, <code>n_infeasible</code> (sous-problèmes infaisables) et une dizaine d'autres.</p>
 <pre><code class="language-python">h = res.history
 cols = [&quot;iteration&quot;, &quot;lower_bound&quot;, &quot;upper_bound&quot;, &quot;gap&quot;, &quot;t_master&quot;, &quot;t_subproblems&quot;, &quot;t_iteration&quot;]
@@ -171,7 +171,7 @@ boucle : 5.9 s ; sous-problèmes 1.7 s ; maître 0.4 s
 <li>Le gap passe sous 1 % à l'itération 57, sous 0,1 % à la 86, puis traîne à 1,67e-4 de la 96 à la 103. Avec le défaut <code>max_iter=100</code>, le run s'arrête en statut <code>max_iter</code> à gap 1,67e-4 : d'où <code>max_iter=300</code>.</li>
 <li>La boucle ne pèse que 5,9 s sur 18 ; le reste est surtout la construction linopy (11 s). Sur dix heures, ce coût fixe domine.</li>
 </ul>
-<h2>4. Regarder le maître et un sous-problème</h2>
+<h2 id="4-regarder-le-maitre-et-un-sous-probleme">4. Regarder le maître et un sous-problème</h2>
 <pre><code class="language-python">master = res.master
 print(master.nvars, &quot;variables,&quot;, master.ncons, &quot;contraintes&quot;)        # 370 variables, 896 contraintes
 print([v for v in master.variables if v.startswith((&quot;planning_&quot;, &quot;benders_&quot;))])
@@ -183,7 +183,7 @@ print(sp.nvars, &quot;variables,&quot;, sp.ncons, &quot;contraintes, objectif&qu
 print([c for c in sp.constraints if c.startswith(&quot;benders_fix_&quot;)])
 </code></pre>
 <p>Les 370 variables du maître : les <code>planning_*_capacity</code>, les <code>planning_*_costs</code> et <code>benders_theta</code> (une par année). Ses 896 contraintes sont surtout des coupes : 281 d'optimalité et 135 de faisabilité, soit 416 = 104 itérations fois 4 années (la dernière n'ajoute rien). Le sous-problème 2030 a 1 237 variables, dont les capacités fixées par cinq contraintes <code>benders_fix_planning_*</code> ; son objectif, 70 227, est le coût d'exploitation actualisé de l'année au plan final. Dessinez le schéma : maître en haut, quatre sous-problèmes en bas, capacités qui descendent, coupes (valeur et pente) qui remontent.</p>
-<h2>5. Même coût, pas forcément même plan</h2>
+<h2 id="5-meme-cout-pas-forcement-meme-plan">5. Même coût, pas forcément même plan</h2>
 <pre><code class="language-python">wind = lambda s: s.planning_conversion_power_capacity.sel(conversion_tech=&quot;wind_onshore&quot;, area=&quot;area_1&quot;).sum(&quot;year_dec&quot;).to_pandas().round(1)
 print(pd.DataFrame({&quot;Benders&quot;: wind(res.solution), &quot;monolithe&quot;: wind(model.solution)}))
 </code></pre>
@@ -196,23 +196,23 @@ year_inv
 2050        154.2        0.0
 </code></pre>
 <p>Environ 300 MW d'éolien disponibles en 2030 dans area_1 des deux côtés (298,5 pour Benders), datés différemment. L'optimum est dégénéré : plusieurs plans ont le même coût, le monolithe en renvoie un sommet, Benders un point intérieur. Comparez les objectifs, jamais les capacités une à une.</p>
-<h2>Quand Benders vaut le coup</h2>
+<h2 id="quand-benders-vaut-le-coup">Quand Benders vaut le coup</h2>
 <p>Pas sur test_case. La doc le dit, la mesure le confirme : si le monolithe tient en mémoire et qu'un barrier commercial est disponible, résolvez le monolithe. Benders sert quand le monolithe ne tient plus en mémoire (un sous-problème garde une seule année), quand les années ou années météo sont nombreuses (sous-problèmes en parallèle, <code>n_jobs</code>), ou avec HiGHS seul sur un gros cas : son point intérieur est 6 à 30 fois plus lent que les barriers commerciaux, et la doc mesure Benders sur HiGHS en 25 à 106 s contre 138 s à plus de 40 minutes pour le monolithe HiGHS.</p>
 <p>Depuis la 0.10 (6/11/2026), <code>pommes.solver</code> offre, outre <code>solve_benders</code> et <code>solve_benders_two_phase</code>, une échelle multi-fidélité (<code>solve_benders_multi_fidelity</code>) et des sous-périodes hebdomadaires (<code>solve_benders_subperiods</code>) ; pommes_craft 0.6.0 lance Benders par <code>run(method="benders", benders_options={...})</code>.</p>
-<h2>Questions</h2>
+<h2 id="questions">Questions</h2>
 <ol>
 <li>Itérations et gap final avec <code>tol=1e-3</code> (même <code>max_iter</code>) ? Attendu : 87 itérations, gap 4,4e-4, objectif 384 125.</li>
 <li>Sans stabilisation (<code>stabilization=None</code>), le gap après 100 itérations ? Attendu : 0,998, borne supérieure à 60 millions. La stabilisation n'est pas un détail.</li>
 <li>En coupe unique (<code>multi_cut=False</code>), le gap après 100 itérations ? Attendu : 1,7e-3, contre 1,67e-4 en multi-coupes.</li>
 </ol>
-<h2>Vous l'avez acquise quand</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand</h2>
 <ul>
 <li>Votre table d'itérations montre une borne inférieure croissante et un gap final sous 1e-4, avec le nombre d'itérations (105 sur test_case).</li>
 <li>Vous avez écrit l'écart relatif entre objectifs Benders et monolithe, égal au gap demandé.</li>
 <li>Votre schéma nomme ce qui descend (les capacités <code>planning_*</code>) et ce qui remonte (valeur du sous-problème et duale des <code>benders_fix_*</code>).</li>
 <li>Vous dites en une phrase pourquoi Benders perd sur test_case et où il gagnerait.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/benders.html" target="_blank" rel="noopener">Décomposition de Benders dans pommes</a> Doc pommes, page Benders : structure, coupes de faisabilité, stabilisation par ensemble de niveau, performances mesurées, choix de la méthode.</li>
 <li><a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/logging.html" target="_blank" rel="noopener">Logging : suivre un run pommes et lire le rapport d'un solveur</a> La page Logging, pour suivre un run et lire les itérations.</li>

@@ -102,9 +102,9 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <p class="telecharger-nb"><a href="../notebooks/act-demande-flexible-craft.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
 <p>Objectif : rendre déplaçable une part de la demande du modèle du tutoriel <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a> et lire ce que l'optimiseur en fait. Prérequis : le dépôt des cas installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, le bloc 2 du tutoriel compris, la différence entre preneur et faiseur de prix <a href="../index.html#c-flex-preneur-vs-faiseur">Distinguer un acteur preneur de prix d'une flotte qui fait le prix : la cannibalisation du n-ième GW</a>. Chaque résolution prend moins de deux secondes (pommes 0.11.0, pommes_craft 0.6.0, HiGHS) ; valeurs du 16/11/2026, revérifiées le 17/11/2026.</p>
-<h2>1. Le composant</h2>
+<h2 id="1-le-composant">1. Le composant</h2>
 <p><code>FlexibleDemand</code> (<code>pommes_craft/components/flexibility.py</code>) prend sept arguments. <code>demand</code> est le profil de référence, en MW par heure ; <code>conservation_hrs</code>, la longueur de la fenêtre où le volume est conservé. <code>min_demand</code> et <code>max_demand</code> bornent la demande horaire après déplacement, <code>ramp_up</code> et <code>ramp_down</code> ses variations d'une heure à l'autre. <code>variable_cost</code> est le coût en euros par MWh déplacé. Pommes crée une variable <code>operation_flexibility_demand</code> par heure, la met dans l'équilibre à la place du profil et impose sur chaque fenêtre <code>somme(variable) = somme(profil)</code>. Le coût ne compte que la demande retirée d'une heure, jamais celle qui s'y ajoute.</p>
-<h2>2. Le modèle en trente lignes</h2>
+<h2 id="2-le-modele-en-trente-lignes">2. Le modèle en trente lignes</h2>
 <p>Même squelette que le tutoriel : une zone, un réseau qui vend au prix horaire 2030 de la France (TYNDP 2026, NT+) et ne rachète rien, ni délestage ni écrêtement. La demande de 1 MW est coupée en <code>1 - part</code> MW rigides et <code>part</code> MW déplaçables dans la journée, plafonnés à quatre fois leur moyenne. <code>progress: False</code> tait les barres de progression de linopy ; la ligne <code>Flexibility demand sparsity</code> qu'affichait pommes 0.9.0 à chaque résolution, passée au niveau <code>debug</code> du journal, ne s'affiche plus. Les commentaires donnent la sortie des <code>print</code>.</p>
 <pre><code class="language-python">import sys, logging
 sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
@@ -147,7 +147,7 @@ print(f&quot;rigide {c0:,.2f} €, 20 % déplaçable {c1:,.2f} €, gain {c0 - c
 # rigide 503,709.84 €, 20 % déplaçable 467,376.26 €, gain 36,333.58 €
 </code></pre>
 <p>Le modèle rigide redonne la somme des prix du tutoriel. Un cinquième de demande déplaçable dans la journée fait gagner 36 334 €, soit 7,2 % de la facture.</p>
-<h2>3. Vérifier la conservation, lire le déplacement</h2>
+<h2 id="3-verifier-la-conservation-lire-le-deplacement">3. Vérifier la conservation, lire le déplacement</h2>
 <pre><code class="language-python">d = m1.linopy_model.solution[&quot;operation_flexibility_demand&quot;].squeeze().values
 print(d.sum(), np.abs(d.reshape(365, 24).sum(axis=1) - 0.2 * 24).max())   # 1752.0  6.5e-11
 hausse, baisse = d &gt; 0.2 + 1e-6, d &lt; 0.2 - 1e-6
@@ -161,7 +161,7 @@ print(np.sort(prix.reshape(365, 24)[j][d.reshape(365, 24)[j] &gt; 0.5]))  # arro
 </code></pre>
 <p>Les 365 fenêtres conservent 4,8 MWh chacune, à 10⁻¹⁰ près ; l'année fait toujours 1 752 MWh. La solution est en tout ou rien : 0,8 MW pendant 2 190 heures, six par jour, 0 le reste du temps. La demande quitte 6 570 heures à 64,41 €/MWh en moyenne pour six heures à 36,76 €/MWh. Le profil moyen se creuse le matin et le soir et culmine à 13 h : en 2030, l'heure creuse est solaire. Le jour d'indice 83 retient six heures à au plus 15,63 €/MWh, dont cinq sous 0,05 ; la septième la moins chère vaut aussi 15,63 : l'optimiseur a tranché l'égalité. La veille, indice 82, en retient six entre 15,62 et 15,63, aucune à 0. La duale de l'équilibre égale le prix à toutes les heures : le réseau reste marginal.</p>
 <p><code>m1.get_results("operation", "demand", component_classes=[FlexibleDemand])</code> donne la même série en table (colonnes <code>hour</code>, <code>value</code>, <code>datetime</code>, entre autres).</p>
-<h2>4. Le gain quand la part déplaçable augmente</h2>
+<h2 id="4-le-gain-quand-la-part-deplacable-augmente">4. Le gain quand la part déplaçable augmente</h2>
 <pre><code class="language-python">def gain(**kw):
     m = modele(&quot;x&quot;, **kw); m.run(store_linopy_model=True)
     return c0 - m.linopy_model.objective.value
@@ -173,26 +173,26 @@ for part in (0.1, 0.2, 0.3, 0.5, 0.8):
 # 0.1 20610 23.53 | 0.2 38285 21.85 | 0.3 50334 19.15 | 0.5 50994 11.64 | 0.8 28836 4.11
 </code></pre>
 <p>Première série, plafond proportionnel : le gain vaut 20,74 € par MWh déplaçable, quelle que soit la part. Les prix ne bougent pas, chaque MWh de plus trouve les mêmes six heures : signature du preneur de prix. Deuxième série, plafond fixe de 1 MW, celui d'un raccordement : le gain par MWh tombe de 23,53 à 4,11 €, et le gain total plafonne à 51 000 € vers 50 % puis recule. À 0,8 MW déplaçables, écouler le volume demande 19 heures par jour à 1 MW : les heures creuses saturent, le reste part aux heures chères. Chez un preneur de prix, c'est la borne de puissance qui fait baisser le gain, pas le prix. Dans le cas B, c'est le prix qui bouge : la flotte fait fondre les heures sous 10 €/MWh <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/B_ve_pilotes" target="_blank" rel="noopener">Cas B — VE pilotés : que deviennent les heures à prix bas ?</a>.</p>
-<h2>5. Fenêtre et coût du déplacement</h2>
+<h2 id="5-fenetre-et-cout-du-deplacement">5. Fenêtre et coût du déplacement</h2>
 <p>Même part de 20 % : une fenêtre de 4 h rapporte 8 920 €, 12 h 34 225 €, 24 h 36 334 €, une semaine 46 927 €. Le volume déplacé reste 1 314 MWh : c'est l'écart de prix accessible qui grandit. Un coût de déplacement de 10 €/MWh ramène le gain net à 25 973 € et le volume déplacé à 953 MWh ; 20 €/MWh, 17 401 € et 771 MWh ; 40 €/MWh, 6 352 € et 348 MWh. L'optimiseur ne déplace que les heures dont l'écart de prix dépasse le coût.</p>
-<h2>Trois pièges</h2>
+<h2 id="trois-pieges">Trois pièges</h2>
 <p>Une heure où le profil de référence vaut zéro n'a pas de variable : la demande ne peut pas s'y déplacer. Prenez 24 heures, 20 €/MWh de 0 à 7 h et de 20 à 23 h, 100 €/MWh de 8 à 19 h, une fenêtre de 24 h et <code>max_demand=10</code>. Un profil de 1,5 MW le jour et nul la nuit coûte 1 800 € (12 h × 1,5 MW × 100 €/MWh) : rien ne bouge. Le même profil avec 0,001 MW la nuit coûte 360,24 € : les 18,012 MWh passent tous la nuit, à 20 €/MWh. Donnez un plancher positif à votre profil. Ensuite, <code>conservation_hrs=0</code>, le défaut, ne conserve que l'année entière : la demande se concentre sur ses heures les moins chères. Enfin, le coût du déplacement était écrit en une ligne par heure et un terme par heure avant pommes 0.9.0 : plus de 60 Gio sur 13 zones à 8 760 heures, et faux à coût horaire variable (<code>docs/S1_rapport.md</code>). Restez sur l'environnement épinglé <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>.</p>
-<h2>L'autre façon : la flotte du cas B</h2>
+<h2 id="lautre-facon-la-flotte-du-cas-b">L'autre façon : la flotte du cas B</h2>
 <p><code>pommes_cases.systeme_fr.add_ev</code> écrit la même flexibilité avec trois composants et un garde-fou. Une <code>Demand</code> de conduite porte sur une ressource « ve » ; une <code>ConversionTechnology</code> de recharge convertit l'électricité en « ve » sous un plafond horaire fixé par les voitures branchées ; une <code>StorageTechnology</code> de 16 kWh par voiture s'intercale entre recharge et conduite. Le garde-fou, un <code>NetImport</code> de « ve » borné à zéro, empêche pommes d'importer la ressource gratuitement au lieu de la recharger. Cette forme borne la puissance par les véhicules branchés et l'énergie par la batterie, là où <code>FlexibleDemand</code> n'a que <code>max_demand</code> et une fenêtre ; elle n'a pas de coût du déplacement <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/B_ve_pilotes" target="_blank" rel="noopener">Cas B — VE pilotés : que deviennent les heures à prix bas ?</a>.</p>
-<h2>Trois questions à réponse chiffrée</h2>
+<h2 id="trois-questions-a-reponse-chiffree">Trois questions à réponse chiffrée</h2>
 <ol>
 <li>Avec 20 % déplaçables et un plafond à 4 fois la moyenne, combien d'heures par jour la demande déplaçable est-elle active, et à quel prix moyen ? (6 heures, 36,76 €/MWh.)</li>
 <li>Quel gain par MWh déplaçable obtient-on à 10 %, 30 %, 50 % avec le plafond proportionnel, et pourquoi est-il constant ? (20,74 €/MWh : preneur de prix.)</li>
 <li>À quel coût de déplacement le volume déplacé tombe-t-il sous 400 MWh ? (40 €/MWh : 348 MWh.)</li>
 </ol>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous retrouvez 467 376,26 € et un écart de conservation par fenêtre inférieur à 10⁻⁸ MWh.</li>
 <li>Vous tracez le profil horaire moyen de la demande déplacée et expliquez le pic de 13 h par le prix.</li>
 <li>Vous prédisez, avant de lancer, lequel des deux plafonds donne un gain par MWh constant.</li>
 <li>Vous dites en une phrase ce que la flotte du cas B borne que <code>FlexibleDemand</code> ne borne pas.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Model description de pommes : les contraintes de la demande flexible, rampes comprises <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (3) : demande flexible et groupes de production</a>.</li>
 <li>Cas B : la même question à l'échelle de 33 millions de voitures, où le prix répond <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/B_ve_pilotes" target="_blank" rel="noopener">Cas B — VE pilotés : que deviennent les heures à prix bas ?</a>.</li>

@@ -100,10 +100,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>L'ordre de mérite des abattements face au quota et à la valeur tutélaire</h1>
     <p class="resume">Une activité guidée sur l'onglet Comparer de l'outil industrie (v2.1) : lire l'ordre de mérite des coûts d'abattement de 27 routes, le confronter au prix du quota et à la valeur Quinet 2030 (295 €₂₀₂₄/t), puis voir qu'il bouge avec l'électricité et le transport du CO₂, et qu'un coût d'abattement n'est pas un prix de bascule.</p>
   </header>
-  <h2>Avant de commencer</h2>
+  <h2 id="avant-de-commencer">Avant de commencer</h2>
 <p>Ouvrez le lien épinglé de la version 2.1 (première source). Valeurs attendues relevées sur cette version, aux réglages par défaut : électricité 70 €/MWh, gaz 35 €/MWh, quota 70 €/t, transport-stockage du CO₂ 20 €/t, taux d'actualisation 8 %, réseau France 56 g/kWh. Un rechargement remet les défauts : notez à la main. Cas d'école, pas une prévision : les coûts sont ceux de l'outil (pommes-industry, France 2030, et l'AIE pour l'électrolyseur).</p>
 <p>Le <strong>coût d'abattement</strong> d'une route est son surcoût par rapport à la route de référence de son produit, divisé par les émissions qu'elle évite, du berceau à la sortie d'usine. Le surcoût est compté <strong>hors prix du CO₂</strong>, sinon il dépendrait du quota qu'il sert à juger.</p>
-<h2>1. Lire l'ordre de mérite (10 min)</h2>
+<h2 id="1-lire-lordre-de-merite-10-min">1. Lire l'ordre de mérite (10 min)</h2>
 <p>Onglet <strong>Comparer</strong>, dernière figure : « Coût d'abattement de toutes les routes qui coupent au moins 30 % de leur référence, triées ». 27 routes, réduction entre parenthèses. L'axe est écrasé par le kérosène (4 315 et 4 992 €/tCO₂) : comptez d'après les nombres affichés, pas d'après la longueur des barres.</p>
 <ol>
 <li>Relevez les trois routes les moins chères qui coupent <strong>plus de 50 %</strong> des émissions de leur produit.</li>
@@ -140,7 +140,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <p>Le recyclage coûte moins que la référence parce qu'il saute l'étape la plus chère, réduire le minerai ou refaire le polymère : le fer de la ferraille est déjà du fer. Mais on ne recycle que ce qu'on collecte : selon l'outil, la ferraille couvre environ 30 % de la demande d'acier, le recyclage mécanique des plastiques environ 10 %. Les deux premières barres (oléfines, aluminium) reposent d'ailleurs sur des ordres de grandeur au statut « mémoire » (onglet Sources).</p>
 <p>Les trois routes primaires suivantes captent le CO₂ : elles gardent le gaz et le charbon à leur prix, d'où leur faible coût. L'ammoniac a le coût de l'hydrogène (52) : même référence derrière la même boucle Haber-Bosch, donc surcoût et tonnes évitées de l'hydrogène qu'il contient.</p>
 <p>Attention au ciment : « + oxycombustion CCS » vient en plus du clinker 0,50. Son 39 €/tCO₂ est une moyenne qui contient ce levier gratuit (−13) ; le captage seul, par rapport au clinker 0,50, coûte environ 88 €/tCO₂. Ce n'est donc pas une courbe de coût marginal : des routes qui s'excluent y côtoient des paliers qui s'empilent.</p>
-<h2>2. Monter le quota : la ligne bouge, pas les barres (10 min)</h2>
+<h2 id="2-monter-le-quota-la-ligne-bouge-pas-les-barres-10-min">2. Monter le quota : la ligne bouge, pas les barres (10 min)</h2>
 <ol>
 <li>Curseur « Prix du CO2 (quota EU ETS) », famille « Prix du CO2 et du stockage » à déplier à gauche : 70, puis 150, puis 300 €/t. Comptez les routes à gauche de la ligne « quota ».</li>
 <li>Comptez les routes à gauche de la ligne pointillée « Quinet 2030 ». À 300 €/t, les deux lignes se superposent.</li>
@@ -177,7 +177,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>Les barres sont fixes : le coût d'abattement est hors prix du CO₂. Sous la ligne du quota, une route évite une tonne pour moins que le prix du quota. Qu'elle se paie toute seule pour l'usine, c'est le prix de bascule qui le dit (section 5) ; aux réglages par défaut, les deux lectures donnent les mêmes listes. Au-dessus de Quinet, la route coûte plus que la valeur publique d'une tonne évitée en 2030, coût calculé au taux privé de 8 % ; à 4 ou 5 %, les mêmes 21 routes restent dessous et l'acier DRI-H2 descend à 194-199 €/tCO₂. Entre 214 (Acier · DRI-H2 + EAF) et 534 €/tCO₂ (Hydrogène · Électrolyse), aucune route : monter de 300 à 400 €/t, le bout du curseur, n'en ajoute pas une seule.</p>
-<h2>3. Le prix de l'électricité déplace les routes électriques (10 min)</h2>
+<h2 id="3-le-prix-de-lelectricite-deplace-les-routes-electriques-10-min">3. Le prix de l'électricité déplace les routes électriques (10 min)</h2>
 <p>Tableau « Dépendance de chaque route à l'électricité », colonne « € par unité pour +10 €/MWh ».</p>
 <table>
 <thead>
@@ -242,7 +242,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>Pour l'hydrogène, la part de l'énergie bouge peu (51 % du coût au SMR, 53 % à l'électrolyse), mais l'énergie change : du gaz à prix international vers l'électricité à prix national. Pour l'acier, elle passe de 13 % au haut fourneau à 36 % au DRI-H2, presque toute électrique (première figure de Comparer). Le bloc de la section 5 refait le calcul.</p>
-<h2>4. Le transport du CO₂ déplace les routes de captage (5 min)</h2>
+<h2 id="4-le-transport-du-co2-deplace-les-routes-de-captage-5-min">4. Le transport du CO₂ déplace les routes de captage (5 min)</h2>
 <p>Remettez l'électricité à 70. Curseur « Transport et stockage du CO2 » : de 20 à 120 €/t, le coût d'une cimenterie loin d'un port et d'un stockage.</p>
 <table>
 <thead>
@@ -281,7 +281,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>À 120 €/t, l'hydrogène et l'ammoniac ATR + CCS (143 €/tCO₂) passent derrière l'anode inerte + Bayer propre de l'aluminium (78) et l'électrolyse du minerai (112). L'oxycombustion du ciment reste parmi les trois premières routes primaires, mais à 98 €/tCO₂ (le captage seul y monte à 204) : l'avantage du captage dépend d'un réseau de transport du CO₂ qui n'existe pas encore partout.</p>
-<h2>5. Pourquoi « 200 à 300 €/t » n'est pas un prix de bascule (10 min)</h2>
+<h2 id="5-pourquoi-200-a-300-t-nest-pas-un-prix-de-bascule-10-min">5. Pourquoi « 200 à 300 €/t » n'est pas un prix de bascule (10 min)</h2>
 <p>On lit souvent qu'un quota de 200 à 300 €/t ferait basculer l'industrie. Quatre raisons de s'en méfier :</p>
 <ul>
 <li><strong>Le coût d'abattement bouge</strong> avec l'électricité (section 3) et le transport du CO₂ (section 4). L'acier à l'hydrogène est sous 200 €/tCO₂ à 30 €/MWh, au-dessus de 250 à 100 €/MWh.</li>
@@ -302,19 +302,19 @@ print(f&quot;+10 €/MWh         : {(39.34 - 1.94) / (em_bf - em_h2):+.1f} €/t
 # abattement DRI-H2 : 214 €/tCO2 ; bascule privée : 217 €/tCO2 ; +10 €/MWh : +21.7 €/tCO2
 </code></pre>
 <p>Les valeurs du bloc sont celles du modèle au centime (dépôt de l'outil). L'interface les arrondit : 523 et 772 €/t, 2,02 et 0,30 tCO₂/t dans l'onglet Acier, +39 et +2 (haut fourneau) dans le tableau de Comparer ; avec ces arrondis, la bascule sort à 216. Le quota du haut fourneau, 1,76 t × 70 = 123 €/t, est celui de l'activité 6 de <a href="../textes/activites-outils.html">Activité guidée — acier : le prix du charbon à coke et le prix du CO₂ qui font basculer le haut fourneau</a>. +10 €/MWh ajoute environ 22 €/tCO₂ à l'abattement de l'acier à l'hydrogène.</p>
-<h2>Ponts vers les cas</h2>
+<h2 id="ponts-vers-les-cas">Ponts vers les cas</h2>
 <ul>
 <li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/H_industrie_co2" target="_blank" rel="noopener">Cas H — À quel prix du CO₂ l'industrie française change-t-elle de procédé, et qu'est-ce qui se verrouille ?</a> : le prix du CO₂ qui fait changer de procédé, en trajectoire et non pour une tonne.</li>
 <li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/E_vapeur" target="_blank" rel="noopener">Cas E — Vapeur à 180 °C : tout électrifier, garder le gaz, ou les deux ?</a> : le prix du CO₂ de l'ETS2 pèse, avec le prix de l'électricité, sur le choix entre chaudière au gaz, électrique ou hybride ; même lecture, un seul site.</li>
 </ul>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous nommez les trois recyclages en tête, ce qui les plafonne, puis les trois routes de captage (39, 52, 52 €/tCO₂) et ce que cache le 39 du ciment.</li>
 <li>Vous dites combien de routes passent sous le quota à 70, 150 et 300 €/t (9, 17, 21) et pourquoi les barres ne bougent pas.</li>
 <li>Vous citez l'effet de +10 €/MWh sur l'hydrogène électrolytique (+0,53 €/kg), l'acier DRI-H2 (+39 €/t), l'aluminium (+150 €/t) et l'e-kérosène (+332 €/t).</li>
 <li>Vous écrivez en une phrase pourquoi « 200 à 300 €/t » n'est pas un prix de bascule.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Variante : cochez la case « usage » (famille « Réseau, périmètre et intermédiaires »), le CO₂ de l'usage ou de l'incinération. Le kérosène HEFA passe de 4 315 à 473 €/tCO₂, le bio-naphta de 1 357 à 383, le bio-méthanol de 911 à 327 : le périmètre divise par neuf à douze le coût des carburants (BtL : de 4 992 à 424) et par trois celui des deux autres.</li>
 <li>L'outil onglet par onglet (version courante) : <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a>.</li>

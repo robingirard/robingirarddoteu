@@ -100,10 +100,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Ce que les outils web ne font pas, et ce que POMMES ajoute</h1>
     <p class="resume">Les quatre outils web du cours donnent des bilans annuels et des coûts statiques ; POMMES ajoute l'heure, l'optimisation, les prix qui sortent du modèle, plusieurs années météo et plusieurs zones.</p>
   </header>
-  <h2>Quatre outils, un même angle mort</h2>
+  <h2 id="quatre-outils-un-meme-angle-mort">Quatre outils, un même angle mort</h2>
 <p>Les quatre outils web du cours tournent dans un navigateur et donnent une intuition en vingt minutes. Mais ils comptent des énergies annuelles ou des coûts par tonne, à un instant figé. Aucun ne regarde l'heure, ne vérifie qu'un système tient la pointe, ne dimensionne un stockage. Aucun ne produit un prix : le prix est un curseur, jamais un résultat.</p>
 <p>POMMES fait l'inverse. Il écrit le système heure par heure, choisit les capacités et la répartition horaire de la production au moindre coût, et le prix horaire sort du modèle comme valeur duale de l'équilibre offre-demande. Ce texte dit, outil par outil, où s'arrête l'intuition et quel cas prend le relais.</p>
-<h2>The Net Zero Game : un bilan annuel de la France en 2050</h2>
+<h2 id="the-net-zero-game-un-bilan-annuel-de-la-france-en-2050">The Net Zero Game : un bilan annuel de la France en 2050</h2>
 <p><strong>Ce qu'il montre bien.</strong> Un modèle de la France en 2050, 121 leviers, en français et en anglais. Le scénario de référence affiche une pointe électrique hivernale de 50,6 GW, au-dessus de sa limite rouge de 45 GW. Cette pointe est un chiffre côté demande, chauffage électrique seul, calé sur 40 GW en 2020, et elle réagit aux leviers du bâtiment. Vérifié avec l'évaluateur Python du dépôt du jeu, version 0.38.1 :</p>
 <pre><code class="language-python">import sys; sys.path.insert(0, &quot;The-net-zero-game/app/src&quot;)   # dépôt du jeu, version 0.38.1
 from net_zero_game.evaluate import run_model
@@ -115,19 +115,19 @@ for lever, val in [(&quot;bldgElectricShare&quot;, 40.0), (&quot;bldgRetrofit&qu
 <p>Part électrique du chauffage de 49 à 40 % : 41,3 GW. Rénovation de 65 % du parc : 25,3 GW. Sobriété à 25 % : 40,0 GW. Côté hydrogène, la référence produit déjà tout l'hydrogène par électrolyse : 80,9 TWh d'électricité. Passer au vaporeformage, électrolyse ramenée à 0 et vaporeformage à 100, ajoute 62 TWh de demande de biogaz, pour une offre de 70 TWh. Le curseur vaporeformage seul à 100 renormalise les parts et n'ajoute que 31 TWh.</p>
 <p><strong>La question qu'il ne peut pas traiter.</strong> L'onglet Système électrique le dit : il « ne vérifie pas que le mix fonctionne ». Pas d'équilibre horaire, pas d'adéquation, pas de stockage. Le jeu dit combien de GW fait la pointe, pas ce qu'il en coûte de la tenir, ni si l'hiver change la réponse.</p>
 <p><strong>Les cas POMMES qui la traitent.</strong> Le cas C rejoue le dispatch horaire de la France de 2035, parc du TYNDP 2026 fixé, sur 30 années météo. Tout le chauffage fossile en pompes à chaleur : la capacité ferme qui manque va de 0 à 49 GW, et le système électrique paie de 3,0 à 10,6 milliards d'euros par an de plus selon l'hiver, aux trois quarts en énergie. Son second levier, la thermosensibilité nationale (GW/°C), reçoit celle que donne l'outil « parc bâti » pour un scénario de rénovation ou d'équipement. Pour l'hydrogène, le cas D ajoute l'heure, le facteur de charge, le stockage et la règle européenne de corrélation horaire. En 2030, série centrale de chaque jeu de prix, le reformeur coûte 2,1 à 2,5 euros par kilogramme contre 4,4 à 4,9 pour l'électrolyseur.</p>
-<h2>World energy mix : l'empilement depuis 1800, sous quatre conventions</h2>
+<h2 id="world-energy-mix-lempilement-depuis-1800-sous-quatre-conventions">World energy mix : l'empilement depuis 1800, sous quatre conventions</h2>
 <p><strong>Ce qu'il montre bien.</strong> Aucune source d'énergie n'a jamais été remplacée à l'échelle mondiale : chacune s'est ajoutée aux précédentes. Et « énergie primaire » est une convention : le nucléaire compte 3,07 fois son électricité dans une méthode et 2,47 dans l'autre, l'éolien 1,00 ou 2,45. La France est à environ 50 % de bas-carbone en primaire et 23 % en finale.</p>
 <p><strong>La question qu'il ne peut pas traiter.</strong> Des TWh par an ne disent rien d'une semaine d'hiver froide, sombre et sans vent. Un mix peut être excellent en bilan annuel et infaisable pendant cent heures.</p>
 <p><strong>Le cas POMMES qui la traite.</strong> Le cas G construit un modèle de quatre pays : Espagne, France, Italie, Allemagne. Il dimensionne renouvelables, batteries, stockage de long terme et interconnexions sur plusieurs années météo, pour trouver la plus mauvaise semaine et son coût. Sans prix exogène : le modèle calcule ses propres prix.</p>
-<h2>Décarbonation de l'industrie : des coûts statiques par tonne</h2>
+<h2 id="decarbonation-de-lindustrie-des-couts-statiques-par-tonne">Décarbonation de l'industrie : des coûts statiques par tonne</h2>
 <p><strong>Ce qu'il montre bien.</strong> Quarante-six routes pour huit produits, chaque hypothèse réglable avec sa source et son statut. L'hydrogène électrolytique y vaut 7,1 euros par kilogramme à 70 euros par MWh et 50 % de facteur de charge ; à 90 % de charge, il rejoint le vaporeformage dès 22,6 euros par MWh. Ce 7,1 ne se compare pas tel quel aux 4,4 à 4,9 euros du cas D. L'outil prend 50 % de charge par défaut et des coûts d'électrolyseur plus hauts ; le cas D fait tourner un ruban de 100 MW sur réseau aux coûts du TYNDP 2024. À 90 % de charge et 70 euros par MWh, l'outil donne 5,76 euros par kilogramme.</p>
 <p><strong>La question qu'il ne peut pas traiter.</strong> Le modèle est statique et marginal. Le prix de l'électricité est une moyenne, le facteur de charge un curseur. Or les deux sont liés : une usine qui ne tourne qu'aux heures bon marché a un facteur de charge bas, et c'est le modèle qui doit choisir le compromis. Rien n'y dimensionne un stockage.</p>
 <p><strong>Les cas POMMES qui la traitent.</strong> Le cas E remplace la chaudière à gaz d'une usine de vapeur à 180 °C face aux prix horaires de quatre jeux publiés. L'hybride gaz et électricité, avec ou sans stockage, n'est jamais battu : 24 à 43 euros par MWh de vapeur, parce qu'il choisit heure par heure. Le cas H prend le modèle pommes-industry réduit à la France pour trouver le prix du CO₂ qui fait basculer chaque procédé, puis chaîne la demande d'électricité et d'hydrogène obtenue au système électrique.</p>
-<h2>Rendement des véhicules : le périmètre fabrique le chiffre</h2>
+<h2 id="rendement-des-vehicules-le-perimetre-fabrique-le-chiffre">Rendement des véhicules : le périmètre fabrique le chiffre</h2>
 <p><strong>Ce qu'il montre bien.</strong> Six motorisations du puits à la roue, calées sur le JEC Well-to-Wheels v5 à 0,15 % près. Le même véhicule électrique affiche 17,6 % ou 41,4 % de rendement global selon la convention de comptage de l'électricité primaire.</p>
 <p><strong>La question qu'il ne peut pas traiter.</strong> L'électricité qui charge la voiture a un prix et un facteur d'émission qui dépendent de l'heure ; l'outil prend un mix moyen.</p>
 <p><strong>Le cas POMMES qui la traite.</strong> Le cas B met une flotte de voitures électriques, pilotée ou non, dans le système français de 2035. Il compte les heures à prix bas qui restent quand la flotte grossit.</p>
-<h2>Ce que POMMES ajoute, vérifié dans le dépôt des cas</h2>
+<h2 id="ce-que-pommes-ajoute-verifie-dans-le-depot-des-cas">Ce que POMMES ajoute, vérifié dans le dépôt des cas</h2>
 <pre><code class="language-python">import sys, json; sys.path.insert(0, &quot;pommes-case-studies&quot;)      # racine du dépôt public
 from pommes_cases.prices import load_prices
 p = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2035)
@@ -145,7 +145,7 @@ print(min(r[&quot;surcout_systeme_meur&quot;] for r in rows), max(r[&quot;surcou
 <li><strong>Plusieurs années météo.</strong> Le cas C rejoue 30 hivers ; la même décision coûte du simple au triple et demi selon l'hiver.</li>
 <li><strong>Plusieurs zones.</strong> Les cas F et G modélisent la France et ses voisins avec leurs capacités d'échange.</li>
 </ul>
-<h2>Question posée, outil ou cas qui y répond</h2>
+<h2 id="question-posee-outil-ou-cas-qui-y-repond">Question posée, outil ou cas qui y répond</h2>
 <table>
 <thead>
 <tr>
@@ -212,14 +212,14 @@ print(min(r[&quot;surcout_systeme_meur&quot;] for r in rows), max(r[&quot;surcou
 </tr>
 </tbody>
 </table>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous ouvrez le Net Zero Game v0.38, onglet Bâtiments, mettez la part électrique du chauffage à 40 % et lisez 41,3 GW sur la carte « Pic électrique hivernal ».</li>
 <li>Vous écrivez en une phrase pourquoi le jeu ne peut pas dire si cette pointe est couverte, et vous nommez le cas qui le dit.</li>
 <li>Vous relancez le second bloc de code dans le venv du dépôt des cas et retrouvez 8 760 lignes, 30 années météo, 0 à 49 GW manquants.</li>
 <li>Vous classez chaque ligne du tableau en « bilan annuel » ou « équilibre horaire » sans regarder les colonnes de droite.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>The Net Zero Game, découvrir le modèle France 2050 <a href="https://www.robingirard.eu/assets/netzerogame/latest/index.html?lang=fr" target="_blank" rel="noopener">The Net Zero Game — découvrir le modèle France 2050</a> : https://www.robingirard.eu/assets/netzerogame/latest/index.html?lang=fr</li>
 <li>Décarbonation de l'industrie, ce que coûte chaque route <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a> : https://www.robingirard.eu/assets/industrydecarbo/latest/index.html</li>

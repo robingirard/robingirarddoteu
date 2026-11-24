@@ -100,10 +100,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Jouer avec les pages des cas A à E</h1>
     <p class="resume">Où ouvrir les cinq pages des cas prêts, quels boutons bouger, quelles valeurs relever, et ce que vous devez trouver pour les cas E et A.</p>
   </header>
-  <h2>Objectif</h2>
+  <h2 id="objectif">Objectif</h2>
 <p>En vingt minutes et sans code, lire le verdict d'un cas POMMES et le voir changer avec le jeu de prix, l'année ou le prix du CO₂. C'est le fil rouge du cours : même installation, plusieurs futurs. Vous l'avez déjà construit vous-même à l'étape 8 du notebook du socle, en relançant votre premier modèle sous plusieurs jeux de prix : chaque curseur de ces pages correspond à un geste que vous savez faire dans le code.</p>
 <p>Prérequis : avoir relancé son premier modèle sous plusieurs jeux de prix (bloc 8 de <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a>) et savoir ce qui les fait diverger : gaz, CO₂, parc, demande, météo <a href="https://www.energy-alternatives.eu/cas/etage1-tyndp2026.html" target="_blank" rel="noopener">Prix de l'électricité et de l'hydrogène en Europe en 2030, 2035 et 2040 : POMMES sur les scénarios du TYNDP 2026</a>.</p>
-<h2>Où ouvrir les pages</h2>
+<h2 id="ou-ouvrir-les-pages">Où ouvrir les pages</h2>
 <p>Chaque cas prêt a sa page « jouer », servie par le site du parcours (onglet Outils, ou lien « Page « jouer » » sur la carte du cas dans l'onglet Mini-projets). Elle s'ouvre dans le navigateur, sans installation ni compte, en français ou en anglais (bouton en haut à droite). Cette activité s'en tient aux cas A à E. Notez le commit et la date du pied de page : ils datent vos relevés.</p>
 <table>
 <thead>
@@ -143,7 +143,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </table>
 <p>Le cas 0 a aussi sa page (<a href="../jouer/0.html">ouvrir</a>) ; sa figure <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/raw/main/00_prix/figures/divergence_fr.png?inline=false" target="_blank" rel="noopener">divergence_fr.png</a> met côte à côte les quatre jeux de prix que les autres pages consomment, en entier (A, D, E) ou en partie (B, C) : accordés en 2030, divergents en 2040 <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a>.</p>
 <p>Chaque page porte le badge « Cas d'école, pas une prévision ». Prenez-le au mot : usine archétype, batterie sans services système, prix sortis d'un modèle. Les pages montrent comment un verdict dépend de ses hypothèses.</p>
-<h2>Quoi relever sur chaque page</h2>
+<h2 id="quoi-relever-sur-chaque-page">Quoi relever sur chaque page</h2>
 <p>Même structure partout : des boutons, un graphique, un encadré qui écrit le verdict en une phrase, et en bas le tableau des hypothèses avec source et statut. Relevez l'encadré, pas le graphique.</p>
 <table>
 <thead>
@@ -224,7 +224,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tr>
 </tbody>
 </table>
-<h2>Étapes avec le cas E</h2>
+<h2 id="etapes-avec-le-cas-e">Étapes avec le cas E</h2>
 <ol>
 <li>Réglages par défaut : 2030, ETS2, stockage à 61 €/kWh. Attendu dans l'encadré : hybride gaz-électrique sous TYNDP 2026 NT+ (41 €/MWh), POMMES sur le TYNDP 2026 (43) et fos-sur-mer (30) ; sous TYNDP 2024, gaz seul et hybride à égalité (37). Le gaz bat le tout électrique sous les quatre jeux.</li>
 <li>Passez en 2040. L'hybride gagne partout, de 24 à 35 €/MWh. Un seul jeu voit le tout électrique battre le gaz : POMMES sur le TYNDP 2026, de 6 €/MWh (47 contre 52).</li>
@@ -232,29 +232,29 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <li>Bloc 1, CO₂ « SEQE : celui du scénario », 2040 : l'électrique gagne sous trois jeux sur quatre, de 45 à 60 €/MWh sous les deux jeux TYNDP 2026 (le gaz y paie 297,5 €/t). Le prix du CO₂ payé par le site décide avant celui de l'électricité.</li>
 </ol>
 <p>Sur les huit couples jeu × année à l'ETS2, l'hybride va de 24,2 à 43,0 €/MWh (results.json et README du dossier <code>E_vapeur</code>).</p>
-<h2>Étapes avec le cas A</h2>
+<h2 id="etapes-avec-le-cas-a">Étapes avec le cas A</h2>
 <ol>
 <li>Bloc 2, « Le n-ième GW », curseur de pente à 0 : la batterie est preneuse de prix. Au coût TYNDP 2030 (34,8 €/kW/an), seul fos-sur-mer est « rentable sans limite » ; les trois autres jeux ne sont « pas rentables dès le premier GW » (TYNDP 2024 34, TYNDP 2026 26, POMMES 19 €/kW/an).</li>
 <li>Coût « Europe 2025 » (25,1 €/kW/an), pente 0 : TYNDP 2024, TYNDP 2026 et fos-sur-mer deviennent rentables sans limite, POMMES non.</li>
 <li>Pente à 1 €/MWh par GW, coût Europe 2025 : TYNDP 2024 rentable jusqu'à 15,1 GW, TYNDP 2026 jusqu'à 0,9 GW, fos-sur-mer au-delà de la grille calculée (40 GW), POMMES toujours pas. Suivez la courbe TYNDP 2026 à l'œil : 25,7 €/kW/an à flotte nulle (le losange du bloc 1), environ 20 au dixième GW, un cinquième de moins. Sans survol, les valeurs exactes (25,0 au premier GW, 19,9 au dixième) viennent de results.json.</li>
 <li>La pente s — de combien le prix baisse par GW de batteries qui déchargent — est calibrée depuis le 17/11 (README du dossier <code>A_batteries</code>) : 1,8 €/MWh par GW par défaut sur la page, fourchette 1,3 à 2,7 (0,3 à 0,8 si les voisins gardent leur prix). Au coût Europe 2025 (25,1 €/kW/an), le TYNDP 2024 rend rentable environ 8 GW de flotte (5 à 11 GW selon la pente dans la fourchette). Doubler s divise toujours par deux les tailles rentables : elles sont inversement proportionnelles à s. Piste de mini-projet : non plus calibrer s, mais refaire la calibration autrement.</li>
 </ol>
-<h2>Et les trois autres pages</h2>
+<h2 id="et-les-trois-autres-pages">Et les trois autres pages</h2>
 <p>Cas B, séries centrales : le pilotage gagne 61, 54, 45 et 82 € par voiture et par an selon le jeu en 2030 ; 96, 67, 40 et 79 € en 2040. Bloc 2 : 591 heures sous 10 €/MWh sans voitures, 275 avec les 16,6 millions de voitures pilotées du TYNDP, 64 avec 33 millions. Cas C, 100 % du fossile en PAC, voisins au prix moyen : surcoût de 3,0 Md€/an (WS045) à 10,6 (WS042), médiane 5,8, aux trois quarts de l'énergie, contre 12,0 Md€/an de gaz et de fioul évités ; l'hiver le plus cher n'est pas le plus froid en moyenne (WS060, 9,4). Levier S : chaque GW/°C de thermosensibilité nationale en plus coûte environ 2 Md€/an en médiane autour de 2,2 GW/°C, 4,8 entre 3,85 et 5 GW/°C. Cas D, 2030 : le reformeur gagne partout (2,14 à 2,46 €/kg) ; la corrélation horaire coûte 0,16 à 0,30 €/kg de plus que la mensuelle (results.json des trois dossiers).</p>
-<h2>Questions</h2>
+<h2 id="questions">Questions</h2>
 <ol>
 <li>Cas E, 2040, ETS2 : de combien d'€/MWh le tout électrique bat-il le gaz sous le jeu POMMES ?</li>
 <li>Cas A, coût Europe 2025, pente 1 : quelle taille de flotte reste rentable sous le TYNDP 2024 ? Et à pente 2 ?</li>
 <li>Cas E : sous combien de jeux l'électrique bat-il le gaz en 2040 au CO₂ du scénario, contre combien à l'ETS2 ?</li>
 </ol>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Votre tableau a au moins cinq lignes, chacune avec l'unité et le réglage qui l'a produite.</li>
 <li>Pour le cas E, vous nommez la configuration qui gagne sous tous les jeux (hybride, 24 à 43 €/MWh). Vous nommez aussi le seul couple jeu × année où le tout électrique bat le gaz à l'ETS2 (POMMES sur le TYNDP 2026, 2040).</li>
 <li>Pour le cas A, vous donnez la taille de flotte rentable sous le TYNDP 2024 à pente 0 (sans limite au coût Europe 2025) et à la pente calibrée de la page, 1,8 €/MWh par GW (environ 8 GW, 5 à 11 sur la fourchette 1,3 – 2,7).</li>
 <li>Vous écrivez en une phrase pourquoi ces pages ne sont pas des prévisions.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Cas E, le notebook et le README derrière chaque chiffre <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/E_vapeur" target="_blank" rel="noopener">Cas E — Vapeur à 180 °C : tout électrifier, garder le gaz, ou les deux ?</a> : https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies</li>
 <li>Cas A, batteries au n-ième GW <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a> : dossier <code>A_batteries</code> du même dépôt</li>

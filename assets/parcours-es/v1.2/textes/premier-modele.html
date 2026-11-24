@@ -101,28 +101,29 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Les huit étapes du notebook du premier modèle et la valeur attendue de chacune — une zone face au prix horaire 2030, un PV, une turbine, le piège du délestage, la solution, les prix duaux, puis quatre futurs de prix. Le code est dans le notebook.</p>
   </header>
   <p>Le code est dans le notebook <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/premier_modele" target="_blank" rel="noopener">Un premier modèle pommes_craft, pas à pas (notebook)</a> : un modèle d'une zone qui consomme 1 MW et achète son électricité au prix horaire français de 2030, enrichi étape par étape. Cette page n'en garde que les étapes et leurs valeurs attendues, pour vérifier votre résultat ou suivre sans ordinateur. Comptez une heure ; le notebook entier tourne en 16 secondes sur un MacBook Pro M3 Max, avec l'environnement épinglé du dépôt des cas (pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, highspy 1.15.1). Valeurs du 24/11/2026 : un écart au centime près est normal, au pour cent ne l'est pas.</p>
-<p>Sur Colab, la première cellule du notebook clone le dépôt et installe les paquets, puis vous demande de redémarrer la session une fois : voir le repli Colab de la page <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>.</p>
-<h2>Étape 1 — Lire un prix horaire 2030</h2>
+<p>Le notebook a besoin du dépôt des cas, qui porte son code et ses données de prix et de météo. En local, placez-le dans le dépôt cloné, à sa racine ou dans un de ses dossiers, et ouvrez-le avec le noyau du venv du dépôt ; posé seul dans un autre dossier, il s'arrête dès sa première cellule. Sur Colab, la première cellule du notebook clone le dépôt et installe les paquets, puis vous demande de redémarrer la session une fois : voir le repli Colab de la page <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>.</p>
+<h2 id="etape-1-lire-un-prix-horaire-2030">Étape 1 — Lire un prix horaire 2030</h2>
 <p>La série TYNDP 2026, scénario NT+, France, 2030, année météo WS003 : 8 760 prix.</p>
+<p>Ce ne sont pas des prix observés sur la bourse de l'électricité, mais des prix simulés. Les gestionnaires de réseau ont décrit le système électrique européen de 2030 (centrales, demande, météo, liaisons entre pays) et un modèle en a déduit, heure par heure, le coût de la dernière centrale appelée pour servir la demande. Ce prix dépend donc des hypothèses du scénario : le prix du gaz et du CO₂, les centrales construites d'ici 2030, la demande, l'année météo. Changez-en une, le prix bouge. Vous verrez plus loin dans le parcours comment ces prix sont calculés et ce qui les fait bouger ; l'étape 8 relance déjà ce modèle sous quatre jeux de prix. Pour les plus curieux : <a href="../textes/lire-un-prix.html">Lire une série de prix horaires : six choses à regarder et les chiffres du cas 0</a> compare les jeux de prix du dépôt, et <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a> explique pourquoi un modèle retrouve le niveau des prix mais pas toujours leur forme.</p>
 <p><strong>Valeur attendue</strong> : moyenne 57,50 €/MWh, somme 503 710 € ; 8 heures à 0 €/MWh, 196 sous 0,5 €/MWh ; le plafond de 350 €/MWh atteint une heure, aucune heure à 1 000 €/MWh ou plus.</p>
-<h2>Étape 2 — Une zone, une demande, le réseau</h2>
+<h2 id="etape-2-une-zone-une-demande-le-reseau">Étape 2 — Une zone, une demande, le réseau</h2>
 <p>Une zone, une demande plate de 1 MW, un réseau qui vend au prix horaire et ne rachète rien ; ni délestage ni écrêtement.</p>
 <p><strong>Valeur attendue</strong> : coût total 503 709,84 €. C'est la somme des prix : 1 MW pendant une heure, c'est 1 MWh payé au prix de l'heure.</p>
-<h2>Étape 3 — Un PV dont pommes choisit la taille</h2>
+<h2 id="etape-3-un-pv-dont-pommes-choisit-la-taille">Étape 3 — Un PV dont pommes choisit la taille</h2>
 <p>Un PV à 600 000 €/MW, 25 ans, 4 % : son annuité vaut 600 000 × 0,04 / (1 − 1,04⁻²⁵). Le modèle choisit la capacité qui minimise annuité plus achats.</p>
 <p><strong>Valeur attendue</strong> : annuité 38 407 €/MW/an ; 1,647 MW de PV ; coût total 500 124,82 €. À vous : à 300 000 €/MW, la capacité monte (3,155 MW) et le coût baisse (453 140 €).</p>
-<h2>Étape 4 — Une turbine à gaz existante</h2>
+<h2 id="etape-4-une-turbine-a-gaz-existante">Étape 4 — Une turbine à gaz existante</h2>
 <p>Une turbine déjà là, sans investissement, à 110 €/MWh de coût variable. Une turbine neuve ne se paierait pas : les écarts de prix au-dessus de 110 €/MWh rapportent 2 843 €/MW/an, contre 32 006 € d'annuité.</p>
 <p><strong>Valeur attendue</strong> : coût total 497 405,29 € ; 199 heures où le prix dépasse 110 €/MWh.</p>
-<h2>Étape 5 — Le piège du délestage gratuit</h2>
+<h2 id="etape-5-le-piege-du-delestage-gratuit">Étape 5 — Le piège du délestage gratuit</h2>
 <p>Sans composant de délestage, pommes en ajoute un gratuit et illimité : le modèle coupe toute la demande et ne coûte rien.</p>
 <p><strong>Valeur attendue</strong> : sans délestage explicite, 0,00 € et 8 760 MWh délestés ; avec un coût de défaillance de 3 000 €/MWh, 497 405,29 € et 0 MWh délesté.</p>
-<h2>Étape 6 — Lire la solution</h2>
+<h2 id="etape-6-lire-la-solution">Étape 6 — Lire la solution</h2>
 <p><strong>Valeur attendue</strong> : PV 1 959,40 MWh, turbine 181,58 MWh, import 6 619 MWh : 1 959 + 182 + 6 619 = 8 760 MWh, le bilan est fermé. Coûts : 63 274 € d'annuité du PV, 19 974 € de gaz, 414 158 € d'achats.</p>
-<h2>Étape 7 — La duale de l'équilibre offre-demande : un prix</h2>
+<h2 id="etape-7-la-duale-de-lequilibre-offre-demande-un-prix">Étape 7 — La duale de l'équilibre offre-demande : un prix</h2>
 <p>La duale de la contrainte qui équilibre offre et demande, divisée par le facteur d'échelle de pommes (<code>dual_scale</code>, ici 1), se lit comme un prix en €/MWh <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>.</p>
 <p><strong>Valeur attendue</strong> : la duale égale le prix d'import sur les 8 304 heures où la zone importe. Sur les 199 heures où la turbine couvre la demande sans import, elle vaut 110 €/MWh sur 76 heures (turbine marginale) ; sur les 123 heures où la turbine tourne à plein, elle n'est pas unique et HiGHS rend le prix de marché. Sur les 257 heures où le PV suffit, elle vaut 0,55 €/MWh en moyenne. Somme des duales : 499 345,72 €, soit 1 940,43 € de plus que le coût total : la rente de la turbine, reprise par la duale de sa capacité (−1 940,43 €).</p>
-<h2>Étape 8 — Le même modèle sous les quatre jeux de prix</h2>
+<h2 id="etape-8-le-meme-modele-sous-les-quatre-jeux-de-prix">Étape 8 — Le même modèle sous les quatre jeux de prix</h2>
 <p>On garde l'installation et on ne change que le prix : la série centrale française de chacun des quatre jeux du dépôt, en 2030 puis en 2040.</p>
 <table>
 <thead>
@@ -203,7 +204,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p><strong>Valeur attendue</strong> : le PV se construit exactement quand le prix capté aux heures de soleil dépasse 31,8 €/MWh (38 407 € d'annuité sur 1 208 heures à pleine puissance). Prix captés : 39,2, 33,7, 36,0 et 28,2 €/MWh en 2030 ; 35,4, 26,2, 22,6 et 24,8 en 2040, dans l'ordre du tableau. La décision ne suit pas le prix moyen : fos_sur_mer a le plus haut de 2030 et pas de PV.</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous retrouvez 503 709,84 € à l'étape 2 et savez dire pourquoi c'est la somme des prix.</li>
 <li>Vous changez le coût d'investissement du PV à 300 000 €/MW et prédisez, avant de lancer, le sens de variation de la capacité (elle monte) et du coût (il baisse).</li>

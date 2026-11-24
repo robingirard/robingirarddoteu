@@ -100,10 +100,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Le lac à budget en trente lignes de craft</h1>
     <p class="resume">Un lac sans coût variable face à une centrale gaz : la duale de son budget d'énergie, annuel puis hebdomadaire, prend la valeur du gaz qu'il remplace, et le prix devient plat ; trois variantes montrent quand cette valeur change et pourquoi une contrainte d'énergie ne crée pas d'heures bon marché.</p>
   </header>
-  <h2>Objectif</h2>
+  <h2 id="objectif">Objectif</h2>
 <p>Lire la duale d'un budget d'énergie, vérifier qu'elle vaut le coût variable de la centrale remplacée, puis mesurer ce qui la fait bouger.</p>
 <p>Prérequis : le dépôt des cas installé et vérifié <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, la duale de l'équilibre offre-demande <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a> ; <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a> dit pourquoi l'exercice compte. Une résolution prend environ une seconde.</p>
-<h2>Le modèle</h2>
+<h2 id="le-modele">Le modèle</h2>
 <p>Une quarantaine de lignes à copier. Une zone, une demande horaire de 26 à 54 GW (350,4 TWh par an) qui suit la journée et la saison. Une centrale gaz de 60 GW à 90 €/MWh, toujours disponible. Un « lac » de 30 GW sans coût variable, plafonné à 120 TWh par an (<code>max_yearly_production</code>). Capacités imposées (<code>power_capacity_investment_min = max</code>), sans investissement, comme dans <code>pommes_cases/systeme_fr.py</code>. Délestage à 3 000 €/MWh, écrêtement gratuit.</p>
 <pre><code class="language-python">import sys, numpy as np, polars as pl, xarray as xr
 sys.path.insert(0, &quot;chemin/vers/pommes-case-studies&quot;)
@@ -150,7 +150,7 @@ def valeur_budget(lp, scale):
     return -lp.dual[&quot;operation_conversion_yearly_production_max_constraint&quot;].sel(area=&quot;zone&quot;, conversion_tech=&quot;lac&quot;).squeeze().item() / scale
 </code></pre>
 <p>Deux conventions : la duale d'une contrainte « inférieur ou égal » sort négative en minimisation, on prend l'opposé ; elle se lit divisée par <code>dual_scale</code> (1 ici, pas sur un modèle à peu d'heures ou à plusieurs années météo) <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>.</p>
-<h2>Étape 1 : le budget annuel, trois variantes</h2>
+<h2 id="etape-1-le-budget-annuel-trois-variantes">Étape 1 : le budget annuel, trois variantes</h2>
 <pre><code class="language-python">for nom, kw in [(&quot;a&quot;, {}), (&quot;b&quot;, {&quot;cout_lac&quot;: 15.6}), (&quot;c&quot;, {&quot;cout_lac&quot;: 15.6, &quot;must_run&quot;: 0.9, &quot;budget_twh&quot;: 250.0})]:
     lp, prix, scale = resoudre(modele(**kw))
     v = valeur_budget(lp, scale)
@@ -164,7 +164,7 @@ c) valeur du budget 74.4 ; coût + valeur 90.0 ; prix moyen 88.1, min 0.0, écar
 </code></pre>
 <p>En a et b, le lac turbine ses 120 TWh, le gaz les 230,4 TWh restants. Chaque MWh d'eau remplace un MWh de gaz : le budget vaut 90 €/MWh si l'eau est gratuite, 74,4 si elle coûte déjà 15,6 ; la somme vaut toujours le gaz. Le prix est plat à 90, alors que la demande varie du simple au double.</p>
 <p>Avant de lancer c, prédisez les heures à prix nul : le lac tourne au moins à 0,9 × 30 = 27 GW, donc <code>(demande &lt; 27_000).sum()</code>, soit 184. Elles viennent du must-run, pas du budget : l'eau vaut toujours 74,4.</p>
-<h2>Étape 2 : le budget par semaine, avec un crochet</h2>
+<h2 id="etape-2-le-budget-par-semaine-avec-un-crochet">Étape 2 : le budget par semaine, avec un crochet</h2>
 <p>Un vrai lac reçoit ses apports chaque semaine. Ce crochet découpe l'année en 53 semaines et borne l'énergie de chacune au prorata de ses heures : 2,30 TWh par semaine de 168 h pour 120 TWh. C'est la logique de <code>lake_hook</code> (<code>systeme_fr.py</code>), qui borne les lacs français par l'énergie hebdomadaire du TYNDP.</p>
 <pre><code class="language-python">def budget_hebdo(budget_twh):
     def hook(lp, p):
@@ -180,7 +180,7 @@ valeurs = -lp.dual[&quot;lac_hebdo&quot;].squeeze().values / scale + 0.0
 print(np.unique(np.round(valeurs, 3)), prix.std())        # [90.]  0.0
 </code></pre>
 <p>Les 53 duales valent 90 €/MWh, le prix reste plat, le coût total est celui de a, 20,736 milliards d'euros : avec un gaz toujours disponible au même prix, aucune semaine d'eau ne vaut plus qu'une autre.</p>
-<h2>Étape 3 : ce qui fait bouger la valeur de l'eau</h2>
+<h2 id="etape-3-ce-qui-fait-bouger-la-valeur-de-leau">Étape 3 : ce qui fait bouger la valeur de l'eau</h2>
 <pre><code class="language-python">dispo = np.ones(H); dispo[:744] = 0.0                                  # janvier sans gaz
 for nom, kw, b in [(&quot;lac plus gros&quot;, {}, 300.0), (&quot;gaz à 150&quot;, {&quot;cout_gaz&quot;: 150.0}, 120.0), (&quot;janvier sans gaz&quot;, {&quot;dispo_gaz&quot;: dispo}, 120.0)]:
     lp, prix, scale = resoudre(modele(budget_twh=None, **kw), budget_hebdo(b))
@@ -195,23 +195,23 @@ janvier sans gaz:  duales [90. 3000.]   ; prix moyen 337.2 ; heures sous 20 : 0 
 <p>Lac plus gros. 300 TWh donnent 5,75 TWh par semaine, plus que les 5,04 TWh que 30 GW turbinent en 168 h. Le budget ne serre plus (duale nulle) : c'est la capacité qui compte, et le lac, gratuit, est marginal les 835 heures où la demande passe sous 30 GW.</p>
 <p>Gaz plus cher. L'eau suit le gaz à 150 ; le programme du lac ne change pas.</p>
 <p>Un mois sans gaz. Dans les quatre semaines entièrement en janvier, l'eau vaut 3 000 €/MWh, le délestage qu'elle remplace. La cinquième chevauche février : son budget de 2,30 TWh dépasse ce que 30 GW turbinent en 72 heures sans gaz, son dernier MWh sert donc une heure de gaz, et sa duale vaut 90. Le prix vaut 3 000 les 744 heures de janvier, 90 ailleurs. Avec le budget annuel, <code>modele(budget_twh=120.0, dispo_gaz=dispo)</code> sans crochet, le lac turbine 22,3 TWh en janvier au lieu de 11,4 et le délestage tombe de 22,7 à 11,7 TWh ; la valeur du budget reste 90, son dernier MWh servant une heure de gaz hors janvier.</p>
-<h2>Ce qu'il faut retenir</h2>
+<h2 id="ce-quil-faut-retenir">Ce qu'il faut retenir</h2>
 <p>En prévision parfaite, un stock sans coût propre vaut ce qu'il remplace à la marge : le gaz à 90, le gaz à 150, le délestage à 3 000. L'optimiseur, qui connaît l'année, place l'eau où elle évite le coût le plus élevé jusqu'à l'égaliser sur toutes les heures où elle sert : le prix se lisse. C'est le « budget nucléaire » de <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a> : 15,6 + 74 = 90 sur le parc réel, 15,6 + 74,4 = 90 ici en b. La doc POMMES (version 0.11) appelle cette duale valeur d'usage <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html" target="_blank" rel="noopener">Fenêtre d'exploitation : capacités fixées, stocks aux bornes, valeurs d'usage</a>.</p>
 <p>Une contrainte d'énergie n'est pas une rigidité : elle déplace la production entre les heures, sans jamais forcer une unité à produire à perte. Les heures à prix nul des étapes 1c et 3 viennent d'une contrainte de puissance : un minimum à tenir, une capacité qui déborde la demande. Un exploitant myope, sans connaître l'année, fixerait une valeur d'usage à son eau et turbinerait dès que le prix la dépasse ; quand il se trompe, l'eau manque ou déborde et les prix retrouvent une forme.</p>
-<h2>Trois questions à réponse chiffrée</h2>
+<h2 id="trois-questions-a-reponse-chiffree">Trois questions à réponse chiffrée</h2>
 <ol>
 <li>Lac à 15,6 €/MWh, gaz passé de 90 à 120 : quelle valeur de budget attendez-vous ? Vérifiez.</li>
 <li>Quel budget annuel, au plus, laisse sa duale strictement positive ? Indice : <code>np.minimum(demande, 30_000).sum()</code>, soit 261,1 TWh.</li>
 <li>Janvier sans gaz, budget hebdomadaire : pourquoi le lac turbine-t-il 11,4 TWh en janvier et pas 10,2 (prorata de 120 TWh sur 744 h) ?</li>
 </ol>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous retrouvez 90,0 puis 74,4 €/MWh comme valeur du budget en a et b, et expliquez en une phrase pourquoi la somme vaut le gaz.</li>
 <li>Vous prédisez 184 heures à zéro avant de lancer c, et dites d'où elles viennent.</li>
 <li>Vous lisez les 53 duales de <code>lac_hebdo</code> et dites, pour chaque variante, ce que remplace le dernier MWh d'eau.</li>
 <li>Vous dites ce qu'un exploitant myope changerait au programme et à la forme des prix.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Fenêtre d'exploitation et valeurs d'usage, API expérimentale de POMMES 0.11 (<code>pommes.solver.build_operation_window</code>), déjà dans le pommes 0.11.0 du dépôt <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html" target="_blank" rel="noopener">Fenêtre d'exploitation : capacités fixées, stocks aux bornes, valeurs d'usage</a>.</li>
 <li>Model description (2) : ces contraintes en notation mathématique <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (2) : adéquation, capacités et millésimes, stockage, carbone, imports, TURPE</a>.</li>

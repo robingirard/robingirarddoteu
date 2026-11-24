@@ -103,7 +103,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   <p class="telecharger-nb"><a href="../notebooks/ordre-merite-annee.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
 <p>Le premier modèle achetait au prix horaire de la France en 2030 publié par le TYNDP 2026, le plan décennal des réseaux européens, dans son scénario National Trends+ (NT+), qui suit les plans nationaux. Le texte sur la duale montrait que ce prix est la valeur d'un MWh de demande en plus. Ici, vous fabriquez la série vous-même : le parc de 2030 est fixé, le modèle choisit seulement quelle centrale tourne à chaque heure. C'est un cas d'école, pas une prévision.</p>
 <p>Les valeurs datent du 23/11/2026, avec l'environnement du dépôt des cas : pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS 1.15.1. Les blocs s'enchaînent dans une session : cinq résolutions de 1 à 2 s, 2 Go de mémoire.</p>
-<h2>1. Le parc et le coût variable de chaque centrale</h2>
+<h2 id="1-le-parc-et-le-cout-variable-de-chaque-centrale">1. Le parc et le coût variable de chaque centrale</h2>
 <p>Le coût variable d'une centrale est ce que coûte un MWh de plus : le combustible et le CO₂, divisés par le rendement (MWh d'électricité par MWh de combustible, au pouvoir calorifique inférieur, PCI), plus l'entretien proportionnel à la production. Pour le cycle combiné au gaz (CCGT), le gaz du TYNDP pour 2030 vaut 33,242 €/MWh PCI, le CO₂ 97,47 €/t, un MWh de gaz émet 0,2052 t de CO₂, et le rendement vaut 0,58 (cycles combinés français : 0,56 à 0,60) :</p>
 <p>(33,242 + 0,2052 × 97,47) / 0,58 + 1,6 = 53,243 / 0,58 + 1,6 = 91,80 + 1,6 = <strong>93,40 €/MWh</strong>.</p>
 <p>La turbine à combustion (TAC), moins efficace, coûte 53,243 / 0,42 + 1,6 = 128,37 €/MWh. Classées par coût variable croissant, les centrales forment l'ordre de mérite : chaque heure, on appelle les moins chères jusqu'à couvrir la demande, et le prix vaut le coût variable de la dernière appelée, le coût marginal du système. Un effacement est un consommateur payé pour réduire sa consommation ; le délestage coupe sans accord.</p>
@@ -172,7 +172,7 @@ def cout_variable(t, gaz=P[&quot;prix_gaz&quot;], co2=P[&quot;prix_co2&quot;]):
 print({t: round(cout_variable(t), 2) for t in (&quot;nucleaire&quot;, &quot;ccgt&quot;, &quot;ocgt&quot;, &quot;fioul&quot;)})
 # {'nucleaire': 15.63, 'ccgt': 93.4, 'ocgt': 128.37, 'fioul': 267.06}
 </code></pre>
-<h2>2. Une année de demande et de météo</h2>
+<h2 id="2-une-annee-de-demande-et-de-meteo">2. Une année de demande et de météo</h2>
 <p>L'année météo WS003 est une année simulée par un modèle climatique ; le TYNDP lui donne le plus grand poids pour 2030 (0,63), et la série du premier modèle en vient. La demande est sa demande « native », sans voitures électriques, électrolyseurs ni pompes à chaleur hybrides (environ 39 TWh). Le vent et le soleil de la même année (base météo PECD 2026) plafonnent la production de chaque heure : c'est la disponibilité. Celle du nucléaire suit les arrêts pour maintenance : le dépôt l'estime d'après la production nucléaire du TYNDP, semaine par semaine.</p>
 <pre><code class="language-python">import logging
 import numpy as np
@@ -197,7 +197,7 @@ dispo[&quot;hydro_autres&quot;] = serie(sum(h[c].to_numpy() for c in hydro) / ca
 print(f&quot;{h['demande_native'].sum() / 1e6:.1f} TWh, pointe {h['demande_native'].max() / 1e3:.1f} GW&quot;)
 # 487.5 TWh, pointe 101.9 GW
 </code></pre>
-<h2>3. Résoudre et lire 8 760 prix</h2>
+<h2 id="3-resoudre-et-lire-8-760-prix">3. Résoudre et lire 8 760 prix</h2>
 <p>Sans délestage explicite, pommes en ajouterait un gratuit et tous les prix tomberaient à zéro (premier modèle, bloc 5). Aucune énergie n'est jetée (écrêtement à capacité nulle) : une centrale en surplus produit sous sa disponibilité. Le prix d'une heure est la duale de son équilibre offre-demande (<code>operation_adequacy_constraint</code>), divisée par le facteur d'échelle de pommes (<code>dual_scale</code>), qui vaut 1 ici.</p>
 <pre><code class="language-python">from pommes_craft import (EnergyModel, Area, Demand, EconomicHypothesis, TimeStepManager,
                           LoadShedding, Spillage, ConversionTechnology)
@@ -238,7 +238,7 @@ print(f&quot;moyenne {prix.mean():.2f} €/MWh, dont délestage {3000 * heures['
 # moyenne 54.55 €/MWh, dont délestage 23.63 ; au plus 12.3 GW délestés
 </code></pre>
 <p>Les 8 760 prix ne prennent que sept valeurs : la monotone (les heures classées du prix le plus haut au plus bas) est un escalier. La filière de la dernière centrale appelée est dite marginale. Le nucléaire l'est 7 698 heures : sans voisins à qui vendre, il baisse sa production pour suivre la demande. Aux 88 heures à zéro, vent, soleil et hydraulique suffisent. Le gaz fixe le prix 625 heures (597 + 28). En hiver, il manque jusqu'à 12,3 GW : les 69 heures délestées font 23,63 €/MWh, 43 % de la moyenne, à un prix choisi par le modélisateur.</p>
-<h2>4. Les curseurs : gaz et CO₂</h2>
+<h2 id="4-les-curseurs-gaz-et-co2">4. Les curseurs : gaz et CO₂</h2>
 <p>Le gaz passe à 15 puis 65 €/MWh PCI, bornes du balayage du cas 0 ; le CO₂ à 50 puis 150 €/t, choisis autour des 97,47 du TYNDP.</p>
 <pre><code class="language-python">for gaz, co2 in [(15.0, P[&quot;prix_co2&quot;]), (65.0, P[&quot;prix_co2&quot;]), (P[&quot;prix_gaz&quot;], 50.0), (P[&quot;prix_gaz&quot;], 150.0)]:
     p, c, _ = resoudre(gaz, co2)
@@ -251,7 +251,7 @@ print(f&quot;moyenne {prix.mean():.2f} €/MWh, dont délestage {3000 * heures['
 # 33.24 150.00 [111.98, 154.03, 309.2] 56.29 8053
 </code></pre>
 <p>Ce qui bouge : le prix des 625 heures où le gaz est marginal et, avec le CO₂, des 82 heures du fioul. Ce qui ne bouge pas : les 8 135 autres heures (8 053 avec le CO₂), celles du nucléaire, des renouvelables, des effacements et du délestage. L'ordre de mérite ne change pas, donc ni la production ni les heures marginales. Du gaz à 15 au gaz à 65 €/MWh, la moyenne ne gagne que 6,25 €/MWh : la France isolée a rarement le gaz à la marge.</p>
-<h2>5. D'une petite série à une série publiée</h2>
+<h2 id="5-dune-petite-serie-a-une-serie-publiee">5. D'une petite série à une série publiée</h2>
 <p>Une série publiée sort d'un modèle de ce genre, nourri d'un parc, d'une demande, d'une météo, d'un gaz et d'un CO₂. Ces réglages, et le modèle lui-même, font que les quatre jeux de prix du cas 0 (séries horaires publiées) s'accordent sur la moyenne en 2030 et divergent en 2040. Comparez à celle du TYNDP, même année, même météo :</p>
 <pre><code class="language-python">from pommes_cases.prices import load_prices
 tyndp = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2030)[&quot;import_price&quot;].to_numpy()
@@ -267,14 +267,14 @@ for s in (prix, tyndp):
 <li><strong>le stockage, les lacs et les électrolyseurs pilotés</strong>, qui consomment aux heures bon marché ou produisent aux heures chères ; la valeur de l'eau s'aligne sur le gaz qu'elle remplace.</li>
 </ul>
 <p>Une centrale par filière donne sept paliers. Le TYNDP compte 1 329 valeurs distinctes au centime, dont 517 ne durent qu'une heure : centrales de rendements variés dans toute l'Europe, stocks, et petits écarts aux frontières (frais de passage, pertes). Reste l'écart au marché réel : les rigidités (puissance minimale des centrales, coût des démarrages), absentes de ce modèle, y font les heures bon marché <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a>.</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous retrouvez à la main 93,40 €/MWh (cycle combiné) et 128,37 €/MWh (turbine à combustion).</li>
 <li>Vous lisez au bloc 3 les heures où chaque filière fixe le prix (7 698 au nucléaire, 625 au gaz) et dites pourquoi le bloc 4 ne les change pas.</li>
 <li>Avant de lancer, vous prédisez la moyenne à gaz 65 €/MWh : 54,55 + (54,75 × 597 + 75,61 × 28) / 8 760 = 58,52 €/MWh.</li>
 <li>Vous prédisez 109,69 €/MWh pour un délestage à 10 000 €/MWh (54,55 + 69 × 7 000 / 8 760), puis le vérifiez.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li><a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a></li>
 <li><a href="../textes/lire-un-prix.html">Lire une série de prix horaires : six choses à regarder et les chiffres du cas 0</a></li>

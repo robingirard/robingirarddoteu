@@ -101,7 +101,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Ouvrir avec pandas le registre des 4 488 sites industriels européens d'industryforge (Zenodo, CC BY 4.0), y trouver les plus gros émetteurs français, séparer le CO₂ de procédé de celui de combustion, ranger la chaleur par température, comparer le haut fourneau à l'acier à l'hydrogène et chiffrer l'ammoniac électrolytique, en évitant les quatre pièges du jeu.</p>
   </header>
   <p>Objectif : lire un vrai jeu de données industriel, site par site, et savoir ce qu'il permet de dire et ce qu'il ne permet pas. La partie A (N1, 40 min) suffit pour la compétence « les plus gros émetteurs » ; la partie B (N2, 60 min) prépare les cas H, K et L. Il faut Python avec pandas et pyarrow (<code>pip install pandas pyarrow</code>), et une connexion pour télécharger l'archive une fois (2,8 Mo). Valeurs relevées le 18/11/2026 sur la version <code>2023_20261003-1738</code> (année de données 2023, publiée le 05/10/2026).</p>
-<h2>Avant de commencer : télécharger et ouvrir l'archive</h2>
+<h2 id="avant-de-commencer-telecharger-et-ouvrir-larchive">Avant de commencer : télécharger et ouvrir l'archive</h2>
 <p>industryforge est un registre des sites industriels de l'Union européenne, du Royaume-Uni, de la Norvège et de la Suisse (30 pays), avec pour chaque site sa production, ses consommations d'énergie par vecteur et ses émissions. Il est publié sur Zenodo sous licence CC BY 4.0 : citez « industryforge, version 2023_20261003-1738, DOI 10.5281/zenodo.23158813 ». Le DOI 10.5281/zenodo.21979416 désigne toutes les versions et pointe sur la dernière : notez celle que vous avez lue.</p>
 <p>L'archive est petite : on la télécharge en mémoire, puis on lit les tables Parquet qu'elle contient.</p>
 <pre><code class="language-python">import io, zipfile, urllib.request
@@ -116,8 +116,8 @@ fr = usines[usines[&quot;country&quot;] == &quot;FR&quot;]
 print(usines.shape, len(fr))   # (4488, 83) 569
 </code></pre>
 <p>Une ligne est un couple site–produit (un site qui fait deux produits a deux lignes). Les énergies sont en MWh par an, sauf les colonnes qui finissent par <code>_gwh</code> (en GWh) ; l'hydrogène est en tonnes ; le CO₂ en tonnes par an. Le dictionnaire de données est à côté de l'archive sur Zenodo <a href="https://doi.org/10.5281/zenodo.23158813" target="_blank" rel="noopener">industryforge — énergie, production et CO₂ des sites industriels européens en 2023 (Zenodo, CC BY 4.0)</a> : gardez-le ouvert.</p>
-<h2>Partie A (N1). Les plus gros émetteurs, et ce qu'est une émission « vérifiée »</h2>
-<h3>1. Les dix plus gros émetteurs français (15 min)</h3>
+<h2 id="partie-a-n1-les-plus-gros-emetteurs-et-ce-quest-une-emission-verifiee">Partie A (N1). Les plus gros émetteurs, et ce qu'est une émission « vérifiée »</h2>
+<h3 id="1-les-dix-plus-gros-emetteurs-francais-15-min">1. Les dix plus gros émetteurs français (15 min)</h3>
 <p>Deux colonnes ressemblent à « les émissions du site ». <code>verified_emissions_t_co2</code> est le chiffre vérifié du marché du carbone européen (ETS). <code>emissions_t_co2</code> prend ce chiffre s'il existe, sinon un chiffre déclaré à un autre registre (E-PRTR), sinon une estimation par satellite et inventaire (Climate TRACE), sinon un chiffre calculé. <strong>Prenez <code>verified_emissions_t_co2</code>.</strong></p>
 <pre><code class="language-python">top = fr.nlargest(10, &quot;verified_emissions_t_co2&quot;)[[&quot;name&quot;, &quot;sector&quot;, &quot;verified_emissions_t_co2&quot;]]
 print(top.assign(Mt=top.verified_emissions_t_co2 / 1e6).round(2).drop(columns=&quot;verified_emissions_t_co2&quot;))
@@ -157,7 +157,7 @@ print(fr.groupby(&quot;emissions_basis&quot;).emissions_t_co2.sum().div(1e6).rou
 </tbody>
 </table>
 <p>Pourquoi <code>emissions_t_co2</code> compte trop : dans cette version, un site sans permis ETS prend le chiffre de l'établissement E-PRTR le plus proche à moins de 12 km, quelle que soit son activité, et deux sites peuvent prendre le même. Ce chiffre est souvent celui d'un voisin déjà compté sur une autre ligne (Eramet Sandouville porte les 1,72 Mt de la raffinerie de Gonfreville ; KEM ONE Lavera les 1,26 Mt de Naphtachimie), ou d'une installation qui n'est pas industrielle (Arjowiggins et Lecta portent tous deux les 457 kt de l'incinérateur d'Issy-les-Moulineaux ; la cokerie de Carling les 1,15 Mt de la centrale de Saint-Avold). Le dépôt du code l'explique (CHANGELOG, correction postérieure à la version déposée) ; le dictionnaire de Zenodo ne le dit pas encore. Retenez la règle : un total se fait sur un chiffre dont on connaît la provenance.</p>
-<h3>2. CO₂ de procédé contre CO₂ de combustion (25 min)</h3>
+<h3 id="2-co2-de-procede-contre-co2-de-combustion-25-min">2. CO₂ de procédé contre CO₂ de combustion (25 min)</h3>
 <p>Le CO₂ de combustion sort d'un combustible brûlé pour faire de la chaleur ; le CO₂ de procédé sort de la matière elle-même (le calcaire qui se décompose en chaux). Le jeu sépare les deux : <code>co2_process_t + co2_combustion_t = verified_emissions_t_co2</code>.</p>
 <pre><code class="language-python">t = fr.groupby(&quot;sector&quot;)[[&quot;co2_process_t&quot;, &quot;co2_combustion_t&quot;]].sum() / 1e6
 t[&quot;part_procede_%&quot;] = 100 * t.co2_process_t / (t.co2_process_t + t.co2_combustion_t)
@@ -227,8 +227,8 @@ print(&quot;France : procédé&quot;, round(t.co2_process_t.sum(), 1), &quot;Mt 
 </tbody>
 </table>
 <p>Deux pièges à écrire en une phrase chacun. <strong>L'acier</strong> : le jeu met le carbone du coke qui réduit le minerai en combustion (son facteur de procédé du haut fourneau vaut zéro) ; les inventaires nationaux du GIEC le mettent en procédé. La même tonne de CO₂ change de colonne selon la convention. <strong>Le raffinage, la chimie, le papier</strong> : zéro procédé faute de facteur de référence, pas parce qu'ils n'en émettent pas. La comparaison a donc un sens pour le ciment, la chaux, l'ammoniac et le verre.</p>
-<h2>Partie B (N2). Chaleur, acier, ammoniac : ce que l'électricité devrait fournir</h2>
-<h3>3. La chaleur par niveau de température (15 min)</h3>
+<h2 id="partie-b-n2-chaleur-acier-ammoniac-ce-que-lelectricite-devrait-fournir">Partie B (N2). Chaleur, acier, ammoniac : ce que l'électricité devrait fournir</h2>
+<h3 id="3-la-chaleur-par-niveau-de-temperature-15-min">3. La chaleur par niveau de température (15 min)</h3>
 <pre><code class="language-python">bandes = [&quot;process_heat_lt100c_mwh&quot;, &quot;process_heat_100_500c_mwh&quot;,
           &quot;process_heat_500_1000c_mwh&quot;, &quot;process_heat_gt1000c_mwh&quot;]
 twh = fr[bandes].sum() / 1e6
@@ -263,7 +263,7 @@ print(&quot;sous 100 °C :&quot;, round(100 * twh.iloc[0] / twh.sum(), 1), &quot
 </tbody>
 </table>
 <p>Les tranches du jeu sont 100, 500 et 1 000 °C : <strong>il n'y a pas de seuil à 200 °C</strong> pour la chaleur de procédé, alors que les vidéos Chaleur du cours <a href="https://www.youtube.com/watch?v=rz29IEcqVU0" target="_blank" rel="noopener">Tout est affaire de température (Chaleur dans l'industrie 2/6)</a> parlent de « 39 % sous 200 °C » (Europe). La colonne <code>heat_excess_100_200c_gwh</code> est autre chose : de la chaleur perdue (chaleur fatale), en GWh. Ces tranches redécoupent les combustibles des sites ; elles ne s'ajoutent pas aux combustibles. Écrivez en une phrase quelle tranche une chaudière électrique ou une pompe à chaleur peut prendre (cas E), et laquelle demande de changer de procédé (cas H).</p>
-<h3>4. Haut fourneau contre acier à l'hydrogène, et d'où vient un chiffre (35 min)</h3>
+<h3 id="4-haut-fourneau-contre-acier-a-lhydrogene-et-dou-vient-un-chiffre-35-min">4. Haut fourneau contre acier à l'hydrogène, et d'où vient un chiffre (35 min)</h3>
 <p>Le parc de 2023, filière par filière (Europe, 30 pays) :</p>
 <pre><code class="language-python">acier = usines[(usines.sector == &quot;steel&quot;) &amp; (usines.production_t_per_yr &gt; 0)]
 cols = [&quot;coal_demand_mwh_per_yr&quot;, &quot;methane_demand_mwh_per_yr&quot;, &quot;electricity_demand_mwh_per_yr&quot;]
@@ -282,7 +282,7 @@ print((co2.verified_emissions_t_co2 / co2.production_t_per_yr).round(2))   # tCO
 <li>Ajouter l'électrolyse : environ 55 kg d'hydrogène par tonne de fer réduit, à environ 53 kWh/kg, soit environ 2,9 MWh/t. L'aciérie à l'hydrogène demande donc de l'ordre de 4,3 à 4,6 MWh d'électricité par tonne d'acier, contre 0,6 pour le haut fourneau : calculer combien de TWh demanderaient les 5,9 Mt d'acier des deux aciéries intégrées françaises en 2023 (<code>fr[fr.route == "bf_bof"].production_t_per_yr.sum()</code>) : environ 25 à 27 TWh, contre 4,7 TWh d'électricité aujourd'hui pour ces deux sites. Le comparer aux 58 TWh d'électricité que le cas H donne en 2040 à 100 €/t de CO₂ (jeu TYNDP 2026) pour les sept produits qu'il modélise.</li>
 </ol>
 <p>Dernier piège, pour lire le tableau du parc : la moyenne « dri_eaf » (1,14 tCO₂/t) mélange l'unique usine de réduction directe au gaz (Hambourg) avec SSAB Luleå, qui est un haut fourneau mal classé. Un classement faux dans un registre fausse toute moyenne par filière.</p>
-<h3>5. L'ammoniac par électrolyse, en TWh (10 min)</h3>
+<h3 id="5-lammoniac-par-electrolyse-en-twh-10-min">5. L'ammoniac par électrolyse, en TWh (10 min)</h3>
 <pre><code class="language-python">nh3 = fr[fr.sector == &quot;ammonia&quot;]
 mt = nh3.production_t_per_yr.sum() / 1e6
 print(round(mt, 3), &quot;Mt d'ammoniac -&gt;&quot;, round(mt * 10.4, 1), &quot;TWh d'électricité à 10,4 MWh/t&quot;)
@@ -320,14 +320,14 @@ print(nh3[[&quot;name&quot;, &quot;production_t_per_yr&quot;, &quot;capacity_t_p
 </tbody>
 </table>
 <p>Regardez la colonne <code>production_derivation</code> : <code>from_emissions</code>. La production n'est pas une statistique, elle est déduite du CO₂ vérifié (environ 1,7 tCO₂/t). Yara Le Havre y produit 421 kt pour une capacité de 181 kt : l'un des deux chiffres est faux, le jeu ne dit pas lequel. Écrivez ce que cela change à vos 9,4 TWh, et ce qu'il faudrait pour faire mieux (la production réelle des usines, que le jeu n'a pas).</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous dites pourquoi la France émet 49,8 Mt de CO₂ industriel vérifié et pas 64,3, et vous ne sommez jamais <code>emissions_t_co2</code>.</li>
 <li>Vous expliquez pourquoi l'acier n'a « que 2 % » de CO₂ de procédé dans ce jeu.</li>
 <li>Vous retrouvez 1,737 = 1,40 + 0,259 + 0,078 et vous savez dire ce qu'aucun des deux ne contient.</li>
 <li>Chacun de vos chiffres porte la version du jeu et la colonne lue.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>La chaleur industrielle par usage et par température, avec les sources de chaque chiffre <span title="note-chaleur-industrielle">La chaleur industrielle : combien, à quelle température, et ce que l'électricité peut en faire (note, 22/10/2026) (remis en cours)</span>.</li>
 <li>Ce que coûte chaque route, une tonne à la fois <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a>, et le moteur de l'outil en Python <a href="../textes/act-routes-python.html">Activité guidée — le moteur de l'outil « routes » en Python</a>.</li>

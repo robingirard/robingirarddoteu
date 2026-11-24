@@ -102,7 +102,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <p class="telecharger-nb"><a href="../notebooks/installation-face-au-prix.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
 <p>Deux installations achètent l'électricité au prix horaire, pour fabriquer de l'hydrogène puis de la vapeur. Pommes choisit leur taille et leurs heures de marche ; vous retrouvez à la main ce qu'il décide. Première marche des cas D et E : un cas d'école, pas une prévision. Valeurs du 23/11/2026 (pommes 0.11.0, pommes_craft 0.6.0, HiGHS) ; blocs à exécuter à la suite, en ≈ 20 s puis ≈ 2 s.</p>
-<h2>1. Le squelette du premier modèle</h2>
+<h2 id="1-le-squelette-du-premier-modele">1. Le squelette du premier modèle</h2>
 <p>On garde le squelette du premier modèle (<code>modele_de_base</code>) : série TYNDP 2026 NT+, France, 2030 (57,50 €/MWh en moyenne), une zone, une demande plate, un réseau qui vend à l'heure sans racheter, ni délestage ni écrêtement. Deux changements : la demande porte sur le produit, et chaque autre ressource reçoit son import, fermé (bornes à zéro) ou à prix fixe, sans quoi pommes l'ouvrirait gratuitement ; les années de sortie suivent les durées de vie (pièges 2 et 3 de <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>).</p>
 <pre><code class="language-python">import sys, logging
 sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
@@ -141,7 +141,7 @@ def site(nom, produit, demande_mw, durees, achats={}):
 def marche(m, nom):
     return m.linopy_model.solution[&quot;operation_conversion_power&quot;].sel(conversion_tech=nom).squeeze().values
 </code></pre>
-<h2>2. Un électrolyseur face au prix</h2>
+<h2 id="2-un-electrolyseur-face-au-prix">2. Un électrolyseur face au prix</h2>
 <p>Le site consomme 100 MW d'hydrogène en continu (3 000 kg/h), fabriqués par un électrolyseur dont pommes choisit la taille. Pour sauter des heures chères, il faut un tampon qui serve le site pendant ses arrêts.</p>
 <p>Un hydrogène de secours au coût variable d'un reformeur, qui le tire du gaz, coûte 69,29 € par MWh (2,31 €/kg), CO₂ compris au prix du scénario, 97,5 €/t : un grand site d'hydrogène relève du marché européen du carbone. Face à lui, un MW d'électrolyseur gagnerait au plus 91 697 €/an, pour 357 585 € d'annuité (remboursement annuel de l'investissement) et de coût fixe : pommes n'en construit aucun. Un réservoir sous pression, à 1 400 €/an par MWh de capacité, est trop cher : l'électrolyseur tourne alors 8 760 heures.</p>
 <p>Reste le tampon le plus simple qui montre le mécanisme : une cavité saline, un stockage souterrain à 9,54 €/an par MWh de capacité, là où le sous-sol s'y prête. Coûts de 2040, le TYNDP ne l'ouvrant pas en 2030 ; canalisation jusqu'au site non comptée. Arguments du stockage : <a href="../textes/fiche-composants-craft.html">Les composants de pommes_craft et leurs défauts</a>.</p>
@@ -207,7 +207,7 @@ print(round(float(sol[&quot;planning_storage_costs&quot;].sum() + sol[&quot;oper
 <p>Le seuil est presque net : 5 494 heures à plein jusqu'à 76,11 €/MWh, arrêt dès 76,70 ; les 34 autres heures, entre 71,5 et 80 €/MWh, il produit tout juste les 100 MW de la demande, cavité au repos. Marchant presque toujours à plein ou à l'arrêt, sa part d'heures de marche (5 528 sur 8 760, 0,631) rejoint son facteur de charge (0,630). Tenu de fabriquer l'hydrogène de l'année, il prend les heures les moins chères qui suffisent : son prix payé approche la moyenne des 5 528 moins chères (36,26). C'est la monotone (les prix triés) de « Lire une série de prix » (3 000 heures à 22,4 €/MWh), quantité imposée en plus.</p>
 <p>Pourquoi 160 MW ? Un MW de plus fabriquerait davantage aux heures retenues, vers 36 €/MWh, et autant de moins aux heures les plus chères encore achetées, vers 76 €/MWh ; cavité, compression et pertes payées, cette économie égale tout juste son coût, 357 585 €/an. Imposer 161 MW coûte 14 525 € de plus.</p>
 <p>Avec ce facteur de charge et ce prix payé, la fonction <code>lcoh</code> du texte « deux chiffres » donne 4,246 €/kg pour l'électrolyseur seul ; les 0,19 €/kg manquants paient le tampon : 0,133 la cavité, 0,056 sa compression et ses 2 % de pertes.</p>
-<h2>3. Deux chaudières face au prix</h2>
+<h2 id="3-deux-chaudieres-face-au-prix">3. Deux chaudières face au prix</h2>
 <p>Le site consomme 1 MW de vapeur en continu ; pommes choisit la taille de ses deux chaudières. L'électrique paie l'électricité à l'heure, l'autre le gaz à prix fixe et son CO₂. Une chaudière de 1 MW relève de l'ETS2, le marché du carbone des petits sites : on prend son seuil de 45 €/t (euros de 2020), au-delà duquel sa réserve libère des quotas, ni une cible, ni un plafond, ni une prévision.</p>
 <table>
 <thead>
@@ -260,16 +260,16 @@ print(round(m.linopy_model.objective.value / 8760, 2))   # 40.79
 </code></pre>
 <p>Pommes retrouve la bascule heure par heure : l'électrique tourne les 3 680 heures sous 44,54 €/MWh et aucune autre (accord sur 8 760 heures), soit 42,0 % de la vapeur. Chaque chaudière fait 1 MW : avec une demande plate, chaque MW électrique économise la même somme, pommes en prend tout ou rien, et le gaz couvre les 5 080 heures chères. La vapeur revient à 40,79 €/MWh.</p>
 <p>Le cas E ajoute deux postes de 8 h, un stockage de chaleur, plusieurs jeux de prix et de CO₂, et en variante le tarif de réseau (puissance souscrite comprise) et les taxes.</p>
-<h2>4. Une troisième installation</h2>
+<h2 id="4-une-troisieme-installation">4. Une troisième installation</h2>
 <p>La fiche des composants (section « Activité ») ajoute au premier modèle une batterie de 1 MW / 2 h : elle achète aussi à l'heure, pour restituer plus tard à la zone, à la place d'un achat plus cher ou de la turbine.</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous retrouvez 160,0 MW, un facteur de charge de 0,630, 36,18 €/MWh payés contre 57,50 et 4,435 €/kg, et expliquez pourquoi ce prix approche la moyenne des 5 528 heures les moins chères (36,26).</li>
 <li>Vous remplacez la cavité par les réservoirs du cas D (10 700 €/MWh, 69 000 €/MW, 450 €/MWh/an, 2 930 €/MW/an, compression 0,0512, 30 ans ; <code>durees=[20, 30]</code>, sans quoi le réservoir ne peut exister) et prédisez : aucun réservoir, 100 MW, 8 760 heures, 4,677 €/kg.</li>
 <li>Vous recalculez la bascule (44,54 €/MWh) et retrouvez dans la solution ses 3 680 heures et la part de 42,0 %.</li>
 <li>Vous ajoutez les coûts variables d'entretien de la DEA, laissés de côté ici (<code>variable_cost=1.23</code> au gaz, <code>0.642</code> à l'électrique), et prédisez le seuil, (44,99 + 1,23 − 0,642) × 0,99 = 45,12 €/MWh : 3 724 heures électriques, 44 de plus, 42,5 % de la vapeur.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le premier modèle <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a>.</li>
 <li>Les cas D <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a> et E <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/E_vapeur" target="_blank" rel="noopener">Cas E — Vapeur à 180 °C : tout électrifier, garder le gaz, ou les deux ?</a> ; 4,8 ou 7,1 €/kg pour le même hydrogène <a href="../textes/hydrogene-deux-chiffres.html">Pourquoi deux chiffres pour le même hydrogène : cas D (4,4 à 4,9 €/kg) et outil « routes » (7,1 €/kg)</a>.</li>

@@ -101,14 +101,14 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Pourquoi un modèle linéaire en prévision parfaite retrouve le niveau moyen des prix mais pas leur forme, et quels prix de modèle servent à quelle question.</p>
   </header>
   <p class="telecharger-nb"><a href="../notebooks/forme-des-prix.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
-<h2>Le niveau est bon, la forme a disparu</h2>
+<h2 id="le-niveau-est-bon-la-forme-a-disparu">Le niveau est bon, la forme a disparu</h2>
 <p>Un modèle fondamental rejoue 2024 : parc, météo, demande, gaz à 38 €/MWh PCI et CO2 à 65 €/t observés, 16 zones, 8 760 heures, programmation linéaire en prévision parfaite. En Allemagne, le prix moyen sort à 83 €/MWh contre 79 sur le marché.</p>
 <p>Sur le marché, le profil journalier des prix, rapporté à la moyenne annuelle, dessine deux creux (la nuit, et midi avec le solaire) et deux pointes, le matin et le soir, jusqu'à 1,55 fois la moyenne. Le modèle donne une droite entre 0,95 et 1,05. Marché contre modèle : écart-type des prix horaires 53 €/MWh contre 6 ; heures sous 20 €/MWh, 12 % contre 0 % ; France et Allemagne au même prix, 22 % des heures contre 80 %. Chiffres des planches du cours et d'une étude en cours au centre PERSEE (prix day-ahead EPEX via Energy-Charts, productions ENTSO-E).</p>
 <p>Évalués sur ces prix, une batterie ou un électrolyseur ne gagnent presque rien à choisir leurs heures : le facteur de profil d'un électrolyseur qui tourne la nuit et à midi vaut 0,83 sur le marché, 0,98 dans le modèle.</p>
-<h2>Le prix est le coût de l'unité qui baisse</h2>
+<h2 id="le-prix-est-le-cout-de-lunite-qui-baisse">Le prix est le coût de l'unité qui baisse</h2>
 <p>Prenez les 1 055 heures de 2024 où le prix allemand passe sous 20 €/MWh. Nucléaire, fossile et lacs totalisent presque autant en réalité que dans le modèle : 112 GW contre 110. Mais la réalité garde 38 GW de fossile et 16 GW de lacs en marche et module le nucléaire de 14 GW. Le modèle fait l'inverse : ordre de mérite pur, le nucléaire à 15,6 €/MWh module en dernier.</p>
 <p>Or le prix d'une heure est le coût de l'unité qui baisserait si la demande baissait d'un MW. Sur le marché, à ces heures, c'est le nucléaire qui module ou l'éolien qui s'écrête : près de zéro. Dans le modèle, c'est toujours une centrale au charbon ou au gaz, de 78 à 90 €/MWh, ou un lac dont la valeur de l'eau s'est alignée sur elle. Le fossile flexible des 16 zones ne descend jamais sous 0,8 GW.</p>
-<h2>Ce que le programme linéaire ne représente pas</h2>
+<h2 id="ce-que-le-programme-lineaire-ne-represente-pas">Ce que le programme linéaire ne représente pas</h2>
 <table>
 <thead>
 <tr>
@@ -141,10 +141,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>Ce sont des contraintes en nombres entiers (marche ou arrêt), que les modèles continentaux omettent pour rester résolubles. Une rampe n'y change presque rien : elle limite une vitesse, la rigidité qui manque est un niveau.</p>
-<h2>Le budget nucléaire : 15,6 + 74 = 90</h2>
+<h2 id="le-budget-nucleaire-156-74-90">Le budget nucléaire : 15,6 + 74 = 90</h2>
 <p>Pour le faire moduler comme en réalité, on impose au nucléaire sa production réelle, mois par mois. Il module bien ses 44 TWh, mais le combustible devient un stock. Le dual du budget, valeur d'un MWh gardé pour plus tard, vaut 74 €/MWh ; ajouté au coût variable de 15,6, il redonne 90 €/MWh, le coût du cycle combiné au gaz. Le nucléaire devient un lac de plus ; l'écart-type des prix tombe à 1,4 €/MWh.</p>
 <p>C'est la logique de la valeur de l'eau : en prévision parfaite, avec un fossile toujours disponible, chaque stock vaut le fossile qu'il remplace. Une contrainte d'énergie déplace la production ; les heures bon marché viennent d'unités qui doivent produire quel que soit le prix.</p>
-<h2>Exercice : lire le dual d'un budget dans pommes_craft</h2>
+<h2 id="exercice-lire-le-dual-dun-budget-dans-pommes_craft">Exercice : lire le dual d'un budget dans pommes_craft</h2>
 <p><code>ConversionTechnology</code> de pommes_craft 0.6.0 porte un paramètre <code>max_yearly_production</code>, plafond d'énergie annuel qui devient la contrainte <code>operation_conversion_yearly_production_max_constraint</code> de pommes 0.11.0. Le « lac » : technologie sans coût variable, capacité fixée, budget. Face à lui, un cycle combiné au gaz à 90 €/MWh et une demande sinusoïdale de 26 à 54 GW. Environnement épinglé du dépôt des cas ; environ une seconde en tout.</p>
 <pre><code class="language-python">import sys, numpy as np, polars as pl
 sys.path.insert(0, &quot;chemin/vers/pommes-case-studies&quot;)
@@ -190,9 +190,9 @@ c) idem + must_run 0,9, budget 250 TWh valeur du budget : 74.4 ; prix : moyen 88
 </code></pre>
 <p>En a, la valeur de l'eau s'aligne sur le gaz : prix plat à 90 €/MWh toutes les heures, alors que la demande varie du simple au double. En b, 15,6 + 74,4 = 90 : le budget nucléaire en petit. En c, le lac doit tourner à 27 GW au moins : les 184 heures où la demande est plus basse passent à zéro. La rigidité crée les heures bon marché ; le budget ne les a jamais créées.</p>
 <p>Trois détails. Le dual d'une contrainte « inférieur ou égal » sort négatif : on prend l'opposé. Un prix se lit divisé par <code>pommes.utils.dual_scale</code>, qui vaut 1 ici mais pas sur plusieurs années météo. Le crochet de <code>solve_with_extra_constraints</code> récupère ici les paramètres ; dans les cas A et D, il ajoute des contraintes avant la résolution.</p>
-<h2>2030 : le creux de midi arrive, la soirée s'efface</h2>
+<h2 id="2030-le-creux-de-midi-arrive-la-soiree-sefface">2030 : le creux de midi arrive, la soirée s'efface</h2>
 <p>Avec le parc National Trends+ du TYNDP 2026, le modèle produit un vrai excédent solaire : 144 à 161 TWh écrêtés sur 16 zones, 14 à 24 % des heures allemandes sous 20 €/MWh. Le creux de midi apparaît, aussi profond qu'aujourd'hui sur le marché. Mais la nuit coûte autant que le soir : rapport nuit/soir de 0,95 dans le modèle, 0,65 sur le marché. Au-dessus du surplus, l'offre n'a qu'une marche : le gaz et les stocks alignés sur lui. Le modèle de l'ENTSO-E a le même profil ; deux modèles d'accord entre eux ne prouvent rien sur la forme.</p>
-<h2>Quels prix pour quelle question</h2>
+<h2 id="quels-prix-pour-quelle-question">Quels prix pour quelle question</h2>
 <table>
 <thead>
 <tr>
@@ -230,14 +230,14 @@ c) idem + must_run 0,9, budget 250 TWh valeur du budget : 74.4 ; prix : moyen 88
 </tbody>
 </table>
 <p>Plus la valeur cherchée tient à la journée, plus il faut corriger la forme des prix ; plus elle tient au temps long, plus il faut corriger la prévision. Sur un cas TYNDP 2050, une étude en cours au centre PERSEE mesure qu'un exploitant myope coûte environ 3 % de plus que la prévision parfaite en médiane (chiffre provisoire).</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous retrouvez 74,4 €/MWh en variante b et dites en une phrase pourquoi 15,6 + 74,4 vaut le coût du gaz.</li>
 <li>Avant de lancer la variante c, vous prédisez le nombre d'heures à zéro : demande sous 0,9 fois 30 GW.</li>
 <li>Pour une batterie et une cavité d'hydrogène, vous dites quoi corriger : la forme des prix ou la prévision.</li>
 <li>Vous expliquez pourquoi des prix « plus variables » ne suffisent pas à mieux évaluer un stockage saisonnier.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Fenêtre d'exploitation et valeurs d'usage, doc POMMES <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html" target="_blank" rel="noopener">Fenêtre d'exploitation : capacités fixées, stocks aux bornes, valeurs d'usage</a> : https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/operation_window.html</li>
 <li>Planches remises en séance : KKT et dualité, du multiplicateur de l'équilibre au prix <span title="planches-kkt-dualite-prix">KKT, dualité de Lagrange et prix de marché : exploitation, planification, prix locaux, nodal vs zonal (remis en cours)</span> ; contraintes techniques des centrales, démarrage, minimum technique, modulation du nucléaire <span title="planches-contraintes-techniques-centrales">Contraintes techniques des centrales : démarrage, durée minimale, minimum technique, rendement à charge partielle, flexibilité du nucléaire (remis en cours)</span>.</li>

@@ -101,9 +101,9 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">La monotone de charge, une droite de coût par technologie, l'heure de bascule (60 000 / 130 ≈ 460 h/an), le parc lu sur la courbe et qui le paie, puis ce que la méthode ne voit pas (stockage, liens bornés, choix du parc renouvelable) et qui oblige à passer au programme linéaire horaire.</p>
   </header>
   <p>Avant les programmes linéaires, on dimensionnait un parc sur deux graphiques tracés à la main. La méthode donne la bonne réponse tant que deux conditions tiennent : pas de stockage, pas de lien borné avec un voisin (et des centrales parfaitement souples, pour un parc renouvelable donné). Cas d'école, pas une prévision : les coûts ci-dessous sont des valeurs rondes choisies pour le calcul.</p>
-<h2>1. La monotone de charge</h2>
+<h2 id="1-la-monotone-de-charge">1. La monotone de charge</h2>
 <p>Triez les 8 760 puissances horaires appelées dans l'année de la plus forte à la plus faible : c'est la <strong>monotone de charge</strong>. Pour une puissance P en ordonnée, l'abscisse dit combien d'heures par an la demande dépasse P. Elle garde le maximum, le creux et l'énergie (l'aire sous la courbe) ; elle jette l'ordre des heures, d'où la section 5.</p>
-<h2>2. Une droite de coût par technologie</h2>
+<h2 id="2-une-droite-de-cout-par-technologie">2. Une droite de coût par technologie</h2>
 <p>Deux technologies, en coûts annualisés (du coût d'investissement à l'annuité : <a href="../textes/cout-annualise.html">Du coût d'investissement à l'annuité : CRF, €/kW/an, LCOE et ses limites</a>) :</p>
 <table>
 <thead>
@@ -132,11 +132,11 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <li>pointe : 40 000 + 150 × n €/MW/an.</li>
 </ul>
 <p>À n = 0, la pointe est moins chère (40 000 contre 100 000) ; à n = 8 760, la base l'emporte de loin (275 200 contre 1 354 000).</p>
-<h2>3. L'heure de bascule : 60 000 / 130 ≈ 460 h/an</h2>
+<h2 id="3-lheure-de-bascule-60-000-130-460-han">3. L'heure de bascule : 60 000 / 130 ≈ 460 h/an</h2>
 <p>Les droites se coupent quand 100 000 + 20 × n = 40 000 + 150 × n, soit :</p>
 <p>n* = (100 000 − 40 000) / (150 − 20) = 60 000 / 130 ≈ 461,5 h/an, environ 5 % de l'année.</p>
 <p>Au croisement, un MW coûte 109 231 €/an dans les deux technologies. La règle : <strong>un MW qui tournera moins de 460 h par an doit être un MW de pointe ; au-delà, un MW de base.</strong> Écart de coût fixe sur écart de coût variable : la formule vaut pour toute paire où l'une est plus chère à construire et moins chère à faire tourner.</p>
-<h2>4. Lire le parc sur la monotone</h2>
+<h2 id="4-lire-le-parc-sur-la-monotone">4. Lire le parc sur la monotone</h2>
 <p>On empile les MW du bas vers le haut de la monotone : le MW situé à la hauteur P tourne autant d'heures que la demande dépasse P. Le dernier MW de base est celui qui tourne n* heures : <strong>la puissance de base est la puissance atteinte ou dépassée 462 heures par an</strong> (461,5 arrondi à l'heure supérieure), et la pointe couvre le reste, jusqu'au maximum.</p>
 <p>Sur la demande française 2030 du TYNDP 2026 (le plan décennal des gestionnaires de réseau européens, scénario National Trends +), demande native hors recharge des voitures, électrolyse et pompes à chaleur hybrides. Le TYNDP retient pour 2030 trois années météo simulées, notées WS (<em>weather scenario</em>) :</p>
 <table>
@@ -180,13 +180,13 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <li>base : 130 € × 461,5 h + (20 000 − 150) € × 2,015 h = 60 000 + 40 000 = 100 000 €/MW/an.</li>
 </ul>
 <p>C'est le résultat de Boiteux et de Steiner : dans un parc optimal, la rente que chaque centrale touche au-dessus de son coût variable paie exactement son coût fixe. Ce prix est la duale de l'équilibre offre-demande : <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>.</p>
-<h2>5. Ce que la méthode voit encore, et ce qu'elle ne voit pas</h2>
+<h2 id="5-ce-que-la-methode-voit-encore-et-ce-quelle-ne-voit-pas">5. Ce que la méthode voit encore, et ce qu'elle ne voit pas</h2>
 <p><strong>Plusieurs années météo : elle les voit, si on l'aide.</strong> Dimensionner sur WS021, c'est délester un hiver comme WS003 (142 heures au-dessus de 86 GW). Dimensionner sur WS003, c'est construire 15,8 GW qui ne tournent pas une heure d'un hiver comme WS021. On range alors les 3 × 8 760 heures dans une seule monotone, chaque heure comptée avec le poids de son année (0,63, 0,07 et 0,30 au TYNDP), et l'on y lit le parc. Avec V = 20 000 €/MWh : 76,2 GW de base et 24,1 GW de pointe, presque le parc de WS003, parce qu'un MW de pointe coûte peu. Le même calcul en programme linéaire : <a href="../textes/act-annees-meteo-poids.html">Empiler trois années météo sur le modèle du tutoriel avec operation_year_weight</a>.</p>
 <p><strong>Le stockage, pour deux raisons au moins.</strong> La monotone a jeté l'ordre des heures : une batterie ne décharge qu'après avoir chargé, et son niveau de charge relie chaque heure à la précédente. Et le stockage déplace de l'énergie des heures creuses vers les plus chargées : il déforme la monotone elle-même, qui devient une conséquence de la décision.</p>
 <p><strong>Les liens bornés.</strong> Deux pays dont les maxima de demande ne tombent pas aux mêmes heures ont besoin, ensemble, de moins de pointe que séparément. Avec un lien sans limite, on trace encore la monotone de la somme ; c'est la capacité finie du lien qui oblige au calcul heure par heure. L'activité <a href="../textes/act-transport-deux-zones.html">Deux zones et un lien : flux, duale de la capacité d'échange et rente de congestion</a> lit flux, prix et valeur d'un MW de lien entre deux zones, à capacités imposées.</p>
 <p><strong>Le choix du parc renouvelable.</strong> Une éolienne ne choisit pas ses heures : on la retire de la demande pour tracer la <strong>monotone résiduelle</strong>, puis on dimensionne le pilotable dessus. Pour WS003, la résiduelle (demande moins solaire, éolien et fil de l'eau, production après écrêtement par le modèle du TYNDP) culmine à 89,3 GW et la base y tombe à 63,3 GW. Elle passe sous zéro pendant 72 heures (creux à −8,2 GW) : des surplus à exporter, stocker ou écrêter, dont la monotone ne dit pas quoi faire. Et la méthode ne peut pas choisir ce parc renouvelable : la valeur d'un MW éolien dépend du moment où il produit.</p>
 <p>D'où le programme linéaire horaire : les 8 760 heures dans l'ordre, une contrainte d'équilibre par heure, le stockage, les liens. Sans stockage ni lien borné, il retrouve la méthode graphique, y compris sur plusieurs années pondérées. Avec, il va plus loin : <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a>, puis <a href="../textes/act-dimensionner-enr-stockage.html">Dimensionner éolien et stockage dans craft, avec et sans écrêtement</a>.</p>
-<h2>Vérifier en Python (facultatif)</h2>
+<h2 id="verifier-en-python-facultatif">Vérifier en Python (facultatif)</h2>
 <p>Depuis la racine du dépôt pommes-case-studies, dans son environnement (<a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>) :</p>
 <pre><code class="language-python">import numpy as np
 import pandas as pd
@@ -227,13 +227,13 @@ pondérée : base 76.2 GW, pointe 24.1 GW
 résiduelle WS003 : maximum 89.3 GW, base 63.3 GW, creux -8.2 GW, 72 heures négatives
 </code></pre>
 <p>Ces chiffres sont des sorties d'un modèle de marché (TYNDP 2026, version provisoire), pas des mesures.</p>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous retrouvez sans aide l'heure de bascule de la base (100 €/kW/an + 20 €/MWh) contre la pointe (40 €/kW/an + 150 €/MWh) : 60 000 / 130 ≈ 460 h/an.</li>
 <li>Vous dites qui paie la pointe : la rareté à l'heure du maximum, ou la valeur de l'énergie non servie.</li>
 <li>Vous donnez deux raisons pour lesquelles la méthode ne traite pas le stockage : l'ordre des heures perdu, la monotone déformée par la décision.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le coût annuel en fixe plus variable, sans la monotone : le billet <a href="https://www.energy-alternatives.eu/2020/05/07/mix-de-production-delectricite-energie-et-puissance.html" target="_blank" rel="noopener">Mix de production d'électricité : énergie et puissance</a>.</li>
 <li>Variante : ajoutez une troisième technologie (70 €/kW/an + 60 €/MWh). Ses bascules avec la base et la pointe valent 750 et 333 h/an : elle prend les MW qui tournent entre 333 et 750 h par an, et la bascule à 461,5 h ne sert plus. Une technologie dont la droite n'est jamais la plus basse n'est pas construite.</li>

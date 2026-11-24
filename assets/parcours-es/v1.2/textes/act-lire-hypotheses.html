@@ -102,7 +102,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <p>Objectif : lire le fichier d'hypothèses d'un cas, compter ses statuts et repérer l'hypothèse la plus fragile. Aucun code n'est nécessaire ; le bloc Python de la fin est un bonus pour ceux qui ont installé l'environnement (<a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>).</p>
 <p>Prérequis : un navigateur. Savoir ce qu'est un cas POMMES aide (<a href="../textes/txt-choisir-son-cas.html">Choisir son mini-projet le lundi soir : deux sortes de mini-projets, les cartes, les quatre rôles</a>).</p>
-<h2>Une hypothèse sourcée, c'est quatre choses et un statut</h2>
+<h2 id="une-hypothese-sourcee-cest-quatre-choses-et-un-statut">Une hypothèse sourcée, c'est quatre choses et un statut</h2>
 <p>Dans le dépôt des cas, chaque nombre que le modèle utilise vit dans un fichier <code>hypotheses.yaml</code>, pas dans le code. Le modèle le lit : changer une valeur dans le fichier change le calcul. Chaque hypothèse porte six champs obligatoires : <code>id</code>, <code>nom</code>, <code>valeur</code>, <code>unite</code>, <code>source</code>, <code>statut</code> ; deux facultatifs : <code>formule</code> et <code>remarque</code>.</p>
 <p>Le statut dit à quel point on peut se fier à la valeur. Les six statuts admis, du plus sûr au moins sûr, sont ceux de <code>pommes_cases/hypotheses.py</code> :</p>
 <table>
@@ -140,7 +140,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>Tout autre statut fait échouer la lecture par <code>load_hypotheses</code>, le lecteur du dépôt (le bonus de la fin lit le YAML brut sans rien vérifier). Un <code>mémoire</code> n'est pas interdit. Il est annoncé. C'est ce qui distingue un cas honnête d'un cas qui cache ses angles morts.</p>
-<h2>Étapes</h2>
+<h2 id="etapes">Étapes</h2>
 <ol>
 <li>
 <p>Ouvrez <code>A_batteries/hypotheses.yaml</code> dans le navigateur (lien dans les sources). GitLab affiche le YAML en clair, sans compte. Lisez l'en-tête, puis le bloc <code>perimetre</code> : ce que le cas compte et ce qu'il laisse de côté (pas de services système, pas de TURPE, pas d'usure des cellules).</p>
@@ -234,7 +234,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <p>Lisez le § « Ce que dit le cas » du README de E. Une phrase y dit quelle hypothèse décide : « Le prix du CO2 payé par le site décide d'abord. » Dans <code>hypotheses.yaml</code>, c'est <code>co2_ets2</code>, 45 €/t, statut <code>choix du cas</code>. Au CO2 du scénario (97,5 à 297,5 €/t selon le jeu et l'année), le tout électrique fait jeu égal avec le gaz en 2030 sous deux jeux sur quatre (TYNDP 2026 et POMMES) et coûte 40 à 55 % de moins en 2040 ; sans CO2, le gaz gagne partout. L'hypothèse qui pèse le plus sur le verdict n'est donc pas une <code>mémoire</code>, mais un <code>choix du cas</code> assumé.</p>
 </li>
 </ol>
-<h2>Bonus : compter en dix lignes</h2>
+<h2 id="bonus-compter-en-dix-lignes">Bonus : compter en dix lignes</h2>
 <p>Depuis la racine du dépôt cloné, environnement activé. Le script compte les statuts d'un <code>hypotheses.yaml</code> et liste ses <code>mémoire</code>.</p>
 <pre><code class="language-python">import sys, yaml
 from collections import Counter
@@ -263,26 +263,26 @@ mémoire : part_rfnbo = 100 % (tout RFNBO) ou 42 % -
 mémoire : facteur_co2_gaz = 0.202 tCO2/MWh (PCI)
 </code></pre>
 <p><code>pommes_cases.hypotheses.load_hypotheses</code> fait la même lecture en vérifiant les six champs et les statuts admis ; la page <a href="../textes/restitution.html">La restitution du vendredi : dix minutes, cinq à dix planches, grille à cinq critères, quatre rôles</a> l'utilise.</p>
-<h2>Ce qu'il faut noter</h2>
+<h2 id="ce-quil-faut-noter">Ce qu'il faut noter</h2>
 <ul>
 <li>Pour chaque cas lu : le total, les <code>repris</code>, les <code>mémoire</code>.</li>
 <li>Pour une <code>mémoire</code> de votre choix : sa valeur, et la source primaire qui la passerait en <code>vérifié</code>.</li>
 <li>Pour le cas que votre groupe envisage : l'hypothèse qui décide du verdict d'après son README, et son statut.</li>
 </ul>
-<h2>Questions</h2>
+<h2 id="questions">Questions</h2>
 <ol>
 <li>Combien d'hypothèses <code>repris</code> dans le cas A, et d'où viennent-elles presque toutes ? (8 ; du TYNDP 2024 via pommes-tyndp.)</li>
 <li>Quel facteur sépare la valeur <code>mémoire</code> de <code>smr_fixe</code> et la valeur donnée par pommes-tyndp ? (144 000 / 40 000 = 3,6.)</li>
 <li>Quelle hypothèse du cas E a le plus d'effet sur le verdict, quelle est sa valeur par défaut et son statut ? (<code>co2_ets2</code>, 45 €/t, <code>choix du cas</code>.)</li>
 </ol>
-<h2>Vous l'avez acquise quand</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand</h2>
 <ul>
 <li>Vous retrouvez les 17 hypothèses du cas A et leur répartition : 8 <code>repris</code>, 5 <code>choix du cas</code>, 3 <code>calculé</code>, 1 <code>vérifié</code>.</li>
 <li>Vous trouvez les quatre <code>mémoire</code> du cas D, dont <code>smr_fixe</code> à 40 000 €/MW_H2/an, et vous nommez un document primaire qui le passerait en <code>vérifié</code>.</li>
 <li>Vous dites, pour le cas E, que le prix du CO2 payé par le site (<code>co2_ets2</code>, 45 €/t) décide du verdict avant toute autre hypothèse.</li>
 <li>Dans votre groupe, vous savez tenir le rôle « qui source » : relire chaque hypothèse à sa source et fixer son statut, sans écrire une ligne de code.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le contrat complet du fichier et le gabarit d'un cas, pour écrire votre propre <code>hypotheses.yaml</code> <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/_gabarit" target="_blank" rel="noopener">Le gabarit d'un cas (_gabarit/) : écrire son propre cas POMMES</a>.</li>
 <li>La page « jouer » du cas D (<code>page.html</code>, construite par <code>build_page.py</code>), qui affiche le tableau nom, valeur, unité, source, statut à partir du même fichier <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a>.</li>

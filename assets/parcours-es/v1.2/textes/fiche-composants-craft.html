@@ -102,7 +102,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <p class="telecharger-nb"><a href="../notebooks/fiche-composants-craft.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
 <p>Un modèle pommes_craft est une liste de composants déclarés dans <code>with model.context():</code>. Chaque composant devient un ou plusieurs paramètres pommes, préfixés par son module (<code>conversion_</code>, <code>storage_</code>, <code>net_import_</code>...). Deux jeux de défauts se superposent, qui ne coïncident pas toujours : ceux de la signature pommes_craft, dès que le composant existe, et ceux de pommes, quand il n'existe pas. Défauts lus dans le code installé de pommes_craft 0.6.0 (<code>inspect.signature</code>) et dans <code>dataset_description.yaml</code> de pommes 0.11.0 ; tableaux non exhaustifs (annuité, déclassement anticipé et quelques bornes omis). Unités : nomenclature pommes, MW, MWh, €, kg de CO₂. Pièges : <a href="../textes/pieges-pommes.html">Les pièges connus de pommes et pommes_craft : symptôme, cause, remède</a>.</p>
-<h2>Le cadre : EnergyModel et trois composants sans zone</h2>
+<h2 id="le-cadre-energymodel-et-trois-composants-sans-zone">Le cadre : EnergyModel et trois composants sans zone</h2>
 <p><code>EnergyModel</code> porte les indices ; ses arguments s'écrivent nommés, jamais en positionnel. Une capacité investie en <code>year_inv</code> n'existe que si <code>year_inv + life_span</code> est une étiquette de <code>year_decs</code> (piège 3).</p>
 <table>
 <thead>
@@ -135,7 +135,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>Piège 6 : une taxe de 45 €/t s'écrit <code>tax=0.045</code>. Vérifié sur deux zones de 24 h : 24 MWh de gaz à 202 kg/MWh et 0,045 €/kg ajoutent 24 × 202 × 0,045 = 218,16 € (<code>operation_carbon_costs</code>).</p>
-<h2>Les composants d'une zone</h2>
+<h2 id="les-composants-dune-zone">Les composants d'une zone</h2>
 <p><code>Area(name)</code> est la zone ; <code>area.add_component(...)</code> y range tout ce qui suit.</p>
 <table>
 <thead>
@@ -215,9 +215,9 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </table>
 <p>Vérifié pour <code>FlexibleDemand</code> sur 48 h, prix 100 €/MWh puis 10 €/MWh, demande 1 MW, <code>max_demand=2.0</code> : <code>conservation_hrs=0</code> donne 480 €, les 48 MWh consommés dans les 24 heures à 10 € ; <code>conservation_hrs=24</code> ou <code>1</code> donne 2 640 €, comme une <code>Demand</code> rigide.</p>
 <p>Trois composants de plus existent : <code>ProductionGroup</code> (plafond annuel partagé), <code>RetrofitConversion</code> et <code>RetrofitCombined</code> (conversion d'une technologie en une autre).</p>
-<h2>Entre deux zones : Link et TransportTechnology</h2>
+<h2 id="entre-deux-zones-link-et-transporttechnology">Entre deux zones : Link et TransportTechnology</h2>
 <p><code>Link(name, area_from, area_to)</code> relie deux <code>Area</code> ; <code>link.add_transport_technology(TransportTechnology(...))</code> y pose une ligne. Arguments : <code>resource</code> (requis), <code>invest_cost=0.0</code> (€/MW), <code>life_span=5</code>, <code>power_capacity_investment_min/max=nan</code> (MW), <code>hurdle_costs=nan</code> (€/MWh transporté), <code>finance_rate=nan</code>, <code>fixed_cost=nan</code>. Les <code>nan</code> restent <code>nan</code> dans les paramètres pommes (<code>transport_hurdle_costs</code>, lu après <code>store_pommes_parameters=True</code>) et comptent pour 0 dans l'objectif. Vérifié sur deux zones de 24 h : une ligne de 1 MW transporte 24 MWh pour 1 200 € de gaz à 50 €/MWh ; <code>hurdle_costs=2.0</code> ajoute 48 €, rangés dans <code>operation_transport_costs</code> depuis pommes 0.11. L'activité <a href="../textes/act-transport-deux-zones.html">Deux zones et un lien : flux, duale de la capacité d'échange et rente de congestion</a> va plus loin.</p>
-<h2>Cinq phrases d'hypothèse</h2>
+<h2 id="cinq-phrases-dhypothese">Cinq phrases d'hypothèse</h2>
 <table>
 <thead>
 <tr>
@@ -254,7 +254,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tr>
 </tbody>
 </table>
-<h2>Activité : une batterie de 1 MW / 2 h dans le modèle du tutoriel</h2>
+<h2 id="activite-une-batterie-de-1-mw-2-h-dans-le-modele-du-tutoriel">Activité : une batterie de 1 MW / 2 h dans le modèle du tutoriel</h2>
 <p>Objectif : ajouter un stockage au modèle du bloc 4 de <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a> et lire son effet. Prérequis : ce tutoriel exécuté (497 405,29 €). Chaque résolution prend 2 à 3 secondes.</p>
 <ol>
 <li>Reprendre <code>modele_de_base</code>, <code>pv()</code> et <code>turbine()</code> du tutoriel. Ajouter la batterie : rendement 0,9 à la décharge, taille imposée, investissement nul. <code>life_span=25</code> accorde la batterie à <code>year_decs=[2055]</code>.</li>
@@ -301,14 +301,14 @@ print(f&quot;{m5.linopy_model.objective.value:,.2f} €&quot;, float(m5.linopy_m
 <p>Avec le plancher, <code>batterie(life_span=5)</code> ne tourne plus : pommes 0.11.0 lève <code>ValueError: storage_power_capacity_investment_min = 1 at area=FR, storage_tech=batterie, year_inv=2030 is imposed on a vintage without planning variable</code> (contrôle ajouté en 0.10). Une capacité imposée est protégée ; une capacité laissée au choix de pommes disparaît toujours sans message.</p>
 <p>À noter : le coût passe de 497 405,29 à 472 144,28 €, soit 25 261 € de moins pour 1 MW ; le PV monte de 1,647 à 2,151 MW, la turbine tombe de 181,6 à 144,8 MWh, l'import de 6 619 à 6 118 MWh. La batterie vaut en partie par le PV qu'elle rend possible. Si pommes choisit la taille (<code>invest_cost_power=100_000</code>, <code>invest_cost_energy=150_000</code>, <code>finance_rate=0.04</code>, bornes retirées), il prend 0,186 MW et le coût vaut 497 347,97 €.</p>
 <p>Questions. Quelle énergie se perd entre charge et injection, et quel argument la porte ? (747 − 672 = 75 MWh, <code>factor_out=0.9</code>.) Combien de cycles par jour en moyenne ? (336 / 365 = 0,92.) Que vaut <code>planning_storage_energy_capacity</code> si l'on remplace <code>energy_to_power_ratio=2.0</code> par <code>energy_capacity_investment_min=2.0, energy_capacity_investment_max=2.0</code> ? (2,0 MWh, même coût.)</p>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Pour les cinq phrases du tableau, vous nommez le composant, l'argument et son unité sans ouvrir la fiche.</li>
 <li>Vous retrouvez 472 144,28 € et 336 cycles, et vous expliquez les 25 261 € de gain par les trois mouvements du bilan.</li>
 <li>Vous dites, avant de lancer, ce que fait un <code>StorageTechnology</code> laissé à <code>life_span=5</code> avec <code>year_decs=[2055]</code>, avec et sans plancher de puissance, et ce que fait une <code>FlexibleDemand</code> laissée à <code>conservation_hrs=0</code>.</li>
 <li>Vous écrivez un gaz à prix fixe avec deux composants et un <code>factor</code> négatif.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Les valeurs par défaut de chaque paramètre pommes, avec ses dimensions <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/dataset_description.html" target="_blank" rel="noopener">Dataset description : la table de tous les paramètres (défaut, dimensions, type)</a>.</li>
 <li>Les trois exemples de la doc pommes_craft : PV + gaz, deux zones reliées, batterie (site en 0.3.7 ; <code>factor_out</code> à 0 dans l'exemple batterie) <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes_craft/examples.html" target="_blank" rel="noopener">Examples de pommes_craft : PV + gaz, deux zones reliées, batterie</a>.</li>

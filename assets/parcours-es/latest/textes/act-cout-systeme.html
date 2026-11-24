@@ -102,7 +102,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <p>Objectif : voir, chiffres à l'appui, pourquoi le coût complet de chaque filière (LCOE) ne suffit pas à comparer des mix électriques, et nommer les postes qui font la différence. L'outil : la page « Ce que coûte un mégawattheure du système électrique » <a href="../outils/nzg-bloc-systeme-electrique.html">Ce que coûte un mégawattheure du système électrique : une page tirée du Net Zero Game</a>. Elle reprend les six parcs 2050 de RTE que le Net Zero Game applique à sa demande, et y ajoute ce que le jeu ne calcule pas : un équilibre heure par heure sur trois années météo du TYNDP 2026, le stockage, les turbines de secours, les imports et le réseau.</p>
 <p>Prérequis : l'annuité comprise <a href="../textes/cout-annualise.html">Du coût d'investissement à l'annuité : CRF, €/kW/an, LCOE et ses limites</a>. Valeurs relevées le 19/11/2026 sur la page tirée du Net Zero Game (après la version 0.41.0, commit b65b1f7), aux réglages de départ sauf indication : coûts RTE 2026 à 6 %, imports 5,5 GW, électrolyse 50 TWh, consommation hors électrolyse 595 TWh, critère de 3 h par an. Notez la version affichée en haut de la page.</p>
-<h2>1. Le LCOE et le système ne classent pas les mix de la même façon (15 min)</h2>
+<h2 id="1-le-lcoe-et-le-systeme-ne-classent-pas-les-mix-de-la-meme-facon-15-min">1. Le LCOE et le système ne classent pas les mix de la même façon (15 min)</h2>
 <p>Cliquez M0, puis N1, puis N03. Relevez, dans la colonne de droite, le coût du mégawattheure du système et le LCOE moyen des centrales du mix.</p>
 <table>
 <thead>
@@ -143,9 +143,9 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>Le LCOE classe M0 en tête ; le système classe N03 en tête. Écrivez en trois lignes quels postes de la barre empilée font basculer le classement, et pourquoi l'écrêtement n'apparaît pas comme un poste à part (il est payé dans la production).</p>
-<h2>2. Lire la semaine la plus tendue (10 min)</h2>
+<h2 id="2-lire-la-semaine-la-plus-tendue-10-min">2. Lire la semaine la plus tendue (10 min)</h2>
 <p>Pour M0, graphique « La semaine la plus tendue », année météo WS077. Qu'est-ce qui tient la consommation quand le vent tombe ? Basculez sur « La monotone du secours » : combien d'heures par an tournent les cycles combinés, et pourquoi la tranche du haut va-t-elle aux turbines à combustion et aux effacements ? Reliez au texte sur la méthode graphique <a href="../textes/txt-methode-graphique.html">Dimensionner un parc par la méthode graphique : monotone de charge, droites de coût, heures de bascule</a>.</p>
-<h2>3. Le taux et le CAPEX qui referment l'écart (20 min)</h2>
+<h2 id="3-le-taux-et-le-capex-qui-referment-lecart-20-min">3. Le taux et le CAPEX qui referment l'écart (20 min)</h2>
 <p>Onglet « Hypothèses économiques ». Pour M0 et N03, faites varier le taux d'actualisation, puis, dans le tableau par filière, le CAPEX du nouveau nucléaire.</p>
 <table>
 <thead>
@@ -184,7 +184,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>À quel CAPEX de l'EPR2 l'écart s'annule-t-il ? Comparez à la fourchette des SMR de l'annexe de RTE (7 000 à 18 000 €/kW). Ouvrez l'onglet « Coût par filière » : pourquoi le nucléaire de N1, très modulé, coûte-t-il environ une fois et demie plus cher à son facteur de charge réalisé (≈ 52 %) qu'à son facteur de charge possible (≈ 76 %) ?</p>
-<h2>4. Les voisins et le critère de sécurité (15 min)</h2>
+<h2 id="4-les-voisins-et-le-critere-de-securite-15-min">4. Les voisins et le critère de sécurité (15 min)</h2>
 <p>Revenez au départ (N1). Faites varier les imports sur lesquels compter au pire moment.</p>
 <table>
 <thead>
@@ -223,16 +223,16 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>Le départ de 5,5 GW est ce que la France importe dans le TYNDP 2040 pendant ses 100 heures les plus tendues. Qui a raison, la page ou RTE qui compte sur 39 GW ? Le cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/G_mix_100_enr" target="_blank" rel="noopener">Cas G — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a> répond en partie : il modélise les voisins. Passez ensuite le critère à « la pire heure » pour M0 puis N03 : de combien montent les turbines (≈ 62 → 80 GW pour M0, ≈ 24 → 39 GW pour N03), et de combien le coût (2 à 3 €/MWh) ? Pourquoi si peu ?</p>
-<h2>5. Le calage sur RTE et le verdict (15 min)</h2>
+<h2 id="5-le-calage-sur-rte-et-le-verdict-15-min">5. Le calage sur RTE et le verdict (15 min)</h2>
 <p>Onglet « Calage sur RTE » : avec les coûts et le taux de RTE 2022, la page retrouve les totaux de RTE à moins de 10 % près, mais l'écart M0 − N03 y fait environ 25 Md€ par an, contre 17,5 chez RTE. Nommez deux raisons de cet écart, lues dans l'onglet (imports, turbines, nucléaire existant, horizon 2060). Puis écrivez un verdict de cinq lignes : quel mix coûte le moins cher en système sous vos hypothèses, de combien, et sous quel taux et quel CAPEX ce classement tombe. Ordre de grandeur, pas une prévision : chaque chiffre porte sa source (l'onglet « Sources » les donne).</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous expliquez en une phrase pourquoi le mix au LCOE le plus bas n'est pas le système le moins cher.</li>
 <li>Vous chiffrez la part de la flexibilité et du réseau dans le coût d'au moins deux mix.</li>
 <li>Vous donnez le taux et le CAPEX qui font basculer votre verdict.</li>
 <li>Vous dites ce que la page ne voit pas (un seul nœud, une règle et non une optimisation, trois années météo) et quel cas POMMES le voit.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le même calcul fait par un optimiseur, avec les voisins : le cas G <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/G_mix_100_enr" target="_blank" rel="noopener">Cas G — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>.</li>
 <li>Dimensionner éolien et stockage soi-même dans craft <a href="../textes/act-dimensionner-enr-stockage.html">Dimensionner éolien et stockage dans craft, avec et sans écrêtement</a>.</li>

@@ -101,7 +101,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Télécharger le moteur public de l'outil « ce que coûte chaque route » (un fichier Python et neuf fichiers d'hypothèses), tracer le prix du CO₂ qui fait basculer l'acier vers l'hydrogène en fonction du prix de l'électricité, puis refaire les prix de bascule que le cas H calcule aux tarifs des jeux de prix publiés, et changer une hypothèse.</p>
   </header>
   <p>Objectif : passer du curseur au calcul. L'outil web <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a> fait tourner un petit moteur, écrit deux fois (JavaScript pour la page, Python pour les calculs), vérifiés identiques sur les 46 routes. Le moteur Python est public. La partie A (N1, 35 min) trace une courbe de bascule ; la partie B (N2, 45 min) refait ce que fait le cas H avant de lancer son modèle. Il faut Python avec pyyaml et matplotlib (<code>pip install pyyaml matplotlib</code>). Valeurs du 18/11/2026, moteur v2.1 (10/10/2026).</p>
-<h2>Partie A (N1). Le prix de l'électricité qui fait basculer l'acier</h2>
+<h2 id="partie-a-n1-le-prix-de-lelectricite-qui-fait-basculer-lacier">Partie A (N1). Le prix de l'électricité qui fait basculer l'acier</h2>
 <p>Un <strong>prix de bascule</strong> est le prix du CO₂ à partir duquel une route bas carbone coûte moins cher que la route de référence (ici le haut fourneau, BF-BOF), en comptant ce que chacune paie de quota. Le DRI-H₂ (fer réduit à l'hydrogène, puis four électrique) achète son hydrogène, donc son électricité : son prix de bascule dépend du prix de l'électricité.</p>
 <ol>
 <li>Télécharger le moteur et ses hypothèses (les cinq premières lignes du bloc), puis vérifier qu'on retrouve l'onglet Acier : BF-BOF 523 €/t, DRI-H₂ 772 €/t.</li>
@@ -178,7 +178,7 @@ plt.savefig(&quot;bascule_dri_h2.png&quot;, dpi=120)
 </table>
 <p>D'où vient la pente : dans l'outil, l'aciérie à l'hydrogène consomme 3,93 MWh d'électricité par tonne d'acier (hydrogène compris, champ <code>elec_mwh</code>) contre 0,19 pour le haut fourneau, et paie 1,70 tCO₂ de quota de moins par tonne (champ <code>em_ets</code> : 1,76 contre 0,06) ; (3,93 − 0,19) / 1,70 ≈ 2,2. Écrire en une phrase pourquoi un tarif d'heures creuses (cas D, cas K) change plus le verdict qu'un CAPEX d'électrolyseur.</p>
 <p>Pièges du moteur : l'hydrogène y est en €/t (7 059 €/t = 7,06 €/kg) ; <code>prix_co2_bascule</code> et <code>cout_abattement</code> valent <code>None</code> pour la route de référence et pour celles qui émettent plus qu'elle (la bascule compare les émissions directes, qui paient le quota, <code>em_ets</code> ; le coût d'abattement compare les émissions totales, <code>em_total</code>) ; le moteur ne borne pas les curseurs (on peut sortir de la plage de la page) ; une hypothèse changée en mémoire le reste jusqu'au prochain <code>modele.charger()</code>.</p>
-<h2>Partie B (N2). Refaire les prix de bascule du cas H, puis changer une hypothèse</h2>
+<h2 id="partie-b-n2-refaire-les-prix-de-bascule-du-cas-h-puis-changer-une-hypothese">Partie B (N2). Refaire les prix de bascule du cas H, puis changer une hypothèse</h2>
 <p>Le cas H <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/H_industrie_co2" target="_blank" rel="noopener">Cas H — À quel prix du CO₂ l'industrie française change-t-elle de procédé, et qu'est-ce qui se verrouille ?</a> commence par là : il pose dans le moteur le prix de l'électricité (réseau compris, 6 €/MWh) et du gaz de chaque jeu de prix publié, et en tire les prix de bascule usine par usine. Il les compare ensuite à ce que fait le parc français dans le modèle pommes. Le résultat est public (<code>economie_routes.json</code>).</p>
 <ol>
 <li>Télécharger le moteur comme en partie A (dossier <code>idr/</code>).</li>
@@ -250,13 +250,13 @@ print(&quot;charbon 220 :&quot;, {k: round(r[k][&quot;prix_co2_bascule&quot;], 1
 </tbody>
 </table>
 <p>Ce qu'il faut voir : le charbon cher rapproche toutes les routes du haut fourneau, sauf le captage, qui garde son charbon. Et le calcul usine par usine du cas H (<code>economie_routes.py</code>) applique le tarif des heures creuses à toute l'électricité de l'usine, four compris, alors que dans le modèle pommes du cas seule l'électrolyse achète aux heures les moins chères : une simplification à écrire dans vos limites. Le pas suivant est dans le cas H lui-même : le parc français bascule vers l'hydrogène dès 125 €/t en 2030 sous ce jeu, bien plus bas que les 205 €/t de l'usine seule. Pourquoi ? C'est la compétence suivante.</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous retrouvez la pente de 2,2 €/tCO₂ par €/MWh à partir de deux chiffres de l'outil.</li>
 <li>Vos huit prix de bascule tombent à l'écart nul, et vous savez dire d'où vient chaque prix d'électricité.</li>
 <li>Vous distinguez un prix de bascule (privé, une usine, un prix) d'un coût d'abattement <a href="../textes/act-ordre-merite-co2.html">Activité guidée — l'ordre de mérite des abattements face au quota et à la valeur Quinet</a>.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>La note compagnon de l'outil : hypothèses, sources, statuts <span title="note-economie-routes">Ce que coûte chaque route de décarbonation de l'industrie (note, 20/09/2026, v2.1 du 10/10) (remis en cours)</span>.</li>
 <li>Le parc plutôt que l'usine : le cas H <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/H_industrie_co2" target="_blank" rel="noopener">Cas H — À quel prix du CO₂ l'industrie française change-t-elle de procédé, et qu'est-ce qui se verrouille ?</a> ; l'usine qui suit le prix heure par heure : le cas K <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/K_acierie_dri" target="_blank" rel="noopener">Cas K — Une aciérie DRI qui choisit son gaz heure par heure : que vaut sa flexibilité, que lui retire une rampe ?</a>.</li>

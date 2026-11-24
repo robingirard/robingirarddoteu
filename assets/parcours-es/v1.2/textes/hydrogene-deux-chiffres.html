@@ -100,12 +100,12 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Pourquoi deux chiffres pour le même hydrogène</h1>
     <p class="resume">Le cas D donne un hydrogène électrolytique à 4,4 à 4,9 €/kg, l'outil « ce que coûte chaque route » à 7,1 €/kg : le même électrolyseur, mais pas la même question, et un calcul exécuté retrouve les deux.</p>
   </header>
-  <h2>Le problème</h2>
+  <h2 id="le-probleme">Le problème</h2>
 <p>Ce parcours donne deux prix à l'hydrogène électrolytique.</p>
 <p>Le cas D (coûts du TYNDP 2024, année 2030) le met entre 4,4 et 4,9 €/kg selon le jeu de prix, contre 2,1 à 2,5 €/kg pour le reformeur au gaz ; le jeu TYNDP 2024 donne 4,83 €/kg (<code>D_electrolyseur/results.json</code>, configuration <code>electrolyseur</code>, champ <code>cout_kg</code>).</p>
 <p>L'outil « ce que coûte chaque route » le met à 7,1 €/kg à 70 €/MWh et 50 % de facteur de charge, contre 3,3 €/kg pour le vaporeformage. À 30 €/MWh, on lit 4,9 ; à 30 €/MWh et 90 % de charge, 3,6.</p>
 <p>Les deux ont presque le même électrolyseur : 1 961 €/kW électrique dans le cas D (<code>hypotheses.yaml</code>, <code>elec_invest_2030</code> : 3 393 000 €/MW d'hydrogène divisés par 1,73), 1 950 €/kW dans l'outil (AIE, Global Hydrogen Review 2026 : 2 200 USD/kW hors Chine, à 1,13 $/€). L'écart ne vient pas de la machine, mais de ce qu'on lui demande.</p>
-<h2>La formule commune</h2>
+<h2 id="la-formule-commune">La formule commune</h2>
 <p>Les deux outils calculent un coût actualisé de l'hydrogène, un LCOH, avec la même structure :</p>
 <pre><code class="language-text">LCOH = (CAPEX × CRF(taux, durée) + OPEX fixe) / (8760 h × FC × production spécifique)
        + prix de l'électricité × consommation spécifique
@@ -113,7 +113,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </code></pre>
 <p>Le CRF est le facteur de recouvrement du capital, <code>i (1+i)^n / ((1+i)^n − 1)</code>, le même que dans l'objectif de pommes. Le facteur de charge FC divise tout le capital : à mi-temps, les postes fixes coûtent deux fois plus par kilogramme.</p>
 <p>En euros par tonne et par an de capacité à pleine charge, les deux CAPEX se comparent : 1 950 €/kW × 53 MWh/t ÷ 8,76 MWh par kW et par an = 11 800 €/(t/an) dans l'outil ; 1 961 × 57,7 ÷ 8,76 = 12 900 €/(t/an) dans le cas D.</p>
-<h2>Les hypothèses, côte à côte</h2>
+<h2 id="les-hypotheses-cote-a-cote">Les hypothèses, côte à côte</h2>
 <table>
 <thead>
 <tr>
@@ -176,7 +176,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </tbody>
 </table>
 <p>Le cas D choisit le facteur de charge. Sans stockage, l'électrolyseur tourne 8 760 h : le ruban de 100 MW doit être produit et rien ne permet de décaler. Avec une cavité saline, pommes le fait tourner entre 63 et 89 % selon le jeu de prix 2030 et paie l'électricité 36 à 52 €/MWh pour des moyennes de 56 à 61 (<code>results.json</code>, <code>electrolyseur_cavite</code>, champs <code>facteur_charge</code>, <code>prix_moyen_paye</code> et <code>prix_moyen</code>). Dans les deux jeux TYNDP : 71 % et 47 €/MWh pour 2024, 63 % et 36 €/MWh pour 2026. L'outil prend 50 % comme un fait : le profil d'un électrolyseur couplé à un parc éolien et solaire dédié.</p>
-<h2>Le calcul qui retrouve les deux</h2>
+<h2 id="le-calcul-qui-retrouve-les-deux">Le calcul qui retrouve les deux</h2>
 <p>Ce bloc, exécuté avec l'environnement du dépôt des cas, retrouve 4,83 €/kg avec les hypothèses du cas D, puis 7,06, 4,94 et 3,64 €/kg avec celles de l'outil.</p>
 <pre><code class="language-python">def crf(i, n): return i * (1 + i) ** n / ((1 + i) ** n - 1)
 
@@ -196,7 +196,7 @@ for prix, fc in [(70, 0.5), (30, 0.5), (30, 0.9)]:
 # -&gt; 70 0.5 7.06 ; 30 0.5 4.94 ; 30 0.9 3.64
 </code></pre>
 <p><code>modele.py</code> de l'outil, lancé avec les mêmes surcharges, affiche 7,1, 4,9 et 3,6.</p>
-<h2>D'où vient l'écart de 2,2 €/kg</h2>
+<h2 id="dou-vient-lecart-de-22-kg">D'où vient l'écart de 2,2 €/kg</h2>
 <p>Du cas D vers l'outil, une hypothèse changée à la fois, dans cet ordre :</p>
 <pre><code class="language-text">4,83 €/kg           cas D, électrolyseur sur réseau, TYNDP 2024 2030
 4,83      (−0,01)   CAPEX 1 961 -&gt; 1 950 €/kWe
@@ -209,18 +209,18 @@ for prix, fc in [(70, 0.5), (30, 0.5), (30, 0.9)]:
 </code></pre>
 <p>Trois leçons. Le CAPEX en €/kW ne change rien. Le facteur de charge fait les deux tiers de l'écart. L'exploitation, OPEX fixe et stack, presque nulle dans le TYNDP et à 3 % du CAPEX plus un remplacement chez l'AIE, fait 0,74 €/kg : la source des coûts pèse là, pas dans l'investissement.</p>
 <p>Le prix de l'électricité, enfin. L'outil demande un prix unique. Le cas D prend 8 760 prix et laisse l'électrolyseur en choisir : avec une cavité, le prix payé tombe à 36 €/MWh dans le jeu TYNDP 2026, pour une moyenne de 57,5. Le prix d'un électrolyseur flexible n'est pas la moyenne du marché.</p>
-<h2>Le troisième chiffre : 210 gCO₂/kWh</h2>
+<h2 id="le-troisieme-chiffre-210-gco2kwh">Le troisième chiffre : 210 gCO₂/kWh</h2>
 <p>La vidéo « quand l'hydrogène est-il vraiment vert ? » parle d'émissions, pas de coût. À 53 kWh/kg, l'électrolyse émet plus que le vaporeformage dès que le réseau dépasse 11,2 kgCO₂/kg ÷ 53 kWh/kg ≈ 210 gCO₂/kWh ; sur le mix UE-27 de 2023, 240 g, l'hydrogène ressort à 12,7 kgCO₂/kg. Le cas D pose la même question par la règle du règlement 2023/1184 : électricité sous PPA, produite le même mois, puis la même heure dès 2030. Cette corrélation horaire coûte 0,16 à 0,30 €/kg selon le jeu de prix. Ni l'outil ni la vidéo n'ont ce périmètre.</p>
-<h2>Conclusion : quelle question chacun sert</h2>
+<h2 id="conclusion-quelle-question-chacun-sert">Conclusion : quelle question chacun sert</h2>
 <p>Les deux chiffres ne se citent pas côte à côte sans leurs hypothèses. « 4,8 €/kg » répond à : que coûte un hydrogène en ruban pour un site branché au réseau de gros, aux prix d'un scénario 2030, libre de stocker ? « 7,1 €/kg » répond à : que coûte aujourd'hui un électrolyseur acheté hors Chine, alimenté à 70 €/MWh la moitié du temps ? Le premier sert à dimensionner et à arbitrer stockage, PPA et règle. Le second sert à classer des routes et à voir quel curseur fait basculer le classement. Devant un €/kg, cherchez d'abord le facteur de charge et le prix de l'électricité ; le CAPEX vient après.</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous retrouvez 4,83 €/kg à partir des trois postes de <code>results.json</code> (34,56 + 1,2 + 91,26 M€ pour 26,28 Mkg) et 7,06 €/kg avec le bloc de code ci-dessus.</li>
 <li>Vous savez dire, sans calcul, pourquoi un taux ramené de 8 à 4 % baisse davantage le 7,1 que le 4,8.</li>
 <li>Dans l'outil, vous trouvez le facteur de charge à partir duquel l'électrolyse à 30 €/MWh s'affiche à 3,8 €/kg ou moins, et vous expliquez pourquoi le cas D n'a pas ce curseur.</li>
 <li>Vous retrouvez 210 gCO₂/kWh à partir de 11,2 kgCO₂/kg et de 53 kWh/kg.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le cas D, son <code>hypotheses.yaml</code> et son <code>results.json</code> <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a>.</li>
 <li>L'outil « ce que coûte chaque route » et l'activité guidée sur le prix d'égalité électrolyse-SMR <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a>, <a href="../textes/activites-outils.html">Activité guidée — à quel prix de l'électricité l'électrolyse rattrape le vaporeformage ?</a>, <a href="../textes/activites-outils.html">Activité guidée — à quel prix de l'électricité l'électrolyse rattrape le vaporeformage ?</a>.</li>

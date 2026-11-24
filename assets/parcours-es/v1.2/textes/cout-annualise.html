@@ -101,10 +101,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Comment un investissement en €/kW devient un coût annuel en €/kW/an, puis un coût par MWh, et pourquoi ce dernier ne suffit pas à juger un actif.</p>
   </header>
   <p class="telecharger-nb"><a href="../notebooks/cout-annualise.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
-<h2>Pourquoi annualiser</h2>
+<h2 id="pourquoi-annualiser">Pourquoi annualiser</h2>
 <p>Une batterie coûte des euros par kW le jour où on l'achète. Elle gagne des euros par kW et par an pendant vingt-cinq ans. Pour comparer les deux, on ramène l'investissement à un coût annuel : l'annuité. C'est ce que fait pommes dans son objectif, et c'est ce que vous lisez dans chaque verdict des cas.</p>
 <p>Deux paramètres suffisent : la durée de vie n, en années, et le taux d'actualisation r. Le taux dit ce que vaut un euro de l'an prochain par rapport à un euro d'aujourd'hui. Le cas A emprunte 4 % au TYNDP ; le cas E prend 8 %, « typique d'un projet industriel ». Le même actif n'a donc pas le même coût annuel selon qui le finance.</p>
-<h2>Le facteur de recouvrement du capital</h2>
+<h2 id="le-facteur-de-recouvrement-du-capital">Le facteur de recouvrement du capital</h2>
 <p>L'annuité constante qui rembourse un euro en n ans au taux r vaut :</p>
 <p>CRF(r, n) = r / (1 − (1 + r)^−n)</p>
 <p>et 1 / n quand r vaut zéro. Le coût annualisé d'un investissement I est I × CRF. On y ajoute le coût fixe d'exploitation, en €/kW/an, qui ne dépend ni du taux ni de la durée.</p>
@@ -124,7 +124,7 @@ for r, n in ((0.08, 25), (0.04, 15), (0.08, 15)):
 # 8 %, 15 ans : [43.1, 63.0, 103.0]
 </code></pre>
 <p>Les trois valeurs du README du cas A sont retrouvées : 23,9, 34,8 et 56,7 €/kW/an pour 1, 2 et 4 h. Passer de 4 % à 8 % fait grimper la batterie de 2 h de 34,8 à 50,7 €/kW/an, soit 46 % de plus. Passer de 25 à 15 ans la porte à 48,7. Les deux ensemble la portent à 63,0, presque le double. Or son revenu d'arbitrage en 2030 vaut 25,7 €/kW/an dans le TYNDP 2026 NT+ et va de 4,7 à 48,2 dans le jeu POMMES. Le taux et la durée de vie décident du verdict autant que les prix.</p>
-<h2>Comment pommes annualise</h2>
+<h2 id="comment-pommes-annualise">Comment pommes annualise</h2>
 <p>Vous n'écrivez pas la formule dans un cas : pommes la calcule. Chaque composant de pommes_craft porte un coût d'investissement (<code>invest_cost</code>, ou <code>invest_cost_power</code> et <code>invest_cost_energy</code> pour un stockage), une durée de vie <code>life_span</code> et un taux <code>finance_rate</code>. En construisant le programme linéaire, pommes évalue <code>pommes.utils.crf(finance_rate, n)</code> et multiplie par l'investissement, où n vaut en fait <code>year_dec − year_inv</code>, d'où le réglage ci-dessous. Le résultat est le paramètre <code>storage_annuity_cost_power</code> pour la puissance d'un stockage, <code>storage_annuity_cost_energy</code> pour l'énergie, <code>conversion_annuity_cost</code> pour une chaudière ou une centrale. L'objectif additionne ces annuités, les coûts fixes et les coûts variables.</p>
 <p>Le bloc suivant met la batterie du cas A dans une zone au prix exogène et lit le paramètre sans résoudre :</p>
 <pre><code class="language-python">import sys, numpy as np
@@ -147,7 +147,7 @@ ae = float(params[&quot;storage_annuity_cost_energy&quot;].squeeze())  # 10946.0
 print(round((ap + 2 * ae) / 1000 + 0.65, 1))                 # 34.8 €/kW/an
 </code></pre>
 <p>Deux détails comptent. D'abord, pommes n'ouvre une capacité que si l'écart entre <code>year_dec</code> et l'année d'investissement égale la durée de vie : d'où <code>year_dec=2055</code>. Ensuite, <code>EconomicHypothesis</code> porte quatre réglages : <code>discount_rate</code>, qui actualise les années d'exploitation vers <code>year_ref</code>, <code>planning_step</code>, le pas entre deux années de planification, et <code>operation_year_weight</code>, le poids de chaque année d'exploitation, 1 par défaut. Les cas du dépôt posent <code>discount_rate=0.0</code> et une seule année d'investissement : l'objectif est le coût d'une année, annuités comprises, et les €/kW/an se lisent directement. Le cas A empile plusieurs séries de prix comme autant d'années d'exploitation, aux mêmes capacités ; le cas E n'en a qu'une. Le taux de 4 % est celui du composant, <code>finance_rate</code>, pas celui de l'actualisation. Les poids d'année sont décrits dans <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (1) : objectif, actualisation, annuités, poids d'année et conditions d'exploitation</a>.</p>
-<h2>Du €/kW/an au €/MWh : le LCOE</h2>
+<h2 id="du-kwan-au-mwh-le-lcoe">Du €/kW/an au €/MWh : le LCOE</h2>
 <p>Le coût moyen actualisé d'un MWh, ou LCOE, divise le coût annuel par l'énergie produite dans l'année. Pour un actif de 1 MW qui tourne au facteur de charge f, cette énergie vaut 8 760 × f MWh. Le capital pèse donc d'autant plus que l'actif tourne peu.</p>
 <p>Le cas E le montre avec une chaudière électrique. <code>E_vapeur/hypotheses.yaml</code> donne 220 000 €/MW thermique, 1 375 €/MW/an de coût fixe, 0,642 €/MWh de coût variable, 25 ans, un rendement de 0,99, statut « vérifié » depuis les fiches de la Danish Energy Agency, et un taux de 8 %, statut « choix du cas ». La demande vaut 7 300 MWh/an à 1,25 MW, deux postes de 8 h.</p>
 <pre><code class="language-python">a = crf(0.08, 25)                      # 0.0937
@@ -162,21 +162,21 @@ gaz = (22.6 + 0.202 * 45) / 0.94       # gaz TYNDP 2024 en 2030 + CO2 ETS2 à 45
 print(round((90_000 * a + 2_000) / mwh_par_mw + 1.23 + gaz, 1))      # 36.7 €/MWh
 </code></pre>
 <p>Deux lectures. Pour une chaudière, le capital est petit : 3,76 €/MWh de vapeur sur un total de l'ordre de 60 €/MWh. L'électricité achetée fait presque tout, et le verdict dépend du prix horaire, pas du CRF. La dernière ligne retrouve les 36,7 €/MWh de la chaudière à gaz seule du README du cas E, sous le TYNDP 2024 en 2030 : le LCOE d'un actif qui tourne à heures fixes se calcule à la main, sans pommes.</p>
-<h2>Les limites du LCOE</h2>
+<h2 id="les-limites-du-lcoe">Les limites du LCOE</h2>
 <p>Le LCOE répond à « combien coûte un MWh produit », pas à « combien vaut ce MWh ». Trois pièges.</p>
 <p>Le facteur de charge n'est pas une donnée. Pour une batterie ou une chaudière hybride, c'est le résultat de l'optimisation face aux prix. Dans le cas E, l'hybride produit 0 à 67 % de sa vapeur à l'électricité selon le jeu de prix, pour 24 à 43 €/MWh.</p>
 <p>La valeur de marché dépend des heures. Deux actifs au même LCOE ne gagnent pas la même chose s'ils produisent à des heures différentes. Dans le cas A, la série centrale de fos-sur-mer rapporte 54,8 €/kW/an, dont 20,9 en 15 heures au plafond de 1 000 €/MWh, soit 38 % du revenu. Sans ces heures, la batterie est réoptimisée (chaque heure au plafond est ramenée au plus haut prix hors plafond de l'année) et rapporte 34,8 €/kW/an — pas 54,8 − 20,9 = 33,9 (<code>A_batteries/results.json</code>, lignes <code>sans_plafond</code> à <code>false</code> et <code>true</code>). 34,8 €/kW/an, c'est justement le coût annualisé d'une batterie de 2 h au coût central du TYNDP 2030 : l'équilibre exact.</p>
 <p>La cannibalisation. Quand toutes les batteries déchargent aux mêmes heures, elles font baisser le prix qu'elles visaient. Le cas A le modélise par une pente de marché : à 1 €/MWh par GW déchargé, une flotte de 10 GW gagne environ 20 % de moins par kW qu'une batterie seule, 19,9 contre 25,7 €/kW/an sous le TYNDP 2026. Le LCOE ne bouge pas ; la valeur fond.</p>
-<h2>Le coût de défaillance</h2>
+<h2 id="le-cout-de-defaillance">Le coût de défaillance</h2>
 <p>Un modèle de planification doit aussi décider ce que coûte un MWh non servi. Dans pommes, c'est le paramètre <code>load_shedding_cost</code>, nul par défaut quand aucun composant n'est posé ; le composant <code>LoadShedding</code> de pommes_craft le fixe par son argument <code>cost</code>, 1 000 €/MWh par défaut. Les cas à prix exogène lui donnent une capacité nulle : la demande doit être servie. Dans un modèle de système entier, ce coût fixe la hauteur des pics : le prix dual monte au coût de défaillance quand la demande n'est pas servie. Le cas A traite toute heure à 1 000 €/MWh ou plus comme une heure de défaillance du modèle de prix, statut « choix du cas », et donne le verdict avec et sans ces heures. Pour l'adéquation et la LOLE : <span title="planches-lole-adequation-pointe">Adéquation : défaillance, pointe « à une chance sur dix », LOLE dans le capacity expansion (remis en cours)</span>.</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous retrouvez 23,9, 34,8 et 56,7 €/kW/an à la main depuis les cinq nombres de <code>A_batteries/hypotheses.yaml</code>, puis 50,7 €/kW/an pour la batterie de 2 h à 8 %.</li>
 <li>Vous lisez <code>storage_annuity_cost_power</code> dans les paramètres pommes d'un cas et vous expliquez pourquoi il vaut 12 290 €/MW/an.</li>
 <li>Vous dites, sans calcul, pourquoi un taux de 8 % pénalise une batterie bien plus qu'une chaudière électrique.</li>
 <li>Vous citez un cas où deux actifs au même coût annuel n'ont pas la même valeur, et vous nommez le mécanisme.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le coût du capital, les contrats qui le font baisser (tarif d'achat, contrat pour différence, contrat d'achat de long terme, prêt public) et qui paie au bout du compte : la note « Financer la transition » <a href="../notes/note-financer-transition.html">Financer la transition : le coût du capital, les contrats, et qui paie au bout du compte (note, 22/11/2026)</a>. Passer de 3 % à 9 % y multiplie le coût du mégawattheure par 1,6 pour l'éolien et le solaire, et par 2,7 pour le nucléaire neuf.</li>
 <li>L'objectif de pommes, l'actualisation φ1, le facteur φ2 et les poids d'année : <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (1) : objectif, actualisation, annuités, poids d'année et conditions d'exploitation</a>.</li>

@@ -101,7 +101,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Dans l'onglet Aluminium de l'outil « ce que coûte chaque route », trouver le prix de l'électricité qui met une fonderie neuve, puis une fonderie existante, au niveau du prix de marché, et lire dans l'onglet Sources quelle hypothèse décide du verdict. Sans code, 20 minutes.</p>
   </header>
   <p>Objectif : voir sur un produit où l'électricité pèse un tiers du coût ce que veut dire « un prix de bascule », et distinguer une usine qu'on construit d'une usine qui existe déjà. Outil v2.1, lien épinglé <a href="https://www.robingirard.eu/assets/industrydecarbo/latest/index.html" target="_blank" rel="noopener">Décarbonation de l'industrie — ce que coûte chaque route (46 routes, 8 produits)</a> ; valeurs relevées le 18/11/2026 aux réglages par défaut (électricité 70 €/MWh, quota 70 €/t, taux 8 %). L'outil ne garde rien : notez vos valeurs à la main.</p>
-<h2>La manipulation</h2>
+<h2 id="la-manipulation">La manipulation</h2>
 <ol>
 <li>Onglet Aluminium. Relever le coût complet de la route Hall-Héroult (l'électrolyse de l'alumine), la part de l'électricité dans ce coût, et le prix de marché (la ligne grise de la figure de coût). Déplier la carte de la route pour lire le poste « capital » et le quota (ligne « Prix du CO2 × émissions directes résiduelles »).</li>
 <li>Baisser le curseur « Prix de l'électricité » jusqu'à ce que Hall-Héroult passe sous le prix de marché. C'est le prix d'électricité qui fait vivre une fonderie <strong>neuve</strong>.</li>
@@ -157,13 +157,13 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 </table>
 <p>Le calcul de l'étape 3 : 70 − (3 223 − 561 − 2 400) / 15 = 52,5 €/MWh ; sans le quota, 70 − (2 662 − 217 − 2 400) / 15 = 67,0 €/MWh.</p>
 <p>Ce que l'outil ne dit pas : une fonderie module peu sa puissance et ne peut pas s'arrêter longtemps (le bain fige) ; son facteur de charge de 95 % est un « choix » de l'outil. Elle ne peut donc pas suivre le prix heure par heure comme l'aciérie du cas K ; elle paie le prix moyen, ou un contrat. Le quota de 217 €/t compte aussi le raffinage de la bauxite en alumine et la cuisson des anodes : une fonderie qui achète son alumine en paie moins. Et son prix d'égalité dépend d'un prix de marché au statut « mémoire ».</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous expliquez l'écart entre 15 et 52,5 €/MWh sans parler de technique : c'est le capital déjà dépensé.</li>
 <li>Vous dites quelle hypothèse au statut « mémoire » porte le verdict.</li>
 <li>Vous citez la version de l'outil à côté de chacun de vos chiffres.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le même raisonnement pour l'acier, au charbon et au CO₂ <a href="../textes/activites-outils.html">Activité guidée — acier : le prix du charbon à coke et le prix du CO₂ qui font basculer le haut fourneau</a>.</li>
 <li>Le moteur de l'outil en Python, pour tracer un prix de bascule au lieu de le chercher au curseur <a href="../textes/act-routes-python.html">Activité guidée — le moteur de l'outil « routes » en Python</a>.</li>

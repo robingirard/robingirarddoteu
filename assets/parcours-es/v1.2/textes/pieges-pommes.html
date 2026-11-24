@@ -101,7 +101,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Dix pièges de pommes 0.11.0, pommes_craft 0.6.0 et linopy 0.10.1, chacun avec son symptôme, sa cause, son remède et un extrait de code, vérifiés sur des modèles de 24 heures, et ce qui change quand on lit un code ou un résultat écrit en 0.9.</p>
   </header>
   <p>Fiche pour l'environnement du cours (dépôt des cas) : pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS (highspy 1.15.1), même venv que pommes-assistant 0.5.2. Chaque piège : symptôme, cause, remède, extrait ; chiffres vérifiés le 17/11/2026 sur des modèles de 24 heures. La dernière section dit ce qui change en lisant un code écrit en 0.9.</p>
-<h2>1. Sans LoadShedding, le délestage est gratuit et illimité</h2>
+<h2 id="1-sans-loadshedding-le-delestage-est-gratuit-et-illimite">1. Sans LoadShedding, le délestage est gratuit et illimité</h2>
 <p><strong>Symptôme.</strong> 100 MW de demande, une centrale à 50 €/MWh : coût total 0 €, production nulle, 2 400 MWh de délestage. Au prix du marché, HiGHS répond <code>unbounded</code>.</p>
 <p><strong>Cause.</strong> Défauts de pommes : <code>load_shedding_cost = 0.0</code>, <code>load_shedding_max_capacity = nan</code>. Le délestage existe sans borne ni coût, comme une production gratuite ; exporté à prix positif, il rend l'objectif non borné.</p>
 <p><strong>Remède.</strong> Poser un <code>LoadShedding</code> par zone et par ressource (défaut pommes_craft : <code>cost=1000., max_capacity=nan</code> ; <code>max_capacity=0.0</code> l'interdit). Avec le composant, 120 000 € et 2 400 MWh de gaz.</p>
@@ -110,7 +110,7 @@ with model.context():
     area.add_component(LoadShedding(name=&quot;delestage&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
     area.add_component(Spillage(name=&quot;ecretement&quot;, resource=&quot;electricity&quot;, max_capacity=0.0))
 </code></pre>
-<h2>2. NetImport : unique, prix nul par défaut, et il ouvre toutes les ressources</h2>
+<h2 id="2-netimport-unique-prix-nul-par-defaut-et-il-ouvre-toutes-les-ressources">2. NetImport : unique, prix nul par défaut, et il ouvre toutes les ressources</h2>
 <p><strong>Symptôme (a).</strong> Deux <code>NetImport</code> sur la même zone et ressource : <code>ValueError: Conflicting values for the same index in 'net_import_resource_area_hour_year_op.csv'</code>. Les paliers de prix du cas A sont donc des variables ajoutées avant résolution, pas un second composant.</p>
 <p><strong>Symptôme (b).</strong> Demande d'hydrogène, électrolyseur, <code>NetImport</code> d'électricité à 50 €/MWh : coût 0 €, électrolyse nulle, 240 MWh importés.</p>
 <p><strong>Cause.</strong> <code>net_import</code> est un interrupteur global : dès qu'un composant existe, pommes ouvre l'import pour toutes les ressources de la zone, à <code>import_price = 0.0</code> et <code>max_yearly_energy_import = nan</code> ; aucune borne horaire, seulement annuelle.</p>
@@ -118,7 +118,7 @@ with model.context():
 <pre><code class="language-python">area.add_component(NetImport(name=&quot;import_h2&quot;, resource=&quot;hydrogene&quot;,
                              max_yearly_energy_import=0.0, max_yearly_energy_export=0.0))
 </code></pre>
-<h2>3. Une capacité n'existe que si year_dec − year_inv égale la durée de vie</h2>
+<h2 id="3-une-capacite-nexiste-que-si-year_dec-year_inv-egale-la-duree-de-vie">3. Une capacité n'existe que si year_dec − year_inv égale la durée de vie</h2>
 <p><strong>Symptôme.</strong> <code>life_span=20</code> avec <code>year_dec = year_inv + 1000</code> : masque de <code>planning_conversion_power_capacity</code> à <code>False</code>, modèle <code>infeasible</code>. Avec <code>power_capacity_investment_min</code> imposée, <code>build_model</code> lève une <code>ValueError</code> nommant le paramètre et le millésime (depuis 0.10.0, numéro 129 ; avant, la borne disparaissait sans message).</p>
 <p><strong>Cause.</strong> pommes ne crée la variable d'un millésime que si sa fin de vie est une étiquette <code>year_dec</code>. Ici <code>conversion_end_of_life</code> vaut 2050 (2030 + 20 ans), qui n'en est pas une ; jusqu'en 0.9.0, elle valait parfois -2**63 (numéro 41 du CHANGELOG 0.10.0).</p>
 <p><strong>Remède.</strong> Accorder les deux : <code>year_decs=[year_inv + life_span]</code>, ou <code>life_span=1000</code> pour une capacité imposée (cas A, <code>_gabarit/README.md</code>) ; les deux rendent 120 000 € ici. <code>pommes.pre_analysis(params)</code>, lancé avant de construire, avertit (contrôle <code>capacity</code>, sévérité <code>warning</code>) sans construire le LP.</p>
@@ -133,7 +133,7 @@ for f in pre_analysis(params).findings:
 #   build_model refuses it.
 </code></pre>
 <p>Sans le filtre, <code>pre_analysis</code> dit aussi pourquoi un modèle est infaisable (lignes <code>[infeasible] adequacy</code>).</p>
-<h2>4. Une duale brute n'est pas un prix</h2>
+<h2 id="4-une-duale-brute-nest-pas-un-prix">4. Une duale brute n'est pas un prix</h2>
 <p><strong>Symptôme.</strong> Sur 24 heures avec <code>operation_year_duration=8760</code>, la duale de <code>operation_adequacy_constraint</code> vaut 18 250 là où le coût marginal est 50 €/MWh.</p>
 <p><strong>Cause.</strong> L'objectif pondère chaque euro d'exploitation (<code>discount_factor × operation_year_weight × operation_year_normalization × operating_condition_weight</code>), et la duale porte le même facteur : ici 8 760 / 24 = 365 (sur 35 années météo équipondérées, elle serait 35 fois trop petite).</p>
 <p><strong>Remède.</strong> <code>pommes.utils.dual_scale</code> (depuis 0.7.0).</p>
@@ -141,31 +141,31 @@ for f in pre_analysis(params).findings:
 scale = dual_scale(params)
 prix = lp.dual[&quot;operation_adequacy_constraint&quot;] / scale.where(scale &gt; 0)   # 18250 / 365 = 50 €/MWh
 </code></pre>
-<h2>5. Un groupby linopy sans nom crée une dimension « group »</h2>
+<h2 id="5-un-groupby-linopy-sans-nom-cree-une-dimension-group">5. Un groupby linopy sans nom crée une dimension « group »</h2>
 <p><strong>Symptôme.</strong> Une contrainte hebdomadaire sur <code>variable.groupby(cle).sum()</code> se croise mal avec son second membre : <code>Constant RHS contains dimensions {'jour'} not present in the expression</code>, puis une contrainte par couple (groupe, jour), 4 au lieu de 2 sur deux jours.</p>
 <p><strong>Cause.</strong> Sans <code>name</code> sur la clé, la dimension résultante s'appelle <code>group</code> ; nommée, elle porte ce nom.</p>
 <pre><code class="language-python">semaine = xr.DataArray(np.arange(8760) // 168, dims=&quot;hour&quot;,
                        coords={&quot;hour&quot;: params.hour.values}, name=&quot;semaine&quot;)   # name obligatoire
 lp.add_constraints(prod.groupby(semaine).sum() &lt;= budget, name=&quot;lac_hebdo&quot;)
 </code></pre>
-<h2>6. Unités : kilogrammes, signes, fractions</h2>
+<h2 id="6-unites-kilogrammes-signes-fractions">6. Unités : kilogrammes, signes, fractions</h2>
 <p><strong>Symptôme.</strong> Une taxe carbone de 45 passe inaperçue ; un électrolyseur produit de l'électricité ; une annuité explose.</p>
 <p><strong>Cause et remède.</strong> Nomenclature en kg : <code>carbon_tax</code> en €/kg de CO2, facteurs d'émission en kg CO2/MWh ; un prix ETS de 45 €/t s'écrit 0,045. Dans <code>factor</code>, la ressource consommée est négative. Les taux sont des fractions : depuis 0.6.0, <code>finance_rate=5</code> lève une <code>ValueError</code> ; jusqu'en 0.5.0, un taux hors grille était remplacé par 0 sans message.</p>
 <pre><code class="language-python">ConversionTechnology(name=&quot;chaudiere_gaz&quot;, factor={&quot;vapeur&quot;: 1.0, &quot;methane&quot;: -1 / 0.94},
                      emission_factor=0.202 * 1000 / 0.94,   # kg CO2 par MWh de vapeur (0,202 t par MWh de méthane)
                      finance_rate=0.08, life_span=25)
 </code></pre>
-<h2>7. hdf5plugin et certificats macOS</h2>
+<h2 id="7-hdf5plugin-et-certificats-macos">7. hdf5plugin et certificats macOS</h2>
 <p><strong>Symptôme.</strong> <code>CERTIFICATE_VERIFY_FAILED</code> au premier téléchargement de supplyforge ou demandforge.</p>
 <p><strong>Cause.</strong> Le Python de python.org n'a pas de magasin de certificats avant <code>Install Certificates.command</code>. Autre bug corrigé : avant 0.6.0, <code>import pommes</code> pouvait échouer sur <code>ModuleNotFoundError: No module named 'hdf5plugin'</code> ; 0.11.0 le déclare et <code>requirements.txt</code> l'épingle (7.1.0).</p>
 <pre><code class="language-bash">pip install -r requirements.txt
 export SSL_CERT_FILE=$(python -m certifi)
 </code></pre>
-<h2>8. Le temps de calcul explose avec un stockage d'hydrogène</h2>
+<h2 id="8-le-temps-de-calcul-explose-avec-un-stockage-dhydrogene">8. Le temps de calcul explose avec un stockage d'hydrogène</h2>
 <p><strong>Symptôme.</strong> Un site d'électrolyse du cas D (2030, TYNDP 2026 NT+) : 0,2 s sans stockage (61 330 variables), 8,5 s avec réservoir d'hydrogène (87 616), 70 à 110 s avec réservoir et règle horaire (113 904). En 0.9.0, le README donnait 90 à 170 s pour six configurations ensemble, 6 à 13 min sous règle horaire, contre 7 à 15 s pour la France entière.</p>
 <p><strong>Cause.</strong> Le niveau de stock lie toutes les heures de l'année ; le point intérieur n'aide pas (archive 2025 : 121, 143, 193 s au lieu de 88, 69, 165 s).</p>
 <p><strong>Remède.</strong> Réduire années ou heures avant de changer de solveur (tableau du README). Ces tailles de LP datent de 0.9.0 : 0.11 écrit, pour le même problème, 14 % à près de moitié de variables et contraintes en moins (219 024 en 0.9.0 pour le site horaire) ; les temps restent du même ordre.</p>
-<h2>9. Des dizaines de LinopySemanticsWarning à chaque construction</h2>
+<h2 id="9-des-dizaines-de-linopysemanticswarning-a-chaque-construction">9. Des dizaines de LinopySemanticsWarning à chaque construction</h2>
 <p><strong>Symptôme.</strong> Chaque <code>run()</code> affiche des <code>LinopySemanticsWarning</code>, une douzaine à une vingtaine sur les petits modèles de cette fiche, davantage sur un cas : <code>Variable 'operation_load_shedding_power' has absent slots [...]</code>. Le résultat n'est pas faux.</p>
 <p><strong>Cause.</strong> linopy 0.10 annonce une sémantique « v1 » où un terme masqué rend absente toute l'expression au lieu de compter pour zéro, et prévient à chaque masque ou NaN rencontré dans le code de pommes. pommes 0.11 garde la sémantique « legacy » (exige linopy &lt; 0.11), donc ce changement ne le touche pas encore ; c'est un <code>FutureWarning</code>.</p>
 <p><strong>Remède.</strong> <code>import pommes_cases</code> le tait ; un script qui ne l'importe pas le tait lui-même, avant de construire. N'appliquez pas <code>Opt in: linopy.options['semantics'] = 'v1'</code>, suggérée par le message : pommes n'y est pas prêt.</p>
@@ -173,7 +173,7 @@ export SSL_CERT_FILE=$(python -m certifi)
 from linopy import LinopySemanticsWarning
 warnings.filterwarnings(&quot;ignore&quot;, category=LinopySemanticsWarning)
 </code></pre>
-<h2>10. Le journal HiGHS ne s'affiche plus avec run()</h2>
+<h2 id="10-le-journal-highs-ne-saffiche-plus-avec-run">10. Le journal HiGHS ne s'affiche plus avec run()</h2>
 <p><strong>Symptôme.</strong> Depuis pommes_craft 0.6.0, <code>model.run()</code> n'affiche rien du solveur : ni bannière HiGHS, ni taille du problème, ni présolve, ni itérations. Un calcul long a l'air figé.</p>
 <p><strong>Cause.</strong> <code>run()</code> passe par <code>pommes.solve_model</code>, qui écrit le journal du solveur dans un fichier (<code>log_to_console=False</code> pour HiGHS), temporaire et effacé en fin de résolution sans réglage.</p>
 <p><strong>Remède.</strong> <code>pommes.configure_logging(solver_logs=...)</code> (depuis 0.10) garde le journal dans <code>model.log</code> et affiche une ligne par étape sur la console (<code>Model     17527 rows, 17527 columns</code>), puis une par 5 minutes sur une résolution longue. <code>log_fn</code> de <code>solve_model</code> nomme le fichier pour un modèle ; <code>log_to_console=True</code> remet la console ; <code>solver_options={"output_flag": False}</code>, comme au tutoriel, coupe aussi le fichier.</p>
@@ -184,7 +184,7 @@ model.solver_options = {&quot;log_to_console&quot;: True}        # ou : la conso
 model.run()
 </code></pre>
 <p><code>solve_with_extra_constraints</code> passe aussi par <code>solve_model</code> (<code>quiet=True</code> par défaut) ; <code>quiet=False</code> remet le journal à la console.</p>
-<h2>Lire un code ou un résultat écrit en 0.9</h2>
+<h2 id="lire-un-code-ou-un-resultat-ecrit-en-09">Lire un code ou un résultat écrit en 0.9</h2>
 <p>Un carnet de l'archive 2025 ou un chiffre d'un texte antérieur au 17/11/2026 a pu être écrit en pommes 0.9.0 et pommes_craft 0.5.1. Ce qui ne se lit plus pareil :</p>
 <ul>
 <li>Productions nettes et émissions sont des expressions depuis 0.10 : <code>lp.variables[...]</code> lève une <code>KeyError</code>, mais <code>lp.solution</code> les donne toujours sous les mêmes noms ; un crochet repart de <code>operation_conversion_power</code> et du <code>factor</code> <a href="../textes/txt-crochet-avant-solve.html">Ajouter une contrainte avant le solve : le contrat d'un crochet (solve_with_extra_constraints)</a>.</li>
@@ -195,13 +195,13 @@ model.run()
 <li>Pas de temps : depuis 0.10.0, émissions des imports et coût de la demande flexible ne sont plus multipliés par <code>time_step_duration</code> (à 6 h, le carbone importé valait ≈ 155 au lieu de 26 €/MWh).</li>
 <li>Un code 0.9 peut lever une <code>ValueError</code> qu'il ne levait pas (piège 3) ; le journal HiGHS ne sort plus de <code>run()</code> depuis 0.6.0 (piège 10).</li>
 </ul>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous reproduisez le piège 1 (sans <code>LoadShedding</code> : 0 € et 2 400 MWh ; avec : 120 000 €) et le piège 2 (17 142,9 € en bornant l'import d'hydrogène à zéro).</li>
 <li>Vous lisez une duale de 18 250 et écrivez pourquoi <code>dual_scale</code> vaut 365, et pourquoi <code>_batterie</code> du cas A donne <code>life_span=1000.0</code> à une batterie de taille imposée.</li>
 <li>Vous retrouvez le journal HiGHS d'un <code>run()</code> dans <code>journaux/model.log</code>.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le gabarit d'un cas et ses pièges relevés <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/_gabarit" target="_blank" rel="noopener">Le gabarit d'un cas (_gabarit/) : écrire son propre cas POMMES</a>.</li>
 <li>Pré-analyse d'un jeu de données <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/pre_analysis.html" target="_blank" rel="noopener">Pré-analyse d'un jeu de données : pourquoi un modèle est infaisable</a>.</li>

@@ -102,12 +102,12 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <p>Objectif : faire tourner le modèle PV du tutoriel <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a> sur trois années météo à la fois, une seule capacité PV, un poids par année, puis lire ce que la décision gagne à connaître plusieurs années.</p>
 <p>Prérequis : blocs 1 à 3 du tutoriel ; pommes-case-studies cloné, <code>.venv</code> installé <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, chemin dans <code>sys.path</code>. Résolution en 1 à 2 s (pommes 0.11.0, pommes_craft 0.6.0, HiGHS). Valeurs du 16/11/2026, revérifiées le 17/11/2026.</p>
-<h2>Pourquoi une année météo ne suffit pas</h2>
+<h2 id="pourquoi-une-annee-meteo-ne-suffit-pas">Pourquoi une année météo ne suffit pas</h2>
 <p>Un modèle dimensionne des capacités qui vivront 25 ans sur les 8 760 heures d'une seule année : ensoleillée, il met trop de PV ; douce, il oublie la pointe d'hiver. France 2035, sur 30 années météo : la pointe de la demande native (sans pompes à chaleur) va de 87,9 à 122,4 GW <a href="../textes/thermosensibilite-activite.html">Séparer la part fixe et la part thermosensible de la demande, en pandas</a> ; sans elles, le système du cas C passe 26 hivers sur 30 sans délester, pas les 4 plus froids <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/C_thermosensibilite" target="_blank" rel="noopener">Cas C — Thermosensibilité : que coûte la pointe d'hiver, selon la météo ?</a>. Côté prix, adéquation et pointes demandent beaucoup d'années météo : quels prix, combien d'années, pour quelle question <span title="planches-forme-des-prix-modelisation">Forme des prix et modélisation : ce qu'un modèle linéaire reproduit et ne reproduit pas du marché (rejeu 2024, 2030, quels prix pour quelle question) (remis en cours)</span>.</p>
 <p>Pommes le règle sans changer de programme : chaque année météo devient un <code>year_op</code> (prix, facteurs de charge) ; les capacités, décidées une fois en <code>year_inv</code>, servent dans tous. Une décision, plusieurs futurs : programme stochastique à deux étages. Le TYNDP 2026 retient pour 2030 trois scénarios météo (WS), pondérés (<code>data/meteo/README.md</code>) : WS003 à 0,63, WS021 à 0,07, WS029 à 0,30.</p>
-<h2>Comment on passe le poids</h2>
+<h2 id="comment-on-passe-le-poids">Comment on passe le poids</h2>
 <p>Dans pommes_craft 0.6.0, c'est l'argument <code>operation_year_weight</code> d'<code>EconomicHypothesis</code> : flottant, dictionnaire <code>{year_op: poids}</code> ou DataFrame <code>year_op, operation_year_weight</code> ; défaut 1 par année. Pommes 0.11.0 minimise la somme sur les <code>year_op</code> de <code>discount_factor × operation_year_weight × annualised_totex</code>, totex = annuité des capacités vivantes + coûts d'exploitation de l'année (<code>pommes.utils.objective_year_weight</code>). <code>check_inputs</code> refuse un poids négatif, non fini ou nul partout. Les cas B et C empilent leurs années sans poids : tous à 1.</p>
-<h2>Étape 1 : le modèle, un <code>year_op</code> par année</h2>
+<h2 id="etape-1-le-modele-un-year_op-par-annee">Étape 1 : le modèle, un <code>year_op</code> par année</h2>
 <p>Une étiquette entière par année, comme <code>price_zone_model</code> (<code>pommes_cases/blocks.py</code>) ; prix et PV d'une même WS vont ensemble, et le dépôt a un prix 2030 pour exactement ces trois WS. Investissement en 1, sortie en 26 (vie de 25 ans), demande répétée chaque année ; <code>cap_fixe</code> impose la capacité PV (dernière section).</p>
 <pre><code class="language-python">import sys, time, logging
 sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)
@@ -150,7 +150,7 @@ def modele(nom, ws_list, poids_annees, cap_fixe=None):
     cap = float(m.linopy_model.solution[&quot;planning_conversion_power_capacity&quot;].sel(conversion_tech=&quot;pv&quot;).max())
     return m, cap, float(m.linopy_model.objective.value), time.perf_counter() - t0
 </code></pre>
-<h2>Étape 2 : une année à la fois</h2>
+<h2 id="etape-2-une-annee-a-la-fois">Étape 2 : une année à la fois</h2>
 <pre><code class="language-python">cap_seule = {}
 for ws in WS:
     p, a = donnees([ws])
@@ -162,7 +162,7 @@ for ws in WS:
 # WS029: prix 55.52 €/MWh, FC PV 0.143, PV 1.495 MW, coût 484,854.49 €, 1.2 s
 </code></pre>
 <p>Trois années, trois tailles de PV : de 1,495 à 1,761 MW, 18 % d'écart. WS021, la plus ensoleillée et la plus chère, appelle le plus de PV.</p>
-<h2>Étape 3 : les trois ensemble, poids du TYNDP</h2>
+<h2 id="etape-3-les-trois-ensemble-poids-du-tyndp">Étape 3 : les trois ensemble, poids du TYNDP</h2>
 <pre><code class="language-python">w = {k: poids[ws] for k, ws in enumerate(WS, start=1)}        # {1: 0.63, 2: 0.07, 3: 0.3}
 m3, cap3, obj3, dt3 = modele(&quot;trois&quot;, WS, w)
 sol = m3.linopy_model.solution
@@ -177,7 +177,7 @@ print(sol[&quot;planning_conversion_power_capacity&quot;].sel(conversion_tech=&q
 # [[[1.6129]]]
 </code></pre>
 <p>Une seule variable de capacité, 1,613 MW, pas trois : la décision commune. L'objectif vaut exactement Σ poids × totex ; chaque totex porte l'annuité entière, 1,613 × 38 407 = 61 947 €, que le poids pondère avec le reste. Trois années coûtent 1,9 s contre 1,3 s, pour trois fois plus de variables ; le cas C empile 10 années du système français, 5 millions de variables, en 27 à 33 s (son README).</p>
-<h2>Étape 4 : poids égaux, par défaut, extrême</h2>
+<h2 id="etape-4-poids-egaux-par-defaut-extreme">Étape 4 : poids égaux, par défaut, extrême</h2>
 <pre><code class="language-python">for w4 in ({1: 1/3, 2: 1/3, 3: 1/3}, 1.0, {1: 0.05, 2: 0.05, 3: 0.9}):
     _, cap, obj, dt = modele(&quot;poids&quot;, WS, w4)
     print(f&quot;{w4}: PV {cap:.3f} MW, objectif {obj:,.2f} €&quot;)
@@ -186,7 +186,7 @@ print(sol[&quot;planning_conversion_power_capacity&quot;].sel(conversion_tech=&q
 # 0.9 sur WS029 : PV 1.522 MW, objectif 488,050.30 €
 </code></pre>
 <p>Poids tous à 1 : même capacité que des tiers, objectif trois fois plus grand. Seul le rapport des poids décide ; leur somme fixe l'unité de l'objectif. Un poids de 0,9 sur WS029 rapproche la capacité de celle de WS029 seule (1,522 contre 1,495 MW) sans l'atteindre : les deux autres années, même à 0,05, retiennent la décision.</p>
-<h2>Étape 5 : les duales se lisent divisées par le poids</h2>
+<h2 id="etape-5-les-duales-se-lisent-divisees-par-le-poids">Étape 5 : les duales se lisent divisées par le poids</h2>
 <pre><code class="language-python">from pommes.utils import dual_scale
 echelle = dual_scale(m3.pommes_parameters)              # [0.63 0.07 0.3 ]
 duale = m3.linopy_model.dual[&quot;operation_adequacy_constraint&quot;].squeeze().sel(year_op=2).values
@@ -196,7 +196,7 @@ print(imp.sum(), np.abs(duale[imp] - pr[imp]).max(), np.abs(duale[imp] / float(e
 # 8312 121.09 0.0
 </code></pre>
 <p>La duale brute d'une heure d'import vaut poids × prix : sans <code>dual_scale</code>, l'année à 0,07 semble vendre 14 fois moins cher. Même piège que <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a> et <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a>.</p>
-<h2>Ce que coûte de se tromper d'année</h2>
+<h2 id="ce-que-coute-de-se-tromper-dannee">Ce que coûte de se tromper d'année</h2>
 <p>Imposez aux trois années pondérées la capacité exacte de chaque année seule (étape 2), et comparez au coût libre (étape 3).</p>
 <pre><code class="language-python">print(round(0.63 * 500124.82 + 0.07 * 532653.41 + 0.3 * 484854.49, 2))   # si l'on connaissait l'année à l'avance
 for ws in WS:
@@ -208,21 +208,21 @@ for ws in WS:
 # plan WS029, 1.495 MW imposés : 497,970.01 €, +96.05 €
 </code></pre>
 <p>Connaître l'année à l'avance ne vaudrait que 53 € par an sur 498 000 (0,01 %). Le plan WS003 perd 7 € par an, le plan WS021 150 €. La capacité bouge de 18 %, le coût de 0,03 % : un PV preneur de prix a un optimum très plat, son dernier MW gagne à peu près son annuité quelle que soit la météo. L'année météo fait mal quand il faut couvrir une pointe : délestage à 3 000 €/MWh sur un hiver froid, stockage vidé par une semaine sans vent. C'est le cas C, et le cas G (quatre pays, plusieurs années météo PECD), où la même mécanique cherche la pire semaine <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/G_mix_100_enr" target="_blank" rel="noopener">Cas G — Un mix presque 100 % renouvelable passe-t-il une semaine sans vent ?</a>.</p>
-<h2>Trois questions à réponse chiffrée</h2>
+<h2 id="trois-questions-a-reponse-chiffree">Trois questions à réponse chiffrée</h2>
 <ol>
 <li>De combien la capacité PV des trois années pondérées s'écarte-t-elle de celle de WS003 seule, en MW et en % ?</li>
 <li>Quel rapport attendez-vous entre l'objectif à poids 1, 1, 1 et celui à poids 1/3, 1/3, 1/3 ? Pourquoi la capacité ne change-t-elle pas ?</li>
 <li>Année 2 (WS021) : quel facteur sépare la duale brute d'adéquation du prix de marché aux heures d'import ?</li>
 </ol>
 <p>Réponses. 1 : 1,613 contre 1,647 MW, soit 0,034 MW de moins, 2,1 %. 2 : 3,000 (1 517 931,64 / 505 977,21) ; objectif multiplié par une constante, optimum inchangé. 3 : 0,07, le poids de l'année ; divisée par lui, la duale redonne 62,38 €/MWh en moyenne.</p>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous retrouvez 1,613 MW et 497 873,96 € (étape 3) et vérifiez que l'objectif est Σ poids × totex.</li>
 <li>Vous montrez que <code>planning_conversion_power_capacity</code> n'a qu'une valeur pour trois <code>year_op</code>, et dites pourquoi.</li>
 <li>Vous prédisez puis vérifiez l'effet d'un poids 0,9 sur WS029 : 1,522 MW.</li>
 <li>Vous relisez un prix de marché exact dans la duale d'une année à faible poids.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Model description de pommes : objectif, <code>operation_year_weight</code> et sa généralisation, conditions d'exploitation <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (1) : objectif, actualisation, annuités, poids d'année et conditions d'exploitation</a>.</li>
 <li>Cas C, paliers 3 et 4 : deux hivers en direct, puis 30 hivers, défaillance et surcoût (énergie, puissance) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/C_thermosensibilite" target="_blank" rel="noopener">Cas C — Thermosensibilité : que coûte la pointe d'hiver, selon la météo ?</a>.</li>

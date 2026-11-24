@@ -100,11 +100,11 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Le prix observé 2019-2025 en six figures</h1>
     <p class="resume">Avec les seules statistiques publiées du dépôt des cas, reconstruire en pandas la moyenne, l'écart-type, les heures négatives et les monotones du prix day-ahead observé de 2019 à 2025, et les poser à côté d'une série de modèle 2030.</p>
   </header>
-  <h2>Ce que vous allez faire</h2>
+  <h2 id="ce-que-vous-allez-faire">Ce que vous allez faire</h2>
 <p>Lire sept ans de prix observés avec les indicateurs de <a href="../textes/lire-un-prix.html">Lire une série de prix horaires : six choses à regarder et les chiffres du cas 0</a>, et dire ce qu'un modèle n'en reproduit pas. Prérequis : <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, pandas, matplotlib. Un CSV de 42 lignes.</p>
-<h2>Ce qui est publié, et ce qui ne l'est pas</h2>
+<h2 id="ce-qui-est-publie-et-ce-qui-ne-lest-pas">Ce qui est publié, et ce qui ne l'est pas</h2>
 <p>Pas de séries horaires (réutilisation non vérifiée, <code>data/prix/README.md</code>), mais <code>data/prix/historique_stats.csv</code> : six zones (FR, DE-LU, BE, ES, IT Nord, CH), 2019 à 2025, statistiques annuelles, heures sous 5 €/MWh (<code>h_bas</code>), négatives (<code>h_negatif</code>), à 1 000 €/MWh ou plus (<code>h_plafond</code>), monotone en 101 points (<code>m000</code> maximum à <code>m100</code> minimum). Source : ENTSO-E, trous comblés par Energy-Charts.</p>
-<h2>Étape 1 : moyenne et écart-type par an</h2>
+<h2 id="etape-1-moyenne-et-ecart-type-par-an">Étape 1 : moyenne et écart-type par an</h2>
 <pre><code class="language-python">import sys, numpy as np, pandas as pd
 sys.path.insert(0, &quot;/chemin/vers/pommes-case-studies&quot;)      # votre clone du dépôt des cas
 from pommes_cases.prices import PRICE_DIRS, load_prices
@@ -125,7 +125,7 @@ print(st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=&quot;m
 2025      61.1        46.4    1072        513          0 -118.0   473.3
 </code></pre>
 <p>À noter : la moyenne 2024-2025 revient à 58-61 €/MWh, pas l'écart-type : 0,70 fois la moyenne en 2024, 0,76 en 2025, contre 0,36 en 2019. Les trois heures françaises de 2022 au-delà de 1 000 €/MWh (maximum 2 988) sont uniques dans la table.</p>
-<h2>Étape 2 : les monotones 2019, 2022, 2024</h2>
+<h2 id="etape-2-les-monotones-2019-2022-2024">Étape 2 : les monotones 2019, 2022, 2024</h2>
 <p><code>m010</code> est le prix dépassé 10 % des heures, <code>m090</code> 90 %.</p>
 <pre><code class="language-python">q = [f&quot;m{i:03d}&quot; for i in range(101)]
 pct = np.linspace(0, 100, 101)
@@ -145,7 +145,7 @@ segment m000-m001 : 18.5 €/MWh d'aire
 2024 passe sous 2019 à partir de 71 % des heures
 </code></pre>
 <p>À noter : l'aire sous la monotone est la moyenne (facture du consommateur plat), retrouvée à 0,5 €/MWh près en 2019 et 2024, mais surestimée de 10 €/MWh en 2022 : le trapèze de <code>m000</code> (2 988) à <code>m001</code> (704 €/MWh) sur 1 % des heures pèse 18,5 €/MWh, alors que trois heures seulement dépassent 1 000. Avec <code>m001</code> pour <code>m000</code>, l'aire tombe à 274,8 : 101 points ne résolvent pas la queue. 2024 est plus cher que 2019 sur 70 % des heures, moins cher sur 30 % (P90 de 24 à 3 €/MWh) : là vit un électrolyseur.</p>
-<h2>Étape 3 : heures négatives et heures sous 5 €/MWh</h2>
+<h2 id="etape-3-heures-negatives-et-heures-sous-5-mwh">Étape 3 : heures négatives et heures sous 5 €/MWh</h2>
 <pre><code class="language-python">print(st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=&quot;h_negatif&quot;).astype(int))
 print(st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=&quot;h_bas&quot;).astype(int))
 print(st.pivot(index=&quot;annee&quot;, columns=&quot;zone&quot;, values=&quot;min&quot;).round(1))
@@ -165,7 +165,7 @@ min          BE      CH      DE     ES      FR    IT
 </code></pre>
 <p>À noter : en France, 27 heures négatives en 2019, 352 en 2024, 513 en 2025. L'Espagne, aucune avant 2024 (puis 247 et 556) malgré 527 heures sous 5 €/MWh en 2023, 1 632 en 2024 : minimum à 0,0 €/MWh exactement en 2019, 2021, 2022 et 2023, premier prix négatif le 1er avril 2024 (-0,01 €/MWh, AleaSoft). Pas un plancher de bourse : le couplage admet -500 €/MWh depuis la décision ACER 04/2017, touché par BE (2019) et DE (2023). Ce zéro vient de l'ordre de mérite : offres à 0, demande jamais sous l'offre à prix nul. Italie du Nord : aucune ; premier prix négatif italien le 14 octobre 2026 (Sicile, Calabre, Sud, hors table).</p>
 <p>Le zéro d'un modèle est dans l'équation : écrêter une énergie fatale ne coûte rien, le dual s'arrête à 0 ; sous 0, il faut une offre à prix négatif.</p>
-<h2>Étape 4 : comparer au modèle 2030</h2>
+<h2 id="etape-4-comparer-au-modele-2030">Étape 4 : comparer au modèle 2030</h2>
 <pre><code class="language-python">p = load_prices(&quot;tyndp2026&quot;, &quot;NT+&quot;, &quot;FR&quot;, 2030)[&quot;import_price&quot;].to_numpy()   # météo par défaut WS003
 mm = np.quantile(p, np.linspace(1, 0, 101))
 print(&quot;modèle 2030 : moyenne&quot;, round(p.mean(), 1), &quot;écart-type&quot;, round(p.std(ddof=1), 1),
@@ -182,7 +182,7 @@ P 99  modèle 2030     0.0  observé 2024   -14.5  observé 2025    -7.4
 P100  modèle 2030     0.0  observé 2024   -87.3  observé 2025  -118.0
 </code></pre>
 <p>À noter : même moyenne à 1 €/MWh près (57,5 contre 58,0), médiane à 7 près ; l'écart est aux bouts. Marché 2024 contre modèle : 110 contre 94 au P10, 3 contre 16 au P90, puis négatif. Écart-type sur moyenne : 0,70 contre 0,56. Pourquoi : <a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a> (minimums techniques, démarrages, modulation du nucléaire).</p>
-<h2>Les six figures</h2>
+<h2 id="les-six-figures">Les six figures</h2>
 <pre><code class="language-python">import matplotlib.pyplot as plt
 fig, ax = plt.subplots(2, 3, figsize=(15, 8), constrained_layout=True)
 for a, k, t in zip(ax[0], [&quot;moyenne&quot;, &quot;ecart_type&quot;, &quot;h_negatif&quot;], [&quot;1. Prix moyen&quot;, &quot;2. Écart-type&quot;, &quot;3. Heures négatives&quot;]):
@@ -198,12 +198,12 @@ ax[1, 2].set_title(&quot;6. Observé 2024-2025 et modèle 2030&quot;, loc=&quot;
 fig.savefig(&quot;six_figures.png&quot;, dpi=110)
 </code></pre>
 <p>Figure 6 : le modèle fait des marches (paliers de coût marginal) arrêtées à 0 ; l'observé, lisse, plonge sous 0 dans ses 5 derniers pour cent.</p>
-<h2>Ce qu'on ne peut pas faire ici, et où le trouver</h2>
+<h2 id="ce-quon-ne-peut-pas-faire-ici-et-ou-le-trouver">Ce qu'on ne peut pas faire ici, et où le trouver</h2>
 <p>Sans séries horaires : ni profil horaire (creux de midi, pointes), ni prix capté (prix moyen pondéré par la production), ni arbitrage journalier. Sources : ENTSO-E (<code>transparency.entsoe.eu</code>, Day-ahead Prices, source primaire du fichier ; inscription gratuite ou jeton API) ; Energy-Charts (Fraunhofer ISE), API sans inscription, à tester :</p>
 <pre><code class="language-bash">curl -s &quot;https://api.energy-charts.info/price?bzn=FR&amp;start=2024-01-01&amp;end=2024-01-02&quot; | head -c 300
 </code></pre>
 <p>Réponse : <code>{"license_info":"CC BY 4.0 (creativecommons.org/licenses/by/4.0) from Bundesnetzagentur | SMARD.de", "unix_seconds":[1704063600, ...</code>, puis <code>price</code> en EUR/MWh, 48 valeurs. Licence CC BY 4.0 (zones listées dans sa doc), à citer. HEAD (<code>curl -I</code>) renvoie 405 : testez en GET. En un appel (<code>start=2024-01-01&amp;end=2024-12-31</code>), France 2024 : 8 784 valeurs (bissextile), dont 352 négatives. Prix capté : production par filière en plus (<code>public_power</code>).</p>
-<h2>Questions</h2>
+<h2 id="questions">Questions</h2>
 <ol>
 <li>Heures négatives FR 2019 et 2025, part de 2025 ? (27 ; 513 / 8 760 = 5,9 %.)</li>
 <li>Médiane FR 2022 sur 2019 ? (239,3 / 38,7 = 6,2.)</li>
@@ -211,7 +211,7 @@ fig.savefig(&quot;six_figures.png&quot;, dpi=110)
 <li>Espagne 2024 : heures entre 0 et 5 €/MWh ? Son minimum de 0,0 avant 2024, plancher de bourse ? (1 632 moins 247 = 1 385 ; non.)</li>
 <li>Appel Energy-Charts FR 2024 : valeurs, négatives ? (8 784 ; 352, comme <code>h_negatif</code>.)</li>
 </ol>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>352 et 513 heures négatives (France, 2024, 2025) ; aucune dans les jeux de modèle du dépôt.</li>
 <li>Moyennes égales (57,5 et 58,0), P90 à 16 contre 3 €/MWh : vous l'expliquez.</li>
@@ -219,7 +219,7 @@ fig.savefig(&quot;six_figures.png&quot;, dpi=110)
 <li>Zéro de modèle (écrêtement gratuit) contre zéro espagnol (offres à 0, plancher -500 €/MWh).</li>
 <li>Séries horaires : où, quelle licence, pour quoi.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a> Quatre jeux de modèle, l'observé 2019-2025 en référence.</li>
 <li><a href="../textes/forme-des-prix.html">Une contrainte d'énergie n'est pas une rigidité : ce qu'un LP en prévision parfaite fait aux prix</a> Niveau gardé, forme perdue.</li>

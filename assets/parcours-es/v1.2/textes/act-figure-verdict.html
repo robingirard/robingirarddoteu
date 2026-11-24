@@ -102,7 +102,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
   </header>
   <p><strong>Objectif.</strong> Tracer depuis le fichier de résultats d'un cas la figure « revenu par kW sous plusieurs jeux de prix » (planche 5 de la restitution <a href="../textes/restitution.html">La restitution du vendredi : dix minutes, cinq à dix planches, grille à cinq critères, quatre rôles</a>), la refaire après avoir changé une hypothèse et dire quelle barre a changé de côté.</p>
 <p><strong>Prérequis.</strong> Le dépôt cloné et vérifié <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a> : <code>python A_batteries/grid.py --rapide</code> a tourné une fois.</p>
-<h2>1. Ce qu'il y a dans results.json</h2>
+<h2 id="1-ce-quil-y-a-dans-resultsjson">1. Ce qu'il y a dans results.json</h2>
 <p>Chaque cas écrit toutes ses résolutions dans <code>results.json</code> ; A, B, C et E aussi une version réduite, <code>results_rapide.json</code> (<code>grid.py --rapide</code>). Trois clés, selon le contrat du gabarit <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/_gabarit" target="_blank" rel="noopener">Le gabarit d'un cas (_gabarit/) : écrire son propre cas POMMES</a>.</p>
 <pre><code class="language-python">import json, pandas as pd
 res = json.load(open(&quot;A_batteries/results_rapide.json&quot;, encoding=&quot;utf-8&quot;))
@@ -127,7 +127,7 @@ print(v[(v.duree_h == 2) &amp; ~v.sans_plafond][[&quot;jeu&quot;, &quot;annee&qu
 </code></pre>
 <p>Attendu : <code>verdict_01  7  12.00  674638</code>, les colonnes <code>jeu, scenario, annee, meteo, sans_plafond, central, prix_moyen, duree_h, revenu, revenu_heures_plafond, cycles, h_plafond</code>, et huit lignes : tyndp2024 2030 33,5 €/kW/an, 2040 44,7 ; tyndp2026 25,7 et 36,3 ; etage1_tyndp2026 18,8 et 16,6 ; fos_sur_mer 54,8 et 42,4. Le complet couvre 293 séries ; le rapide, la série centrale de chaque jeu.</p>
 <p><code>sans_plafond</code> est un drapeau : une série qui a des heures à 1 000 €/MWh ou plus apparaît deux fois, telle quelle puis réoptimisée sans ces heures. Filtrez-le, sinon vous doublez des barres.</p>
-<h2>2. La figure de référence</h2>
+<h2 id="2-la-figure-de-reference">2. La figure de référence</h2>
 <p>Écrivez <code>figure_verdict.py</code> à la racine du dépôt : quinze lignes de figure, le reste est légende et source.</p>
 <pre><code class="language-python">import json, sys, textwrap
 import pandas as pd
@@ -183,7 +183,7 @@ if __name__ == &quot;__main__&quot;:
 <pre><code class="language-bash">python figure_verdict.py A_batteries/results_rapide.json verdict_ref.png
 </code></pre>
 <p>Le pointillé est le coût annuel, 34,8 €/kW/an, lu dans <code>couts</code>. Seule fos-sur-mer passe en 2030. TYNDP 2024 et 2026 ne passent qu'en 2040, grâce aux heures au plafond (<code>revenu_heures_plafond</code>) : 15,2 des 44,7 €/kW/an de TYNDP 2024 viennent de 42 heures à 1 000 €/MWh, 5,1 des 36,3 de TYNDP 2026 de 3 heures. Sans elles, la ligne <code>sans_plafond</code> de la même série donne 33,0 €/kW/an, sous le coût. La barre TYNDP 2026 de 2040 ne tient qu'à 1,5 €/kW/an près.</p>
-<h2>3. Changer une hypothèse et relancer</h2>
+<h2 id="3-changer-une-hypothese-et-relancer">3. Changer une hypothèse et relancer</h2>
 <p>Dans <code>hypotheses.yaml</code>, passez le rendement aller-retour de 0,91 (statut <code>repris</code>, TYNDP 2024) à 0,85 : ordre de grandeur d'un système complet avec onduleur, statut <code>mémoire</code> au sens de <a href="../textes/act-lire-hypotheses.html">Lire hypotheses.yaml et compter les statuts d'un cas</a>, à sourcer si vous le gardez. Travaillez dans votre clone, jamais dans un dossier partagé.</p>
 <pre><code class="language-bash">cp A_batteries/results_rapide.json A_batteries/results_rapide_ref.json
 sed -i '' 's/valeur: 0.91,/valeur: 0.85,/' A_batteries/hypotheses.yaml     # Linux : sed -i sans ''
@@ -193,7 +193,7 @@ python figure_verdict.py A_batteries/results_rapide_ref.json verdict_compare.png
 <p>Sur un MacBook Pro M3 Max : 40,5 s de mur, dont 37,6 s de construction et de résolution cumulées (<code>temps_total_s</code>) ; 2 à 3 minutes sur un portable ordinaire. Une relance se reconnaît à son fichier : <code>rendement: 0.85</code>, la date du jour et, dans <code>meta["empreintes"]</code>, le début du sha256 de <code>hypotheses.yaml</code> : ef3c61481208, contre 8e0bfd69feb4 dans le <code>results.json</code> et le <code>results_rapide.json</code> du dépôt (<code>shasum -a 256 A_batteries/hypotheses.yaml</code> sur la version git la retrouve).</p>
 <p>Valeurs attendues, batterie de 2 h, série centrale. 2030 : tyndp2024 33,5 → 29,9 €/kW/an (−11 %) ; tyndp2026 25,7 → 22,5 (−12 %) ; etage1_tyndp2026 18,8 → 15,9 (−15 %) ; fos_sur_mer 54,8 → 50,1 (−9 %). 2040 : 44,7 → 40,5 ; 36,3 → 32,4 ; 16,6 → 14,4 ; 42,4 → 38,7. Au n-ième GW (la grille rapide calcule σ = 15 et σ = 60 €/MWh), tyndp2024 à σ = 15 passe de 24,9 à 22,3 €/kW/an, et de 13,7 à 12,2 à σ = 60. La table <code>couts</code> ne bouge pas (le rendement n'entre pas dans le coût).</p>
 <p>Six points de rendement coûtent 8 à 15 % de revenu (2,3 à 4,7 €/kW/an), d'autant plus que les écarts horaires du jeu sont faibles (POMMES perd le plus, fos-sur-mer le moins). En 2030, aucune barre ne change de côté (les trois sous le coût l'étaient de 1 à 16 €/kW/an) ; en 2040, TYNDP 2026 passe sous les 34,8 : le verdict change là où la marge était plus petite que l'effet. Pour la planche : « en 2030 le verdict ne change pas, parce que la seule barre au-dessus du coût, fos-sur-mer, le dépasse de 20 €/kW/an et que le rendement lui retire 4,7 » ; « en 2040 le verdict TYNDP 2026 change, parce que sa marge (1,5 €/kW/an) tenait à 3 heures au plafond et que le rendement lui retire 4,0 ». Puis remettez 0,91, ou gardez 0,85 et dites-le dans votre tableau d'hypothèses.</p>
-<h2>4. Les règles d'une figure de verdict</h2>
+<h2 id="4-les-regles-dune-figure-de-verdict">4. Les règles d'une figure de verdict</h2>
 <ol>
 <li>Lisible par qui n'a pas vu le cas : le titre dit l'objet (batterie de 2 h en France), la grandeur (revenu d'arbitrage) et la conclusion.</li>
 <li>Les unités sur l'axe : €/kW/an, pas « revenu ».</li>
@@ -202,20 +202,20 @@ python figure_verdict.py A_batteries/results_rapide_ref.json verdict_compare.png
 <li>Le seuil qui décide (ici le coût annuel) tracé depuis le fichier, et la marge dite quand elle est petite : 1,5 €/kW/an ne pèse pas comme 20.</li>
 <li>Dans la légende, les hypothèses lues dans <code>meta</code> (<code>rendement 0.91</code>, <code>rendement 0.85</code>), pour distinguer une relance de la référence.</li>
 </ol>
-<h2>Questions</h2>
+<h2 id="questions">Questions</h2>
 <ol>
 <li>Dans <code>results.json</code> complet, combien de lignes de <code>verdict</code> concernent le jeu <code>etage1_tyndp2026</code> en 2040 sans le drapeau <code>sans_plafond</code> ? (Attendu : 405, soit 135 séries × 3 durées.)</li>
 <li>Quelle part du revenu 2040 de la série tyndp2024 vient des heures au plafond, pour 2 h ? (Attendu : 15,2 / 44,7 = 34 %.)</li>
 <li>Avec un rendement de 0,85, de combien baisse le revenu tyndp2024 2030 d'une batterie de 4 h, contre 2 h ? Et de combien la barre TYNDP 2026 de 2040 passe-t-elle sous le coût ? (Attendu : −11,6 % contre −11,0 % ; 2,5 €/kW/an sous les 34,8.)</li>
 </ol>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous dites sans ouvrir le fichier ce que contiennent <code>meta</code>, <code>resolutions</code> et <code>tables</code>, et ce qu'est une résolution.</li>
 <li>Votre <code>verdict_ref.png</code> montre quatre jeux × deux années et suit les six règles ci-dessus.</li>
 <li>Votre <code>results_rapide.json</code> relancé porte <code>rendement: 0.85</code>, et la valeur tyndp2024 à σ = 10 €/MWh y vaut 24,4 et non 27,3 €/kW/an.</li>
 <li>Vous avez écrit, pour chaque année, « le verdict change / ne change pas parce que… », avec la marge au coût et l'effet du rendement en chiffres.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le cas A en entier, dont la figure <code>verdict_fr.png</code> sur les 293 séries <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</li>
 <li>Le cas 0 : pourquoi les quatre jeux de prix divergent en 2040 <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a>.</li>

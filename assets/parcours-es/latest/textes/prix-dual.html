@@ -101,7 +101,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Sur un ordre de mérite à trois centrales, résolu à la main puis en programme linéaire puis dans pommes_craft, on voit pourquoi le multiplicateur de la contrainte d'équilibre est le prix de l'électricité, comment le lire dans pommes 0.11.0 et ce qu'il ne dit pas.</p>
   </header>
   <p class="telecharger-nb"><a href="../notebooks/prix-dual.ipynb" download>⬇ Télécharger en notebook</a> : les mêmes blocs, prêts à exécuter, sur Colab (Fichier › Importer un notebook) ou dans le dépôt des cas.</p>
-<h2>1. Trois centrales, trois heures, à la main</h2>
+<h2 id="1-trois-centrales-trois-heures-a-la-main">1. Trois centrales, trois heures, à la main</h2>
 <p>Trois centrales alimentent une zone. Base : 10 GW à 15 €/MWh. Semi-base : 5 GW à 60 €/MWh. Pointe : 5 GW à 120 €/MWh. La demande vaut 8 GW à la première heure, 13 GW à la deuxième, 18 GW à la troisième.</p>
 <p>On appelle les centrales par coût croissant. C'est l'ordre de mérite.</p>
 <pre><code class="language-text">heure  demande  base   semi-base  pointe  unité marginale  prix
@@ -117,7 +117,7 @@ h3 : 10 000 × 15 + 5 000 × 60 + 3 000 × 120    = 810 000 €
 total                                          = 1 260 000 €
 </code></pre>
 <p>Les consommateurs paient 8 000 × 15 + 13 000 × 60 + 18 000 × 120 = 3 060 000 €. La différence, 1 800 000 €, est la rente inframarginale : 450 000 € à h2 et 1 050 000 € à h3 pour la base, 300 000 € à h3 pour la semi-base. Cette rente rembourse les investissements. La centrale marginale ne gagne rien.</p>
-<h2>2. Le même problème en programme linéaire</h2>
+<h2 id="2-le-meme-probleme-en-programme-lineaire">2. Le même problème en programme linéaire</h2>
 <p>Variables : la production p_i,h de chaque centrale i à chaque heure h, et un délestage d_h au coût c_def. Objectif : minimiser la somme des c_i × p_i,h et des c_def × d_h. Contraintes : pour chaque heure, l'équilibre Σ_i p_i,h + d_h = D_h, avec un multiplicateur λ_h. Pour chaque centrale et chaque heure, p_i,h ≤ P_i, avec un multiplicateur μ_i,h ≥ 0. Enfin p_i,h ≥ 0.</p>
 <p>Les conditions d'optimalité, dites KKT, tiennent en trois lignes pour une centrale à une heure donnée :</p>
 <pre><code class="language-text">centrale appelée mais non saturée (0 &lt; p &lt; P) :  c_i = λ_h          μ = 0
@@ -126,7 +126,7 @@ centrale non appelée (p = 0) :                   c_i ≥ λ_h
 </code></pre>
 <p>Le multiplicateur λ_h est le prix. Il vaut le coût de la centrale appelée mais non saturée : à h2, la semi-base, 60 €/MWh. Il dépasse le coût des centrales saturées et reste sous celui des centrales à l'arrêt. λ_h est aussi la dérivée du coût optimal par rapport à D_h : un MWh de plus à h2 coûte 60 €. Prix et valeur marginale de la demande sont le même nombre.</p>
 <p>Le délestage se traite comme une centrale de coût c_def : il est non appelé tant que λ_h &lt; c_def.</p>
-<h2>3. Le même problème dans pommes_craft</h2>
+<h2 id="3-le-meme-probleme-dans-pommes_craft">3. Le même problème dans pommes_craft</h2>
 <p>Script exécuté avec l'environnement épinglé du dépôt des cas (pommes 0.11.0, pommes_craft 0.6.0, linopy 0.10.1, HiGHS). Les capacités sont imposées par <code>power_capacity_investment_min = max</code>, sans coût d'investissement, comme dans <code>pommes_cases/systeme_fr.py</code>.</p>
 <pre><code class="language-python">import sys, tempfile
 from pathlib import Path
@@ -164,11 +164,11 @@ prix (EUR/MWh) : [ 15.  60. 120.]
 </code></pre>
 <p>Coût et prix sont ceux du calcul à la main. La contrainte d'équilibre s'appelle <code>operation_adequacy_constraint</code> dans pommes 0.11.0 (<code>pommes/model/build_model.py</code>). Sa duale se lit dans <code>lp.dual</code>, indexée par <code>area</code>, <code>resource</code>, <code>hour</code> et <code>year_op</code>, comme le fait <code>prix_horaires</code> dans <code>systeme_fr.py</code>.</p>
 <p>Faut-il diviser par un facteur d'échelle ? Oui, en général. L'objectif de pommes pèse un euro d'exploitation de l'année y par <code>discount_factor × operation_year_weight × operation_year_duration / Σ time_step_duration</code>, et la duale porte le même poids. <code>pommes.utils.dual_scale(params)</code> renvoie ce facteur ; <code>dual / dual_scale</code> est un prix en €/MWh. Ici il vaut 1 : actualisation nulle, une année, <code>operation_year_duration</code> égale aux 3 heures modélisées. Avec <code>operation_year_duration=8760.0</code>, la duale brute devient 43 800, 175 200 et 350 400, le facteur vaut 2 920, la division redonne 15, 60 et 120. Sur 8 760 heures, comme dans <code>systeme_fr.py</code>, le facteur vaut 1. Le piège apparaît sur un modèle à peu d'heures ou à plusieurs années météo pondérées.</p>
-<h2>4. Ce que le prix dual ne dit pas</h2>
+<h2 id="4-ce-que-le-prix-dual-ne-dit-pas">4. Ce que le prix dual ne dit pas</h2>
 <p>Rareté. Si la demande de h3 passe à 22 GW, les 20 GW de parc ne suffisent plus. Le modèle déleste 2 GW et le prix de h3 vaut 3 000 €/MWh, le coût du <code>LoadShedding</code>. Vérifié par exécution : coût total 7 500 000 €, prix 15, 60, 3 000. Sans composant <code>LoadShedding</code>, pommes_craft 0.6.0 remplit <code>load_shedding_cost = 0</code> et <code>max_capacity = nan</code>. Vérifié par exécution : le modèle déleste toute la demande aux trois heures, aucune centrale ne tourne, le coût total vaut 0 € et tous les prix tombent à zéro. Le <code>LoadShedding</code> à coût élevé n'est pas une option, c'est ce qui donne un sens au prix.</p>
 <p>Rigidités absentes. Le programme linéaire ignore le minimum technique, le coût de démarrage, la montée en charge. Le prix du modèle est en paliers, un par coût variable ; le prix de marché est lissé par ces rigidités et par les stratégies d'offre. Les planches 2026 « Forme des prix et modélisation », remises en cours, comparent les deux.</p>
 <p>Prévision parfaite. L'optimiseur connaît les trois heures d'avance. Le prix dual n'intègre ni l'incertitude de la veille pour le lendemain, ni le coût des réserves.</p>
-<h2>5. Une capacité a aussi une duale</h2>
+<h2 id="5-une-capacite-a-aussi-une-duale">5. Une capacité a aussi une duale</h2>
 <p>La contrainte p_i,h ≤ P_i a son multiplicateur μ_i,h. Il vaut λ_h − c_i quand la centrale est saturée, zéro sinon. C'est la valeur d'un MW de plus à cette heure. Dans pommes, c'est la duale de <code>operation_conversion_power_max_constraint</code>, à diviser par le même facteur. Linopy rend la duale d'une contrainte ≤ avec un signe négatif en minimisation. Voici les valeurs obtenues sur le cas nominal, en valeur absolue :</p>
 <pre><code class="language-text">                 h1    h2     h3    somme
 base              0    45    105    150 €/MW
@@ -177,14 +177,14 @@ pointe            0     0      0      0 €/MW
 </code></pre>
 <p>Un MW de base en plus économiserait 45 € à h2 et 105 € à h3, soit 150 € sur trois heures. Sur une année, cette somme est le revenu qu'un MW capte sur le marché. Si elle dépasse l'annuité de l'investissement, le modèle de planification investit ; sinon non.</p>
 <p>Une interconnexion saturée est une capacité comme une autre : sa duale est l'écart de prix entre les deux zones, et le produit flux × écart de prix est la rente de congestion. C'est la question du cas F <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/F_interconnexion" target="_blank" rel="noopener">Cas F — Que vaut une interconnexion France-Espagne ou France-Allemagne ?</a>.</p>
-<h2>Vous l'avez compris quand…</h2>
+<h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li>Vous retrouvez à la main les prix 15, 60 et 120 €/MWh et le coût 1 260 000 €, puis les mêmes valeurs en sortie du script.</li>
 <li>Vous prédisez sans exécuter le prix de h3 pour une demande de 22 GW, puis le vérifiez : 3 000 €/MWh.</li>
 <li>Vous passez <code>operation_year_duration</code> de 3 à 8 760, lisez <code>dual_scale(params)</code> égal à 2 920, et expliquez pourquoi la duale brute change et le prix non.</li>
 <li>Vous retrouvez 150 €/MW pour la base en sommant la duale de <code>operation_conversion_power_max_constraint</code> sur les heures.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>La contrainte d'adéquation et les contraintes de capacité en notation mathématique : Model description (2) <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/model_description.html" target="_blank" rel="noopener">Model description (2) : adéquation, capacités et millésimes, stockage, carbone, imports, TURPE</a>. La page documente pommes 0.11.0 ; le nom <code>operation_adequacy_constraint</code> n'y figure pas, il vient du code.</li>
 <li>Lire <code>model.solution</code> et <code>model.dual</code> sur <code>test_case</code> : notebook d'exemple de pommes, à mettre à jour <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/notebooks/example_notebook.html" target="_blank" rel="noopener">Notebook d'exemple de pommes : résoudre test_case et lire solution et duales</a>.</li>

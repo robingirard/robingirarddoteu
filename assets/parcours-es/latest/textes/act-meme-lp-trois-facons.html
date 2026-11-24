@@ -100,10 +100,10 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Le même LP, trois façons</h1>
     <p class="resume">Le modèle du cas E (cinq sites, 482 000 variables) résolu par HiGHS simplexe, HiGHS point intérieur et Gurobi, même objectif à 1e-9 près ; puis le même modèle en pas de 6 h, sur un mois et sur quatre semaines types, pour mesurer ce que l'agrégation du temps fait au coût, aux capacités et au stockage.</p>
   </header>
-  <h2>Ce que vous allez faire</h2>
+  <h2 id="ce-que-vous-allez-faire">Ce que vous allez faire</h2>
 <p>Objectif : vérifier qu'un LP a un seul optimum, quel que soit l'algorithme, puis mesurer ce que l'agrégation du temps lui fait. Support : le cas E (cinq configurations de chaudières), série centrale TYNDP 2026 NT+ 2030, CO2 de l'ETS2 à 45 €/t (README du cas : gaz 48,0 €/MWh, hybride 41,4).</p>
 <p>Prérequis : <a href="../textes/installer.html">Installer et vérifier en dix minutes : venv du dépôt des cas, test de contrôle, dépannage</a>, <a href="../textes/premier-modele.html">Le premier modèle sur une page : les huit étapes du notebook et leurs valeurs attendues</a>, <a href="../textes/prix-dual.html">Le prix est une duale : trois centrales à la main, en LP, puis dans pommes_craft</a>. Mesures : Mac M3 Max, pommes 0.11.0, linopy 0.10.1, HiGHS 1.15.1.</p>
-<h2>Étape 1 : HiGHS simplexe, puis HiGHS point intérieur</h2>
+<h2 id="etape-1-highs-simplexe-puis-highs-point-interieur">Étape 1 : HiGHS simplexe, puis HiGHS point intérieur</h2>
 <p><code>solve_with_extra_constraints</code> passe ses mots-clés tels quels au solveur, comme <code>EnergyModel(solver_options={...})</code> puis <code>run()</code>.</p>
 <pre><code class="language-python">import sys, logging
 sys.path += [&quot;/chemin/vers/pommes-case-studies&quot;, &quot;/chemin/vers/pommes-case-studies/E_vapeur&quot;]
@@ -153,12 +153,12 @@ lp, _ = build_lp(construire()[0])
 print({n: int((v.labels != -1).sum()) for n, v in lp.variables.items()})
 </code></pre>
 <p>Partent les variables forcées à zéro et les composants vides, pas du délestage (<code>max_capacity=0</code> n'en crée pas) : les exports (chaque achat a import et export horaires, 2 × 131 400), bornés à zéro comme les achats inutiles au site ; stockage (3 × 43 800) et deux chaudières (87 600), créés sur les cinq sites pour sept capacités libres. En pommes 0.9.0 (884 851 colonnes, 797 260 lignes), net, valeur absolue et production nette étaient des variables, des expressions depuis 0.10 : même LP après présolve. Gurobi présolve autrement (84 680 lignes, 73 007 colonnes) : même optimum.</p>
-<h2>Étape 2 : Gurobi, si vous avez une licence</h2>
+<h2 id="etape-2-gurobi-si-vous-avez-une-licence">Étape 2 : Gurobi, si vous avez une licence</h2>
 <p><code>pip install gurobipy</code>, licence académique gratuite chez Gurobi, puis <code>export GRB_LICENSE_FILE=/chemin/vers/gurobi.lic</code>. Sans licence, lisez le tableau.</p>
 <pre><code class="language-python">resoudre(&quot;gurobi&quot;, Method=1, OutputFlag=0)           # simplexe dual
 resoudre(&quot;gurobi&quot;, Method=2, OutputFlag=0)           # barrière, puis crossover
 </code></pre>
-<h2>Résultats : un optimum, trois chemins</h2>
+<h2 id="resultats-un-optimum-trois-chemins">Résultats : un optimum, trois chemins</h2>
 <p>Modèle : 481 891 variables, 394 300 contraintes, 1 357 924 non-zéros ; objectif 1 817 403,375 €, coût annuel des cinq sites. Temps vus de linopy, hors construction (1,2 à 1,5 s). D'un lancement à l'autre, itérations et temps bougent de quelques pour cent, l'objectif sans crossover de 1e-9.</p>
 <pre><code class="language-text">solveur                               itérations                      temps    objectif (€)       écart relatif
 HiGHS simplexe dual                   53 604                          4,6 s    1 817 403,375166   référence
@@ -169,9 +169,9 @@ Gurobi 12.0.3 barrière + crossover    18 barrière + 29 280 simplexe   2,6 s   
 </code></pre>
 <p>Capacités et coûts de vapeur identiques à la quatrième décimale : gaz 48,006 €/MWh, électrique 59,367, électrique + stockage 58,752 (2,081 MW, 5,0 MWh), hybride 41,417 avec 48,0 % de vapeur électrique.</p>
 <p>Piège Gurobi : le T de « Solved in N iterations and T seconds » (<code>OutputFlag=1</code>) inclut le présolve. <code>Runtime</code> donne 1,3 s (barrière + crossover) et 2,4 s (simplexe dual) ; le reste des 2,6 et 3,7 s vus de linopy est le transfert du modèle, aussi long que la barrière.</p>
-<h2>Simplexe contre point intérieur, en dix lignes</h2>
+<h2 id="simplexe-contre-point-interieur-en-dix-lignes">Simplexe contre point intérieur, en dix lignes</h2>
 <p>Le simplexe va de sommet en sommet : beaucoup d'itérations bon marché (54 000), puis une base, sommet exact avec ses duales. Le point intérieur traverse le polyèdre : quelques dizaines d'itérations chères (24 à 29), chacune un grand système linéaire, vers un point hors sommet ; le crossover en tire une base. HiGHS simplexe gagne ici ; sur les très grands modèles creux, souvent la barrière parallèle de Gurobi. Modèle dégénéré (sommets de même coût) : optimum unique en valeur (1e-9), pas forcément en solution ni en duales d'heures dégénérées.</p>
-<h2>Étape 3 : 8 760 h, pas de 6 h, un mois, quatre semaines</h2>
+<h2 id="etape-3-8-760-h-pas-de-6-h-un-mois-quatre-semaines">Étape 3 : 8 760 h, pas de 6 h, un mois, quatre semaines</h2>
 <p><code>site_model</code> fixe 8 760 heures. Copiez-le en <code>site_model_n(..., pas=1.0)</code> avec :</p>
 <ol>
 <li><code>hours=list(range(n))</code>, <code>n</code> la longueur des séries ;</li>
@@ -195,7 +195,7 @@ septembre       720     39 691   0,2 s   1 692   -6,9 %     388,3  -10,4 %   2,7
 janvier         744     41 011   0,2 s   2 632  +44,8 %     790,5  +82 %     1,250 MW  0,0 MWh  790,5   350,4  +15,9 %    0,0 %    101,8        sans objet
 4 semaines      672     37 051   0,2 s   1 834   +0,9 %     439,8   +1,5 %   2,081 MW  5,0 MWh  428,2   307,8  +1,8 %    44,2 %     58,2        23,6
 </code></pre>
-<h2>Ce qu'il faut noter</h2>
+<h2 id="ce-quil-faut-noter">Ce qu'il faut noter</h2>
 <ul>
 <li>Quatre semaines bien choisies : coût à 1 % près, mêmes capacités, stockage compris, temps divisé par vingt ; la part électrique de l'hybride glisse de 48 à 44 % : l'agrégation perd d'abord le dispatch.</li>
 <li>Le pas de 6 h garde la moyenne des prix, donc le coût, mais efface l'écart intrajournalier : stockage de chaleur à 0 MWh au lieu de 5, électricité de l'hybride 2 €/MWh plus chère <span title="planches-forme-des-prix-modelisation">Forme des prix et modélisation : ce qu'un modèle linéaire reproduit et ne reproduit pas du marché (rejeu 2024, 2030, quels prix pour quelle question) (remis en cours)</span>.</li>
@@ -203,20 +203,20 @@ janvier         744     41 011   0,2 s   2 632  +44,8 %     790,5  +82 %     1,2
 <li>Sur tyndp_8n <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/sketch.md" target="_blank" rel="noopener">Esquisse L0 / L0+ / L1, estimateur de taille et de temps, besoin de flexibilité</a>, quatre semaines représentatives donnent -0,6 % de coût, 24 heures de pointe seules -14 % ; le cas E, +0,9 % : l'effet se mesure sur son propre modèle.</li>
 <li>Taille du LP proportionnelle au nombre de pas, temps à peu près aussi : d'où les esquisses L0 / L0+ / L1 de l'assistant et les sous-périodes de Benders.</li>
 </ul>
-<h2>Trois questions à réponse chiffrée</h2>
+<h2 id="trois-questions-a-reponse-chiffree">Trois questions à réponse chiffrée</h2>
 <ol>
 <li>Itérations de HiGHS point intérieur sans crossover, et écart relatif de son objectif au simplexe ? (24, 23 à 25 selon le lancement ; ~1e-9, tolérance du point intérieur, pas 0.)</li>
 <li>Écart de coût entre 8 760 h et 4 semaines, et de chaudière électrique de l'hybride ? (+0,9 % ; 0 MW.)</li>
 <li>Stockage de chaleur à pas de 6 h, et pourquoi ? (0 MWh : l'écart intrajournalier disparaît.)</li>
 </ol>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Simplexe et point intérieur de HiGHS vous donnent le même objectif à 1e-6 relatif près ; <code>getInfo()</code> dit lequel a tourné.</li>
 <li>Vous dites, d'après le rapport de HiGHS, ce que le présolve a retiré.</li>
 <li>Vous reproduisez le tableau d'agrégation à 1 % près et expliquez pourquoi le pas de 6 h tue le stockage.</li>
 <li>Vous dites quand préférer le point intérieur, et ce qu'ajoute le crossover.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Décomposer au lieu d'agréger : Benders dans pommes <a href="https://pages.persee.minesparis.psl.eu/energy-alternatives/pommes/methodology/benders.html" target="_blank" rel="noopener">Décomposition de Benders dans pommes</a>.</li>
 <li>Valeurs de l'eau, programmation dynamique, lagrangien et Benders en douze planches <span title="planches-optimisation-avancee-stochastique-decomposition">Optimisation avancée : valeur de l'eau et programmation dynamique, stochastique multi-étapes, lagrangien augmenté/ADMM, décomposition de Benders (remis en cours)</span>.</li>

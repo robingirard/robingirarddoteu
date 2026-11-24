@@ -101,7 +101,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <p class="resume">Ce que le règlement délégué (UE) 2023/1184 exige pour qu'un hydrogène produit avec l'électricité du réseau compte comme renouvelable (articles 4 à 7), comment le cas D l'écrit en contraintes avant le solve, et ce que coûte le passage du mois à l'heure en 2030 : 0,24 à 0,31 €/kg (5,0 à 6,8 %).</p>
   </header>
   <p>Un électrolyseur branché au réseau consomme l'électricité qui passe. Pour vendre son hydrogène comme renouvelable, il faut prouver que cette électricité l'était. Le règlement délégué (UE) 2023/1184 complète la directive 2018/2001 (article 27, paragraphe 3). Il dit à quelles conditions « l'électricité prélevée sur le réseau » est « comptabilisée comme entièrement renouvelable ». RFNBO veut dire « carburant renouvelable d'origine non biologique » : hydrogène d'électrolyse et ses dérivés. Le cas D <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a> les traduit en contraintes linéaires et mesure ce que la preuve coûte. Cette page met en face de chaque article la ligne de code qui l'écrit.</p>
-<h2>Article 4 : quatre portes</h2>
+<h2 id="article-4-quatre-portes">Article 4 : quatre portes</h2>
 <ol>
 <li>Zone de dépôt des offres à plus de 90 % d'électricité renouvelable l'année précédente : l'électricité compte, dans la limite de 8 760 heures fois cette part.</li>
 <li>Zone sous 18 gCO₂eq/MJ (65 gCO₂eq/kWh) : il faut un contrat d'achat d'électricité renouvelable (PPA) « pour une quantité au moins équivalente à la quantité d'électricité déclarée », et les corrélations temporelle et géographique des articles 6 et 7.</li>
@@ -109,9 +109,9 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <li>Sinon, les trois conditions des articles 5, 6 et 7 : additionnalité, corrélation temporelle, corrélation géographique.</li>
 </ol>
 <p>Le cas D se place à la porte 2 : la France est présumée sous 18 gCO₂eq/MJ (<code>hypotheses.yaml</code>, entrée <code>simplification</code>, statut « choix du cas »).</p>
-<h2>Article 5 : l'additionnalité</h2>
+<h2 id="article-5-ladditionnalite">Article 5 : l'additionnalité</h2>
 <p>Pour la porte 4, le PPA ne suffit pas. Les installations renouvelables « ont été mises en service au plus tôt 36 mois avant » l'électrolyseur et n'ont « pas bénéficié d'une aide ». L'électrolyseur doit appeler des capacités neuves, pas capter des parcs existants. Le cas D ne l'écrit pas (porte 2) ; son PPA, dimensionné par pommes, serait neuf par construction.</p>
-<h2>Article 6 : la corrélation temporelle, du mois à l'heure</h2>
+<h2 id="article-6-la-correlation-temporelle-du-mois-a-lheure">Article 6 : la corrélation temporelle, du mois à l'heure</h2>
 <p>C'est l'article qui coûte. Trois alinéas.</p>
 <ul>
 <li>« Jusqu'au 31 décembre 2029 », l'hydrogène doit être produit « au cours du même mois civil » que l'électricité du PPA.</li>
@@ -132,9 +132,9 @@ for jeu, sc, an, meteo, co2 in [(&quot;tyndp2026&quot;, &quot;NT+&quot;, 2030, &
 # tyndp2026 2040 seuil 107.1 €/MWh 7160 heures
 </code></pre>
 <p>Un quart des heures en 2030, plus de 80 % en 2040 : à CO₂ cher, la clause vide presque la règle horaire.</p>
-<h2>Article 7 : la corrélation géographique</h2>
+<h2 id="article-7-la-correlation-geographique">Article 7 : la corrélation géographique</h2>
 <p>Le parc du PPA est dans « la même zone de dépôt des offres que l'électrolyseur » (a). Ou bien il est dans une zone interconnectée dont les prix « sont égaux ou supérieurs » à ceux de la zone de l'électrolyseur pendant l'heure considérée (b), ou dans une zone en mer interconnectée (c). Le cas D prend (a) : PPA en France, rien à écrire.</p>
-<h2>Comment le cas D écrit la règle</h2>
+<h2 id="comment-le-cas-d-ecrit-la-regle">Comment le cas D écrit la règle</h2>
 <p>pommes ne connaît pas la règle. <code>crochet_regle</code> dans <code>model.py</code> l'ajoute au modèle linopy avant la résolution <a href="../textes/txt-crochet-avant-solve.html">Ajouter une contrainte avant le solve : le contrat d'un crochet (solve_with_extra_constraints)</a>. Par site, une variable <code>q_t</code> : l'électricité de l'électrolyseur comptée comme renouvelable à l'heure <code>t</code>. <code>P_t</code> est la production d'hydrogène, <code>R_t</code> celle du PPA (PV et éolien), <code>B</code> les heures de prix bas. <code>i</code> est l'indice du site (0 pour le premier) : c'est le nom complet qu'affiche <code>lp.constraints</code>.</p>
 <table>
 <thead>
@@ -187,7 +187,7 @@ for jeu, sc, an, meteo, co2 in [(&quot;tyndp2026&quot;, &quot;NT+&quot;, 2030, &
 lp.add_constraints((q * garde).groupby(mois).sum() - R.groupby(mois).sum() &lt;= 0, name=f&quot;rfnbo_mois_{i}&quot;)
 </code></pre>
 <p><code>rfnbo_horaire_sans_clause</code> garde toutes les heures : elle mesure la clause de prix bas. <code>rfnbo_horaire_cavite</code> remplace les réservoirs par une cavité saline. Les configurations <code>rfnbo_red3_mensuelle</code> et <code>rfnbo_red3_horaire</code> ajoutent le reformeur et fixent la part à celle de RED III : 42 % en 2030, 60 % en 2040.</p>
-<h2>Ce que ça coûte</h2>
+<h2 id="ce-que-ca-coute">Ce que ça coûte</h2>
 <p>Coût de l'hydrogène en €/kg, 2030, série centrale de chaque jeu (<code>results.json</code>, famille <code>verdict</code>, champ <code>cout_kg</code> ; écarts calculés sur les valeurs non arrondies) :</p>
 <table>
 <thead>
@@ -253,16 +253,16 @@ print(df.cout_kg.round(3).item(), t)
 # 4.936 €/kg ; un site à règle horaire : 50 à 75 s de HiGHS, ≈ 0,11 M variables
 </code></pre>
 <p>Un site à règle horaire se résout en 50 à 75 s pour ≈ 0,11 M variables ; le temps dépend de la machine, pas le coût. Avec <code>rfnbo_mensuelle</code>, le même appel donne 4,68 €/kg. Les sites sans règle se résolvent ensemble en une minute ; trois sites à règle horaire dans une même résolution prennent 2 à 10 minutes, les plus longs avec cavité (<code>results.json</code>, champ <code>resolutions</code>). Le simplexe ralentit plus vite que le programme ne grossit. Le lien avec les 4,8 et 7,1 €/kg du parcours est dans <a href="../textes/hydrogene-deux-chiffres.html">Pourquoi deux chiffres pour le même hydrogène : cas D (4,4 à 4,9 €/kg) et outil « routes » (7,1 €/kg)</a>.</p>
-<h2>Ce que le modèle simplifie, et un statut à connaître</h2>
+<h2 id="ce-que-le-modele-simplifie-et-un-statut-a-connaitre">Ce que le modèle simplifie, et un statut à connaître</h2>
 <p><code>hypotheses.yaml</code> le dit : hydrogène stocké compté comme produit ; pas d'additionnalité ; clause de prix bas appliquée aussi à la règle mensuelle ; PPA plafonné à deux fois la consommation de l'électrolyseur sur l'énergie disponible, la production du contrat étant imposée. Ce plafond est atteint sous la règle horaire, dont le surcoût en dépend donc. Une seule entrée porte le statut « mémoire ». La part de RED III (<code>part_rfnbo_2030</code>, <code>part_rfnbo_2040</code>) : le texte officiel la confirme. Directive (UE) 2023/2413, article 22 bis, paragraphe 1 : « au moins 42 % de l'hydrogène [...] dans l'industrie d'ici à 2030, et 60 % d'ici à 2035 » ; le cas retient 42 % en 2030 et 60 % en 2040. L'appliquer à un seul site reste un choix du cas. Ce site est une usine d'ammoniac ou de méthanol, pas une raffinerie : le même alinéa sort du calcul l'hydrogène « utilisé comme produit intermédiaire pour la production de carburants conventionnels destinés au transport ». Celui d'une raffinerie, s'il est renouvelable, compte pour l'objectif transport (article 25, paragraphe 2, a) i)), compté double, en France par la TIRUERT puis l'IRICC. Le coût fixe du reformeur existant (<code>smr_fixe</code>, 40 000 €/MW/an) : « source primaire non retrouvée ». Toute restitution des configurations <code>rfnbo_red3_*</code> l'annonce comme limite.</p>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous citez les trois alinéas de l'article 6 et nommez, pour chacun, la contrainte de <code>crochet_regle</code> qui le traduit.</li>
 <li>Vous retrouvez le seuil de 35,1 €/MWh et les 2 171 heures de la clause sur la série TYNDP 2026 NT+ 2030 avec le premier bloc de code.</li>
 <li>Vous retrouvez dans <code>results.json</code> un surcoût horaire − mensuel de 0,24 à 0,31 €/kg, et 0,26 contre 0,54 €/kg entre WS003 et WS021, puis 4,94 €/kg en relançant le site horaire.</li>
 <li>Vous expliquez pourquoi la règle mensuelle ne coûte rien ici, et pourquoi le cas D n'écrit ni l'article 5 ni l'article 7.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>Le cas D, paliers 4 à 6, et <code>inspect.getsource(crochet_regle)</code> <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/D_electrolyseur" target="_blank" rel="noopener">Cas D — Électrolyseur : hybridation, stockage, et que coûte la corrélation horaire de 2030 ?</a>.</li>
 <li>Le contrat d'un crochet avant le solve, nommer et lire une duale <a href="../textes/txt-crochet-avant-solve.html">Ajouter une contrainte avant le solve : le contrat d'un crochet (solve_with_extra_constraints)</a>.</li>

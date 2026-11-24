@@ -100,9 +100,9 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Choisir son mini-projet le lundi soir</h1>
     <p class="resume">Les deux sortes de mini-projets, les cas en un tableau, comment lire une carte, comment envoyer ses trois préférences, comment se forment les groupes et les quatre rôles à poser le mardi.</p>
   </header>
-  <h2>Ce que vous décidez lundi soir</h2>
+  <h2 id="ce-que-vous-decidez-lundi-soir">Ce que vous décidez lundi soir</h2>
 <p>Lundi en fin d'après-midi, chacun indique trois mini-projets préférés, dans l'ordre, et s'il vise un seul mini-projet ou deux reliés. Le soir, les groupes de deux ou trois se forment. Mardi, le groupe relit sa carte, exécute le notebook tel quel et pose ses rôles. Vendredi matin, il présente en dix minutes, sur cinq à dix planches <a href="../textes/restitution.html">La restitution du vendredi : dix minutes, cinq à dix planches, grille à cinq critères, quatre rôles</a>. Ce soir, lisez deux cartes et choisissez un mini-projet dont la question vous intéresse, pas le plus simple.</p>
-<h2>Deux sortes de mini-projets</h2>
+<h2 id="deux-sortes-de-mini-projets">Deux sortes de mini-projets</h2>
 <p>Un mini-projet <strong>technologique</strong> part d'une installation ou d'une filière : une batterie, une flotte de voitures, un électrolyseur, une usine. Un mini-projet <strong>méthodologique</strong> part d'une méthode, et la met à l'épreuve sur un ou plusieurs cas :</p>
 <ul>
 <li><strong>prix et marchés</strong> : pourquoi les jeux de prix publiés divergent-ils ? (cas 0, sans optimisation) ;</li>
@@ -111,7 +111,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 <li><strong>modélisation</strong> : ce que le modèle ne voit pas, et quelle simplification change la réponse (cas 3).</li>
 </ul>
 <p>L'onglet « Mini-projets » du site les montre en deux listes. Un groupe qui avance vite peut relier son mini-projet à un second, de la même sorte ou de l'autre : chaque carte du site propose ces liens, tirés des pistes des cartes.</p>
-<h2>Les cas technologiques</h2>
+<h2 id="les-cas-technologiques">Les cas technologiques</h2>
 <p>Le dépôt public des cas rassemble les cartes dans <code>docs/cartes.json</code> ; le tableau en est tiré. Tous les cas sont construits : notebook exécuté, page « jouer » et hypothèses sourcées, et un modèle pommes pour chacun sauf le cas 0, qui se passe d'optimisation. Les cas de <strong>vague 1</strong> (0, A à F) se prennent en main plus vite ; les cas de <strong>vague 2</strong> (G à N) demandent plus de travail.</p>
 <!-- TABLEAU_CAS:DEBUT -->
 <table>
@@ -231,7 +231,7 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
 de <code>build_parcours.py</code>) : il reflète toujours l'état à jour des cartes, sauf les cas 0 à 3, qui sont les
 mini-projets méthodologiques décrits plus haut. Le site n'annonce pas de durée : chaque groupe avance à son rythme, et un groupe rapide
 relie son mini-projet à un second plutôt que de finir plus tôt.</p>
-<h2>Lire une carte</h2>
+<h2 id="lire-une-carte">Lire une carte</h2>
 <p>Chaque cas a une carte FR/EN : <code>card.yaml</code> dans le dossier du cas (pour le cas 0, <code>docs/cartes/0.yaml</code>). Les planches remises en cours en montrent une par cas <span title="planches-pommes-cas-2026">POMMES et les cas d'étude 2026 : fil rouge « même installation, plusieurs futurs », les onze cas en deux vagues, jeux de prix publiés (remis en cours)</span>. Les rubriques, toujours les mêmes, se lisent dans cet ordre :</p>
 <ol>
 <li><strong>question</strong> : ce à quoi le groupe répond vendredi. Si elle ne vous parle pas, passez au cas suivant.</li>
@@ -243,10 +243,10 @@ relie son mini-projet à un second plutôt que de finir plus tôt.</p>
 <li><strong>pistes_mini_projet</strong> : trois à six pistes pour aller plus loin, et pour la dernière pièce de la restitution, la piste suivante.</li>
 </ol>
 <p>Preuve de la compétence : un tableau question / modèle (le resume en une phrase) / jeux de prix / niveau / une piste. Remplissez-le pour deux cartes, l'une de vague 1, l'autre de vague 2. La carte du cas A est l'exemple complet <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</p>
-<h2>Envoyer ses trois préférences</h2>
+<h2 id="envoyer-ses-trois-preferences">Envoyer ses trois préférences</h2>
 <p>Trois mini-projets, dans l'ordre, avant l'heure dite lundi, par le Wooclap ouvert en séance en fin de journée. Un lien de vote vu ailleurs ne compte pas.</p>
 <p>Ajoutez votre profil, Python tous les jours, un peu, ou pas du tout, et votre ambition : vous concentrer sur un seul mini-projet, ou en viser deux reliés si le premier avance vite. Le profil sert à composer les groupes ; l'ambition n'est qu'une indication.</p>
-<h2>Comment se forment les groupes</h2>
+<h2 id="comment-se-forment-les-groupes">Comment se forment les groupes</h2>
 <ul>
 <li><strong>Deux ou trois personnes</strong> : à quatre, quelqu'un n'a plus de rôle.</li>
 <li><strong>Les préférences d'abord.</strong> Chacun obtient l'un de ses trois cas, le premier autant que possible. Un cas très demandé peut aller à deux groupes, sur des variantes différentes.</li>
@@ -254,7 +254,7 @@ relie son mini-projet à un second plutôt que de finir plus tôt.</p>
 <li>Un cas sans candidat n'est pas distribué de force.</li>
 <li><strong>L'ambition ne trie pas les groupes.</strong> Personne n'est rangé le lundi parmi les « rapides » ou les « prudents ». Le second mini-projet s'ouvre le mercredi au groupe qui a déjà son verdict sous deux futurs, de préférence relié au mini-projet d'un autre groupe : des personnes de deux groupes peuvent alors travailler ensemble sur le lien.</li>
 </ul>
-<h2>Les quatre rôles</h2>
+<h2 id="les-quatre-roles">Les quatre rôles</h2>
 <p>Posez-les mardi matin, par écrit, un nom par rôle. Détail dans <a href="../textes/restitution.html">La restitution du vendredi : dix minutes, cinq à dix planches, grille à cinq critères, quatre rôles</a>.</p>
 <table>
 <thead>
@@ -283,16 +283,16 @@ relie son mini-projet à un second plutôt que de finir plus tôt.</p>
 </tbody>
 </table>
 <p>À deux, une personne tient deux rôles ; chacun a un nom vendredi.</p>
-<h2>Deux conseils</h2>
+<h2 id="deux-conseils">Deux conseils</h2>
 <p><strong>Premier contact avec pommes : un cas de vague 1.</strong> Les cas 0, A et E sont de niveau découverte. Les cartes A et E disent qu'« aucune connaissance de pommes n'est supposée » ; le cas 0 est sans optimisation, Python et pandas suffisent. Le notebook tourne en quelques minutes au plus sur un portable ; pour A et E, la page « jouer » montre le verdict sans écrire une ligne. Le temps restant va à une variante, qui vaut plus qu'un modèle inachevé.</p>
 <p><strong>Un cas de vague 2 seulement si le groupe a déjà un N3.</strong> Les cas G à N demandent bien plus de travail qu'un cas de vague 1. La carte G demande d'être « à l'aise avec les modèles pommes (cas A ou F déjà faits) ». La carte I dit qu'avoir fait le cas D « aide beaucoup ». Si personne dans le groupe n'a construit sa propre variante d'un modèle (palier N3), la semaine passera à faire tourner le modèle, sans verdict vendredi. Prenez alors le cas de vague 1 voisin : D avant I, A ou F avant G.</p>
-<h2>Vous l'avez acquise quand…</h2>
+<h2 id="vous-lavez-acquise-quand">Vous l'avez acquise quand…</h2>
 <ul>
 <li>Vous avez rempli le tableau question / modèle / jeux de prix / niveau / une piste pour deux cartes, l'une de vague 1, l'autre de vague 2.</li>
 <li>Vos trois préférences, dans l'ordre, et votre ambition (un mini-projet ou deux) sont parties lundi soir par le Wooclap.</li>
 <li>Chaque membre du groupe a un rôle écrit parmi les quatre.</li>
 </ul>
-<h2>Pour aller plus loin</h2>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
 <ul>
 <li>La restitution du vendredi : dix minutes, cinq à dix planches, la grille et le calendrier mardi-vendredi <a href="../textes/restitution.html">La restitution du vendredi : dix minutes, cinq à dix planches, grille à cinq critères, quatre rôles</a></li>
 <li>Cas A, batteries : la carte, le README et le notebook d'un cas complet <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a></li>
