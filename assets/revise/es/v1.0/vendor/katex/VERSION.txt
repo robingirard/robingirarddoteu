@@ -1,0 +1,2 @@
+KaTeX 0.16.22 — https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/ (katex.min.js, katex.min.css, fonts/*.woff2 uniquement)
+Licence MIT (https://github.com/KaTeX/KaTeX/blob/main/LICENSE). Téléchargé le 4 sept. 2026.

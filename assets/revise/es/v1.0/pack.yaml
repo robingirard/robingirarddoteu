@@ -1,0 +1,30 @@
+# Manifeste du paquet de contenu « Révise ES » (moteur revise-core, voir son README).
+#
+# Quiz du cours « système électrique » (ES) de MINES Paris — PSL, décembre 2026 : prix de
+# l'électricité, optimisation et dualité, pommes et ses pièges, coûts et actualisation, demande,
+# variabilité et flexibilité, marchés, réseaux, scénarios, industrie, hydrogène, bâtiment et
+# transport. Chaque unité est citée par une ressource quiz-es-* du parcours d'apprentissage du cours.
+
+id: es
+titre: Révise ES
+niveau: Cycle ingénieur, cours « système électrique » (MINES Paris — PSL)
+matieres:
+  - {id: systeme, label: Système électrique, icon: ⚡}
+  - {id: modelisation, label: Modélisation et outils, icon: 🛠️}
+  - {id: decarbonation, label: Décarbonation des usages, icon: 🏭}
+description: >-
+  Quiz du cours « système électrique » de MINES Paris : lire un prix de l'électricité, lire un
+  programme linéaire et ses duales, éviter les pièges de pommes, calculer un coût annualisé et
+  un LCOE ; puis la demande, la variabilité et les flexibilités, les marchés, les réseaux, les
+  scénarios, et la décarbonation de l'industrie, de l'hydrogène, du bâtiment et du transport.
+  Répétition espacée, progression par compétences.
+
+licence: CC BY 4.0
+auteur: Robin Girard
+contact: robin.girard@minesparis.psl.eu
+
+# Version publiée du paquet : chaque version mineure garde son lien permanent sur le site.
+version: "1.0"
+
+# Matières déclarées et liens dans les leçons : moteur 1.3 au moins.
+moteur: ">=1.3 <2"

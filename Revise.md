@@ -22,6 +22,20 @@ parce qu'il n'y a pas de raison de le garder.</small>
 
 ## Ce qu'on y trouve aujourd'hui
 
+### Révise ES
+
+**[Ouvrir l'application]({{site.url}}/assets/revise/es/v1.0/index.html)** — Cycle ingénieur, cours « système électrique » (MINES Paris — PSL).
+
+Quiz du cours « système électrique » de MINES Paris : lire un prix de l'électricité, lire un programme linéaire et ses duales, éviter les pièges de pommes, calculer un coût annualisé et un LCOE ; puis la demande, la variabilité et les flexibilités, les marchés, les réseaux, les scénarios, et la décarbonation de l'industrie, de l'hydrogène, du bâtiment et du transport. Répétition espacée, progression par compétences.
+
+12 unités, 24 compétences, **401 exercices** dont 24 exercices complets guidés.
+
+Chaque mauvaise réponse porte sa propre explication : l'application dit *pourquoi*
+ce n'était pas ça, pas seulement que ce n'était pas ça.
+
+<small>Versions — chacune garde son lien permanent, pour qu'un lien donné à quelqu'un
+continue d'ouvrir celle sur laquelle il a travaillé : [v1.0]({{site.url}}/assets/revise/es/v1.0/index.html).</small>
+
 ### Revise STI2D
 
 **[Ouvrir l'application]({{site.url}}/assets/revise/sti2d/v1.0/index.html)** — Terminale STI2D (et rappels de 1re).
@@ -70,8 +84,8 @@ autre matière, ou les fiches pour les corriger sans rien connaître du moteur.
  - **Le moteur** — répétition espacée, progression, figures et mécanismes animés, profils,
    carte d'identité. Il ne connaît aucune matière. Licence MIT :
    [git.persee.minesparis.psl.eu/energy-alternatives/revise-core](https://git.persee.minesparis.psl.eu/energy-alternatives/revise-core)
- - **Le paquet STI2D** — unités, leçons, figures et générateurs d'exercices. Licence
-   CC BY 4.0 :
+ - **Le paquet Révise ES** — unités, leçons, figures et exercices. Licence CC BY 4.0.
+ - **Le paquet Revise STI2D** — unités, leçons, figures et exercices. Licence CC BY 4.0 :
    [github.com/robingirard/revise-pour-le-bac-sti2D](https://github.com/robingirard/revise-pour-le-bac-sti2D)
 
 Servez-vous-en pour vos propres besoins — traduits, découpés ou modifiés — en citant
@@ -79,4 +93,4 @@ simplement la provenance. Aucun texte de manuel n'est redistribué : la construc
 ce qui part en ligne aux transcriptions de travail et échoue dès qu'une reprise littérale
 n'a pas été examinée.
 
-<small>Page mise à jour le 2026-09-17.</small>
+<small>Page mise à jour le 2026-11-27.</small>

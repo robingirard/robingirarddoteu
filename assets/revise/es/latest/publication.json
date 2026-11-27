@@ -1,0 +1,36 @@
+{
+  "id": "es",
+  "titre": "Révise ES",
+  "description": "Quiz du cours « système électrique » de MINES Paris : lire un prix de l'électricité, lire un programme linéaire et ses duales, éviter les pièges de pommes, calculer un coût annualisé et un LCOE ; puis la demande, la variabilité et les flexibilités, les marchés, les réseaux, les scénarios, et la décarbonation de l'industrie, de l'hydrogène, du bâtiment et du transport. Répétition espacée, progression par compétences.",
+  "niveau": "Cycle ingénieur, cours « système électrique » (MINES Paris — PSL)",
+  "matieres": [
+    {
+      "id": "systeme",
+      "label": "Système électrique",
+      "icon": "⚡"
+    },
+    {
+      "id": "modelisation",
+      "label": "Modélisation et outils",
+      "icon": "🛠️"
+    },
+    {
+      "id": "decarbonation",
+      "label": "Décarbonation des usages",
+      "icon": "🏭"
+    }
+  ],
+  "licence": "CC BY 4.0",
+  "version": "1.0",
+  "depot": "",
+  "moteur": "1.3.1",
+  "date": "2026-11-27",
+  "stats": {
+    "unites": 12,
+    "competences": 24,
+    "exercices": 401,
+    "guides": 24,
+    "figures": 0,
+    "annales": 0
+  }
+}
