@@ -24,4 +24,4 @@ la version sur laquelle elle a travaillé.
  - [v1.1]({{site.url}}/assets/parcours-es/v1.1/index.html)
  - [v1.0]({{site.url}}/assets/parcours-es/v1.0/index.html)
 
-<small>Page mise à jour le 2026-11-24.</small>
+<small>Page mise à jour le 2026-11-27.</small>

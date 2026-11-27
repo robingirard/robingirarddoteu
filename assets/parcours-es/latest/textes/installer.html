@@ -100,20 +100,54 @@ footer .enveloppe { padding-block: 18px 36px; color: var(--encre-3); font-size: 
     <h1>Installer et vérifier en dix minutes</h1>
     <p class="resume">Installer l'environnement épinglé des cas POMMES dans un venv (pommes 0.11.0, pommes-craft 0.6.0, pommes-assistant 0.5.3), lancer un test de contrôle d'une minute, savoir quoi faire si ça casse ; sans installation possible, le JupyterHub des Mines ou le repli sur Colab.</p>
   </header>
-  <p>Lundi après-midi, chacun doit pouvoir lancer un cas sur son portable. Cette page installe l'environnement du cours, le vérifie par une commande et dit quoi faire quand ça casse.</p>
+  <p>Le notebook du premier modèle, lundi à 14 h, puis les cas des mini-projets tournent dans un même environnement Python. Cette page l'installe, le vérifie par une commande et dit quoi faire quand ça casse.</p>
+<h2 id="trois-voies">Trois façons de faire tourner les cas</h2>
+<table>
+<thead>
+<tr>
+<th>où</th>
+<th>ce qu'il faut</th>
+<th>installer, puis tester (mesuré)</th>
+<th>§</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sur votre ordinateur</td>
+<td>Python 3.12 ou 3.13, et git</td>
+<td>1 à 3 min, puis 35 s à 2 min</td>
+<td>1 à 7</td>
+</tr>
+<tr>
+<td>sur le JupyterHub des Mines, dans le navigateur</td>
+<td>un compte des Mines</td>
+<td>1 min, puis 74 s</td>
+<td>8</td>
+</tr>
+<tr>
+<td>sur Google Colab, dans le navigateur</td>
+<td>un compte Google</td>
+<td>3 min dans chaque notebook, puis 2 à 3 min</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p>Pour le notebook du premier modèle, les trois conviennent : sur Colab, sa première cellule installe tout elle-même. Pour le mini-projet, à partir de mardi, installez si possible sur votre ordinateur : vous y gardez votre travail et les cas tournent hors ligne. Si l'installation bloque et que la section 7 n'y fait rien, passez au JupyterHub des Mines. Sans compte des Mines, prenez Colab, en sachant que tout y est effacé à la fin de chaque session.</p>
 <h2 id="1-ce-quil-faut-avant-de-commencer">1. Ce qu'il faut avant de commencer</h2>
 <ul>
 <li>Python 3.12 ou 3.13 (<code>python3 --version</code>). Testé en 3.12. pommes-assistant, dans le même environnement, demande 3.12 au moins.</li>
 <li><code>pip</code> et <code>venv</code>, livrés avec Python. Pas besoin de conda, ni de droits d'administrateur, ni de solveur commercial : le solveur HiGHS vient avec le paquet <code>highspy</code>.</li>
 <li>Du réseau, une seule fois, pour les paquets. Les cas 0 et A à E lisent ensuite leurs données dans le dépôt et tournent hors ligne.</li>
-<li><code>git</code>, ou à défaut l'archive ZIP du dépôt, téléchargée depuis la page GitLab (bouton Code).</li>
+<li><code>git</code>, ou à défaut l'archive ZIP du dépôt, téléchargée depuis la <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">page GitLab du dépôt</a> (bouton Code).</li>
 </ul>
+<p>Si l'un de ces points vous arrête, installer Python ou git par exemple, demandez de l'aide aux encadrants. Une IA générative dépanne aussi très bien : donnez-lui votre système (Windows, macOS ou Linux), la commande tapée et le message d'erreur complet.</p>
 <h2 id="2-installer-quatre-commandes">2. Installer : quatre commandes</h2>
 <pre><code class="language-bash">git clone https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies
 cd pommes-case-studies
 python3.12 -m venv .venv &amp;&amp; source .venv/bin/activate   # Windows : .venv\Scripts\activate
 pip install -r requirements.txt
 </code></pre>
+<p>La troisième ligne crée le venv, un dossier <code>.venv</code> qui contient le Python et les paquets du cours, à part du reste de la machine, puis elle l'active : le terminal affiche alors <code>(.venv)</code> en tête de ligne. C'est ce que cette page appelle « venv activé ». Dans un nouveau terminal, réactivez-le depuis la racine du dépôt avec <code>source .venv/bin/activate</code> (Windows : <code>.venv\Scripts\activate</code>).</p>
 <p>Sur la machine de référence, <code>pip install -r requirements.txt</code> dans un venv neuf, sans cache, a pris 43 s le 17/11/2026, et <code>pip check</code> n'a trouvé aucun conflit. Comptez une à trois minutes.</p>
 <p>Ce que <code>requirements.txt</code> installe, et pourquoi c'est épinglé :</p>
 <table>
@@ -184,10 +218,10 @@ pip install -r requirements.txt
 </table>
 <p>Les grilles complètes versionnées du dépôt (<code>results.json</code>) ont été calculées en pommes 0.9.0 ; rejouées en 0.11.0 le 17/11/2026, leurs grilles rapides redonnent les mêmes chiffres. Ne mettez rien à jour pendant la semaine : les valeurs attendues des consignes dépendent de ces versions.</p>
 <h2 id="3-verifier-une-commande-une-minute">3. Vérifier : une commande, une minute</h2>
-<p>Depuis la racine du dépôt, venv activé :</p>
+<p>Depuis la racine du dépôt, venv activé (<code>(.venv)</code> en tête de ligne) :</p>
 <pre><code class="language-bash">python A_batteries/grid.py --rapide
 </code></pre>
-<p>Le script garde les séries de prix centrales du cas A et fait 10 résolutions HiGHS. Relevé sur un MacBook Pro M3 Max : 34 à 36 s sur trois essais ; comptez 1 à 2 minutes sur un portable ordinaire. HiGHS n'affiche rien : son journal va dans un fichier. Ce qu'on doit voir :</p>
+<p>Le script garde les séries de prix centrales du cas A et fait 10 résolutions HiGHS. Relevé sur un MacBook Pro M3 Max : 34 à 36 s sur trois essais ; 60 s sur un PC portable ThinkPad P14s Gen 6 ; comptez 1 à 2 minutes sur un portable ordinaire. HiGHS n'affiche rien : son journal va dans un fichier. Ce qu'on doit voir :</p>
 <pre><code class="language-text">verdict 1/2 : 7 séries, 11 s (12 s en tout)
 verdict 2/2 : 6 séries, 8 s (10 s en tout)
 n-ième GW : tyndp2024, σ = 15 €/MWh → 24.9 €/kW/an (0.9 s)
@@ -207,7 +241,8 @@ results_rapide.json : 10 résolutions, 37 s      (le temps varie, le reste non)
 </code></pre>
 <p>Le navigateur s'ouvre sur l'arborescence du dépôt. Commencez par <code>00_prix/notebook.ipynb</code> (les jeux de prix), puis <code>A_batteries/notebook.ipynb</code>. Les notebooks sont en anglais et déjà exécutés : lisez d'abord, relancez ensuite. Ils relisent le <code>results.json</code> versionné et ne refont que quelques résolutions, une minute environ pour le cas A. Lancez <code>jupyter lab</code> depuis le venv activé, sinon le noyau ne trouvera pas <code>pommes</code>.</p>
 <p>Un notebook téléchargé depuis le parcours, celui du premier modèle par exemple, se place dans le dépôt, à sa racine ou dans un de ses dossiers : il y prend son code et ses données. Posé ailleurs, sa première cellule s'arrête et dit quoi faire.</p>
-<p>Si vous ouvrez les notebooks autrement (VS Code, Jupyter d'Anaconda), enregistrez une fois le venv comme noyau, venv activé :</p>
+<p>Dans VS Code, avec les extensions Python et Jupyter, pas besoin de <code>jupyter lab</code> : ouvrez le dossier du dépôt (File › Open Folder), puis un notebook, et choisissez en haut à droite Select Kernel › Python Environments › <code>.venv</code>. VS Code trouve seul le venv du dossier. Son terminal intégré (Terminal › New Terminal) sert aussi pour les commandes des sections 2 et 3.</p>
+<p>Avec un autre outil, le Jupyter d'Anaconda par exemple, enregistrez une fois le venv comme noyau, venv activé :</p>
 <pre><code class="language-bash">python -m ipykernel install --user --name pommes-cases --display-name &quot;Python (pommes-case-studies)&quot;
 </code></pre>
 <p>Choisissez ensuite ce noyau à l'ouverture du notebook (Kernel › Change Kernel). Un autre noyau, même s'il connaît <code>pommes</code>, peut porter de vieilles versions : la première cellule le signale par une ligne « Attention ».</p>
@@ -291,12 +326,13 @@ results_rapide.json : 10 résolutions, 37 s      (le temps varie, le reste non)
 <li><code>ModuleNotFoundError: No module named 'pommes'</code> dans un notebook. Le noyau Jupyter n'est pas celui du venv. Fermez Jupyter, activez le venv, relancez <code>jupyter lab</code> depuis la racine du dépôt.</li>
 <li><code>pip</code> ne trouve pas une version (<code>No matching distribution found for pommes-assistant</code>…), ou échoue à compiler. Votre <code>python3</code> n'est pas en 3.12 ou 3.13. Recréez le venv avec la bonne commande, <code>python3.12 -m venv .venv</code> ; sous Windows, <code>py -3.12 -m venv .venv</code>.</li>
 </ol>
-<p>Une quatrième situation n'est pas une panne : pas de Python installable sur la machine (poste verrouillé). Passez au JupyterHub des Mines, section 8, ou au repli Colab, section 9.</p>
+<p>Une autre panne : copiez le message d'erreur complet et montrez-le à un encadrant, ou à une IA générative avec votre système et la commande tapée.</p>
+<p>Une dernière situation n'est pas une panne : pas de Python installable sur la machine (poste verrouillé). Passez au JupyterHub des Mines, section 8, ou au repli Colab, section 9.</p>
 <h2 id="8-sans-installation-le-jupyterhub-des-mines">8. Sans installation : le JupyterHub des Mines</h2>
 <p>Si vous avez un compte des Mines, les cas tournent aussi sur le JupyterHub de l'école, dans le navigateur. Essayé de bout en bout le 24 novembre 2026 : installation, tests de contrôle et notebook du cas A.</p>
 <ol>
-<li>Ouvrez <a href="https://jupyterhub.persee.minesparis.psl.eu" target="_blank" rel="noopener">jupyterhub.persee.minesparis.psl.eu</a> et connectez-vous avec votre compte des Mines. JupyterLab s'ouvre sur un dossier vide.</li>
-<li>Ouvrez un terminal (File › New › Terminal, ou la tuile Terminal du lanceur) et tapez les commandes de la section 2, puis une ligne de plus pour que JupyterLab connaisse le venv :</li>
+<li>Ouvrez <a href="https://jupyterhub.persee.minesparis.psl.eu" target="_blank" rel="noopener">jupyterhub.persee.minesparis.psl.eu</a> et connectez-vous avec votre compte des Mines : en identifiant, votre adresse électronique des Mines en entier (par exemple prenom.nom@minesparis.psl.eu), avec le mot de passe de ce compte. JupyterLab s'ouvre sur un dossier vide.</li>
+<li>Ouvrez un terminal (File › New › Terminal, ou la tuile Terminal du lanceur) et tapez les cinq commandes ci-dessous. Ce sont celles de la section 2, plus une dernière ligne qui fait connaître le venv à JupyterLab :</li>
 </ol>
 <pre><code class="language-bash">git clone https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies
 cd pommes-case-studies
@@ -306,14 +342,16 @@ python -m ipykernel install --user --name pommes-cases --display-name &quot;Pyth
 </code></pre>
 <p><code>pip install</code> y a pris une minute, et <code>pip check</code> n'a trouvé aucun conflit. Le dépôt et son venv occupent 1,6 Go dans votre dossier personnel, qui est conservé d'une connexion à l'autre : l'installation se fait une seule fois pour la semaine.</p>
 <ol start="3">
-<li>Vérifiez comme à la section 3, dans le terminal, venv activé : <code>python A_batteries/grid.py --rapide</code> y a pris 74 s, deux fois le temps du MacBook Pro M3 Max, avec les mêmes €/kW/an.</li>
+<li>Vérifiez comme à la section 3, dans le même terminal, où <code>(.venv)</code> est affiché en tête de ligne : <code>python A_batteries/grid.py --rapide</code> y a pris 74 s, deux fois le temps du MacBook Pro M3 Max, avec les mêmes €/kW/an. Dans un nouveau terminal, réactivez d'abord le venv : <code>cd pommes-case-studies &amp;&amp; source .venv/bin/activate</code>.</li>
 <li>Ouvrez les notebooks depuis l'explorateur de fichiers de gauche, sans lancer <code>jupyter lab</code> : vous êtes déjà dedans. Choisissez le noyau « Python (pommes-case-studies) » (Kernel › Change Kernel). Le noyau proposé par défaut, « Python 3 (ipykernel) », est celui du hub, sans les versions épinglées du cours. Le notebook du cas A s'y exécute en entier en 1 min 40 s.</li>
 </ol>
 <p>La machine est partagée par tous ceux qui s'y connectent. Ne relancez pas une grille complète, celle du cas D surtout : les résultats sont versionnés (section 6).</p>
 <h2 id="colab">9. Le repli : Google Colab</h2>
 <p>Si l'installation échoue, que la section 7 n'y fait rien et que le JupyterHub ne vous est pas ouvert, les cas tournent sur Google Colab, avec un compte Google. Essayé de bout en bout le 23 novembre 2026 : le notebook du cas A y tourne.</p>
+<p>Le notebook du premier modèle, et ceux que le parcours propose au téléchargement, font seuls les étapes 3 et 4 ci-dessous : leur première cellule clone le dépôt, installe les paquets et vous demande une fois de redémarrer la session. Importez-les (étapes 1 et 2), puis suivez ce que cette cellule affiche. Les étapes 3 à 5 valent pour les notebooks des cas, pris dans le dépôt.</p>
 <ol>
-<li>Ouvrez un notebook du dépôt dans Colab : téléchargez-le depuis la page GitLab du dépôt (par exemple <code>A_batteries/notebook.ipynb</code>), puis Fichier › Importer un notebook. Un notebook importé s'ouvre dans une session neuve, sans dépôt ni paquets : les étapes 2 et 3 sont à refaire dans chaque notebook importé, environ 3 minutes.</li>
+<li>Ouvrez <a href="https://colab.research.google.com" target="_blank" rel="noopener">Google Colab</a> et connectez-vous avec votre compte Google.</li>
+<li>Importez un notebook du dépôt dans Colab. Téléchargez-le depuis la <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">page GitLab du dépôt</a> : ouvrez le fichier, <code>A_batteries/notebook.ipynb</code> par exemple, puis son bouton de téléchargement. Dans Colab, faites ensuite Fichier › Importer un notebook. Tous les notebooks des cas s'appellent <code>notebook.ipynb</code> : si vous en téléchargez deux, renommez-les (<code>A_batteries.ipynb</code>, <code>00_prix.ipynb</code>) pour ne pas les confondre. Un notebook importé s'ouvre dans une session neuve, sans dépôt ni paquets : les étapes 3 et 4 sont à refaire dans chaque notebook importé, environ 3 minutes.</li>
 <li>Insérez une cellule en tête et exécutez-la :</li>
 </ol>
 <pre><code class="language-python">!git clone https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies
@@ -322,13 +360,13 @@ python -m ipykernel install --user --name pommes-cases --display-name &quot;Pyth
 !pip install -q -r requirements.txt
 </code></pre>
 <p>Le clone affiche sa progression ; avec <code>-q</code>, rien ne s'affiche et on croit la cellule bloquée.</p>
-<ol start="3">
+<ol start="4">
 <li>Colab a déjà importé ses propres numpy et pandas : redémarrez la session (Exécution › Redémarrer la session), puis relancez seulement <code>%cd pommes-case-studies</code> avant les cellules du notebook.</li>
 <li>pip se plaint de conflits avec des paquets de Colab (pandas, requests, numpy : <code>google-colab requires pandas==…</code>) : sans effet visible sur les cas.</li>
 </ol>
-<p>Le contrôle <code>!python A_batteries/grid.py --rapide</code> y prend environ 3 minutes (178 s à l'essai), cinq fois plus que sur le MacBook Pro M3 Max de la section 3, et plus de deux fois plus que sur le JupyterHub. Fermer l'onglet ne coupe pas la session : arrêtez-la par Exécution › Supprimer l'environnement d'exécution. Ce faisant, le dépôt, les paquets et vos fichiers sont effacés : téléchargez d'abord ce que vous voulez garder.</p>
+<p>Le contrôle <code>!python A_batteries/grid.py --rapide</code> y prend 2 à 3 minutes (178 s et 138 s sur deux essais), quatre à cinq fois plus que sur le MacBook Pro M3 Max de la section 3, et deux fois plus que sur le JupyterHub. Fermer l'onglet ne coupe pas la session : arrêtez-la par Exécution › Supprimer l'environnement d'exécution. Ce faisant, le dépôt, les paquets et vos fichiers sont effacés : téléchargez d'abord ce que vous voulez garder.</p>
 <h2 id="10-un-seul-environnement-avec-lassistant">10. Un seul environnement, avec l'assistant</h2>
-<p>pommes-assistant 0.5.3, l'assistant en langage naturel pour écrire une étude pommes, est installé par <code>requirements.txt</code> dans le même venv que les cas, avec ses options (serveur MCP, vues, client Anthropic) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant : ce que c'est, installer, trois façons de s'en servir, commandes</a>. Pendant la semaine, tout tourne dans <code>.venv</code> : n'y lancez ni <code>pip install --upgrade</code> ni un <code>pip install</code> d'une autre version de pommes, qui remplacerait les versions épinglées. Le mode d'emploi détaillé de l'assistant pour la semaine est <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/cours_decembre.md" target="_blank" rel="noopener">docs/cours_decembre.md</a>.</p>
+<p>pommes-assistant 0.5.3, l'assistant en langage naturel pour écrire une étude pommes, est installé par <code>requirements.txt</code> dans le même venv que les cas, avec ses options (serveur MCP, vues, client Anthropic) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/blob/main/README.md" target="_blank" rel="noopener">README de pommes-assistant : ce que c'est, installer, trois façons de s'en servir, commandes</a>. Pendant la semaine, tout tourne dans <code>.venv</code> : n'y lancez ni <code>pip install --upgrade</code> ni un <code>pip install</code> d'une autre version de pommes, qui remplacerait les versions épinglées. Le mode d'emploi détaillé de l'assistant pour la semaine est <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/blob/main/docs/cours_decembre.md" target="_blank" rel="noopener">docs/cours_decembre.md</a>.</p>
 <h2 id="vous-lavez-compris-quand">Vous l'avez compris quand…</h2>
 <ul>
 <li><code>python A_batteries/grid.py --rapide</code> finit par <code>results_rapide.json : 10 résolutions</code> et affiche 24.9 €/kW/an pour tyndp2024 à σ = 15 €/MWh.</li>
@@ -341,9 +379,9 @@ python -m ipykernel install --user --name pommes-cases --display-name &quot;Pyth
 <li>Cas 0, les scénarios de prix horaires : le premier notebook à ouvrir <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/00_prix" target="_blank" rel="noopener">Cas 0 — Les scénarios de prix horaires : pourquoi divergent-ils ?</a>.</li>
 <li>Cas A, batteries : le cas dont le test de contrôle est tiré <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/tree/main/A_batteries" target="_blank" rel="noopener">Cas A — Batteries : que rapporte l'arbitrage au n-ième GW ?</a>.</li>
 <li>README de pommes_craft : un premier modèle en quarante lignes <a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">README de pommes_craft (PyPI) : un premier modèle en quarante lignes</a>.</li>
-<li>README de pommes-assistant : les voies d'usage de l'assistant (Claude Code, Python, terminal) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant : ce que c'est, installer, trois façons de s'en servir, commandes</a>.</li>
+<li>README de pommes-assistant : les voies d'usage de l'assistant (Claude Code, Python, terminal) <a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/blob/main/README.md" target="_blank" rel="noopener">README de pommes-assistant : ce que c'est, installer, trois façons de s'en servir, commandes</a>.</li>
 </ul>
-  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (README, § Installer et § Temps de calcul mesurés)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Rapport S1 du dépôt (docs/S1_rapport.md, § 2 L'environnement)</a></li><li><a href="https://pypi.org/project/pommes/" target="_blank" rel="noopener">pommes sur PyPI (dernière version publiée)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">pommes-craft sur PyPI (dernière version publiée)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/README.md" target="_blank" rel="noopener">README de pommes-assistant</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/raw/main/docs/cours_decembre.md" target="_blank" rel="noopener">Mode d'emploi de pommes-assistant pour la semaine (docs/cours_decembre.md)</a></li></ol></section>
+  <section class="sources"><h2>Sources</h2><ol><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies" target="_blank" rel="noopener">Dépôt pommes-case-studies (README, § Installer et § Temps de calcul mesurés)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes_studies/pommes-case-studies/-/blob/main/docs/S1_rapport.md" target="_blank" rel="noopener">Rapport S1 du dépôt (docs/S1_rapport.md, § 2 L'environnement)</a></li><li><a href="https://pypi.org/project/pommes/" target="_blank" rel="noopener">pommes sur PyPI (dernière version publiée)</a></li><li><a href="https://pypi.org/project/pommes-craft/" target="_blank" rel="noopener">pommes-craft sur PyPI (dernière version publiée)</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/blob/main/README.md" target="_blank" rel="noopener">README de pommes-assistant</a></li><li><a href="https://git.persee.minesparis.psl.eu/energy-alternatives/pommes-assistant/-/blob/main/docs/cours_decembre.md" target="_blank" rel="noopener">Mode d'emploi de pommes-assistant pour la semaine (docs/cours_decembre.md)</a></li></ol></section>
 </article>
 
 </div>

@@ -25,7 +25,7 @@
 <path clip-rule="nonzero" d="M -1 25 L -1 -1 L 25 -1 L 25 25 Z M 14.601562 9.5 C 14.601562 8.0625 13.4375 6.898438 12 6.898438 C 10.5625 6.898438 9.398438 8.0625 9.398438 9.5 C 9.398438 10.9375 10.5625 12.101562 12 12.101562 C 13.4375 12.101562 14.601562 10.9375 14.601562 9.5 "/>
 </clipPath>
 </defs>
-<path fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" stroke-opacity="1" stroke-miterlimit="10" d="M -6 -10 L 6 -10 " transform="matrix(1, 0, 0, -1, 12, 12)"/>
+<path fill="none" stroke-width="1.49998" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" stroke-opacity="1" stroke-miterlimit="10" d="M -6 -10 L 6 -10 " transform="matrix(1, 0, 0, -1, 12, 12)"/>
 <g clip-path="url(#eolienne-clip-0)">
 <g clip-path="url(#eolienne-clip-1)">
 <path fill-rule="nonzero" fill="currentColor" fill-opacity="1" d="M 11 22 L 13 22 L 12.601562 11 L 11.398438 11 Z M 11 22 "/>
